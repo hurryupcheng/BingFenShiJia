@@ -1,0 +1,72 @@
+//
+//  PrefixHeader.pch
+//  缤微纷购
+//
+//  Created by 程召华 on 16/3/2.
+//  Copyright © 2016年 xinxincao. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#pragma mark -- 头文件
+
+#import "UIView+Extension.h"
+#import "SDCycleScrollView.h"
+#import "UIImageView+WebCache.h"
+#import "Masonry.h"
+#import "MJRefresh.h"
+#import "MJExtension.h"
+/**封装afnetworking*/
+#import "BFHttpTool.h"
+#import "BFDataTool.h"
+#import "NSObject+Parse.h"
+#import "UILabel+Extension.h"
+
+
+
+
+
+
+
+
+#pragma mark ---宏定义
+
+
+
+/**接口宏定义*/
+#define BF_URL  @"http://bingo.luexue.com/index.php/"
+
+
+
+
+/**宏定义打印*/
+#ifdef DEBUG // 处于开发阶段
+#define BFLog(...) NSLog(__VA_ARGS__)
+#else // 处于发布阶段
+#define BFLog(...)
+#endif
+
+/**颜色*/
+#define BFColor(rgbValue)[UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+/**屏幕宽度*/
+#define ScreenWidth ([UIScreen mainScreen].bounds.size.width)
+
+/**屏幕高度*/
+#define ScreenHeight ([UIScreen mainScreen].bounds.size.height)
+
+/**宽度比例*/
+#define BF_ScaleWidth(__VA_ARGS__)  ([UIScreen mainScreen].bounds.size.width/320)*(__VA_ARGS__)
+
+/**高度比例*/
+#define BF_ScaleHeight(__VA_ARGS__)  ([UIScreen mainScreen].bounds.size.height/568)*(__VA_ARGS__)
+/**字体比例*/
+#define BF_ScaleFont(__VA_ARGS__)  ([UIScreen mainScreen].bounds.size.width/320)*(__VA_ARGS__)
+
+#define kBCTextViewHeight ([UIScreen mainScreen].bounds.size.width/320)*36 /**< 底部textView的高度 */
+#define kHorizontalPadding ([UIScreen mainScreen].bounds.size.width/320)*8 /**< 横向间隔 */
+
+#define kVerticalPadding ([UIScreen mainScreen].bounds.size.width/320)*5 /**< 纵向间隔 */
+
+#endif /* PrefixHeader_pch */
