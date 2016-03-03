@@ -78,7 +78,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self CollectionViewgetDate];
     //[self initwithSegment];
-    [self getAddress];
+    //[self getAddress];
 }
 
 - (void)updateViewCtrl{
@@ -707,13 +707,12 @@
     //调用方法，使用位置反编码对象获取位置信息
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *place = [placemarks lastObject];
+        BFLog(@"chengshi%@",place.locality);
+        [[NSUserDefaults standardUserDefaults] setObject:place.locality forKey:@"currentCity"];
         //        for (CLPlacemark *place in placemarks) {
-        if (place == nil) {
-            return ;
-        }
-        [NSKeyedArchiver archiveRootObject:place.locality toFile:self.cityPath];
-        self.currentCity = place.locality;
-    
+//        if (place == nil) {
+//            return ;
+//        }
         //<<<<<<< HEAD
         //            self.userCity = place.locality;
         //        self.currentCity = self.userCity;
@@ -722,10 +721,18 @@
         ////            [alert show];
         ////        }
         //=======
-
+//        self.userCity = place.locality;
+//        if ([self.currentCity isEqualToString:self.userCity]) {
+//            [self loadNewData];
+//        }else{
+//            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"为你定位到%@，是否从%@切换到当前城市",self.userCity,self.currentCity] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//            [alert show];
+//        }
     }];
     
+    
 }
+
 
 
 

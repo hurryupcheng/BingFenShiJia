@@ -42,7 +42,8 @@
         UIButton *currentCityButtuon = [UIButton buttonWithType:0];
         self.currentCityButtuon = currentCityButtuon;
         currentCityButtuon.frame = CGRectMake(10, (44-buttonHeight)/2, buttonWidth, buttonHeight);
-        [currentCityButtuon setTitle:[NSString stringWithFormat:@"广州"] forState:UIControlStateNormal];
+        NSString *city = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"];
+        [currentCityButtuon setTitle:city forState:UIControlStateNormal];
         currentCityButtuon.layer.borderWidth = 1;
         currentCityButtuon.layer.borderColor = BFColor(0x202F6F).CGColor;
         currentCityButtuon.layer.cornerRadius = 2;
