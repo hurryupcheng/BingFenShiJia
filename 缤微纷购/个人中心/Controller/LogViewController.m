@@ -41,10 +41,10 @@
 
 - (void)initWithView{
 
-    self.phone = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMinY(self.view.frame)+80, kScreenWidth-100, 30) imageV:@"1" placeholder:@"手机号" string:self.str];
+    self.phone = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMinY(self.view.frame)+80, kScreenWidth-100, 30) imageV:@"technician" placeholder:@"手机号" string:self.str];
     self.phone.text.keyboardType = UIKeyboardTypeNumberPad;
     
-    self.sectetul = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMaxY(self.phone.frame)+30, kScreenWidth-100, 30) imageV:@"1" placeholder:@"密码" string:self.str];
+    self.sectetul = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMaxY(self.phone.frame)+30, kScreenWidth-100, 30) imageV:@"password" placeholder:@"密码" string:self.str];
     self.sectetul.text.secureTextEntry = YES;
     
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(70, CGRectGetMaxY(self.sectetul.frame)+25, kScreenWidth-140, 35)];
@@ -56,7 +56,7 @@
     [button addTarget:self action:@selector(log) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *zhuce = [[UIButton alloc]initWithFrame:CGRectMake(70, CGRectGetMaxY(button.frame)+25, kScreenWidth-140, 35)];
-    
+    zhuce.backgroundColor = BFColor(0xffffff);
     zhuce.layer.cornerRadius = 15;
     zhuce.layer.masksToBounds = YES;
     zhuce.layer.borderWidth = 1;
@@ -119,17 +119,38 @@
     
     label.text = @"快捷登录:";
     label.textColor = [UIColor grayColor];
-    
-    for (int i = 0; i < 4; i++) {
-        UIButton *three = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame)+30*i+(i*5), CGRectGetMaxY(self.view.frame)-130, 30, 30)];
-        three.backgroundColor = [UIColor grayColor];
-        [self.view addSubview:three];
+    NSArray *imageArray = @[@"QQ_Login",@"QQ_Login",@"weibo_Login",@"weixin_Login"];
+    for (int i = 0; i < imageArray.count; i++) {
+        UIButton *thirdLoginButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame)+30*i+(i*10), CGRectGetMaxY(self.view.frame)-130, 30, 30)];
+        [thirdLoginButton setImage:[UIImage imageNamed:imageArray[i]] forState:UIControlStateNormal];
+        thirdLoginButton.layer.cornerRadius = BF_ScaleWidth(3);
+        thirdLoginButton.tag = i+200;
+        [thirdLoginButton addTarget:self action:@selector(thirdLogin:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:thirdLoginButton];
     }
     
     [self.view addSubview:label];
 
 }
-
+- (void)thirdLogin:(UIButton *)sender {
+    switch (sender.tag) {
+        case 200:
+            BFLog(@"QQ登录");
+            break;
+        case 201:
+            BFLog(@"支付宝登录");
+            break;
+        case 202:
+            BFLog(@"微博登录");
+            break;
+        case 203:
+            BFLog(@"微信登录");
+            break;
+        default:
+            break;
+    }
+    
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

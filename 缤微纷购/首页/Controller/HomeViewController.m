@@ -23,8 +23,9 @@
 #import "LBView.h"
 #import "HomeViewController.h"
 #import "BFPTDetailViewController.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate>
+@interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>
 
 @property (nonatomic,retain)UIView *butView;
 @property (nonatomic,retain)UIButton *selectButton;
@@ -52,17 +53,33 @@
 @property (nonatomic,retain)UIImageView *otherImageView;
 @property (nonatomic,retain)UIImageView *upImageView;
 @property (nonatomic,retain)UIView *upBackView;
+/**拼团cell的高度*/
 @property (nonatomic,assign)CGFloat cellHeight;
+/**定位管理*/
+@property (nonatomic, strong) CLLocationManager * manager;
+/**城市*/
+@property (nonatomic, strong) NSString * currentCity;
+/**城市沙盒路径*/
+@property (nonatomic, strong) NSString * cityPath;
 @end
 
 @implementation HomeViewController
+
+- (NSString *)cityPath {
+    if (!_cityPath) {
+        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"city.plist"];
+    }
+    return _cityPath;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
 
     [self CollectionViewgetDate];
-    
+    //[self initwithSegment];
+    [self getAddress];
 }
 
 - (void)updateViewCtrl{
@@ -98,6 +115,8 @@
     [_but addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-sousuo-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(soso)];
+    
+    
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-dingwei-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dingwei)];
     
@@ -642,5 +661,75 @@
     self.navigationController.navigationBar.barTintColor = rgb(0, 0, 205, 1);
     self.tabBarController.tabBar.hidden = NO;
 }
+
+- (void)getAddress{
+    self.manager = [[CLLocationManager alloc]init];
+    self.manager.delegate = self;
+    //用于判断当前是ios7.0还是ios8.0
+    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
+        //NSLocationAlwaysUsageDescription   允许在前后台都可以授权
+        //        NSLocationWhenInUseUsageDescription   允许在前台授权
+        //手动授权
+        
+        //        主动请求前后台授权
+        [self.manager requestAlwaysAuthorization];
+        
+        //主动请求前台授权
+        //                [self.mgr requestWhenInUseAuthorization];
+    }else {
+        [self.manager startUpdatingLocation];
+    }
+    
+}
+//判断授权状态
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    
+    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+        //开启定位
+        [self.manager startUpdatingLocation];
+        // 定位的精确度
+        self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        //        //每隔一点距离定位一次 （单位：米）
+        //        self.mgr.distanceFilter = 10;
+    }
+    
+}
+//获取定位的位置信息
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
+    NSLog(@"%@",locations);
+    //获取我当前的位置
+    CLLocation *location = [locations lastObject];
+    
+    //停止定位
+    [self.manager stopUpdatingLocation];
+    //地理反编码
+    //创建反编码对象
+    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+    //调用方法，使用位置反编码对象获取位置信息
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
+        CLPlacemark *place = [placemarks lastObject];
+        //        for (CLPlacemark *place in placemarks) {
+        if (place == nil) {
+            return ;
+        }
+        [NSKeyedArchiver archiveRootObject:place.locality toFile:self.cityPath];
+        self.currentCity = place.locality;
+    
+        //<<<<<<< HEAD
+        //            self.userCity = place.locality;
+        //        self.currentCity = self.userCity;
+        //
+        ////            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"为你定位到%@，是否从%@切换到当前城市",self.userCity,self.currentCity] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+        ////            [alert show];
+        ////        }
+        //=======
+
+    }];
+    
+}
+
+
+
+
 
 @end

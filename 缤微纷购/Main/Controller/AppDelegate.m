@@ -29,7 +29,13 @@
     
     
     self.window.rootViewController = [[RootViewController alloc]init];
+    
+    
+    //开始监听网络状态
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     return YES;
+    
+    
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

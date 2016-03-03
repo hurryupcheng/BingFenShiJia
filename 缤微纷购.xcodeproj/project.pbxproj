@@ -224,6 +224,11 @@
 		592525E61C86B781000F609F /* BFPTDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525E51C86B781000F609F /* BFPTDetailHeaderView.m */; };
 		592525E91C86BFB9000F609F /* BFPurchaseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525E81C86BFB9000F609F /* BFPurchaseButton.m */; };
 		592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525EE1C86CA5B000F609F /* BFPTDetailViewController.m */; };
+		59FBA9311C87D0C800E1DA78 /* BFProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9301C87D0C800E1DA78 /* BFProgressHUD.m */; };
+		59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9361C88040700E1DA78 /* BFNavigationController.m */; };
+		59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA97B1C8817FD00E1DA78 /* BFHotCityCell.m */; };
+		59FBA97F1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */; };
+		59FBA9821C882DB300E1DA78 /* BFCurrentLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9811C882DB300E1DA78 /* BFCurrentLocationCell.m */; };
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
 /* End PBXBuildFile section */
 
@@ -638,6 +643,16 @@
 		592525E81C86BFB9000F609F /* BFPurchaseButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPurchaseButton.m; sourceTree = "<group>"; };
 		592525ED1C86CA5B000F609F /* BFPTDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailViewController.h; sourceTree = "<group>"; };
 		592525EE1C86CA5B000F609F /* BFPTDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailViewController.m; sourceTree = "<group>"; };
+		59FBA92F1C87D0C800E1DA78 /* BFProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProgressHUD.h; sourceTree = "<group>"; };
+		59FBA9301C87D0C800E1DA78 /* BFProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProgressHUD.m; sourceTree = "<group>"; };
+		59FBA9351C88040700E1DA78 /* BFNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFNavigationController.h; sourceTree = "<group>"; };
+		59FBA9361C88040700E1DA78 /* BFNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFNavigationController.m; sourceTree = "<group>"; };
+		59FBA97A1C8817FD00E1DA78 /* BFHotCityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHotCityCell.h; sourceTree = "<group>"; };
+		59FBA97B1C8817FD00E1DA78 /* BFHotCityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHotCityCell.m; sourceTree = "<group>"; };
+		59FBA97D1C882ABE00E1DA78 /* UIBarButtonItem+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBarButtonItem+Extension.h"; sourceTree = "<group>"; };
+		59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
+		59FBA9801C882DB300E1DA78 /* BFCurrentLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCurrentLocationCell.h; sourceTree = "<group>"; };
+		59FBA9811C882DB300E1DA78 /* BFCurrentLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCurrentLocationCell.m; sourceTree = "<group>"; };
 		59FC307E1C8737A0002EFB40 /* BFPTDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailModel.h; sourceTree = "<group>"; };
 		59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -966,6 +981,10 @@
 				51D4AA871C85372800943ABD /* PTStep.m */,
 				592525E41C86B781000F609F /* BFPTDetailHeaderView.h */,
 				592525E51C86B781000F609F /* BFPTDetailHeaderView.m */,
+				59FBA97A1C8817FD00E1DA78 /* BFHotCityCell.h */,
+				59FBA97B1C8817FD00E1DA78 /* BFHotCityCell.m */,
+				59FBA9801C882DB300E1DA78 /* BFCurrentLocationCell.h */,
+				59FBA9811C882DB300E1DA78 /* BFCurrentLocationCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1064,6 +1083,8 @@
 				592521B01C867522000F609F /* AppDelegate.m */,
 				592521B11C867522000F609F /* PTStepViewController.h */,
 				592521B21C867522000F609F /* PTStepViewController.m */,
+				59FBA9351C88040700E1DA78 /* BFNavigationController.h */,
+				59FBA9361C88040700E1DA78 /* BFNavigationController.m */,
 				592521B31C867522000F609F /* RootViewController.h */,
 				592521B41C867522000F609F /* RootViewController.m */,
 				592521B51C867522000F609F /* ViewController.h */,
@@ -1081,6 +1102,8 @@
 				592525DB1C868B1A000F609F /* BFDataTool.m */,
 				592525E71C86BFB9000F609F /* BFPurchaseButton.h */,
 				592525E81C86BFB9000F609F /* BFPurchaseButton.m */,
+				59FBA92F1C87D0C800E1DA78 /* BFProgressHUD.h */,
+				59FBA9301C87D0C800E1DA78 /* BFProgressHUD.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1088,6 +1111,8 @@
 		592523AE1C86763E000F609F /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				59FBA97D1C882ABE00E1DA78 /* UIBarButtonItem+Extension.h */,
+				59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */,
 				592525DD1C868E22000F609F /* NSObject+Parse.h */,
 				592525DE1C868E22000F609F /* NSObject+Parse.m */,
 				592523B41C867698000F609F /* UIView+Extension.h */,
@@ -1617,6 +1642,7 @@
 				TargetAttributes = {
 					51D121AA1C3A6DA700640A44 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = AQYD5LV6KX;
 					};
 					51D121C31C3A6DA800640A44 = {
 						CreatedOnToolsVersion = 7.1;
@@ -1738,6 +1764,7 @@
 			files = (
 				592525D61C8681CF000F609F /* UIImageView+AFNetworking.m in Sources */,
 				592525731C8681CF000F609F /* EMMallSectionView.m in Sources */,
+				59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */,
 				592525B01C8681CF000F609F /* SDPhotoBrowser.m in Sources */,
 				516204D71C72EB3100E9FB0D /* HeaderCollectionReusableView.m in Sources */,
 				5925259E1C8681CF000F609F /* MJRefreshBackStateFooter.m in Sources */,
@@ -1811,6 +1838,7 @@
 				592525A81C8681CF000F609F /* TAAbstractDotView.m in Sources */,
 				592521BA1C867522000F609F /* ViewController.m in Sources */,
 				51D2DE7F1C4DD05B00EC5601 /* MyViewController.m in Sources */,
+				59FBA9821C882DB300E1DA78 /* BFCurrentLocationCell.m in Sources */,
 				5925258B1C8681CF000F609F /* MJFoundation.m in Sources */,
 				592525B41C8681CF000F609F /* SDImageCache.m in Sources */,
 				592525821C8681CF000F609F /* MASViewConstraint.m in Sources */,
@@ -1847,9 +1875,11 @@
 				5925253D1C8681CF000F609F /* UIView+SDAutoLayout.m in Sources */,
 				5925253C1C8681CF000F609F /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				592525B21C8681CF000F609F /* MKAnnotationView+WebCache.m in Sources */,
+				59FBA9311C87D0C800E1DA78 /* BFProgressHUD.m in Sources */,
 				5925258F1C8681CF000F609F /* NSObject+MJClass.m in Sources */,
 				51D121B01C3A6DA700640A44 /* main.m in Sources */,
 				592525841C8681CF000F609F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */,
 				592525BE1C8681CF000F609F /* UIImage+WebP.m in Sources */,
 				592525CE1C8681CF000F609F /* UIView+ST.m in Sources */,
 				592525C11C8681CF000F609F /* UIView+WebCacheOperation.m in Sources */,
@@ -1857,6 +1887,7 @@
 				592525BA1C8681CF000F609F /* SDWebImagePrefetcher.m in Sources */,
 				51D1224B1C3FAC19004DE71E /* SHViewController.m in Sources */,
 				592525741C8681CF000F609F /* HATransparentView.m in Sources */,
+				59FBA97F1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m in Sources */,
 				592525A61C8681CF000F609F /* UIView+MJExtension.m in Sources */,
 				592525911C8681CF000F609F /* NSObject+MJKeyValue.m in Sources */,
 				592525D31C8681CF000F609F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2032,6 +2063,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2040,7 +2072,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/JPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "xin.----";
+				PRODUCT_BUNDLE_IDENTIFIER = binweifengou.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2050,6 +2082,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2058,7 +2091,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/JPush",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "xin.----";
+				PRODUCT_BUNDLE_IDENTIFIER = binweifengou.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
