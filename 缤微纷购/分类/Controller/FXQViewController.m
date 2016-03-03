@@ -27,7 +27,7 @@
 @property (nonatomic,retain)OtherView *other;
 
 @property (nonatomic,retain)NSMutableArray *nameArr;
-@property (nonatomic,retain)NSMutableArray *guigeArr;
+@property (nonatomic,retain)NSMutableSet *guigeSet;
 @property (nonatomic,retain)NSMutableArray *stockArr;
 @property (nonatomic,retain)NSMutableArray *imageArr;
 
@@ -257,10 +257,10 @@
     view.backgroundColor = [UIColor whiteColor];
     
     if (self.other.arrBut.selected == 0) {
-       self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr array:self.guigeArr];
+       self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
     }else{
     
-    self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr array:self.guigeArr];
+    self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
     }
     
     
