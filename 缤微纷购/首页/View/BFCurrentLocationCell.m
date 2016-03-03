@@ -54,6 +54,7 @@
         [openPositionButton setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
         openPositionButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         [openPositionButton setTitle:@"位置服务未经您允许，点击开启" forState:UIControlStateNormal];
+        [openPositionButton addTarget:self action:@selector(goToSetting:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:openPositionButton];
         
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
@@ -70,7 +71,9 @@
     return self;
 }
 
-
+- (void)goToSetting:(UIButton *)sender {
+    BFLog(@"跳转设置");
+}
 
 - (void)awakeFromNib {
     // Initialization code
