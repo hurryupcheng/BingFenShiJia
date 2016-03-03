@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFPTDetailModel.h"
 @interface BFPTDetailHeaderView : UIView
 @property (nonatomic, assign) CGFloat headerHeight;
+@property (nonatomic, strong) BFPTDetailModel *detailModel;
 @end

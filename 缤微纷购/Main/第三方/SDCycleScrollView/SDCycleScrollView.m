@@ -57,9 +57,11 @@ NSString * const ID = @"cycleCell";
 
 @implementation SDCycleScrollView
 
+
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
+        self.pageControlDotSize = CGSizeMake(20, 20);
         [self initialization];
         [self setupMainView];
     }
@@ -167,7 +169,7 @@ NSString * const ID = @"cycleCell";
     [self setupPageControl];
     if ([self.pageControl isKindOfClass:[TAPageControl class]]) {
         TAPageControl *pageContol = (TAPageControl *)_pageControl;
-        pageContol.dotSize = pageControlDotSize;
+        pageContol.dotSize = CGSizeMake(20, 20);
     }
 }
 

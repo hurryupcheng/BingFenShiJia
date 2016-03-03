@@ -15,8 +15,8 @@
     if ([super initWithFrame:frame]) {
         self.topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.width, self.height*0.6)];
         self.bottomLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topLabel.frame), self.width, self.height*0.4)];
-        self.topLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
-        self.bottomLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
+        self.topLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(16)];
+        self.bottomLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(14)];
         self.topLabel.textAlignment = NSTextAlignmentCenter;
         self.bottomLabel.textAlignment = NSTextAlignmentCenter;
         self.topLabel.textColor = BFColor(0xffffff);

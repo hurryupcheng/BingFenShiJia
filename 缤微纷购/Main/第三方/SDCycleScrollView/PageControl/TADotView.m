@@ -54,9 +54,9 @@
 - (void)changeActivityState:(BOOL)active
 {
     if (active) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor redColor];
     } else {
-        self.backgroundColor = [UIColor greenColor];
+        self.backgroundColor = [UIColor whiteColor];
     }
 }
 

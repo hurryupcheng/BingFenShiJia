@@ -8,11 +8,17 @@
 
 #import "BFPTDetailViewController.h"
 #import "BFPTDetailHeaderView.h"
+#import "BFPTDetailModel.h"
 
-@interface BFPTDetailViewController ()<UIWebViewDelegate,UIScrollViewDelegate>
+@interface BFPTDetailViewController ()
+/**webView*/
 @property (nonatomic, strong) UIWebView *webView;
+/**自定义头部视图*/
 @property (nonatomic, strong) BFPTDetailHeaderView *header;
-@property (nonatomic, strong) UIView *addview;
+/**自定义头部视图*/
+@property (nonatomic, strong) UIView* webBrowserView;
+
+
 @end
 
 @implementation BFPTDetailViewController
@@ -23,29 +29,44 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.webView.delegate = self;
+    //获取数据
+    [self getData];
     
+}
+
+- (void)getData {
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    parameters[@"m"] = @"Json";
+    parameters[@"a"] = @"team_item";
+    parameters[@"id"] = self.ID;
+    [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
+        
+        BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
+        //显示图形
+        [self initView:model];
+    } failure:^(NSError *error) {
+        BFLog(@"BFPTDetailViewController%@",error);
+    }];
+}
+
+- (void)initView:(BFPTDetailModel *)model{
     self.header = [[BFPTDetailHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+    self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
-    //self.header.y = -self.header.headerHeight;
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, self.header.headerHeight, ScreenWidth, ScreenHeight-110)];
-    self.webView.scrollView.delegate = self;
-    self.webView.backgroundColor = [UIColor whiteColor];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=info&id=3159"]];
+    
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-110)];
+    self.webBrowserView = self.webView.scrollView.subviews[0];
+    CGRect frame = self.webBrowserView.frame;
+    frame.origin.y = CGRectGetMaxY(self.header.frame);
+    self.webBrowserView.frame = frame;
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:model.info]];
     [self.webView loadRequest:request];
-    self.webView.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    [self.view addSubview:self.header];
+    
+    [self.webView.scrollView addSubview:self.header];
     [self.view addSubview:self.webView];
-
-
 }
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    BFLog(@"scrollViewDidScroll");
-}
-
 
 
 
