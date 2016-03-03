@@ -11,7 +11,7 @@
 #import "BFCurrentLocationCell.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate>
+@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate, SettingLocationDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**热门城市cell高度*/
@@ -40,12 +40,19 @@
     [self.view addSubview:self.tableView];
     self.title = @"城市列表";
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoReload) name:@"reloadData" object:nil];
+}
+
+- (void)gotoReload {
+   
+    [self.tableView reloadData];
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self getAddress];
-    BFLog(@"viewWillAppear%@",self.currentCity);
+    BFLog(@"viewWillAppear");
 }
 
 #pragma mark - Table view data source
@@ -69,6 +76,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         BFCurrentLocationCell *cell = [BFCurrentLocationCell cellWithTableView:tableView];
+        cell.status = [CLLocationManager authorizationStatus];
+        BFLog(@"到这里来了%d",[CLLocationManager authorizationStatus]);
+        cell.delegate = self;
         return cell;
     }else if (indexPath.section == 1) {
         BFHotCityCell *cell = [BFHotCityCell cellWithTableView:tableView];
@@ -84,6 +94,32 @@
     }
    
 }
+
+#pragma mark --- 
+- (void)goToSettingInterface {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"定位服务未开启" message:@"请在系统设置中开启定位服务" preferredStyle:UIAlertControllerStyleAlert];
+    //添加取消按钮
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+
+    }];
+    //添加设置定位
+    UIAlertAction *settingAction = [UIAlertAction actionWithTitle:@"去设置" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        
+        if([[UIApplication sharedApplication] canOpenURL:url]) {
+            
+            NSURL*url =[NSURL URLWithString:UIApplicationOpenSettingsURLString];           [[UIApplication sharedApplication] openURL:url];
+            
+        }
+    }];
+    [alertController addAction:cancleAction];
+    [alertController addAction:settingAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+    
+
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

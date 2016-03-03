@@ -76,7 +76,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-
     [self CollectionViewgetDate];
     //[self initwithSegment];
     [self getAddress];

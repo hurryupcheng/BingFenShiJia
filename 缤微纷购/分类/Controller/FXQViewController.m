@@ -257,10 +257,10 @@
     view.backgroundColor = [UIColor whiteColor];
     
     if (self.other.arrBut.selected == 0) {
-       self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
+      // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
     }else{
     
-    self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
+   // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
     }
     
     
@@ -376,7 +376,7 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
             self.nameArr = [NSMutableArray array];
-            self.guigeArr = [NSMutableArray array];
+            //self.guigeArr = [NSMutableArray array];
             self.stockArr = [NSMutableArray array];
             self.imageArr = [NSMutableArray array];
             
@@ -397,7 +397,7 @@
                     fxq.stock = [dic4 valueForKey:@"stock"];
                     [self.stockArr addObject:fxq.stock];
                 }
-                [self.guigeArr addObject:fxq.guige];
+                //[self.guigeArr addObject:fxq.guige];
             }
             [self.nameArr addObject:fxq.yanse];
             [self.imageArr addObject:fxq.imgs];

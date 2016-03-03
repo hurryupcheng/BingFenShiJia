@@ -10,14 +10,15 @@
 /**button高度*/
 #define buttonHeight   BF_ScaleHeight(25)
 #import "BFCurrentLocationCell.h"
-#import <CoreLocation/CoreLocation.h>
+
 
 @interface BFCurrentLocationCell ()<CLLocationManagerDelegate>
 /**定位管理*/
 @property (nonatomic, strong) CLLocationManager * manager;
 /**城市定位*/
-@property (nonatomic, strong) NSString * currentCity;
-
+@property (nonatomic, strong) UIButton *currentCityButtuon;
+/**城市定位*/
+@property (nonatomic, strong) UIButton *openPositionButton;
 @end
 
 @implementation BFCurrentLocationCell
@@ -39,6 +40,7 @@
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         UIButton *currentCityButtuon = [UIButton buttonWithType:0];
+        self.currentCityButtuon = currentCityButtuon;
         currentCityButtuon.frame = CGRectMake(10, (44-buttonHeight)/2, buttonWidth, buttonHeight);
         [currentCityButtuon setTitle:[NSString stringWithFormat:@"广州"] forState:UIControlStateNormal];
         currentCityButtuon.layer.borderWidth = 1;
@@ -50,20 +52,19 @@
         [self addSubview:currentCityButtuon];
         
         UIButton *openPositionButton = [UIButton buttonWithType:0];
+        self.openPositionButton = openPositionButton;
         openPositionButton.frame = CGRectMake(0, 0, BF_ScaleWidth(188), 44);
         [openPositionButton setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
         openPositionButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         [openPositionButton setTitle:@"位置服务未经您允许，点击开启" forState:UIControlStateNormal];
         [openPositionButton addTarget:self action:@selector(goToSetting:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:openPositionButton];
-        
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
         if (kCLAuthorizationStatusDenied == status || kCLAuthorizationStatusRestricted == status) {
-            currentCityButtuon.hidden = YES;
-            
+            self.currentCityButtuon.hidden = YES;
             BFLog(@"位置服务未经您允许，点击开启");
         }else {
-            openPositionButton.hidden = YES;
+            self.openPositionButton.hidden = YES;
             BFLog(@"已经定位");
         }
         
@@ -71,8 +72,26 @@
     return self;
 }
 
+- (void)setStatus:(CLAuthorizationStatus)status {
+    _status = status;
+    BFLog(@"cell中%d",status);
+    if (kCLAuthorizationStatusDenied == status || kCLAuthorizationStatusRestricted == status) {
+        self.currentCityButtuon.hidden = YES;
+        self.openPositionButton.hidden = NO;
+        BFLog(@"位置服务未经您允许，点击开启");
+    }else {
+        self.openPositionButton.hidden = YES;
+        self.currentCityButtuon.hidden = NO;
+        BFLog(@"已经定位");
+    }
+
+}
+
+/**设置定位按钮点击方法*/
 - (void)goToSetting:(UIButton *)sender {
-    BFLog(@"跳转设置");
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goToSettingInterface)]) {
+        [self.delegate goToSettingInterface];
+    }
 }
 
 - (void)awakeFromNib {

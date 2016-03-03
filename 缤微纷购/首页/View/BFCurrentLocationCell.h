@@ -7,8 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+/**设置定位代理*/
+@protocol SettingLocationDelegate <NSObject>
+
+- (void)goToSettingInterface;
+
+@end
+
 
 @interface BFCurrentLocationCell : UITableViewCell
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**设置定位的代理*/
+@property (nonatomic, assign) id<SettingLocationDelegate>delegate;
+
+@property (nonatomic, assign) CLAuthorizationStatus status;
 @end
