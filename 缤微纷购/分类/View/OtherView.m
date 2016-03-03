@@ -19,7 +19,7 @@
 
 @implementation OtherView
 
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSString *)money number:(NSString *)number hot:(NSString *)hot arr:(NSMutableArray *)arr array:(NSMutableArray *)array{
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSString *)money number:(NSString *)number hot:(NSString *)hot arr:(NSMutableArray *)arr set:(NSMutableSet *)set{
 
     if ([super initWithFrame:frame]) {
   
