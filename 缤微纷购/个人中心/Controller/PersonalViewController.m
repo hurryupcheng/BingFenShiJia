@@ -14,7 +14,7 @@
 #import "ViewController.h"
 #import "Header.h"
 #import "PersonalViewController.h"
-
+#import "BFSettingController.h"
 @interface PersonalViewController ()
 
 @property (nonatomic,retain)UIView *backgroundView;
@@ -137,12 +137,20 @@
 - (void)initWithInstall{
  
     UIButton *install = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-60, 30, 20, 20)];
-    
+    [install addTarget:self action:@selector(goToSetting) forControlEvents:UIControlEventTouchUpInside];
     [install setBackgroundImage:[UIImage imageNamed:@"iconfont-setting.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:install];
 
 }
+
+- (void)goToSetting {
+    BFSettingController *settingVC = [BFSettingController new];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    self.navigationController.navigationBarHidden = NO;
+    //self.tabBarController.tabBar.hidden = YES;
+}
+
 
 #pragma  mark  登陆注册按钮点击事件
 - (void)log:(UIButton *)button{

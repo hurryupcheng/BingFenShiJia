@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    BFThirdLoginTypeQQ,
+    BFThirdLoginTypeAlipay,
+    BFThirdLoginTypeSina,
+    BFThirdLoginTypeWechat
+} BFThirdLoginType;
+
+
 @interface LogViewController : UIViewController
 
 @end
