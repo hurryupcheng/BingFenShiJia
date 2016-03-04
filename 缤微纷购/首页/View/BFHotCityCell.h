@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ChooseHotCityDelegate <NSObject>
+
+
+
+@end
+
+
 @interface BFHotCityCell : UITableViewCell
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;

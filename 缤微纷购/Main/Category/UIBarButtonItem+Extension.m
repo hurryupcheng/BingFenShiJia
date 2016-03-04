@@ -30,4 +30,29 @@
     btn.size = btn.currentBackgroundImage.size;
     return [[UIBarButtonItem alloc] initWithCustomView:btn];
 }
+
++ (UIBarButtonItem *)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage text:(NSString *)text
+{
+    CGRect frame = CGRectMake(0, 22, BF_ScaleFont(70), 44);
+    UIButton *button = [UIButton buttonWithFrame:frame title:text image:image font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+    //button.backgroundColor = [UIColor redColor];
+    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    
+
+    return [[UIBarButtonItem alloc] initWithCustomView:button];
+}
+
++ (UIBarButtonItem *) leftSpace:(CGFloat)leftSpace {
+    UIBarButtonItem *leftSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    leftSpacer.width = leftSpace;
+    return leftSpacer;
+}
+
++ (UIBarButtonItem *) rightSpace:(CGFloat)rightSpace {
+    UIBarButtonItem *rightSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    rightSpacer.width = rightSpace;
+    return rightSpacer;
+}
+
+
 @end

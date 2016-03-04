@@ -9,13 +9,15 @@
 #import "RootViewController.h"
 #import "AppDelegate.h"
 #import <CoreLocation/CoreLocation.h>
-
+#import "DWTableViewController.h"
+#import "BFNavigationController.h"
 @interface AppDelegate ()<CLLocationManagerDelegate>
 /**定位管理*/
 @property (nonatomic, strong) CLLocationManager * manager;
-/**定位状态沙盒路径*/
+/**记录上一次的定位状态*/
 @property (nonatomic, assign) NSInteger lastStatus;
 
+@property (nonatomic, strong) NSString *city;
 @end
 
 @implementation AppDelegate
@@ -55,6 +57,7 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     NSLog(@"applicationDidEnterBackground-进入后台");
+    
 }
 
 #pragma mark 当应用程序进入前台的时候调用
@@ -67,21 +70,30 @@
 // 获取焦点之后才可以跟用户进行交互
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    //获取定位
     [self getAddress];
     NSLog(@"applicationDidBecomeActive-获取焦点");
-    //[[NSUserDefaults standardUserDefaults] objectForKey:@"status"];
+
     
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-    BFLog(@"%ld,,,,%d",(long)self.lastStatus,status);
-    if (status != self.lastStatus) {
-        BFLog(@"改变了");
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+    //CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+//    if (status == kCLAuthorizationStatusDenied) {
+//        DWTableViewController *dwVC = [[DWTableViewController alloc]init];
+//        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
+//        [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+//    }
+    //如果定位状态改变，发送通知
+    if (self.city == nil) {
+        return;
+    }else {
+        if (status != self.lastStatus) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"reloadData" object:nil];
+        }
     }
+    
     
     self.lastStatus = status;
     
-
-    //[[NSUserDefaults standardUserDefaults] setObject:@(status) forKey:@"status"];
       // NSLog(@"用户进行交互:::%@",@(status));
 }
 
@@ -116,6 +128,7 @@
     if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
         //开启定位
         [self.manager startUpdatingLocation];
+        [self.manager requestAlwaysAuthorization];
         // 定位的精确度
         self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         //        //每隔一点距离定位一次 （单位：米）
@@ -134,30 +147,14 @@
     //地理反编码
     //创建反编码对象
     CLGeocoder *geocoder = [[CLGeocoder alloc]init];
+    BFLog(@"%@,,%@",location,geocoder);
     //调用方法，使用位置反编码对象获取位置信息
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *place = [placemarks lastObject];
+        self.city = place.locality;
         BFLog(@"chengshi%@",place.locality);
         [[NSUserDefaults standardUserDefaults] setObject:place.locality forKey:@"currentCity"];
-        //        for (CLPlacemark *place in placemarks) {
-        //        if (place == nil) {
-        //            return ;
-        //        }
-        //<<<<<<< HEAD
-        //            self.userCity = place.locality;
-        //        self.currentCity = self.userCity;
-        //
-        ////            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"为你定位到%@，是否从%@切换到当前城市",self.userCity,self.currentCity] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        ////            [alert show];
-        ////        }
-        //=======
-        //        self.userCity = place.locality;
-        //        if ([self.currentCity isEqualToString:self.userCity]) {
-        //            [self loadNewData];
-        //        }else{
-        //            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"为你定位到%@，是否从%@切换到当前城市",self.userCity,self.currentCity] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        //            [alert show];
-        //        }
+
     }];
     
     

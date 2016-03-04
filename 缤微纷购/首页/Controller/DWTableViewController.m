@@ -11,7 +11,7 @@
 #import "BFCurrentLocationCell.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate, SettingLocationDelegate>
+@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate, SettingLocationDelegate, ChooseCurrentCityDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**热门城市cell高度*/
@@ -39,8 +39,24 @@
     [super viewDidLoad];
     [self.view addSubview:self.tableView];
     self.title = @"城市列表";
-    
+    UIBarButtonItem *back = [UIBarButtonItem itemWithTarget:self action:@selector(backToHome) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+    self.navigationItem.leftBarButtonItem = back;
+    //如果定位状态改变，接受通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoReload) name:@"reloadData" object:nil];
+}
+
+- (void)backToHome {
+    BFLog(@"asdasdasd");
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"] == nil) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请选择所在城市" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
+        }];
+        [alertController addAction:cancleAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+        return;
+    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)gotoReload {
@@ -77,8 +93,9 @@
     if (indexPath.section == 0) {
         BFCurrentLocationCell *cell = [BFCurrentLocationCell cellWithTableView:tableView];
         cell.status = [CLLocationManager authorizationStatus];
-        BFLog(@"到这里来了%d",[CLLocationManager authorizationStatus]);
+        //BFLog(@"到这里来了%d",[CLLocationManager authorizationStatus]);
         cell.delegate = self;
+        cell.cityDelegate = self;
         return cell;
     }else if (indexPath.section == 1) {
         BFHotCityCell *cell = [BFHotCityCell cellWithTableView:tableView];
@@ -94,6 +111,10 @@
     }
    
 }
+- (void)goBackToHome {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 #pragma mark --- 
 - (void)goToSettingInterface {
@@ -144,74 +165,6 @@
     }
     [view addSubview:label];
     return view;
-}
-
-- (void)getAddress{
-    self.manager = [[CLLocationManager alloc]init];
-    self.manager.delegate = self;
-    //用于判断当前是ios7.0还是ios8.0
-    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
-        //NSLocationAlwaysUsageDescription   允许在前后台都可以授权
-        //        NSLocationWhenInUseUsageDescription   允许在前台授权
-        //手动授权
-        
-        //        主动请求前后台授权
-        [self.manager requestAlwaysAuthorization];
-        
-        //主动请求前台授权
-        //                [self.mgr requestWhenInUseAuthorization];
-    }else {
-        [self.manager startUpdatingLocation];
-    }
-    
-}
-//判断授权状态
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-    
-    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-        //开启定位
-        [self.manager startUpdatingLocation];
-        // 定位的精确度
-        self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        //        //每隔一点距离定位一次 （单位：米）
-        //        self.mgr.distanceFilter = 10;
-    }
-    
-}
-//获取定位的位置信息
-- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    NSLog(@"%@",locations);
-    //获取我当前的位置
-    CLLocation *location = [locations lastObject];
-    
-    //停止定位
-    [self.manager stopUpdatingLocation];
-    //地理反编码
-    //创建反编码对象
-    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-    //调用方法，使用位置反编码对象获取位置信息
-    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-        CLPlacemark *place = [placemarks lastObject];
-        //        for (CLPlacemark *place in placemarks) {
-        if (place == nil) {
-            return ;
-        }
-        self.currentCity = place.locality;
-        
-        //[NSKeyedArchiver archiveRootObject:place.locality toFile:self.cityPath];
-        
-        
-        //<<<<<<< HEAD
-        //            self.userCity = place.locality;
-        //        self.currentCity = self.userCity;
-        //
-        ////            UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:[NSString stringWithFormat:@"为你定位到%@，是否从%@切换到当前城市",self.userCity,self.currentCity] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        ////            [alert show];
-        ////        }
-        //=======
-        
-    }];
-    
 }
 
 

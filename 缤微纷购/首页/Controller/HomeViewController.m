@@ -75,24 +75,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     [self CollectionViewgetDate];
     //[self initwithSegment];
     //[self getAddress];
 }
 
+- (void)currentCity:(NSNotification *)notification {
+    
+    self.currentCity = notification.userInfo[@"city"];
+    [[NSUserDefaults standardUserDefaults] setObject:self.currentCity forKey:@"city"];
+    //[self.tableV reloadData];
+}
+
 - (void)updateViewCtrl{
-    [self initwithSegment];
+    
     [self initWithCollectionView];
     [self initWithOtherView];
     
 }
 
+
 - (void)initwithSegment{
     
-    self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 25)];
+    self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), 25)];
     
-    self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 100, 25)];
+    self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), 25)];
     _button.backgroundColor = [UIColor whiteColor];
     _button.layer.cornerRadius = 12;
     _button.layer.masksToBounds = YES;
@@ -103,7 +114,7 @@
     [_button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, 100, 25)];
+    self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), 25)];
     _but.backgroundColor = rgb(39, 64, 139, 1);
     _but.layer.cornerRadius = 12;
     _but.layer.masksToBounds = YES;
@@ -112,17 +123,25 @@
     _but.tag = 200;
     [_but setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [_but addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
+    [self.butView addSubview:_but];
+    [self.butView addSubview:_button];
+    self.navigationItem.titleView = self.butView;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-sousuo-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(soso)];
     
+    UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity];
+    BFLog(@"dianjile %@,,,",self.currentCity);
+    UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
+    self.navigationItem.leftBarButtonItems = @[leftSpace,location];
     
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-dingwei-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dingwei)];
-    
-    [self.butView addSubview:_but];
-    [self.butView addSubview:_button];
-    [self.navigationItem setTitleView:self.butView];
 
+}
+
+- (void)clickToChangeCity {
+    DWTableViewController *dwVC = [[DWTableViewController alloc]init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
+    [self presentViewController:navigationController animated:YES completion:nil];
 }
 
 #pragma  mark 缤纷商城初始化
@@ -635,11 +654,7 @@
     [self.navigationController pushViewController:soso animated:YES];
 }
 
-- (void)dingwei{
 
-    DWTableViewController *dwVC = [[DWTableViewController alloc]init];
-    [self.navigationController pushViewController:dwVC animated:YES];
-}
 
 - (NSMutableArray *)dataArray{
     if (!_dataArray) {
@@ -656,7 +671,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-//    [self initwithSegment];
+    [self initwithSegment];
+    BFLog(@"asdadasd");
     self.navigationController.navigationBar.barTintColor = rgb(0, 0, 205, 1);
     self.tabBarController.tabBar.hidden = NO;
 }

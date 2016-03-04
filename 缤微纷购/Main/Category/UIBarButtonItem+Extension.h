@@ -10,4 +10,22 @@
 
 @interface UIBarButtonItem (Extension)
 + (UIBarButtonItem *)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage;
++ (UIBarButtonItem *)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage text:(NSString *)tex;
+
+/**
+ *  左边偏移
+ *
+ *  @param leftSpace 偏移距离（向左为负，向右为正）
+ *
+ *  @return return UIBarButtonItem
+ */
++ (UIBarButtonItem *) leftSpace:(CGFloat)leftSpace;
+/**
+ *  右边偏移
+ *
+ *  @param leftSpace 偏移距离（向左为负，向右为正）
+ *
+ *  @return return UIBarButtonItem
+ */
++ (UIBarButtonItem *) rightSpace:(CGFloat)rightSpace;
 @end

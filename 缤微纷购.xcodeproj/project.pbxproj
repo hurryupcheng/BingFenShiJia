@@ -21,8 +21,6 @@
 		518930441C7C32C500C5AB08 /* ban.png in Resources */ = {isa = PBXBuildFile; fileRef = 518930431C7C32C500C5AB08 /* ban.png */; };
 		518930471C7C367000C5AB08 /* OtherView.m in Sources */ = {isa = PBXBuildFile; fileRef = 518930461C7C367000C5AB08 /* OtherView.m */; };
 		518DB3111C50D94F00816643 /* DWTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 518DB3101C50D94F00816643 /* DWTableViewController.m */; };
-		518DB3131C50D9FE00816643 /* iconfont-dingwei-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 518DB3121C50D9FE00816643 /* iconfont-dingwei-2.png */; };
-		518DB3151C50DAA600816643 /* iconfont-dingwei-3.png in Resources */ = {isa = PBXBuildFile; fileRef = 518DB3141C50DAA600816643 /* iconfont-dingwei-3.png */; };
 		51A3B3641C842EE800F5FE67 /* PTXQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A3B3631C842EE800F5FE67 /* PTXQViewController.m */; };
 		51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D10E011C40B79000F630C9 /* XCCollectionViewCell.m */; };
 		51D10E321C40F10700F630C9 /* icon_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D10E281C40F10600F630C9 /* icon_01.png */; };
@@ -229,6 +227,7 @@
 		59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA97B1C8817FD00E1DA78 /* BFHotCityCell.m */; };
 		59FBA97F1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */; };
 		59FBA9821C882DB300E1DA78 /* BFCurrentLocationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9811C882DB300E1DA78 /* BFCurrentLocationCell.m */; };
+		59FC2DB11C891F4500E41D16 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */; };
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
 /* End PBXBuildFile section */
 
@@ -272,8 +271,6 @@
 		518930461C7C367000C5AB08 /* OtherView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OtherView.m; sourceTree = "<group>"; };
 		518DB30F1C50D94E00816643 /* DWTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWTableViewController.h; sourceTree = "<group>"; };
 		518DB3101C50D94F00816643 /* DWTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWTableViewController.m; sourceTree = "<group>"; };
-		518DB3121C50D9FE00816643 /* iconfont-dingwei-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-dingwei-2.png"; sourceTree = "<group>"; };
-		518DB3141C50DAA600816643 /* iconfont-dingwei-3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-dingwei-3.png"; sourceTree = "<group>"; };
 		51A3B3621C842EE800F5FE67 /* PTXQViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTXQViewController.h; sourceTree = "<group>"; };
 		51A3B3631C842EE800F5FE67 /* PTXQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PTXQViewController.m; sourceTree = "<group>"; };
 		51D10E001C40B79000F630C9 /* XCCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCCollectionViewCell.h; sourceTree = "<group>"; };
@@ -653,6 +650,8 @@
 		59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBarButtonItem+Extension.m"; sourceTree = "<group>"; };
 		59FBA9801C882DB300E1DA78 /* BFCurrentLocationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCurrentLocationCell.h; sourceTree = "<group>"; };
 		59FBA9811C882DB300E1DA78 /* BFCurrentLocationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCurrentLocationCell.m; sourceTree = "<group>"; };
+		59FC2DAF1C891F4500E41D16 /* UIButton+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extension.h"; sourceTree = "<group>"; };
+		59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
 		59FC307E1C8737A0002EFB40 /* BFPTDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailModel.h; sourceTree = "<group>"; };
 		59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1020,8 +1019,6 @@
 				51D10E271C40F10600F630C9 /* icon */,
 				51D1223E1C3F948F004DE71E /* 0.png */,
 				51D189071C4C76C100847EB9 /* 12.png */,
-				518DB3121C50D9FE00816643 /* iconfont-dingwei-2.png */,
-				518DB3141C50DAA600816643 /* iconfont-dingwei-3.png */,
 				51D1223F1C3F948F004DE71E /* 1.png */,
 				51811AF91C745CEA004E29A8 /* 101.png */,
 			);
@@ -1113,6 +1110,8 @@
 			children = (
 				59FBA97D1C882ABE00E1DA78 /* UIBarButtonItem+Extension.h */,
 				59FBA97E1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m */,
+				59FC2DAF1C891F4500E41D16 /* UIButton+Extension.h */,
+				59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */,
 				592525DD1C868E22000F609F /* NSObject+Parse.h */,
 				592525DE1C868E22000F609F /* NSObject+Parse.m */,
 				592523B41C867698000F609F /* UIView+Extension.h */,
@@ -1712,7 +1711,6 @@
 				592525A21C8681CF000F609F /* MJRefresh.bundle in Resources */,
 				51D2B0871C7832F1002D35FB /* bus.png in Resources */,
 				51D4D9521C44A8F200453CD1 /* iicon02.png in Resources */,
-				518DB3151C50DAA600816643 /* iconfont-dingwei-3.png in Resources */,
 				592525761C8681CF000F609F /* btn-close-black@2x.png in Resources */,
 				51D4D9571C44A8F200453CD1 /* iicon07.png in Resources */,
 				5189303E1C7BF34000C5AB08 /* shanpinshouye.png in Resources */,
@@ -1730,7 +1728,6 @@
 				5189303D1C7BF34000C5AB08 /* shangpingouwu.png in Resources */,
 				51D121B91C3A6DA700640A44 /* Main.storyboard in Resources */,
 				51D6365B1C83EA7700D08A2D /* f_01.png in Resources */,
-				518DB3131C50D9FE00816643 /* iconfont-dingwei-2.png in Resources */,
 				5925257C1C8681CF000F609F /* Info.plist in Resources */,
 				517484471C7865C200351179 /* 01.png in Resources */,
 				51D1E93F1C7BEE0000D2F9D9 /* jia1.png in Resources */,
@@ -1787,6 +1784,7 @@
 				51D526A91C7D5C8D0037D005 /* AddShopping.m in Sources */,
 				592525B51C8681CF000F609F /* SDWebImageCompat.m in Sources */,
 				592525CD1C8681CF000F609F /* STUI.m in Sources */,
+				59FC2DB11C891F4500E41D16 /* UIButton+Extension.m in Sources */,
 				5925259D1C8681CF000F609F /* MJRefreshBackNormalFooter.m in Sources */,
 				51D2FE861C7EE5B500155588 /* PTTableViewCell.m in Sources */,
 				51D289B61C802C9B007B7176 /* Height.m in Sources */,
@@ -2063,6 +2061,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
@@ -2082,6 +2081,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
