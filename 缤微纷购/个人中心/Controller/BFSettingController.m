@@ -18,7 +18,6 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
-        //[_tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"cell"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -28,6 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.translucent = NO;
     self.title = @"设置";
     [self.view addSubview:self.tableView];
     //设置底部按钮视图
@@ -71,15 +71,25 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    
     }
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
     cell.detailTextLabel.textColor = BFColor(0x000073);
+    cell.detailTextLabel.text = nil;
     if (indexPath.section == 0) {
+ 
         cell.textLabel.text = @"联系客服";
         cell.detailTextLabel.text = @"020-38875719";
+        if (cell.detailTextLabel.text) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }else {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     } else if (indexPath.section == 1) {
+        
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         switch (indexPath.row) {
             case 0:
@@ -114,6 +124,7 @@
 
     }else {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"关于我们";
@@ -134,6 +145,7 @@
                 cell.textLabel.text = @"线下门店";
                 break;
         }
+
 
     }
     return cell;

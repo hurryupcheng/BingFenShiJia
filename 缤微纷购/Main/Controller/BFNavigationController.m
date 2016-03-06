@@ -30,6 +30,41 @@
     }
 
 }
++ (void)initialize
+{
+    
+    
+    // 设置整个项目所有item的主题样式
+    UIBarButtonItem *item = [UIBarButtonItem appearance];
+    
+    // 设置普通状态
+    // key：NS****AttributeName
+    NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
+    textAttrs[NSForegroundColorAttributeName] = BFColor(0x1A2E90);
+    textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:13];
+    [item setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
+    
+    // 设置不可用状态
+    NSMutableDictionary *disableTextAttrs = [NSMutableDictionary dictionary];
+    disableTextAttrs[NSForegroundColorAttributeName] = BFColor(0x1A2E90);
+    disableTextAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:13];
+    [item setTitleTextAttributes:disableTextAttrs forState:UIControlStateHighlighted];
+    
+    //获取特定类的所有导航条
+    
+    UINavigationBar *navigationBar = [UINavigationBar appearanceWhenContainedIn:self, nil];
+   // navigationBar.tintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"back_green"]];
+    //    navigationBar.backIndicatorImage = [[UIImage imageNamed:@"back_green"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    //    navigationBar.backIndicatorTransitionMaskImage = [[UIImage imageNamed:@"back_green"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    //[[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, hua_scale(2.5)) forBarMetrics:UIBarMetricsDefault];
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:20.0],NSFontAttributeName, nil];
+    navigationBar.titleTextAttributes = dict;
+    
+//    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : BFColor(0x1A2E90)}];
+//    [navigationBar setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:BF_ScaleFont(10)]}];
+    
+    
+}
 
 
 

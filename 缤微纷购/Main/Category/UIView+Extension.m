@@ -10,6 +10,12 @@
 
 @implementation UIView (Extension)
 
++ (UIView *)drawLineWithFrame:(CGRect)frame {
+    UIView *line = [[UIView alloc] initWithFrame:frame];
+    line.backgroundColor = BFColor(0xC5C7C8);
+    return line;
+}
+
 - (void)setX:(CGFloat)x
 {
     CGRect frame = self.frame;
