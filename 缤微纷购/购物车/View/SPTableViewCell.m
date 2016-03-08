@@ -5,12 +5,15 @@
 //  Created by 郑洋 on 16/1/19.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "Height.h"
+#import "UIImageView+WebCache.h"
 #import "Header.h"
 #import "ViewController.h"
 #import "SPTableViewCell.h"
 
 @interface SPTableViewCell ()<UITextFieldDelegate>
 
+@property (nonatomic,retain)UIButton *needV;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UILabel *titleLabel;
 @property (nonatomic,retain)UILabel *hetLabel;
@@ -22,32 +25,41 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.isEdit = NO;
+        
         self.needV = [[UIButton alloc]initWithFrame:CGRectMake(10, self.contentView.frame.size.height/2+CGFloatY(25/2), CGFloatY(25), CGFloatY(25))];
-        self.needV.backgroundColor = [UIColor redColor];
         self.needV.layer.cornerRadius = CGFloatY(25/2);
         self.needV.layer.masksToBounds = YES;
-        [self.needV setImage:[UIImage imageNamed:@"1"] forState:UIControlStateNormal];
-        [self.needV setImage:[UIImage imageNamed:@"0"] forState:UIControlStateSelected];
+        [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
+        [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
+        [self.needV addTarget:self action:@selector(selectButClick:) forControlEvents:UIControlEventTouchUpInside];
+        self.needV.selected = self.isSelected;
         
         self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, 90, 90)];
         self.imageV.backgroundColor = [UIColor greenColor];
+        self.imageV.layer.borderWidth = 1;
+        self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
         
-        self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, 50)];
-        self.titleLabel.backgroundColor = [UIColor orangeColor];
+        self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, 0)];
+        self.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(15)];
+        self.titleLabel.numberOfLines = 0;
         
-        self.hetLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, 30)];
-        self.hetLabel.backgroundColor = [UIColor greenColor];
+        self.hetLabel = [[UILabel alloc]init];
+        self.hetLabel.text = @"111";
+//        self.hetLabel.backgroundColor = [UIColor greenColor];
         
-        self.moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-140, 30)];
-        self.moneyLabel.backgroundColor = [UIColor orangeColor];
+        self.moneyLabel = [[UILabel alloc]init];
+//        self.moneyLabel.backgroundColor = [UIColor orangeColor];
+        self.moneyLabel.textColor = [UIColor orangeColor];
         
-        self.close = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.titleLabel.frame), 5, 30, 30)];
+        self.close = [[UIButton alloc]init];
         self.close.backgroundColor = [UIColor redColor];
         
-        self.add = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, 30)];
+        self.add = [[AddShopping alloc]init];
         self.add.textF.userInteractionEnabled = NO;
-        self.add.textF.text = @"1";
+//        self.add.backgroundColor = [UIColor yellowColor];
+        
+        [self.add.maxBut addTarget:self action:@selector(maxButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.add.minBut addTarget:self action:@selector(minButton) forControlEvents:UIControlEventTouchUpInside];
         
         [self.contentView addSubview:self.needV];
         [self.contentView addSubview:self.imageV];
@@ -60,30 +72,45 @@
     }
     return self;
 }
+// 选中点击事件
+- (void)selectButClick:(UIButton *)button{
+    button.selected = !button.selected;
+    if (self.selBlock) {
+        self.selBlock(button.selected);
+    }
+}
+// 添加
+- (void)maxButton{
+    if (self.numAddBlock) {
+        self.numAddBlock();
+    }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    _add.textF = textField;
-    if ([self isPureInt:_add.textF.text]) {
-        if ([_add.textF.text integerValue] < 0) {
-            _add.textF.text = @"1";
-        }
-    }else{
-    _add.textF.text = @"1";
-    }
-   
-    if ([_add.textF.text isEqualToString:@""] || [_add.textF.text isEqualToString:@"0"]) {
-        _add.textF.text = @"1";
-    }
-    NSString *numTextF = _add.textF.text;
-//    if ([numTextF intValue]>) {
-//        <#statements#>
-//    }
 }
 
-- (BOOL)isPureInt:(NSString*)string{
-    NSScanner *scanner = [NSScanner scannerWithString:string];
-    int val;
-    return [scanner scanInt:&val] && [scanner isAtEnd];
+// 减少
+- (void)minButton{
+    if (self.numCutBlock) {
+        self.numCutBlock();
+    }
+}
+
+- (void)reloadDataWith:(BFShoppModel *)model{
+    [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+    self.titleLabel.text = model.title;
+    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(15)]);
+    [self.titleLabel sizeToFit];
+    
+    self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, 30);
+    
+    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-140, 30);
+    
+    self.close.frame = CGRectMake(CGRectGetMaxX(self.titleLabel.frame), 5, 30, 30);
+    
+    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, 30);
+    
+    self.moneyLabel.text = [NSString stringWithFormat:@"¥%@",model.price];
+    self.add.textF.text = [NSString stringWithFormat:@"%ld",model.number];
+    self.needV.selected = self.isSelected;
 }
 
 - (void)awakeFromNib {

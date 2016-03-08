@@ -17,8 +17,8 @@
         self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(5, 7, CGFloatY(25), CGFloatY(25))];
         self.allSeled.layer.cornerRadius = CGFloatY(25/2);
         self.allSeled.layer.masksToBounds = YES;
-        [self.allSeled setBackgroundImage:[UIImage imageNamed:@"0"] forState:UIControlStateNormal];
-        [self.allSeled setBackgroundImage:[UIImage imageNamed:@"1"] forState:UIControlStateSelected];
+        [self.allSeled setBackgroundImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
+        [self.allSeled setBackgroundImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
         
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.allSeled.frame), 5, 40, x)];
         label.text = @"全选";

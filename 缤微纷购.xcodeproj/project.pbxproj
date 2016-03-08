@@ -88,6 +88,8 @@
 		51D541621C8E5DB6005CB936 /* BFShoppModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D5415E1C8E5DB6005CB936 /* BFShoppModel.m */; };
 		51D541651C8E5F69005CB936 /* BFZFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D541641C8E5F69005CB936 /* BFZFViewController.m */; };
 		51D541681C8E5FA4005CB936 /* BForder.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D541671C8E5FA4005CB936 /* BForder.m */; };
+		51D5416B1C8E9BEE005CB936 /* gx02.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D541691C8E9BEE005CB936 /* gx02.png */; };
+		51D5416C1C8E9BEE005CB936 /* gx01.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D5416A1C8E9BEE005CB936 /* gx01.png */; };
 		51D582771C53175A00686A2E /* SoSoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D582761C53175A00686A2E /* SoSoViewController.m */; };
 		51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D582791C53316500686A2E /* HotTableViewCell.m */; };
 		51D5B63E1C758CDD000897BB /* iconfont-setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D5B63D1C758CDD000897BB /* iconfont-setting.png */; };
@@ -398,6 +400,8 @@
 		51D541641C8E5F69005CB936 /* BFZFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFZFViewController.m; sourceTree = "<group>"; };
 		51D541661C8E5FA4005CB936 /* BForder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BForder.h; sourceTree = "<group>"; };
 		51D541671C8E5FA4005CB936 /* BForder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BForder.m; sourceTree = "<group>"; };
+		51D541691C8E9BEE005CB936 /* gx02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gx02.png; sourceTree = "<group>"; };
+		51D5416A1C8E9BEE005CB936 /* gx01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gx01.png; sourceTree = "<group>"; };
 		51D582751C53175A00686A2E /* SoSoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoSoViewController.h; sourceTree = "<group>"; };
 		51D582761C53175A00686A2E /* SoSoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoSoViewController.m; sourceTree = "<group>"; };
 		51D582781C53316500686A2E /* HotTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTableViewCell.h; sourceTree = "<group>"; };
@@ -768,6 +772,8 @@
 		51D10E271C40F10600F630C9 /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				51D541691C8E9BEE005CB936 /* gx02.png */,
+				51D5416A1C8E9BEE005CB936 /* gx01.png */,
 				51D6365C1C8408B100D08A2D /* f_1.png */,
 				51D6365A1C83EA7700D08A2D /* f_01.png */,
 				51D2FE821C7EAC0F00155588 /* 750.jpg */,
@@ -1034,9 +1040,9 @@
 				51D541581C8E5DB6005CB936 /* BFFootView.m */,
 				51D541591C8E5DB6005CB936 /* BFHeaderView.h */,
 				51D5415A1C8E5DB6005CB936 /* BFHeaderView.m */,
-				51D5415B1C8E5DB6005CB936 /* BFShoppModel.h */,
 				51D5415C1C8E5DB6005CB936 /* BFOtherView.h */,
 				51D5415D1C8E5DB6005CB936 /* BFOtherView.m */,
+				51D5415B1C8E5DB6005CB936 /* BFShoppModel.h */,
 				51D5415E1C8E5DB6005CB936 /* BFShoppModel.m */,
 			);
 			path = Model;
@@ -1827,6 +1833,7 @@
 				51D4D9541C44A8F200453CD1 /* iicon04.png in Resources */,
 				51D10E391C40F10700F630C9 /* icon_13.png in Resources */,
 				51D189121C4CE2E700847EB9 /* iconfont-jianhao.png in Resources */,
+				51D5416C1C8E9BEE005CB936 /* gx01.png in Resources */,
 				51D189081C4C76C100847EB9 /* 12.png in Resources */,
 				51D10E341C40F10700F630C9 /* icon_03.png in Resources */,
 				51D2B0831C783073002D35FB /* bg.jpg in Resources */,
@@ -1844,6 +1851,7 @@
 				51D4F1D51C48A9AD00FC68FA /* iconfont-sousuo-3.png in Resources */,
 				592525871C8681CF000F609F /* LICENSE in Resources */,
 				51D6365D1C8408B100D08A2D /* f_1.png in Resources */,
+				51D5416B1C8E9BEE005CB936 /* gx02.png in Resources */,
 				5925257A1C8681CF000F609F /* PushConfig.plist in Resources */,
 				592525C21C8681CF000F609F /* progresshud.bundle in Resources */,
 				592525A21C8681CF000F609F /* MJRefresh.bundle in Resources */,

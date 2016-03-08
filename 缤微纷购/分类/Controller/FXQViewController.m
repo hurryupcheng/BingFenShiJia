@@ -246,16 +246,19 @@
         case 0:{
             
         HomeViewController *home = [[HomeViewController alloc]init];
+            self.tabBarController.selectedIndex = 0;
         [self.navigationController pushViewController:home animated:YES];
             
             break;
         }case 1:{
         ClassificationViewController *class = [[ClassificationViewController alloc]init];
+            self.tabBarController.selectedIndex = 3;
         [self.navigationController pushViewController:class animated:YES];
             
             break;
         }case 2:{
         ShoppingViewController *shopp = [[ShoppingViewController alloc]init];
+            self.tabBarController.selectedIndex = 1;
             [self.navigationController pushViewController:shopp animated:YES];
             break;
         }
@@ -297,15 +300,6 @@
         
         [view addSubview:buyButton];
     }else{
-        
-
-    if (self.other.arrBut.selected == 0) {
-      // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
-    }else{
-    
-   // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
-    }
-    
     
     _other.addShopp.textF.text = [NSString stringWithFormat:@"%ld",(long)self.numbers];
     [_other.addBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
@@ -466,11 +460,4 @@
     }];
     
 }
-
-- (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.tabBarController.tabBar.hidden = YES;
-}
-
-
 @end

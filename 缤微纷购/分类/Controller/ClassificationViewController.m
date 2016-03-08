@@ -32,7 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
     [self getDate];
 }
 
@@ -164,12 +163,4 @@
     }];
 
 }
-
-- (void)viewWillAppear:(BOOL)animated{
-    self.title = @"分类";
-    self.tabBarController.tabBar.hidden = NO;
-}
-
-
-
 @end

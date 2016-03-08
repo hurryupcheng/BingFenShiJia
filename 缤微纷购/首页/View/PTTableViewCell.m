@@ -66,7 +66,7 @@
         _titleLabel.numberOfLines = 0;
         
         _infoLabel = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(_titleLabel.frame)+5, kScreenWidth-10, 0)];
-        _infoLabel.backgroundColor = [UIColor orangeColor];
+//        _infoLabel.backgroundColor = [UIColor orangeColor];
         _infoLabel.font = [UIFont systemFontOfSize:13];
         _infoLabel.numberOfLines = 0;
         _infoLabel.textColor = [UIColor grayColor];

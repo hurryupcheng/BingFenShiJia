@@ -11,11 +11,9 @@
 
 @implementation AddShopping
 
-- (instancetype)initWithFrame:(CGRect)frame num:(NSInteger)numCount sum:(NSInteger)sumCount{
+- (instancetype)initWithFrame:(CGRect)frame{
 
     if ([super initWithFrame:frame]) {
-        self.numCount = numCount;
-        self.sumCount = sumCount;
         [self initWithSubView];
     }
     return self;
@@ -28,31 +26,32 @@
     
     [self.minBut setBackgroundImage:[[UIImage imageNamed:@"jian.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     
-    if (self.numCount <= 1) {
-        self.minBut.enabled = NO;
-    }else{
-        self.minBut.enabled = YES;
-    }
+//    if (self.numCount <= 1) {
+//        self.minBut.enabled = NO;
+//    }else{
+//        self.minBut.enabled = YES;
+//    }
     
     self.textF = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.minBut.frame), 0, 35, 35)];
     
     self.textF.textAlignment = NSTextAlignmentCenter;
     self.textF.textColor = [UIColor blackColor];
-    self.textF.text = [NSString stringWithFormat:@"%d",self.sumCount];
+    self.textF.text = @"1";
     
     self.maxBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.maxBut.frame = CGRectMake(CGRectGetMaxX(self.textF.frame), 0, 35, 35);
     [self.maxBut setBackgroundImage:[UIImage imageNamed:@"jia1.png"] forState:UIControlStateNormal];
     
-    if (self.numCount >= self.sumCount) {
-        self.maxBut.enabled = NO;
-    }else{
-        self.maxBut.enabled = YES;
-    }
+//    if (self.numCount >= self.sumCount) {
+//        self.maxBut.enabled = NO;
+//    }else{
+//        self.maxBut.enabled = YES;
+//    }
     
     [self addSubview:self.minBut];
     [self addSubview:self.maxBut];
     [self addSubview:self.textF];
+    
 }
 
 @end

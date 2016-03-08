@@ -14,6 +14,7 @@
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *price;
+@property (nonatomic,assign)NSInteger number;
 @property (nonatomic,retain)NSMutableArray *dateArr;
 @property (nonatomic,retain)NSMutableArray *imgArr;
 @property (nonatomic,retain)NSMutableArray *IDArr;

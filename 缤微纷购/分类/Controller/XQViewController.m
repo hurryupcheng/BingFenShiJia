@@ -188,22 +188,8 @@
 }
 //  导航栏右按钮点击事件
 - (void)rightButton{
-    self.tabBarController.selectedIndex = 1
-    
-    
-    
-    
-    
-    
-    
-    ;
+    self.tabBarController.selectedIndex = 1;
     self.tabBarController.tabBar.hidden = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.tabBarController.tabBar.hidden = YES;
 }
 
 - (NSMutableArray *)dataArr{
