@@ -12,6 +12,7 @@
 #import "ShoppingViewController.h"
 #import "PersonalViewController.h"
 #import "RootViewController.h"
+#import "BFNavigationController.h"
 
 @interface RootViewController ()
 
@@ -56,8 +57,8 @@
 - (void)setController:(UIViewController *)VC title:(NSString *)title image:(NSString *)image selectImage:(NSString *)selectimage{
     
     VC.tabBarItem.title = title;
-    UINavigationController *navigation = [[UINavigationController alloc]initWithRootViewController:VC];
-    VC.navigationController.navigationBar.translucent = NO;
+    BFNavigationController *navigation = [[BFNavigationController alloc]initWithRootViewController:VC];
+    //VC.navigationController.navigationBar.translucent = NO;
     VC.tabBarItem.image = [[UIImage imageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     VC.tabBarItem.selectedImage = [[UIImage imageNamed:selectimage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.tabBar.tintColor = [UIColor redColor];

@@ -37,7 +37,7 @@
     
     NSArray *arr = @[@"热门搜索",@"搜索历史"];
     self.segment = [[UISegmentedControl alloc]initWithItems:arr];
-    self.segment.frame = CGRectMake(20, 10, kScreenWidth-40, 35);
+    self.segment.frame = CGRectMake(20, 10, kScreenWidth-40, BF_ScaleHeight(25));
     
     [self.segment addTarget:self action:@selector(selectedHot:) forControlEvents:UIControlEventValueChanged];
     self.segment.selectedSegmentIndex = 0;

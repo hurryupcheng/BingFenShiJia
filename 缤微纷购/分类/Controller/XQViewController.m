@@ -188,8 +188,16 @@
 }
 //  导航栏右按钮点击事件
 - (void)rightButton{
-    ShoppingViewController *shopp = [[ShoppingViewController alloc]init];
-    [self.navigationController pushViewController:shopp animated:YES];
+    self.tabBarController.selectedIndex = 1
+    
+    
+    
+    
+    
+    
+    
+    ;
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated{

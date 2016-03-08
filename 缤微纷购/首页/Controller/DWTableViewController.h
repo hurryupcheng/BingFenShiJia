@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DWTableViewController : UITableViewController
+@interface DWTableViewController : UIViewController
 
 @end

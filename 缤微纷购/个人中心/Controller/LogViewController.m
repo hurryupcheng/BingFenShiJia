@@ -5,17 +5,21 @@
 //  Created by 郑洋 on 16/2/17.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#define ThirdLoginButtonHeight (CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25))
+#define ThirdLoginButtonWidth ((ScreenWidth-CGRectGetMaxX(quickLoginLabel.frame)-BF_ScaleWidth(140))/4)
+#define Magin   (BF_ScaleWidth(6))
 #import "Header.h"
 #import "TextFieldLog.h"
 #import "ZCViewController.h"
 #import "LogViewController.h"
+#import "BFMobileNumber.h"
 
 @interface LogViewController ()
 
-@property (nonatomic,retain)UIImageView *groubImage;
-@property (nonatomic,retain)NSString *str;
-@property (nonatomic,retain)TextFieldLog *phone;
-@property (nonatomic,retain)TextFieldLog *sectetul;
+@property (nonatomic, strong) UIImageView *bgImageView;
+@property (nonatomic, strong) NSString *str;
+@property (nonatomic, strong) UITextField *phoneTX;
+@property (nonatomic, strong) UITextField *passwordTX;
 
 @end
 
@@ -24,75 +28,144 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"登陆";
+    self.navigationController.navigationBar.translucent = YES;
+    self.title = @"登录";
+    
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:image];
     
-    self.groubImage = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.groubImage.image = [UIImage imageNamed:@"beijin1.jpg"];
-    self.groubImage.userInteractionEnabled = YES;
-    [self.view addSubview:self.groubImage];
+    self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
+    self.bgImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bgImageView];
     
     [self initWithView];
-    [self initWithKJ];
 }
 
 - (void)initWithView{
 
-    self.phone = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMinY(self.view.frame)+80, kScreenWidth-100, 30) imageV:@"1" placeholder:@"手机号" string:self.str];
-    self.phone.text.keyboardType = UIKeyboardTypeNumberPad;
+    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];
+    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    [self.bgImageView addSubview:self.phoneTX];
     
-    self.sectetul = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMaxY(self.phone.frame)+30, kScreenWidth-100, 30) imageV:@"1" placeholder:@"密码" string:self.str];
-    self.sectetul.text.secureTextEntry = YES;
+    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
+    line1.backgroundColor = BFColor(0xd0d0d0);
+    [self.bgImageView addSubview:line1];
     
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(70, CGRectGetMaxY(self.sectetul.frame)+25, kScreenWidth-140, 35)];
+    self.passwordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"密码"];
+    self.passwordTX.secureTextEntry = YES;
+    [self.bgImageView addSubview:self.passwordTX];
     
-    button.layer.cornerRadius = 15;
-    button.layer.masksToBounds = YES;
-    button.backgroundColor = [UIColor orangeColor];
-    [button setTitle:@"登陆" forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(log) forControlEvents:UIControlEventTouchUpInside];
+    UIView *line2 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.passwordTX.frame), ScreenWidth-BF_ScaleWidth(120), 0.5)];
+    line2.backgroundColor = BFColor(0xd0d0d0);
+    [self.bgImageView addSubview:line2];
     
-    UIButton *zhuce = [[UIButton alloc]initWithFrame:CGRectMake(70, CGRectGetMaxY(button.frame)+25, kScreenWidth-140, 35)];
     
-    zhuce.layer.cornerRadius = 15;
-    zhuce.layer.masksToBounds = YES;
-    zhuce.layer.borderWidth = 1;
-    zhuce.layer.borderColor = [UIColor orangeColor].CGColor;
-    [zhuce setTitle:@"立即注册 享新客专属折扣" forState:UIControlStateNormal];
-    [zhuce setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    zhuce.titleLabel.font = [UIFont systemFontOfSize:15];
-    [zhuce addTarget:self action:@selector(zhuce) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *loginButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line2.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xffffff)];
+    loginButton.backgroundColor = BFColor(0xFD8727);
+    loginButton.layer.cornerRadius = BF_ScaleHeight(18);
+    loginButton.layer.masksToBounds = YES;
+    [loginButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgImageView addSubview:loginButton];
     
-    UIButton *getback = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-150, CGRectGetMaxY(zhuce.frame)+10, 100, 30)];
-    [getback setTitle:@"忘记密码？" forState:UIControlStateNormal];
-    [getback setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    getback.titleLabel.font = [UIFont systemFontOfSize:14];
     
-    [self.groubImage addSubview:self.phone];
-    [self.groubImage addSubview:self.sectetul];
-    [self.groubImage addSubview:button];
-    [self.groubImage addSubview:zhuce];
-    [self.groubImage addSubview:getback];
+    
+    UIButton *registerButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(loginButton.frame)+BF_ScaleHeight(18), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"立即注册 享新客专属折扣" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+    registerButton.layer.cornerRadius = BF_ScaleHeight(18);
+    registerButton.layer.masksToBounds = YES;
+    registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
+    registerButton.layer.borderWidth = BF_ScaleWidth(1);
+    registerButton.backgroundColor = BFColor(0xffffff);
+    [registerButton addTarget:self action:@selector(registerUser) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgImageView addSubview:registerButton];
+    
+    
+    UIButton *forgetButton = [UIButton buttonWithFrame:CGRectMake(ScreenWidth-BF_ScaleWidth(140), CGRectGetMaxY(registerButton.frame)+BF_ScaleHeight(18), BF_ScaleWidth(80), BF_ScaleHeight(10)) title:@"忘记密码?" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0x7B715C)];
+    [forgetButton addTarget:self action:@selector(forgetPassWord:) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgImageView addSubview:forgetButton];
+    
+    
+    UILabel *quickLoginLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.view.frame)-BF_ScaleHeight(50), 0, 0) font:BF_ScaleFont(14) textColor:BFColor(0x7B715C) text:@"快捷登录:"];
+    [self.bgImageView addSubview:quickLoginLabel];
+    //quickLoginLabel.backgroundColor = [UIColor redColor];
+    [quickLoginLabel sizeToFit];
+    
+    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"QQ_Login" type:BFThirdLoginTypeQQ];
+    [self.bgImageView addSubview:qqLogin];
+    
+    
+    UIButton *alipayLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"QQ_Login" type:BFThirdLoginTypeAlipay];
+    [self.bgImageView addSubview:alipayLogin];
+    
+    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(alipayLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"weibo_Login" type:BFThirdLoginTypeSina];
+    [self.bgImageView addSubview:sinaLogin];
+    
+    UIButton *wechatLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(sinaLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"weixin_Login" type:BFThirdLoginTypeWechat];
+    [self.bgImageView addSubview:wechatLogin];
+}
+
+
+/**
+ *创建button
+ */
+- (UIButton *)setupBtnWithFrame:(CGRect)frame image:(NSString *)image type:(BFThirdLoginType)type {
+    UIButton *button = [UIButton buttonWithType:0];
+    button.frame = frame;
+    button.tag = type;
+    [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(thirdLogin:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return button;
+}
+#pragma mark -- 第三方登录点击
+//
+- (void)thirdLogin:(UIButton *)sender {
+    switch (sender.tag) {
+        case BFThirdLoginTypeQQ:
+            BFLog(@"BFThirdLoginTypeQQ");
+            break;
+        case BFThirdLoginTypeAlipay:
+            BFLog(@"BFThirdLoginTypeAlipay");
+            break;
+        case BFThirdLoginTypeSina:
+            BFLog(@"BFThirdLoginTypeSina");
+            break;
+        case BFThirdLoginTypeWechat:
+            BFLog(@"BFThirdLoginTypeWechat");
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)forgetPassWord:(UIButton *)sender {
+    BFLog(@"忘记密码");
 }
 
 //  登陆点击按钮事件
-- (void)log{
+- (void)login{
     
-    if (self.phone.text.text.length <= 0 || self.sectetul.text.text.length <= 0) {
+    if (self.phoneTX.text.length == 0 || self.passwordTX.text.length == 0) {
         UIAlertView *aler = [[UIAlertView alloc]
                              initWithTitle:@"温馨提示" message:@"手机号或密码不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [aler show];
         
-    } else if (self.phone.text.text.length > 11 || self.phone.text.text.length < 11) {
+    } else if ( ![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
             UIAlertView *alers = [[UIAlertView alloc]
-                                  initWithTitle:@"温馨提示" message:@"手机号错误" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                                  initWithTitle:@"温馨提示" message:@"请输入有效的手机号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             [alers show];
             return;
     
-    }else{
+    }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >15){
+        UIAlertView *aler = [[UIAlertView alloc]
+                             initWithTitle:@"温馨提示" message:@"请输入6~15位长度密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [aler show];
+
+    }else {
+  
+        
         UIAlertView *aler = [[UIAlertView alloc]
                              initWithTitle:@"温馨提示" message:@"登陆成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         [aler show];
@@ -100,7 +173,7 @@
     }
 }
 
-- (void)zhuce{
+- (void)registerUser{
 
     ZCViewController *zc = [[ZCViewController alloc]init];
     [self.navigationController pushViewController:zc animated:YES];
@@ -112,23 +185,6 @@
 
 }
 
-#pragma  mark 快速登录
-- (void)initWithKJ{
-
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(60, CGRectGetMaxY(self.view.frame)-130, kScreenWidth/4, 30)];
-    
-    label.text = @"快捷登录:";
-    label.textColor = [UIColor grayColor];
-    
-    for (int i = 0; i < 4; i++) {
-        UIButton *three = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame)+30*i+(i*5), CGRectGetMaxY(self.view.frame)-130, 30, 30)];
-        three.backgroundColor = [UIColor grayColor];
-        [self.view addSubview:three];
-    }
-    
-    [self.view addSubview:label];
-
-}
 
 
 - (void)didReceiveMemoryWarning {

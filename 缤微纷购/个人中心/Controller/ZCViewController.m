@@ -10,9 +10,12 @@
 #import "ZCViewController.h"
 
 @interface ZCViewController ()
-
-@property (nonatomic,retain)UIImageView *groubImage;
-
+/**背景图片*/
+@property (nonatomic, strong) UIImageView *bgImageView;
+/**手机号输入框*/
+@property (nonatomic, strong) UITextField *phoneTX;
+/**验证码按钮*/
+@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
 @end
 
 @implementation ZCViewController
@@ -20,35 +23,46 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.translucent = YES;
     self.title = @"注册";
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:image];
     
-    self.groubImage = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
-    self.groubImage.image = [UIImage imageNamed:@"beijin1.jpg"];
-    self.groubImage.userInteractionEnabled = YES;
-    [self.view addSubview:self.groubImage];
+    self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
+    self.bgImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bgImageView];
     
     [self initWithView];
 }
 
 - (void)initWithView{
 
-    TextFieldLog *zc = [[TextFieldLog alloc]initWithFrame:CGRectMake(60, CGRectGetMinY(self.view.frame)+70, kScreenWidth-120, 30) imageV:@"1" placeholder:@"手机号" string:@""];
+    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
+    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    [self.bgImageView addSubview:self.phoneTX];
     
-    UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(65, CGRectGetMaxY(zc.frame)+20, kScreenWidth-130, 30)];
+    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
+    line1.backgroundColor = BFColor(0xd0d0d0);
+    [self.bgImageView addSubview:line1];
     
-    button.layer.borderColor = [UIColor orangeColor].CGColor;
-    button.layer.borderWidth = 1;
-    button.layer.cornerRadius = 15;
-    button.layer.masksToBounds = YES;
-    [button setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
-    
-    [self.groubImage addSubview:zc];
-    [self.groubImage addSubview:button];
+    UIButton *sendVerificationCodeButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"获取验证码" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+    //sendVerificationCodeButton.backgroundColor = [UIColor orangeColor];
+    sendVerificationCodeButton.layer.cornerRadius = BF_ScaleHeight(18);
+    sendVerificationCodeButton.layer.masksToBounds = YES;
+    sendVerificationCodeButton.layer.borderColor = BFColor(0xFD8727).CGColor;
+    sendVerificationCodeButton.layer.borderWidth = BF_ScaleWidth(1);
+    //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
+    [sendVerificationCodeButton addTarget:self action:@selector(sendVerificationCode) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgImageView addSubview:sendVerificationCodeButton];
+
+}
+
+#pragma mark -- 发送验证码
+- (void)sendVerificationCode {
+    BFLog(@"点击发送验证码");
 }
 
 - (void)viewWillAppear:(BOOL)animated{

@@ -13,9 +13,21 @@
 #import "JFView.h"
 #import "ViewController.h"
 #import "Header.h"
+#import "BFPersonalCenterTopView.h"
+#import "BFFunctionButtonView.h"
 #import "PersonalViewController.h"
+#import "BFSettingController.h"
+#import "BFPersonInformationController.h"
+#import "BFMyOrderController.h"
+#import "BFMyIntegralController.h"
+#import "BFMyCouponsController.h"
+#import "BFMyAdvertisingExpenseController.h"
 
-@interface PersonalViewController ()
+@interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate>
+/**个人中心有阴影的界面*/
+@property (nonatomic, strong) BFPersonalCenterTopView *topView;
+/**个人中心6个功能按钮的界面*/
+@property (nonatomic, strong) BFFunctionButtonView *functionView;
 
 @property (nonatomic,retain)UIView *backgroundView;
 @property (nonatomic,retain)UIImageView *groundView;
@@ -29,6 +41,22 @@
 
 @implementation PersonalViewController
 
+- (BFPersonalCenterTopView *)topView {
+    if (!_topView) {
+        _topView = [[BFPersonalCenterTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
+        _topView.delegate = self;
+    }
+    return _topView;
+}
+
+- (BFFunctionButtonView *)functionView {
+    if (!_functionView) {
+        _functionView = [[BFFunctionButtonView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topView.frame), ScreenWidth, ScreenHeight-self.topView.height-49)];
+        _functionView.delegate = self;
+    }
+    return _functionView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -40,9 +68,113 @@
     
     self.denglu = NO;
     
-    [self initWithButton];
-    [self initWithPic];
-    [self initWithInstall];
+    [self.view addSubview:self.topView];
+    
+    [self.view addSubview:self.functionView];
+    
+//    //[self initWithButton];
+//    [self initWithPic];
+//    //[self initWithInstall];
+}
+
+#pragma mark -- 设置按钮代理点击
+- (void)goToSettingInterface {
+    BFSettingController *settingVC = [BFSettingController new];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    self.navigationController.navigationBarHidden = NO;
+    BFLog(@"点击了设置按钮");
+}
+
+#pragma mark -- 头像按钮代理点击
+- (void)goToUserHeadInterface {
+    BFLog(@"点击了头像按钮");
+}
+
+#pragma mark -- 登录按钮代理点击
+- (void)goToLoginInterface {
+    LogViewController *log = [[LogViewController alloc]init];
+    [self.navigationController pushViewController:log animated:YES];
+    BFLog(@"点击了登录按钮");
+}
+
+#pragma mark -- 注册按钮代理点击
+- (void)goToRegisterInterface {
+    ZCViewController *zc = [[ZCViewController alloc]init];
+    [self.navigationController pushViewController:zc animated:YES];
+    BFLog(@"点击了注册按钮");
+}
+
+#pragma mark -- 注册按钮代理点击
+- (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type {
+    self.navigationController.navigationBarHidden = NO;
+    switch (type) {
+        case BFPersonalCenterTopButtonTypeIntegral:{
+            BFMyIntegralController *myIntegralVC = [BFMyIntegralController new];
+            [self.navigationController pushViewController:myIntegralVC animated:YES];
+            BFLog(@"点击了积分按钮");
+            break;
+        }
+        case BFPersonalCenterTopButtonTypeAdvertisingExpense:{
+            BFMyAdvertisingExpenseController *myAdvertisingExpense = [BFMyAdvertisingExpenseController new];
+            [self.navigationController pushViewController:myAdvertisingExpense animated:YES];
+            BFLog(@"点击了广告费按钮");
+            break;
+        }
+        case BFPersonalCenterTopButtonTypeMyClient:{
+            BFLog(@"点击了我的客户按钮");
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+#pragma mark -- 6个功能按钮的点击
+- (void)chooseFunction:(BFFunctionButtonType)type {
+    switch (type) {
+        case BFFunctionButtonTypeMyWallet:{
+            MyMoneyViewController *myMoney = [[MyMoneyViewController alloc]init];
+            [self.navigationController pushViewController:myMoney animated:YES];
+            self.navigationController.navigationBarHidden = YES;
+            self.tabBarController.tabBar.hidden = NO;
+            BFLog(@"我的钱包");
+            break;
+        }
+        case BFFunctionButtonTypeMyOrder:{
+            BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
+            [self.navigationController pushViewController:myorder animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+            self.tabBarController.tabBar.hidden = YES;
+            BFLog(@"我的订单");
+            break;
+        }
+        case BFFunctionButtonTypeMyGroupPurchase:
+            BFLog(@"我的拼团");
+            break;
+        case BFFunctionButtonTypeMyCoupons:{
+            BFMyCouponsController *myCoupons = [[BFMyCouponsController alloc]init];
+            [self.navigationController pushViewController:myCoupons animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+            self.tabBarController.tabBar.hidden = YES;
+            BFLog(@"我的优惠券");
+            break;
+        }
+        case BFFunctionButtonTypeMyProFile:{
+            
+            BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
+            [self.navigationController pushViewController:personInfoVC animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+            self.tabBarController.tabBar.hidden = YES;
+            BFLog(@"我的资料");
+            break;
+        }
+        case BFFunctionButtonTypeMyPrivilege:
+            BFLog(@"我的特权");
+            break;
+            
+        default:
+            break;
+    }
 }
 
 
@@ -137,12 +269,20 @@
 - (void)initWithInstall{
  
     UIButton *install = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-60, 30, 20, 20)];
-    
+    [install addTarget:self action:@selector(goToSetting) forControlEvents:UIControlEventTouchUpInside];
     [install setBackgroundImage:[UIImage imageNamed:@"iconfont-setting.png"] forState:UIControlStateNormal];
     
     [self.view addSubview:install];
 
 }
+
+- (void)goToSetting {
+    BFSettingController *settingVC = [BFSettingController new];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    self.navigationController.navigationBarHidden = NO;
+    //self.tabBarController.tabBar.hidden = YES;
+}
+
 
 #pragma  mark  登陆注册按钮点击事件
 - (void)log:(UIButton *)button{
@@ -172,11 +312,16 @@
         case 0:{
             MyMoneyViewController *myMoney = [[MyMoneyViewController alloc]init];
             [self.navigationController pushViewController:myMoney animated:YES];
+            self.navigationController.navigationBarHidden = YES;
+            self.tabBarController.tabBar.hidden = NO;
             break;
         }case 1:{
-            MyorderViewController *myorder = [[MyorderViewController alloc]init];
-            myorder.titles = self.arr[1];
+            BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
+            //myorder.titles = self.arr[1];
             [self.navigationController pushViewController:myorder animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+            self.tabBarController.tabBar.hidden = YES;
+            
             break;
         }case 2:{
            
@@ -186,8 +331,10 @@
             break;
         }case 4:{
             
-            MyViewController *myVC = [[MyViewController alloc]init];
-      [self.navigationController pushViewController:myVC animated:NO];
+            BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
+            [self.navigationController pushViewController:personInfoVC animated:NO];
+            self.navigationController.navigationBarHidden = NO;
+            self.tabBarController.tabBar.hidden = YES;
             
             break;
         }case 5:{

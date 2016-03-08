@@ -15,5 +15,6 @@
 @property (nonatomic,assign)CGFloat proportionX;
 @property (nonatomic,assign)CGFloat proportionY;
 
+@property (nonatomic, strong) NSString *haha;
 @end
 

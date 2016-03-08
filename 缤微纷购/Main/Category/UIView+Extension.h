@@ -18,5 +18,5 @@
 @property (nonatomic, assign) CGSize size;
 @property (nonatomic, assign) CGPoint origin;
 
-
++ (UIView *)drawLineWithFrame:(CGRect)frame;
 @end

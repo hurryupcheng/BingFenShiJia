@@ -42,10 +42,20 @@
     [super viewDidLoad];
     self.view.backgroundColor = rgb(220, 220, 220, 1.0);
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(remove)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
     
+
     [self getDate];
+
+    //[self initView];
 }
+
+- (void)gotoHomeController {
+    self.tabBarController.selectedIndex = 0;
+}
+
+
+
 
 - (void)initWithTabView{
 

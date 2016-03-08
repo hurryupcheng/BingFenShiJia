@@ -284,6 +284,7 @@
     view.backgroundColor = [UIColor whiteColor];
   
     
+
        self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.moneyArr arr:self.nameArr set:self.guigeSet number:self.numbers];
    
     if (tag == 10) {
@@ -297,6 +298,20 @@
         [view addSubview:buyButton];
     }else{
         
+
+    if (self.other.arrBut.selected == 0) {
+      // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[0] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
+    }else{
+    
+   // self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, CGRectGetMaxY(view.frame)-160) img:self.fxq.img title:self.fxq.title money:self.fxq.price number:self.stockArr[1] hot:self.fxq.guige arr:self.nameArr set:self.guigeArr];
+    }
+    
+    
+    _other.addShopp.textF.text = [NSString stringWithFormat:@"%ld",(long)self.numbers];
+    [_other.addBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
+    [_other.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
+
+
     UIButton *shoppBut = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2-(kScreenWidth/3), CGRectGetMaxY(_other.addShopp.frame)+35, kScreenWidth/3, CGFloatY(30))];
     shoppBut.tag = 111;
     shoppBut.backgroundColor = rgb(0, 14, 255, 1.0);
@@ -411,7 +426,9 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
             self.nameArr = [NSMutableArray array];
+
             self.guigeSet = [NSMutableSet set];
+
             self.stockArr = [NSMutableArray array];
             self.imageArr = [NSMutableArray array];
             self.moneyArr = [NSMutableArray array];
@@ -437,7 +454,9 @@
                     [self.stockArr addObject:fxq.stock];
 
                 }
+
             [self.guigeSet addObject:fxq.guige];
+
             }
             [self.nameArr addObject:fxq.yanse];
         }
