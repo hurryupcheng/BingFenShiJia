@@ -63,7 +63,7 @@
                 UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"head"]];
                 //headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(90), 0, BF_ScaleHeight(50), BF_ScaleHeight(50));
                 //headImageView.contentMode = UIViewContentModeCenter;
-                [cell.accessoryView addSubview:headImageView];
+                cell.accessoryView = headImageView;
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 break;
@@ -79,8 +79,7 @@
         }
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"  广告主";
-        UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(ScreenWidth-60, 10, 50, 10)];
-        [cell addSubview:switchButton];
+        cell.accessoryView = [[UISwitch alloc] init];
     } else if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
@@ -123,6 +122,25 @@
         }
     }
     return 44;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    if (section == 3) {
+        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(60))];
+        //footerView.backgroundColor = [UIColor redColor];
+        UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(15), BF_ScaleWidth(140), BF_ScaleHeight(40)) title:@"退出登录" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+        exitButton.backgroundColor = BFColor(0xFD8727);
+        [footerView addSubview:exitButton];
+        return footerView;
+    }
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 3) {
+        return BF_ScaleHeight(90);
+    }
+    return 0;
 }
 
 @end

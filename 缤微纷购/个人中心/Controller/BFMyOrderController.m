@@ -32,6 +32,10 @@
     [self.view addSubview:self.tableView];
     [self setHeadaerSegmented];
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
 
 #pragma mark -- 创建固定的头部视图
 - (void)setHeadaerSegmented {
