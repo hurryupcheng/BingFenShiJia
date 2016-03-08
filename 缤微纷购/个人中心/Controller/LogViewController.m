@@ -13,8 +13,9 @@
 #import "ZCViewController.h"
 #import "LogViewController.h"
 #import "BFMobileNumber.h"
+#import "MyMD5.h"
 
-@interface LogViewController ()
+@interface LogViewController ()<UITextFieldDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**背景图片*/
@@ -31,7 +32,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.translucent = YES;
     self.title = @"登录";
     
     
@@ -50,7 +50,9 @@
 - (void)initWithView{
 
     self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];
-    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    //self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    self.phoneTX.delegate = self;
+    self.phoneTX.returnKeyType = UIReturnKeyNext;
     [self.bgImageView addSubview:self.phoneTX];
     
     UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
@@ -58,6 +60,8 @@
     [self.bgImageView addSubview:line1];
     
     self.passwordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"密码"];
+    self.passwordTX.delegate = self;
+    self.passwordTX.returnKeyType = UIReturnKeyDone;
     self.passwordTX.secureTextEntry = YES;
     [self.bgImageView addSubview:self.passwordTX];
     
@@ -150,29 +154,42 @@
 //  登陆点击按钮事件
 - (void)login{
     
-    if (self.phoneTX.text.length == 0 || self.passwordTX.text.length == 0) {
-        UIAlertView *aler = [[UIAlertView alloc]
-                             initWithTitle:@"温馨提示" message:@"手机号或密码不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [aler show];
+    if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
+//        UIAlertView *aler = [[UIAlertView alloc]
+//                             initWithTitle:@"温馨提示" message:@"手机号或密码不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"手机号或密码不能为空"];
         
     } else if ( ![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
-            UIAlertView *alers = [[UIAlertView alloc]
-                                  initWithTitle:@"温馨提示" message:@"请输入有效的手机号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alers show];
-            return;
+//            UIAlertView *alers = [[UIAlertView alloc]
+//                                  initWithTitle:@"温馨提示" message:@"请输入有效的手机号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//            [alers show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号码"];
     
-    }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >15){
-        UIAlertView *aler = [[UIAlertView alloc]
-                             initWithTitle:@"温馨提示" message:@"请输入6~15位长度密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [aler show];
+    }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >20){
+//        UIAlertView *aler = [[UIAlertView alloc]
+//                             initWithTitle:@"温馨提示" message:@"请输入6~15位长度密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+//        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入6~20位长度密码"];
 
     }else {
-  
         
-        UIAlertView *aler = [[UIAlertView alloc]
-                             initWithTitle:@"温馨提示" message:@"登陆成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-        [aler show];
-        [self.navigationController popViewControllerAnimated:YES];
+        NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=login";
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"phone"] = self.phoneTX.text;
+        parameter[@"pass"] = [MyMD5 md5:self.passwordTX.text];
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"responseObject%@",responseObject);
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
+                BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                BFLog(@"responseObject%@",userInfo);
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }];
+        } failure:^(NSError *error) {
+            BFLog(@"error%@",error);
+        }];
     }
 }
 
@@ -182,15 +199,33 @@
     [self.navigationController pushViewController:zc animated:YES];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-    self.navigationController.navigationBarHidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
 
+
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [self.view endEditing:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    BOOL ret = NO;
+    if (textField == self.phoneTX) {
+        [self.passwordTX becomeFirstResponder];
+    }else {
+        [self.passwordTX resignFirstResponder];
+    }
+    return ret;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
     self.navigationController.navigationBar.translucent = NO;
 }
 

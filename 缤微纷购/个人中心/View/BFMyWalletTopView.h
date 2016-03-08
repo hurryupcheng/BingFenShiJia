@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    BFMyWalletTopButtonTypeBalance,//余额
+    BFMyWalletTopButtonTypeRecord,//提现记录
+    BFMyWalletTopButtonTypeFrozen//冻结金额
+} BFMyWalletTopButtonType;
+
 @interface BFMyWalletTopView : UIView
 
 @end

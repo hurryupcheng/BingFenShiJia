@@ -27,6 +27,7 @@ typedef enum {
 /**积分，广告费，我的客户按钮点击方法*/
 - (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type;
 
+
 @end
 
 
@@ -34,4 +35,5 @@ typedef enum {
 /**个人中心头部视图的代理*/
 @property (nonatomic, weak) id<BFPersonalCenterTopViewDelegate> delegate;
 
+- (void)changeStatus;
 @end

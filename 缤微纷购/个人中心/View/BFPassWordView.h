@@ -11,7 +11,7 @@
 @protocol RegisterDelegate <NSObject>
 
 - (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView;
-
+- (void)sendVerificationCodeBFPassWordView:(BFPassWordView *)BFPassWordView button:(UIButton *)button;
 @end
 
 @interface BFPassWordView : UIView<UITextFieldDelegate>
@@ -21,6 +21,9 @@
 @property (nonatomic, strong) UITextField *firstPasswordTX;
 /**第二次密码*/
 @property (nonatomic, strong) UITextField *secondPasswordTX;
+/**手机号输入框*/
+@property (nonatomic, strong) UITextField *phoneTX;
+
 
 /**代理*/
 @property (nonatomic, weak) id<RegisterDelegate>delegate;
