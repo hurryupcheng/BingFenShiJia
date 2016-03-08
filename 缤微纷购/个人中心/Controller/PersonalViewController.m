@@ -20,14 +20,17 @@
 #import "BFMyIntegralController.h"
 #import "BFMyCouponsController.h"
 #import "BFMyAdvertisingExpenseController.h"
+#import "BFAddRecommenderView.h"
 
-@interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate>
+@interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate, AddRecommenderViewDelegate>
 /**个人中心有阴影的界面*/
 @property (nonatomic, strong) BFPersonalCenterTopView *topView;
 /**个人中心6个功能按钮的界面*/
 @property (nonatomic, strong) BFFunctionButtonView *functionView;
 /**用户信息*/
 @property (nonatomic, strong) BFUserInfo *userInfo;
+/**添加推荐人*/
+@property (nonatomic, strong) BFAddRecommenderView *addView;
 
 @property (nonatomic,retain)UIView *backgroundView;
 @property (nonatomic,retain)UIImageView *groundView;
@@ -41,6 +44,14 @@
 
 @implementation PersonalViewController
 
+- (BFAddRecommenderView *)addView {
+    if (!_addView) {
+        _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        _addView.delegate = self;
+        [self.view addSubview:_addView];
+    }
+    return _addView;
+}
 
 - (BFUserInfo *)userInfo {
     if (!_userInfo) {
@@ -53,7 +64,6 @@
     if (!_topView) {
         _topView = [[BFPersonalCenterTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
         _topView.delegate = self;
-        [self.view addSubview:_topView];
     }
     return _topView;
 }
@@ -73,19 +83,18 @@
     self.groundView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.groundView.image = [UIImage imageNamed:@"bg.jpg"];
     self.groundView.userInteractionEnabled = YES;
+    //添加背景图片
     [self.view addSubview:self.groundView];
-    
-    self.denglu = NO;
-    
-    
-    [self topView];
+    //添加上部视图
+    [self.view addSubview:self.topView];
+    //添加下面功能视图
     [self.view addSubview:self.functionView];
-    BFLog(@"person:%@",self.userInfo);
 
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //添加上部视图改变状态方法
     [self.topView changeStatus];
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
@@ -131,8 +140,14 @@
 }
 
 #pragma mark -- 注册按钮代理点击
-- (void)gotoIdentifyRecommender {
-    BFLog(@"确认推荐人");
+- (void)gotoAddRecommender {
+    [self.addView showView];
+   
+}
+
+#pragma mark -- 点击确定添加推荐人
+- (void)sureToAddRecommenderWithView:(BFAddRecommenderView *)view {
+     BFLog(@"添加推荐人%@",view.IDTextField.text);
 }
 
 #pragma mark -- 注册按钮代理点击

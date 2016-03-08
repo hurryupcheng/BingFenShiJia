@@ -27,7 +27,7 @@ typedef enum {
 /**积分，广告费，我的客户按钮点击方法*/
 - (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type;
 /**确认推荐人*/
-- (void)gotoIdentifyRecommender;
+- (void)gotoAddRecommender;
 
 @end
 

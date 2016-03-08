@@ -235,6 +235,7 @@
 		594EE0E51C8C201200A243AE /* BFMyCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E41C8C201200A243AE /* BFMyCouponsCell.m */; };
 		594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
+		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
 		59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */; };
 		59F7D2731C8EA25C00E3F854 /* BFUserDefaluts.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D2721C8EA25C00E3F854 /* BFUserDefaluts.m */; };
@@ -697,6 +698,8 @@
 		594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseController.m; sourceTree = "<group>"; };
 		599F19C01C8D73EB00319FA4 /* BFPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPassWordView.h; sourceTree = "<group>"; };
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
+		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
+		59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddRecommenderView.m; sourceTree = "<group>"; };
 		59F7D26B1C8E986600E3F854 /* BFUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUserInfo.h; sourceTree = "<group>"; };
 		59F7D26C1C8E986600E3F854 /* BFUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFUserInfo.m; sourceTree = "<group>"; };
 		59F7D26E1C8E9B1D00E3F854 /* BFRegistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRegistModel.h; sourceTree = "<group>"; };
@@ -1009,6 +1012,8 @@
 				59FF46C31C8A8B990040689A /* BFMyOrderCell.m */,
 				59FF46C81C8AB3620040689A /* BFPersonalCenterTopView.h */,
 				59FF46C91C8AB3620040689A /* BFPersonalCenterTopView.m */,
+				59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */,
+				59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */,
 				59FF46CB1C8AD34F0040689A /* BFFunctionButtonView.h */,
 				59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */,
 				594EE0DB1C8C162F00A243AE /* BFMyIntegralCell.h */,
@@ -2026,6 +2031,7 @@
 				592525AD1C8681CF000F609F /* SDCycleScrollView.m in Sources */,
 				592525CA1C8681CF000F609F /* NSObject+ST.m in Sources */,
 				592523B31C867674000F609F /* Foundation+Log.m in Sources */,
+				59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */,
 				592525AF1C8681CF000F609F /* SDBrowserImageView.m in Sources */,
 				59FF46C11C8A86800040689A /* BFMyOrderController.m in Sources */,
 				592525C01C8681CF000F609F /* UIImageView+WebCache.m in Sources */,
