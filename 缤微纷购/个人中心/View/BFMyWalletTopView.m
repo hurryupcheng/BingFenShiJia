@@ -73,7 +73,7 @@
         _nickName = [UILabel new];
         _nickName.text = @"hahaha";
         _nickName.textAlignment = NSTextAlignmentCenter;
-        _nickName.font = [UIFont fontWithName:<#(nonnull NSString *)#> size:<#(CGFloat)#>]
+        //_nickName.font = [UIFont fontWithName:<#(nonnull NSString *)#> size:<#(CGFloat)#>]
         [self addSubview:_nickName];
     }
     return _nickName;
