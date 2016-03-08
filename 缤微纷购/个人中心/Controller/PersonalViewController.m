@@ -7,9 +7,7 @@
 //
 #import "ZCViewController.h"
 #import "LogViewController.h"
-#import "MyMoneyViewController.h"
-#import "MyorderViewController.h"
-#import "MyViewController.h"
+#import "BFMyWalletController.h"
 #import "JFView.h"
 #import "ViewController.h"
 #import "Header.h"
@@ -79,19 +77,21 @@
 
 #pragma mark -- 设置按钮代理点击
 - (void)goToSettingInterface {
+    self.navigationController.navigationBarHidden = NO;
     BFSettingController *settingVC = [BFSettingController new];
     [self.navigationController pushViewController:settingVC animated:YES];
-    self.navigationController.navigationBarHidden = NO;
     BFLog(@"点击了设置按钮");
 }
 
 #pragma mark -- 头像按钮代理点击
 - (void)goToUserHeadInterface {
+    self.navigationController.navigationBarHidden = NO;
     BFLog(@"点击了头像按钮");
 }
 
 #pragma mark -- 登录按钮代理点击
 - (void)goToLoginInterface {
+    self.navigationController.navigationBarHidden = NO;
     LogViewController *log = [[LogViewController alloc]init];
     [self.navigationController pushViewController:log animated:YES];
     BFLog(@"点击了登录按钮");
@@ -99,6 +99,7 @@
 
 #pragma mark -- 注册按钮代理点击
 - (void)goToRegisterInterface {
+    self.navigationController.navigationBarHidden = NO;
     ZCViewController *zc = [[ZCViewController alloc]init];
     [self.navigationController pushViewController:zc animated:YES];
     BFLog(@"点击了注册按钮");
@@ -131,20 +132,19 @@
 
 #pragma mark -- 6个功能按钮的点击
 - (void)chooseFunction:(BFFunctionButtonType)type {
+    self.navigationController.navigationBarHidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
     switch (type) {
         case BFFunctionButtonTypeMyWallet:{
-            MyMoneyViewController *myMoney = [[MyMoneyViewController alloc]init];
-            [self.navigationController pushViewController:myMoney animated:YES];
-            self.navigationController.navigationBarHidden = YES;
-            self.tabBarController.tabBar.hidden = NO;
+            BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
+            [self.navigationController pushViewController:myWallet animated:YES];
             BFLog(@"我的钱包");
             break;
         }
         case BFFunctionButtonTypeMyOrder:{
             BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
             [self.navigationController pushViewController:myorder animated:YES];
-            self.navigationController.navigationBarHidden = NO;
-            self.tabBarController.tabBar.hidden = YES;
+
             BFLog(@"我的订单");
             break;
         }
@@ -154,8 +154,6 @@
         case BFFunctionButtonTypeMyCoupons:{
             BFMyCouponsController *myCoupons = [[BFMyCouponsController alloc]init];
             [self.navigationController pushViewController:myCoupons animated:YES];
-            self.navigationController.navigationBarHidden = NO;
-            self.tabBarController.tabBar.hidden = YES;
             BFLog(@"我的优惠券");
             break;
         }
@@ -163,8 +161,6 @@
             
             BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
             [self.navigationController pushViewController:personInfoVC animated:YES];
-            self.navigationController.navigationBarHidden = NO;
-            self.tabBarController.tabBar.hidden = YES;
             BFLog(@"我的资料");
             break;
         }
@@ -279,7 +275,7 @@
 - (void)goToSetting {
     BFSettingController *settingVC = [BFSettingController new];
     [self.navigationController pushViewController:settingVC animated:YES];
-    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.hidden = NO;
     //self.tabBarController.tabBar.hidden = YES;
 }
 
@@ -310,16 +306,14 @@
 
     switch (button.tag) {
         case 0:{
-            MyMoneyViewController *myMoney = [[MyMoneyViewController alloc]init];
-            [self.navigationController pushViewController:myMoney animated:YES];
-            self.navigationController.navigationBarHidden = YES;
+                       self.navigationController.navigationBar.hidden = NO;
             self.tabBarController.tabBar.hidden = NO;
             break;
         }case 1:{
             BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
             //myorder.titles = self.arr[1];
             [self.navigationController pushViewController:myorder animated:YES];
-            self.navigationController.navigationBarHidden = NO;
+            self.navigationController.navigationBar.hidden = NO;
             self.tabBarController.tabBar.hidden = YES;
             
             break;
@@ -333,7 +327,7 @@
             
             BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
             [self.navigationController pushViewController:personInfoVC animated:NO];
-            self.navigationController.navigationBarHidden = NO;
+            self.navigationController.navigationBar.hidden = NO;
             self.tabBarController.tabBar.hidden = YES;
             
             break;

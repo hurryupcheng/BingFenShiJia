@@ -15,10 +15,13 @@
 #import "BFMobileNumber.h"
 
 @interface LogViewController ()
-
+/**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
+/**背景图片*/
 @property (nonatomic, strong) NSString *str;
+/**手机输入框*/
 @property (nonatomic, strong) UITextField *phoneTX;
+/**密码输入框*/
 @property (nonatomic, strong) UITextField *passwordTX;
 
 @end
@@ -180,12 +183,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    
     self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = YES;
 
 }
 
-
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.translucent = NO;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
