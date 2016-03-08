@@ -27,6 +27,14 @@
 @property (nonatomic, strong) UIView *buttonView;
 /**登录状态*/
 @property (nonatomic, strong) UIView *nickNameView;
+/**id*/
+@property (nonatomic, strong) UILabel *IDLabel;
+/**确认推荐人*/
+@property (nonatomic, strong) UIButton *referenceButton;
+/**推荐人*/
+@property (nonatomic, strong) UILabel *referenceLabel;
+
+
 @end
 
 
@@ -47,8 +55,18 @@
         self.advertisingExpenseLabel.text = [NSString stringWithFormat:@"¥%@",userInfo.proxy_order_money];
         self.myClientLabel.text = userInfo.proxy_num;
         [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:nil];
+        self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];
+        if (userInfo.p_username != nil) {
+            self.referenceButton.hidden = YES;
+            self.referenceLabel.hidden = NO;
+            self.referenceLabel.text = [NSString stringWithFormat:@"推荐人:%@",userInfo.p_username];
+        }else {
+            self.referenceButton.hidden = NO;
+            self.referenceLabel.hidden = YES;
+        }
         
-        BFLog(@"登录了");
+        
+        BFLog(@"登录了,,%@,%@,%@,%@,",userInfo.p_username,userInfo.ID,userInfo.proxy_num,userInfo.proxy_order_money);
     }
 }
 
@@ -67,7 +85,7 @@
     [self addSubview:bgView];
     self.headButton = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), BF_ScaleHeight(68))];
     [self.headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
-    [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:nil placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+    [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://bingo.luexue.com/Style/teambuy/images/avatar_4_64.png"] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
     [self addSubview:self.headButton];
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.headButton.frame)+BF_ScaleWidth(10), CGRectGetMinY(self.headButton.frame), BF_ScaleWidth(10), self.headButton.height)];
@@ -106,13 +124,20 @@
     //self.nickNameView.backgroundColor = [UIColor redColor];
     [self addSubview:self.nickNameView];
     
-    UILabel *IDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(10), BF_ScaleWidth(80), ButtonViewHeight)];
-    IDLabel.backgroundColor = [UIColor redColor];
-    [self.nickNameView addSubview:IDLabel];
+    self.IDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(15), BF_ScaleWidth(80), ButtonViewHeight)];
+    //self.IDLabel.backgroundColor = [UIColor redColor];
+    [self.nickNameView addSubview:self.IDLabel];
     
-    UILabel *nickNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(10), BF_ScaleWidth(150), ButtonViewHeight)];
-    nickNameLabel.backgroundColor = [UIColor greenColor];
-    [self.nickNameView addSubview:nickNameLabel];
+    self.referenceLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(15), BF_ScaleWidth(150), ButtonViewHeight)];
+    self.referenceLabel.backgroundColor = [UIColor greenColor];
+    [self.nickNameView addSubview:self.referenceLabel];
+    
+    self.referenceButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(10), BF_ScaleWidth(100), ButtonViewHeight+BF_ScaleHeight(10))];
+    [self.referenceButton setTitle:@"确定推荐人" forState:UIControlStateNormal];
+    self.referenceButton.backgroundColor = BFColor(0xD20000);
+    [self.referenceButton addTarget:self action:@selector(identityRecommender) forControlEvents:UIControlEventTouchUpInside];
+    [self.nickNameView addSubview:self.referenceButton];
+    
     
 
     self.threeButtonView = [[UIView alloc] initWithFrame:CGRectMake(0,0.09*ScreenHeight, ScreenWidth, ButtonViewHeight)];
@@ -210,6 +235,11 @@
     }
 }
 
+- (void)identityRecommender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoIdentifyRecommender)]) {
+        [self.delegate gotoIdentifyRecommender];
+    }
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];

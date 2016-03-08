@@ -131,6 +131,11 @@
 }
 
 #pragma mark -- 注册按钮代理点击
+- (void)gotoIdentifyRecommender {
+    BFLog(@"确认推荐人");
+}
+
+#pragma mark -- 注册按钮代理点击
 - (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type {
     self.navigationController.navigationBarHidden = NO;
     switch (type) {

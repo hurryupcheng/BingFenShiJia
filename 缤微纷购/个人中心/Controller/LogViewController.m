@@ -180,8 +180,13 @@
         parameter[@"pass"] = [MyMD5 md5:self.passwordTX.text];
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"responseObject%@",responseObject);
+            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+            if ([userInfo.msg isEqualToString:@"登录失败"]) {
+                [BFProgressHUD MBProgressOnlywithLabelText:@"账号或者密码错误"];
+                return ;
+            }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
-                BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                 BFLog(@"responseObject%@",userInfo);
