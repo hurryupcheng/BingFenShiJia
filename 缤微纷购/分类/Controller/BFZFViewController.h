@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BFZFViewController : UIViewController
-
+@property (nonatomic,retain)NSString *titles;
 @end

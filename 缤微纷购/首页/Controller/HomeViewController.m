@@ -132,7 +132,7 @@
     
     self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
     
-    self.viewBut = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)*2+20)];
+    self.viewBut = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20)];
     self.viewBut.backgroundColor = [UIColor whiteColor];
     
     for (int i = 0; i < 8; i++) {
@@ -225,7 +225,7 @@
     }
 
 }
-
+#pragma  mark  轮播点击方法
 - (void)LBViewDelegate:(LBView *)lbView didSelected:(NSInteger)index{
     NSLog(@"轮播当前点击有效");
     
@@ -366,7 +366,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     
     if (section == 0) {
-        return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+40);
+        return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+20);
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
     }
@@ -450,7 +450,7 @@
 #pragma  mark 缤纷拼团页面初始化
 - (void)initWithTabView{
     
-    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
+    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
     
     self.tableV.dataSource = self;
     self.tableV.delegate = self;

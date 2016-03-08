@@ -5,18 +5,34 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "FXQViewController.h"
+#import "UIImageView+WebCache.h"
+#import "BFShoppModel.h"
+#import "BFHeaderView.h"
+#import "BFOtherView.h"
+#import "BFFootView.h"
 #import "SPTableViewCell.h"
 #import "Header.h"
 #import "ShoppingViewController.h"
 
-@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate>
 @property (nonatomic,retain)SPTableViewCell *sp;
+@property (nonatomic,retain)BFOtherView *other;
+@property (nonatomic,retain)BFHeaderView *header;
+@property (nonatomic,retain)BFFootView *foot;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UIScrollView *scrollView;
 @property (nonatomic,retain)UITableView *tabView;
 @property (nonatomic,retain)UIButton *rightBut;
 @property (nonatomic,assign)NSInteger number;
 @property (nonatomic,retain)UIView *otherView;
+@property (nonatomic,retain)NSMutableArray *dateArr;
+@property (nonatomic,retain)BFShoppModel *shoppModel;
+@property (nonatomic,retain)UIButton *imgButton;
+@property (nonatomic,retain)NSMutableArray *imgArray;
+@property (nonatomic,retain)UIView *views;
+
+@property (nonatomic,assign)BOOL isEdits;
 
 @end
 
@@ -28,64 +44,74 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(remove)];
     
-    [self initView];
-}
-
-- (void)initView{
-    [self initWithHeader];
-    [self initWithTabView];
-    [self initWithOther];
+    [self getDate];
 }
 
 - (void)initWithTabView{
 
     self.title = @"购物车";
-    
-    self.scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.imageV.frame), kScreenWidth, kScreenHeight-205-self.otherView.frame.size.height)];
-    self.scrollView.contentSize = CGSizeMake(kScreenWidth, kScreenHeight+162);
-    self.scrollView.contentOffset = CGPointMake(0, 0);
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    
-    
-    self.tabView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStylePlain];
+
+    self.tabView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-160) style:UITableViewStylePlain];
     
     self.tabView.dataSource = self;
     self.tabView.delegate = self;
     self.tabView.showsHorizontalScrollIndicator = NO;
     self.tabView.showsVerticalScrollIndicator = NO;
-    self.tabView.rowHeight = 100;
     
     [self.tabView registerClass:[SPTableViewCell class] forCellReuseIdentifier:@"shangpin"];
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-160, kScreenWidth, 50)];
-    view.backgroundColor = [UIColor whiteColor];
-    view.layer.borderColor = rgb(220, 220, 220, 1.0).CGColor;
-    view.layer.borderWidth = 1;
+    self.foot = [[BFFootView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-163, kScreenWidth, 50) num:100];
+    _foot.backgroundColor = [UIColor whiteColor];
     
-    UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 50)];
-    money.text = @"  合计:¥ 999.00";
-    money.textColor = [UIColor orangeColor];
+    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    self.header.backgroundColor = rgb(220, 220, 220, 1.0);
+    self.header.userInteractionEnabled = YES;
+    [self.header.allSeled addTarget:self action:@selector(selectedbut) forControlEvents:UIControlEventTouchUpInside];
+    self.number = 1;
     
-    UIButton *sum = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(view.frame)-130, 10, 100, 30)];
-    sum.backgroundColor = [UIColor orangeColor];
-    [sum setTitle:@"马上结算" forState:UIControlStateNormal];
-    sum.layer.cornerRadius = 12;
-    sum.layer.masksToBounds = YES;
-    [sum addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
+//    self.other = [[BFOtherView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame), kScreenWidth, kScreenWidth/4+50) img:self.shoppModel.imgArr count:self.dateArr.count];
+//    
+//    self.other.otherDelegate = self;
+  
+    [self.view addSubview:self.tabView];
+    [self.view addSubview:_foot];
     
-    [self.view addSubview:view];
-    [view addSubview:money];
-    [view addSubview:sum];
-    [self.view addSubview:self.scrollView];
-    [self.scrollView addSubview:self.tabView];
 }
 
-- (void)initWithOther{
+//- (void)BFOtherViewDelegate:(BFOtherView *)otherView index:(NSInteger)index{
+//    FXQViewController *fx = [[FXQViewController alloc]init];
+//    fx.ID = self.shoppModel.IDArr[index];
+//    [self.navigationController pushViewController:fx animated:YES];
+//}
 
-    self.otherView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame)+10, kScreenWidth, kScreenWidth/4+50)];
-    self.otherView.backgroundColor = [UIColor whiteColor];
+#pragma  mark tabView代理方法
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        return 10;
+    }else{
+        return 0;
+    }
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
+    if (section == 0) {
+        return self.header;
+    }else if(section == 2){
+        self.views  = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame), kScreenWidth, kScreenWidth/4+50)];
+        [self initWithLoveView];
+        return self.views;
+    }else{
+        return 0;
+    }
+    
+}
+
+- (void)initWithLoveView{
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth/3-20, 1)];
     lab.backgroundColor = [UIColor grayColor];
     
@@ -97,82 +123,68 @@
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
     
-    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4)];
+    UIScrollView *scroll = [[UIScrollView alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4)];
     
-    for (int i = 0; i < 3; i++) {
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((i*(kScreenWidth/4)+(i*10)), 0, kScreenWidth/4, kScreenWidth/4)];
-        button.layer.borderColor = [UIColor grayColor].CGColor;
-        button.layer.borderWidth = 1;
-        button.layer.cornerRadius = 3;
-        button.tag = i;
+    scroll.contentSize = CGSizeMake(scroll.width*(self.dateArr.count/3), 0);
+    scroll.shouldGroupAccessibilityChildren = NO;
+    scroll.showsHorizontalScrollIndicator = NO;
+    scroll.pagingEnabled = YES;
+    
+    for (int i = 0; i < self.dateArr.count; i++) {
+        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
+        _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
+        _imgButton.layer.borderWidth = 1;
+        _imgButton.tag = i;
+        _imgButton.userInteractionEnabled = YES;
         
-        [view addSubview:button];
+        [_imgButton addTarget:self action:@selector(imgButton:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.shoppModel.imgArr[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        
+        [scroll addSubview:_imgButton];
     }
     
-    [self.scrollView addSubview:self.otherView];
-    [self.otherView addSubview:view];
-    [self.otherView addSubview:lab];
-    [self.otherView addSubview:labe];
-    [self.otherView addSubview:label];
-
+    [self.views addSubview:scroll];
+    [self.views addSubview:lab];
+    [self.views addSubview:labe];
+    [self.views addSubview:label];
 }
 
-- (void)initWithHeader{
-
-    self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 45)];
-    self.imageV.backgroundColor = rgb(220, 220, 220, 1.0);
-    self.imageV.userInteractionEnabled = YES;
-    
-    CGFloat x = self.imageV.frame.size.height;
-    
-    self.rightBut = [[UIButton alloc]initWithFrame:CGRectMake(10, 10, x-22, x-22)];
-    self.rightBut.layer.cornerRadius = (x-22)/2;
-    self.rightBut.layer.masksToBounds = YES;
-    [self.rightBut setBackgroundImage:[UIImage imageNamed:@"0"] forState:UIControlStateNormal];
-    [self.rightBut setBackgroundImage:[UIImage imageNamed:@"1"] forState:UIControlStateSelected];
-    [self.rightBut addTarget:self action:@selector(selectedbut) forControlEvents:UIControlEventTouchUpInside];
-    self.number = 1;
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.rightBut.frame), 0, x, x)];
-    label.text = @"全选";
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth/2-((kScreenWidth/3)/2), 0, kScreenWidth/3, x)];
-    title.text = @"商品信息";
-    title.textAlignment = NSTextAlignmentCenter;
-    
-    [self.view addSubview:self.imageV];
-    [self.imageV addSubview:self.rightBut];
-    [self.imageV addSubview:label];
-    [self.imageV addSubview:title];
-
+- (void)imgButton:(UIButton *)but{
+    FXQViewController *fx = [[FXQViewController alloc]init];
+    fx.ID = self.shoppModel.IDArr[but.tag];
+    [self.navigationController pushViewController:fx animated:YES];
 }
 
-#pragma  mark tabView代理方法
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return 4;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+        return 130;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 0) {
+        return 40;
+    }else if(section == 1){
+        return 7;
+    }else{
+        return kScreenWidth/4+50;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
   
-//    SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"shangpin" forIndexPath:indexPath];
+    SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"shangpin" forIndexPath:indexPath];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-    SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (cell == nil) {
-        cell = [[SPTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    }
-
     return cell;
 }
 
 - (void)selectedbut{
     self.number++;
     if (self.number%2 == 0) {
-        self.rightBut.selected = YES;
+        self.header.allSeled.selected = YES;
         self.sp.needV.selected = YES;
     }else{
-        self.rightBut.selected = NO;
+        self.header.allSeled.selected = NO;
         self.sp.needV.selected = NO;
     }
 }
@@ -180,6 +192,30 @@
 - (void)jiesuan{
 
 
+}
+
+- (void)getDate{
+
+    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=cart"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+   [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+      
+       if (data != nil) {
+           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+         
+           BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:dic];
+           self.shoppModel = shoppModel;
+           [self.dateArr addObjectsFromArray:shoppModel.dateArr];
+        }
+       [self initWithTabView];
+   }];
+}
+
+- (NSMutableArray *)dateArr{
+    if (!_dateArr) {
+        _dateArr = [NSMutableArray array];
+    }
+    return _dateArr;
 }
 
 - (void)viewWillAppear:(BOOL)animated{

@@ -16,6 +16,8 @@
 @property (nonatomic,retain)NSString *guige;
 @property (nonatomic,retain)NSString *stock;
 @property (nonatomic,retain)NSString *title;
-@property (nonatomic,retain)NSString *imgs;
+@property (nonatomic,retain)NSString *url;
+@property (nonatomic,retain)NSString *oldMoney;
+@property (nonatomic,retain)NSString *info;
 
 @end

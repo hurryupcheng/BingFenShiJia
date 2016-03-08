@@ -10,4 +10,6 @@
 
 @interface BFHeaderView : UIView
 
+@property (nonatomic,retain)UIButton *allSeled;
+
 @end

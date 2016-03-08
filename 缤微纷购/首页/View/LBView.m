@@ -77,11 +77,13 @@
     self.pageC.numberOfPages = dataArray.count;
     [self updateCurViewWithPage:0];
     
-    if (dataArray.count <= 1) {
-        self.timer = nil;
-    }else{
     self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    }
+#pragma  mark 单张图片不轮播
+//    if (dataArray.count <= 1) {
+//        self.timer = nil;
+//    }else{
+//    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+//    }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{

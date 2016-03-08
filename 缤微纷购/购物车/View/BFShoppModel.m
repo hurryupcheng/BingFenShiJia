@@ -10,4 +10,29 @@
 
 @implementation BFShoppModel
 
+- (id)initWithsetDateDictionary:(NSDictionary *)dic{
+    if ([super init]) {
+        NSArray *itemArr = [dic valueForKey:@"like_item"];
+        
+        self.dateArr = [NSMutableArray array];
+        self.imgArr = [NSMutableArray array];
+        self.IDArr = [NSMutableArray array];
+        
+        NSMutableArray *arr = [NSMutableArray array];
+        
+        for (NSDictionary *dics in itemArr) {
+            BFShoppModel *shoppModel = [[BFShoppModel alloc]init];
+            shoppModel.ID = [dics valueForKey:@"id"];
+            shoppModel.img = [dics valueForKey:@"img"];
+            shoppModel.title = dics[@"title"];
+            shoppModel.price = dics[@"price"];
+            [self.dateArr addObject:shoppModel];
+            [self.imgArr addObject:shoppModel.img];
+            [self.IDArr addObject:shoppModel.ID];
+        }
+  
+    }
+    return self;
+}
+
 @end

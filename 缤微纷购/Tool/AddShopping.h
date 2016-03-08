@@ -13,5 +13,8 @@
 @property (nonatomic,retain)UIButton *minBut;
 @property (nonatomic,retain)UIButton *maxBut;
 @property (nonatomic,retain)UITextField *textF;
+@property (nonatomic,assign)NSInteger numCount;
+@property (nonatomic,assign)NSInteger sumCount;
 
+- (instancetype)initWithFrame:(CGRect)frame num:(NSInteger)numCount sum:(NSInteger)sumCount;
 @end

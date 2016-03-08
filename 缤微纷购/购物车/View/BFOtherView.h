@@ -7,7 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+@class BFOtherView;
+
+@protocol BFOtherViewDelegate <NSObject>
+
+- (void)BFOtherViewDelegate:(BFOtherView *)otherView index:(NSInteger)index;
+
+@end
 
 @interface BFOtherView : UIView
+
+@property (nonatomic,retain)UIImageView *imgButton;
+@property (nonatomic,assign)id<BFOtherViewDelegate>otherDelegate;
+
+- (instancetype)initWithFrame:(CGRect)frame  img:(NSMutableArray *)imgs count:(NSInteger)count;
 
 @end

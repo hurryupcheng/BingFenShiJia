@@ -10,4 +10,7 @@
 
 @interface BFFootView : UIView
 
+@property (nonatomic,retain)UIButton *buyButton;
+
+- (instancetype)initWithFrame:(CGRect)frame num:(float)num;
 @end

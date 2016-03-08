@@ -10,4 +10,14 @@
 
 @interface BFShoppModel : NSObject
 
+@property (nonatomic,retain)NSString *ID;
+@property (nonatomic,retain)NSString *img;
+@property (nonatomic,retain)NSString *title;
+@property (nonatomic,retain)NSString *price;
+@property (nonatomic,retain)NSMutableArray *dateArr;
+@property (nonatomic,retain)NSMutableArray *imgArr;
+@property (nonatomic,retain)NSMutableArray *IDArr;
+
+- (instancetype)initWithsetDateDictionary:(NSDictionary *)dic;
+
 @end
