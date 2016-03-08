@@ -11,27 +11,34 @@
 #import "BFPassWordView.h"
 #import "BFMobileNumber.h"
 #import "MyMD5.h"
+#import "BFRegistModel.h"
+#import "BFUserInfo.h"
 
-@interface ZCViewController ()<RegisterDelegate>
+@interface ZCViewController ()<RegisterDelegate>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
-/**手机号输入框*/
-@property (nonatomic, strong) UITextField *phoneTX;
-/**验证码按钮*/
-@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
 /**密码页面*/
 @property (nonatomic, strong) BFPassWordView *bgView;
 ///**获取验证码*/
-//@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
+@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
 @end
 
 @implementation ZCViewController
+- (UIButton *)sendVerificationCodeButton {
+    if (!_sendVerificationCodeButton) {
+        _sendVerificationCodeButton =[self.bgView viewWithTag:1000];
+    }
+    return _sendVerificationCodeButton;
+}
 
 /**密码页面*/
 - (UIView *)bgView {
     if (!_bgView) {
         _bgView = [BFPassWordView new];
-        _bgView.frame = CGRectMake(0, CGRectGetMaxY(self.phoneTX.frame), ScreenWidth, ScreenHeight) ;
+        _bgView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight) ;
         _bgView.delegate = self;
         //_bgView.backgroundColor = [UIColor blueColor];
         [self.bgImageView addSubview:_bgView];
@@ -54,96 +61,95 @@
     self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
     self.bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bgImageView];
-    
-    [self initWithView];
+    [self bgView];
+    //[self initWithView];
     
 
 }
 
 - (void)initWithView{
 
-    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
-    self.phoneTX.returnKeyType = UIReturnKeyDone;
-    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
-    [self.bgImageView addSubview:self.phoneTX];
-    
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
-    line1.backgroundColor = BFColor(0xd0d0d0);
-    [self.bgImageView addSubview:line1];
-    
-     self.sendVerificationCodeButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"获取验证码" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
-    //sendVerificationCodeButton.backgroundColor = [UIColor orangeColor];
-    self.sendVerificationCodeButton.layer.cornerRadius = BF_ScaleHeight(18);
-    self.sendVerificationCodeButton.layer.masksToBounds = YES;
-    self.sendVerificationCodeButton.layer.borderColor = BFColor(0xFD8727).CGColor;
-    self.sendVerificationCodeButton.layer.borderWidth = BF_ScaleWidth(1);
-    //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
-    [self.sendVerificationCodeButton addTarget:self action:@selector(sendVerificationCode) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgImageView addSubview:self.sendVerificationCodeButton];
+//    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
+//    self.phoneTX.returnKeyType = UIReturnKeyDone;
+//    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+//    [self.bgImageView addSubview:self.phoneTX];
+//    
+//    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
+//    line1.backgroundColor = BFColor(0xd0d0d0);
+//    [self.bgImageView addSubview:line1];
+//    
+//     self.sendVerificationCodeButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"获取验证码" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+//    //sendVerificationCodeButton.backgroundColor = [UIColor orangeColor];
+//    self.sendVerificationCodeButton.layer.cornerRadius = BF_ScaleHeight(18);
+//    self.sendVerificationCodeButton.layer.masksToBounds = YES;
+//    self.sendVerificationCodeButton.layer.borderColor = BFColor(0xFD8727).CGColor;
+//    self.sendVerificationCodeButton.layer.borderWidth = BF_ScaleWidth(1);
+//    //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
+//    [self.sendVerificationCodeButton addTarget:self action:@selector(sendVerificationCode) forControlEvents:UIControlEventTouchUpInside];
+//    [self.bgImageView addSubview:self.sendVerificationCodeButton];
 
 }
 
 #pragma mark -- 发送验证码
-- (void)sendVerificationCode {
+//- (void)sendVerificationCode {
+//    [self.view endEditing:YES];
+//    BFLog(@"点击发送验证码");
+//    if (![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
+////        UIAlertView *aler = [[UIAlertView alloc]
+////                             initWithTitle:@"温馨提示" message:@"请输入有效的手机号" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+////        [aler show];
+//        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号"];
+//    }else {
+//        self.sendVerificationCodeButton.hidden = YES;
+//        self.bgView.hidden = NO;
+//    }
+//}
+
+- (void)sendVerificationCodeBFPassWordView:(BFPassWordView *)BFPassWordView button:(UIButton *)button {
+    
     [self.view endEditing:YES];
     BFLog(@"点击发送验证码");
-    if (![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"请输入有效的手机号" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号"];
-    }else {
-        self.sendVerificationCodeButton.hidden = YES;
-        self.bgView.hidden = NO;
-    }
+    
 }
+
 
 #pragma mark --注册
 - (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView {
    [self.view endEditing:YES];
-    if ([BFPassWordView.verificationCodeTX.text isEqualToString:@""] || [BFPassWordView.firstPasswordTX.text isEqualToString:@""] ||[BFPassWordView.secondPasswordTX.text isEqualToString:@""]) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"请输入完善注册信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入完善注册信息"];
-    }else if (![BFPassWordView.verificationCodeTX.text isEqualToString:@"1111"]) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"输入的验证码不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"输入的验证码不正确"];
-    }else if ((BFPassWordView.firstPasswordTX.text.length < 6 || BFPassWordView.firstPasswordTX.text.length > 20) || (BFPassWordView.secondPasswordTX.text.length < 6 || BFPassWordView.secondPasswordTX.text.length > 20)) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"请输入6~20位的密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入6~20位的密码"];
-    }else if (![BFPassWordView.firstPasswordTX.text isEqualToString:BFPassWordView.secondPasswordTX.text]) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"两次输入的密码不一致，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"两次输入的密码不一致，请重新输入"];
-    }else {
-        NSString *firstPW = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
-        NSString *secondPW = [MyMD5 md5:BFPassWordView.secondPasswordTX.text];
-        NSString *url = @"http://192.168.1.201/binfen/index.php?a=reg&m=Json";
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-//        parameter[@"m"] = @"Json";
-//        parameter[@"a"] = @"reg";
-        parameter[@"phone"] = self.phoneTX.text;
-        parameter[@"pass"] = firstPW;
-        // 1.创建请求管理者
-        AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-        mgr.requestSerializer = [AFHTTPRequestSerializer serializer];
-        mgr.responseSerializer = [AFHTTPResponseSerializer serializer];
-        // 2.发送请求
-        [mgr POST:url parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            NSString *shabi =  [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-            BFLog(@"responseObject,,%@,,%@",responseObject,shabi);
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            BFLog(@"error%@",error);
-        }];
+    
+    NSString *firstPW = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
+    NSString *secondPW = [MyMD5 md5:BFPassWordView.secondPasswordTX.text];
+    NSString *url = @"http://192.168.1.201/binfen/index.php?a=reg&m=Json";
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"phone"] = BFPassWordView.phoneTX.text;
+    parameter[@"pass"] = firstPW;
+    // 1.创建请求管理者
+    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+        BFLog(@"responseObject%@,,,",responseObject);
+        BFRegistModel *model = [BFRegistModel parse:responseObject];
+        if ([model.msg isEqualToString:@"注册成功"]) {
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^{
+                
+                NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=login";
+                NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+                parameter[@"phone"] = BFPassWordView.phoneTX.text;
+                parameter[@"pass"] = firstPW;
+                [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                    
+                    BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                    BFLog(@"responseObject%@",userInfo);
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                } failure:^(NSError *error) {
+                    BFLog(@"error%@",error);
+                }];
 
-    }
+            }];
+        }
+    } failure:^(NSError *error) {
+        BFLog(@"error%@",error);
+    }];
 }
 
 /**点击空白收起键盘*/

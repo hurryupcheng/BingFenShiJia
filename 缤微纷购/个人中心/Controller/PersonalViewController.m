@@ -26,6 +26,8 @@
 @property (nonatomic, strong) BFPersonalCenterTopView *topView;
 /**个人中心6个功能按钮的界面*/
 @property (nonatomic, strong) BFFunctionButtonView *functionView;
+/**用户信息*/
+@property (nonatomic, strong) BFUserInfo *userInfo;
 
 @property (nonatomic,retain)UIView *backgroundView;
 @property (nonatomic,retain)UIImageView *groundView;
@@ -39,10 +41,19 @@
 
 @implementation PersonalViewController
 
+
+- (BFUserInfo *)userInfo {
+    if (!_userInfo) {
+        _userInfo = [BFUserDefaluts getUserInfo];
+    }
+    return _userInfo;
+}
+
 - (BFPersonalCenterTopView *)topView {
     if (!_topView) {
         _topView = [[BFPersonalCenterTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
         _topView.delegate = self;
+        [self.view addSubview:_topView];
     }
     return _topView;
 }
@@ -66,21 +77,35 @@
     
     self.denglu = NO;
     
-    [self.view addSubview:self.topView];
     
+    [self topView];
     [self.view addSubview:self.functionView];
+    BFLog(@"person:%@",self.userInfo);
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.topView changeStatus];
+    self.navigationController.navigationBarHidden = YES;
+    self.tabBarController.tabBar.hidden = NO;
     
-//    //[self initWithButton];
-//    [self initWithPic];
-//    //[self initWithInstall];
 }
 
 #pragma mark -- 设置按钮代理点击
 - (void)goToSettingInterface {
-    self.navigationController.navigationBarHidden = NO;
-    BFSettingController *settingVC = [BFSettingController new];
-    [self.navigationController pushViewController:settingVC animated:YES];
-    BFLog(@"点击了设置按钮");
+    if (self.userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+            self.navigationController.navigationBarHidden = NO;
+            LogViewController *logVC= [LogViewController new];
+            [self.navigationController pushViewController:logVC animated:YES];
+        }];
+    }else {
+        self.navigationController.navigationBarHidden = NO;
+        BFSettingController *settingVC = [BFSettingController new];
+        [self.navigationController pushViewController:settingVC animated:YES];
+        BFLog(@"点击了设置按钮");
+    }
 }
 
 #pragma mark -- 头像按钮代理点击
@@ -103,6 +128,11 @@
     ZCViewController *zc = [[ZCViewController alloc]init];
     [self.navigationController pushViewController:zc animated:YES];
     BFLog(@"点击了注册按钮");
+}
+
+#pragma mark -- 注册按钮代理点击
+- (void)gotoIdentifyRecommender {
+    BFLog(@"确认推荐人");
 }
 
 #pragma mark -- 注册按钮代理点击
@@ -132,36 +162,71 @@
 
 #pragma mark -- 6个功能按钮的点击
 - (void)chooseFunction:(BFFunctionButtonType)type {
-    self.navigationController.navigationBarHidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
+ 
     switch (type) {
         case BFFunctionButtonTypeMyWallet:{
-            BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
-            [self.navigationController pushViewController:myWallet animated:YES];
-            BFLog(@"我的钱包");
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                    self.navigationController.navigationBarHidden = NO;
+                }];
+            }else {
+                self.navigationController.navigationBarHidden = NO;
+                BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
+                [self.navigationController pushViewController:myWallet animated:YES];
+                BFLog(@"我的钱包");
+            }
             break;
         }
         case BFFunctionButtonTypeMyOrder:{
-            BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
-            [self.navigationController pushViewController:myorder animated:YES];
-
-            BFLog(@"我的订单");
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                    self.navigationController.navigationBarHidden = NO;
+                }];
+            }else {
+                BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
+                [self.navigationController pushViewController:myorder animated:YES];
+                BFLog(@"我的订单");
+            }
             break;
         }
         case BFFunctionButtonTypeMyGroupPurchase:
             BFLog(@"我的拼团");
             break;
         case BFFunctionButtonTypeMyCoupons:{
-            BFMyCouponsController *myCoupons = [[BFMyCouponsController alloc]init];
-            [self.navigationController pushViewController:myCoupons animated:YES];
-            BFLog(@"我的优惠券");
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                    self.navigationController.navigationBarHidden = NO;
+                }];
+            }else {
+                self.navigationController.navigationBarHidden = NO;
+                BFMyCouponsController *myCoupons = [[BFMyCouponsController alloc]init];
+                [self.navigationController pushViewController:myCoupons animated:YES];
+                BFLog(@"我的优惠券");
+            }
             break;
         }
         case BFFunctionButtonTypeMyProFile:{
-            
-            BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
-            [self.navigationController pushViewController:personInfoVC animated:YES];
-            BFLog(@"我的资料");
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    self.navigationController.navigationBarHidden = NO;
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                }];
+            }else {
+                self.navigationController.navigationBarHidden = NO;
+                BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
+                [self.navigationController pushViewController:personInfoVC animated:YES];
+                BFLog(@"我的资料");
+            }
             break;
         }
         case BFFunctionButtonTypeMyPrivilege:
@@ -348,11 +413,6 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBarHidden = YES;
-    self.tabBarController.tabBar.hidden = NO;
-    
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

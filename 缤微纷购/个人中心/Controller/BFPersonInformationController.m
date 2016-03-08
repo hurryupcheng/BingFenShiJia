@@ -130,6 +130,7 @@
         //footerView.backgroundColor = [UIColor redColor];
         UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(15), BF_ScaleWidth(140), BF_ScaleHeight(40)) title:@"退出登录" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
         exitButton.backgroundColor = BFColor(0xFD8727);
+        [exitButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
         [footerView addSubview:exitButton];
         return footerView;
     }
@@ -141,6 +142,13 @@
         return BF_ScaleHeight(90);
     }
     return 0;
+}
+//推出登录
+- (void)exit {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
 }
 
 @end

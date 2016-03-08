@@ -5,13 +5,20 @@
 //  Created by 程召华 on 16/3/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#define Margin  BF_ScaleWidth(50)
+#define TXWidth   BF_ScaleWidth(220)
 #import "BFPassWordView.h"
+#import "BFMobileNumber.h"
 
-@interface BFPassWordView()
+@interface BFPassWordView(){
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 
 /**注册按钮*/
 @property (nonatomic, strong) UIButton *registerButton;
+/**验证码按钮*/
+@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
 @end
 
 @implementation BFPassWordView
@@ -24,36 +31,55 @@
 }
 
 - (void)setView {
-    self.verificationCodeTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"请输入验证码"];
+    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(Margin, BF_ScaleHeight(150), TXWidth, BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
+    self.phoneTX.delegate = self;
+    self.phoneTX.returnKeyType = UIReturnKeyNext;
+    self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    [self addSubview:self.phoneTX];
+
+    UIView *lineOne = [UIView drawLineWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.phoneTX.frame), TXWidth, 0.5)];
+    [self addSubview:lineOne];
+    
+    self.verificationCodeTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(lineOne.frame)+BF_ScaleHeight(10), TXWidth, BF_ScaleHeight(36)) image:@"password" placeholder:@"短信验证码"];
     //self.verificationCodeTX.secureTextEntry = YES;
     self.verificationCodeTX.delegate = self;
     self.verificationCodeTX.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.verificationCodeTX];
     
-    UIView *lineOne = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.verificationCodeTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
-    [self addSubview:lineOne];
+    self.sendVerificationCodeButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(210), CGRectGetMaxY(lineOne.frame)+BF_ScaleHeight(10), BF_ScaleWidth(60), BF_ScaleHeight(25)) title:@"验证码" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+    self.sendVerificationCodeButton.tag = 100;
+        self.sendVerificationCodeButton.layer.cornerRadius = BF_ScaleHeight(4);
+        self.sendVerificationCodeButton.layer.masksToBounds = YES;
+        self.sendVerificationCodeButton.layer.borderColor = BFColor(0xFD8727).CGColor;
+        self.sendVerificationCodeButton.layer.borderWidth = BF_ScaleWidth(1);
+        //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
+    [self.sendVerificationCodeButton addTarget:self action:@selector(sendVerificationCode:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:self.sendVerificationCodeButton];
     
-    self.firstPasswordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.verificationCodeTX.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"请输入密码"];
+    UIView *lineTwo = [UIView drawLineWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.verificationCodeTX.frame), TXWidth, 0.5)];
+    [self addSubview:lineTwo];
+    
+    self.firstPasswordTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.verificationCodeTX.frame)+BF_ScaleHeight(10), TXWidth, BF_ScaleHeight(35)) image:@"password" placeholder:@"设置登录密码"];
     self.firstPasswordTX.secureTextEntry = YES;
     self.firstPasswordTX.returnKeyType = UIReturnKeyNext;
     self.firstPasswordTX.delegate = self;
     [self addSubview:self.firstPasswordTX];
     
-    UIView *lineTwo = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.firstPasswordTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
-    [self addSubview:lineTwo];
+    UIView *lineThree = [UIView drawLineWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.firstPasswordTX.frame), TXWidth, 0.5)];
+    [self addSubview:lineThree];
     
-    self.secondPasswordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.firstPasswordTX.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"请输入密码"];
+    self.secondPasswordTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.firstPasswordTX.frame)+BF_ScaleHeight(10), TXWidth, BF_ScaleHeight(35)) image:@"password" placeholder:@"确认登录密码"];
     self.secondPasswordTX.secureTextEntry = YES;
     self.secondPasswordTX.returnKeyType = UIReturnKeyDone;
     self.secondPasswordTX.delegate = self;
     [self addSubview:self.secondPasswordTX];
     
-    UIView *lineThree = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.secondPasswordTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
-    [self addSubview:lineThree];
+    UIView *lineFour = [UIView drawLineWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.secondPasswordTX.frame), TXWidth, 0.5)];
+    [self addSubview:lineFour];
     
-    self.registerButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(lineThree.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"注册" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+    self.registerButton = [UIButton buttonWithFrame:CGRectMake(Margin, CGRectGetMaxY(lineFour.frame)+BF_ScaleHeight(20), TXWidth, BF_ScaleHeight(29)) title:@"注册" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
        //sendVerificationCodeButton.backgroundColor = [UIColor orangeColor];
-    self.registerButton.layer.cornerRadius = BF_ScaleHeight(18);
+    self.registerButton.layer.cornerRadius = BF_ScaleHeight(10);
     self.registerButton.layer.masksToBounds = YES;
     self.registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
     self.registerButton.layer.borderWidth = BF_ScaleWidth(1);
@@ -63,14 +89,87 @@
 }
 
 - (void)regist:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
-        [self.delegate userRigisterWithBFPassWordView:self];
+    if ([self.phoneTX.text isEqualToString:@""] || [self.verificationCodeTX.text isEqualToString:@""] || [self.firstPasswordTX.text isEqualToString:@""] ||[self.secondPasswordTX.text isEqualToString:@""]) {
+        //        UIAlertView *aler = [[UIAlertView alloc]
+        //                             initWithTitle:@"温馨提示" message:@"请输入完善注册信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入完善注册信息"];
+    }else if (![self.verificationCodeTX.text isEqualToString:@"1111"]) {
+        //        UIAlertView *aler = [[UIAlertView alloc]
+        //                             initWithTitle:@"温馨提示" message:@"输入的验证码不正确" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"输入的验证码不正确"];
+    }else if ((self.firstPasswordTX.text.length < 6 || self.firstPasswordTX.text.length > 20) || (self.secondPasswordTX.text.length < 6 || self.secondPasswordTX.text.length > 20)) {
+        //        UIAlertView *aler = [[UIAlertView alloc]
+        //                             initWithTitle:@"温馨提示" message:@"请输入6~20位的密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入6~20位的密码"];
+    }else if (![self.firstPasswordTX.text isEqualToString:self.secondPasswordTX.text]) {
+        //        UIAlertView *aler = [[UIAlertView alloc]
+        //                             initWithTitle:@"温馨提示" message:@"两次输入的密码不一致，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"密码不一致，请核对"];
+    }else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
+            [self.delegate userRigisterWithBFPassWordView:self];
+        }
     }
 }
 
+
+- (void)sendVerificationCode:(UIButton *)sender {
+    if (![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
+        //        UIAlertView *aler = [[UIAlertView alloc]
+        //                             initWithTitle:@"温馨提示" message:@"请输入有效的手机号" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        //        [aler show];
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号"];
+    }else {
+        leftTime = 60;
+        [self.sendVerificationCodeButton setEnabled:NO];
+        [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
+        [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
+        if(timer)
+            [timer invalidate];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(sendVerificationCodeBFPassWordView:button:)]) {
+            [self.delegate sendVerificationCodeBFPassWordView:self button:sender];
+        }
+ 
+    }
+
+}
+
+
+- (void)timerAction
+{
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.sendVerificationCodeButton setEnabled:YES];
+        [self.sendVerificationCodeButton setEnabled:YES];
+        [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
+        [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateDisabled];
+        
+        
+    }
+    else
+    {
+        
+        [self.sendVerificationCodeButton setEnabled:NO];
+        [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
+        [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
+        
+    }
+}
+
+
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     BOOL lastValue = NO;
-    if (textField == self.verificationCodeTX) {
+    if (textField == self.phoneTX) {
+        [self.verificationCodeTX becomeFirstResponder];
+    }else if (textField == self.verificationCodeTX) {
         [self.firstPasswordTX becomeFirstResponder];
         lastValue = NO;
     }else if (textField == self.firstPasswordTX) {
