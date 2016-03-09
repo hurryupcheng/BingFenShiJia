@@ -11,7 +11,8 @@
 @interface BFAddRecommenderView()
 //背景图
 @property (nonatomic, strong) UIView *blackV;
-
+//点击后的背景
+@property (nonatomic, strong) UIView *clickedView;
 @end
 
 @implementation BFAddRecommenderView
@@ -30,6 +31,7 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeKeyboard)];
     [self.blackV addGestureRecognizer:tap];
     [self addSubview:self.blackV];
+    
     
     UILabel *label = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(150), BF_ScaleWidth(300), BF_ScaleHeight(15)) font:BF_ScaleFont(15) textColor:BFColor(0xffffff) text:@"请输入推荐人ID号："];
     [self.blackV addSubview:label];
@@ -52,13 +54,55 @@
     cancleButton.backgroundColor = BFColor(0x0BBC0E);
     [cancleButton addTarget:self action:@selector(cancleToAdd) forControlEvents:UIControlEventTouchUpInside];
     [self.blackV addSubview:cancleButton];
+    
+    
+    self.clickedView = [[UIView alloc]initWithFrame:self.bounds];
+    self.clickedView.alpha = YES;
+    self.clickedView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    [self addSubview:self.clickedView];
+    
+    UILabel *warningLabel = [UILabel labelWithFrame:CGRectMake(0, BF_ScaleHeight(130), ScreenWidth, BF_ScaleHeight(15)) font:BF_ScaleFont(15) textColor:BFColor(0xffffff) text:@"您只有一次调整机会，请确认输入无误"];
+    warningLabel.textAlignment = NSTextAlignmentCenter;
+    [self.clickedView addSubview:warningLabel];
 
+    UIView *line = [UIView drawLineWithFrame:CGRectMake(0, CGRectGetMaxY(warningLabel.frame)+BF_ScaleHeight(20), ScreenWidth, 2)];
+    line.backgroundColor = BFColor(0xffffff);
+    [self.clickedView addSubview:line];
+    
+    UILabel *memberID = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(line.frame) + BF_ScaleHeight(25), BF_ScaleWidth(150), BF_ScaleHeight(13)) font:BF_ScaleFont(12) textColor:BFColor(0xffffff) text:@"会员号：1"];
+    [self.clickedView addSubview:memberID];
+    
+    UILabel *nickNameLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(memberID.frame) + BF_ScaleHeight(10), BF_ScaleWidth(150), BF_ScaleHeight(13)) font:BF_ScaleFont(12) textColor:BFColor(0xffffff) text:@"昵称：金木"];
+    [self.clickedView addSubview:nickNameLabel];
+    
+    
+    UIButton *newSure = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(nickNameLabel.frame)+BF_ScaleHeight(20), BF_ScaleWidth(80), BF_ScaleHeight(30)) title:@"确定" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+    newSure.layer.cornerRadius = 3;
+    newSure.backgroundColor = BFColor(0xD70011);
+    [newSure addTarget:self action:@selector(newSureButtonclick) forControlEvents:UIControlEventTouchUpInside];
+    [self.clickedView addSubview:newSure];
+    
+    UIButton *newCancle = [UIButton buttonWithFrame:CGRectMake(ScreenWidth/2+BF_ScaleWidth(20), CGRectGetMaxY(nickNameLabel.frame)+BF_ScaleHeight(20), BF_ScaleWidth(80), BF_ScaleHeight(30)) title:@"取消" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+    newCancle.layer.cornerRadius = 3;
+    newCancle.backgroundColor = BFColor(0x0BBC0E);
+    [newCancle addTarget:self action:@selector(newCancleButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.clickedView addSubview:newCancle];
+    
+    
 }
 
 - (void)makeSureToAdd {
     [self endEditing:YES];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(sureToAddRecommenderWithView:)]) {
-        [self.delegate sureToAddRecommenderWithView:self];
+    if ([self.IDTextField.text isEqualToString:@""]) {
+        
+    }else {
+        self.blackV.hidden = YES;
+        self.clickedView.hidden = NO;
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(sureToAddRecommenderWithView:)]) {
+            [self.delegate sureToAddRecommenderWithView:self];
+        }
+
     }
     BFLog(@"确定添加");
 }
@@ -68,12 +112,29 @@
     [self dismissView];
 }
 
+
+- (void)newSureButtonclick {
+    
+}
+
+- (void)newCancleButtonClick {
+    [self dismissView];
+}
+
+
 - (void)showView {
-    self.isShow = YES;
+    self.blackV.hidden = NO;
+    self.clickedView.hidden = YES;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:self];
     window.frame = self.frame;
 }
+
+- (void)showRecommenderView {
+    self.blackV.hidden = NO;
+    self.clickedView.hidden = YES;
+}
+
 
 - (void)dismissView {
     [self removeFromSuperview];
