@@ -104,11 +104,16 @@
 }
 //确认提现
 - (void)sureToGetCash {
-    [self endEditing:YES];
     if (self.agreeButton.selected == NO) {
-        BFLog(@"没有阅读不能点击");
+        [BFProgressHUD MBProgressOnlywithLabelText:@"请认真阅读并同意条款"];
     }else {
-        BFLog(@"确认提现");
+        if ([self.getCashTX.text isEqualToString:@""]) {
+            [BFProgressHUD MBProgressOnlywithLabelText:@"请输入提现金额"];
+        }else {
+            [self endEditing:YES];
+            BFLog(@"确认提现");
+        }
+        
     }
     
 }
