@@ -111,6 +111,7 @@
     self.moneyLabel.text = [NSString stringWithFormat:@"¥%@",model.price];
     self.add.textF.text = [NSString stringWithFormat:@"%ld",model.number];
     self.needV.selected = self.isSelected;
+    
 }
 
 - (void)awakeFromNib {

@@ -22,9 +22,14 @@ CGRect CGRectMake1(CGFloat x,CGFloat y,CGFloat Width,CGFloat Height){
 CG_INLINE
 CGFloat CGFloatY(CGFloat y){
     AppDelegate *app = [UIApplication sharedApplication].delegate;
-    return y * app.proportionX;
+    return y * app.proportionY;
 }
 
+CG_INLINE
+CGFloat CGFloatX(CGFloat x){
+    AppDelegate *app = [UIApplication sharedApplication].delegate;
+    return x * app.proportionX;
+}
 
 @interface ViewController : UIViewController
 

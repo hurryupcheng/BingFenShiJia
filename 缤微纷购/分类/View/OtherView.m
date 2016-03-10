@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/2/23.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFClassminView.h"
 #import "Height.h"
 #import "UIImageView+WebCache.h"
 #import "AddShopping.h"
@@ -17,6 +18,9 @@
 @property (nonatomic,retain)UIButton *selecdent;
 @property (nonatomic,retain)NSArray *arrays;
 @property (nonatomic,assign)NSInteger number;
+@property (nonatomic,retain)BFClassminView *name;
+@property (nonatomic,retain)BFClassminView *het;
+@property (nonatomic,retain)BFClassminView *num;
 
 @end
 
@@ -31,6 +35,8 @@
 //        self.imageView.backgroundColor = [UIColor greenColor];
         
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
+        
+        [self addSubview:_imageView];
         
         self.titleLabel = [[UILabel alloc]init];
 //        _titleLabel.backgroundColor = [UIColor orangeColor];
@@ -54,27 +60,18 @@
         
         self.moneyLabel.attributedText = str;
 
-        NSArray *arrs = @[@"颜色",@"尺寸",@"数量"];
-        for (int i = 0; i < 3; i++) {
-            UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake1(5, CGRectGetMaxY(_imageView.frame)+40+(70*i), kScreenWidth, 20)];
-            name.text = arrs[i];
-            name.font = [UIFont systemFontOfSize:CGFloatY(15)];
-            
-            UIView *black = [[UIView alloc]initWithFrame:CGRectMake1(5, CGRectGetMaxY(_imageView.frame)+65+(70*i), kScreenWidth-10, 1)];
-            black.backgroundColor = [UIColor blackColor];
-            
-            [self addSubview:name];
-            [self addSubview:black];
-        }
+        self.name = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.imageView.frame)+10, kScreenWidth, CGFloatY(25)) title:@"颜色"];
         
-        self.reds = [[UILabel alloc]initWithFrame:CGRectMake1(10, CGRectGetMaxY(_imageView.frame)+75, kScreenWidth/5, 30)];
-        _reds.layer.borderWidth = 2;
+        [self addSubview:_name];
+        
+        self.reds = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_name.frame)+10, (kScreenWidth-50)/4, CGFloatY(30))];
+        _reds.layer.borderWidth = 1;
         _reds.layer.borderColor = [UIColor redColor].CGColor;
         
         if (arr.count != 0) {
 
         for (int j = 0; j < arr.count; j++) {
-            self.arrBut = [[UIButton alloc]initWithFrame:CGRectMake1(10+(kScreenWidth/5*j)+(j*10), CGRectGetMaxY(_imageView.frame)+75, kScreenWidth/5, 30)];
+            self.arrBut = [[UIButton alloc]initWithFrame:CGRectMake(10+(j%4)*10+(j%4)*((kScreenWidth-50)/4), 10+CGRectGetMaxY(_name.frame)+(j/4)*10+(j/4)*CGFloatY(30), (kScreenWidth-50)/4, CGFloatY(30))];
             
             self.arrBut.layer.borderColor = [UIColor grayColor].CGColor;
             self.arrBut.layer.borderWidth = 1;
@@ -83,19 +80,23 @@
             self.arrBut.tag = j;
             [self.arrBut addTarget:self action:@selector(arrBut:) forControlEvents:UIControlEventTouchUpInside]
             ;
-            self.arrBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
+            self.arrBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
             [self addSubview:self.arrBut];
         }
     }
-  
-        self.red = [[UILabel alloc]initWithFrame:CGRectMake1(10, CGRectGetMaxY(_imageView.frame)+145, kScreenWidth/5, 30)];
-        _red.layer.borderWidth = 2;
+        
+        NSArray *guige = [set allObjects];
+    
+        self.het = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrBut.frame)+10, kScreenWidth, 25) title:@"规格"];
+        
+        [self addSubview:_het];
+        
+        self.red = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_het.frame)+10, (kScreenWidth-50)/4, CGFloatY(30))];
+        _red.layer.borderWidth = 1;
         _red.layer.borderColor = [UIColor redColor].CGColor;
-       
-        if (set.count != 0) {
-            NSArray *guige = [set allObjects];
-        for (int k= 0; k < set.count; k++) {
-            self.arrayBut = [[UIButton alloc]initWithFrame:CGRectMake1(10+(kScreenWidth/5*k)+(k*10), CGRectGetMaxY(_imageView.frame)+145, kScreenWidth/5, 30)];
+            
+        for (int k= 0; k < guige.count; k++) {
+            self.arrayBut = [[UIButton alloc]initWithFrame:CGRectMake(10+(k%4)*10+(k%4)*((kScreenWidth-50)/4), 10+CGRectGetMaxY(_het.frame)+(k/4)*10+(k/4)*CGFloatY(30), (kScreenWidth-50)/4, CGFloatY(30))];
             
             self.arrayBut.layer.borderWidth = 1;
             self.arrayBut.layer.borderColor = [UIColor grayColor].CGColor;
@@ -103,19 +104,22 @@
             [self.arrayBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             self.arrayBut.tag = k;
             [self.arrayBut addTarget:self action:@selector(arrayBut:) forControlEvents:UIControlEventTouchUpInside];
-            self.arrayBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
-            
+            self.arrayBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
             [self addSubview:self.arrayBut];
-        }
-    }
+            }
+        
         if (self.arrayBut.tag == 0) {
             self.arrayBut.selected = YES;
         }
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.arrayBut.frame)+50, kScreenWidth/4, CGFloatY(30))];
+        self.num = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrayBut.frame)+10, kScreenWidth, 25) title:@"数量"];
+        
+        [self addSubview:self.num];
+        
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.num.frame)+10, kScreenWidth/4, CGFloatY(35))];
         label.text = @"购买数量:";
         
-        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMaxY(self.arrayBut.frame)+45, kScreenWidth/3, CGFloatY(35))];
+        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMaxY(self.num.frame)+10, kScreenWidth/3, CGFloatY(35))];
         
         self.number = num;
         self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
@@ -123,7 +127,6 @@
         [self.addShopp.maxBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
         [self.addShopp.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
         
-        [self addSubview:_imageView];
         [self addSubview:_titleLabel];
         [self addSubview:_moneyLabel];
         [self addSubview:label];

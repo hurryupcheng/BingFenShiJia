@@ -24,7 +24,7 @@
         [self.ptStep setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         
         NSArray *stepArr = @[@"选择心仪商品",@"支付开团或参团",@"等待好友参团支付",@"达到人数团购成功"];
-        NSArray *imageArr = @[@"①",@"②",@"③",@"④"];
+      
         for (int j = 0; j < 4; j++) {
             
             UILabel *step = [[UILabel alloc]initWithFrame:CGRectMake(10+(((kScreenWidth-50)/4)*j)+(j*10), CGRectGetMaxY(wan.frame), (kScreenWidth-50)/4, 35)];

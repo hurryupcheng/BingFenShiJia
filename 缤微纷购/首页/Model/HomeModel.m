@@ -85,6 +85,7 @@
     if (self) {
         self.content = dic[@"content"];
         self.url = dic[@"url"];
+        self.id_type = dic[@"id_type"];
   
     }
     return self;

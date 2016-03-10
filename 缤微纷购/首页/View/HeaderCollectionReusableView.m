@@ -13,7 +13,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if ([super initWithFrame:frame]) {
         
-        self.sectionImage = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+        self.sectionImage = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
         
         [self addSubview:self.sectionImage];
     }

@@ -7,19 +7,14 @@
 //
 
 #import "BFPTDetailHeaderView.h"
-#import "BFPurchaseButton.h"
+
 @interface BFPTDetailHeaderView ()
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *detailLabel;
 @property (nonatomic, strong) UILabel *playLabel;
-@property (nonatomic, strong) BFPurchaseButton *groupPurchaseButton;
-@property (nonatomic, strong) BFPurchaseButton *alonePurchaseButton;
 @property (nonatomic, strong) UIView *view;
 @property (nonatomic, strong) UIView *playView;
-
-
-
 
 @end
 

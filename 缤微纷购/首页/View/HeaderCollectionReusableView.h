@@ -10,6 +10,6 @@
 
 @interface HeaderCollectionReusableView : UICollectionReusableView
 
-@property (nonatomic,retain)UIImageView *sectionImage;
+@property (nonatomic,retain)UIButton *sectionImage;
 
 @end

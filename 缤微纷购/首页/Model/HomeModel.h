@@ -23,6 +23,7 @@
 
 @property (nonatomic,strong) NSString * content;
 @property (nonatomic,strong) NSString * url;
+@property (nonatomic,strong) NSString * id_type;
 
 
 -(instancetype)initWithDictionary:(NSDictionary *)dic;
@@ -32,7 +33,7 @@
 @interface HomeSubModel : NSObject //ads_home
 
 @property (nonatomic,retain)NSString *upimg;
-@property (nonatomic,retain)NSArray *upurl;
+@property (nonatomic,retain)NSString *upurl;
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *url;
 @property (nonatomic,retain)NSArray *imageArray;

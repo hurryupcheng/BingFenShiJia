@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+
 #import "PTXQViewController.h"
 #import "Height.h"
 #import "PTModel.h"
@@ -50,8 +51,8 @@
 @property (nonatomic,retain)PTModel *pt;
 @property (nonatomic,retain)NSMutableArray *ptLBView;
 
-@property (nonatomic,retain)UIImageView *otherImageView;
-@property (nonatomic,retain)UIImageView *upImageView;
+@property (nonatomic,retain)UIButton *footImageView;
+@property (nonatomic,retain)UIButton *upImageView;
 @property (nonatomic,retain)UIView *upBackView;
 /**拼团cell的高度*/
 @property (nonatomic,assign)CGFloat cellHeight;
@@ -76,7 +77,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     [self CollectionViewgetDate];
@@ -167,18 +168,22 @@
 #pragma mark 分类列表初始化
 - (void)initWithBut{
     
-    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
-    
-    self.viewBut = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20)];
+    self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
     
+    if (self.titleArr.count <= 4) {
+        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);
+    }else{
+        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20);
+    }
+    
     for (int i = 0; i < 8; i++) {
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        
-        button.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
+//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        UIView *backView = [[UIView alloc]init];
+        backView.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
        
-        button.tag = 10 + i;
-        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
+//        button.tag = 10 + i;
+//        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
         
         UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, image_x-5, image_x-5)];
         image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
@@ -189,10 +194,10 @@
         label.textColor = [UIColor blackColor];
         label.font = [UIFont systemFontOfSize:CGFloatY(14)];
         
-        [button addSubview:image];
-        [button addSubview:label];
+        [backView addSubview:image];
+        [backView addSubview:label];
         [self.headerView addSubview:self.viewBut];
-        [self.viewBut addSubview:button];
+        [self.viewBut addSubview:backView];
     }
 }
 
@@ -231,13 +236,16 @@
 
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < self.homeModel.footDataArray.count; i++) {
-        self.otherImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, ((kScreenWidth/2)*i+(i*5)), kScreenWidth, kScreenWidth/2)];
-        
+        self.footImageView = [[UIButton alloc]initWithFrame:CGRectMake(0, ((kScreenWidth/2)*i+(i*5)), kScreenWidth, kScreenWidth/2)];
+        self.footImageView.tag = i;
         for (HomeOtherModel *home in self.homeModel.footDataArray) {
             [arr addObject:home.content];
      }
-    [self.otherImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
-        [self.footerView addSubview:self.otherImageView];
+    [self.footImageView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750,jpg"]];
+        
+    [self.footImageView addTarget:self action:@selector(footImageView:) forControlEvents:UIControlEventTouchUpInside];
+        
+    [self.footerView addSubview:self.footImageView];
     }
 }
 
@@ -250,38 +258,70 @@
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
-        self.upImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0,((kScreenWidth/2)*i), kScreenWidth, kScreenWidth/2)];
-        
+        self.upImageView = [[UIButton alloc]initWithFrame:CGRectMake(0,((kScreenWidth/2)*i), kScreenWidth, kScreenWidth/2)];
+        self.upImageView.tag = i;
         for (HomeOtherModel *home in self.homeModel.oneDataArray) {
             [arr addObject:home.content];
         }
-        [self.upImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        
+        [self.upImageView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        [self.upImageView addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.headerView addSubview:self.upBackView];
         [self.upBackView addSubview:self.upImageView];
     }
 
 }
-#pragma  mark  轮播点击方法
-- (void)LBViewDelegate:(LBView *)lbView didSelected:(NSInteger)index{
-    NSLog(@"轮播当前点击有效");
+- (void)footImageView:(UIButton *)but{
     
-    switch (index) {
-        case 0:
-        {
-            FXQViewController *fxq = [[FXQViewController alloc]init];
-            [self.navigationController pushViewController:fxq animated:YES];
-        }
-            break;
-        case 1:{
-            FXQViewController *fxq = [[FXQViewController alloc]init];
-            [self.navigationController pushViewController:fxq animated:YES];
-        }
-            break;
-        default:
-            break;
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
+    for (HomeOtherModel *model in self.homeModel.footDataArray) {
+        [arr addObject:model.id_type];
+        [IDArr addObject:model.url];
+    }
+    [self setIndex:but.tag arr:arr IDArr:IDArr];
+}
+
+- (void)upImageView:(UIButton *)but{
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
+    for (HomeOtherModel *model in self.homeModel.oneDataArray) {
+        [arr addObject:model.id_type];
+        [IDArr addObject:model.url];
     }
     
+    [self setIndex:but.tag arr:arr IDArr:IDArr];
+}
+#pragma  mark  轮播点击方法
+- (void)LBViewDelegate:(LBView *)lbView didSelected:(NSInteger)index{
+    
+    NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
+    for (HomeOtherModel *model in self.homeModel.bannerDataArray) {
+        [arr addObject:model.id_type];
+        [IDArr addObject:model.url];
+    }
+    [self setIndex:index arr:arr IDArr:IDArr];
+}
+
+- (void)setIndex:(NSInteger)index arr:(NSMutableArray *)arr IDArr:(NSMutableArray *)IDArr{
+    
+    if ([arr[index] isEqualToString:@"1"]) {
+        FXQViewController  *fx = [[FXQViewController alloc]init];
+        fx.ID = IDArr[index];
+        [self.navigationController pushViewController:fx animated:YES];
+    }else if ([arr[index] isEqualToString:@"2"]){
+        BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
+        pt.ID = IDArr[index];
+        [self.navigationController pushViewController:pt animated:YES];
+    }else if ([arr[index] isEqualToString:@"3"]){
+        XQViewController *xq = [[XQViewController alloc]init];
+        xq.ID = IDArr[index];
+        [self.navigationController pushViewController:xq animated:YES];
+    }else{
+        return;
+    }
 }
 
 #pragma  mark 首页切换
@@ -401,9 +441,15 @@
 
 #pragma  mark  分区头高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+   
+    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
     
     if (section == 0) {
+        if (self.titleArr.count <= 4) {
+            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+20);
+        }else{
         return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+20);
+        }
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
     }
@@ -429,8 +475,12 @@
     self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
     HomeSubModel *homeModel = self.homeModel.homeDataArray[indexPath.section];
     
-    [self.headerView.sectionImage sd_setImageWithURL:[NSURL URLWithString:homeModel.upimg] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+    [self.headerView.sectionImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:homeModel.upimg] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+    [self.headerView.sectionImage addTarget:self action:@selector(sectionImage:) forControlEvents:UIControlEventTouchUpInside];
+    self.headerView.sectionImage.tag = indexPath.section;
+        
         self.headerSection = indexPath.row;
+        
     if (indexPath.section == 0) {
         
         [self initWithScrollView];
@@ -438,18 +488,12 @@
         [self initWithUpView];
         self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
     }else{
-        [self.viewBut removeFromSuperview];
-        [self.lbView removeFromSuperview];
-        [self.upBackView removeFromSuperview];
         self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
-    }
-        self.headerView.sectionImage.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(heardSectionTap)];
-        
-        [self.headerView.sectionImage addGestureRecognizer:tap];
+       }
         return self.headerView;
-    }else{
+    }
+    else
+    {
         NSInteger index = self.homeModel.homeDataArray.count;
         if (indexPath.section == index-1) {
           
@@ -458,29 +502,17 @@
             [self initWithOtherView];
         }
         
+        
         return self.footerView;
     }
     
 }
 
 #pragma  mark 分区头点击事件
-- (void)heardSectionTap{
+- (void)sectionImage:(UIButton *)but{
+    HomeSubModel *homeModel = self.homeModel.homeDataArray[but.tag];
      XQViewController *xq = [[XQViewController alloc]init];
-    switch (self.headerSection) {
-        case 0:
-        {
-//            xq.ID = self.homeSubModel.upimg;
-            NSLog(@"%@",self.homeSubModel.upimg);
-            xq.ID = @"551";
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-   
-//    xq.ID = @"551";
+    xq.ID = homeModel.upurl;
     [self.navigationController pushViewController:xq animated:YES];
 }
 
@@ -544,7 +576,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    return kScreenWidth/2+[Height heightString:self.pt.intro font:13]+180;
+
     if (indexPath.row == self.dataArray.count-1) {
         return self.cellHeight+self.dataArray.count*20;
     }else {

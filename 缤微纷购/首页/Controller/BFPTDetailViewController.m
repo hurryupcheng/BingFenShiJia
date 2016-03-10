@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/2.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "FXQViewController.h"
 #import "BFPTDetailViewController.h"
 #import "BFPTDetailHeaderView.h"
 #import "BFPTDetailModel.h"
@@ -53,7 +53,7 @@
     self.header = [[BFPTDetailHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
     self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
-    
+    [self.header.alonePurchaseButton addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-110)];
     self.webBrowserView = self.webView.scrollView.subviews[0];
@@ -69,7 +69,11 @@
 }
 
 
-
+- (void)buy{
+    FXQViewController *fxq = [[FXQViewController alloc]init];
+    fxq.ID = self.ID;
+    [self.navigationController pushViewController:fxq animated:YES];
+}
 
 
 @end

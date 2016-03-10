@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/13.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFClassWebView.h"
 #import "Height.h"
 #import "BFZFViewController.h"
 #import "AddShopping.h"
@@ -138,18 +139,7 @@
 
 #pragma  mark TabView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return 2;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return 30;
-    }else if (indexPath.row == 1){
-        return 30;
-    }else{
-        return 400;
-    }
+        return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -181,8 +171,11 @@
     return kScreenWidth/2+100;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return kScreenHeight;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
- 
     UIImageView *imageV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 80)];
     imageV.userInteractionEnabled = YES;
     imageV.backgroundColor = [UIColor whiteColor];
@@ -204,7 +197,8 @@
     UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(title.frame), kScreenWidth/4, x)];
 //    money.backgroundColor = [UIColor orangeColor];
     money.font = [UIFont systemFontOfSize:CGFloatY(22)];
-    money.text = [NSString stringWithFormat:@"¥ %@.00",self.moneyArr[0]];
+    float mon = [self.moneyArr[0] floatValue];
+    money.text = [NSString stringWithFormat:@"¥ %.2f",mon];
     money.textColor = [UIColor orangeColor];
     
     UILabel *oldMoney = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(money.frame), CGRectGetMaxY(title.frame), kScreenWidth/4, x)];
@@ -235,8 +229,19 @@
     [imageV addSubview:oldMoney];
     [imageV addSubview:money];
     [imageV addSubview:title];
+
+        return imageV;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    NSURL *url = [NSURL URLWithString:self.fxq.info];
+    NSURLRequest *requser = [NSURLRequest requestWithURL:url];
+    UIWebView *web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    [web loadRequest:requser];
+    [view addSubview:web];
     
-    return imageV;
+    return web;
 }
 
 #pragma  mark TabBar点击事件
@@ -434,7 +439,7 @@
         fxq.oldMoney = [dic valueForKey:@"yprice"];
         NSArray *arr = [dic valueForKey:@"price_array"];
             fxq.info = [dic valueForKey:@"info"];
-       
+          
         for (NSDictionary *dic2 in arr) {
         fxq.yanse = [dic2 valueForKey:@"yanse"];
             NSArray *guigeArr = [dic2 valueForKey:@"guige"];
