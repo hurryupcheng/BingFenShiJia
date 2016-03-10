@@ -28,18 +28,37 @@
 }
 
 + (UITextField *)textFieldWithFrame:(CGRect)frame image:(NSString *)image placeholder:(NSString *)placeholder {
-    UIImageView *imageView = [[UIImageView alloc] init];
-    imageView.width = BF_ScaleWidth(30);
-    imageView.height = BF_ScaleWidth(15) ;
-    imageView.image = [UIImage imageNamed:image];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    if (image == nil) {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.width = BF_ScaleWidth(5);
+        imageView.height = BF_ScaleWidth(15) ;
+        imageView.image = [UIImage imageNamed:image];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        UITextField *textField = [[UITextField alloc]initWithFrame:frame];
+        textField.placeholder = placeholder;
+        textField.leftView = imageView;
+        textField.leftViewMode = UITextFieldViewModeAlways;
+        textField.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+        return textField;
+    }else {
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.width = BF_ScaleWidth(30);
+        imageView.height = BF_ScaleWidth(15) ;
+        imageView.image = [UIImage imageNamed:image];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        
+        UITextField *textField = [[UITextField alloc]initWithFrame:frame];
+        textField.placeholder = placeholder;
+        textField.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+        textField.leftView = imageView;
+        textField.leftViewMode = UITextFieldViewModeAlways;
+        return textField;
+    }
     
-    UITextField *textField = [[UITextField alloc]initWithFrame:frame];
-    textField.placeholder = placeholder;
-    textField.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
-    textField.leftView = imageView;
-    textField.leftViewMode = UITextFieldViewModeAlways;
-    return textField;
+    
+    
+
+    
 
 }
 

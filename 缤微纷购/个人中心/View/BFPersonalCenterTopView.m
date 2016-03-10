@@ -133,7 +133,7 @@
     [self.nickNameView addSubview:self.referenceLabel];
     
     self.referenceButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(10), BF_ScaleWidth(100), ButtonViewHeight+BF_ScaleHeight(10))];
-    [self.referenceButton setTitle:@"确定推荐人" forState:UIControlStateNormal];
+    [self.referenceButton setTitle:@"添加推荐人" forState:UIControlStateNormal];
     self.referenceButton.backgroundColor = BFColor(0xD20000);
     [self.referenceButton addTarget:self action:@selector(identityRecommender) forControlEvents:UIControlEventTouchUpInside];
     [self.nickNameView addSubview:self.referenceButton];
@@ -236,8 +236,8 @@
 }
 
 - (void)identityRecommender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoIdentifyRecommender)]) {
-        [self.delegate gotoIdentifyRecommender];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoAddRecommender)]) {
+        [self.delegate gotoAddRecommender];
     }
 }
 

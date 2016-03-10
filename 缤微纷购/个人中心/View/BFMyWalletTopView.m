@@ -43,7 +43,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.headButton.frame = CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), 68);
+    self.headButton.frame = CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), BF_ScaleHeight(68));
     self.arrowImageView.frame = CGRectMake(CGRectGetMaxX(self.headButton.frame)+BF_ScaleWidth(10), CGRectGetMinY(self.headButton.frame), BF_ScaleWidth(10), self.headButton.height);
     self.nickName.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+BF_ScaleHeight(10), ScreenWidth, ButtonViewHeight);
     self.threeButtonView.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+0.09*ScreenHeight, ScreenWidth, ButtonViewHeight);
@@ -217,5 +217,16 @@
     [self.threeButtonView addSubview:button];
     return button;
 }
+
+- (void)clickHead {
+    BFLog(@"点击头像");
+}
+
+
+- (void)personalCenterTopButtonClick:(UIButton *)sender {
+    BFLog(@"提现记录");
+}
+
+
 
 @end
