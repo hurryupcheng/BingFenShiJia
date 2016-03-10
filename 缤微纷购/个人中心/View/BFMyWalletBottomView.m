@@ -105,10 +105,10 @@
 //确认提现
 - (void)sureToGetCash {
     if (self.agreeButton.selected == NO) {
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请认真阅读并同意条款"];
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请认真阅读并同意条款"];
     }else {
         if ([self.getCashTX.text isEqualToString:@""]) {
-            [BFProgressHUD MBProgressOnlywithLabelText:@"请输入提现金额"];
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入提现金额"];
         }else {
             [self endEditing:YES];
             BFLog(@"确认提现");
@@ -121,6 +121,9 @@
 //修改银行信息
 - (void)modifyBankInfo {
     [self endEditing:YES];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
+        [self.delegate goToModifyBankCardInformation];
+    }
     BFLog(@"我要修改银行信息");
 }
 

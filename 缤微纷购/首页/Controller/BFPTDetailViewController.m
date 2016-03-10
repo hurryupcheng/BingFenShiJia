@@ -35,6 +35,7 @@
 }
 
 - (void)getData {
+    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"m"] = @"Json";
     parameters[@"a"] = @"team_item";

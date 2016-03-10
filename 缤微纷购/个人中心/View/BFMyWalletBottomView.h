@@ -8,7 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BFMyWalletBottomViewDelegate <NSObject>
+
+- (void)goToModifyBankCardInformation;
+
+@end
+
 @interface BFMyWalletBottomView : UIView
 /**提现金额输入框*/
 @property (nonatomic, strong) UITextField *getCashTX;
+/**代理*/
+@property (nonatomic, weak) id<BFMyWalletBottomViewDelegate>delegate;
 @end

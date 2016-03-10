@@ -96,10 +96,17 @@
     [super viewWillAppear:animated];
     //添加上部视图改变状态方法
     [self.topView changeStatus];
+    //[self.addView addRecommender];
+    
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
     
 }
+
+- (void)hideView {
+    [self.topView changeStatus];
+}
+
 
 #pragma mark -- 设置按钮代理点击
 - (void)goToSettingInterface {
@@ -139,7 +146,7 @@
     BFLog(@"点击了注册按钮");
 }
 
-#pragma mark -- 注册按钮代理点击
+#pragma mark -- 添加推荐人按钮代理点击
 - (void)gotoAddRecommender {
     [self.addView showView];
    

@@ -158,19 +158,19 @@
 //        UIAlertView *aler = [[UIAlertView alloc]
 //                             initWithTitle:@"温馨提示" message:@"手机号或密码不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
 //        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"手机号或密码不能为空"];
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"手机号或密码不能为空"];
         
     } else if ( ![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
 //            UIAlertView *alers = [[UIAlertView alloc]
 //                                  initWithTitle:@"温馨提示" message:@"请输入有效的手机号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
 //            [alers show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号码"];
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入有效的手机号码"];
     
     }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >20){
 //        UIAlertView *aler = [[UIAlertView alloc]
 //                             initWithTitle:@"温馨提示" message:@"请输入6~15位长度密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
 //        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入6~20位长度密码"];
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入6~20位长度密码"];
 
     }else {
         
@@ -182,7 +182,7 @@
             BFLog(@"responseObject%@",responseObject);
             BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
             if ([userInfo.msg isEqualToString:@"登录失败"]) {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"账号或者密码错误"];
+                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"账号或者密码错误"];
                 return ;
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{

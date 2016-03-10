@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "BFUserInfo.h"
 @interface BFUserDefaluts : NSObject
+/**获取user信息*/
 + (BFUserInfo *)getUserInfo;
+/**修改user信息*/
++ (void)modifyUserInfo:(BFUserInfo *)userInfo;
 @end

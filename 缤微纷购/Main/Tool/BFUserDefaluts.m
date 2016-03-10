@@ -14,4 +14,10 @@
     BFUserInfo *userInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
     return userInfo;
 }
+
+//修改user信息
++ (void)modifyUserInfo:(BFUserInfo *)userInfo{
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+    [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"UserInfo"];
+}
 @end

@@ -94,17 +94,17 @@
         //        UIAlertView *aler = [[UIAlertView alloc]
         //                             initWithTitle:@"温馨提示" message:@"请输入完善注册信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         //        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入完善注册信息"];
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入完善注册信息"];
     }else if ((self.firstPasswordTX.text.length < 6 || self.firstPasswordTX.text.length > 20) || (self.secondPasswordTX.text.length < 6 || self.secondPasswordTX.text.length > 20)) {
         //        UIAlertView *aler = [[UIAlertView alloc]
         //                             initWithTitle:@"温馨提示" message:@"请输入6~20位的密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         //        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入6~20位的密码"];
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入6~20位的密码"];
     }else if (![self.firstPasswordTX.text isEqualToString:self.secondPasswordTX.text]) {
         //        UIAlertView *aler = [[UIAlertView alloc]
         //                             initWithTitle:@"温馨提示" message:@"两次输入的密码不一致，请重新输入" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
         //        [aler show];
-        [BFProgressHUD MBProgressOnlywithLabelText:@"密码不一致，请核对"];
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码不一致，请核对"];
     }else {
 //        if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
 //            [self.delegate userRigisterWithBFPassWordView:self];
@@ -121,11 +121,11 @@
             BFLog(@"responseObject%@,,,",responseObject);
             //BFRegistModel *model = [BFRegistModel parse:responseObject];
             if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"验证码不正确"];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
             } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"验证码过期"];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
             }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"注册失败"];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
             }else {
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^{
                     if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
@@ -144,7 +144,7 @@
 - (void)sendVerificationCode:(UIButton *)sender {
     [self endEditing:YES];
     if (![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
-        [BFProgressHUD MBProgressOnlywithLabelText:@"请输入有效的手机号"];
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入有效的手机号"];
     }else {
         
         NSString *url  = @"http:/192.168.1.201/binfen/index.php?m=Json&a=send_code";
@@ -153,9 +153,9 @@
         //BFLog(@"responseObject%@，，，%@",parameter,url);
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if ([responseObject[@"msg"] isEqualToString:@"已注册"]) {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"该手机号已注册"];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号已注册"];
             }else {
-                [BFProgressHUD MBProgressOnlywithLabelText:@"信息发送中..."];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送中..."];
                 leftTime = 60;
                 [self.sendVerificationCodeButton setEnabled:NO];
                 [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
