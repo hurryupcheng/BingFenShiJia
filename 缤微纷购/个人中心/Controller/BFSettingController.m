@@ -48,6 +48,11 @@
 }
 
 - (void)exit {
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+
     BFLog(@"点击退出");
 }
 #pragma mark --- datasource

@@ -145,8 +145,9 @@
 }
 //推出登录
 - (void)exit {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+    
     [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 }

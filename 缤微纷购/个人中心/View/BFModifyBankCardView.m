@@ -19,10 +19,20 @@
 @property (nonatomic, strong) BFBankButton *cityButton;
 /**支行button*/
 @property (nonatomic, strong) BFBankButton *branchButton;
-
+/**银行数组*/
 @property (nonatomic, strong) NSArray *bankArray;
-
+/**省份数组*/
 @property (nonatomic, strong) NSArray *provinceArray;
+/**城市数组*/
+@property (nonatomic, strong) NSArray *cityArray;
+/**支行数组*/
+@property (nonatomic, strong) NSArray *branchArray;
+/**银行ID*/
+@property (nonatomic, strong) NSString *bankID;
+/**省份ID*/
+@property (nonatomic, strong) NSString *provinceID;
+/**城市ID*/
+@property (nonatomic, strong) NSString *cityID;
 @end
 
 @implementation BFModifyBankCardView
@@ -37,6 +47,8 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 300, ScreenWidth, 800)];
         view.backgroundColor = [UIColor redColor];
         [self addSubview:view];
+        self.cityButton.hidden = YES;
+        BFLog(@"======%@,,%@,,%@",self.bankID,self.provinceID,self.cityID);
     }
     return self;
 }
@@ -97,12 +109,13 @@
     
     self.provinceButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(area.frame), area.y, BF_ScaleWidth(80), bank.height) type:BFChooseButtonTypeProvince];
     
-    
+    self.cityButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.provinceButton.frame)+BF_ScaleWidth(10), area.y, BF_ScaleWidth(80), bank.height) type:BFChooseButtonTypeCity];
     
 }
 
 - (void)click:(BFBankButton *)sender {
     sender.selected = !sender.selected;
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     BFPickerView *bankPicker = [BFPickerView pickerView];
     bankPicker.delegate = self;
     switch (sender.tag) {
@@ -114,10 +127,10 @@
                 NSString *userID = nil;
                 for (BFBankModel *model in self.bankArray) {
                     if ([model.name isEqualToString:string]) {
-                        userID = model.ID;
+                        self.bankID = model.ID;
                     }
                 }
-                BFLog(@"BFChooseButtonTypeProvince%@,,%@",string,userID);
+                BFLog(@"BFChooseButtonTypeProvince%@,,%@",string,self.bankID);
                 sender.selected = NO;
             };
             break;
@@ -129,15 +142,72 @@
                 NSString *userID = nil;
                 for (BFBankModel *model in self.provinceArray) {
                     if ([model.name isEqualToString:string]) {
-                        userID = model.ID;
+                        self.provinceID = model.ID;
                     }
                 }
-                BFLog(@"BFChooseButtonTypeProvince%@,,%@",string,userID);
+                self.cityButton.hidden = YES;
+                
+                
+                NSString *cityUrl = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=shi"];
+                NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+                parameter[@"uid"] = userInfo.ID;
+                parameter[@"token"] = userInfo.token;
+                parameter[@"sheng_id"] = self.provinceID;
+                [BFHttpTool GET:cityUrl params:parameter success:^(id responseObject) {
+                    BFLog(@"cityUrl%@",responseObject);
+                    NSArray *cArray = responseObject[@"shi"];
+                    NSMutableArray *cMutable = [NSMutableArray array];
+                    if (![cArray isKindOfClass:[NSNull class]]) {
+                        for (NSDictionary *dic in cArray) {
+                            BFBankModel *cityModel = [BFBankModel parse:dic];
+                            [cMutable addObject:cityModel];
+                        }
+                        self.cityArray = [cMutable copy];
+                    }
+                    
+                } failure:^(NSError *error) {
+                    BFLog(@"error%@",error);
+                }];
+                
+                BFLog(@"BFChooseButtonTypeProvince%@,,%@",string,self.provinceID);
                 sender.selected = NO;            };
             break;
         }
+        case BFChooseButtonTypeCity:{
+            bankPicker.dataArray = self.cityArray;
+            bankPicker.block = ^(NSString *string) {
+                BFLog(@"BFChooseButtonTypeCity%@",string);
+                sender.buttonTitle.text = string;
+                NSString *userID = nil;
+                for (BFBankModel *model in self.cityArray) {
+                    if ([model.name isEqualToString:string]) {
+                        self.cityID = model.ID;
+                    }
+                }
+                BFLog(@"BFChooseButtonTypeCity%@,,%@",string,self.cityID);
+                sender.selected = NO;
+            };
+            break;
+        }
+
     }
+    
+    BFLog(@"------>%@,,%@,,%@",self.bankID,self.provinceID,self.cityID);
     [self addSubview:bankPicker];
+    NSString *branchUrl = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=branch"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"sheng_id"] = self.bankID;
+    parameter[@"shi_id"] = self.provinceID;
+    parameter[@"bank_id"] = self.cityID;
+    [BFHttpTool GET:branchUrl params:parameter success:^(id responseObject) {
+        BFLog(@"branchUrl%@",responseObject);
+       
+    } failure:^(NSError *error) {
+        BFLog(@"error%@",error);
+    }];
+
     
   
 }

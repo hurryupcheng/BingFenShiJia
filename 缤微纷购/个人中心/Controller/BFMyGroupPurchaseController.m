@@ -9,7 +9,7 @@
 #import "BFMyGroupPurchaseController.h"
 #import "BFMyGroupPurchaseCell.h"
 
-@interface BFMyGroupPurchaseController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BFMyGroupPurchaseController ()<UITableViewDelegate, UITableViewDataSource, BFMyGroupPurchaseCellDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -46,9 +46,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFMyGroupPurchaseCell *cell = [BFMyGroupPurchaseCell cellWithTableView:tableView];
+    cell.delegate = self;
     //cell.textLabel.text = @"测试";
     return cell;
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return BF_ScaleHeight(133);
@@ -59,6 +61,20 @@
         return 13;
     }
     return 0;
+}
+#pragma mark --BFMyGroupPurchaseCell代理方法
+/**BFMyGroupPurchaseCell代理方法*/
+- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type {
+    switch (type) {
+        case MyGroupPurchaseCellCheckButtonTypeGroup:{
+            BFLog(@"团详情");
+            break;
+        }
+        case MyGroupPurchaseCellCheckButtonTypeOrder:{
+            BFLog(@"订单详情");
+            break;
+        }
+    }
 }
 
 @end

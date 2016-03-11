@@ -11,11 +11,12 @@
 #import "BFMyIntegralController.h"
 #import "BFMyIntegralCell.h"
 
-@interface BFMyIntegralController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BFMyIntegralController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**背景图*/
 @property (nonatomic, strong) UIImageView *bgImageView;
+
 @end
 
 @implementation BFMyIntegralController
@@ -47,6 +48,12 @@
     [self setNavigationBar];
     
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+}
+
 #pragma mark -- 设置导航栏
 - (void)setNavigationBar {
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"积分规则"  style:UIBarButtonItemStylePlain target:self action:@selector(integralRule)];
@@ -67,6 +74,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
+
+
 
 
 

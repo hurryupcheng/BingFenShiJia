@@ -54,12 +54,12 @@
     return _addView;
 }
 
-- (BFUserInfo *)userInfo {
-    if (!_userInfo) {
-        _userInfo = [BFUserDefaluts getUserInfo];
-    }
-    return _userInfo;
-}
+//- (BFUserInfo *)userInfo {
+//    if (!_userInfo) {
+//        _userInfo = [BFUserDefaluts getUserInfo];
+//    }
+//    return _userInfo;
+//}
 
 - (BFPersonalCenterTopView *)topView {
     if (!_topView) {
@@ -98,7 +98,7 @@
     //添加上部视图改变状态方法
     [self.topView changeStatus];
     //[self.addView addRecommender];
-    
+    self.userInfo = [BFUserDefaluts getUserInfo];
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
     
@@ -127,7 +127,20 @@
 
 #pragma mark -- 头像按钮代理点击
 - (void)goToUserHeadInterface {
-    self.navigationController.navigationBarHidden = NO;
+    
+    if (self.userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+            LogViewController *logVC= [LogViewController new];
+            [self.navigationController pushViewController:logVC animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+        }];
+        
+    }else {
+        self.navigationController.navigationBarHidden = NO;
+        BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
+        [self.navigationController pushViewController:personInfoVC animated:YES];
+        BFLog(@"我的资料");
+    }
     BFLog(@"点击了头像按钮");
 }
 
@@ -188,19 +201,19 @@
  
     switch (type) {
         case BFFunctionButtonTypeMyWallet:{
-//            if (self.userInfo == nil) {
-//                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-//                    
-//                    LogViewController *logVC= [LogViewController new];
-//                    [self.navigationController pushViewController:logVC animated:YES];
-//                    self.navigationController.navigationBarHidden = NO;
-//                }];
-//            }else {
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                    self.navigationController.navigationBarHidden = NO;
+                }];
+            }else {
                 self.navigationController.navigationBarHidden = NO;
                 BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
                 [self.navigationController pushViewController:myWallet animated:YES];
                 BFLog(@"我的钱包");
-//            }
+            }
             break;
         }
         case BFFunctionButtonTypeMyOrder:{
@@ -219,10 +232,19 @@
             break;
         }
         case BFFunctionButtonTypeMyGroupPurchase:{
+            if (self.userInfo == nil) {
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                    
+                    LogViewController *logVC= [LogViewController new];
+                    [self.navigationController pushViewController:logVC animated:YES];
+                    self.navigationController.navigationBarHidden = NO;
+                }];
+            }else{
             BFLog(@"我的拼团");
-            self.navigationController.navigationBarHidden = NO;
-            BFMyGroupPurchaseController *myGroupPurchaseVC = [BFMyGroupPurchaseController new];
-            [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
+                self.navigationController.navigationBarHidden = NO;
+                BFMyGroupPurchaseController *myGroupPurchaseVC = [BFMyGroupPurchaseController new];
+                [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
+            }
             break;
         }
         case BFFunctionButtonTypeMyCoupons:{
@@ -257,6 +279,7 @@
             break;
         }
         case BFFunctionButtonTypeMyPrivilege:
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"还未开启，敬请期待"];
             BFLog(@"我的特权");
             break;
             

@@ -13,7 +13,17 @@ typedef enum {
     MyGroupPurchaseCellCheckButtonTypeOrder//查看订单详情
 }MyGroupPurchaseCellCheckButtonType;
 
+@protocol BFMyGroupPurchaseCellDelegate <NSObject>
+
+- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type;
+
+@end
+
 @interface BFMyGroupPurchaseCell : UITableViewCell
 /**自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+/**代理*/
+@property (nonatomic, weak) id<BFMyGroupPurchaseCellDelegate>delegate;
+
 @end

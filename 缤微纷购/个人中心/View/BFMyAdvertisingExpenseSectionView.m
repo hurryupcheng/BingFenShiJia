@@ -8,6 +8,8 @@
 
 #import "BFMyAdvertisingExpenseSectionView.h"
 
+
+
 @interface BFMyAdvertisingExpenseSectionView()
 /**时间日期label*/
 @property (nonatomic, strong) UILabel *timeLabel;
@@ -44,9 +46,8 @@
 -(void)setGroup:(BFMyAdvertisingExpenseModel *)group {
     _group = group;
     if (_group) {
-        //self.timeLabel.text = group.date;
+       
         [self.clickButton setTitle:group.date forState:UIControlStateNormal];
-            //BFLog(@"clickToLookDetail,,%d,,%d",group.isOpen,!group.isOpen);
         [self setArrowImageViewWithIfUnfold:self.group.isOpen];
     }
 }
@@ -101,11 +102,13 @@
 
 - (void)clickToLookDetail:(UIButton *)sender {
     self.group.isOpen = !self.group.isOpen;
-    //self.group.isOpen = sender.selected;
     if (self.delegate && [self.delegate respondsToSelector:@selector(myAdvertisingExpenseSectionView:didButton:)]) {
         [self.delegate myAdvertisingExpenseSectionView:self didButton:sender];
     }
-    BFLog(@"点击了");
+}
+
+- (void)click {
+    [self clickToLookDetail:self.clickButton];
 }
 
 /**

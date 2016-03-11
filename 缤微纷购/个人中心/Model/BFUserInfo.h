@@ -37,4 +37,16 @@
 @property (nonatomic, strong) NSString *proxy_num;
 /**我的推荐人*/
 @property (nonatomic, strong) NSString *p_username;
+/**银行*/
+@property (nonatomic, strong) NSString *bank_name;
+/**银行卡号*/
+@property (nonatomic, strong) NSString *card_id;
+/**银行支行*/
+@property (nonatomic, strong) NSString *card_address;
+/**真实姓名*/
+@property (nonatomic, strong) NSString *true_name;
+/**昵称*/
+@property (nonatomic, strong) NSString *nickname;
+/**微信id*/
+@property (nonatomic, strong) NSString *wechatid;
 @end

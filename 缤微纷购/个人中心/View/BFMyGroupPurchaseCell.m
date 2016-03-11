@@ -121,14 +121,16 @@
     [button setTitleColor:BFColor(0x808080) forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateNormal];
     button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
-    [button addTarget:self action:@selector(checkButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(checkButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroudView addSubview:button];
     
     return button;
 }
 
-- (void)checkButtonClick {
-    
+- (void)checkButtonClick:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGotoCheckDetailWithButtonType:)]) {
+        [self.delegate clickToGotoCheckDetailWithButtonType:sender.tag];
+    }
 }
 
 
