@@ -74,6 +74,9 @@
     
     
 }
+
+
+
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
     [self.navigationController pushViewController:viewController animated:animated];
@@ -81,7 +84,7 @@
 
 - (void)getData {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=withdraw_deposit";
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
@@ -89,6 +92,7 @@
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"responseObject%@",responseObject);
         if ([responseObject[@"msg"] isEqualToString:@"请先完善银行信息"]) {
+            self.view.userInteractionEnabled = NO;
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"请先完善银行信息" dispatch_get_main_queue:^{
             BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
             [self.navigationController pushViewController:modifyBankCardVC animated:YES];
@@ -114,6 +118,7 @@
 //如果非显示状态，则不需要监听
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.view.userInteractionEnabled = YES;
     self.navigationController.navigationBar.translucent = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];

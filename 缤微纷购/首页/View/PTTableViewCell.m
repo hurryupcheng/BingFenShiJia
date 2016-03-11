@@ -89,7 +89,7 @@
         
         _txImageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMinX(_moneyLabel.frame)-30, CGRectGetMaxY(_infoLabel.frame)+5, 40, 40)];
         _txImageV.image = [UIImage imageNamed:@"f_01.png"];
-        [_txImageV bringSubviewToFront:_moneyLabel];
+        //[_txImageV bringSubviewToFront:_moneyLabel];
 
         [_backV addSubview:_imageV];
         

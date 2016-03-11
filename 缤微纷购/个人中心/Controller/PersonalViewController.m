@@ -18,6 +18,7 @@
 #import "BFPersonInformationController.h"
 #import "BFMyOrderController.h"
 #import "BFMyIntegralController.h"
+#import "BFMyGroupPurchaseController.h"
 #import "BFMyCouponsController.h"
 #import "BFMyAdvertisingExpenseController.h"
 #import "BFAddRecommenderView.h"
@@ -187,19 +188,19 @@
  
     switch (type) {
         case BFFunctionButtonTypeMyWallet:{
-            if (self.userInfo == nil) {
-                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-                    
-                    LogViewController *logVC= [LogViewController new];
-                    [self.navigationController pushViewController:logVC animated:YES];
-                    self.navigationController.navigationBarHidden = NO;
-                }];
-            }else {
+//            if (self.userInfo == nil) {
+//                [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+//                    
+//                    LogViewController *logVC= [LogViewController new];
+//                    [self.navigationController pushViewController:logVC animated:YES];
+//                    self.navigationController.navigationBarHidden = NO;
+//                }];
+//            }else {
                 self.navigationController.navigationBarHidden = NO;
                 BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
                 [self.navigationController pushViewController:myWallet animated:YES];
                 BFLog(@"我的钱包");
-            }
+//            }
             break;
         }
         case BFFunctionButtonTypeMyOrder:{
@@ -217,9 +218,13 @@
             }
             break;
         }
-        case BFFunctionButtonTypeMyGroupPurchase:
+        case BFFunctionButtonTypeMyGroupPurchase:{
             BFLog(@"我的拼团");
+            self.navigationController.navigationBarHidden = NO;
+            BFMyGroupPurchaseController *myGroupPurchaseVC = [BFMyGroupPurchaseController new];
+            [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
             break;
+        }
         case BFFunctionButtonTypeMyCoupons:{
             if (self.userInfo == nil) {
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{

@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+typedef enum {
+    BFChooseButtonTypeBank,//选择银行按钮
+    BFChooseButtonTypeProvince,//选择省份按钮
+    BFChooseButtonTypeCity,//选择城市按钮
+    BFChooseButtonTypeBranch//选择支行按钮
+}BFChooseButtonType;
+
 @interface BFModifyBankCardView : UIView
+
+- (void)refreshView;
 
 @end

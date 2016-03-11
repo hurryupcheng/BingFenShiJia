@@ -6,12 +6,13 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 #define navigationViewHeight 44.0f
-#define pickViewViewHeight 200.0f
+#define pickViewViewHeight  BF_ScaleHeight(250)
 #define buttonWidth 60.0f
-#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
+#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 
 #import "BFPickerView.h"
-
+#import "BFModifyBankCardView.h"
+#import "BFBankModel.h"
 @interface BFPickerView()
 /**包括导航视图和地址选择视图*/
 @property (nonatomic, strong) UIView *bottomView;
@@ -25,19 +26,14 @@
 
 @implementation BFPickerView
 
-//- (NSArray *)dataArray {
-//    if (!_dataArray) {
-//        _dataArray = @[@"背景",@"shanghai",@"广州",@"深圳",@"武汉",@"重庆"];
-//    }
-//    return _dataArray;
-//}
+
 
 + (instancetype)pickerView {
     static BFPickerView *pickerView = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        pickerView = [[BFPickerView alloc] init];
-    });
+
+
+    pickerView = [[BFPickerView alloc] init];
+
     [pickerView showBottomView];
     return pickerView;
 
@@ -56,8 +52,10 @@
 
 -(void)_addTapGestureRecognizerToSelf
 {
+
     self.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hiddenBottomView)];
+    
     [self addGestureRecognizer:tap];
 }
 
@@ -68,7 +66,7 @@
     [self addSubview:_bottomView];
     //工具条
     _tabBarView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationViewHeight)];
-    _tabBarView.backgroundColor = [UIColor lightGrayColor];
+    _tabBarView.backgroundColor = BFColor(0xECEDF0);
     [_bottomView addSubview:_tabBarView];
     //这里添加空手势不然点击navigationView也会隐藏,
     UITapGestureRecognizer *tapTabBarView = [[UITapGestureRecognizer alloc]initWithTarget:self action:nil];
@@ -86,7 +84,8 @@
         
     }
     _pickView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, navigationViewHeight, ScreenWidth, pickViewViewHeight)];
-    _pickView.backgroundColor = [UIColor whiteColor];
+    _pickView.backgroundColor = BFColor(0xC7CAD0);
+    _pickView.alpha = 0.8;
     _pickView.dataSource = self;
     _pickView.delegate =self;
     [_bottomView addSubview:_pickView];
@@ -99,9 +98,10 @@
     //点击确定回调block
     if (button.tag == 1) {
         
-        NSString *string = [self.dataArray objectAtIndex:[_pickView selectedRowInComponent:0]];
+        BFBankModel *model = [self.dataArray objectAtIndex:[_pickView selectedRowInComponent:0]];
 
-        _block(string);
+        
+        _block(model.name);
         
     }
     
@@ -124,6 +124,9 @@
 }
 -(void)hiddenBottomView
 {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(changeButtonStatus)]) {
+        [self.delegate changeButtonStatus];
+    }
     [UIView animateWithDuration:0.3 animations:^{
         _bottomView.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];
@@ -146,9 +149,10 @@
 
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel *lable=[[UILabel alloc]init];
-    lable.textAlignment=NSTextAlignmentCenter;
-    lable.font=[UIFont systemFontOfSize:16.0f];
-    lable.text = [self.dataArray objectAtIndex:row];
+    lable.textAlignment = NSTextAlignmentCenter;
+    lable.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(23)];
+    BFBankModel *model = _dataArray[row];
+    lable.text = model.name;
     return lable;
 }
 
@@ -162,8 +166,9 @@
     
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return _dataArray[row];
-}
+//- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+//    BFBankModel *model = _dataArray[row];
+//    return model.name;
+//}
 
 @end

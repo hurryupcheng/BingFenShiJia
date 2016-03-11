@@ -102,6 +102,8 @@
 		51E968AA1C46085500AA00F1 /* XQCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E968A91C46085500AA00F1 /* XQCollectionViewCell.m */; };
 		51E968AD1C46207400AA00F1 /* FXQViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51E968AC1C46207400AA00F1 /* FXQViewController.m */; };
 		51F5CA911C58C9610073F783 /* FXQModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F5CA901C58C9610073F783 /* FXQModel.m */; };
+		5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */; };
+		5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */; };
 		59046A781C89780C00566210 /* MyMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 59046A771C89780C00566210 /* MyMD5.m */; };
 		59046A7B1C89822B00566210 /* UITextField+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59046A7A1C89822B00566210 /* UITextField+Extension.m */; };
 		592521B71C867522000F609F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B01C867522000F609F /* AppDelegate.m */; };
@@ -254,6 +256,7 @@
 		59FC1A9E1C8DDB4A00809732 /* BFMyWalletTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC1A9D1C8DDB4A00809732 /* BFMyWalletTopView.m */; };
 		59FC2DB11C891F4500E41D16 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */; };
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
+		59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */; };
 		59FF0D0F1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D0E1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.m */; };
 		59FF0D121C8D161D00D3C2A9 /* BFMyAdvertisingExpenseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D111C8D161D00D3C2A9 /* BFMyAdvertisingExpenseModel.m */; };
 		59FF0D141C8D181E00D3C2A9 /* list.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FF0D131C8D181E00D3C2A9 /* list.plist */; };
@@ -268,6 +271,11 @@
 		59FF46CA1C8AB3620040689A /* BFPersonalCenterTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46C91C8AB3620040689A /* BFPersonalCenterTopView.m */; };
 		59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */; };
 		59FF46D01C8AD8860040689A /* BFFuctionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CF1C8AD8860040689A /* BFFuctionButton.m */; };
+		59FF5F291C91473900DA6E5B /* BFBankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F281C91473900DA6E5B /* BFBankModel.m */; };
+		59FF5F2C1C91474900DA6E5B /* BFProvinceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F2B1C91474900DA6E5B /* BFProvinceModel.m */; };
+		59FF5F2F1C91475A00DA6E5B /* BFCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F2E1C91475A00DA6E5B /* BFCityModel.m */; };
+		59FF5F321C91477700DA6E5B /* BFBranchModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F311C91477700DA6E5B /* BFBranchModel.m */; };
+		59FF5F351C916D5600DA6E5B /* BFBankTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F341C916D5600DA6E5B /* BFBankTool.m */; };
 		59FFB0C81C906D4100B04F8E /* BFModifyBankCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */; };
 		59FFB0CB1C90793200B04F8E /* BFBankButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFB0CA1C90793200B04F8E /* BFBankButton.m */; };
 		59FFCEC11C89DC2800ADF8F0 /* BFMobileNumber.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFCEC01C89DC2800ADF8F0 /* BFMobileNumber.m */; };
@@ -436,6 +444,10 @@
 		51E968AC1C46207400AA00F1 /* FXQViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXQViewController.m; sourceTree = "<group>"; };
 		51F5CA8F1C58C9610073F783 /* FXQModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXQModel.h; sourceTree = "<group>"; };
 		51F5CA901C58C9610073F783 /* FXQModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXQModel.m; sourceTree = "<group>"; };
+		5900A03B1C91BD2600B6AE5A /* BFMyGroupPurchaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyGroupPurchaseController.h; sourceTree = "<group>"; };
+		5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseController.m; sourceTree = "<group>"; };
+		5900A03E1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyGroupPurchaseCell.h; sourceTree = "<group>"; };
+		5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseCell.m; sourceTree = "<group>"; };
 		59046A761C89780C00566210 /* MyMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMD5.h; sourceTree = "<group>"; };
 		59046A771C89780C00566210 /* MyMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMD5.m; sourceTree = "<group>"; };
 		59046A791C89822B00566210 /* UITextField+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Extension.h"; sourceTree = "<group>"; };
@@ -745,6 +757,8 @@
 		59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extension.m"; sourceTree = "<group>"; };
 		59FC307E1C8737A0002EFB40 /* BFPTDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailModel.h; sourceTree = "<group>"; };
 		59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailModel.m; sourceTree = "<group>"; };
+		59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGoGroupShoppingView.h; sourceTree = "<group>"; };
+		59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGoGroupShoppingView.m; sourceTree = "<group>"; };
 		59FF0D0D1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseSectionView.h; sourceTree = "<group>"; };
 		59FF0D0E1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseSectionView.m; sourceTree = "<group>"; };
 		59FF0D101C8D161D00D3C2A9 /* BFMyAdvertisingExpenseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseModel.h; sourceTree = "<group>"; };
@@ -772,6 +786,16 @@
 		59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFunctionButtonView.m; sourceTree = "<group>"; };
 		59FF46CE1C8AD8860040689A /* BFFuctionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFFuctionButton.h; sourceTree = "<group>"; };
 		59FF46CF1C8AD8860040689A /* BFFuctionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFuctionButton.m; sourceTree = "<group>"; };
+		59FF5F271C91473900DA6E5B /* BFBankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBankModel.h; sourceTree = "<group>"; };
+		59FF5F281C91473900DA6E5B /* BFBankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBankModel.m; sourceTree = "<group>"; };
+		59FF5F2A1C91474900DA6E5B /* BFProvinceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProvinceModel.h; sourceTree = "<group>"; };
+		59FF5F2B1C91474900DA6E5B /* BFProvinceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProvinceModel.m; sourceTree = "<group>"; };
+		59FF5F2D1C91475A00DA6E5B /* BFCityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCityModel.h; sourceTree = "<group>"; };
+		59FF5F2E1C91475A00DA6E5B /* BFCityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCityModel.m; sourceTree = "<group>"; };
+		59FF5F301C91477700DA6E5B /* BFBranchModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBranchModel.h; sourceTree = "<group>"; };
+		59FF5F311C91477700DA6E5B /* BFBranchModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBranchModel.m; sourceTree = "<group>"; };
+		59FF5F331C916D5600DA6E5B /* BFBankTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBankTool.h; sourceTree = "<group>"; };
+		59FF5F341C916D5600DA6E5B /* BFBankTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBankTool.m; sourceTree = "<group>"; };
 		59FFB0C61C906D4100B04F8E /* BFModifyBankCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFModifyBankCardView.h; sourceTree = "<group>"; };
 		59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyBankCardView.m; sourceTree = "<group>"; };
 		59FFB0C91C90793200B04F8E /* BFBankButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBankButton.h; sourceTree = "<group>"; };
@@ -989,26 +1013,28 @@
 			children = (
 				51D1220B1C3A75B400640A44 /* PersonalViewController.h */,
 				51D1220C1C3A75B400640A44 /* PersonalViewController.m */,
+				59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */,
+				59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */,
 				51811AF31C7451AC004E29A8 /* LogViewController.h */,
 				51811AF41C7451AC004E29A8 /* LogViewController.m */,
 				51811AF61C745205004E29A8 /* ZCViewController.h */,
 				51811AF71C745205004E29A8 /* ZCViewController.m */,
-				59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */,
-				59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */,
-				59FF46BF1C8A86800040689A /* BFMyOrderController.h */,
-				59FF46C01C8A86800040689A /* BFMyOrderController.m */,
-				51D5DC921C59CE4B00453E02 /* BFMyWalletController.h */,
-				51D5DC931C59CE4B00453E02 /* BFMyWalletController.m */,
-				592F86D71C901B75006E0CEE /* BFModifyBankCardController.h */,
-				592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */,
-				59FF46781C8A74AF0040689A /* BFPersonInformationController.h */,
-				59FF46791C8A74AF0040689A /* BFPersonInformationController.m */,
 				59FF46C51C8AAEA00040689A /* BFMyIntegralController.h */,
 				59FF46C61C8AAEA00040689A /* BFMyIntegralController.m */,
-				594EE0E01C8C1F2600A243AE /* BFMyCouponsController.h */,
-				594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */,
+				51D5DC921C59CE4B00453E02 /* BFMyWalletController.h */,
+				51D5DC931C59CE4B00453E02 /* BFMyWalletController.m */,
 				594EE0E61C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.h */,
 				594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */,
+				592F86D71C901B75006E0CEE /* BFModifyBankCardController.h */,
+				592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */,
+				59FF46BF1C8A86800040689A /* BFMyOrderController.h */,
+				59FF46C01C8A86800040689A /* BFMyOrderController.m */,
+				5900A03B1C91BD2600B6AE5A /* BFMyGroupPurchaseController.h */,
+				5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */,
+				594EE0E01C8C1F2600A243AE /* BFMyCouponsController.h */,
+				594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */,
+				59FF46781C8A74AF0040689A /* BFPersonInformationController.h */,
+				59FF46791C8A74AF0040689A /* BFPersonInformationController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1028,6 +1054,14 @@
 				59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */,
 				592F86DA1C902C2D006E0CEE /* BFRecommenderModel.h */,
 				592F86DB1C902C2D006E0CEE /* BFRecommenderModel.m */,
+				59FF5F271C91473900DA6E5B /* BFBankModel.h */,
+				59FF5F281C91473900DA6E5B /* BFBankModel.m */,
+				59FF5F2A1C91474900DA6E5B /* BFProvinceModel.h */,
+				59FF5F2B1C91474900DA6E5B /* BFProvinceModel.m */,
+				59FF5F2D1C91475A00DA6E5B /* BFCityModel.h */,
+				59FF5F2E1C91475A00DA6E5B /* BFCityModel.m */,
+				59FF5F301C91477700DA6E5B /* BFBranchModel.h */,
+				59FF5F311C91477700DA6E5B /* BFBranchModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1067,6 +1101,10 @@
 				592F86D21C8FB474006E0CEE /* BFMyWalletBottomView.m */,
 				59FFB0C61C906D4100B04F8E /* BFModifyBankCardView.h */,
 				59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */,
+				5900A03E1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.h */,
+				5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */,
+				59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */,
+				59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1308,6 +1346,8 @@
 				59F7D2721C8EA25C00E3F854 /* BFUserDefaluts.m */,
 				59FB7FF31C90FB69008763B7 /* BFPickerView.h */,
 				59FB7FF41C90FB69008763B7 /* BFPickerView.m */,
+				59FF5F331C916D5600DA6E5B /* BFBankTool.h */,
+				59FF5F341C916D5600DA6E5B /* BFBankTool.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1983,6 +2023,7 @@
 				5925258E1C8681CF000F609F /* MJPropertyType.m in Sources */,
 				59F7D2731C8EA25C00E3F854 /* BFUserDefaluts.m in Sources */,
 				592521B71C867522000F609F /* AppDelegate.m in Sources */,
+				59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */,
 				59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */,
 				592525C51C8681CF000F609F /* SMProgressHUDAlertView.m in Sources */,
 				592525AC1C8681CF000F609F /* SDCollectionViewCell.m in Sources */,
@@ -1994,6 +2035,7 @@
 				592525CF1C8681CF000F609F /* STAlertView.m in Sources */,
 				51D52C2B1C5700F20081B884 /* Classification.m in Sources */,
 				592525881C8681CF000F609F /* MBProgressHUD.m in Sources */,
+				59FF5F351C916D5600DA6E5B /* BFBankTool.m in Sources */,
 				59FC1A9E1C8DDB4A00809732 /* BFMyWalletTopView.m in Sources */,
 				59FFB0C81C906D4100B04F8E /* BFModifyBankCardView.m in Sources */,
 				518DB3111C50D94F00816643 /* DWTableViewController.m in Sources */,
@@ -2036,6 +2078,7 @@
 				592525CC1C8681CF000F609F /* STConst.m in Sources */,
 				592525351C8681CF000F609F /* AFHTTPSessionManager.m in Sources */,
 				51F5CA911C58C9610073F783 /* FXQModel.m in Sources */,
+				5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */,
 				592F86D61C8FC184006E0CEE /* BFAgreeButton.m in Sources */,
 				592525BF1C8681CF000F609F /* UIImageView+HighlightedWebCache.m in Sources */,
 				59FFCEC11C89DC2800ADF8F0 /* BFMobileNumber.m in Sources */,
@@ -2117,8 +2160,10 @@
 				599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */,
 				5925258F1C8681CF000F609F /* NSObject+MJClass.m in Sources */,
 				51D121B01C3A6DA700640A44 /* main.m in Sources */,
+				59FF5F291C91473900DA6E5B /* BFBankModel.m in Sources */,
 				592525841C8681CF000F609F /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */,
+				59FF5F321C91477700DA6E5B /* BFBranchModel.m in Sources */,
 				592525BE1C8681CF000F609F /* UIImage+WebP.m in Sources */,
 				592525CE1C8681CF000F609F /* UIView+ST.m in Sources */,
 				592525C11C8681CF000F609F /* UIView+WebCacheOperation.m in Sources */,
@@ -2129,6 +2174,7 @@
 				59FBA97F1C882ABE00E1DA78 /* UIBarButtonItem+Extension.m in Sources */,
 				594EE0E21C8C1F2600A243AE /* BFMyCouponsController.m in Sources */,
 				592525A61C8681CF000F609F /* UIView+MJExtension.m in Sources */,
+				59FF5F2C1C91474900DA6E5B /* BFProvinceModel.m in Sources */,
 				592525911C8681CF000F609F /* NSObject+MJKeyValue.m in Sources */,
 				592525D31C8681CF000F609F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				592525E61C86B781000F609F /* BFPTDetailHeaderView.m in Sources */,
@@ -2170,7 +2216,9 @@
 				592525961C8681CF000F609F /* MJRefreshComponent.m in Sources */,
 				592525371C8681CF000F609F /* AFSecurityPolicy.m in Sources */,
 				59FF0D1A1C8D18EF00D3C2A9 /* BFBaseModel.m in Sources */,
+				5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */,
 				592525C71C8681CF000F609F /* SMProgressHUDTipView.m in Sources */,
+				59FF5F2F1C91475A00DA6E5B /* BFCityModel.m in Sources */,
 				51D122041C3A751400640A44 /* HomeViewController.m in Sources */,
 				592525B61C8681CF000F609F /* SDWebImageDecoder.m in Sources */,
 			);

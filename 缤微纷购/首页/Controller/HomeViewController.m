@@ -468,6 +468,7 @@
 }
 
 #pragma  mark 分区头视图
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     if (kind == UICollectionElementKindSectionHeader) {
@@ -488,7 +489,11 @@
         [self initWithUpView];
         self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
     }else{
-        self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+        [self.viewBut removeFromSuperview];
+        [self.lbView removeFromSuperview];
+        [self.upBackView removeFromSuperview];
+        self.headerView.sectionImage.frame = CGRectMake(0, 0,kScreenWidth, kScreenWidth/2);
+        
        }
         return self.headerView;
     }

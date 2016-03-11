@@ -174,7 +174,7 @@
 
     }else {
         
-        NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=login";
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         parameter[@"pass"] = [MyMD5 md5:self.passwordTX.text];
