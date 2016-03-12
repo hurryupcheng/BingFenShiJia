@@ -11,10 +11,14 @@
 @interface BFMyAdvertisingExpenseModel : BFBaseModel
 /**记录这行是否被打开*/
 @property (nonatomic, getter=isOpen) BOOL isOpen;
-/**记录这行是否被打开*/
+/**数据数组*/
 @property (nonatomic, strong) NSArray *groups;
-/**记录这行是否被打开*/
+/**时间*/
 @property (nonatomic, copy) NSString *date;
+/**当前月份*/
+@property (nonatomic, copy) NSString *month;
+/**当前年份*/
+@property (nonatomic, copy) NSString *year;
 /**总金额*/
 @property (nonatomic, strong) NSString *total;
 

@@ -3,6 +3,10 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>month</key>
+		<string>1</string>
+		<key>year</key>
+		<string>2016</string>
 		<key>total</key>
 		<string>100</string>
 		<key>groups</key>
@@ -36,6 +40,10 @@
 		<string>2016年01月</string>
 	</dict>
 	<dict>
+		<key>month</key>
+		<string>2</string>
+		<key>year</key>
+		<string>2016</string>
 		<key>total</key>
 		<string>200</string>
 		<key>groups</key>
@@ -57,6 +65,10 @@
 		<string>2016年02月</string>
 	</dict>
 	<dict>
+		<key>year</key>
+		<string>2016</string>
+		<key>month</key>
+		<string>3</string>
 		<key>total</key>
 		<string>300</string>
 		<key>groups</key>
@@ -102,6 +114,10 @@
 		<string>2016年03月</string>
 	</dict>
 	<dict>
+		<key>year</key>
+		<string>2016</string>
+		<key>month</key>
+		<string>4</string>
 		<key>total</key>
 		<string>400</string>
 		<key>groups</key>

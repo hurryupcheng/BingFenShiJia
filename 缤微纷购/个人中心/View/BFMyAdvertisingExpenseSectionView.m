@@ -102,15 +102,15 @@
 }
 
 - (void)clickToLookDetail:(UIButton *)sender {
-    self.lastButton = nil;
+    
     self.group.isOpen = !self.group.isOpen;
     if (self.delegate && [self.delegate respondsToSelector:@selector(myAdvertisingExpenseSectionView:didButton:)]) {
         [self.delegate myAdvertisingExpenseSectionView:self didButton:sender];
     }
-    self.lastButton = sender;
 }
 
 - (void)click {
+    
     [self clickToLookDetail:self.clickButton];
 }
 

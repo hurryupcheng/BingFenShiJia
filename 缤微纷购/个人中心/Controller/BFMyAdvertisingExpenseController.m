@@ -28,10 +28,18 @@
 /**自定义tabbar*/
 @property (nonatomic, strong) BFMyAdvertisingExpenseTabbar *myTabbar;
 
-@property (nonatomic, strong) BFUserModel *user;
+@property (nonatomic, strong) NSMutableDictionary *parameter;
 @end
 
 @implementation BFMyAdvertisingExpenseController
+
+
+- (NSMutableDictionary *)parameter {
+    if (!_parameter) {
+        _parameter = [NSMutableDictionary dictionary];
+    }
+    return _parameter;
+}
 
 - (BFMyAdvertisingExpenseTabbar *)myTabbar {
     if (!_myTabbar) {
@@ -84,6 +92,21 @@
     
 }
 
+
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    //self.parameter[@"p"] = @1;
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        BFLog(@"%@,",responseObject);
+    } failure:^(NSError *error) {
+        BFLog(@"%@",error);
+    }];
+}
+
+/**进入页面就点击第一个*/
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
@@ -92,13 +115,7 @@
 }
 
 
-#pragma mark --
-- (void)setBottomTabbar {
-    BFMyAdvertisingExpenseTabbar *myTabbar = [BFMyAdvertisingExpenseTabbar myTabbar];
-    myTabbar.model = self.user;
-    BFLog(@"%@",self.user);
-    [self.view addSubview:myTabbar];
-}
+
 
 #pragma mark -- 创建固定的头部视图
 
@@ -169,17 +186,24 @@
     self.headerView.delegate = self;
     if (self.listArray) {
         BFMyAdvertisingExpenseModel *group = self.listArray[section];
-        self.isOpen = group.isOpen;
+        group.isOpen = NO;
         self.headerView.group = group;
       
     }
     
-    
-    
     return self.headerView;
 }
 
+
 - (void)myAdvertisingExpenseSectionView:(BFMyAdvertisingExpenseSectionView *)view didButton:(UIButton *)button {
+    
+    NSString *year = [button.titleLabel.text substringWithRange:NSMakeRange(0,4)];
+    NSString *month = [button.titleLabel.text substringWithRange:NSMakeRange(5,2)];
+    
+    self.parameter[@"year"] = year;
+    self.parameter[@"month"] = month;
+    [self getData];
+    BFLog(@"---%@,,,%@,,,%@,,,%@",button.titleLabel.text,year,month,self.parameter);
     [self.tableView reloadData];
     
 }

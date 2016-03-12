@@ -5,10 +5,11 @@
 //  Created by 程召华 on 16/3/5.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#define kUMKey  @"56e3cf9fe0f55a2fe50023fb"
+#import "UMSocial.h"
 #import "BFSettingController.h"
-
-@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource>
+#import "BFShareView.h"
+@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -157,6 +158,39 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2) {
+        if (indexPath.row == 2) {
+            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+            BFShareView *share = [BFShareView shareView];
+            share.delegate = self;
+            [window addSubview:share];
+        }
+    }
+}
+
+- (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    switch (type) {
+        case BFShareButtonTypeMoments:
+            //判断是否授权
+            //注意：分享到微信好友、微信朋友圈、微信收藏、QQ空间、QQ好友、来往好友、来往朋友圈、易信好友、易信朋友圈、Facebook、Twitter、Instagram等平台需要参考各自的集成方法
+            [UMSocialAccountManager isOauthAndTokenNotExpired:UMShareToSina];
+            //进入授权页面
+            [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response){
+                if (response.responseCode == UMSResponseCodeSuccess) {
+                    //获取微博用户名、uid、token等
+                    UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToSina];
+                    NSLog(@"username is %@, uid is %@, token is %@",snsAccount.userName,snsAccount.usid,snsAccount.accessToken);
+                    //进入你的分享内容编辑页面  
+                }
+            });
+        break;
+            
+        default:
+            break;
+    }
+}
+
 #pragma mark -- delegate
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -170,6 +204,8 @@
         return @"关于缤纷";
     }
 }
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {

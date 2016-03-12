@@ -62,7 +62,7 @@
 -(void)_createView
 {
     
-    _bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenWidth, ScreenHeight, navigationViewHeight+pickViewViewHeight)];
+    _bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, navigationViewHeight+pickViewViewHeight)];
     [self addSubview:_bottomView];
     //工具条
     _tabBarView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, navigationViewHeight)];

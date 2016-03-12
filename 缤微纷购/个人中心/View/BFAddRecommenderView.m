@@ -190,6 +190,7 @@
     self.clickedView.hidden = YES;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:self];
+ 
     window.frame = self.frame;
 }
 
