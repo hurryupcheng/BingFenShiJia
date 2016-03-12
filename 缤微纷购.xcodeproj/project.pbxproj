@@ -106,6 +106,7 @@
 		5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */; };
 		59046A781C89780C00566210 /* MyMD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 59046A771C89780C00566210 /* MyMD5.m */; };
 		59046A7B1C89822B00566210 /* UITextField+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59046A7A1C89822B00566210 /* UITextField+Extension.m */; };
+		590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */; };
 		592521B71C867522000F609F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B01C867522000F609F /* AppDelegate.m */; };
 		592521B81C867522000F609F /* PTStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B21C867522000F609F /* PTStepViewController.m */; };
 		592521B91C867522000F609F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B41C867522000F609F /* RootViewController.m */; };
@@ -452,6 +453,8 @@
 		59046A771C89780C00566210 /* MyMD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMD5.m; sourceTree = "<group>"; };
 		59046A791C89822B00566210 /* UITextField+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+Extension.h"; sourceTree = "<group>"; };
 		59046A7A1C89822B00566210 /* UITextField+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+Extension.m"; sourceTree = "<group>"; };
+		590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseTabbar.h; sourceTree = "<group>"; };
+		590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseTabbar.m; sourceTree = "<group>"; };
 		592521AF1C867522000F609F /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		592521B01C867522000F609F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		592521B11C867522000F609F /* PTStepViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PTStepViewController.h; sourceTree = "<group>"; };
@@ -1093,6 +1096,8 @@
 				59FF0D0E1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.m */,
 				59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */,
 				59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */,
+				590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */,
+				590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */,
 				59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */,
 				59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */,
 				59FC1A9C1C8DDB4A00809732 /* BFMyWalletTopView.h */,
@@ -2124,6 +2129,7 @@
 				51D5B6441C75B4F2000897BB /* MyorderTableViewCell.m in Sources */,
 				51D4D95E1C44FB9F00453CD1 /* ClassCollectionViewCell.m in Sources */,
 				592525D51C8681CF000F609F /* UIButton+AFNetworking.m in Sources */,
+				590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */,
 				592525AD1C8681CF000F609F /* SDCycleScrollView.m in Sources */,
 				592525CA1C8681CF000F609F /* NSObject+ST.m in Sources */,
 				592523B31C867674000F609F /* Foundation+Log.m in Sources */,

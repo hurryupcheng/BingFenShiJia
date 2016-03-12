@@ -595,6 +595,7 @@
     BFPTDetailViewController *ptxq = [[BFPTDetailViewController alloc]init];
     self.pt = self.dataArray[indexPath.row];
     ptxq.ID = self.pt.ID;
+    ptxq.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:ptxq animated:NO];
 }
 

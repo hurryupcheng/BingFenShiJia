@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSArray *groups;
 /**记录这行是否被打开*/
 @property (nonatomic, copy) NSString *date;
+/**总金额*/
+@property (nonatomic, strong) NSString *total;
 
 + (instancetype)parsingJsonWithDictionary:(NSDictionary *)dict;
 - (instancetype)parsingJsonWithDictionary:(NSDictionary *)dict;

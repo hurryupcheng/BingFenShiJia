@@ -12,6 +12,7 @@
 #import "BFInstructionCell.h"
 #import "BFAdvertisingExpenseInformationCell.h"
 #import "BFPersonInformationController.h"
+#import "BFMyAdvertisingExpenseTabbar.h"
 
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate>
 /**tableView*/
@@ -24,30 +25,22 @@
 @property (nonatomic, strong) UIView *bottomView;
 /**自定义分区头*/
 @property (nonatomic, strong) BFMyAdvertisingExpenseSectionView *headerView;
+/**自定义tabbar*/
+@property (nonatomic, strong) BFMyAdvertisingExpenseTabbar *myTabbar;
 
+@property (nonatomic, strong) BFUserModel *user;
 @end
 
 @implementation BFMyAdvertisingExpenseController
 
-- (UIView *)bottomView {
-    if (!_bottomView) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight-BF_ScaleHeight(50)-64, ScreenWidth, BF_ScaleHeight(50))];
-        _bottomView.backgroundColor = BFColor(0xffffff);
-        _bottomView.layer.shadowOpacity = 0.3;
-        _bottomView.layer.shadowColor = BFColor(0x000000).CGColor;
-        _bottomView.layer.shadowOffset = CGSizeMake(0, 0);
-        [self.view addSubview:_bottomView];
-        
-        UILabel *label = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), _bottomView.height) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.60"];
-        [_bottomView addSubview:label];
-        
-        UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(10), BF_ScaleWidth(60), BF_ScaleHeight(30)) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
-        raiseCashButton.layer.cornerRadius = 3;
-        raiseCashButton.backgroundColor = BFColor(0x102D97);
-        [raiseCashButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomView addSubview:raiseCashButton];
+- (BFMyAdvertisingExpenseTabbar *)myTabbar {
+    if (!_myTabbar) {
+        _myTabbar = [BFMyAdvertisingExpenseTabbar myTabbar];
+        //_myTabbar.model = self.user;
+        [self.view addSubview:_myTabbar];
+        //_myTabbar.backgroundColor = [UIColor blueColor];
     }
-    return _bottomView;
+    return _myTabbar;
 }
 
 
@@ -69,6 +62,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-160) style:UITableViewStylePlain];
+        //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -79,11 +73,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"本月广告费";
-    [self.view addSubview:self.tableView];
+    //self.view.backgroundColor = [UIColor greenColor];
     //设置头部分段控制器
     [self setHeadaerSegmented];
+    [self myTabbar];
     //设置底部tabBar
-    [self setBottomTabBar];
+    //[self setBottomTabbar];
+    [self.view addSubview:self.tableView];
+
     
 }
 
@@ -95,13 +92,15 @@
 }
 
 
-#pragma mark --创建底部tabbar
-
-#pragma mark -- 创建固定的头部视图
-- (void)setBottomTabBar {
-    
+#pragma mark --
+- (void)setBottomTabbar {
+    BFMyAdvertisingExpenseTabbar *myTabbar = [BFMyAdvertisingExpenseTabbar myTabbar];
+    myTabbar.model = self.user;
+    BFLog(@"%@",self.user);
+    [self.view addSubview:myTabbar];
 }
 
+#pragma mark -- 创建固定的头部视图
 
 - (void)setHeadaerSegmented {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
@@ -137,11 +136,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell    cellWithTableView:tableView];
+        BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
         if (self.listArray) {
             BFMyAdvertisingExpenseModel *group = self.listArray[indexPath.section];
-            BFUserModel *user = group.groups[indexPath.row];
-            cell.user = user;
+            self.myTabbar.model = group;
+            cell.total = group;
             
         }
             return cell;
@@ -181,7 +180,6 @@
 }
 
 - (void)myAdvertisingExpenseSectionView:(BFMyAdvertisingExpenseSectionView *)view didButton:(UIButton *)button {
-
     [self.tableView reloadData];
     
 }

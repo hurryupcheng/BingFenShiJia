@@ -14,8 +14,7 @@
 @property (nonatomic, strong) NSString *time;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *money;
-/**总金额*/
-@property (nonatomic, strong) NSString *total;
+
 
 + (instancetype)parsingJsonWithDictionary:(NSDictionary *)dict;
 - (instancetype)parsingJsonWithDictionary:(NSDictionary *)dict;
