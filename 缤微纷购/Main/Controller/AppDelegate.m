@@ -6,7 +6,8 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 #import "UMSocial.h"
-
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
 #import "Header.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
@@ -44,7 +45,10 @@
     
     [UMSocialData setAppKey:AppKey];
     
-
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:kWXKey appSecret:kWXSecret url:@"http://www.umeng.com/social"];
+    //设置分享到QQ/Qzone的应用Id，和分享url 链接
+    [UMSocialQQHandler setQQWithAppId:kQQKey appKey:kQQSecret url:@"http://www.umeng.com/social"];
 
     
     self.proportionX = kScreenWidth/375;
@@ -63,6 +67,15 @@
     return YES;
     
     
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [UMSocialSnsService handleOpenURL:url];
+    if (result == FALSE) {
+        //调用其他SDK，例如支付宝SDK等
+    }
+    return result;
 }
 
 
