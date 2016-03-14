@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFMyOrderModel.h"
 @interface BFMyOrderCell : UITableViewCell
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**我的订单模型类*/
+@property (nonatomic, strong) BFMyOrderModel *model;
 @end

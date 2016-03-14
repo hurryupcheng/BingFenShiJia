@@ -22,6 +22,7 @@
 #import "BFMyCouponsController.h"
 #import "BFMyAdvertisingExpenseController.h"
 #import "BFAddRecommenderView.h"
+#import "BFMyClientController.h"
 
 @interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate, AddRecommenderViewDelegate>
 /**个人中心有阴影的界面*/
@@ -189,6 +190,9 @@
         }
         case BFPersonalCenterTopButtonTypeMyClient:{
             BFLog(@"点击了我的客户按钮");
+            BFMyClientController *myClientVC = [BFMyClientController new];
+            [self.navigationController pushViewController:myClientVC animated:YES];
+            
             break;
         }
         default:

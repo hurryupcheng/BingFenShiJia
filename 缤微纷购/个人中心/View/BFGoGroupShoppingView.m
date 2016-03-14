@@ -32,7 +32,7 @@
     self.infoLabel = [[UILabel alloc] init];
     self.infoLabel.text = @"3人团 59.90";
     self.infoLabel.textColor = BFColor(0xffffff);
-    self.infoLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(7)];
+    self.infoLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(10)];
     self.infoLabel.backgroundColor = BFColor(0x4F4F4F);
     self.infoLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -40,8 +40,8 @@
     self.goGroupLabel.text = @"   去开团 >";
     self.goGroupLabel.textColor = BFColor(0xffffff);
     self.goGroupLabel.backgroundColor = BFColor(0xFB0006);
-    self.goGroupLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(8)];
-    self.goGroupLabel.layer.cornerRadius = BF_ScaleHeight(9);
+    self.goGroupLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(10)];
+    self.goGroupLabel.layer.cornerRadius = BF_ScaleHeight(12.5);
     self.goGroupLabel.layer.masksToBounds = YES;
     self.goGroupLabel.textAlignment = NSTextAlignmentCenter;
     
@@ -52,11 +52,11 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.iconImageView.frame = CGRectMake(0, 0, BF_ScaleWidth(23), BF_ScaleHeight(23));
+    self.iconImageView.frame = CGRectMake(0, 0, BF_ScaleWidth(30), BF_ScaleHeight(30));
     
-    self.infoLabel.frame = CGRectMake(CGRectGetMidX(self.iconImageView.frame), BF_ScaleHeight(2.5), BF_ScaleWidth(75), BF_ScaleHeight(18));
+    self.infoLabel.frame = CGRectMake(CGRectGetMidX(self.iconImageView.frame), BF_ScaleHeight(2.5), BF_ScaleWidth(97.5), BF_ScaleHeight(25));
     
-    self.goGroupLabel.frame = CGRectMake(self.width-BF_ScaleWidth(53), self.infoLabel.y, BF_ScaleWidth(53), self.infoLabel.height);
+    self.goGroupLabel.frame = CGRectMake(self.width-BF_ScaleWidth(60), self.infoLabel.y, BF_ScaleWidth(60), self.infoLabel.height);
 }
 
 

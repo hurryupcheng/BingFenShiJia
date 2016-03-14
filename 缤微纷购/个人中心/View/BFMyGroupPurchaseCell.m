@@ -43,6 +43,19 @@
     return cell;
 }
 
+- (void)setModel:(BFMyGroupPurchaseModel *)model{
+    _model = model;
+    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+    self.titleLabel.text = model.title;
+    self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@",model.team_num, model.team_price];
+    
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.goView.infoLabel.text];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]-1)];
+    self.goView.infoLabel.attributedText = attributedString;
+    
+    
+}
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = BFColor(0xF4F4F4);
@@ -70,6 +83,7 @@
         [self.backgroudView addSubview:self.titleLabel];
         
         self.goView = [[BFGoGroupShoppingView alloc] init];
+        //self.goView.backgroundColor = [UIColor blueColor];
         [self.backgroudView addSubview:self.goView];
         
         
@@ -101,7 +115,8 @@
     
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.productImageView.frame)+BF_ScaleWidth(13), self.productImageView.y, BF_ScaleWidth(244), BF_ScaleHeight(20));
     
-    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(23), BF_ScaleWidth(130), BF_ScaleHeight(23));
+    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(30), BF_ScaleWidth(160), BF_ScaleHeight(30));
+    
     
     self.sucessLabel.frame = CGRectMake(BF_ScaleWidth(8), CGRectGetMaxY(self.line.frame)+BF_ScaleHeight(15), BF_ScaleWidth(100), BF_ScaleHeight(12));
     
@@ -117,6 +132,8 @@
     UIButton *button = [UIButton buttonWithType:0];
     button.tag = type;
     button.layer.borderWidth = 1;
+    button.layer.cornerRadius = 3;
+    button.layer.masksToBounds = YES;
     button.layer.borderColor = BFColor(0x808080).CGColor;
     [button setTitleColor:BFColor(0x808080) forState:UIControlStateNormal];
     [button setTitle:title forState:UIControlStateNormal];
