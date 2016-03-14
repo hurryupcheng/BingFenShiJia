@@ -43,6 +43,18 @@
     return self;
 }
 
+- (void)setModel:(BFMyOrderModel *)model {
+    _model = model;
+    NSString *timeString = [BFTranslateTime translateTimeIntoCurrurents:model.add_time];
+    self.orderingTimeLabel.text = [NSString stringWithFormat:@"下单时间：%@",timeString];
+    self.orderNumberLabel.text = [NSString stringWithFormat:@"订单编号：%@",model.orderId];
+    self.orderMoneyLabel.text = [NSString stringWithFormat:@"订单金额：¥%@",model.order_sumPrice];
+    self.orderFreightLabel.text = [NSString stringWithFormat:@"运费：¥%@",[model.freetype isEqualToString:@"0"] ? @"包邮" : model.freeprice];
+    self.orderStatusLabel.text = [NSString stringWithFormat:@"订单状态：%@",model.status_w];
+    [self.goodsImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+}
+
+
 - (void)setCell {
     UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(5, 0, ScreenWidth-10, BF_ScaleHeight(120))];
     bgView.backgroundColor = [UIColor blueColor];

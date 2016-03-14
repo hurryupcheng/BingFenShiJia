@@ -8,12 +8,14 @@
 
 #import "BFMyClientController.h"
 
-@interface BFMyClientController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BFMyClientController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate>
 
 /**底部tableView*/
 @property (nonatomic, strong) UITableView *bottomTableView;
 /**上面tableView*/
 @property (nonatomic, strong) UITableView *upTableView;
+/**自定义分段控制器页面*/
+@property (nonatomic, strong) BFSegmentView *segment;
 @end
 
 @implementation BFMyClientController
@@ -27,26 +29,46 @@
 
 
 
+- (BFSegmentView *)segment {
+    if (!_segment) {
+        _segment = [BFSegmentView segmentView];
+        _segment.delegate = self;
+        _segment.titleArray = @[@"已关注", @"未关注", @"直推人数", @"团队人数"];
+    }
+    return _segment;
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.view addSubview:self.segment];
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+            BFLog(@"点击已关注");
+            break;
+        case 1:
+            BFLog(@"点击未关注");
+            break;
+        case 2:
+            BFLog(@"点击直推人数");
+            break;
+        case 3:
+            BFLog(@"点击团队人数");
+            break;
+            
+        default:
+            break;
+    }
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

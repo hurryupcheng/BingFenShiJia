@@ -48,13 +48,19 @@
         BFLog(@"没登录");
         self.buttonView.hidden = NO;
         self.nickNameView.hidden = YES;
+        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://bingo.luexue.com/Style/teambuy/images/avatar_4_64.png"] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+        
     }else {
         self.buttonView.hidden = YES;
         self.nickNameView.hidden = NO;
         self.integralLabel.text = userInfo.score;
         self.advertisingExpenseLabel.text = [NSString stringWithFormat:@"¥%@",userInfo.proxy_order_money];
         self.myClientLabel.text = userInfo.proxy_num;
+        
+
         [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:nil];
+
+        
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];
         if (userInfo.p_username != nil) {
             self.referenceButton.hidden = YES;
@@ -83,9 +89,11 @@
     bgView.backgroundColor = BFColor(0xDFE0DA);
     bgView.alpha = 0.5;
     [self addSubview:bgView];
+    
+    
     self.headButton = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), BF_ScaleHeight(68))];
     [self.headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
-    [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://bingo.luexue.com/Style/teambuy/images/avatar_4_64.png"] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+    
     [self addSubview:self.headButton];
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.headButton.frame)+BF_ScaleWidth(10), CGRectGetMinY(self.headButton.frame), BF_ScaleWidth(10), self.headButton.height)];

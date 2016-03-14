@@ -91,6 +91,7 @@
 
 - (void)setUpView {
     //银行网点
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     UILabel *bankBranch = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(30), BF_ScaleHeight(5), BF_ScaleWidth(100), BF_ScaleHeight(15)) text:@"银行网点："];
     
     //银行
@@ -106,6 +107,7 @@
     branch.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     
     self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(130), bank.height) type:BFChooseButtonTypeBank];
+    self.bankButton.buttonTitle.text = userInfo.bank_name ? userInfo.bank_name : @"-- 请选择 -- ";
     
     self.provinceButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(area.frame), area.y, BF_ScaleWidth(80), bank.height) type:BFChooseButtonTypeProvince];
     
@@ -224,12 +226,12 @@
 }
 //创建button
 - (BFBankButton *)setUpButtonWithFrame:(CGRect)frame type:(BFChooseButtonType)type{
+    
     BFBankButton *button = [[BFBankButton alloc] initWithFrame:frame];
     // self.bankButton.backgroundColor = [UIColor redColor];
     button.tag = type;
     [button setBackgroundImage:[UIImage imageNamed:@"pickerView"] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"pickerView_select"] forState:UIControlStateSelected];
-    button.buttonTitle.text = @"--请选择--";
     [button addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
     

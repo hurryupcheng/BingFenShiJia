@@ -62,9 +62,11 @@
             case 0:
             {
                 cell.textLabel.text = @"  头像";
-                UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"head"]];
+                UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40))];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head"]];
+                headImageView.layer.cornerRadius = BF_ScaleHeight(20);
+                headImageView.layer.masksToBounds = YES;
                 headImageView.backgroundColor = [UIColor redColor];
-                headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40));
                 headImageView.contentMode = UIViewContentModeScaleAspectFill;
                 [cell addSubview:headImageView];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

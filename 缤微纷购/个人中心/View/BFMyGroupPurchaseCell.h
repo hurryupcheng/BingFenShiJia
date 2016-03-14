@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFMyGroupPurchaseModel.h"
 
 typedef enum {
     MyGroupPurchaseCellCheckButtonTypeGroup,//查看团详情
@@ -22,8 +23,8 @@ typedef enum {
 @interface BFMyGroupPurchaseCell : UITableViewCell
 /**自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-
 /**代理*/
 @property (nonatomic, weak) id<BFMyGroupPurchaseCellDelegate>delegate;
-
+/**我的拼团模型*/
+@property (nonatomic, strong) BFMyGroupPurchaseModel *model;
 @end

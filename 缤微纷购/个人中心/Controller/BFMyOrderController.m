@@ -8,71 +8,148 @@
 
 #import "BFMyOrderController.h"
 #import "BFMyOrderCell.h"
-@interface BFMyOrderController ()<UITableViewDelegate, UITableViewDataSource>
+#import "BFMyOrderModel.h"
+#import "BFMyOrderDetailController.h"
+
+@interface BFMyOrderController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
+/**自定义分段控制器页面*/
+@property (nonatomic, strong) BFSegmentView *segment;
+/**订单数组*/
+@property (nonatomic, strong) NSMutableArray *oderArray;
+/**参数字典*/
+@property (nonatomic, strong) NSMutableDictionary *parameter;
 @end
 
 @implementation BFMyOrderController
 
+- (NSMutableDictionary *)parameter {
+    if (!_parameter) {
+        _parameter = [NSMutableDictionary dictionary];
+    }
+    return _parameter;
+}
+
+- (NSMutableArray *)oderArray {
+    if (!_oderArray) {
+        _oderArray = [NSMutableArray array];
+    }
+    return _oderArray;
+}
+
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-116) style:UITableViewStylePlain];
-        //[_tableView registerClass:[BFMyOrderCell class] forCellReuseIdentifier:@"myOrder"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self.view addSubview:_tableView];
     }
     return _tableView;
 }
 
+- (BFSegmentView *)segment {
+    if (!_segment) {
+        _segment = [BFSegmentView segmentView];
+        _segment.delegate = self;
+        _segment.titleArray = @[@"未付款",@"已付款",@"我的售后"];
+        [self.view addSubview:_segment];
+    }
+    return _segment;
+}
+#pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的订单";
-    [self.view addSubview:self.tableView];
-    [self setHeadaerSegmented];
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
+    //添加tableView
+    [self tableView];
+    //添加分段控制器
+    [self segment];
+    //进入页面点击分段控制器第一个
+    [self.segment click];
+
+
 }
 
-#pragma mark -- 创建固定的头部视图
-- (void)setHeadaerSegmented {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
-    headerView.backgroundColor = BFColor(0xffffff);
-    [self.view addSubview:headerView];
-    
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, ScreenWidth, 0.5)];
-    line.backgroundColor = BFColor(0xA3A3A3);
-    [headerView addSubview:line];
-    
-    NSArray *segmentedArray = @[@"未付款",@"已付款",@"我的售后"];
-    UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:segmentedArray];
-    //改变segment的字体大小和颜色
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:BFColor(0x13359A),NSForegroundColorAttributeName,nil];
-    //设置各种状态的字体和颜色
-    [segmented setTitleTextAttributes:dic forState:UIControlStateNormal];
-    segmented.frame = CGRectMake(5, 10, ScreenWidth-10, 30);
-    [segmented setTintColor:BFColor(0xFD8727)];
-    [headerView addSubview:segmented];
-    
+#pragma mark -- 获取数据
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    [BFProgressHUD MBProgressFromView:self.view andLabelText:@"正在请求..."];
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
+        [self.oderArray addObjectsFromArray:array];
+        BFLog(@"我的订单%@",responseObject);
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
+        BFLog(@"error%@",error);
+    }];
 }
+
+
+
+#pragma mark -- 分段控制器View的代理
+- (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    self.oderArray = nil;
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:
+            BFLog(@"点击未付款");
+            self.parameter[@"status"] = @"1";
+            self.parameter[@"refund_status"] = nil;
+            [self getData];
+            break;
+        case 1:
+            BFLog(@"点击已付款");
+            self.parameter[@"status"] = @"0";
+            self.parameter[@"refund_status"] = nil;
+            [self getData];
+            break;
+        case 2:
+            BFLog(@"点击我的售后");
+            self.parameter[@"status"] = nil;
+            self.parameter[@"refund_status"] = @"1";
+            [self getData];
+            break;
+        default:
+            break;
+    }
+}
+
+
+
 
 #pragma mark --- datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return self.oderArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFMyOrderCell *cell = [BFMyOrderCell cellWithTableView:tableView];
+    cell.model = self.oderArray[indexPath.row];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BFMyOrderModel *model = self.oderArray[indexPath.row];
+    BFMyOrderDetailController *detailVC = [BFMyOrderDetailController new];
+    detailVC.orderId = model.orderId;
+    [self.navigationController pushViewController:detailVC animated:YES];
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleWidth(130);
 }
 
+#pragma mark -- viewWillAppear
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
 @end
