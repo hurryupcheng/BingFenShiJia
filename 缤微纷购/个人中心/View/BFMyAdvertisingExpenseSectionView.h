@@ -22,4 +22,6 @@
 @property (nonatomic, weak) id<SectionHeaderViewDelegate>delegate;
 
 @property (nonatomic, strong) BFMyAdvertisingExpenseModel *group;
+
+- (void)click;
 @end

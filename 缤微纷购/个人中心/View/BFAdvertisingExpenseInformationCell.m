@@ -45,10 +45,10 @@
     return self;
 }
 
-- (void)setUser:(BFUserModel *)user {
-    _user = user;
-    if (_user) {
-        self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月客户订单总佣金:¥%@已确认",_user.total];
+- (void)setTotal:(BFMyAdvertisingExpenseModel *)total {
+    _total = total;
+    if (total) {
+        self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月客户订单总佣金:¥%@已确认",total.total];
     }
 }
 

@@ -465,6 +465,7 @@
 }
 
 #pragma  mark 分区头视图
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     if (kind == UICollectionElementKindSectionHeader) {
@@ -491,8 +492,14 @@
         [self.upBackView removeFromSuperview];
         self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
        
-    }
+        [self.viewBut removeFromSuperview];
+        [self.lbView removeFromSuperview];
+        [self.upBackView removeFromSuperview];
+        self.headerView.sectionImage.frame = CGRectMake(0, 0,kScreenWidth, kScreenWidth/2);
+        
+       }
         return self.headerView;
+
     }else{
         NSInteger index = self.homeModel.homeDataArray.count;
         if (indexPath.section == index-1) {
@@ -589,6 +596,7 @@
     BFPTDetailViewController *ptxq = [[BFPTDetailViewController alloc]init];
     self.pt = self.dataArray[indexPath.row];
     ptxq.ID = self.pt.ID;
+    ptxq.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:ptxq animated:NO];
 }
 

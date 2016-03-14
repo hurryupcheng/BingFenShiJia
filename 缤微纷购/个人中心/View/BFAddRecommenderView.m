@@ -108,7 +108,7 @@
         if ([self.IDTextField.text isEqualToString:userInfo.ID]) {
             [BFProgressHUD MBProgressFromView:self andLabelText:@"不能添加自己"];
         }else {
-            NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=p_username";
+            NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=p_username"];
             NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
             parameter[@"uid"] = userInfo.ID;
             parameter[@"pid"] = self.IDTextField.text;
@@ -152,7 +152,7 @@
 
 - (void)newSureButtonclick {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=add_p_username";
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=add_p_username"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"pid"] = self.IDTextField.text;
@@ -190,6 +190,7 @@
     self.clickedView.hidden = YES;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:self];
+ 
     window.frame = self.frame;
 }
 

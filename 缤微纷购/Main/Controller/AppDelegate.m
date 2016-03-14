@@ -5,12 +5,24 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
 #import "Header.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
 #import <CoreLocation/CoreLocation.h>
 #import "DWTableViewController.h"
 #import "BFNavigationController.h"
+
+#define AppKey   @"56e3cf9fe0f55a2fe50023fb"
+
+#define  kWXKey         @"wx527fcee587d19017"
+#define  kWXSecret      @"80e78cd5c34542df24a1c3e6b28492b1"
+
+#define  kQQKey         @"1104539912"
+#define  kQQSecret      @"eFVgRits2fqf36Jf"
+
 @interface AppDelegate ()<CLLocationManagerDelegate>
 /**定位管理*/
 @property (nonatomic, strong) CLLocationManager * manager;
@@ -26,7 +38,18 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+
+    /**苹果审核要求：如果没有安装微信QQ等软件，则不允许显示分享按钮*/
+//    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone,UMShareToWechatSession, UMShareToWechatTimeline,UMShareToSina]];
+    
+    
+    [UMSocialData setAppKey:AppKey];
+    
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:kWXKey appSecret:kWXSecret url:@"http://www.umeng.com/social"];
+    //设置分享到QQ/Qzone的应用Id，和分享url 链接
+    [UMSocialQQHandler setQQWithAppId:kQQKey appKey:kQQSecret url:@"http://www.umeng.com/social"];
+
     
     self.proportionX = kScreenWidth/375;
     self.proportionY = kScreenHeight/667;
@@ -44,6 +67,20 @@
     return YES;
     
     
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [UMSocialSnsService handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    BOOL result = [UMSocialSnsService handleOpenURL:url];
+    if (result == FALSE) {
+        //调用其他SDK，例如支付宝SDK等
+    }
+    return result;
 }
 
 

@@ -7,6 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFBankButton.h"
+
+@protocol BFPickerViewDelegate <NSObject>
+
+- (void)changeButtonStatus;
+
+@end
 
 @interface BFPickerView : UIView<UIPickerViewDataSource,UIPickerViewDelegate>
 
@@ -15,4 +22,7 @@
 @property (nonatomic, copy)void (^block)(NSString *string);
 /**数据*/
 @property (nonatomic, strong) NSArray *dataArray;
+
+@property (nonatomic, weak) id<BFPickerViewDelegate>delegate;
+
 @end

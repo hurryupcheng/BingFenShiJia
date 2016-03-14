@@ -111,7 +111,7 @@
 //        }
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
         NSString *secondPW = [MyMD5 md5:self.secondPasswordTX.text];
-        NSString *url = @"http://192.168.1.201/binfen/index.php?a=reg&m=Json";
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?a=reg&m=Json"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         parameter[@"pass"] = firstPW;
@@ -147,7 +147,7 @@
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入有效的手机号"];
     }else {
         
-        NSString *url  = @"http:/192.168.1.201/binfen/index.php?m=Json&a=send_code";
+        NSString *url  = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=send_code"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         //BFLog(@"responseObject%@，，，%@",parameter,url);

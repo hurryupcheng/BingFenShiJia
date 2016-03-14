@@ -11,7 +11,8 @@
 #import "BFMyAdvertisingExpenseModel.h"
 #import "BFInstructionCell.h"
 #import "BFAdvertisingExpenseInformationCell.h"
-
+#import "BFPersonInformationController.h"
+#import "BFMyAdvertisingExpenseTabbar.h"
 
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate>
 /**tableView*/
@@ -22,29 +23,32 @@
 @property (nonatomic, getter=isOpen) BOOL isOpen;
 /**底部视图*/
 @property (nonatomic, strong) UIView *bottomView;
+/**自定义分区头*/
+@property (nonatomic, strong) BFMyAdvertisingExpenseSectionView *headerView;
+/**自定义tabbar*/
+@property (nonatomic, strong) BFMyAdvertisingExpenseTabbar *myTabbar;
+
+@property (nonatomic, strong) NSMutableDictionary *parameter;
 @end
 
 @implementation BFMyAdvertisingExpenseController
 
-- (UIView *)bottomView {
-    if (!_bottomView) {
-        _bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight-BF_ScaleHeight(50)-64, ScreenWidth, BF_ScaleHeight(50))];
-        _bottomView.backgroundColor = BFColor(0xffffff);
-        _bottomView.layer.shadowOpacity = 0.3;
-        _bottomView.layer.shadowColor = BFColor(0x000000).CGColor;
-        _bottomView.layer.shadowOffset = CGSizeMake(0, 0);
-        [self.view addSubview:_bottomView];
-        
-        UILabel *label = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), _bottomView.height) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.60"];
-        [_bottomView addSubview:label];
-        
-        UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(10), BF_ScaleWidth(60), BF_ScaleHeight(30)) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
-        raiseCashButton.layer.cornerRadius = 3;
-        raiseCashButton.backgroundColor = BFColor(0x102D97);
-        [raiseCashButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomView addSubview:raiseCashButton];
+
+- (NSMutableDictionary *)parameter {
+    if (!_parameter) {
+        _parameter = [NSMutableDictionary dictionary];
     }
-    return _bottomView;
+    return _parameter;
+}
+
+- (BFMyAdvertisingExpenseTabbar *)myTabbar {
+    if (!_myTabbar) {
+        _myTabbar = [BFMyAdvertisingExpenseTabbar myTabbar];
+        //_myTabbar.model = self.user;
+        [self.view addSubview:_myTabbar];
+        //_myTabbar.backgroundColor = [UIColor blueColor];
+    }
+    return _myTabbar;
 }
 
 
@@ -65,7 +69,8 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-116) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-160) style:UITableViewStylePlain];
+        //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -76,16 +81,44 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"本月广告费";
-    [self.view addSubview:self.tableView];
+    //self.view.backgroundColor = [UIColor greenColor];
     //设置头部分段控制器
     [self setHeadaerSegmented];
+    [self myTabbar];
+    //设置底部tabBar
+    //[self setBottomTabbar];
+    [self.view addSubview:self.tableView];
 
+    
+}
+
+
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    //self.parameter[@"p"] = @1;
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        BFLog(@"%@,",responseObject);
+    } failure:^(NSError *error) {
+        BFLog(@"%@",error);
+    }];
+}
+
+/**进入页面就点击第一个*/
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
+    self.headerView = (BFMyAdvertisingExpenseSectionView *)[self tableView:self.tableView viewForHeaderInSection:0] ;
+    [self.headerView click];
 }
 
 
 
 
 #pragma mark -- 创建固定的头部视图
+
 - (void)setHeadaerSegmented {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
     headerView.backgroundColor = BFColor(0xffffff);
@@ -120,11 +153,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell    cellWithTableView:tableView];
+        BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
         if (self.listArray) {
             BFMyAdvertisingExpenseModel *group = self.listArray[indexPath.section];
-            BFUserModel *user = group.groups[indexPath.row];
-            cell.user = user;
+            self.myTabbar.model = group;
+            cell.total = group;
             
         }
             return cell;
@@ -141,25 +174,36 @@
 }
 
 
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleHeight(90);
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    BFMyAdvertisingExpenseSectionView *headerView = [BFMyAdvertisingExpenseSectionView myHeadViewWithTableView:tableView];
-    headerView.backgroundColor = BFColor(0xffffff);
-    headerView.delegate = self;
+    self.headerView = [BFMyAdvertisingExpenseSectionView myHeadViewWithTableView:tableView];
+    self.headerView.contentView.backgroundColor = BFColor(0xffffff);
+    self.headerView.delegate = self;
     if (self.listArray) {
         BFMyAdvertisingExpenseModel *group = self.listArray[section];
-        self.isOpen = group.isOpen;
-        headerView.group = group;
+        group.isOpen = NO;
+        self.headerView.group = group;
+      
     }
     
-    return headerView;
+    return self.headerView;
 }
+
 
 - (void)myAdvertisingExpenseSectionView:(BFMyAdvertisingExpenseSectionView *)view didButton:(UIButton *)button {
     
+    NSString *year = [button.titleLabel.text substringWithRange:NSMakeRange(0,4)];
+    NSString *month = [button.titleLabel.text substringWithRange:NSMakeRange(5,2)];
+    
+    self.parameter[@"year"] = year;
+    self.parameter[@"month"] = month;
+    [self getData];
+    BFLog(@"---%@,,,%@,,,%@,,,%@",button.titleLabel.text,year,month,self.parameter);
     [self.tableView reloadData];
     
 }

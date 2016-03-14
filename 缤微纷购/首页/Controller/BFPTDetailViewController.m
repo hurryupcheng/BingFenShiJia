@@ -30,6 +30,8 @@
     
 }
 
+
+
 - (void)getData {
     
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];

@@ -5,10 +5,11 @@
 //  Created by 程召华 on 16/3/5.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#define kUMKey  @"56e3cf9fe0f55a2fe50023fb"
+#import "UMSocial.h"
 #import "BFSettingController.h"
-
-@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource>
+#import "BFShareView.h"
+@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -48,6 +49,11 @@
 }
 
 - (void)exit {
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+
     BFLog(@"点击退出");
 }
 #pragma mark --- datasource
@@ -152,6 +158,76 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 2) {
+        if (indexPath.row == 2) {
+            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+            BFShareView *share = [BFShareView shareView];
+            share.delegate = self;
+            [window addSubview:share];
+        }
+    }
+}
+
+- (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    switch (type) {
+            
+            
+            
+            
+        case BFShareButtonTypeMoments:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatTimeline] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"朋友圈分享");
+        break;
+            case BFShareButtonTypeWechatFriends:
+
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatSession] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+                if (response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"微信好友");
+            break;
+            case BFShareButtonTypeSinaBlog:
+
+            [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"SinaBlog"] socialUIDelegate:self];        //设置分享内容和回调对象
+            [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+            BFLog(@"新浪微博分享");
+            break;
+        case BFShareButtonTypeQQFriends:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQQ] content:@"分享文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"QQ好友分享");
+            break;
+        case BFShareButtonTypeQQZone:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQzone] content:@"分享文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"QQ空间分享");
+            break;
+
+    }
+}
+
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+{
+    //根据`responseCode`得到发送结果,如果分享成功
+    if(response.responseCode == UMSResponseCodeSuccess)
+    {
+        //得到分享到的微博平台名
+        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+    }
+}
+
 #pragma mark -- delegate
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -165,6 +241,8 @@
         return @"关于缤纷";
     }
 }
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     if (section == 0) {

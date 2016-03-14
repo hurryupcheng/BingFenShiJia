@@ -24,10 +24,28 @@
 @property (nonatomic, strong) UITextField *phoneTX;
 /**密码输入框*/
 @property (nonatomic, strong) UITextField *passwordTX;
-
+/**手机号保存路径*/
+@property (nonatomic, strong) NSString *phonePath;
+/**密码保存路径*/
+@property (nonatomic, strong) NSString *passwordPath;
 @end
 
 @implementation LogViewController
+
+
+- (NSString *)phonePath {
+    if (!_phonePath) {
+        _phonePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"phone.plist"];
+    }
+    return _phonePath;
+}
+
+- (NSString *)passwordPath {
+    if (!_passwordPath) {
+        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
+    }
+    return _passwordPath;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -50,6 +68,7 @@
 - (void)initWithView{
 
     self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];
+    self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
     //self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
     self.phoneTX.delegate = self;
     self.phoneTX.returnKeyType = UIReturnKeyNext;
@@ -60,6 +79,7 @@
     [self.bgImageView addSubview:line1];
     
     self.passwordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"密码"];
+    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
     self.passwordTX.delegate = self;
     self.passwordTX.returnKeyType = UIReturnKeyDone;
     self.passwordTX.secureTextEntry = YES;
@@ -71,6 +91,7 @@
     
     
     UIButton *loginButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line2.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xffffff)];
+    
     loginButton.backgroundColor = BFColor(0xFD8727);
     loginButton.layer.cornerRadius = BF_ScaleHeight(18);
     loginButton.layer.masksToBounds = YES;
@@ -174,7 +195,7 @@
 
     }else {
         
-        NSString *url = @"http://192.168.1.201/binfen/index.php?m=Json&a=login";
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         parameter[@"pass"] = [MyMD5 md5:self.passwordTX.text];
@@ -186,6 +207,9 @@
                 return ;
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
+                
+                [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
+                [self.passwordTX.text writeToFile:self.passwordPath atomically:YES];
                 
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
