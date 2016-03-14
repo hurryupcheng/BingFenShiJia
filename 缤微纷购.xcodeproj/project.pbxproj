@@ -133,6 +133,7 @@
 		590D3C3F1C94166A0042D42E /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 590D3C2A1C94166A0042D42E /* TencentOpenApi_IOS_Bundle.bundle */; };
 		590D3C401C94166A0042D42E /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2D1C94166A0042D42E /* libSocialWechat.a */; };
 		590D3C411C94166A0042D42E /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2E1C94166A0042D42E /* libWeChatSDK.a */; };
+		590D3C421C94185F0042D42E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 51D121BF1C3A6DA800640A44 /* Info.plist */; };
 		592521B71C867522000F609F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B01C867522000F609F /* AppDelegate.m */; };
 		592521B81C867522000F609F /* PTStepViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B21C867522000F609F /* PTStepViewController.m */; };
 		592521B91C867522000F609F /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592521B41C867522000F609F /* RootViewController.m */; };
@@ -2171,6 +2172,7 @@
 				51D10E331C40F10700F630C9 /* icon_02.png in Resources */,
 				51D121BB1C3A6DA700640A44 /* Assets.xcassets in Resources */,
 				51D2B0811C782FC2002D35FB /* touxiang1.png in Resources */,
+				590D3C421C94185F0042D42E /* Info.plist in Resources */,
 				51D4D9551C44A8F200453CD1 /* iicon05.png in Resources */,
 				51D10E351C40F10700F630C9 /* icon_04.png in Resources */,
 				51811AFA1C745CEA004E29A8 /* 101.png in Resources */,
@@ -2574,6 +2576,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2605,6 +2608,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",

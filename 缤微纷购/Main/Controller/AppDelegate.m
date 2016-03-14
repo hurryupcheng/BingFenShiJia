@@ -40,7 +40,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     /**苹果审核要求：如果没有安装微信QQ等软件，则不允许显示分享按钮*/
-    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone,UMShareToWechatSession, UMShareToWechatTimeline,UMShareToSms,UMShareToEmail,UMShareToQzone]];
+//    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone,UMShareToWechatSession, UMShareToWechatTimeline,UMShareToSina]];
     
     
     [UMSocialData setAppKey:AppKey];
@@ -67,6 +67,11 @@
     return YES;
     
     
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    return [UMSocialSnsService handleOpenURL:url];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

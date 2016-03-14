@@ -50,6 +50,8 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     }
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    
     cell.accessoryView.backgroundColor = [UIColor redColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
@@ -61,20 +63,21 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"head"]];
-                //headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(90), 0, BF_ScaleHeight(50), BF_ScaleHeight(50));
-                //headImageView.contentMode = UIViewContentModeCenter;
-                cell.accessoryView = headImageView;
+                headImageView.backgroundColor = [UIColor redColor];
+                headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40));
+                headImageView.contentMode = UIViewContentModeScaleAspectFill;
+                [cell addSubview:headImageView];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                
+                BFLog(@"%@",NSStringFromCGRect(headImageView.frame));
                 break;
             }
             case 1:
                 cell.textLabel.text = @"  推荐人";
-                cell.detailTextLabel.text = @"金木";
+                cell.detailTextLabel.text = userInfo.p_username;
                 break;
             case 2:
                 cell.textLabel.text = @"  昵称";
-                cell.detailTextLabel.text = @"  叶胖胖";
+                cell.detailTextLabel.text = userInfo.nickname;
                 break;
         }
     } else if (indexPath.section == 1) {
@@ -85,6 +88,11 @@
             case 0:
             {
                 cell.textLabel.text = @"  地址管理";
+                UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location"]];
+                headImageView.backgroundColor = [UIColor redColor];
+                headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(15), BF_ScaleHeight(24));
+                headImageView.contentMode = UIViewContentModeScaleAspectFit;
+                [cell addSubview:headImageView];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 break;
@@ -118,11 +126,23 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            return BF_ScaleHeight(50);
+            return BF_ScaleHeight(60);
         }
     }
-    return 44;
+    return BF_ScaleHeight(44);
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+}
+
+
+
+
+
+
+
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 3) {
