@@ -11,14 +11,14 @@
 
 @protocol BFOtherViewDelegate <NSObject>
 
-- (void)BFOtherViewDelegate:(BFOtherView *)otherView index:(NSInteger)index;
+//- (void)BFOtherViewDelegate:(BFOtherView *)otherView index:(NSInteger)index;
 
 @end
 
 @interface BFOtherView : UIView
 
-@property (nonatomic,retain)UIImageView *imgButton;
-@property (nonatomic,assign)id<BFOtherViewDelegate>otherDelegate;
+@property (nonatomic,retain)UIButton *imgButton;
+//@property (nonatomic,assign)id<BFOtherViewDelegate>otherDelegate;
 
 - (instancetype)initWithFrame:(CGRect)frame  img:(NSMutableArray *)imgs count:(NSInteger)count;
 

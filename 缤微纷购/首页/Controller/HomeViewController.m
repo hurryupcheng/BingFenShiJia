@@ -43,7 +43,6 @@
 @property (nonatomic,retain)HomeModel *homeModel;
 @property (nonatomic,retain)HomeOtherModel *homeOtherModel;
 @property (nonatomic,retain)UIButton *button;
-@property (nonatomic,retain)UIButton *but;
 @property (nonatomic,retain)NSMutableArray *dataArray;
 @property (nonatomic,retain)NSMutableArray *itemsArray;
 @property (nonatomic,retain)NSArray *titleArr;
@@ -77,7 +76,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     [self CollectionViewgetDate];
@@ -108,10 +107,10 @@
     _button.backgroundColor = [UIColor whiteColor];
     _button.layer.cornerRadius = 12;
     _button.layer.masksToBounds = YES;
-    self.button.selected = YES;
+    _button.selected = YES;
     _button.tag = 100;
     [_button setTitle:@"缤纷商城" forState:UIControlStateNormal];
-    _button.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
+    _button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
     [_button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -120,7 +119,7 @@
     _but.layer.cornerRadius = 12;
     _but.layer.masksToBounds = YES;
     [_but setTitle:@"缤纷拼团" forState:UIControlStateNormal];
-    _but.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
+    _but.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
     _but.tag = 200;
     [_but setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [_but addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
@@ -135,8 +134,6 @@
     UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
     self.navigationItem.leftBarButtonItems = @[leftSpace,location];
     
-    
-
 }
 
 - (void)clickToChangeCity {
@@ -482,18 +479,21 @@
         self.headerSection = indexPath.row;
         
     if (indexPath.section == 0) {
-        //
+        
         [self initWithScrollView];
         [self initWithBut];
         [self initWithUpView];
         self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
     }else{
+   
+        [self.viewBut removeFromSuperview];
+        [self.lbView removeFromSuperview];
+        [self.upBackView removeFromSuperview];
         self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
-       }
-        return self.headerView;
+       
     }
-    else
-    {
+        return self.headerView;
+    }else{
         NSInteger index = self.homeModel.homeDataArray.count;
         if (indexPath.section == index-1) {
           
@@ -501,7 +501,6 @@
            
             [self initWithOtherView];
         }
-        
         
         return self.footerView;
     }
@@ -543,7 +542,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     PTTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
-    
+
     cell.model = self.dataArray[indexPath.row];
     self.cellHeight = cell.cellHeight;
     cell.backgroundColor = BFColor(0xD4D4D4);
@@ -578,9 +577,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     if (indexPath.row == self.dataArray.count-1) {
-        return self.cellHeight+self.dataArray.count*20;
+        return self.cellHeight+15*self.dataArray.count;
     }else {
-        return self.cellHeight+20;
+        return self.cellHeight+15;
     }
     
 }

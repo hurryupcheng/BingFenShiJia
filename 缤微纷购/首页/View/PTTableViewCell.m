@@ -123,7 +123,7 @@
     _moneyLabel.frame = CGRectMake(CGRectGetMinX(_goLabel.frame)-kScreenWidth/3+15, CGRectGetMaxY(_infoLabel.frame)+10, kScreenWidth/3, 30);
     _txImageV.frame = CGRectMake(CGRectGetMinX(_moneyLabel.frame)-30, CGRectGetMaxY(_infoLabel.frame)+5, 40, 40);
     _backV.height = CGRectGetMaxY(_moneyLabel.frame)+20;
-    self.cellHeight = _backV.height+20;
+    self.cellHeight = _backV.height;
     
 
 }

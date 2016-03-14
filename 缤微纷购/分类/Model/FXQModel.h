@@ -20,4 +20,11 @@
 @property (nonatomic,retain)NSString *oldMoney;
 @property (nonatomic,retain)NSString *info;
 
+@property (nonatomic,retain)NSMutableArray *nameArr;
+@property (nonatomic,retain)NSArray *guigeArr;
+@property (nonatomic,retain)NSMutableArray *stockArr;
+@property (nonatomic,retain)NSMutableArray *imageArr;
+@property (nonatomic,retain)NSMutableArray *imgsArr;
+@property (nonatomic,retain)NSMutableArray *moneyArr;
+
 @end

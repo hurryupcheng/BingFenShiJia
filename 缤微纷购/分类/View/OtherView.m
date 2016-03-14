@@ -17,17 +17,18 @@
 
 @property (nonatomic,retain)UIButton *selecdent;
 @property (nonatomic,retain)NSArray *arrays;
-@property (nonatomic,assign)NSInteger number;
+@property (nonatomic,retain)NSArray *guige;
 @property (nonatomic,retain)BFClassminView *name;
 @property (nonatomic,retain)BFClassminView *het;
 @property (nonatomic,retain)BFClassminView *num;
 
+@property (nonatomic,assign)NSInteger number;
 @end
 
 @implementation OtherView
 
 
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSMutableSet *)set number:(NSInteger)num{
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num{
 
     if ([super initWithFrame:frame]) {
   
@@ -35,7 +36,7 @@
 //        self.imageView.backgroundColor = [UIColor greenColor];
         
         [self.imageView sd_setImageWithURL:[NSURL URLWithString:img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-        
+        self.img = img;
         [self addSubview:_imageView];
         
         self.titleLabel = [[UILabel alloc]init];
@@ -53,10 +54,11 @@
         self.arrays = [money copy];
         
         NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%@元",string]];
+        float money = [string floatValue];
+        NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
         
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [string length]+1)];
-        [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[string length]+5)];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [str length]-4)];
+        [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[str length])];
         
         self.moneyLabel.attributedText = str;
 
@@ -84,45 +86,46 @@
             [self addSubview:self.arrBut];
         }
     }
-        
-        NSArray *guige = [set allObjects];
     
-        self.het = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrBut.frame)+10, kScreenWidth, 25) title:@"规格"];
+        self.het = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrBut.frame)+10, kScreenWidth, CGFloatY(25)) title:@"规格"];
         
         [self addSubview:_het];
         
         self.red = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_het.frame)+10, (kScreenWidth-50)/4, CGFloatY(30))];
         _red.layer.borderWidth = 1;
         _red.layer.borderColor = [UIColor redColor].CGColor;
-            
-        for (int k= 0; k < guige.count; k++) {
+        
+        self.guige = [set copy];
+        for (int k= 0; k < set.count; k++) {
             self.arrayBut = [[UIButton alloc]initWithFrame:CGRectMake(10+(k%4)*10+(k%4)*((kScreenWidth-50)/4), 10+CGRectGetMaxY(_het.frame)+(k/4)*10+(k/4)*CGFloatY(30), (kScreenWidth-50)/4, CGFloatY(30))];
             
             self.arrayBut.layer.borderWidth = 1;
             self.arrayBut.layer.borderColor = [UIColor grayColor].CGColor;
-            [self.arrayBut setTitle:guige[k] forState:UIControlStateNormal];
+            [self.arrayBut setTitle:set[k] forState:UIControlStateNormal];
             [self.arrayBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             self.arrayBut.tag = k;
             [self.arrayBut addTarget:self action:@selector(arrayBut:) forControlEvents:UIControlEventTouchUpInside];
             self.arrayBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
             [self addSubview:self.arrayBut];
             }
-        
+    
         if (self.arrayBut.tag == 0) {
             self.arrayBut.selected = YES;
+
         }
         
-        self.num = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrayBut.frame)+10, kScreenWidth, 25) title:@"数量"];
+        
+        self.num = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrayBut.frame)+10, kScreenWidth, CGFloatY(25)) title:@"数量"];
         
         [self addSubview:self.num];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.num.frame)+10, kScreenWidth/4, CGFloatY(35))];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.num.frame)+10, CGFloatX(kScreenWidth/4), CGFloatY(35))];
         label.text = @"购买数量:";
+        label.font = [UIFont systemFontOfSize:CGFloatX(16)];
         
-        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMaxY(self.num.frame)+10, kScreenWidth/3, CGFloatY(35))];
+        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMaxY(self.num.frame)+10, CGFloatX(kScreenWidth/3), CGFloatY(35))];
         
-        self.number = num;
-        self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
+        self.addShopp.textF.text = num;
 //        self.addShopp.backgroundColor = [UIColor greenColor];
         [self.addShopp.maxBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
         [self.addShopp.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
@@ -133,6 +136,7 @@
         [self addSubview:_addShopp];
         [self addSubview:_red];
         [self addSubview:_reds];
+   
     }
     return self;
 }
@@ -248,10 +252,11 @@
     self.reds.frame = but.frame;
     
     NSString *string = [NSString stringWithFormat:@"%@",self.arrays[but.tag]];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%@元",string]];
+    float money = [string floatValue];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
     
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [string length]+1)];
-    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[string length]+5)];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [str length]-4)];
+    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[str length])];
     
     self.moneyLabel.attributedText = str;
 
@@ -264,13 +269,18 @@
     self.red.frame = but.frame;
     
     NSString *string = [NSString stringWithFormat:@"%@",self.arrays[but.tag]];
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%@元",string]];
+    float money = [string floatValue];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
     
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [string length]+1)];
-    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[string length]+5)];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3, [str length]-4)];
+    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[str length])];
     
     self.moneyLabel.attributedText = str;
-
+    
+    if (self.arrayBut.selected == YES) {
+        self.hot = _guige[self.arrayBut.tag];
+        NSLog(@"%@",_guige[self.arrayBut.tag]);
+    }
 }
 
 - (void)minButSelented{

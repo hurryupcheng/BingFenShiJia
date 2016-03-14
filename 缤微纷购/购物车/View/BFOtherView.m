@@ -31,19 +31,17 @@
         scroll.shouldGroupAccessibilityChildren = NO;
         scroll.showsHorizontalScrollIndicator = NO;
         scroll.pagingEnabled = YES;
+        scroll.userInteractionEnabled = YES;
         
         for (int i = 0; i < count; i++) {
-            self.imgButton = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
+            self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
             _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
             _imgButton.layer.borderWidth = 1;
             _imgButton.tag = i;
             _imgButton.userInteractionEnabled = YES;
             
-            [_imgButton sd_setImageWithURL:[NSURL URLWithString:imgs[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+            [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:imgs[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
             
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapImg:)];
-            [self.imgButton addGestureRecognizer:tap];
-   
             [scroll addSubview:_imgButton];
         }
         
@@ -55,12 +53,12 @@
     }
     return self;
 }
-
-- (void)tapImg:(UITapGestureRecognizer *)tap{
-    if (self.otherDelegate != nil && [self.otherDelegate respondsToSelector:@selector(BFOtherViewDelegate:index:)]) {
-        [self.otherDelegate BFOtherViewDelegate:self index:_imgButton.tag];
-        NSLog(@"======%d",_imgButton.tag);
-    }
-}
+//
+//- (void)tapImg:(UITapGestureRecognizer *)tap{
+//    if (self.otherDelegate != nil && [self.otherDelegate respondsToSelector:@selector(BFOtherViewDelegate:index:)]) {
+//        [self.otherDelegate BFOtherViewDelegate:self index:_imgButton.tag];
+//        NSLog(@"======%d",_imgButton.tag);
+//    }
+//}
 
 @end

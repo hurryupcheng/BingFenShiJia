@@ -32,6 +32,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.title = @"分类";
+    
     [self getDate];
 }
 
@@ -72,7 +74,7 @@
         [button setBackgroundImage:[UIImage imageNamed:@"12.png"] forState:UIControlStateSelected];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
-        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
+        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
         
         [button addTarget:self action:@selector(buttontag:) forControlEvents:UIControlEventTouchUpInside];
         

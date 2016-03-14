@@ -20,9 +20,9 @@
         
         self.title = [[UILabel alloc]init];
         self.title.text = title;
-        self.title.frame = CGRectMake(CGRectGetMaxX(self.img.frame)+5, 5, (self.frame.size.width-(kScreenWidth/4))-50,[Height heightString:title font:CGFloatY(14)]);
+        self.title.frame = CGRectMake(CGRectGetMaxX(self.img.frame)+5, 5, (self.frame.size.width-(kScreenWidth/4))-50,[Height heightString:title font:CGFloatX(14)]);
         self.title.numberOfLines = 0;
-        self.title.font = [UIFont systemFontOfSize:CGFloatY(14)];
+        self.title.font = [UIFont systemFontOfSize:CGFloatX(14)];
         [self.title sizeToFit];
         self.title.backgroundColor = [UIColor redColor];
         

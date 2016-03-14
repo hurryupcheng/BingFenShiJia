@@ -6,7 +6,7 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 #import "AddShopping.h"
-#import "BFShoppModel.h"
+#import "BFStorage.h"
 #import <UIKit/UIKit.h>
 //  是否被选中回调
 typedef void (^selectBlock)(BOOL select);
@@ -23,5 +23,7 @@ typedef void(^numChange)();
 @property (nonatomic,retain)AddShopping *add;
 @property (nonatomic,retain)UIButton *close;
 
-- (void)reloadDataWith:(BFShoppModel *)model;
+@property (nonatomic,assign)NSInteger cellHeight;
+
+- (void)reloadDataWith:(BFStorage *)model;
 @end

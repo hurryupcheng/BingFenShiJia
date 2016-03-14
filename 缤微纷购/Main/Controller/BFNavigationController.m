@@ -20,7 +20,7 @@
     self.delegate = self;
     
     UIBarButtonItem *back = [[UIBarButtonItem alloc]init];
-    back.title = nil;
+//    back.title = nil;
     self.navigationItem.backBarButtonItem = back;
     __weak typeof (self)weakSelf = self;
     if ([self respondsToSelector:@selector(interactivePopGestureRecognizer)]) {

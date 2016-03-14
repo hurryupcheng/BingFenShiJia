@@ -5,9 +5,14 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
 #import <UIKit/UIKit.h>
 
 @interface ShoppingViewController : UIViewController
+
+//@property (nonatomic,retain)NSString *titles;
+//@property (nonatomic,retain)NSString *img;
+//@property (nonatomic,retain)NSString *spec;
+//@property (nonatomic,retain)NSString *money;
+//@property (nonatomic,assign)NSInteger numbers;
 
 @end

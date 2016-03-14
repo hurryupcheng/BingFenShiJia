@@ -23,10 +23,6 @@
 
 @implementation BFPTDetailViewController
 
-
-
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     //获取数据
@@ -56,7 +52,7 @@
     self.header.height = self.header.headerHeight;
     [self.header.alonePurchaseButton addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-110)];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
     self.webBrowserView = self.webView.scrollView.subviews[0];
     CGRect frame = self.webBrowserView.frame;
     frame.origin.y = CGRectGetMaxY(self.header.frame);

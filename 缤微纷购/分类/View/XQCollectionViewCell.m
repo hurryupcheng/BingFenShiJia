@@ -39,7 +39,7 @@
         
         self.title = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.imageView.frame), x-10, 45)];
         self.title.text = @"产品名称";
-        self.title.font = [UIFont systemFontOfSize:CGFloatY(16)];
+        self.title.font = [UIFont systemFontOfSize:CGFloatX(16)];
         self.title.numberOfLines = 2;
 //        self.title.backgroundColor = [UIColor yellowColor];
         

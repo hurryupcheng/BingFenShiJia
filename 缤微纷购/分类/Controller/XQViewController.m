@@ -16,15 +16,18 @@
 @interface XQViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic,retain)UICollectionView *collectionView;
-@property (nonatomic,retain)UISegmentedControl *segmented;
+@property (nonatomic,retain)UIView *segmented;
 @property (nonatomic,retain)XQModel *xqModel;
 @property (nonatomic,retain)NSMutableArray *dataArr;
 @property (nonatomic,retain)NSMutableArray *moneyArr;
 @property (nonatomic,retain)NSMutableArray *titleArr;
 @property (nonatomic,retain)NSMutableArray *imgArr;
 @property (nonatomic,retain)NSMutableArray *idArr;
+@property (nonatomic,retain)NSMutableArray *dataArray;
 
 @property (nonatomic,assign)NSInteger number;
+@property (nonatomic,assign)NSInteger sorke;
+@property (nonatomic,retain)UIButton *selectend;
 
 @end
 
@@ -35,6 +38,7 @@
     self.view.backgroundColor = rgb(245, 245, 245, 1.0);
 
     self.number = 0;
+    self.sorke = 1;
     self.title = self.titles;
     
     [self initWithSegmented];
@@ -48,19 +52,50 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_02.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButton)];
     
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
-    self.segmented = [[UISegmentedControl alloc]initWithItems:arr];
-    self.segmented.frame = CGRectMake(5, 5, kScreenWidth-10, 30);
-    self.segmented.tintColor = rgb(0, 0, 205, 1.0);
-    self.segmented.selectedSegmentIndex = 0;
+    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-10, 30)];
+    _segmented.layer.cornerRadius = 6;
+    _segmented.layer.masksToBounds = YES;
+    _segmented.layer.borderWidth = 1;
+    _segmented.layer.borderColor = rgb(0, 0, 205, 1.0).CGColor;
     
-    NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)], NSForegroundColorAttributeName: [UIColor whiteColor]};
-    self.segmented.tintColor = [UIColor blueColor];
-    [self.segmented setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];
-    NSDictionary* unselectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)],NSForegroundColorAttributeName: [UIColor blueColor]};
-    [self.segmented setTitleTextAttributes:unselectedTextAttributes forState:UIControlStateNormal];
-    [self.segmented addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_segmented];
+    for (int i = 0; i < 3; i++) {
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, 30)];
+        
+        button.tag = i;
+        [button setTitle:arr[i] forState:UIControlStateNormal];
+        [button setTitleColor:rgb(0, 0, 205, 1.0) forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [button addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventTouchUpInside];
+        [button setBackgroundImage:[UIImage imageNamed:@"blues.png"] forState:UIControlStateSelected];
+        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        
+        if (button.tag == 0) {
+            self.selectend.selected = NO;
+            button.selected = YES;
+            self.selectend = button;
+        }
+        
+        [_segmented addSubview:button];
+    }
     
-    [self.view addSubview:self.segmented];
+    
+    for (int j = 1; j <= 2; j++) {
+        UIView *color = [[UIView alloc]initWithFrame:CGRectMake((_segmented.width)/3*j, 0, 1, 30)];
+        color.backgroundColor = rgb(0, 0, 205, 1.0);
+        [_segmented addSubview:color];
+    }
+//    self.segmented = [[UISegmentedControl alloc]initWithItems:arr];
+//    self.segmented.frame = CGRectMake(5, 5, kScreenWidth-10, 30);
+//    self.segmented.tintColor = rgb(0, 0, 205, 1.0);
+//    self.segmented.selectedSegmentIndex = 0;
+//    
+//    NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)], NSForegroundColorAttributeName: [UIColor whiteColor]};
+//    self.segmented.tintColor = [UIColor blueColor];
+//    [self.segmented setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];
+//    NSDictionary* unselectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)],NSForegroundColorAttributeName: [UIColor blueColor]};
+//    [self.segmented setTitleTextAttributes:unselectedTextAttributes forState:UIControlStateNormal];
+//    [self.segmented addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventValueChanged];
 
 }
 
@@ -92,7 +127,7 @@
 #pragma  mark  CollectionView 代理方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return self.xqModel.dateArr.count;
+    return self.dataArray.count;
 
 }
 
@@ -100,7 +135,7 @@
 
     XQCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
    
-    [cell setXQModel:self.xqModel.dateArr[indexPath.row]];
+    [cell setXQModel:self.dataArray[indexPath.row]];
     
     return cell;
 }
@@ -115,7 +150,7 @@
 
 #pragma  mark 请求数据
 - (void)getDataids:(NSString *)ids number:(NSInteger )number{
-  NSString *string = [NSString stringWithFormat:@"?m=Json&a=item_cate&id=%@&sorte=%ld",ids,(long)number];
+  NSString *string = [NSString stringWithFormat:@"?m=Json&a=item_cate&id=%@&sort=%ld",ids,(long)number];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",URL,string]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:5];
 //    [request setHTTPMethod:@"post"];
@@ -127,52 +162,65 @@
         
         if (data != nil) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-           
+            
             self.moneyArr = [NSMutableArray array];
             self.titleArr = [NSMutableArray array];
             self.imgArr = [NSMutableArray array];
             self.idArr = [NSMutableArray array];
+            self.dataArray = [NSMutableArray array];
             
+            [self.dataArray removeAllObjects];
+          
             NSArray *array = [dic valueForKey:@"title"];
             for (NSDictionary *dis in array) {
-                NSMutableArray *arr = [NSMutableArray array];
+
                 for (NSDictionary *dics in dis[@"item"]) {
                   self.xqModel = [[XQModel alloc]init];
                   self.xqModel.ID = dics[@"id"];
                   self.xqModel.img = dics[@"img"];
                   self.xqModel.title = dics[@"title"];
                   self.xqModel.price = dics[@"price"];
-            
-                [arr addObject:self.xqModel];
+
                 [self.moneyArr addObject:self.xqModel.price];
                 [self.titleArr addObject:self.xqModel.title];
                 [self.imgArr addObject:self.xqModel.img];
                 [self.idArr addObject:self.xqModel.ID];
+                    
+                [self.dataArray addObject:self.xqModel];
                 }
-                self.xqModel.dateArr = [arr copy];
-                
             }
          
         }
         [self initWithCollectionView];
+        [self.collectionView reloadData];
         
     }];
     
 }
 
-- (void)segmented:(UISegmentedControl *)seg{
-    switch (seg.selectedSegmentIndex) {
+- (void)segmented:(UIButton *)seg{
+    self.selectend.selected = NO;
+    seg.selected = YES;
+    self.selectend = seg;
+    switch (seg.tag) {
         case 0:
         {
             [self getDataids:self.ID number:1];
         }
             break;
         case 1:{
+
             [self getDataids:self.ID number:2];
         }
             break;
         case 2:{
-            [self getDataids:self.ID number:4];
+            self.sorke++;
+            if (self.sorke%2 == 0) {
+              [self getDataids:self.ID number:4];
+            }else{
+            [self getDataids:self.ID number:3];
+            }
+            
         }
             break;
         default:
@@ -198,6 +246,13 @@
     }
     return _dataArr;
 }
+
+//- (NSMutableArray *)dataArray{
+//    if (!_dataArray) {
+//        _dataArray = [NSMutableArray array];
+//    }
+//    return _dataArray;
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

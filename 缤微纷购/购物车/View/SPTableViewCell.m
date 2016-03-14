@@ -34,17 +34,17 @@
         [self.needV addTarget:self action:@selector(selectButClick:) forControlEvents:UIControlEventTouchUpInside];
         self.needV.selected = self.isSelected;
         
-        self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, 90, 90)];
-        self.imageV.backgroundColor = [UIColor greenColor];
+        self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, CGFloatX(80), CGFloatX(80))];
+//        self.imageV.backgroundColor = [UIColor greenColor];
         self.imageV.layer.borderWidth = 1;
         self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
         
         self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, 0)];
         self.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(15)];
-        self.titleLabel.numberOfLines = 0;
+        self.titleLabel.numberOfLines = 2;
         
         self.hetLabel = [[UILabel alloc]init];
-        self.hetLabel.text = @"111";
+//        self.hetLabel.text = @"111";
 //        self.hetLabel.backgroundColor = [UIColor greenColor];
         
         self.moneyLabel = [[UILabel alloc]init];
@@ -52,7 +52,7 @@
         self.moneyLabel.textColor = [UIColor orangeColor];
         
         self.close = [[UIButton alloc]init];
-        self.close.backgroundColor = [UIColor redColor];
+        [self.close setBackgroundImage:[UIImage imageNamed:@"guanbi.png"] forState:UIControlStateNormal];
         
         self.add = [[AddShopping alloc]init];
         self.add.textF.userInteractionEnabled = NO;
@@ -94,24 +94,28 @@
     }
 }
 
-- (void)reloadDataWith:(BFShoppModel *)model{
+- (void)reloadDataWith:(BFStorage *)model{
+
     [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
     self.titleLabel.text = model.title;
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(15)]);
     [self.titleLabel sizeToFit];
     
-    self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, 30);
+    self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, CGFloatY(30));
     
-    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-140, 30);
+    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
+
+    self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
     
-    self.close.frame = CGRectMake(CGRectGetMaxX(self.titleLabel.frame), 5, 30, 30);
-    
-    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, 30);
-    
-    self.moneyLabel.text = [NSString stringWithFormat:@"¥%@",model.price];
-    self.add.textF.text = [NSString stringWithFormat:@"%ld",model.number];
+    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
+//    self.add.backgroundColor = [UIColor redColor];
+    self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.money];
+
+    self.add.textF.text = [NSString stringWithFormat:@"%d",model.numbers];
+    self.hetLabel.text = model.spec;
     self.needV.selected = self.isSelected;
-    
+    self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
+
 }
 
 - (void)awakeFromNib {

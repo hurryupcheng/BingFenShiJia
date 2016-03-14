@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "ViewController.h"
 #import "Header.h"
 #import "SHViewController.h"
 #import "HomeViewController.h"
@@ -58,6 +59,7 @@
     
     VC.tabBarItem.title = title;
     BFNavigationController *navigation = [[BFNavigationController alloc]initWithRootViewController:VC];
+    [VC.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:CGFloatX(20)],NSForegroundColorAttributeName:[UIColor blueColor]}];
     //VC.navigationController.navigationBar.translucent = NO;
     VC.tabBarItem.image = [[UIImage imageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     VC.tabBarItem.selectedImage = [[UIImage imageNamed:selectimage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

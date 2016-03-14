@@ -13,17 +13,18 @@
 @property (nonatomic,retain)UIImageView *imageView;
 @property (nonatomic,retain)UILabel *titleLabel;
 @property (nonatomic,retain)UILabel *moneyLabel;
-@property (nonatomic,retain)UILabel *hotLabel;
 @property (nonatomic,retain)UIButton *arrBut;
 @property (nonatomic,retain)UIButton *arrayBut;
 @property (nonatomic,retain)UIButton *addBut;
 @property (nonatomic,retain)UIButton *minBut;
 @property (nonatomic,retain)AddShopping *addShopp;
+@property (nonatomic,retain)NSString *hot;
+@property (nonatomic,retain)NSString *img;
 
 @property (nonatomic,retain)UILabel *red;
 @property (nonatomic,retain)UILabel *reds;
 
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSSet *)set number:(NSInteger)num;
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num;;
 
 @end
 

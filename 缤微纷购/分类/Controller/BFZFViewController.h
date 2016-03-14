@@ -10,4 +10,5 @@
 
 @interface BFZFViewController : UIViewController
 @property (nonatomic,retain)NSString *titles;
+@property (nonatomic,retain)NSString *sum;
 @end

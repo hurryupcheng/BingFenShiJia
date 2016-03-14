@@ -27,7 +27,7 @@
         _imageView.backgroundColor = [UIColor greenColor];
         
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.imageView.frame), x, 30)];
-        _titleLabel.font = [UIFont systemFontOfSize:CGFloatY(14)];
+        _titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
         _titleLabel.textAlignment = NSTextAlignmentCenter;
         _titleLabel.numberOfLines = 2;
         

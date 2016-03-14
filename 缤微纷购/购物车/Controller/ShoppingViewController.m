@@ -5,13 +5,15 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFStorage.h"
+#import "ViewController.h"
 #import "BFZFViewController.h"
 #import "FXQViewController.h"
 #import "UIImageView+WebCache.h"
 #import "BFShoppModel.h"
 #import "BFHeaderView.h"
 #import "BFOtherView.h"
-#import "BFFootView.h"
+#import "BFFootViews.h"
 #import "SPTableViewCell.h"
 #import "Header.h"
 #import "ShoppingViewController.h"
@@ -20,18 +22,22 @@
 @property (nonatomic,retain)SPTableViewCell *sp;
 @property (nonatomic,retain)BFOtherView *other;
 @property (nonatomic,retain)BFHeaderView *header;
-@property (nonatomic,retain)BFFootView *foot;
+@property (nonatomic,retain)BFFootViews *foot;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UIScrollView *scrollView;
 @property (nonatomic,retain)UITableView *tabView;
 @property (nonatomic,retain)UIButton *rightBut;
 @property (nonatomic,retain)UIView *otherView;
 @property (nonatomic,retain)NSMutableArray *dateArr;
+@property (nonatomic,retain)NSMutableArray *dataArray;
 @property (nonatomic,retain)BFShoppModel *shoppModel;
 @property (nonatomic,retain)UIButton *imgButton;
 @property (nonatomic,retain)NSMutableArray *imgArray;
 @property (nonatomic,retain)UIView *views;
+@property (nonatomic,retain)BFStorage *stor;
+//@property (nonatomic,retain)NSMutableArray *dataArr;
 
+@property (nonatomic,assign)NSInteger cellHeight;
 @property (nonatomic,assign)BOOL isEdits; //是否全选
 @property (nonatomic,retain)NSMutableArray *selectGoods;// 已选中
 
@@ -46,9 +52,59 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
     
      self.title = @"购物车";
+    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject];
     
-    self.selectGoods = [NSMutableArray array];
+    NSString *str = [document stringByAppendingPathComponent:@"BFStorage.data"];
+    NSData *undata = [NSData dataWithContentsOfFile:str];
+    
+    NSKeyedUnarchiver *unarchieve = [[NSKeyedUnarchiver alloc]initForReadingWithData:undata]
+    ;
+    BFStorage *storage = [unarchieve decodeObjectForKey:@"storage"];
+    [unarchieve finishDecoding];
+    
+    [self.dateArr addObject:storage];
+    
+    if (self.dateArr.count == 2) {
+        [self data];
+    }else{
     [self getDate];
+    [self initWithTabView];
+        [self.tabView reloadData];
+    }
+}
+
+- (void)data{
+
+        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
+        [self getDate];
+        self.views.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:self.views];
+
+        UIView *groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-215)];
+       
+        UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4/2)), 10, CGFloatX(kScreenWidth/4), CGFloatY(kScreenWidth/4))];
+        img.image = [UIImage imageNamed:@"kong.png"];
+        
+        UILabel *kong = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame), kScreenWidth, 30)];
+        kong.text = @"您的购物车空空如也～";
+        kong.textColor = [UIColor grayColor];
+        kong.textAlignment = NSTextAlignmentCenter;
+        kong.font = [UIFont systemFontOfSize:CGFloatX(20)];
+        
+        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(kong.frame)+10, kScreenWidth, 30)];
+        [button setTitle:@"去首页逛逛" forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(20)];
+        [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(gotoHomeController) forControlEvents:UIControlEventTouchUpInside];
+        
+        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4)), CGRectGetMaxY(button.frame), CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
+        image.image = [UIImage imageNamed:@"buy.png"];
+//        image.backgroundColor = [UIColor redColor];
+        [self.view addSubview:groubView];
+        [self.view addSubview:img];
+        [self.view addSubview:kong];
+        [self.view addSubview:button];
+        [self.view addSubview:image];
 
 }
 
@@ -59,9 +115,9 @@
 //  计算已选商品金额
 - (void)countPrice{
     double price = 0.0;
-    for (BFShoppModel *model in self.selectGoods) {
-        double pri = [model.price doubleValue];
-        price += pri*model.number;
+    for (BFStorage *model in self.selectGoods) {
+        double pri = [model.money doubleValue];
+        price += pri*model.numbers;
     }
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ %.2f",price];
 }
@@ -72,7 +128,7 @@
     button.selected = !button.selected;
     self.isEdits = button.selected;
     if (self.isEdits) {
-        for (BFShoppModel *model in self.dateArr) {
+        for (BFStorage *model in self.dateArr) {
             [self.selectGoods addObject:model];
         }
         
@@ -85,7 +141,7 @@
 
 - (void)initWithTabView{
 
-    self.tabView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-160) style:UITableViewStylePlain];
+    self.tabView = [[UITableView alloc]init];
     
     self.tabView.dataSource = self;
     self.tabView.delegate = self;
@@ -94,9 +150,11 @@
     
     [self.tabView registerClass:[SPTableViewCell class] forCellReuseIdentifier:@"reuse"];
     
-    self.foot = [[BFFootView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-163, kScreenWidth, 50)];
+    self.foot = [[BFFootViews alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-115, kScreenWidth, 50) money:@"合计:¥ 0.00" name:@"马上结算"];
     _foot.backgroundColor = [UIColor whiteColor];
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
@@ -119,21 +177,35 @@
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 2;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     if (section == 0) {
         return self.header;
-    }else if(section == 2){
-        self.views  = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tabView.frame), kScreenWidth, kScreenWidth/4+50)];
-        [self initWithLoveView];
-        return self.views;
+    }else{
+        return nil;
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 1) {
+        return kScreenWidth/4+50;
     }else{
         return 0;
     }
-    
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    if (section == 1) {
+        self.views  = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/4+50)];
+        [self initWithLoveView];
+        return self.views;
+    }else{
+        return nil;
+    }
 }
 
 - (void)initWithLoveView{
@@ -141,21 +213,20 @@
     lab.backgroundColor = [UIColor grayColor];
     
     UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lab.frame)+10, 0, kScreenWidth/3, 30)];
-    labe.text = @"你可能还要买";
+    labe.text = @"热门推荐";
     labe.textAlignment = NSTextAlignmentCenter;
-    labe.textColor = [UIColor grayColor];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
     
     UIScrollView *scroll = [[UIScrollView alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4)];
-    
-    scroll.contentSize = CGSizeMake(scroll.width*(self.dateArr.count/3), 0);
+
+    scroll.contentSize = CGSizeMake(scroll.width*(self.dataArray.count/3), 0);
     scroll.shouldGroupAccessibilityChildren = NO;
     scroll.showsHorizontalScrollIndicator = NO;
     scroll.pagingEnabled = YES;
-    
-    for (int i = 0; i < self.dateArr.count; i++) {
+
+    for (int i = 0; i < self.dataArray.count; i++) {
         self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
         _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
         _imgButton.layer.borderWidth = 1;
@@ -182,16 +253,15 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-        return 130;
+  
+        return self.cellHeight;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return 40;
-    }else if(section == 1){
-        return 7;
     }else{
-        return kScreenWidth/4+50;
+        return 7;
     }
 }
 
@@ -201,7 +271,6 @@
   
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.isSelected = self.isEdits;
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
@@ -224,12 +293,12 @@
     
     __block SPTableViewCell *weakCell = cell;
     cell.numAddBlock = ^(){
-        NSInteger count = [weakCell.add.textF.text integerValue];
+        NSInteger count = [weakCell.add.textF.text integerValue];NSLog(@"%d",count);
         count++;
         NSString *numStr = [NSString stringWithFormat:@"%ld",(long)count];
-        BFShoppModel *model = [self.dateArr objectAtIndex:indexPath.row];
+        BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
         weakCell.add.textF.text = numStr;
-        model.number = count;
+        model.numbers = count;
        
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
         if ([self.selectGoods containsObject:model]) {
@@ -246,9 +315,9 @@
             return ;
         }  
         NSString *numStr = [NSString stringWithFormat:@"%ld",(long)count];
-        BFShoppModel *model = [self.dateArr objectAtIndex:indexPath.row];
+        BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
         weakCell.add.textF.text = numStr;
-        model.number = count;
+        model.numbers = count;
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
         
 //        判断已选择数组里有无该对象，有就删除重新添加
@@ -259,6 +328,8 @@
         }
     };
     [cell reloadDataWith:[self.dateArr objectAtIndex:indexPath.row]];
+    
+    self.cellHeight = cell.cellHeight;
     
     [cell.close addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
     cell.tag = indexPath.row;
@@ -283,11 +354,12 @@
             break;
         }
     }
-
 }
 
 - (void)jiesuan{
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
+    NSString *str = [self.foot.money.text substringFromIndex:5];
+    bfzf.sum = str;
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
@@ -302,9 +374,12 @@
          
            BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:dic];
            self.shoppModel = shoppModel;
-           [self.dateArr addObjectsFromArray:shoppModel.dateArr];
+           self.dataArray = [shoppModel.dateArr copy];
+
         }
-       [self initWithTabView];
+       [self initWithLoveView];
+//       [self initWithTabView];
+       [self.tabView reloadData];
    }];
 }
 
@@ -315,13 +390,27 @@
     return _dateArr;
 }
 
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
+- (NSMutableArray *)selectGoods{
+    if (!_selectGoods) {
+        _selectGoods = [NSMutableArray array];
+    }
+    return _selectGoods;
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = NO;
-    
+   
     [self.selectGoods removeAllObjects];
     self.isEdits = NO;
     self.header.allSeled.selected = NO;
-    self.foot.money.text = [NSString stringWithFormat:@"¥:0.00"];
+    self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
     
 }
 
