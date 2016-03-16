@@ -64,7 +64,7 @@
     
     [self.dateArr addObject:storage];
     
-    if (self.dateArr.count == 2) {
+    if (self.dateArr.count == 0) {
         [self data];
     }else{
     [self getDate];

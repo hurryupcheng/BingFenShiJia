@@ -57,15 +57,18 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view andLabelText:@"正在请求..."];
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];
-        [self.groupArray addObjectsFromArray:array];
-        BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
-        [self.tableView reloadData];
-    } failure:^(NSError *error) {
-        BFLog(@"error:%@",error);
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];
+            [self.groupArray addObjectsFromArray:array];
+            BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
+            [self.tableView reloadData];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
+            BFLog(@"error:%@",error);
+        }];
     }];
+    
 }
 
 #pragma mark -- tableView代理方法
@@ -92,6 +95,10 @@
         return 13;
     }
     return 0;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1;
 }
 #pragma mark --BFMyGroupPurchaseCell代理方法
 /**BFMyGroupPurchaseCell代理方法*/

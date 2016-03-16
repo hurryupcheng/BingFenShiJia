@@ -76,13 +76,13 @@
 #pragma mark --注册按钮代理
 - (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView {
    [self.view endEditing:YES];
-
+    
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = BFPassWordView.phoneTX.text;
         parameter[@"pass"] = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            
+
             BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
             [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
@@ -93,6 +93,8 @@
         }];
 
 }
+
+
 
 /**点击空白收起键盘*/
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

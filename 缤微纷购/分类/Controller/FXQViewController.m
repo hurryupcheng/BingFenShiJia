@@ -256,11 +256,11 @@
             NSString *str = [document stringByAppendingPathComponent:@"BFStorage.data"];
 
             [data writeToFile:str atomically:YES];
-        self.tabBarController.selectedIndex = 1;
+//        self.tabBarController.selectedIndex = 1;
         [self.navigationController pushViewController:shopp animated:YES];
-            if (self.tabBarController.selectedIndex == 1) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }
+//            if (self.tabBarController.selectedIndex == 1) {
+//                [self.navigationController popToRootViewControllerAnimated:YES];
+//            }
         }break;
         case 112:{
             [self zhifu];

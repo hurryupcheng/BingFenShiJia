@@ -1,14 +1,14 @@
 //
-//  BFMyOrderModel.m
+//  BFProductInfoModel.m
 //  缤微纷购
 //
-//  Created by 程召华 on 16/3/14.
+//  Created by 程召华 on 16/3/15.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
-#import "BFMyOrderModel.h"
+#import "BFProductInfoModel.h"
 
-@implementation BFMyOrderModel
+@implementation BFProductInfoModel
 + (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
     if ([propertyName isEqualToString:@"ID"]) {
         propertyName = @"id";
