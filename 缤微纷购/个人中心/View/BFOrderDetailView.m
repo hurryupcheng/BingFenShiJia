@@ -24,6 +24,12 @@
 @property (nonatomic, strong) UIView *secondLine;
 /**第三根线*/
 @property (nonatomic, strong) UIView *thirdLine;
+/**状态*/
+@property (nonatomic, strong) UILabel *status;
+/**订单号*/
+@property (nonatomic, strong) UILabel *orderID;
+/**下单时间*/
+@property (nonatomic, strong) UILabel *orderTime;
 @end
 
 
@@ -42,6 +48,43 @@
     }
     return self;
 }
+- (void)setModel:(BFProductInfoModel *)model {
+    _model = model;
+    if ([model.refund_status isEqualToString:@"0"]) {
+        if ([model.status isEqualToString:@"1"]) {
+            self.status.text = @"未付款";
+        }else if ([model.status isEqualToString:@"2"]) {
+            self.status.text = @"待发货";
+        }else if ([model.status isEqualToString:@"3"]) {
+            self.status.text = @"已发货";
+        }else if ([model.status isEqualToString:@"4"]) {
+            self.status.text = @"完成";
+        }else {
+            self.status.text = @"关闭";
+        }
+    } else if ([model.refund_status isEqualToString:@"1"]){
+        self.status.text = @"退款中";
+    }else if ([model.refund_status isEqualToString:@"2"]){
+        self.status.text = @"已退款";
+    }else if ([model.refund_status isEqualToString:@"3"]){
+        self.status.text = @"卖家不同意退款";
+    }else if ([model.refund_status isEqualToString:@"4"]){
+        self.status.text = @"已申请退货";
+    }else if ([model.refund_status isEqualToString:@"5"]){
+        self.status.text = @"卖家不同意退货";
+    }else if ([model.refund_status isEqualToString:@"6"]){
+        self.status.text = @"卖家同意退货";
+    }else if ([model.refund_status isEqualToString:@"7"]){
+        self.status.text = @"等待卖家退货";
+    }else {
+        self.status.text = @"已退款";
+    }
+    
+    self.orderID.text = model.orderId;
+    self.orderTime.text = [NSString stringWithFormat:@"%@",[BFTranslateTime translateTimeIntoCurrurents:model.add_time]];
+    
+}
+
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -92,11 +135,11 @@
     
     self.thirdLine = [self setUpLine];
     
-    self.status = [self setUpLabelWithText:@"待付款"];
+    self.status = [self setUpLabelWithText:nil];
     
-    self.orderID = [self setUpLabelWithText:@"201603141055301405"];
+    self.orderID = [self setUpLabelWithText:nil];
     
-    self.orderTime = [self setUpLabelWithText:@"2016-03-14 10:55:30"];
+    self.orderTime = [self setUpLabelWithText:nil];
 }
 
 - (UILabel *)setUpLabelWithText:(NSString *)text {

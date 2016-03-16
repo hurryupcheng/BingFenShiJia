@@ -46,97 +46,118 @@
 
 - (void)setModel:(BFOrderProductModel *)model {
     _model = model;
-    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"olaceholder"]];
-    self.productTitle.text = model.title;
-    [self.productTitle sizeToFit];
-    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:self.productTitle.text];
-    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [detailParagraphStyle setLineSpacing:4];//调整行间距
-    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [self.productTitle.text length])];
-    self.productTitle.attributedText = detailAttributedString;
-    
-    
-    self.productColor.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productIcon.frame)+BF_ScaleHeight(6), BF_ScaleWidth(50), BF_ScaleHeight(11));
-    self.productColor.text = [NSString stringWithFormat:@"颜色:%@",model.color];
-    [self label:self.productColor];
-    
-    self.productSize.frame = CGRectMake(CGRectGetMaxX(self.productColor.frame)+BF_ScaleWidth(8), self.productColor.y, BF_ScaleWidth(100), self.productColor.height);
-    self.productSize.text = [NSString stringWithFormat:@"尺寸:%@",model.size];
-    [self label:self.productSize];
-    
-    self.productCount.frame = CGRectMake(self.productColor.x, CGRectGetMaxY(self.productColor.frame)+BF_ScaleHeight(8), self.productColor.width, self.productColor.height);
-    self.productCount.text = [NSString stringWithFormat:@"数量:%@",model.quantity];
-    [self label:self.productCount];
-    
-    self.productPrice.frame = CGRectMake(CGRectGetMaxX(self.productCount.frame)+BF_ScaleWidth(8), self.productCount.y, self.productSize.width, self.productColor.height);
-    self.productPrice.text = [NSString stringWithFormat:@"颜色:%@",model.price];
-    [self label:self.productPrice];
-    
-    
-    self.productDetailH = CGRectGetMaxY(self.productPrice.frame) + BF_ScaleHeight(10);
-    self.bottomView.frame = CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(300), self.productDetailH);
-    BFLog(@"%f,,%f",self.productDetailH,CGRectGetMaxY(self.productPrice.frame));
-    
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    
-    self.productIcon.frame = CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(30));
-    
-    self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(8), self.productIcon.x, BF_ScaleWidth(224), BF_ScaleHeight(35));
-    
-    self.productColor.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productIcon.frame)+BF_ScaleHeight(6), BF_ScaleWidth(50), BF_ScaleHeight(11));
-    
-    self.productSize.frame = CGRectMake(CGRectGetMaxX(self.productColor.frame)+BF_ScaleWidth(8), self.productColor.y, BF_ScaleWidth(100), self.productColor.height);
-    
-    self.productCount.frame = CGRectMake(self.productColor.x, CGRectGetMaxY(self.productColor.frame)+BF_ScaleHeight(8), self.productColor.width, self.productColor.height);
-    
-    self.productPrice.frame = CGRectMake(CGRectGetMaxX(self.productCount.frame)+BF_ScaleWidth(8), self.productCount.y, self.productSize.width, self.productColor.height);
-}
-
-- (void)setCell {
     self.bottomView = [[UIView alloc] init];
     self.bottomView.backgroundColor = BFColor(0xffffff);
     [self addSubview:self.bottomView];
     
     self.productIcon = [[UIImageView alloc] init];
+    self.productIcon.frame = CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(30));
     self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
     self.productIcon.backgroundColor = [UIColor redColor];
     [self.bottomView addSubview:self.productIcon];
     
     self.productTitle = [[UILabel alloc] init];
-    self.productTitle.text = @"6252份包邮开口黑金刚南瓜子熟黑南瓜子竹炭色坚果炒货零食小吃250g";
-    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(8), self.productIcon.y, BF_ScaleWidth(224), 0);
+    self.productTitle.text = model.title;
+    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     //self.productTitle.backgroundColor = [UIColor redColor];
     self.productTitle.textColor = BFColor(0x5B5B5B);
     self.productTitle.numberOfLines = 0;
     [self.bottomView addSubview:self.productTitle];
-    //[self.productTitle sizeToFit];
+    [self.productTitle sizeToFit];
     
     
-    self.productColor = [self setUpLabelWithText:@"颜色:红"];
+    
+    self.productColor = [self setUpLabel];
+    self.productColor.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(6), BF_ScaleWidth(55), BF_ScaleHeight(11));
+    self.productColor.text = [NSString stringWithFormat:@"颜色:%@",model.color];
+    [self label:self.productColor];
     [self.bottomView addSubview:self.productColor];
+    [self.productColor sizeToFit];
     
-    self.productSize = [self setUpLabelWithText:@"尺寸:10kg"];
+    self.productSize = [self setUpLabel];
+    self.productSize.frame = CGRectMake(CGRectGetMaxX(self.productColor.frame)+BF_ScaleWidth(8), self.productColor.y, BF_ScaleWidth(100), self.productColor.height);
+    self.productSize.text = [NSString stringWithFormat:@"尺寸:%@",model.size];
+    [self label:self.productSize];
     [self.bottomView addSubview:self.productSize];
+    [self.productSize sizeToFit];
     
-    self.productCount = [self setUpLabelWithText:@"数量:3"];
+    self.productCount = [self setUpLabel];
+    self.productCount.frame = CGRectMake(self.productColor.x, CGRectGetMaxY(self.productColor.frame)+BF_ScaleHeight(8), self.productColor.width, self.productColor.height);
+    self.productCount.text = [NSString stringWithFormat:@"数量:%@",model.quantity];
+    [self label:self.productCount];
     [self.bottomView addSubview:self.productCount];
+    [self.productCount sizeToFit];
     
-    self.productPrice = [self setUpLabelWithText:@"价格:¥50.00"];
+    self.productPrice = [self setUpLabel];
+    self.productPrice.frame = CGRectMake(CGRectGetMaxX(self.productCount.frame)+BF_ScaleWidth(8), self.productCount.y, self.productSize.width, self.productColor.height);
+    self.productPrice.text = [NSString stringWithFormat:@"价格:¥%@",model.price];
+    [self label:self.productPrice];
     [self.bottomView addSubview:self.productPrice];
+    [self.productPrice sizeToFit];
+    
+    self.bottomView.frame = CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(300), CGRectGetMaxY(self.productPrice.frame));
+    self.productDetailH = CGRectGetMaxY(self.productPrice.frame);
     
 }
 
-- (UILabel *)setUpLabelWithText:(NSString *)text {
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    
+//    
+//    self.productIcon.frame = CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(30));
+//    
+//    self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(8), self.productIcon.x, BF_ScaleWidth(224), BF_ScaleHeight(35));
+//    
+//    self.productColor.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productIcon.frame)+BF_ScaleHeight(6), BF_ScaleWidth(50), BF_ScaleHeight(11));
+//    
+//    self.productSize.frame = CGRectMake(CGRectGetMaxX(self.productColor.frame)+BF_ScaleWidth(8), self.productColor.y, BF_ScaleWidth(100), self.productColor.height);
+//    
+//    self.productCount.frame = CGRectMake(self.productColor.x, CGRectGetMaxY(self.productColor.frame)+BF_ScaleHeight(8), self.productColor.width, self.productColor.height);
+//    
+//    self.productPrice.frame = CGRectMake(CGRectGetMaxX(self.productCount.frame)+BF_ScaleWidth(8), self.productCount.y, self.productSize.width, self.productColor.height);
+//}
+
+- (void)setCell {
+//    self.bottomView = [[UIView alloc] init];
+//    self.bottomView.backgroundColor = BFColor(0xffffff);
+//    [self addSubview:self.bottomView];
+//    
+//    self.productIcon = [[UIImageView alloc] init];
+//    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+//    self.productIcon.backgroundColor = [UIColor redColor];
+//    [self.bottomView addSubview:self.productIcon];
+//    
+//    self.productTitle = [[UILabel alloc] init];
+//    self.productTitle.text = @"6252份包邮开口黑金刚南瓜子熟黑南瓜子竹炭色坚果炒货零食小吃250g";
+//    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+//    //self.productTitle.backgroundColor = [UIColor redColor];
+//    self.productTitle.textColor = BFColor(0x5B5B5B);
+//    self.productTitle.numberOfLines = 0;
+//    [self.bottomView addSubview:self.productTitle];
+//    //[self.productTitle sizeToFit];
+//    
+//    
+//    self.productColor = [self setUpLabelWithText:@"颜色:红"];
+//    [self.bottomView addSubview:self.productColor];
+//    
+//    self.productSize = [self setUpLabelWithText:@"尺寸:10kg"];
+//    [self.bottomView addSubview:self.productSize];
+//    
+//    self.productCount = [self setUpLabelWithText:@"数量:3"];
+//    [self.bottomView addSubview:self.productCount];
+//    
+//    self.productPrice = [self setUpLabelWithText:@"价格:¥50.00"];
+//    [self.bottomView addSubview:self.productPrice];
+    
+}
+
+- (UILabel *)setUpLabel {
     UILabel *label = [[UILabel alloc] init];
-    label.text = text;
-    label.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
     //label.backgroundColor = [UIColor redColor];
     label.textColor = BFColor(0x5B5B5B);
-    [label sizeToFit];
+
     return label;
 }
 

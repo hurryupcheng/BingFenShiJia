@@ -25,6 +25,8 @@
 @property (nonatomic, strong) BFProductInfoModel *model;
 /**BFModeCell的高度*/
 @property (nonatomic, assign) CGFloat modeCellH;
+/**BFOrderProductModel的高度*/
+@property (nonatomic, assign) CGFloat orderProductH;
 /**商品数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
 @end
@@ -76,7 +78,7 @@
     [self getData];
     //头部视图
     self.tableView.tableHeaderView = self.headerView;
-    //self.tableView.tableFooterView = self.footerView;
+    self.tableView.tableFooterView = self.footerView;
 }
 
 
@@ -94,6 +96,7 @@
         NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
         [self.productArray addObjectsFromArray:array];
         BFLog(@"%@",responseObject);
+        self.headerView.model = self.model;
         [self.tableView reloadData];
     } failure:^(NSError *error) {
         BFLog(@"%@",error);
@@ -125,10 +128,15 @@
         }else {
             BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
             cell.model = self.productArray[indexPath.row];
+            self.orderProductH = cell.productDetailH;
             return cell;
         }
     }
     
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  {
@@ -136,7 +144,7 @@
         return self.modeCellH;
         BFLog(@"%f",self.modeCellH);
     }else {
-        return BF_ScaleHeight(100);
+        return self.orderProductH;
     }
     
 }

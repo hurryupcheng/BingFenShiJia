@@ -27,6 +27,9 @@
 @property (nonatomic, strong) NSString *address;
 /**判断付款状态（1：未付款 2：待发货，3：已发货 4：完成 5：关闭）*/
 @property (nonatomic, strong) NSString *status;
+/**返回信息（退款状态[refund_status= 1]大于常规状态[refund_status= 0]）
+ 退款状态：（默认：退款中 2：已退款，3：卖家不同意退款 4：已申请退货 5：卖家不同意退货 6：卖家同意退货 7：等待卖家收货 8：已退款））*/
+@property (nonatomic, strong) NSString *refund_status;
 /**物流类型 0.包邮1.平邮2.快递3.ems*/
 @property (nonatomic, strong) NSString *freetype;
 /**物流类型 当freetype==2时有值*/

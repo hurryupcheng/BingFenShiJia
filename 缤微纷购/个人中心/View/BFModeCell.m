@@ -104,13 +104,14 @@
     }else {
         self.productDeliveries.text = [NSString stringWithFormat:@"配送方式：%@", model.userfree];
     }
-
+    [self label:self.productDeliveries textColor:BFColor(0x000000) range:NSMakeRange(0, 5)];
     [self.deliverieView addSubview:self.productDeliveries];
 
     self.productTotalPrice = [self setUpLabel];
     self.productTotalPrice.frame = CGRectMake(self.productDeliveries.x, CGRectGetMaxY(self.productDeliveries.frame)+BF_ScaleHeight(8), BF_ScaleWidth(260), BF_ScaleHeight(10));
     [self.deliverieView addSubview:self.productTotalPrice];
-    self.productTotalPrice.text = [NSString stringWithFormat:@"%@", model.order_sumPrice];
+    self.productTotalPrice.text = [NSString stringWithFormat:@"总价:¥%@", model.order_sumPrice];
+    [self label:self.productTotalPrice textColor:BFColor(0xFB0049) range:NSMakeRange(3, self.productTotalPrice.text.length-3)];
 
     self.payMode = [self setUpLabel];
     self.payMode.frame = CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(260), BF_ScaleHeight(12));
@@ -139,6 +140,12 @@
         
     }
     
+}
+
+- (void)label:(UILabel *)label textColor:(UIColor *)textColor range:(NSRange)range {
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:textColor range:range];
+    label.attributedText = attributedString;
 }
 
 //- (void)setCell {

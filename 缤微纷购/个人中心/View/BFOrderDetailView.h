@@ -7,16 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
+
 
 @interface BFOrderDetailView : UIView
-
-/**状态*/
-@property (nonatomic, strong) UILabel *status;
-/**订单号*/
-@property (nonatomic, strong) UILabel *orderID;
-/**下单时间*/
-@property (nonatomic, strong) UILabel *orderTime;
-
+/**BFProductInfoModel模型类*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 /**自定义类方法*/
 + (instancetype)detailView;
 @end
