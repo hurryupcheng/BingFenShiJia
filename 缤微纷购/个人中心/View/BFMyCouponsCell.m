@@ -57,7 +57,7 @@
     
     self.instructionLabel.frame = CGRectMake(BF_ScaleWidth(53), CGRectGetMaxY(self.line.frame), BF_ScaleWidth(250), BF_ScaleHeight(26));
     
-    self.priceLabel.frame = CGRectMake(BF_ScaleWidth(40), BF_ScaleHeight(8), BF_ScaleHeight(75), BF_ScaleHeight(55));
+    self.priceLabel.frame = CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(8), BF_ScaleHeight(90), BF_ScaleHeight(55));
     
     self.categoryImageView.frame = CGRectMake(BF_ScaleWidth(260), BF_ScaleHeight(5), BF_ScaleWidth(33), BF_ScaleWidth(33));
     
@@ -67,6 +67,15 @@
 
 - (void)setModel:(BFMyCouponsModel *)model {
     _model = model;
+    self.instructionLabel.text = model.name;
+    
+    self.priceLabel.text = [NSString stringWithFormat:@"¥ %@",model.money];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(45)] range:NSMakeRange(2,self.priceLabel.text.length-2)];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(16)] range:NSMakeRange(0,2)];
+    self.priceLabel.attributedText = attributedString;
+    
+    self.validDateLabel.text = [NSString stringWithFormat:@"有效期至：%@", [BFTranslateTime translateTimeIntoCurrurentDate:model.end_time]];
     //判断类型
     if ([model.offers_range isEqualToString:@"1"]) {
         self.categoryImageView.image = [UIImage imageNamed:@"tong"];
@@ -83,6 +92,11 @@
 
     }else {
         self.bgImageView.image = [UIImage imageNamed:@"use"];
+        if ([model.status isEqualToString:@"1"]) {
+            self.usedImageView.hidden = NO;
+        }else {
+            self.usedImageView.hidden = YES;
+        }
     }
 }
 
@@ -108,12 +122,10 @@
     
     self.priceLabel = [[UILabel alloc] init];
     self.priceLabel.text = @"¥10";
+    self.priceLabel.textAlignment = NSTextAlignmentRight;
     self.priceLabel.textColor = BFColor(0xFD8627);
     [self addSubview:self.priceLabel];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(50)] range:NSMakeRange(1,self.priceLabel.text.length-1)];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(16)] range:NSMakeRange(0,1)];
-    self.priceLabel.attributedText = attributedString;
+    
     
     self.categoryImageView = [[UIImageView alloc] init];
     self.categoryImageView.image = [UIImage imageNamed:@"pin"];

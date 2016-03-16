@@ -15,4 +15,11 @@
     }
     return propertyName;
 }
+
++ (NSDictionary *)objectClassInArray{
+    return @{@"item_detail" : [BFOrderProductModel class]};
+}
+
+
+
 @end

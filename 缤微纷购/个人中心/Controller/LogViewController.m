@@ -180,6 +180,14 @@
 
 //  登陆点击按钮事件
 - (void)login{
+    leftTime = 2;
+    [self.loginButton setEnabled:NO];
+    [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
+    
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    
     
     if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
 //        UIAlertView *aler = [[UIAlertView alloc]
@@ -213,13 +221,7 @@
                 return ;
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
-                leftTime = 60;
-                [self.loginButton setEnabled:NO];
-                [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
-               
-                if(timer)
-                    [timer invalidate];
-                timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+                
                 
                 
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
@@ -247,18 +249,12 @@
     if(leftTime<=0)
     {
         [self.loginButton setEnabled:YES];
-        [self.loginButton setTitle:@"重新发送" forState:UIControlStateNormal];
-        [self.loginButton setTitle:@"重新发送" forState:UIControlStateDisabled];
-        
-        
-    }
-    else
+        self.loginButton.backgroundColor = BFColor(0xFD8727);
+    } else
     {
         
         [self.loginButton setEnabled:NO];
-        [self.loginButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
-        [self.loginButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
-        
+        [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
     }
 
 }

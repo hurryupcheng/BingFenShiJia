@@ -39,14 +39,49 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.backgroundColor = BFColor(0xF4F4F4);
-        [self setCell];
+        //[self setCell];
     }
     return self;
 }
 
+- (void)setModel:(BFOrderProductModel *)model {
+    _model = model;
+    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"olaceholder"]];
+    self.productTitle.text = model.title;
+    [self.productTitle sizeToFit];
+    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:self.productTitle.text];
+    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [detailParagraphStyle setLineSpacing:4];//调整行间距
+    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [self.productTitle.text length])];
+    self.productTitle.attributedText = detailAttributedString;
+    
+    
+    self.productColor.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productIcon.frame)+BF_ScaleHeight(6), BF_ScaleWidth(50), BF_ScaleHeight(11));
+    self.productColor.text = [NSString stringWithFormat:@"颜色:%@",model.color];
+    [self label:self.productColor];
+    
+    self.productSize.frame = CGRectMake(CGRectGetMaxX(self.productColor.frame)+BF_ScaleWidth(8), self.productColor.y, BF_ScaleWidth(100), self.productColor.height);
+    self.productSize.text = [NSString stringWithFormat:@"尺寸:%@",model.size];
+    [self label:self.productSize];
+    
+    self.productCount.frame = CGRectMake(self.productColor.x, CGRectGetMaxY(self.productColor.frame)+BF_ScaleHeight(8), self.productColor.width, self.productColor.height);
+    self.productCount.text = [NSString stringWithFormat:@"数量:%@",model.quantity];
+    [self label:self.productCount];
+    
+    self.productPrice.frame = CGRectMake(CGRectGetMaxX(self.productCount.frame)+BF_ScaleWidth(8), self.productCount.y, self.productSize.width, self.productColor.height);
+    self.productPrice.text = [NSString stringWithFormat:@"颜色:%@",model.price];
+    [self label:self.productPrice];
+    
+    
+    self.productDetailH = CGRectGetMaxY(self.productPrice.frame) + BF_ScaleHeight(10);
+    self.bottomView.frame = CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(300), self.productDetailH);
+    BFLog(@"%f,,%f",self.productDetailH,CGRectGetMaxY(self.productPrice.frame));
+    
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.bottomView.frame = CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(300), BF_ScaleHeight(80));
+    
     
     self.productIcon.frame = CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(30));
     
@@ -78,12 +113,8 @@
     self.productTitle.textColor = BFColor(0x5B5B5B);
     self.productTitle.numberOfLines = 0;
     [self.bottomView addSubview:self.productTitle];
-    [self.productTitle sizeToFit];
-    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:self.productTitle.text];
-    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [detailParagraphStyle setLineSpacing:4];//调整行间距
-    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [self.productTitle.text length])];
-    self.productTitle.attributedText = detailAttributedString;
+    //[self.productTitle sizeToFit];
+    
     
     self.productColor = [self setUpLabelWithText:@"颜色:红"];
     [self.bottomView addSubview:self.productColor];
@@ -107,5 +138,11 @@
     label.textColor = BFColor(0x5B5B5B);
     [label sizeToFit];
     return label;
+}
+
+- (void)label:(UILabel *)label {
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xFB0049) range:NSMakeRange(3,label.text.length-3)];
+    label.attributedText = attributedString;
 }
 @end

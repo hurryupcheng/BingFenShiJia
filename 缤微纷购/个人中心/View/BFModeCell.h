@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
 
 @interface BFModeCell : UITableViewCell
 /**自定义类方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**返回cell的高度*/
 @property (nonatomic, assign) CGFloat modeCellH;
+/**BFProductInfoModel模型类*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 @end

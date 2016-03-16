@@ -11,4 +11,6 @@
 @interface BFTranslateTime : NSObject
 /**把返回的时间总秒数转变成yyyy-MM-dd HH:mm*/
 + (NSString *)translateTimeIntoCurrurents:(NSString *)totalSecond;
+/**把返回的时间总秒数转变成yyyy-MM-dd*/
++ (NSString *)translateTimeIntoCurrurentDate:(NSString *)totalSecond;
 @end

@@ -92,6 +92,15 @@
 
 - (void)regist:(UIButton *)sender {
     [self endEditing:YES];
+    registTime = 4;
+    [self.registerButton setEnabled:NO];
+    self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
+    [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
+    [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
+    if(registTimer)
+        [registTimer invalidate];
+    registTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(registerAction) userInfo:nil repeats:YES];
+
     if ([self.phoneTX.text isEqualToString:@""] || [self.verificationCodeTX.text isEqualToString:@""] || [self.firstPasswordTX.text isEqualToString:@""] ||[self.secondPasswordTX.text isEqualToString:@""]) {
         //        UIAlertView *aler = [[UIAlertView alloc]
         //                             initWithTitle:@"温馨提示" message:@"请输入完善注册信息" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
@@ -129,13 +138,6 @@
             }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
             }else {
-                registTime = 3;
-                [self.registerButton setEnabled:NO];
-                [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-                [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-                if(registTimer)
-                    [registTimer invalidate];
-                registTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(registerAction) userInfo:nil repeats:YES];
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^{
                     if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
                         [self.delegate userRigisterWithBFPassWordView:self];
@@ -193,11 +195,13 @@
     if(registTime<=0)
     {
         [self.registerButton setEnabled:YES];
+        self.registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
         [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
         [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
     } else
     {
         [self.registerButton setEnabled:NO];
+        self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
         [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
          [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];    }
 

@@ -9,5 +9,10 @@
 #import "BFMyCouponsModel.h"
 
 @implementation BFMyCouponsModel
-
++ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"ID"]) {
+        propertyName = @"id";
+    }
+    return propertyName;
+}
 @end

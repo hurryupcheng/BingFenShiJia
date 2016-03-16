@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFOrderProductModel.h"
 @interface BFProductDetailCell : UITableViewCell
+/**自定义类方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**BFOrderProductModel模型类*/
+@property (nonatomic, strong) BFOrderProductModel *model;
+/**分区高度*/
+@property (nonatomic, assign) CGFloat productDetailH;
 @end

@@ -12,6 +12,7 @@
 #import "BFOrderDetailView.h"
 #import "BFProductDetailCell.h"
 #import "BFModeCell.h"
+#import "BFOrderProductModel.h"
 
 @interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
@@ -20,14 +21,22 @@
 @property (nonatomic, strong) BFOrderDetailView *headerView;
 /**自定义footer视图*/
 @property (nonatomic, strong) BFLogisticInfoView *footerView;
+/**BFProductInfoModel模型*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 /**BFModeCell的高度*/
 @property (nonatomic, assign) CGFloat modeCellH;
+/**商品数组*/
+@property (nonatomic, strong) NSMutableArray *productArray;
 @end
 
 @implementation BFMyOrderDetailController
 
-
-
+- (NSMutableArray *)productArray {
+    if (!_productArray) {
+        _productArray = [NSMutableArray array];
+    }
+    return _productArray;
+}
 
 - (BFOrderDetailView *)headerView {
     if (!_headerView) {
@@ -67,7 +76,7 @@
     [self getData];
     //头部视图
     self.tableView.tableHeaderView = self.headerView;
-    self.tableView.tableFooterView = self.footerView;
+    //self.tableView.tableFooterView = self.footerView;
 }
 
 
@@ -80,9 +89,12 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"orderId"] = self.orderId;
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@",responseObject);
-        BFProductInfoModel *model = [BFProductInfoModel parse:responseObject[@"order"]];
         
+        self.model = [BFProductInfoModel parse:responseObject[@"order"]];
+        NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+        [self.productArray addObjectsFromArray:array];
+        BFLog(@"%@",responseObject);
+        [self.tableView reloadData];
     } failure:^(NSError *error) {
         BFLog(@"%@",error);
     }];
@@ -90,33 +102,43 @@
 
 
 #pragma mark --footer视图
-- (void)getFooterView {
-    
-}
+
 
 
 #pragma mark --代理
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return  self.productArray.count+1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 2) {
-        BFModeCell *cell = [BFModeCell cellWithTableView:tableView];
-        
-        return cell;
+    BFLog(@"%lu",self.productArray.count);
+    if (self.productArray.count == 0) {
+        return [[UITableViewCell alloc] init];
     }else {
-        BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
-        return cell;
+        if (indexPath.row == self.productArray.count) {
+            BFModeCell *cell = [BFModeCell cellWithTableView:tableView];
+            cell.model = self.model;
+            self.modeCellH = cell.modeCellH;
+            cell.userInteractionEnabled = NO;
+            return cell;
+        }else {
+            BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
+            cell.model = self.productArray[indexPath.row];
+            return cell;
+        }
     }
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  {
-    if (indexPath.row == 2) {
-        return BF_ScaleHeight(130);
+    if (indexPath.row == self.productArray.count) {
+        return self.modeCellH;
+        BFLog(@"%f",self.modeCellH);
+    }else {
+        return BF_ScaleHeight(100);
     }
-    return BF_ScaleHeight(80);
+    
 }
 
 @end

@@ -9,7 +9,7 @@
 #import "BFSegmentView.h"
 
 @interface BFSegmentView()
-@property (nonatomic, strong) UISegmentedControl *segmented;
+//@property (nonatomic, strong) UISegmentedControl *segmented;
 
 @end
 
@@ -39,7 +39,7 @@
     //NSArray *segmentedArray = @[@"VIP订单",@"客户订单",@"推荐分成订单"];
     UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:self.titleArray];
     self.segmented = segmented;
-    segmented.selectedSegmentIndex = 0;
+    
     [segmented addTarget:self action:@selector(changeNumber:) forControlEvents:UIControlEventValueChanged];
     //改变segment的字体大小和颜色
     NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:BFColor(0x13359A),NSForegroundColorAttributeName,nil];
@@ -55,6 +55,7 @@
 }
 
 - (void)click {
+    //self.segmented.selectedSegmentIndex = 2;
     [self changeNumber:self.segmented];
 }
 
