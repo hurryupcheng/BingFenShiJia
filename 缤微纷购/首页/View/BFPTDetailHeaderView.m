@@ -5,7 +5,6 @@
 //  Created by 程召华 on 16/3/2.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
 #import "BFPTDetailHeaderView.h"
 
 @interface BFPTDetailHeaderView ()
@@ -14,7 +13,6 @@
 @property (nonatomic, strong) UILabel *detailLabel;
 @property (nonatomic, strong) UILabel *playLabel;
 @property (nonatomic, strong) UIView *view;
-@property (nonatomic, strong) UIView *playView;
 
 @end
 
@@ -63,9 +61,9 @@
     
     self.view.frame = CGRectMake(0, CGRectGetMaxY(self.cycleScrollView.frame)+BF_ScaleHeight(3), ScreenWidth, CGRectGetMaxY(self.alonePurchaseButton.frame)+BF_ScaleWidth(10));
     
-    self.playView.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame)+BF_ScaleWidth(10), ScreenWidth, BF_ScaleHeight(70));
+    self.step.frame = CGRectMake(0, CGRectGetMaxY(self.view.frame)+BF_ScaleWidth(10), ScreenWidth, BF_ScaleHeight(80));
     
-    self.headerHeight = CGRectGetMaxY(self.playView.frame);
+    self.headerHeight = CGRectGetMaxY(self.step.frame);
 }
 
 
@@ -126,16 +124,15 @@
     [self addSubview:view];
     
     
-    self.playView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(view.frame)+BF_ScaleWidth(10), ScreenWidth, BF_ScaleHeight(70))];
-    self.playView.backgroundColor = BFColor(0xffffff);
-    self.playView.backgroundColor = [UIColor blueColor];
+    self.step = [[BFPTStep alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(view.frame)+BF_ScaleWidth(10), ScreenWidth, BF_ScaleHeight(75)) index:0];
+    self.step.backgroundColor = BFColor(0xffffff);
+    self.step.layer.borderColor = [UIColor grayColor].CGColor;
+    self.step.layer.borderWidth = 0.5;
     
-    
-    
-    [self addSubview:self.playView];
-    
-    
-    
+    self.step.backgroundColor = [UIColor whiteColor];
+  
+    [self addSubview:self.step];
+  
 }
 
 - (void)setLineSpace:(CGFloat)lineSpace  headIndent:(CGFloat)headIndent text:(NSString *)text label:(UILabel *)lable{

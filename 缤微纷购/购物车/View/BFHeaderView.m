@@ -23,10 +23,12 @@
         UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.allSeled.frame), 5, 40, x)];
         label.text = @"全选";
         label.textAlignment = NSTextAlignmentCenter;
+        label.font = [UIFont systemFontOfSize:CGFloatX(17)];
         
         UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth/2-((kScreenWidth/3)/2), 5, kScreenWidth/3, x)];
         title.text = @"商品信息";
         title.textAlignment = NSTextAlignmentCenter;
+        title.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
         [self addSubview:self.allSeled];
         [self addSubview:label];

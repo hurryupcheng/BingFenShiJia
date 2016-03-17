@@ -12,7 +12,8 @@
 
 @property (nonatomic,retain)UILabel *money;
 @property (nonatomic,retain)UIButton *buyButton;
+@property (nonatomic,retain)UIButton *homeButton;
 
-- (instancetype)initWithFrame:(CGRect)frame money:(NSString *)money name:(NSString *)name;
+- (instancetype)initWithFrame:(CGRect)frame money:(NSString *)money home:(NSString *)home name:(NSString *)name;
 
 @end

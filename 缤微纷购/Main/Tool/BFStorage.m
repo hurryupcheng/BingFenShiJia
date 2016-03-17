@@ -10,6 +10,16 @@
 
 @implementation BFStorage
 
+//MJCodingImplementation
+
+//+(NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
+//    //判断某个属性 所对应的key
+//    if ([propertyName isEqualToString:@"ID"]) {
+//        propertyName = @"id";
+//    }
+//    return propertyName;
+//}
+
 - (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number{
     if ([super init]) {
         _title = title;

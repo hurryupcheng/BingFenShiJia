@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/1/13.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "UMSocial.h"
+#import "BFShareView.h"
 #import "BFWebHeaderView.h"
 #import "BFStorage.h"
 #import "Height.h"
@@ -20,7 +22,7 @@
 #import "Header.h"
 #import "FXQViewController.h"
 
-@interface FXQViewController ()
+@interface FXQViewController ()<BFShareViewDelegate>
 
 @property (nonatomic,retain)UITableView *tableView;
 @property (nonatomic,retain)UIView *buttonView;
@@ -90,6 +92,8 @@
 
     self.buttonView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-50, kScreenWidth, 50)];
     self.buttonView.backgroundColor = [UIColor whiteColor];
+//    self.buttonView.layer.borderWidth = 0.5;
+//    self.buttonView.layer.borderColor = [UIColor grayColor].CGColor;
     
     for (int i = 0; i < 3; i++) {
         
@@ -187,7 +191,7 @@
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-20, 0, 20, 20)];
 //    button.backgroundColor = [UIColor redColor];
     [button addTarget:self action:@selector(zhifu) forControlEvents:UIControlEventTouchUpInside];
-    [button setBackgroundImage:[UIImage imageNamed:@"guanbi.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
     [view addSubview:button];
     [view addSubview:_other];
     
@@ -281,9 +285,58 @@
 // 导航栏右按钮点击事件
 - (void)fenxiang{
     
-    NSLog(@"fenxiang");
-
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    BFShareView *share = [BFShareView shareView];
+    share.delegate = self;
+    [window addSubview:share];
 }
+
+- (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    switch (type) {
+            
+        case BFShareButtonTypeMoments:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatTimeline] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"朋友圈分享");
+            break;
+        case BFShareButtonTypeWechatFriends:
+            
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatSession] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+                if (response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"微信好友");
+            break;
+        case BFShareButtonTypeSinaBlog:
+            
+            [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"SinaBlog"] socialUIDelegate:self];        //设置分享内容和回调对象
+            [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+            BFLog(@"新浪微博分享");
+            break;
+        case BFShareButtonTypeQQFriends:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQQ] content:@"分享文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"QQ好友分享");
+            break;
+        case BFShareButtonTypeQQZone:
+            [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToQzone] content:@"分享文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
+                if(response.responseCode == UMSResponseCodeSuccess) {
+                    NSLog(@"分享成功！");
+                }
+            }];
+            BFLog(@"QQ空间分享");
+            break;
+            
+    }
+}
+
 
 #pragma mark 数据解析
 - (void)getDate{
@@ -342,6 +395,12 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    self.tabBarController.tabBar.hidden = YES;
+}
+
 - (void)minButSelented{
     self.number--;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
@@ -357,4 +416,5 @@
         self.addShopp.minBut.userInteractionEnabled = YES;
     }
 }
+
 @end

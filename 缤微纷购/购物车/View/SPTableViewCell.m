@@ -52,7 +52,7 @@
         self.moneyLabel.textColor = [UIColor orangeColor];
         
         self.close = [[UIButton alloc]init];
-        [self.close setBackgroundImage:[UIImage imageNamed:@"guanbi.png"] forState:UIControlStateNormal];
+        [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
         
         self.add = [[AddShopping alloc]init];
         self.add.textF.userInteractionEnabled = NO;
@@ -98,7 +98,7 @@
 
     [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
     self.titleLabel.text = model.title;
-    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(15)]);
+    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(17)]);
     [self.titleLabel sizeToFit];
     
     self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, CGFloatY(30));

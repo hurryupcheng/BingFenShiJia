@@ -10,6 +10,7 @@
 
 @interface BFStorage : NSObject<NSCoding>
 
+@property (nonatomic,retain)NSString *ID;
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *spec;

@@ -5,6 +5,7 @@
 //  Created by 程召华 on 16/3/2.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFPTStep.h"
 #import "BFPurchaseButton.h"
 #import <UIKit/UIKit.h>
 #import "BFPTDetailModel.h"
@@ -14,4 +15,6 @@
 
 @property (nonatomic, strong) BFPurchaseButton *groupPurchaseButton;
 @property (nonatomic, strong) BFPurchaseButton *alonePurchaseButton;
+@property (nonatomic, strong) BFPTStep *step;
+
 @end

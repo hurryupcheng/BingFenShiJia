@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "MJRefresh.h"
 #import "PTXQViewController.h"
 #import "Height.h"
 #import "PTModel.h"
@@ -80,7 +80,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     [self CollectionViewgetDate];
-    //[self initwithSegment];
+    [self initwithSegment];
     //[self getAddress];
 }
 
@@ -100,7 +100,7 @@
 
 
 - (void)initwithSegment{
-    
+ 
     self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), 25)];
     
     self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), 25)];
@@ -336,6 +336,7 @@
             [self initWithCollectionView];
             self.button.backgroundColor = [UIColor whiteColor];
             self.but.backgroundColor = rgb(39, 64, 139, 1);
+            
         }
             break;
         case 200:{
@@ -565,20 +566,23 @@
     if (self.ptLBView == nil) {
         return 0;
     }else{
-    return kScreenWidth/2;
+    return kScreenWidth/2+10;
     }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-
-    LBView *lb = [[LBView alloc]initWithFrame:CGRectMake(10, 10, kScreenWidth-20, kScreenWidth/2)];
+    UIView *view = [[UIView alloc]init];
+    
+    LBView *lb = [[LBView alloc]initWithFrame:CGRectMake(0, 10, 0, (kScreenWidth-20)/2)];
     NSMutableArray *arr = [NSMutableArray array];
     for (NSString *str in self.ptLBView) {
         [arr addObject:str];
     }
     lb.isServiceLoadingImage = YES;
     lb.dataArray = [arr copy];
-    return lb;
+    
+    [view addSubview:lb];
+    return view;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -710,10 +714,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    [self initwithSegment];
+    [super viewWillAppear:animated];
+//    [self initwithSegment];
     BFLog(@"asdadasd");
     self.navigationController.navigationBar.barTintColor = rgb(0, 0, 205, 1);
     self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBarHidden = NO;
 }
 
 - (void)getAddress{

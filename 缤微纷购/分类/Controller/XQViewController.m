@@ -25,9 +25,10 @@
 @property (nonatomic,retain)NSMutableArray *idArr;
 @property (nonatomic,retain)NSMutableArray *dataArray;
 
-@property (nonatomic,assign)NSInteger number;
-@property (nonatomic,assign)NSInteger sorke;
+@property (nonatomic)BOOL sorke;
 @property (nonatomic,retain)UIButton *selectend;
+@property (nonatomic,retain)UIButton *segmentBut;
+@property (nonatomic,retain)UIImageView *priceimg;
 
 @end
 
@@ -37,7 +38,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = rgb(245, 245, 245, 1.0);
 
-    self.number = 0;
     self.sorke = 1;
     self.title = self.titles;
     
@@ -60,26 +60,29 @@
     
     [self.view addSubview:_segmented];
     for (int i = 0; i < 3; i++) {
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, 30)];
+        self.segmentBut = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, 30)];
         
-        button.tag = i;
-        [button setTitle:arr[i] forState:UIControlStateNormal];
-        [button setTitleColor:rgb(0, 0, 205, 1.0) forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [button addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventTouchUpInside];
-        [button setBackgroundImage:[UIImage imageNamed:@"blues.png"] forState:UIControlStateSelected];
-        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        self.segmentBut.tag = i;
+        [self.segmentBut setTitle:arr[i] forState:UIControlStateNormal];
+        [self.segmentBut setTitleColor:rgb(0, 0, 205, 1.0) forState:UIControlStateNormal];
+        [self.segmentBut setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [self.segmentBut addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventTouchUpInside];
+        [self.segmentBut setBackgroundImage:[UIImage imageNamed:@"blues.png"] forState:UIControlStateSelected];
+        self.segmentBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
         
-        if (button.tag == 0) {
+        if (self.segmentBut.tag == 0) {
             self.selectend.selected = NO;
-            button.selected = YES;
-            self.selectend = button;
+            self.segmentBut.selected = YES;
+            self.selectend = self.segmentBut;
         }
-        
-        [_segmented addSubview:button];
+        [_segmented addSubview:self.segmentBut];
+     
     }
     
-    
+    self.priceimg = [[UIImageView alloc]initWithFrame:CGRectMake((_segmented.width)/3-35, 0, 30, 30)];
+    [self.segmentBut addSubview:self.priceimg];
+    self.priceimg.image = [UIImage imageNamed:@"dm04.png"];
+
     for (int j = 1; j <= 2; j++) {
         UIView *color = [[UIView alloc]initWithFrame:CGRectMake((_segmented.width)/3*j, 0, 1, 30)];
         color.backgroundColor = rgb(0, 0, 205, 1.0);
@@ -109,7 +112,7 @@
     flowLayout.itemSize = CGSizeMake(x, x+75);
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-100) collectionViewLayout:flowLayout];
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -214,19 +217,38 @@
         }
             break;
         case 2:{
-            self.sorke++;
-            if (self.sorke%2 == 0) {
+            
+            __block CGAffineTransform temp;
+            
+            if (self.sorke == YES) {
               [self getDataids:self.ID number:4];
+              [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
+                  temp = CGAffineTransformMakeTranslation(0, 0);
+                  self.priceimg.transform = CGAffineTransformRotate(temp, 179.001);
+              } completion:^(BOOL finished) {
+                  
+              }];
+                self.sorke = NO;
             }else{
             [self getDataids:self.ID number:3];
+            [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
+                temp = CGAffineTransformMakeTranslation(0, 0);
+                self.priceimg.transform = CGAffineTransformRotate(temp, 0);
+            } completion:^(BOOL finished) {
+                
+            }];
+                self.sorke = YES;
             }
-            
         }
             break;
         default:
             break;
     }
-
+    if (seg.tag == 2) {
+        self.priceimg.image = [UIImage imageNamed:@"dm03.png"];
+    }else{
+        self.priceimg.image = [UIImage imageNamed:@"dm04.png"];
+    }
 }
 
 //  导航栏左按钮点击事件

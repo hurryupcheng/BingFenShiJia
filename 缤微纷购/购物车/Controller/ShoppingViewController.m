@@ -63,7 +63,7 @@
     [unarchieve finishDecoding];
     
     [self.dateArr addObject:storage];
-    
+//    NSLog(@">>>>>>>>>%@",storage.title);
     if (self.dateArr.count == 2) {
         [self data];
     }else{
@@ -71,6 +71,7 @@
     [self initWithTabView];
         [self.tabView reloadData];
     }
+  
 }
 
 - (void)data{
@@ -150,7 +151,7 @@
     
     [self.tabView registerClass:[SPTableViewCell class] forCellReuseIdentifier:@"reuse"];
     
-    self.foot = [[BFFootViews alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-115, kScreenWidth, 50) money:@"合计:¥ 0.00" name:@"马上结算"];
+    self.foot = [[BFFootViews alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-115, kScreenWidth, 50) money:@"合计:¥ 0.00" home:nil name:@"马上结算"];
     _foot.backgroundColor = [UIColor whiteColor];
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
     
@@ -215,6 +216,7 @@
     UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lab.frame)+10, 0, kScreenWidth/3, 30)];
     labe.text = @"热门推荐";
     labe.textAlignment = NSTextAlignmentCenter;
+    labe.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
@@ -360,6 +362,8 @@
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     NSString *str = [self.foot.money.text substringFromIndex:5];
     bfzf.sum = str;
+    bfzf.count = self.dateArr.count;
+    
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
@@ -405,13 +409,15 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     self.tabBarController.tabBar.hidden = NO;
-   
+   self.navigationController.navigationBarHidden = NO;
     [self.selectGoods removeAllObjects];
     self.isEdits = NO;
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
-    
+
 }
 
 - (void)didReceiveMemoryWarning {

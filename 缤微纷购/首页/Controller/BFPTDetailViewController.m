@@ -5,6 +5,8 @@
 //  Created by 程召华 on 16/3/2.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "PTStepViewController.h"
+#import "BFZFViewController.h"
 #import "FXQViewController.h"
 #import "BFPTDetailViewController.h"
 #import "BFPTDetailHeaderView.h"
@@ -52,7 +54,9 @@
     self.header = [[BFPTDetailHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
     self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
-    [self.header.alonePurchaseButton addTarget:self action:@selector(buy) forControlEvents:UIControlEventTouchUpInside];
+    [self.header.alonePurchaseButton addTarget:self action:@selector(alonePurchaseButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.header.groupPurchaseButton addTarget:self action:@selector(groupPurchaseButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.header.step.stepBut addTarget:self action:@selector(stepButs) forControlEvents:UIControlEventTouchUpInside];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
     self.webBrowserView = self.webView.scrollView.subviews[0];
@@ -68,11 +72,21 @@
 }
 
 
-- (void)buy{
+- (void)alonePurchaseButton{
     FXQViewController *fxq = [[FXQViewController alloc]init];
     fxq.ID = self.ID;
     [self.navigationController pushViewController:fxq animated:YES];
 }
 
+
+- (void)groupPurchaseButton{
+    BFZFViewController *zf = [[BFZFViewController alloc]init];
+    [self.navigationController pushViewController:zf animated:YES];
+}
+
+- (void)stepButs{
+    PTStepViewController *pt = [[PTStepViewController alloc]init];
+    [self.navigationController pushViewController:pt animated:YES];
+}
 
 @end
