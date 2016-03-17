@@ -7,6 +7,7 @@
 //
 
 #import "BFPersonInformationController.h"
+#import "BFAddressController.h"
 
 @interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
@@ -136,12 +137,17 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    if (indexPath.section == 0) {
+        BFLog(@"点击头像");
+    }
+    if (indexPath.section == 2) {
+        if (indexPath.row == 0) {
+            BFAddressController *addressVC = [BFAddressController new];
+            [self.navigationController pushViewController:addressVC animated:YES];
+            BFLog(@"地址管理");
+        }
+    }
 }
-
-
-
-
 
 
 

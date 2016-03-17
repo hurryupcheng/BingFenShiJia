@@ -280,6 +280,12 @@
 		594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
+		59F6B24D1C9A79B70054F317 /* BFAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B24C1C9A79B70054F317 /* BFAddressController.m */; };
+		59F6B2531C9A7D140054F317 /* BFAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2521C9A7D140054F317 /* BFAddressCell.m */; };
+		59F6B2561C9A8E5A0054F317 /* BFAddAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2551C9A8E5A0054F317 /* BFAddAddressController.m */; };
+		59F6B2591C9A91060054F317 /* BFAddAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2581C9A91060054F317 /* BFAddAddressView.m */; };
+		59F6B25E1C9AA5F70054F317 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F6B25B1C9AA5F70054F317 /* Address.plist */; };
+		59F6B25F1C9AA5F70054F317 /* AddressPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B25D1C9AA5F70054F317 /* AddressPickView.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
 		59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */; };
@@ -839,6 +845,17 @@
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
 		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
+		59F6B24B1C9A79B70054F317 /* BFAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddressController.h; sourceTree = "<group>"; };
+		59F6B24C1C9A79B70054F317 /* BFAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddressController.m; sourceTree = "<group>"; };
+		59F6B2511C9A7D140054F317 /* BFAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddressCell.h; sourceTree = "<group>"; };
+		59F6B2521C9A7D140054F317 /* BFAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddressCell.m; sourceTree = "<group>"; };
+		59F6B2541C9A8E5A0054F317 /* BFAddAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddAddressController.h; sourceTree = "<group>"; };
+		59F6B2551C9A8E5A0054F317 /* BFAddAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddAddressController.m; sourceTree = "<group>"; };
+		59F6B2571C9A91060054F317 /* BFAddAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddAddressView.h; sourceTree = "<group>"; };
+		59F6B2581C9A91060054F317 /* BFAddAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddAddressView.m; sourceTree = "<group>"; };
+		59F6B25B1C9AA5F70054F317 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
+		59F6B25C1C9AA5F70054F317 /* AddressPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressPickView.h; sourceTree = "<group>"; };
+		59F6B25D1C9AA5F70054F317 /* AddressPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressPickView.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
 		59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddRecommenderView.m; sourceTree = "<group>"; };
 		59F7D26B1C8E986600E3F854 /* BFUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUserInfo.h; sourceTree = "<group>"; };
@@ -1188,6 +1205,10 @@
 				594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */,
 				59FF46781C8A74AF0040689A /* BFPersonInformationController.h */,
 				59FF46791C8A74AF0040689A /* BFPersonInformationController.m */,
+				59F6B24B1C9A79B70054F317 /* BFAddressController.h */,
+				59F6B24C1C9A79B70054F317 /* BFAddressController.m */,
+				59F6B2541C9A8E5A0054F317 /* BFAddAddressController.h */,
+				59F6B2551C9A8E5A0054F317 /* BFAddAddressController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1278,6 +1299,10 @@
 				5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */,
 				59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */,
 				59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */,
+				59F6B2511C9A7D140054F317 /* BFAddressCell.h */,
+				59F6B2521C9A7D140054F317 /* BFAddressCell.m */,
+				59F6B2571C9A91060054F317 /* BFAddAddressView.h */,
+				59F6B2581C9A91060054F317 /* BFAddAddressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1644,6 +1669,7 @@
 		592523EA1C8681CF000F609F /* 第三方 */ = {
 			isa = PBXGroup;
 			children = (
+				59F6B25A1C9AA5F70054F317 /* AddressPick */,
 				590D3C0A1C94166A0042D42E /* UM */,
 				592523EB1C8681CF000F609F /* AFNetworking */,
 				592524491C8681CF000F609F /* EMMallSectionView */,
@@ -2090,6 +2116,16 @@
 			path = STPhotoBrowserView;
 			sourceTree = "<group>";
 		};
+		59F6B25A1C9AA5F70054F317 /* AddressPick */ = {
+			isa = PBXGroup;
+			children = (
+				59F6B25B1C9AA5F70054F317 /* Address.plist */,
+				59F6B25C1C9AA5F70054F317 /* AddressPickView.h */,
+				59F6B25D1C9AA5F70054F317 /* AddressPickView.m */,
+			);
+			path = AddressPick;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2233,6 +2269,7 @@
 				590D3C3C1C94166A0042D42E /* UMSocialSDKResourcesNew.bundle in Resources */,
 				592525871C8681CF000F609F /* LICENSE in Resources */,
 				51D6365D1C8408B100D08A2D /* f_1.png in Resources */,
+				59F6B25E1C9AA5F70054F317 /* Address.plist in Resources */,
 				51D5416B1C8E9BEE005CB936 /* gx02.png in Resources */,
 				5925257A1C8681CF000F609F /* PushConfig.plist in Resources */,
 				592525C21C8681CF000F609F /* progresshud.bundle in Resources */,
@@ -2330,6 +2367,7 @@
 				592F86D91C901B75006E0CEE /* BFModifyBankCardController.m in Sources */,
 				59FC2DB11C891F4500E41D16 /* UIButton+Extension.m in Sources */,
 				5925259D1C8681CF000F609F /* MJRefreshBackNormalFooter.m in Sources */,
+				59F6B2561C9A8E5A0054F317 /* BFAddAddressController.m in Sources */,
 				51D2FE861C7EE5B500155588 /* PTTableViewCell.m in Sources */,
 				51D289B61C802C9B007B7176 /* Height.m in Sources */,
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
@@ -2349,6 +2387,7 @@
 				592525861C8681CF000F609F /* ViewController+MASAdditions.m in Sources */,
 				592525AB1C8681CF000F609F /* TAPageControl.m in Sources */,
 				51D122071C3A755100640A44 /* ClassificationViewController.m in Sources */,
+				59F6B25F1C9AA5F70054F317 /* AddressPickView.m in Sources */,
 				592525A51C8681CF000F609F /* UIScrollView+MJRefresh.m in Sources */,
 				592525A71C8681CF000F609F /* NSString+Emojize.m in Sources */,
 				51811AF51C7451AC004E29A8 /* LogViewController.m in Sources */,
@@ -2414,6 +2453,7 @@
 				590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */,
 				51D4589B1C96B6C600B52516 /* BFStorage.m in Sources */,
 				592525AD1C8681CF000F609F /* SDCycleScrollView.m in Sources */,
+				59F6B2591C9A91060054F317 /* BFAddAddressView.m in Sources */,
 				592525CA1C8681CF000F609F /* NSObject+ST.m in Sources */,
 				51D4589A1C96B6C600B52516 /* BFFootViews.m in Sources */,
 				592523B31C867674000F609F /* Foundation+Log.m in Sources */,
@@ -2486,10 +2526,12 @@
 				592523B61C867698000F609F /* UIView+Extension.m in Sources */,
 				51D541681C8E5FA4005CB936 /* BForder.m in Sources */,
 				594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */,
+				59F6B24D1C9A79B70054F317 /* BFAddressController.m in Sources */,
 				51A3B3641C842EE800F5FE67 /* PTXQViewController.m in Sources */,
 				51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */,
 				592525A11C8681CF000F609F /* MJRefreshStateHeader.m in Sources */,
 				59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */,
+				59F6B2531C9A7D140054F317 /* BFAddressCell.m in Sources */,
 				592525341C8681CF000F609F /* AFHTTPRequestOperationManager.m in Sources */,
 				51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */,
 				592521B91C867522000F609F /* RootViewController.m in Sources */,
