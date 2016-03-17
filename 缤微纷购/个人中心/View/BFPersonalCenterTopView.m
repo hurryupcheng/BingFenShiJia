@@ -132,12 +132,13 @@
     //self.nickNameView.backgroundColor = [UIColor redColor];
     [self addSubview:self.nickNameView];
     
-    self.IDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(15), BF_ScaleWidth(80), ButtonViewHeight)];
+    self.IDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(50), BF_ScaleHeight(15), BF_ScaleWidth(90), ButtonViewHeight)];
     //self.IDLabel.backgroundColor = [UIColor redColor];
+    self.IDLabel.textAlignment = NSTextAlignmentRight;
     [self.nickNameView addSubview:self.IDLabel];
     
     self.referenceLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(15), BF_ScaleWidth(150), ButtonViewHeight)];
-    self.referenceLabel.backgroundColor = [UIColor greenColor];
+    //self.referenceLabel.backgroundColor = [UIColor greenColor];
     [self.nickNameView addSubview:self.referenceLabel];
     
     self.referenceButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth/2, BF_ScaleHeight(10), BF_ScaleWidth(100), ButtonViewHeight+BF_ScaleHeight(10))];

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BFMyOrderModel : NSObject
+/**随机的产品编号*/
+@property (nonatomic, strong) NSString *ID;
 /**订单编号*/
 @property (nonatomic, strong) NSString *orderId;
 /**订单时间*/

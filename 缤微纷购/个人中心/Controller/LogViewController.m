@@ -15,7 +15,10 @@
 #import "BFMobileNumber.h"
 #import "MyMD5.h"
 
-@interface LogViewController ()<UITextFieldDelegate>
+@interface LogViewController ()<UITextFieldDelegate>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**背景图片*/
@@ -28,6 +31,8 @@
 @property (nonatomic, strong) NSString *phonePath;
 /**密码保存路径*/
 @property (nonatomic, strong) NSString *passwordPath;
+/**登录按钮*/
+@property (nonatomic, strong) UIButton *loginButton;
 @end
 
 @implementation LogViewController
@@ -91,6 +96,7 @@
     
     
     UIButton *loginButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line2.frame)+BF_ScaleHeight(20), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(36)) title:@"登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xffffff)];
+    self.loginButton = loginButton;
     
     loginButton.backgroundColor = BFColor(0xFD8727);
     loginButton.layer.cornerRadius = BF_ScaleHeight(18);
@@ -174,6 +180,14 @@
 
 //  登陆点击按钮事件
 - (void)login{
+    leftTime = 2;
+    [self.loginButton setEnabled:NO];
+    [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
+    
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    
     
     if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
 //        UIAlertView *aler = [[UIAlertView alloc]
@@ -208,6 +222,8 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
+                
+                
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                 [self.passwordTX.text writeToFile:self.passwordPath atomically:YES];
                 
@@ -228,7 +244,20 @@
     [self.navigationController pushViewController:zc animated:YES];
 }
 
+- (void)timerAction {
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.loginButton setEnabled:YES];
+        self.loginButton.backgroundColor = BFColor(0xFD8727);
+    } else
+    {
+        
+        [self.loginButton setEnabled:NO];
+        [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
+    }
 
+}
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

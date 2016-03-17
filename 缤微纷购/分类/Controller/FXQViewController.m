@@ -21,6 +21,7 @@
 #import "LBView.h"
 #import "Header.h"
 #import "FXQViewController.h"
+#import "CXArchiveShopManager.h"
 
 @interface FXQViewController ()<BFShareViewDelegate>
 
@@ -250,21 +251,17 @@
             NSString *money = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
             float num = [self.other.addShopp.textF.text intValue];
 //            NSString *num = self.other.addShopp.textF.text;
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num];
-            NSMutableData *data = [NSMutableData data];
-            NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc]initForWritingWithMutableData:data];
-            [archiver encodeObject:storage forKey:@"storage"];
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num shopId:self.ID];
+           
+            [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:storage];
+            [[CXArchiveShopManager sharedInstance]startArchiveShop];
             
-            [archiver finishEncoding];
-            NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject];
-            NSString *str = [document stringByAppendingPathComponent:@"BFStorage.data"];
-
-            [data writeToFile:str atomically:YES];
-        self.tabBarController.selectedIndex = 1;
+            self.tabBarController.selectedIndex = 1;
         [self.navigationController pushViewController:shopp animated:YES];
             if (self.tabBarController.selectedIndex == 1) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
+        
         }break;
         case 112:{
             [self zhifu];

@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFMyCouponsModel.h"
 
 @interface BFMyCouponsCell : UITableViewCell
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**BFMyCouponsModel模型*/
+@property (nonatomic, strong) BFMyCouponsModel *model;
 @end

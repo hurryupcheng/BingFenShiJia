@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.tabBar.translucent = NO;
-    NSArray *array = @[@"首页",@"购物车",@"个人中心",@"分类",@"物流售后"];
+    NSArray *array = @[@"首页",@"购物车",@"个人中心",@"分类",@"物流·售后"];
     self.homeVC = [[HomeViewController alloc]init];
    
     [self setController:self.homeVC title:array[0] image:@"icon_01.png" selectImage:@"icon_11.png"];

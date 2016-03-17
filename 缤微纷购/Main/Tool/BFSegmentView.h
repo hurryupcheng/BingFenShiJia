@@ -21,6 +21,7 @@
 - (void)click;
 /**创建分段的类方法*/
 + (instancetype)segmentView;
+@property (nonatomic, strong) UISegmentedControl *segmented;
 /**标题数组*/
 @property (nonatomic, strong) NSArray *titleArray;
 /**代理*/

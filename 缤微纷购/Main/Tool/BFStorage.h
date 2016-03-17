@@ -10,13 +10,13 @@
 
 @interface BFStorage : NSObject<NSCoding>
 
-@property (nonatomic,retain)NSString *ID;
+@property (nonatomic,retain)NSString *shopID;
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *spec;
 @property (nonatomic,retain)NSString *money;
 @property (nonatomic,assign)NSInteger numbers;
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number;
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number shopId:(NSString *)shopId;
 
 @end

@@ -9,5 +9,10 @@
 #import "BFMyOrderModel.h"
 
 @implementation BFMyOrderModel
-
++ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"ID"]) {
+        propertyName = @"id";
+    }
+    return propertyName;
+}
 @end

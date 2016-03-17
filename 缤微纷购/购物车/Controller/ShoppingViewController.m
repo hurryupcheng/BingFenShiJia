@@ -17,6 +17,7 @@
 #import "SPTableViewCell.h"
 #import "Header.h"
 #import "ShoppingViewController.h"
+#import "CXArchiveShopManager.h"
 
 @interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,retain)SPTableViewCell *sp;
@@ -52,39 +53,22 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
     
      self.title = @"购物车";
-    NSString *document = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)lastObject];
-    
-    NSString *str = [document stringByAppendingPathComponent:@"BFStorage.data"];
-    NSData *undata = [NSData dataWithContentsOfFile:str];
-    
-    NSKeyedUnarchiver *unarchieve = [[NSKeyedUnarchiver alloc]initForReadingWithData:undata]
-    ;
-    BFStorage *storage = [unarchieve decodeObjectForKey:@"storage"];
-    [unarchieve finishDecoding];
-    
-    [self.dateArr addObject:storage];
-//    NSLog(@">>>>>>>>>%@",storage.title);
-    if (self.dateArr.count == 2) {
-        [self data];
-    }else{
-    [self getDate];
-    [self initWithTabView];
-        [self.tabView reloadData];
-    }
-  
+   
 }
 
 - (void)data{
 
+    [self getDate];
+    
         self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
-        [self getDate];
+    
         self.views.backgroundColor = [UIColor whiteColor];
         [self.view addSubview:self.views];
 
         UIView *groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-215)];
        
         UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4/2)), 10, CGFloatX(kScreenWidth/4), CGFloatY(kScreenWidth/4))];
-        img.image = [UIImage imageNamed:@"kong.png"];
+        img.image = [UIImage imageNamed:@"kongs.png"];
         
         UILabel *kong = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame), kScreenWidth, 30)];
         kong.text = @"您的购物车空空如也～";
@@ -99,7 +83,7 @@
         [button addTarget:self action:@selector(gotoHomeController) forControlEvents:UIControlEventTouchUpInside];
         
         UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4)), CGRectGetMaxY(button.frame), CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
-        image.image = [UIImage imageNamed:@"buy.png"];
+        image.image = [UIImage imageNamed:@"buys.png"];
 //        image.backgroundColor = [UIColor redColor];
         [self.view addSubview:groubView];
         [self.view addSubview:img];
@@ -216,7 +200,6 @@
     UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lab.frame)+10, 0, kScreenWidth/3, 30)];
     labe.text = @"热门推荐";
     labe.textAlignment = NSTextAlignmentCenter;
-    labe.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
@@ -301,6 +284,9 @@
         BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
         weakCell.add.textF.text = numStr;
         model.numbers = count;
+        
+        [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES];
        
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
         if ([self.selectGoods containsObject:model]) {
@@ -321,6 +307,9 @@
         weakCell.add.textF.text = numStr;
         model.numbers = count;
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
+        
+        [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:NO];
         
 //        判断已选择数组里有无该对象，有就删除重新添加
         if ([self.selectGoods containsObject:model]) {
@@ -351,9 +340,16 @@
     NSArray *arr = [self.tabView visibleCells];
     for (UITableViewCell *cell in arr) {
         if (cell.tag == button.tag) {
+            BFStorage * storage = [self.dateArr objectAtIndex:cell.tag];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+            [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:storage.shopID];
+            
             [self.dateArr removeObjectAtIndex:cell.tag];
             [self.tabView reloadData];
-            break;
+            if (self.dateArr.count == 0) {
+                [self.tabView removeFromSuperview];
+                [self data];
+            }
         }
     }
 }
@@ -362,8 +358,6 @@
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     NSString *str = [self.foot.money.text substringFromIndex:5];
     bfzf.sum = str;
-    bfzf.count = self.dateArr.count;
-    
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
@@ -382,8 +376,7 @@
 
         }
        [self initWithLoveView];
-//       [self initWithTabView];
-       [self.tabView reloadData];
+//       [self.tabView reloadData];
    }];
 }
 
@@ -409,15 +402,25 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+    self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+    
+    if (self.dateArr.count == 0) {
+        [self data];
+    }else{
+     
+        [self getDate];
+        [self initWithTabView];
+        [self.tabView reloadData];
+    }
     
     self.tabBarController.tabBar.hidden = NO;
-   self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBarHidden = NO;
     [self.selectGoods removeAllObjects];
     self.isEdits = NO;
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
-
+    
 }
 
 - (void)didReceiveMemoryWarning {

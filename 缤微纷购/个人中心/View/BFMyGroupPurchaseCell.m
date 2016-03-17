@@ -115,7 +115,7 @@
     
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.productImageView.frame)+BF_ScaleWidth(13), self.productImageView.y, BF_ScaleWidth(244), BF_ScaleHeight(20));
     
-    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(30), BF_ScaleWidth(160), BF_ScaleHeight(30));
+    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(30), BF_ScaleWidth(170), BF_ScaleHeight(30));
     
     
     self.sucessLabel.frame = CGRectMake(BF_ScaleWidth(8), CGRectGetMaxY(self.line.frame)+BF_ScaleHeight(15), BF_ScaleWidth(100), BF_ScaleHeight(12));

@@ -20,13 +20,14 @@
 //    return propertyName;
 //}
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number{
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number shopId:(NSString *)shopId{
     if ([super init]) {
         _title = title;
         _img = img;
         _spec = spec;
         _money = money;
         _numbers = number;
+        _shopID = shopId;
     }
     return self;
 }
@@ -37,6 +38,7 @@
     [aCoder encodeObject:self.spec forKey:@"spec"];
     [aCoder encodeObject:self.money forKey:@"money"];
     [aCoder encodeInteger:self.numbers forKey:@"number"];
+    [aCoder encodeObject:self.shopID forKey:@"shopID"];
 };
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
@@ -46,6 +48,7 @@
         self.spec = [aDecoder decodeObjectForKey:@"spec"];
         self.money = [aDecoder decodeObjectForKey:@"money"];
         self.numbers = [aDecoder decodeIntegerForKey:@"number"];
+        self.shopID = [aDecoder decodeObjectForKey:@"shopID"];
     }
     return self;
 }

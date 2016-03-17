@@ -67,6 +67,7 @@
     //添加分段控制器
     [self segment];
     //进入页面点击分段控制器第一个
+    self.segment.segmented.selectedSegmentIndex = 0;
     [self.segment click];
 
 
@@ -78,23 +79,30 @@
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view andLabelText:@"正在请求..."];
-    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
-        NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
-        [self.oderArray addObjectsFromArray:array];
-        BFLog(@"我的订单%@",responseObject);
-        [self.tableView reloadData];
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
-        BFLog(@"error%@",error);
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+            if (![responseObject[@"order"] isKindOfClass:[NSNull class]]) {
+                [self.oderArray removeAllObjects];
+                NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
+                [self.oderArray addObjectsFromArray:array];
+                BFLog(@"我的订单%@",responseObject);
+            }else {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有数据"];
+            }
+            [self.tableView reloadData];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
+            BFLog(@"error%@",error);
+        }];
     }];
+    
 }
 
 
 
 #pragma mark -- 分段控制器View的代理
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
-    self.oderArray = nil;
+
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:
             BFLog(@"点击未付款");
