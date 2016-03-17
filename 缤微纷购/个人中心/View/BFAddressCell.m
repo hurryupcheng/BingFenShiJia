@@ -27,6 +27,7 @@
 @property (nonatomic, strong) UIImageView *defaultImageView;
 /**分割线*/
 @property (nonatomic, strong) UIView *line;
+
 @end
 
 
@@ -39,6 +40,7 @@
         cell = [[BFAddressCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
@@ -70,6 +72,15 @@
     
     self.defaultImageView.frame = CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(105));
 }
+
+- (void)setModel:(BFAddressModel *)model {
+    _model = model;
+    self.nameLabel.text = model.consignee;
+    self.areaLabel.text = [NSString stringWithFormat:@"%@ %@ %@",model.sheng, model.shi, model.qu];
+    self.detailAddressLabel.text = model.address;
+    self.phoneLabel.text = model.mobile;
+}
+
 
 - (void)setCell {
     self.line = [[UIView alloc] init];
@@ -131,12 +142,19 @@
     
     self.defaultImageView = [[UIImageView alloc] init];
     self.defaultImageView.image = [UIImage imageNamed:@"default"];
+    self.defaultImageView.hidden = YES;
     [self addSubview:self.defaultImageView];
 }
 
+UIButton *_button = nil;
 - (void)clickToChooseAddress:(UIButton *)sender{
-    sender.selected = !sender.selected;
     
+    sender.selected = !sender.selected;
+    if (sender != _button) {
+        _button.selected = NO;
+    }
+    
+    _button = sender;
 }
 
 

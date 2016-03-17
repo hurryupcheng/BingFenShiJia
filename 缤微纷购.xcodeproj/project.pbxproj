@@ -286,6 +286,8 @@
 		59F6B2591C9A91060054F317 /* BFAddAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2581C9A91060054F317 /* BFAddAddressView.m */; };
 		59F6B25E1C9AA5F70054F317 /* Address.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F6B25B1C9AA5F70054F317 /* Address.plist */; };
 		59F6B25F1C9AA5F70054F317 /* AddressPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B25D1C9AA5F70054F317 /* AddressPickView.m */; };
+		59F6B2631C9AADE90054F317 /* HZQRegexTestter.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2621C9AADE90054F317 /* HZQRegexTestter.m */; };
+		59F6B2661C9AB3070054F317 /* BFAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2651C9AB3070054F317 /* BFAddressModel.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
 		59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */; };
@@ -856,6 +858,10 @@
 		59F6B25B1C9AA5F70054F317 /* Address.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Address.plist; sourceTree = "<group>"; };
 		59F6B25C1C9AA5F70054F317 /* AddressPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressPickView.h; sourceTree = "<group>"; };
 		59F6B25D1C9AA5F70054F317 /* AddressPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressPickView.m; sourceTree = "<group>"; };
+		59F6B2611C9AADE90054F317 /* HZQRegexTestter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZQRegexTestter.h; sourceTree = "<group>"; };
+		59F6B2621C9AADE90054F317 /* HZQRegexTestter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZQRegexTestter.m; sourceTree = "<group>"; };
+		59F6B2641C9AB3070054F317 /* BFAddressModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddressModel.h; sourceTree = "<group>"; };
+		59F6B2651C9AB3070054F317 /* BFAddressModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddressModel.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
 		59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddRecommenderView.m; sourceTree = "<group>"; };
 		59F7D26B1C8E986600E3F854 /* BFUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUserInfo.h; sourceTree = "<group>"; };
@@ -1246,6 +1252,8 @@
 				5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */,
 				59F7EC8B1C96F9A2006ABB2A /* BFMyCouponsModel.h */,
 				59F7EC8C1C96F9A2006ABB2A /* BFMyCouponsModel.m */,
+				59F6B2641C9AB3070054F317 /* BFAddressModel.h */,
+				59F6B2651C9AB3070054F317 /* BFAddressModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1669,6 +1677,7 @@
 		592523EA1C8681CF000F609F /* 第三方 */ = {
 			isa = PBXGroup;
 			children = (
+				59F6B2601C9AADE90054F317 /* HZQRegexTestter */,
 				59F6B25A1C9AA5F70054F317 /* AddressPick */,
 				590D3C0A1C94166A0042D42E /* UM */,
 				592523EB1C8681CF000F609F /* AFNetworking */,
@@ -2126,6 +2135,15 @@
 			path = AddressPick;
 			sourceTree = "<group>";
 		};
+		59F6B2601C9AADE90054F317 /* HZQRegexTestter */ = {
+			isa = PBXGroup;
+			children = (
+				59F6B2611C9AADE90054F317 /* HZQRegexTestter.h */,
+				59F6B2621C9AADE90054F317 /* HZQRegexTestter.m */,
+			);
+			path = HZQRegexTestter;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2467,6 +2485,7 @@
 				5925259A1C8681CF000F609F /* MJRefreshAutoNormalFooter.m in Sources */,
 				59F7EC8D1C96F9A2006ABB2A /* BFMyCouponsModel.m in Sources */,
 				5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */,
+				59F6B2661C9AB3070054F317 /* BFAddressModel.m in Sources */,
 				5925257F1C8681CF000F609F /* MASConstraintMaker.m in Sources */,
 				59046A781C89780C00566210 /* MyMD5.m in Sources */,
 				51E968AA1C46085500AA00F1 /* XQCollectionViewCell.m in Sources */,
@@ -2478,6 +2497,7 @@
 				590D3B4E1C93EC380042D42E /* BFShareView.m in Sources */,
 				5925257D1C8681CF000F609F /* MASCompositeConstraint.m in Sources */,
 				51811AF81C745205004E29A8 /* ZCViewController.m in Sources */,
+				59F6B2631C9AADE90054F317 /* HZQRegexTestter.m in Sources */,
 				592525C31C8681CF000F609F /* SMProgressHUD.m in Sources */,
 				592525901C8681CF000F609F /* NSObject+MJCoding.m in Sources */,
 				592525E31C86B44C000F609F /* UILabel+Extension.m in Sources */,

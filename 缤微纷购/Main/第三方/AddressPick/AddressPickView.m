@@ -14,7 +14,7 @@
 
 #define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
 #define navigationViewHeight 44.0f
-#define pickViewViewHeight 200.0f
+#define pickViewViewHeight 250.0f
 #define buttonWidth 60.0f
 
 @interface AddressPickView ()

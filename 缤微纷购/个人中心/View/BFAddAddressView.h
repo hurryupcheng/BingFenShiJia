@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol  BFAddAddressViewDelegate <NSObject>
+
+- (void)goBackToAddressView;
+
+@end
+
+
 @interface BFAddAddressView : UIView
+/**自定义类方法*/
 + (instancetype)creatView;
+/**代理*/
+@property (nonatomic, weak) id<BFAddAddressViewDelegate>delegate;
 @end

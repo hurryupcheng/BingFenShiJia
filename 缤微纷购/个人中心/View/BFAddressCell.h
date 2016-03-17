@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFAddressModel.h"
 @interface BFAddressCell : UITableViewCell
 /**自定义类方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**BFAddressModel模型*/
+@property (nonatomic, strong) BFAddressModel *model;
 @end

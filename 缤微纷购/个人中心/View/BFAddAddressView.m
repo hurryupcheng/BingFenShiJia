@@ -10,6 +10,7 @@
 #define Margin  BF_ScaleHeight(10)
 #import "BFAddAddressView.h"
 #import "AddressPickView.h"
+#import "HZQRegexTestter.h"
 
 @interface BFAddAddressView()<UITextFieldDelegate>
 /**收货人*/
@@ -22,6 +23,14 @@
 @property (nonatomic, strong) UITextField *category;
 /**分区*/
 @property (nonatomic, strong) UILabel *selectArea;
+/**开关*/
+@property (nonatomic, strong) NSString *defaultNumber;
+/**省*/
+@property (nonatomic, strong) NSString *province;
+/**市*/
+@property (nonatomic, strong) NSString *city;
+/**区*/
+@property (nonatomic, strong) NSString *area;
 @end
 
 @implementation BFAddAddressView
@@ -154,26 +163,76 @@
     [saveButton setTitle:@"保存" forState:UIControlStateNormal];
     saveButton.backgroundColor = BFColor(0xFA8728);
     saveButton.layer.cornerRadius = BF_ScaleHeight(15);
+    [saveButton addTarget:self action:@selector(cliclToSaveAddress:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:saveButton];
 }
 
 
 - (void)clickToChooseArea {
+    [self endEditing:YES];
     BFLog(@"点击选择城市");
     AddressPickView *addressPickView = [AddressPickView shareInstance];
     [self addSubview:addressPickView];
     addressPickView.block = ^(NSString *province,NSString *city,NSString *town){
         self.selectArea.text = [NSString stringWithFormat:@"%@ %@ %@",province,city,town] ;
+        self.province = province;
+        self.city = city;
+        self.area = town;
         
     };
 
 }
 
+- (void)cliclToSaveAddress:(UIButton *)sender {
+    [self endEditing:YES];
+    BFLog(@"点击了保存");
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=user_address"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"sheng"] = self.province;
+    parameter[@"shi"] = self.city;
+    parameter[@"qu"] = self.area;
+    parameter[@"adress"] = self.detailAddress.text;
+    parameter[@"tel"] = self.phone.text;
+    parameter[@"nice_name"] = self.consignee.text;
+//    parameter[@"type"] = se;
+//    parameter[@"default"] = userInfo.token;
+    BFLog(@"%@,,%@,,%@",self.province, self.city, self.area);
+    if (self.consignee.text.length == 0 || self.selectArea.text.length == 0 || self.detailAddress.text.length == 0 || self.phone.text.length == 0 ) {
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善资料"];
+    }else if (![HZQRegexTestter validateRealName:self.consignee.text]) {
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入真名"];
+    }else if (![HZQRegexTestter validatePhone:self.phone.text]) {
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的手机号"];
+    }else {
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            if ([responseObject[@"msg"] isEqualToString:@"添加成功"]) {
+                [BFProgressHUD MBProgressFromView:self LabelText:@"添加地址成功,正在跳转" dispatch_get_main_queue:^{
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(goBackToAddressView)]) {
+                        [self.delegate goBackToAddressView];
+                    }
+                }];
+            }else {
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"添加失败"];
+            }
+            BFLog(@"%@",responseObject);
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+    }
+    
+   
+}
 
 - (void)switchAction:(UISwitch *)sender {
+    [self endEditing:YES];
     if (sender.isOn) {
+        self.defaultNumber = @"1";
         BFLog(@"是的");
     }else {
+        self.defaultNumber = @"0";
         BFLog(@"不是");
     }
 }

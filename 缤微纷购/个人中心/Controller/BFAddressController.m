@@ -9,12 +9,22 @@
 #import "BFAddressController.h"
 #import "BFAddressCell.h"
 #import "BFAddAddressController.h"
+#import "BFAddressModel.h"
 @interface BFAddressController ()<UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
+/**地址可变数组*/
+@property (nonatomic, strong) NSMutableArray *addressArray;
 @end
 
 @implementation BFAddressController
+
+- (NSMutableArray *)addressArray {
+    if (!_addressArray) {
+        _addressArray = [NSMutableArray array];
+    }
+    return _addressArray;
+}
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -35,12 +45,31 @@
     [self setNavigationBar];
     //添加tableView
     [self tableView];
+    //获取地址数据
+    [self getData];
     
 }
 #pragma mark -- 添加导航栏
 - (void)setNavigationBar{
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(clickToAddAddress)];
     self.navigationItem.rightBarButtonItem = rightItem;
+}
+
+#pragma mark -- 添加导航栏
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=check_address"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
+        [self.addressArray addObjectsFromArray:array];
+        [self.tableView reloadData];
+        BFLog(@"%@", responseObject);
+    } failure:^(NSError *error) {
+        BFLog(@"%@", error);
+    }];
 }
 
 - (void)clickToAddAddress {
@@ -50,12 +79,12 @@
 
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return self.addressArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFAddressCell *cell = [BFAddressCell cellWithTableView:tableView];
-    
+    cell.model = self.addressArray[indexPath.row];
     return cell;
 }
 
