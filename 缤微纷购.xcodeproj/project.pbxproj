@@ -279,6 +279,7 @@
 		594EE0E51C8C201200A243AE /* BFMyCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E41C8C201200A243AE /* BFMyCouponsCell.m */; };
 		594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
+		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
 		59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */; };
@@ -287,7 +288,6 @@
 		59F7EC961C9714E3006ABB2A /* BFOrderDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7EC951C9714E3006ABB2A /* BFOrderDetailView.m */; };
 		59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */; };
 		59F9F1E81C992B8A00CA9986 /* BFModeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC0F711C9855EE00052707 /* BFModeCell.m */; };
-		59FA43281C97978800DA28BB /* BFProductInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA43271C97978800DA28BB /* BFProductInfoView.m */; };
 		59FA432E1C97AE0C00DA28BB /* BFLogisticInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */; };
 		59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */; };
 		59FB7FF51C90FB69008763B7 /* BFPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FB7FF41C90FB69008763B7 /* BFPickerView.m */; };
@@ -837,6 +837,8 @@
 		594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseController.m; sourceTree = "<group>"; };
 		599F19C01C8D73EB00319FA4 /* BFPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPassWordView.h; sourceTree = "<group>"; };
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
+		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
+		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
 		59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddRecommenderView.m; sourceTree = "<group>"; };
 		59F7D26B1C8E986600E3F854 /* BFUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUserInfo.h; sourceTree = "<group>"; };
@@ -851,8 +853,6 @@
 		59F7EC951C9714E3006ABB2A /* BFOrderDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderDetailView.m; sourceTree = "<group>"; };
 		59F9F1E51C98F83300CA9986 /* BFOrderProductModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFOrderProductModel.h; sourceTree = "<group>"; };
 		59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderProductModel.m; sourceTree = "<group>"; };
-		59FA43261C97978800DA28BB /* BFProductInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductInfoView.h; sourceTree = "<group>"; };
-		59FA43271C97978800DA28BB /* BFProductInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductInfoView.m; sourceTree = "<group>"; };
 		59FA432C1C97AE0C00DA28BB /* BFLogisticInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFLogisticInfoView.h; sourceTree = "<group>"; };
 		59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFLogisticInfoView.m; sourceTree = "<group>"; };
 		59FA432F1C97FF9D00DA28BB /* BFProductInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductInfoModel.h; sourceTree = "<group>"; };
@@ -1180,6 +1180,8 @@
 				59FF46C01C8A86800040689A /* BFMyOrderController.m */,
 				5915E3631C9690910097D43F /* BFMyOrderDetailController.h */,
 				5915E3641C9690910097D43F /* BFMyOrderDetailController.m */,
+				59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */,
+				59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */,
 				5900A03B1C91BD2600B6AE5A /* BFMyGroupPurchaseController.h */,
 				5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */,
 				594EE0E01C8C1F2600A243AE /* BFMyCouponsController.h */,
@@ -1246,8 +1248,6 @@
 				59FC0F711C9855EE00052707 /* BFModeCell.m */,
 				59F7EC941C9714E3006ABB2A /* BFOrderDetailView.h */,
 				59F7EC951C9714E3006ABB2A /* BFOrderDetailView.m */,
-				59FA43261C97978800DA28BB /* BFProductInfoView.h */,
-				59FA43271C97978800DA28BB /* BFProductInfoView.m */,
 				59FA432C1C97AE0C00DA28BB /* BFLogisticInfoView.h */,
 				59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */,
 				59FF46C81C8AB3620040689A /* BFPersonalCenterTopView.h */,
@@ -2309,6 +2309,7 @@
 				59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */,
 				592525C51C8681CF000F609F /* SMProgressHUDAlertView.m in Sources */,
 				51D4589E1C96B6EE00B52516 /* BFPayoffViewController.m in Sources */,
+				59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */,
 				592525AC1C8681CF000F609F /* SDCollectionViewCell.m in Sources */,
 				592525A91C8681CF000F609F /* TAAnimatedDotView.m in Sources */,
 				592525B11C8681CF000F609F /* SDWaitingView.m in Sources */,
@@ -2494,7 +2495,6 @@
 				592521B91C867522000F609F /* RootViewController.m in Sources */,
 				5915E35C1C965C8A0097D43F /* BFSegmentView.m in Sources */,
 				59FC0F6F1C984D2000052707 /* BFProductDetailCell.m in Sources */,
-				59FA43281C97978800DA28BB /* BFProductInfoView.m in Sources */,
 				592525A31C8681CF000F609F /* MJRefreshConst.m in Sources */,
 				51D4AA881C85372800943ABD /* PTStep.m in Sources */,
 				59FFCEC91C89EA6600ADF8F0 /* BFSettingController.m in Sources */,

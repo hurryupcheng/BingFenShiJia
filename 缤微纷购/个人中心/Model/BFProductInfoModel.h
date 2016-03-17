@@ -25,6 +25,8 @@
 @property (nonatomic, strong) NSString *mobile;
 /**具体地址*/
 @property (nonatomic, strong) NSString *address;
+/**快递单号*/
+@property (nonatomic, strong) NSString *freecode;
 /**判断付款状态（1：未付款 2：待发货，3：已发货 4：完成 5：关闭）*/
 @property (nonatomic, strong) NSString *status;
 /**返回信息（退款状态[refund_status= 1]大于常规状态[refund_status= 0]）

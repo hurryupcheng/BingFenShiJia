@@ -13,8 +13,9 @@
 #import "BFProductDetailCell.h"
 #import "BFModeCell.h"
 #import "BFOrderProductModel.h"
+#import "BFCheckLogisticsController.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource>
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFLogisticInfoViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
@@ -47,12 +48,12 @@
     return _headerView;
 }
 
-- (BFLogisticInfoView *)footerView {
-    if (!_footerView) {
-        _footerView = [BFLogisticInfoView logisticView];
-    }
-    return _footerView;
-}
+//- (BFLogisticInfoView *)footerView {
+//    if (!_footerView) {
+//        _footerView = [BFLogisticInfoView logisticView];
+//    }
+//    return _footerView;
+//}
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -78,7 +79,7 @@
     [self getData];
     //头部视图
     self.tableView.tableHeaderView = self.headerView;
-    self.tableView.tableFooterView = self.footerView;
+    [self setUpFooterView];
 }
 
 
@@ -95,8 +96,9 @@
         self.model = [BFProductInfoModel parse:responseObject[@"order"]];
         NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
         [self.productArray addObjectsFromArray:array];
-        BFLog(@"%@",responseObject);
+        //BFLog(@"%@",responseObject);
         self.headerView.model = self.model;
+        self.footerView.model = self.model;
         [self.tableView reloadData];
     } failure:^(NSError *error) {
         BFLog(@"%@",error);
@@ -105,8 +107,46 @@
 
 
 #pragma mark --footer视图
+- (void)setUpFooterView {
+    self.footerView = [BFLogisticInfoView logisticView];
+    self.footerView.model = self.model;
+    self.footerView.delegate = self;
+    self.tableView.tableFooterView = self.footerView;
+}
 
-
+//footer代理
+- (void)logisticInfoView:(BFLogisticInfoView *)view type:(BFLogisticInfoViewButtonType)type {
+    switch (type) {
+        case BFLogisticInfoViewButtonTypeCheckLogistics:{
+            BFLog(@"查看物流");
+            BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
+            vc.freecode = self.model.freecode;
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case BFLogisticInfoViewButtonTypePay:
+            BFLog(@"付款");
+            break;
+        case BFLogisticInfoViewButtonTypeCancleOrder:
+            BFLog(@"取消订单");
+            break;
+        case BFLogisticInfoViewButtonTypeApplyRebund:
+            BFLog(@"申请退款");
+            break;
+        case BFLogisticInfoViewButtonTypeApplyReturnGoods:
+            BFLog(@"申请退货退款");
+            break;
+        case BFLogisticInfoViewButtonTypeConfirmReceipt:
+            BFLog(@"确认收货");
+            break;
+        case BFLogisticInfoViewButtonTypeCancleReturn:
+            BFLog(@"撤销退货退款申请");
+            break;
+            
+        default:
+            break;
+    }
+}
 
 #pragma mark --代理
 

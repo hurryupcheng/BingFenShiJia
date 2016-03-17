@@ -7,16 +7,31 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
+
+
+typedef enum {
+    BFLogisticInfoViewButtonTypePay,//付款、
+    BFLogisticInfoViewButtonTypeCancleOrder, //取消订单、
+    BFLogisticInfoViewButtonTypeApplyRebund,//申请退款、
+    BFLogisticInfoViewButtonTypeApplyReturnGoods,//申请退货退款、
+    BFLogisticInfoViewButtonTypeCancleReturn,//取消退货退款申请，
+    BFLogisticInfoViewButtonTypeConfirmReceipt,//确认收货、
+    BFLogisticInfoViewButtonTypeCheckLogistics//查看物流详情、
+}BFLogisticInfoViewButtonType;
+
+@class BFLogisticInfoView;
+@protocol BFLogisticInfoViewDelegate <NSObject>
+
+- (void)logisticInfoView:(BFLogisticInfoView *)view type:(BFLogisticInfoViewButtonType)type;
+
+@end
 
 @interface BFLogisticInfoView : UIView
 /**自定义类方法*/
 + (instancetype)logisticView;
-/**收货地址*/
-@property (nonatomic, strong) UILabel *address;
-/**配送方式*/
-@property (nonatomic, strong) UILabel *deliverie;
-/**收货地址*/
-@property (nonatomic, strong) UILabel *expressCompany;
-/**收货地址*/
-@property (nonatomic, strong) UILabel *expressNumber;
+/**BFProductInfoModel模型类*/
+@property (nonatomic, strong) BFProductInfoModel *model;
+/**代理*/
+@property (nonatomic, weak) id<BFLogisticInfoViewDelegate>delegate;
 @end
