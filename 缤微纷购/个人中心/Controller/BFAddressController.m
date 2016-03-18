@@ -115,7 +115,7 @@
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.addressArray.count;
-    //return 3;
+ 
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -125,11 +125,12 @@
     return cell;
 }
 //BFAddressCellDelegate
-- (void)chooseToUseTheAddress {
+- (void)chooseToUseTheAddress:(BFAddressCell *)cell {
     NSArray *vcsArray = [self.navigationController viewControllers];
     NSInteger vcCount = vcsArray.count;
     UIViewController *lastVC = vcsArray[vcCount-2];
     if (![lastVC isKindOfClass:[BFPersonInformationController class]]) {
+        _block(cell.model);
         [self.navigationController popViewControllerAnimated:YES];
     }else {
         

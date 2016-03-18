@@ -13,7 +13,7 @@
 #import "BForder.h"
 #import "Header.h"
 #import "BFZFViewController.h"
-
+#import "BFAddressModel.h"
 @interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UIImageView *imageV;
@@ -23,6 +23,8 @@
 @property (nonatomic,retain)UILabel *adds;
 @property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)BFFootViews *footView;
+/**地址模型*/
+@property (nonatomic, strong) BFAddressModel *model;
 
 @end
 
@@ -162,6 +164,10 @@
 - (void)headerDid{
     NSLog(@"地址点击");
     BFAddressController *addVC = [BFAddressController new];
+    addVC.block = ^(BFAddressModel *model) {
+        self.model = model;
+        BFLog(@"%@",model.address);
+    };
     [self.navigationController pushViewController:addVC animated:YES];
 }
 
