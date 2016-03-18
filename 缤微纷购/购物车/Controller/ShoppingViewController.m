@@ -37,7 +37,7 @@
 @property (nonatomic,retain)UIView *views;
 @property (nonatomic,retain)BFStorage *stor;
 //@property (nonatomic,retain)NSMutableArray *dataArr;
-
+@property (nonatomic,retain)UIView *groubView;
 @property (nonatomic,assign)NSInteger cellHeight;
 @property (nonatomic,assign)BOOL isEdits; //是否全选
 @property (nonatomic,retain)NSMutableArray *selectGoods;// 已选中
@@ -57,15 +57,17 @@
 }
 
 - (void)data{
-
+    
     [self getDate];
     
-        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
+        self.views.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
     
         self.views.backgroundColor = [UIColor whiteColor];
+    
         [self.view addSubview:self.views];
 
-        UIView *groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-215)];
+        self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-215)];
+       self.groubView.backgroundColor = rgb(220, 220, 220, 1.0);
        
         UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4/2)), 10, CGFloatX(kScreenWidth/4), CGFloatY(kScreenWidth/4))];
         img.image = [UIImage imageNamed:@"kongs.png"];
@@ -85,11 +87,11 @@
         UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4)), CGRectGetMaxY(button.frame), CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
         image.image = [UIImage imageNamed:@"buys.png"];
 //        image.backgroundColor = [UIColor redColor];
-        [self.view addSubview:groubView];
-        [self.view addSubview:img];
-        [self.view addSubview:kong];
-        [self.view addSubview:button];
-        [self.view addSubview:image];
+        [self.view addSubview:_groubView];
+        [_groubView addSubview:img];
+        [_groubView addSubview:kong];
+        [_groubView addSubview:button];
+        [_groubView addSubview:image];
 
 }
 
@@ -140,7 +142,7 @@
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
-    
+//    self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-200);
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
     self.header.backgroundColor = rgb(220, 220, 220, 1.0);
@@ -185,8 +187,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 1) {
-        self.views  = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/4+50)];
-        [self initWithLoveView];
+        self.views.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/4+50);
+//        [self initWithLoveView];
         return self.views;
     }else{
         return nil;
@@ -194,6 +196,7 @@
 }
 
 - (void)initWithLoveView{
+    NSLog(@"222222222222");
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth/3-20, 1)];
     lab.backgroundColor = [UIColor grayColor];
     
@@ -376,7 +379,6 @@
 
         }
        [self initWithLoveView];
-//       [self.tabView reloadData];
    }];
 }
 
@@ -410,6 +412,8 @@
     }else{
      
         [self getDate];
+        [self.views removeFromSuperview];
+        [_groubView removeFromSuperview];
         [self initWithTabView];
         [self.tabView reloadData];
     }
@@ -421,6 +425,13 @@
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
     
+}
+
+- (UIView *)views{
+    if (!_views) {
+        _views = [[UIView alloc]init];
+    }
+    return _views;
 }
 
 - (void)didReceiveMemoryWarning {

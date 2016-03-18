@@ -115,7 +115,7 @@
     [_button addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
     self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), 25)];
-    _but.backgroundColor = rgb(39, 64, 139, 1);
+    _but.backgroundColor = rgb(43, 97, 196, 1.0);
     _but.layer.cornerRadius = 12;
     _but.layer.masksToBounds = YES;
     [_but setTitle:@"缤纷拼团" forState:UIControlStateNormal];
@@ -335,7 +335,7 @@
             [self.butView bringSubviewToFront:button];
             [self initWithCollectionView];
             self.button.backgroundColor = [UIColor whiteColor];
-            self.but.backgroundColor = rgb(39, 64, 139, 1);
+            self.but.backgroundColor = rgb(43, 97, 196, 1.0);
             
         }
             break;
@@ -344,7 +344,7 @@
             
             [self.butView bringSubviewToFront:button];
             [self tableViewgetDate];
-            self.button.backgroundColor = rgb(39, 64, 139, 1);
+            self.button.backgroundColor = rgb(43, 97, 196, 1.0);
             self.button.selected = NO;
             self.but.backgroundColor = [UIColor whiteColor];
             
@@ -717,7 +717,7 @@
     [super viewWillAppear:animated];
 //    [self initwithSegment];
     BFLog(@"asdadasd");
-    self.navigationController.navigationBar.barTintColor = rgb(0, 0, 205, 1);
+    self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
 }

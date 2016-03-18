@@ -23,7 +23,7 @@
 #import "FXQViewController.h"
 #import "CXArchiveShopManager.h"
 
-@interface FXQViewController ()<BFShareViewDelegate>
+@interface FXQViewController ()<BFShareViewDelegate,UITabBarControllerDelegate>
 
 @property (nonatomic,retain)UITableView *tableView;
 @property (nonatomic,retain)UIView *buttonView;
@@ -50,6 +50,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
     self.title = @"商品详情";
+    self.tabBarController.delegate = self;
     
     [self getDate];
 }
@@ -258,9 +259,7 @@
             
             self.tabBarController.selectedIndex = 1;
         [self.navigationController pushViewController:shopp animated:YES];
-            if (self.tabBarController.selectedIndex == 1) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }
+
         
         }break;
         case 112:{
@@ -412,6 +411,11 @@
     if (self.number > 1) {
         self.addShopp.minBut.userInteractionEnabled = YES;
     }
+}
+-(BOOL) tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewControlle{
+        [self.navigationController popToRootViewControllerAnimated:YES];
+
+    return YES;
 }
 
 @end
