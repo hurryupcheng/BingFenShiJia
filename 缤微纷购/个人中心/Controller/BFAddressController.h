@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFAddressModel.h"
 @interface BFAddressController : UIViewController
-
+@property (nonatomic, copy)void (^block)(BFAddressModel *model);
 @end

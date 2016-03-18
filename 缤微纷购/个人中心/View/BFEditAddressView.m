@@ -191,6 +191,14 @@
     saveButton.layer.cornerRadius = BF_ScaleHeight(15);
     [saveButton addTarget:self action:@selector(cliclToSaveAddress:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:saveButton];
+    
+    UIButton *deleteButton = [UIButton buttonWithType:0];
+    deleteButton.frame = CGRectMake(BF_ScaleWidth(80), CGRectGetMaxY(saveButton.frame)+BF_ScaleHeight(20), BF_ScaleWidth(160), BF_ScaleHeight(30));
+    [deleteButton setTitle:@"删除地址" forState:UIControlStateNormal];
+    deleteButton.backgroundColor = BFColor(0xFA8728);
+    deleteButton.layer.cornerRadius = BF_ScaleHeight(15);
+    [deleteButton addTarget:self action:@selector(clickToDeleteAddress:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:deleteButton];
 }
 
 
@@ -208,7 +216,14 @@
     };
     
 }
-
+//删除地址
+- (void)clickToDeleteAddress:(UIButton *)sender {
+    [self endEditing:YES];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToDeleteAddress)]) {
+        [self.delegate clickToDeleteAddress];
+    }
+}
+//编辑地址
 - (void)cliclToSaveAddress:(UIButton *)sender {
     [self endEditing:YES];
     
@@ -238,7 +253,7 @@
     }else  {
         parameter[@"type"] = @"2";
     }
-    BFLog(@"%@,",parameter);
+    
     if (self.consignee.text.length == 0 || self.selectArea.text.length == 0 || self.detailAddress.text.length == 0 || self.phone.text.length == 0 ) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善资料"];
     }else if (![HZQRegexTestter validateRealName:self.consignee.text]) {
@@ -249,8 +264,8 @@
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             if ([responseObject[@"msg"] isEqualToString:@"更新成功"]) {
                 [BFProgressHUD MBProgressFromView:self LabelText:@"修改地址成功,正在跳转" dispatch_get_main_queue:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGoBackToAddressController)]) {
-                        [self.delegate clickToGoBackToAddressController];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToSaveAddress)]) {
+                        [self.delegate clickToSaveAddress];
                     }
                 }];
             }else {
@@ -258,6 +273,7 @@
             }
             BFLog(@"%@",responseObject);
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self andLabelText:@"网络问题"];
             BFLog(@"%@",error);
         }];
     }

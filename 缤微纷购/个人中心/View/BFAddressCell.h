@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "BFAddressModel.h"
 
+@class BFAddressCell;
 @protocol BFAddressCellDelegate <NSObject>
 
-- (void)chooseToUseTheAddress;
+- (void)chooseToUseTheAddress:(BFAddressCell *)cell;
 
 @end
 

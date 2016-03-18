@@ -171,8 +171,8 @@ UIButton *_button = nil;
     
     _button = sender;
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseToUseTheAddress)]) {
-        [self.delegate chooseToUseTheAddress];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseToUseTheAddress:)]) {
+        [self.delegate chooseToUseTheAddress:self];
     }
 }
 

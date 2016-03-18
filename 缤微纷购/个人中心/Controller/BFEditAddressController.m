@@ -32,31 +32,15 @@
     self.title = @"编辑地址";
     //添加自定义的view
     [self editView];
-    //添加导航栏按钮
-    [self setNavigationBar];
-    BFLog(@"%@",self.model);
+
 }
 #pragma mark --BFEditAddressViewDelegate
-- (void)clickToGoBackToAddressController{
+- (void)clickToSaveAddress{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
-#pragma mark --设置导航栏
-- (void)setNavigationBar {
-    UIButton *deleteButton = [UIButton buttonWithType:0];
-    [deleteButton setTitle:@"删除" forState:UIControlStateNormal];
-    [deleteButton setTitleColor:BFColor(0x00006F) forState:UIControlStateNormal];
-    deleteButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-    deleteButton.frame = CGRectMake(0, 0, BF_ScaleWidth(50), 30);
-    [deleteButton addTarget:self action:@selector(clickToDeleteAddress:) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:deleteButton];
+- (void)clickToDeleteAddress {
     
-}
-
-
-- (void)clickToDeleteAddress:(UIButton *)sender {
-    BFLog(@"点击");
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定删除收货地址" preferredStyle:UIAlertControllerStyleAlert];
     
     
@@ -65,7 +49,28 @@
     }];
     
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        BFLog(@"点击确定");
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=del_address"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
+        parameter[@"id"] = self.model.ID;
+        BFLog(@"%@,",parameter);
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@",responseObject);
+            if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
+                [BFProgressHUD MBProgressFromView:self.view LabelText:@"删除成功,正在跳转..." dispatch_get_main_queue:^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"删除失败,请重新操作"];
+            }
+            
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+        }];
+
     }];
     
     [alertController addAction:cancle];
@@ -75,10 +80,6 @@
     
 }
 
-#pragma mark --BFAddAddressView代理
-- (void)goBackToAddressView {
-    [self.navigationController popViewControllerAnimated:YES];
-}
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

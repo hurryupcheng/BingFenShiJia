@@ -11,9 +11,10 @@
 
 
 @protocol BFEditAddressViewDelegate <NSObject>
-
-- (void)clickToGoBackToAddressController;
-
+//编辑保存地址
+- (void)clickToSaveAddress;
+//删除地址
+- (void)clickToDeleteAddress;
 @end
 
 @interface BFEditAddressView : UIView
