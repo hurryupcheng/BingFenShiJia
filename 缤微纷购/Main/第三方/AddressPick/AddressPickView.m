@@ -85,7 +85,7 @@
     [self addSubview:_bottomView];
     //导航视图
     _navigationView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, navigationViewHeight)];
-    _navigationView.backgroundColor = [UIColor lightGrayColor];
+    _navigationView.backgroundColor = BFColor(0xffffff);
     [_bottomView addSubview:_navigationView];
     //这里添加空手势不然点击navigationView也会隐藏,
     UITapGestureRecognizer *tapNavigationView = [[UITapGestureRecognizer alloc]initWithTarget:self action:nil];
@@ -106,6 +106,7 @@
     _pickView.backgroundColor = [UIColor whiteColor];
     _pickView.dataSource = self;
     _pickView.delegate =self;
+    
     [_bottomView addSubview:_pickView];
     
     

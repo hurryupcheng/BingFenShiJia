@@ -79,6 +79,20 @@
     self.areaLabel.text = [NSString stringWithFormat:@"%@ %@ %@",model.sheng, model.shi, model.qu];
     self.detailAddressLabel.text = model.address;
     self.phoneLabel.text = model.mobile;
+    if ([model.defaultAddress isEqualToString:@"1"]) {
+        self.defaultImageView.hidden = NO;
+        self.selectButton.selected = YES;
+    }else {
+        self.defaultImageView.hidden = YES;
+        self.selectButton.selected = NO;
+    }
+    if ([model.type isEqualToString:@"0"]) {
+        self.categoryLabel.text = @"家";
+    }else if ([model.type isEqualToString:@"1"]) {
+        self.categoryLabel.text = @"公司";
+    }else {
+        self.categoryLabel.text = @"其他";
+    }
 }
 
 
@@ -142,6 +156,7 @@
     
     self.defaultImageView = [[UIImageView alloc] init];
     self.defaultImageView.image = [UIImage imageNamed:@"default"];
+    self.defaultImageView.contentMode = UIViewContentModeScaleAspectFit;
     self.defaultImageView.hidden = YES;
     [self addSubview:self.defaultImageView];
 }
@@ -155,6 +170,10 @@ UIButton *_button = nil;
     }
     
     _button = sender;
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseToUseTheAddress)]) {
+        [self.delegate chooseToUseTheAddress];
+    }
 }
 
 

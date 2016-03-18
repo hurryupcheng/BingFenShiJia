@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "BFAddressModel.h"
+
+@protocol BFAddressCellDelegate <NSObject>
+
+- (void)chooseToUseTheAddress;
+
+@end
+
+
 @interface BFAddressCell : UITableViewCell
 /**自定义类方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**BFAddressModel模型*/
 @property (nonatomic, strong) BFAddressModel *model;
+/**代理*/
+@property (nonatomic, weak) id<BFAddressCellDelegate>delegate;
 @end
