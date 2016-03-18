@@ -225,6 +225,7 @@
             }
             BFLog(@"%@",responseObject);
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self andLabelText:@"网络问题"];
             BFLog(@"%@",error);
         }];
     }

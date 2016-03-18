@@ -17,9 +17,26 @@
 @property (nonatomic, strong) UITableView *tableView;
 /**地址可变数组*/
 @property (nonatomic, strong) NSMutableArray *addressArray;
+/**提示button*/
+@property (nonatomic, strong) UIButton *remindButton;
+
 @end
 
 @implementation BFAddressController
+
+- (UIButton *)remindButton {
+    if (!_remindButton) {
+        _remindButton = [UIButton buttonWithType:0];
+        _remindButton.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
+        _remindButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        [_remindButton setTitle:@"还未添加地址，点击添加" forState:UIControlStateNormal];
+        [_remindButton setTitleColor:BFColor(0x4582f2) forState:UIControlStateNormal];
+        [_remindButton addTarget:self action:@selector(clickToAddAddress) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_remindButton];
+    }
+    return _remindButton;
+}
+
 
 - (NSMutableArray *)addressArray {
     if (!_addressArray) {
@@ -55,6 +72,9 @@
     [super viewWillAppear:animated];
     //获取地址数据
     [self getData];
+   
+
+
 }
 
 #pragma mark -- 添加导航栏
@@ -74,9 +94,15 @@
         [self.addressArray removeAllObjects];
         NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
         [self.addressArray addObjectsFromArray:array];
+        if (self.addressArray.count == 0) {
+            self.remindButton.hidden = NO;
+        }else {
+            self.remindButton.hidden = YES;
+        }
         [self.tableView reloadData];
         BFLog(@"%@", responseObject);
     } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
         BFLog(@"%@", error);
     }];
 }
