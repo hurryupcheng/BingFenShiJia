@@ -1,18 +1,20 @@
 //
-//  BFAddAddressView.m
+//  BFEditAddressView.m
 //  缤微纷购
 //
-//  Created by 程召华 on 16/3/17.
+//  Created by 程召华 on 16/3/18.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
+
 #define CellHeight  BF_ScaleHeight(44)
 #define Margin  BF_ScaleHeight(10)
-#import "BFAddAddressView.h"
 #import "AddressPickView.h"
 #import "HZQRegexTestter.h"
+#import "BFEditAddressView.h"
 
-@interface BFAddAddressView()<UITextFieldDelegate>
+
+@interface BFEditAddressView()<UITextFieldDelegate>
 /**收货人*/
 @property (nonatomic, strong) UITextField *consignee;
 /**详细地址*/
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) UITextField *category;
 /**分区*/
 @property (nonatomic, strong) UILabel *selectArea;
+/**开关按钮*/
+@property (nonatomic, strong) UISwitch *switchButton;
 /**开关*/
 @property (nonatomic, strong) NSString *defaultNumber;
 /**省*/
@@ -33,10 +37,11 @@
 @property (nonatomic, strong) NSString *area;
 @end
 
-@implementation BFAddAddressView
+
+@implementation BFEditAddressView
 
 + (instancetype)creatView {
-    BFAddAddressView *view = [[BFAddAddressView alloc] init];
+    BFEditAddressView *view = [[BFEditAddressView alloc] init];
     return view;
 }
 
@@ -47,6 +52,26 @@
         [self setView];
     }
     return self;
+}
+
+- (void)setModel:(BFAddressModel *)model {
+    _model = model;
+    self.consignee.text = model.consignee;
+    self.selectArea.text = [NSString stringWithFormat:@"%@ %@ %@",model.sheng, model.shi, model.qu];
+    self.detailAddress.text = model.address;
+    self.phone.text = model.mobile;
+    if ([model.type isEqualToString:@"0"]) {
+        self.category.text = @"家";
+    } else if ([model.type isEqualToString:@"1"]) {
+        self.category.text = @"公司";
+    } else {
+        self.category.text = @"其他";
+    }
+    if ([model.defaultAddress isEqualToString:@"1"]) {
+        [self.switchButton setOn:YES];
+    }else {
+        [self.switchButton setOn:NO];
+    }
 }
 
 - (void)setView {
@@ -154,6 +179,7 @@
     
     
     UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(BF_ScaleWidth(310)-51, CGRectGetMaxY(category.frame)+(CellHeight-31)/2, 51, 31)];
+    self.switchButton = switchButton;
     [switchButton setOn:NO];
     [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [bottomView addSubview:switchButton];
@@ -180,20 +206,27 @@
         self.area = town;
         
     };
-
+    
 }
 
 - (void)cliclToSaveAddress:(UIButton *)sender {
     [self endEditing:YES];
     
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=user_address"];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=up_address"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    parameter[@"sheng"] = self.province;
-    parameter[@"shi"] = self.city;
-    parameter[@"qu"] = self.area;
+    parameter[@"id"] = self.model.ID;
+    if (self.province.length == 0 || self.city.length == 0 || self.area.length == 0) {
+        parameter[@"sheng"] = self.model.sheng;
+        parameter[@"shi"] = self.model.shi;
+        parameter[@"qu"] = self.model.qu;
+    }else {
+        parameter[@"sheng"] = self.province;
+        parameter[@"shi"] = self.city;
+        parameter[@"qu"] = self.area;
+    }
     parameter[@"adress"] = self.detailAddress.text;
     parameter[@"tel"] = self.phone.text;
     parameter[@"nice_name"] = self.consignee.text;
@@ -214,14 +247,14 @@
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的手机号"];
     }else {
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"添加成功"]) {
-                [BFProgressHUD MBProgressFromView:self LabelText:@"添加地址成功,正在跳转" dispatch_get_main_queue:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(goBackToAddressView)]) {
-                        [self.delegate goBackToAddressView];
+            if ([responseObject[@"msg"] isEqualToString:@"更新成功"]) {
+                [BFProgressHUD MBProgressFromView:self LabelText:@"修改地址成功,正在跳转" dispatch_get_main_queue:^{
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGoBackToAddressController)]) {
+                        [self.delegate clickToGoBackToAddressController];
                     }
                 }];
             }else {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"添加失败"];
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"修改失败"];
             }
             BFLog(@"%@",responseObject);
         } failure:^(NSError *error) {
@@ -229,7 +262,7 @@
         }];
     }
     
-   
+    
 }
 
 - (void)switchAction:(UISwitch *)sender {
@@ -264,7 +297,6 @@
     [self.category resignFirstResponder];
     return YES;
 }
-
 
 
 @end

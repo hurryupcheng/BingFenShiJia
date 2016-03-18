@@ -9,5 +9,14 @@
 #import "BFAddressModel.h"
 
 @implementation BFAddressModel
++ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"ID"]) {
+        propertyName = @"id";
+    }
+    if ([propertyName isEqualToString:@"defaultAddress"]) {
+        propertyName = @"default";
+    }
+    return propertyName;
+}
 
 @end

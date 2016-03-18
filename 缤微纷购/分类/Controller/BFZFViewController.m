@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFAddressController.h"
 #import "BFPaymentViewController.h"
 #import "BFPayoffViewController.h"
 #import "BFFootViews.h"
@@ -160,8 +161,8 @@
 
 - (void)headerDid{
     NSLog(@"地址点击");
-//    BFAddsViewController *adds = [[BFAddsViewController alloc]init];
-//    [self.navigationController pushViewController:adds animated:YES];
+    BFAddressController *addVC = [BFAddressController new];
+    [self.navigationController pushViewController:addVC animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

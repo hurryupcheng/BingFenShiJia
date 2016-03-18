@@ -21,5 +21,10 @@
 @property (nonatomic, strong) NSString *address;
 /**手机号码*/
 @property (nonatomic, strong) NSString *mobile;
-
+/**类型*/
+@property (nonatomic, strong) NSString *ID;
+/**默认*/
+@property (nonatomic, strong) NSString *type;
+/**id*/
+@property (nonatomic, strong) NSString *defaultAddress;
 @end
