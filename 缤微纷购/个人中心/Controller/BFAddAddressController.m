@@ -31,7 +31,7 @@
     //添加自定义的view
     [self addView];
 }
-#pragma mark --viewDidLoad
+#pragma mark --BFAddAddressView代理
 - (void)goBackToAddressView {
     [self.navigationController popViewControllerAnimated:YES];
 }
