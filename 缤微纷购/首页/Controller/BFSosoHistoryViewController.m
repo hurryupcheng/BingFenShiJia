@@ -14,7 +14,8 @@
 {
     NSUserDefaults * HFSosoHistoryDe;
 }
-@property (nonatomic, strong) NSMutableArray * SosoHistoryArr;
+@property (nonatomic, strong) NSMutableSet * SosoHistoryArr;
+@property (nonatomic,retain)NSArray *arr;
 @end
 
 @implementation BFSosoHistoryViewController
@@ -39,7 +40,7 @@
 
 - (void)SosoHistoryEvent:(NSNotification *)not
 {
-    _SosoHistoryArr = [NSMutableArray array];
+    _SosoHistoryArr = [NSMutableSet set];
     
     _SosoHistoryArr = [HFSosoHistoryDe valueForKey:@"HFSosoHistoryData"];
     [self.tableView reloadData];
@@ -95,8 +96,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
    
     BFSosoTVCell * cell = [BFSosoTVCell BFSosoTVCell:tableView];
-    
-    cell.HFSosoTitleLabel.text = _SosoHistoryArr[indexPath.row];
+    _arr = [_SosoHistoryArr allObjects];
+    cell.HFSosoTitleLabel.text = _arr[indexPath.row];
     
     return cell;
 }
@@ -111,52 +112,15 @@
     //主动取消选中
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSString * keyWord = [_SosoHistoryArr[indexPath.row] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString * keyWord = [_arr[indexPath.row] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HFSosoEvent" object:keyWord];
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
+- (NSArray *)arr{
+    if (!_arr) {
+        _arr = [NSArray array];
+    }
+    return _arr;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

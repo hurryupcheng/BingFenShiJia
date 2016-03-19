@@ -44,15 +44,16 @@
     [self addsView];
   
     _dataArr = [NSMutableArray array];
+    NSString *string;
     for (BFStorage *model in self.modelArr) {
-        NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
-//        NSMutableArray *arr = [NSMutableArray arrayWithObjects:model.money,model.shopID, num,nil];
-//        [_dataArr addObjectsFromArray:arr];
-        NSString *str = [NSString stringWithFormat:@"%@",model.shopID];
-        [_dataArr addObject:model.shopID];
+        string = [NSString stringWithFormat:@"id=%@,",model.shopID];
+        string = [string stringByAppendingString:[NSString stringWithFormat:@"money=%@,",model.money]];
+        string = [string stringByAppendingString:[NSString stringWithFormat:@"shuliang=%d",model.numbers]];
+        NSString *str = [NSString stringWithFormat:@"%d",model.numbers];
+        _dataArr = [NSMutableArray arrayWithObjects:model.shopID,model.money,str, nil];
     }
-    
-    NSLog(@"%@",_dataArr);
+   
+    NSLog(@"%@",string);
 }
 
 - (void)initWithFootView{

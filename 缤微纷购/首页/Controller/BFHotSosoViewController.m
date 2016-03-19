@@ -5,6 +5,7 @@
 //  Created by Wind on 16/3/10.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "FXQViewController.h"
 #import "OMGToast.h"
 #import "AFNTool.h"
 #import "BFHotSosoViewController.h"
@@ -146,16 +147,20 @@
     lab.text = @"猜你喜欢";
 
     for (int j = 0; j < _LikeSearArr.count; j++) {
-        UIImageView * LikeImage = [[UIImageView alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
+        UIButton * LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
 
         LikeImage.layer.cornerRadius = 10;
         LikeImage.layer.masksToBounds = YES;
         LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
         LikeImage.layer.borderWidth = 1;
-        LikeImage.tag = 100+j;
+        LikeImage.tag = j;
+        LikeImage.userInteractionEnabled = YES;
         NSDictionary * dic = _LikeSearArr[j];
-        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
-
+//        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        [LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+       
+        [LikeImage addTarget:self action:@selector(tapitem:) forControlEvents:UIControlEventTouchUpInside];
+        
         [hotView addSubview:LikeImage];
     }
 
@@ -176,6 +181,15 @@
     [hotView addSubview:lab];
 
     return hotView;
+}
+
+- (void)tapitem:(UIButton *)img{
+ 
+    NSDictionary *dic = _LikeSearArr[img.tag];
+    FXQViewController *fx = [[FXQViewController alloc]init];
+    fx.ID = dic[@"id"];
+
+    [self.navigationController pushViewController:fx animated:YES];
 }
 
 - (void)hotSearchEvent:(UIButton *)bu
@@ -210,15 +224,17 @@
     [searchView addSubview:lab];
     
     for (int j = 0; j < _SearchWordArr.count; j++) {
-        UIImageView * LikeImage = [[UIImageView alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
+        UIButton * LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
         
         LikeImage.layer.cornerRadius = 10;
         LikeImage.layer.masksToBounds = YES;
         LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
         LikeImage.layer.borderWidth = 1;
-        LikeImage.tag = 100+j;
+        LikeImage.tag = j;
         NSDictionary * dic = _SearchWordArr[j];
-        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        [LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        
+        [LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
         
         [searchView addSubview:LikeImage];
     }
@@ -235,6 +251,15 @@
     searchView.frame = CGRectMake(0, 0, kScreenWidth, 15+lab.frame.size.height+SearHeights+10);
     
     return searchView;
+}
+
+- (void)tapitems:(UIButton *)img{
+    
+    NSDictionary *dic = _SearchWordArr[img.tag];
+    FXQViewController *fx = [[FXQViewController alloc]init];
+    fx.ID = dic[@"id"];
+    
+    [self.navigationController pushViewController:fx animated:YES];
 }
 
 
@@ -288,49 +313,5 @@
     }
     
 }
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
