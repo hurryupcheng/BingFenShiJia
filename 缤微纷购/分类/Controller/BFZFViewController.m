@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFHttpTool.h"
+#import "BFStorage.h"
 #import "BFAddressController.h"
 #import "BFPaymentViewController.h"
 #import "BFPayoffViewController.h"
@@ -25,6 +27,7 @@
 @property (nonatomic,retain)BFFootViews *footView;
 /**地址模型*/
 @property (nonatomic, strong) BFAddressModel *model;
+@property (nonatomic,retain)NSMutableArray *dataArr;
 
 @end
 
@@ -39,7 +42,17 @@
     [self initWithFootView];
     [self initWithTableView];
     [self addsView];
+  
+    _dataArr = [NSMutableArray array];
+    for (BFStorage *model in self.modelArr) {
+        NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
+//        NSMutableArray *arr = [NSMutableArray arrayWithObjects:model.money,model.shopID, num,nil];
+//        [_dataArr addObjectsFromArray:arr];
+        NSString *str = [NSString stringWithFormat:@"%@",model.shopID];
+        [_dataArr addObject:model.shopID];
+    }
     
+    NSLog(@"%@",_dataArr);
 }
 
 - (void)initWithFootView{
@@ -244,6 +257,7 @@
         }
     }
 }
+
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

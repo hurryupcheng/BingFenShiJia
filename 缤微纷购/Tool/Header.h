@@ -13,6 +13,7 @@
 #define kScreenHeight [UIScreen mainScreen].bounds.size.height
 
 #define URL @"http://bingo.luexue.com/index.php"
+#define  HFSEARCH  @"http://bingo.luexue.com/index.php?m=Json&a=search&name="
 
 #define fen_x (kScreenWidth/4)
 #define but_x kScreenWidth/4-6

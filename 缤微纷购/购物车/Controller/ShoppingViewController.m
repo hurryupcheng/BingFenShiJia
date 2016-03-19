@@ -108,6 +108,7 @@
         double pri = [model.money doubleValue];
         price += pri*model.numbers;
     }
+    
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ %.2f",price];
 }
 
@@ -120,7 +121,7 @@
         for (BFStorage *model in self.dateArr) {
             [self.selectGoods addObject:model];
         }
-        
+
     }else{
         [self.selectGoods removeAllObjects];
     }
@@ -188,8 +189,6 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 1) {
-//        self.views = [[UIView alloc]init];
-//        [self initWithLoveView];
         return self.views;
     }else{
         return nil;
@@ -259,7 +258,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-  
+    
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.isSelected = self.isEdits;
@@ -268,6 +267,7 @@
     }
     
     cell.selBlock = ^(BOOL isSelected){
+        
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
         }else{
@@ -279,6 +279,7 @@
         }else{
             self.header.allSeled.selected = NO;
         }
+
         [self countPrice];
     };
     
@@ -293,7 +294,7 @@
         
         [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
         [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES];
-       
+        
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
         if ([self.selectGoods containsObject:model]) {
             [self.selectGoods removeObject:model];
@@ -341,6 +342,7 @@
     
     return cell;
 }
+
 //  移除商品
 - (void)close:(UIButton *)button{
     NSArray *arr = [self.tabView visibleCells];
@@ -364,7 +366,7 @@
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     NSString *str = [self.foot.money.text substringFromIndex:5];
     bfzf.sum = str;
-    
+    bfzf.modelArr = _selectGoods;
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
@@ -386,26 +388,6 @@
    }];
 }
 
-- (NSMutableArray *)dateArr{
-    if (!_dateArr) {
-        _dateArr = [NSMutableArray array];
-    }
-    return _dateArr;
-}
-
-- (NSMutableArray *)dataArray{
-    if (!_dataArray) {
-        _dataArray = [NSMutableArray array];
-    }
-    return _dataArray;
-}
-
-- (NSMutableArray *)selectGoods{
-    if (!_selectGoods) {
-        _selectGoods = [NSMutableArray array];
-    }
-    return _selectGoods;
-}
 
 - (void)viewWillAppear:(BOOL)animated{
     [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
@@ -443,6 +425,27 @@
         _views = [[UIView alloc]init];
     }
     return _views;
+}
+
+- (NSMutableArray *)dateArr{
+    if (!_dateArr) {
+        _dateArr = [NSMutableArray array];
+    }
+    return _dateArr;
+}
+
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
+    }
+    return _dataArray;
+}
+
+- (NSMutableArray *)selectGoods{
+    if (!_selectGoods) {
+        _selectGoods = [NSMutableArray array];
+    }
+    return _selectGoods;
 }
 
 - (void)didReceiveMemoryWarning {
