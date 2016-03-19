@@ -7,7 +7,7 @@
 //
 #import "ViewController.h"
 #import "Header.h"
-#import "SHViewController.h"
+#import "BFLogisticsAndAfterSaleController.h"
 #import "HomeViewController.h"
 #import "ClassificationViewController.h"
 #import "ShoppingViewController.h"
@@ -21,7 +21,7 @@
 @property (nonatomic,retain)ClassificationViewController *classFVC;
 @property (nonatomic,retain)ShoppingViewController *shoppVC;
 @property (nonatomic,retain)PersonalViewController *personalVC;
-@property (nonatomic,retain)SHViewController *shVC;
+@property (nonatomic,retain)BFLogisticsAndAfterSaleController *shVC;
 
 @end
 
@@ -45,7 +45,7 @@
     self.classFVC = [[ClassificationViewController alloc]init];
     [self setController:self.classFVC title:array[3] image:@"icon_04.png" selectImage:@"icon_14.png"];
     
-    self.shVC = [[SHViewController alloc]init];
+    self.shVC = [[BFLogisticsAndAfterSaleController alloc]init];
     [self setController:self.shVC title:array[4] image:@"icon_05.png" selectImage:@"icon_15.png"];
     // Do any additional setup after loading the view.
 }
