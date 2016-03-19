@@ -37,6 +37,8 @@
 @property (nonatomic,retain)UIView *views;
 @property (nonatomic,retain)BFStorage *stor;
 //@property (nonatomic,retain)NSMutableArray *dataArr;
+
+@property (nonatomic,retain)UIScrollView *scroll;
 @property (nonatomic,retain)UIView *groubView;
 @property (nonatomic,assign)NSInteger cellHeight;
 @property (nonatomic,assign)BOOL isEdits; //是否全选
@@ -66,7 +68,7 @@
     
         [self.view addSubview:self.views];
 
-        self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-215)];
+       self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.views.height-115)];
        self.groubView.backgroundColor = rgb(220, 220, 220, 1.0);
        
         UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4/2)), 10, CGFloatX(kScreenWidth/4), CGFloatY(kScreenWidth/4))];
@@ -142,7 +144,6 @@
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
-//    self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-200);
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
     self.header.backgroundColor = rgb(220, 220, 220, 1.0);
@@ -187,7 +188,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 1) {
-        self.views.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/4+50);
+//        self.views = [[UIView alloc]init];
 //        [self initWithLoveView];
         return self.views;
     }else{
@@ -196,23 +197,25 @@
 }
 
 - (void)initWithLoveView{
-    NSLog(@"222222222222");
+
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth/3-20, 1)];
     lab.backgroundColor = [UIColor grayColor];
     
     UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lab.frame)+10, 0, kScreenWidth/3, 30)];
     labe.text = @"热门推荐";
     labe.textAlignment = NSTextAlignmentCenter;
+    labe.textColor = [UIColor grayColor];
+    labe.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
     
-    UIScrollView *scroll = [[UIScrollView alloc]initWithFrame:CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4)];
+    self.scroll.frame = CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4);
 
-    scroll.contentSize = CGSizeMake(scroll.width*(self.dataArray.count/3), 0);
-    scroll.shouldGroupAccessibilityChildren = NO;
-    scroll.showsHorizontalScrollIndicator = NO;
-    scroll.pagingEnabled = YES;
+    _scroll.contentSize = CGSizeMake(_scroll.width*(self.dataArray.count/3), 0);
+    _scroll.shouldGroupAccessibilityChildren = NO;
+    _scroll.showsHorizontalScrollIndicator = NO;
+    _scroll.pagingEnabled = YES;
 
     for (int i = 0; i < self.dataArray.count; i++) {
         self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
@@ -225,10 +228,10 @@
         
         [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.shoppModel.imgArr[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         
-        [scroll addSubview:_imgButton];
+        [_scroll addSubview:_imgButton];
     }
     
-    [self.views addSubview:scroll];
+    [self.views addSubview:_scroll];
     [self.views addSubview:lab];
     [self.views addSubview:labe];
     [self.views addSubview:label];
@@ -361,6 +364,7 @@
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     NSString *str = [self.foot.money.text substringFromIndex:5];
     bfzf.sum = str;
+    
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
@@ -406,13 +410,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-    
+//    [self.tabView reloadData];
     if (self.dateArr.count == 0) {
         [self data];
     }else{
      
         [self getDate];
-        [self.views removeFromSuperview];
+//        [self.views removeFromSuperview];
         [_groubView removeFromSuperview];
         [self initWithTabView];
         [self.tabView reloadData];
@@ -425,6 +429,13 @@
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
     
+}
+
+- (UIScrollView *)scroll{
+    if (!_scroll) {
+        _scroll = [[UIScrollView alloc]init];
+    }
+    return _scroll;
 }
 
 - (UIView *)views{

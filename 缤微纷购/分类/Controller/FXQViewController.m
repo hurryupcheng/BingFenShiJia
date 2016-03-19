@@ -141,8 +141,9 @@
         
         [self.buttonView addSubview:but];
     }
-    [self.buttonView bringSubviewToFront:self.webView];
     [self.view addSubview:self.buttonView];
+    [self.view bringSubviewToFront:self.buttonView];
+    
     
 }
 
@@ -159,6 +160,7 @@
             break;
         }case 2:{
             self.tabBarController.selectedIndex = 1;
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         }
         default:
