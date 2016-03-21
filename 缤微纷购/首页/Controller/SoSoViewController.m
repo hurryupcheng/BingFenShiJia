@@ -8,37 +8,70 @@
 #import "ViewController.h"
 #import "Header.h"
 #import "SoSoViewController.h"
+#import "BFSosoTVCell.h"
 
-@interface SoSoViewController ()<UITableViewDataSource,UITableViewDelegate,UISearchDisplayDelegate>
-
+@interface SoSoViewController ()<UISearchDisplayDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate>
+{
+    NSUserDefaults * SosoHistoryDe;
+}
 @property (nonatomic,retain)UISearchBar *search;
-@property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UISegmentedControl *segment;
-@property (nonatomic,retain)UIView *hotView;
-@property (nonatomic,retain)UIButton *clearButton;
-@property (nonatomic,retain)NSMutableArray *dateArr;
 
+/**搜索历史*/
+@property (nonatomic , strong) NSMutableArray * SosoHistoryArr;
 @end
 
 @implementation SoSoViewController
 
+- (void)viewWillAppear:(BOOL)animated{
+    
+    //    self.navigationController.navigationBar.barTintColor = [UIColor grayColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.tabBarController.tabBar.hidden = YES;
+    
+    SosoHistoryDe = [NSUserDefaults standardUserDefaults];
+    _SosoHistoryArr = [SosoHistoryDe valueForKey:@"HFSosoHistoryData"];
+
+    
+    UIButton * right = [UIButton buttonWithType:UIButtonTypeCustom];
+    right.frame = CGRectMake(0, 0, 40, 20);
+    right.titleLabel.font = [UIFont systemFontOfSize:15];
+    [right setTitle:@"取消" forState:UIControlStateNormal];
+    [right setTitleColor:[UIColor colorWithRed:78/255.0 green:79/255.0 blue:80/255.0 alpha:1] forState:UIControlStateNormal];
+    [right addTarget:self action:@selector(sosoBut) forControlEvents:UIControlEventTouchUpInside];
+    
+    //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(sosoBut)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:right];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
+
     [self initWithSenment];
-    [self initWithhot];
     [self initWithSearchBar];
-    self.dateArr = [NSMutableArray arrayWithObjects:@"11",@"22",@"33",@"44",@"55", nil];
+    [self initVC];
+    self.view.userInteractionEnabled = YES;
+    
+    UITapGestureRecognizer *taps = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sosoViewTapped:)];
+    taps.delegate = self;
+    taps.numberOfTouchesRequired = 1;
+    [self.view addGestureRecognizer:taps];
 }
 
-#pragma  mark 初始化UISegmentedControl
+- (void)sosoViewTapped:(UITapGestureRecognizer *)tap
+{
+    [_search resignFirstResponder];
+}
+
+#pragma -mark 初始化UISegmentedControl
 - (void)initWithSenment{
     
     NSArray *arr = @[@"热门搜索",@"搜索历史"];
     self.segment = [[UISegmentedControl alloc]initWithItems:arr];
-    self.segment.frame = CGRectMake(20, 10, kScreenWidth-40, BF_ScaleHeight(25));
-    
+    self.segment.frame = CGRectMake(15, 10, kScreenWidth-30, CGFloatY(30));
+    self.segment.tintColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1];
     [self.segment addTarget:self action:@selector(selectedHot:) forControlEvents:UIControlEventValueChanged];
     self.segment.selectedSegmentIndex = 0;
     
@@ -46,163 +79,129 @@
 
 }
 
-#pragma  mark  SearchBar
+#pragma -mark  SearchBar
 - (void)initWithSearchBar{
 
     self.search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 10, 40)];
+    _search.barStyle = UIBarStyleBlack;
+//    [self.search setBarTintColor:[UIColor grayColor]];
     _search.placeholder = @"搜索";
-    _search.clearsContextBeforeDrawing = YES;
-//    search.backgroundColor = [UIColor redColor];
+    // Get the instance of the UITextField of the search bar
+    UITextField *searchField = [_search valueForKey:@"_searchField"];
     
-    [self.search setShowsCancelButton:YES];
-    for (UIView *view in [[_search.subviews lastObject] subviews]) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            UIButton *but = (UIButton *)view;
-            [but setTitle:@"取消" forState:UIControlStateNormal];
-            [but addTarget:self action:@selector(sosoBut) forControlEvents:UIControlEventTouchUpInside];
-        }
-    }
+    // Change search bar text color
+    searchField.textColor = [UIColor whiteColor];
+    
+    // Change the search bar placeholder text color
+    [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    _search.delegate = self;
+    _search.clearsContextBeforeDrawing = YES;
+    
+//    [[_search.subviews objectAtIndex:0]removeFromSuperview];
+//    [self.search setShowsCancelButton:YES];
+//    for (UIView *view in [[_search.subviews lastObject] subviews]) {
+//        if ([view isKindOfClass:[UIButton class]]) {
+//            UIButton *but = (UIButton *)view;
+//            [but setTitle:@"取消" forState:UIControlStateNormal];
+//            [but  setTintColor:[UIColor blackColor]];
+//            [but setTitleColor:[UIColor colorWithRed:78/255.0 green:79/255.0 blue:80/255.0 alpha:1] forState:UIControlStateNormal];
+//            [but addTarget:self action:@selector(sosoBut) forControlEvents:UIControlEventTouchUpInside];
+//        }
+//    }
+    
     
     [self.navigationItem setTitleView:_search];
     
-    UISearchDisplayController *display = [[UISearchDisplayController alloc]initWithSearchBar:_search contentsController:self];
-    
-    display.searchResultsDataSource = self;
-    display.searchResultsDelegate = self;
+//    UISearchDisplayController *display = [[UISearchDisplayController alloc]initWithSearchBar:_search contentsController:self];
+//    
+//    display.searchResultsDataSource = self;
+//    display.searchResultsDelegate = self;
 
 }
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    
+    //edit your code
+    self.segment.selectedSegmentIndex = 0;
+    [self selectedHot:self.segment];
+    NSLog(@"%@", searchBar.text);
+    NSString * keyWord = [searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    if (_SosoHistoryArr.count > 0) {
+        NSMutableArray * arr = _SosoHistoryArr;
+        
+        _SosoHistoryArr = [NSMutableArray array];
+        [_SosoHistoryArr addObject:searchBar.text];
+        [_SosoHistoryArr addObjectsFromArray:arr];
+    }
+    else
+    {
+        _SosoHistoryArr = [NSMutableArray array];
+        [_SosoHistoryArr addObject:searchBar.text];
+    }
+    
+    [SosoHistoryDe setValue:_SosoHistoryArr forKey:@"HFSosoHistoryData"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"HFSosoEvent" object:keyWord];
+}
+
 
 - (void)sosoBut{
-    
-    NSLog(@"11111");
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 
-#pragma  makr 热门搜索
-- (void)initWithhot{
-  
-    self.hotView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segment.frame)+10, kScreenWidth, kScreenHeight)];
-    self.hotView.userInteractionEnabled = YES;
+#pragma -mark 初始化 VC
+- (void)initVC
+{
+//    [self selectedHot:self.segment];
+    self.HotSosoVc = [[BFHotSosoViewController alloc] init];
+    self.SosoHistoryVc = [[BFSosoHistoryViewController alloc] init];
     
-    CGFloat x = kScreenWidth/4-13;
-    UILabel *hot = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 30)];
-    hot.text = @"热门搜索词";
+    [self addChildViewController:self.HotSosoVc];
+    [self addChildViewController:self.SosoHistoryVc];
     
-    UIView *buttonView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(hot.frame), kScreenWidth, 100)];
+    [self.view addSubview:self.HotSosoVc.view];
+    [self.view addSubview:self.SosoHistoryVc.view];
     
-    NSArray *arr = @[@"测试",@"测试数据",@"测试",@"测试数据",@"测试数据",@"测试数据",@"测试数",@"测试数据",@"测试数据"];
-    for (int i = 0; i < arr.count; i++) {
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((i%4+1)*10+(i%4)* x,(i/4+1)*10+(i/4)*30, x, 30)];
-        
-        button.tag = i;
-        button.layer.cornerRadius = 8;
-        button.layer.borderColor = [UIColor blueColor].CGColor;
-        button.layer.borderWidth = 1;
-        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(17)];
-        [button setTitle:arr[i] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        
-        [buttonView addSubview:button];
-    }
+    CGRect rect = self.view.bounds;
+    rect.origin.y += 20 + self.segment.frame.size.height;
+    rect.size.height -= 20 + self.segment.frame.size.height;
     
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(15, 160, kScreenWidth-30, 30)];
-    lab.text = @"猜你喜欢";
-    
-    for (int j = 0; j < 2; j++) {
-        UIButton *but = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
-        
-        but.layer.cornerRadius = 10;
-        but.layer.borderColor = [UIColor blueColor].CGColor;
-        but.layer.borderWidth = 1;
-        but.tag = 100+j;
-        
-        [self.hotView addSubview:but];
-    }
-    
-    [self.hotView addSubview:buttonView];
-    [self.view addSubview:self.hotView];
-    [self.hotView addSubview:hot];
-    [self.hotView addSubview:lab];
-}
-#pragma  mark 初始化tableView
-- (void)initWithTableView{
-   
-    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segment.frame)+10, kScreenWidth, kScreenHeight-200)];
-    
-    self.tableV.dataSource = self;
-    self.tableV.delegate = self;
-    self.tableV.showsHorizontalScrollIndicator = NO;
-    self.tableV.showsVerticalScrollIndicator = NO;
-    
-    self.clearButton = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.tableV.frame), kScreenWidth, 30)];
-    [self.clearButton setTitle:@"清空搜索记录" forState:UIControlStateNormal];
-    [self.clearButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-    [self.clearButton addTarget:self action:@selector(clearBut) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:self.clearButton];
-    [self.view addSubview:self.tableV];
-    
+    self.SosoHistoryVc.view.frame = self.HotSosoVc.view.frame = rect;
+    [self.view bringSubviewToFront:self.HotSosoVc.view];
 }
 
-#pragma  mark  tableView代理方法
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-
-    return self.dateArr.count>0?self.dateArr.count:0;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    static NSString *str = @"reuse";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:str];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
-    }
-    cell.textLabel.text = self.dateArr[indexPath.row];
-    return cell;
-}
-//  搜索切换
+#pragma -mark 搜索切换
 - (void)selectedHot:(UISegmentedControl *)segment{
-  
+    
     NSInteger index = segment.selectedSegmentIndex;
+    
     switch (index) {
         case 0:{
-            [self.tableV removeFromSuperview];
-            [self initWithhot];
-            [self.clearButton removeFromSuperview];
+            [self.view bringSubviewToFront:self.HotSosoVc.view];
         }
             break;
         case 1:{
-            [self.hotView removeFromSuperview];
-            if (self.dateArr.count == 0) {
-                [self.tableV removeFromSuperview];
-                [self.clearButton removeFromSuperview];
-            }else{
-            [self initWithTableView];
-            }
+            [self.view bringSubviewToFront:self.SosoHistoryVc.view];
         }
             break;
         default:
             break;
     }
 }
-// 清楚历史纪录
-- (void)clearBut{
-    [self.tableV removeFromSuperview];
-    [self.clearButton removeFromSuperview];
-}
+//// 清楚历史纪录
+//- (void)clearBut{
+//    [self.tableV removeFromSuperview];
+//    [self.clearButton removeFromSuperview];
+//}
 
-- (NSMutableArray *)dateArr{
-    if (!_dateArr) {
-        _dateArr = [NSMutableArray array];
-    }
-    return _dateArr;
-}
+//- (NSMutableArray *)dateArr{
+//    if (!_dateArr) {
+//        _dateArr = [NSMutableArray array];
+//    }
+//    return _dateArr;
+//}
 
-- (void)viewWillAppear:(BOOL)animated{
-
-    self.navigationController.navigationBar.barTintColor = [UIColor grayColor];
-    self.tabBarController.tabBar.hidden = YES;
-}
 
 
 @end

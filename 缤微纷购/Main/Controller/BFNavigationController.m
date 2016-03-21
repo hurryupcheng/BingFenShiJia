@@ -72,16 +72,31 @@
 {
     if (self.viewControllers.count > 0) { // 这时push进来的控制器viewController，不是第一个子控制器（不是根控制器）
         /* 自动显示和隐藏tabbar */
-        viewController.hidesBottomBarWhenPushed = YES;
+//        viewController.hidesBottomBarWhenPushed = YES;
         
         /* 设置导航栏上面的内容 */
         // 设置左边的返回按钮
-        viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+//        viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
         
     }
     
     [super pushViewController:viewController animated:animated];
 }
+
+//- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion{
+//    if (self.viewControllers.count > 0) { // 这时push进来的控制器viewController，不是第一个子控制器（不是根控制器）
+//        /* 自动显示和隐藏tabbar */
+//        //        viewController.hidesBottomBarWhenPushed = YES;
+//        
+//        /* 设置导航栏上面的内容 */
+//        // 设置左边的返回按钮
+//        viewControllerToPresent.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+//        
+//    }
+//    
+//    [super presentViewController:viewControllerToPresent animated:YES completion:nil];
+//}
 
 - (void)back
 {

@@ -694,6 +694,9 @@
 - (void)soso{
  
     SoSoViewController *soso = [[SoSoViewController alloc]init];
+//    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
+//    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//    [self presentViewController:sosoNav animated:YES completion:nil];
     [self.navigationController pushViewController:soso animated:YES];
 }
 
@@ -720,6 +723,7 @@
     self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
+
 }
 
 - (void)getAddress{

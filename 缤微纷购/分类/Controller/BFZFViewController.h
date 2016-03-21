@@ -13,4 +13,5 @@
 @property (nonatomic,retain)NSString *sum;
 
 @property (nonatomic,assign)NSInteger count;
+@property (nonatomic,retain)NSMutableArray *modelArr;
 @end

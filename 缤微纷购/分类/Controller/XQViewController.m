@@ -47,7 +47,7 @@
 
 - (void)initWithSegmented{
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(leftButton)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(leftButton)];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_02.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButton)];
     
@@ -252,10 +252,10 @@
 }
 
 //  导航栏左按钮点击事件
-- (void)leftButton{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//- (void)leftButton{
+//    
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 //  导航栏右按钮点击事件
 - (void)rightButton{
     self.tabBarController.selectedIndex = 1;
@@ -269,12 +269,10 @@
     return _dataArr;
 }
 
-//- (NSMutableArray *)dataArray{
-//    if (!_dataArray) {
-//        _dataArray = [NSMutableArray array];
-//    }
-//    return _dataArray;
-//}
+- (void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.tabBarController.tabBar.hidden = YES;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

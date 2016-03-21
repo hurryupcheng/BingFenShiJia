@@ -36,13 +36,13 @@
         self.lbView.isServiceLoadingImage = YES;
         self.lbView.dataArray = [arr copy];
         
-        self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_lbView.frame), kScreenWidth/2+50, CGFloatY(30))];
+        self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_lbView.frame), kScreenWidth/2+40, CGFloatY(30))];
 //        self.titleLabel.backgroundColor = [UIColor greenColor];
         self.titleLabel.text = model.title;
         
         self.moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
 //        self.moneyLabel.backgroundColor = [UIColor orangeColor];
-        self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatY(22)];
+        self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatY(20)];
        
         float mon = [model.moneyArr[0] floatValue];
         self.moneyLabel.text = [NSString stringWithFormat:@"¥ %.2f",mon];
@@ -51,7 +51,7 @@
         self.oldLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
 //        self.oldLabel.backgroundColor = [UIColor grayColor];
         NSString *oldPrice = [NSString stringWithFormat:@"¥ %@",model.oldMoney];
-        self.oldLabel.font = [UIFont systemFontOfSize:CGFloatY(18)];
+        self.oldLabel.font = [UIFont systemFontOfSize:CGFloatY(17)];
         self.oldLabel.textColor = [UIColor grayColor];
         
         NSUInteger length = [oldPrice length];
