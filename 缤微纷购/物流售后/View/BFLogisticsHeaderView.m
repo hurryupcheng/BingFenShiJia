@@ -29,7 +29,7 @@
         [self addSubview:commonProblem];
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-0.5, ScreenWidth, 0.5)];
-        line.backgroundColor = BFColor(0xE5E6E7);
+        line.backgroundColor = BFColor(0xBDBEC0);
         [self addSubview:line];
     }
     return self;

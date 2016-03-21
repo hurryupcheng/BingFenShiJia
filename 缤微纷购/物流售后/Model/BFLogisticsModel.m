@@ -10,7 +10,7 @@
 
 @implementation BFLogisticsModel
 + (NSDictionary *)mj_objectClassInArray {
-    return @{@"item" : [ProductList class]};
+    return @{@"item" : [BFProductModel class]};
 }
 
 + (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
@@ -21,8 +21,3 @@
 }
 @end
 
-@implementation ProductList
-
-
-
-@end

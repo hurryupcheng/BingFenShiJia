@@ -30,10 +30,20 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = BFColor(0xF2F4F5);
+        self.backgroundColor = BFColor(0xffffff);
         [self setCell];
     }
     return self;
+}
+
+- (void)setModel:(BFLogisticsModel *)model {
+    _model = model;
+    self.productTotalPrice.text = [NSString stringWithFormat:@"共%ld个商品 实付金额:¥%@",(long)model.item_num, model.order_sumPrice];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productTotalPrice.text];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xF98522) range:NSMakeRange(self.productTotalPrice.text.length-model.order_sumPrice.length-1, model.order_sumPrice.length+1)];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(8)] range:NSMakeRange(self.productTotalPrice.text.length-model.order_sumPrice.length-1, 1)];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(13)] range:NSMakeRange(self.productTotalPrice.text.length-model.order_sumPrice.length, model.order_sumPrice.length)];
+    self.productTotalPrice.attributedText = attributedString;
 }
 
 - (void)setCell {
@@ -53,6 +63,7 @@
     
     UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productTotalPrice.frame), ScreenWidth, BF_ScaleHeight(30))];
     self.buttonView = buttonView;
+    //buttonView.backgroundColor = [UIColor redColor];
     [self addSubview:buttonView];
     
     UIButton *applyAfterSale = [self setUpButtonWithType:BFLogisticsCellButtonTypeApplyAfterSale color:BFColor(0xffffff) title:nil];
@@ -65,7 +76,7 @@
     [buttonView addSubview:confirmReceipt];
     
     
-    UIView *thirdLine = [self setUpLineWithFrame:CGRectMake(0, self.height-0.5, ScreenWidth, 0.5)];
+    UIView *thirdLine = [self setUpLineWithFrame:CGRectMake(0, BF_ScaleHeight(70)-0.5, ScreenWidth, 0.5)];
     [self addSubview:thirdLine];
 
     
@@ -99,8 +110,8 @@
 }
 
 - (void)clickToJump:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToOperateWithType:)]) {
-        [self.delegate clickToOperateWithType:sender.tag];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToOperateWithModel:Type:)]) {
+        [self.delegate clickToOperateWithModel:self.model Type:sender.tag];
     }
 }
 

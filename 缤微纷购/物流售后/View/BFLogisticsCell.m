@@ -10,16 +10,18 @@
 #import "BFProductInfoView.h"
 
 @interface BFLogisticsCell()
-/**订单编号*/
-@property (nonatomic, strong) UILabel *orderID;
-/**订单状态*/
-@property (nonatomic, strong) UILabel *statusLabel;
-/**实付金额*/
-@property (nonatomic, strong) UILabel *productTotalPrice;
+/**商品图片*/
+@property (nonatomic, strong) UIImageView *productIcon;
+/**商品标题*/
+@property (nonatomic, strong) UILabel *productTitle;
+/**商品尺寸*/
+@property (nonatomic, strong) UILabel *productSize;
+/**商品颜色*/
+@property (nonatomic, strong) UILabel *productColor;
 /***/
-@property (nonatomic, strong) BFProductInfoView *productView;
+//@property (nonatomic, strong) BFProductInfoView *productView;
 
-@property (nonatomic, strong) UIView *buttonView;
+
 @end
 
 @implementation BFLogisticsCell
@@ -36,124 +38,69 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = BFColor(0xF2F4F5);
+        self.backgroundColor = BFColor(0xffffff);
         [self setCell];
     }
     return self;
 }
 
-- (void)setModel:(BFLogisticsModel *)model {
+- (void)setModel:(BFProductModel *)model {
     _model = model;
-    self.orderID.text = [NSString stringWithFormat:@"订单编号:%@",model.orderId];
-    if ([model.status isEqualToString:@"3"]) {
-        self.statusLabel.text = @"已发货";
-    }else {
-        self.statusLabel.text = @"已收货";
-    }
-
-
+    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+    self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0);
+    self.productTitle.text = model.title;
+    [self.productTitle sizeToFit];
+    BFLog(@"self.productTitle%f",self.productTitle.height);
+    self.productSize.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(8), BF_ScaleWidth(60), BF_ScaleHeight(12));
+    self.productSize.text = model.size;
+    self.productColor.frame = CGRectMake(CGRectGetMaxX(self.productSize.frame), self.productSize.y, BF_ScaleWidth(160), self.productSize.height);
+    self.productColor.text = model.color;
     
-    self.productTotalPrice.text = [NSString stringWithFormat:@"共1个商品 实付金额:¥%@", model.order_sumPrice];
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productTotalPrice.text];
-
-    [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xDC6B00) range:NSMakeRange(11, self.productTotalPrice.text.length - 11)];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(14)] range:NSMakeRange(11, self.productTotalPrice.text.length - 11)];
-    self.productTotalPrice.attributedText = attributedString;
-
 }
 
 
 - (void)setCell {
     
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(190))];
-    bottomView.backgroundColor = BFColor(0xffffff);
-    [self addSubview:bottomView];
+    UIView *line = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+    [self addSubview:line];
     
+    self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(12.5), BF_ScaleHeight(12.5), BF_ScaleWidth(70), BF_ScaleHeight(70))];
+    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+    self.productIcon.layer.borderWidth = 1;
+    self.productIcon.layer.borderColor = BFColor(0xBDBEC0).CGColor;
+    self.productIcon.layer.cornerRadius = 10;
+    self.productIcon.layer.masksToBounds = YES;
+    [self addSubview:self.productIcon];
     
-    UIView *firstLine = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
-    [bottomView addSubview:firstLine];
-    
-    self.orderID = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(200), BF_ScaleHeight(25))];
-    self.orderID.text = @"订单编号：160589998";
-    self.orderID.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
-    //self.orderID.backgroundColor = [UIColor redColor];
-    [bottomView addSubview:self.orderID];
-    
-    self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), 0, BF_ScaleWidth(90), self.orderID.height)];
-    self.statusLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
-    self.statusLabel.textAlignment = NSTextAlignmentRight;
-    self.statusLabel.textColor = BFColor(0x4992D3);
-    //self.statusLabel.backgroundColor = [UIColor greenColor];
-    self.statusLabel.text = @"已发货";
-    [bottomView addSubview:self.statusLabel];
-    
-    UIView *secondLine = [self setUpLineWithFrame:CGRectMake(0, CGRectGetMaxY(self.orderID.frame)-0.5, ScreenWidth, 0.5)];
-    [bottomView addSubview:secondLine];
-    
-    self.productView = [[BFProductInfoView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.orderID.frame), ScreenWidth, BF_ScaleHeight(95))];
-    [bottomView addSubview:self.productView];
-    
-    
-    self.productTotalPrice = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productView.frame), BF_ScaleWidth(310), BF_ScaleHeight(40))];
-    self.productTotalPrice.textColor =  BFColor(0x000000);
-    self.productTotalPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
-    self.productTotalPrice.textAlignment = NSTextAlignmentRight;
-    self.productTotalPrice.text = @"共1个商品 实付金额:¥32.00";
-    [bottomView addSubview:self.productTotalPrice];
+    self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0)];
+    self.productTitle.text = @"云南冰糖橙-明星为你甜蜜助跑响起扑鼻 细嫩多汁";
+    self.productTitle.numberOfLines = 0;
+    //self.productTitle.backgroundColor = [UIColor redColor];
+    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    [self addSubview:self.productTitle];
     
     
     
+    self.productSize = [[UILabel alloc] init];
+    self.productSize.textColor = BFColor(0x9A9B9C);
+    self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    self.productSize.text = @"5斤装";
+    [self addSubview:self.productSize];
     
-    UIView *thirdLine = [self setUpLineWithFrame:CGRectMake(0, BF_ScaleHeight(160)-0.5, ScreenWidth, 0.5)];
-    [bottomView addSubview:thirdLine];
-    
-    UIView *buttonView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productTotalPrice.frame), ScreenWidth, BF_ScaleHeight(30))];
-    self.buttonView = buttonView;
-    [bottomView addSubview:buttonView];
-    
-    UIButton *applyAfterSale = [self setUpButtonWithType:BFLogisticsCellButtonTypeApplyAfterSale color:BFColor(0xffffff) title:nil];
-    [buttonView addSubview:applyAfterSale];
-    
-    UIButton *checkLogistics = [self setUpButtonWithType:BFLogisticsCellButtonTypeCheckLogistics color:BFColor(0x3086CF) title:@"物流查询"];
-    [buttonView addSubview:checkLogistics];
-    
-    UIButton *confirmReceipt = [self setUpButtonWithType:BFLogisticsCellButtonTypeConfirmReceipt color:BFColor(0xFA7B00) title:@"确认收货"];
-    [buttonView addSubview:confirmReceipt];
+    self.productColor = [[UILabel alloc] init];
+    self.productColor.textColor = BFColor(0x9A9B9C);
+    self.productColor.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    self.productColor.text = @"红色";
+    [self addSubview:self.productColor];
     
     
-    UIView *fourthLine = [self setUpLineWithFrame:CGRectMake(0, bottomView.height-0.5, ScreenWidth, 0.5)];
-    [bottomView addSubview:fourthLine];
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    NSInteger count = self.buttonView.subviews.count;
-    for (NSInteger i = 0; i < count; i++) {
-        UIButton *button = self.buttonView.subviews[i];
-        button.x = BF_ScaleWidth(125)+BF_ScaleWidth(60)*i;
-        button.y = BF_ScaleHeight(5);
-        button.width = BF_ScaleWidth(55);
-        button.height = BF_ScaleHeight(20);
-    }
-}
-
-- (UIButton *)setUpButtonWithType:(BFLogisticsCellButtonType)type color:(UIColor *)color title:(NSString *)title{
-    UIButton *button = [UIButton buttonWithType:0];
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:color forState:UIControlStateNormal];
-    button.tag = type;
-    button.layer.borderWidth = 0.5;
-    button.layer.borderColor = color.CGColor;
-    button.layer.cornerRadius = BF_ScaleHeight(10);
-    button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(10)];
-    [button addTarget:self action:@selector(clickToJump:) forControlEvents:UIControlEventTouchUpInside];
-    return button;
-}
-
-- (void)clickToJump:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToOperateWithType:)]) {
-        [self.delegate clickToOperateWithType:sender.tag];
-    }
+    UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(300), 0, BF_ScaleWidth(10), BF_ScaleHeight(95))];
+    arrowImageView.image = [UIImage imageNamed:@"select_right"];
+    arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:arrowImageView];
+    
+    
+    
 }
 
 - (UIView *)setUpLineWithFrame:(CGRect)frame {
@@ -161,5 +108,6 @@
     line.backgroundColor = BFColor(0xBDBEC0);
     return line;
 }
+
 
 @end

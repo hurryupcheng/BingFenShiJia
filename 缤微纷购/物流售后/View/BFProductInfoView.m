@@ -28,6 +28,10 @@
 }
 
 - (void)setView {
+    
+    UIView *line = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+    [self addSubview:line];
+    
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(12.5), BF_ScaleHeight(12.5), BF_ScaleWidth(70), BF_ScaleHeight(70))];
     self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
     self.productIcon.layer.borderWidth = 1;
@@ -57,8 +61,7 @@
     arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:arrowImageView];
     
-    UIView *line = [self setUpLineWithFrame:CGRectMake(0, self.height-0.5, ScreenWidth, 0.5)];
-    [self addSubview:line];
+    
     
 }
 

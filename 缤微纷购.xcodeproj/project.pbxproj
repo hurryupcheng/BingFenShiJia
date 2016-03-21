@@ -313,6 +313,9 @@
 		594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */; };
 		59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B1C1C9F89D30028B008 /* BFOrderIDCell.m */; };
 		59513B201C9F8B3D0028B008 /* BFBottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B1F1C9F8B3D0028B008 /* BFBottomCell.m */; };
+		59513B231C9F93410028B008 /* BFProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B221C9F93410028B008 /* BFProductModel.m */; };
+		59513B261C9FEFB70028B008 /* BFOrderDetailAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B251C9FEFB70028B008 /* BFOrderDetailAddressCell.m */; };
+		59513B291C9FF4A40028B008 /* BFOrderIdView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B281C9FF4A40028B008 /* BFOrderIdView.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
@@ -932,6 +935,12 @@
 		59513B1C1C9F89D30028B008 /* BFOrderIDCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderIDCell.m; sourceTree = "<group>"; };
 		59513B1E1C9F8B3D0028B008 /* BFBottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBottomCell.h; sourceTree = "<group>"; };
 		59513B1F1C9F8B3D0028B008 /* BFBottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBottomCell.m; sourceTree = "<group>"; };
+		59513B211C9F93410028B008 /* BFProductModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductModel.h; sourceTree = "<group>"; };
+		59513B221C9F93410028B008 /* BFProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductModel.m; sourceTree = "<group>"; };
+		59513B241C9FEFB70028B008 /* BFOrderDetailAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFOrderDetailAddressCell.h; sourceTree = "<group>"; };
+		59513B251C9FEFB70028B008 /* BFOrderDetailAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderDetailAddressCell.m; sourceTree = "<group>"; };
+		59513B271C9FF4A40028B008 /* BFOrderIdView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFOrderIdView.h; sourceTree = "<group>"; };
+		59513B281C9FF4A40028B008 /* BFOrderIdView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderIdView.m; sourceTree = "<group>"; };
 		599F19C01C8D73EB00319FA4 /* BFPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPassWordView.h; sourceTree = "<group>"; };
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
@@ -1417,6 +1426,10 @@
 				59F7EC951C9714E3006ABB2A /* BFOrderDetailView.m */,
 				59FA432C1C97AE0C00DA28BB /* BFLogisticInfoView.h */,
 				59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */,
+				59513B241C9FEFB70028B008 /* BFOrderDetailAddressCell.h */,
+				59513B251C9FEFB70028B008 /* BFOrderDetailAddressCell.m */,
+				59513B271C9FF4A40028B008 /* BFOrderIdView.h */,
+				59513B281C9FF4A40028B008 /* BFOrderIdView.m */,
 				59FF46C81C8AB3620040689A /* BFPersonalCenterTopView.h */,
 				59FF46C91C8AB3620040689A /* BFPersonalCenterTopView.m */,
 				59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */,
@@ -1619,6 +1632,8 @@
 			children = (
 				59FA7AAF1C9D46C1008E3813 /* BFLogisticsModel.h */,
 				59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */,
+				59513B211C9F93410028B008 /* BFProductModel.h */,
+				59513B221C9F93410028B008 /* BFProductModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2563,6 +2578,7 @@
 				59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */,
 				59F82BF91C9AF581006B76E6 /* BFEditAddressController.m in Sources */,
 				59FF46C71C8AAEA00040689A /* BFMyIntegralController.m in Sources */,
+				59513B231C9F93410028B008 /* BFProductModel.m in Sources */,
 				59F7EC961C9714E3006ABB2A /* BFOrderDetailView.m in Sources */,
 				592525B01C8681CF000F609F /* SDPhotoBrowser.m in Sources */,
 				516204D71C72EB3100E9FB0D /* HeaderCollectionReusableView.m in Sources */,
@@ -2609,6 +2625,7 @@
 				51D1220D1C3A75B400640A44 /* PersonalViewController.m in Sources */,
 				51D458A31C96B73600B52516 /* BFStorages.m in Sources */,
 				592525B31C8681CF000F609F /* NSData+ImageContentType.m in Sources */,
+				59513B291C9FF4A40028B008 /* BFOrderIdView.m in Sources */,
 				59F9F1E81C992B8A00CA9986 /* BFModeCell.m in Sources */,
 				592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */,
 				51811AFD1C746752004E29A8 /* TextFieldLog.m in Sources */,
@@ -2719,6 +2736,7 @@
 				5925253B1C8681CF000F609F /* AFURLSessionManager.m in Sources */,
 				590D3B4E1C93EC380042D42E /* BFShareView.m in Sources */,
 				5925257D1C8681CF000F609F /* MASCompositeConstraint.m in Sources */,
+				59513B261C9FEFB70028B008 /* BFOrderDetailAddressCell.m in Sources */,
 				51811AF81C745205004E29A8 /* ZCViewController.m in Sources */,
 				592525C31C8681CF000F609F /* SMProgressHUD.m in Sources */,
 				59FBB4231C9BF0540081F65A /* BFLogisticsAndAfterSaleController.m in Sources */,

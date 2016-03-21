@@ -19,7 +19,7 @@ typedef enum {
 
 @protocol BFBottomCellDelegate <NSObject>
 
-- (void)clickToOperateWithType:(BFLogisticsCellButtonType)type;
+- (void)clickToOperateWithModel:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type;
 
 @end
 
@@ -30,4 +30,6 @@ typedef enum {
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**代理*/
 @property (nonatomic, weak) id<BFBottomCellDelegate>delegate;
+/**模型类*/
+@property (nonatomic, strong) BFLogisticsModel *model;
 @end

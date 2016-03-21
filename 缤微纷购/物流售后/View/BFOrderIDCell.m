@@ -30,10 +30,20 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = BFColor(0xF2F4F5);
+        self.backgroundColor = BFColor(0xffffff);
         [self setCell];
     }
     return self;
+}
+
+- (void)setModel:(BFLogisticsModel *)model {
+    _model = model;
+    self.orderID.text = [NSString stringWithFormat:@"订单编号:%@",model.orderId];
+    if ([model.status isEqualToString:@"3"]) {
+        self.statusLabel.text = @"已发货";
+    }else {
+        self.statusLabel.text = @"已收货";
+    }
 }
 
 - (void)setCell {

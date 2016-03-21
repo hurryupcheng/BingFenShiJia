@@ -9,11 +9,14 @@
 #import "BFLogisticsAndAfterSaleController.h"
 #import "BFAfterSaleProgressController.h"
 #import "BFLogisticsCell.h"
+#import "BFOrderIDCell.h"
 #import "BFLogisticsHeaderView.h"
 #import "BFCustomerServiceView.h"
 #import "BFLogisticsModel.h"
+#import "BFBottomCell.h"
+#import "BFCheckLogisticsController.h"
 
-@interface BFLogisticsAndAfterSaleController ()<UITableViewDelegate, UITableViewDataSource, BFLogisticsHeaderViewDelegate, BFLogisticsCellDelegate, BFCustomerServiceViewDelegate>
+@interface BFLogisticsAndAfterSaleController ()<UITableViewDelegate, UITableViewDataSource, BFLogisticsHeaderViewDelegate, BFBottomCellDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**无信息时的背景*/
@@ -50,6 +53,7 @@
 - (BFLogisticsHeaderView *)headerView {
     if (!_headerView) {
         _headerView = [BFLogisticsHeaderView createHeaderView];
+        //_headerView.backgroundColor = [UIColor redColor];
         _headerView.delegate = self;
         [self.view addSubview:_headerView];
     }
@@ -59,9 +63,9 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30), ScreenWidth, ScreenHeight-66-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-ScreenHeight, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.backgroundColor = BFColor(0xF2F4F5);
+        //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self.view addSubview:_tableView];
@@ -73,14 +77,39 @@
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _bgImageView.image = [UIImage imageNamed:@"after_sale_service"];
+        _bgImageView.userInteractionEnabled = YES;
+        _bgImageView.hidden = YES;
         [self.view addSubview:_bgImageView];
+        UIButton *button = [UIButton buttonWithType:0];
+        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(350), BF_ScaleWidth(160), BF_ScaleHeight(50));
+        [button setTitle:@"返回首页" forState:UIControlStateNormal];
+        [button setTitleColor:BFColor(0x00008C) forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+        [button addTarget:self action:@selector(clickToHome) forControlEvents:UIControlEventTouchUpInside];
+        [_bgImageView addSubview:button];
     }
     return _bgImageView;
 }
 
 #pragma mark --viewDidLoad
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //获取数据
+    [self getData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //获取数据
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+    } completion:nil];
+}
+
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"物流·售后";
     //添加tableView
     [self tableView];
@@ -90,8 +119,9 @@
     //[self setNavigationBar];
     //客服电话按钮
     [self setUpCustomerService];
-    //获取数据
-    [self getData];
+    
+    //
+    [self bgImageView];
 }
 
 #pragma mark --获取数据
@@ -102,21 +132,33 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-        [self.logisticsArray addObjectsFromArray:array];
-        for (BFLogisticsModel *logisticsModel in array) {
-            NSArray *array = [ProductList parse:logisticsModel.item];
-            [self.productArray addObject:array];
-        }
-        BFLog(@"%@,,%@",responseObject, self.productArray);
-        [self.tableView reloadData];
-        
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            if (responseObject) {
+                self.bgImageView.hidden = YES;
+                NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                [self.logisticsArray addObjectsFromArray:array];
+            }else {
+                self.bgImageView.hidden = NO;
+            }
+            BFLog(@"---%@,,",responseObject);
+            [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = BF_ScaleHeight(30);
+            } completion:nil];
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+
     }];
 }
 
+
+#pragma mark --背景图按钮点击事件
+- (void)clickToHome {
+    BFLog(@"asdadasda");
+    self.tabBarController.selectedIndex = 0;
+}
 
 #pragma mark --客服电话按钮
 - (void)setUpCustomerService {
@@ -191,25 +233,54 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.productArray.count;
+ 
+        [self.productArray removeAllObjects];
+        BFLogisticsModel *model = self.logisticsArray[section];
+        NSArray *array = [BFProductModel parse:model.item];
+        [self.productArray addObjectsFromArray:array];
+        //BFLog(@"%lu,,%lu",(unsigned long)self.productArray.count,self.logisticsArray.count);
+        return self.productArray.count+2;
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFLogisticsCell *cell = [BFLogisticsCell cellWithTableView:tableView];
-    //cell.model = self.logisticsArray[indexPath.row];
-    cell.delegate = self;
-    return cell;
+    [self.productArray removeAllObjects];
+    BFLogisticsModel *model = self.logisticsArray[indexPath.section];
+    NSArray *array = [BFProductModel parse:model.item];
+    [self.productArray addObjectsFromArray:array];
+
+    if (indexPath.row == 0) {
+        BFOrderIDCell *cell = [BFOrderIDCell cellWithTableView:tableView];
+        cell.model = self.logisticsArray[indexPath.section];
+        return cell;
+    }else if (indexPath.row == self.productArray.count+1) {
+        
+        BFBottomCell *cell = [BFBottomCell cellWithTableView:tableView];
+        cell.delegate = self;
+        cell.model = self.logisticsArray[indexPath.section];
+        return cell;
+    }else {
+        BFLogisticsCell *cell = [BFLogisticsCell cellWithTableView:tableView];
+        cell.model = self.productArray[indexPath.row-1];
+        return cell;
+    }
+
+
 }
 
 #pragma mark -- BFLogisticsCell代理
-- (void)clickToOperateWithType:(BFLogisticsCellButtonType)type {
+- (void)clickToOperateWithModel:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type {
     switch (type) {
         case BFLogisticsCellButtonTypeApplyAfterSale:
             BFLog(@"申请售后");
             break;
-        case BFLogisticsCellButtonTypeCheckLogistics:
+        case BFLogisticsCellButtonTypeCheckLogistics:{
             BFLog(@"查看物流");
+            BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
+            vc.freecode = model.freecode;
+            [self.navigationController pushViewController:vc animated:YES];
             break;
+        }
         case BFLogisticsCellButtonTypeConfirmReceipt:
             BFLog(@"确认收货");
             break;
@@ -219,18 +290,34 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return BF_ScaleHeight(200);
+    if (indexPath.row == 0) {
+        return BF_ScaleHeight(25);
+    }else if (indexPath.row == self.productArray.count+1) {
+        return BF_ScaleHeight(70);
+    }else {
+        return BF_ScaleHeight(95);
+    }
+    
 }
 
-#pragma mark -- 分区头视图
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-//    
-//    //return self.headerView;
-//}
 
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return BF_ScaleHeight(30);
-//}
+
+
+
+#pragma mark -- 分区头视图
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == self.logisticsArray.count - 1) {
+        return 0.1;
+    }else {
+        return 10;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.1;
+}
 
 
 
