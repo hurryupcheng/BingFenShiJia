@@ -65,8 +65,14 @@
   
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-fenxiang-2.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]style:UIBarButtonItemStylePlain target:self action:@selector(fenxiang)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-fenxiang-6.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]style:UIBarButtonItemStylePlain target:self action:@selector(fenxiang)];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
 
+}
+
+- (void)back{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma  mark 初始化webview
@@ -76,6 +82,8 @@
     NSURLRequest *requser = [NSURLRequest requestWithURL:url];
     self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-115)];
     [self.webView loadRequest:requser];
+    self.webView.scrollView.showsHorizontalScrollIndicator = NO;
+    self.webView.scrollView.showsVerticalScrollIndicator = NO;
     
     self.header = [[BFWebHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 300) model:self.fxq];
   
@@ -368,11 +376,11 @@
             
             NSArray *guigeArr = [dic2 valueForKey:@"guige"];
             NSMutableArray *pric = [NSMutableArray array];
-            NSMutableSet *set = [NSMutableSet set];
+            NSMutableArray *guige = [NSMutableArray array];
             
             for (NSDictionary *dic3 in guigeArr) {
                 fxq.guige = [dic3 valueForKey:@"choose"];
-                [set addObject:fxq.guige];
+                [guige addObject:fxq.guige];
                 NSArray *answer = [dic3 valueForKey:@"answer"];
                 
                 for (NSDictionary *dic4 in answer) {
@@ -381,7 +389,7 @@
                     [pric addObject:fxq.price];
                     
                 }
-                fxq.guigeArr = [set allObjects];
+                fxq.guigeArr = [guige copy];
                 fxq.moneyArr = [pric copy];
             }
             fxq.nameArr = [nameArray copy];

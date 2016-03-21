@@ -40,6 +40,8 @@
 		51A996C01C9D260600B4783C /* AFNTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996B81C9D260600B4783C /* AFNTool.m */; };
 		51A996C11C9D260600B4783C /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996BA1C9D260600B4783C /* Reachability.m */; };
 		51A996C21C9D260600B4783C /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996BD1C9D260600B4783C /* UIViewController+HUD.m */; };
+		51D0E0011C9FBFFF0074F0D3 /* iconfont-fenxiang-6.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D0E0001C9FBFFF0074F0D3 /* iconfont-fenxiang-6.png */; };
+		51D0E0051C9FE0EE0074F0D3 /* iconfont-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D0E0041C9FE0EE0074F0D3 /* iconfont-search.png */; };
 		51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D10E011C40B79000F630C9 /* XCCollectionViewCell.m */; };
 		51D10E321C40F10700F630C9 /* icon_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D10E281C40F10600F630C9 /* icon_01.png */; };
 		51D10E331C40F10700F630C9 /* icon_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D10E291C40F10600F630C9 /* icon_02.png */; };
@@ -67,8 +69,6 @@
 		51D175CE1C76F76B00B73E5B /* 100.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 51D175CD1C76F76B00B73E5B /* 100.jpg */; };
 		51D189081C4C76C100847EB9 /* 12.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D189071C4C76C100847EB9 /* 12.png */; };
 		51D1890C1C4CB7F300847EB9 /* iconfont-htmal5icon37.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D1890B1C4CB7F300847EB9 /* iconfont-htmal5icon37.png */; };
-		51D1890E1C4CC01A00847EB9 /* iconfont-fenxiang.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D1890D1C4CC01A00847EB9 /* iconfont-fenxiang.png */; };
-		51D189101C4CC12300847EB9 /* iconfont-fenxiang-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D1890F1C4CC12300847EB9 /* iconfont-fenxiang-2.png */; };
 		51D189121C4CE2E700847EB9 /* iconfont-jianhao.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D189111C4CE2E700847EB9 /* iconfont-jianhao.png */; };
 		51D189141C4CE2F100847EB9 /* iconfont-jiahao.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D189131C4CE2F100847EB9 /* iconfont-jiahao.png */; };
 		51D1A9501C4A3CC000D9002C /* JFView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D1A94F1C4A3CC000D9002C /* JFView.m */; };
@@ -452,6 +452,8 @@
 		51A996BA1C9D260600B4783C /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		51A996BC1C9D260600B4783C /* UIViewController+HUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+HUD.h"; sourceTree = "<group>"; };
 		51A996BD1C9D260600B4783C /* UIViewController+HUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HUD.m"; sourceTree = "<group>"; };
+		51D0E0001C9FBFFF0074F0D3 /* iconfont-fenxiang-6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-fenxiang-6.png"; sourceTree = "<group>"; };
+		51D0E0041C9FE0EE0074F0D3 /* iconfont-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-search.png"; sourceTree = "<group>"; };
 		51D10E001C40B79000F630C9 /* XCCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCCollectionViewCell.h; sourceTree = "<group>"; };
 		51D10E011C40B79000F630C9 /* XCCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCCollectionViewCell.m; sourceTree = "<group>"; };
 		51D10E281C40F10600F630C9 /* icon_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_01.png; sourceTree = "<group>"; };
@@ -493,8 +495,6 @@
 		51D175CD1C76F76B00B73E5B /* 100.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 100.jpg; sourceTree = "<group>"; };
 		51D189071C4C76C100847EB9 /* 12.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12.png; sourceTree = "<group>"; };
 		51D1890B1C4CB7F300847EB9 /* iconfont-htmal5icon37.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-htmal5icon37.png"; sourceTree = "<group>"; };
-		51D1890D1C4CC01A00847EB9 /* iconfont-fenxiang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-fenxiang.png"; sourceTree = "<group>"; };
-		51D1890F1C4CC12300847EB9 /* iconfont-fenxiang-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-fenxiang-2.png"; sourceTree = "<group>"; };
 		51D189111C4CE2E700847EB9 /* iconfont-jianhao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-jianhao.png"; sourceTree = "<group>"; };
 		51D189131C4CE2F100847EB9 /* iconfont-jiahao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-jiahao.png"; sourceTree = "<group>"; };
 		51D1A94E1C4A3CC000D9002C /* JFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFView.h; sourceTree = "<group>"; };
@@ -1128,6 +1128,8 @@
 		51D10E271C40F10600F630C9 /* icon */ = {
 			isa = PBXGroup;
 			children = (
+				51D0E0041C9FE0EE0074F0D3 /* iconfont-search.png */,
+				51D0E0001C9FBFFF0074F0D3 /* iconfont-fenxiang-6.png */,
 				51A996891C9AA87C00B4783C /* kongs.png */,
 				51A9968A1C9AA87C00B4783C /* buys.png */,
 				51D24D6B1C98ED9600F2D90E /* dm03.png */,
@@ -1168,8 +1170,6 @@
 				51D5B63D1C758CDD000897BB /* iconfont-setting.png */,
 				51D189131C4CE2F100847EB9 /* iconfont-jiahao.png */,
 				51D189111C4CE2E700847EB9 /* iconfont-jianhao.png */,
-				51D1890F1C4CC12300847EB9 /* iconfont-fenxiang-2.png */,
-				51D1890D1C4CC01A00847EB9 /* iconfont-fenxiang.png */,
 				51D1890B1C4CB7F300847EB9 /* iconfont-htmal5icon37.png */,
 				51D10E281C40F10600F630C9 /* icon_01.png */,
 				51D10E291C40F10600F630C9 /* icon_02.png */,
@@ -2447,7 +2447,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51D1890E1C4CC01A00847EB9 /* iconfont-fenxiang.png in Resources */,
 				51D24D6C1C98ED9600F2D90E /* dm03.png in Resources */,
 				590D3C341C94166A0042D42E /* UMSCommentDetailController.xib in Resources */,
 				51D1E9401C7BEE0000D2F9D9 /* jian.png in Resources */,
@@ -2479,7 +2478,6 @@
 				51D10E321C40F10700F630C9 /* icon_01.png in Resources */,
 				51D2B0851C7830F8002D35FB /* beijin1.jpg in Resources */,
 				51D4D9581C44A8F200453CD1 /* iicon08.png in Resources */,
-				51D189101C4CC12300847EB9 /* iconfont-fenxiang-2.png in Resources */,
 				518930441C7C32C500C5AB08 /* ban.png in Resources */,
 				51D2FE831C7EAC0F00155588 /* 750.jpg in Resources */,
 				590D3C391C94166A0042D42E /* UMSLoginViewController.xib in Resources */,
@@ -2525,10 +2523,12 @@
 				51D2B0811C782FC2002D35FB /* touxiang1.png in Resources */,
 				590D3C421C94185F0042D42E /* Info.plist in Resources */,
 				51D458BA1C96EDAC00B52516 /* zhifubao.png in Resources */,
+				51D0E0011C9FBFFF0074F0D3 /* iconfont-fenxiang-6.png in Resources */,
 				51D4D9551C44A8F200453CD1 /* iicon05.png in Resources */,
 				51D10E351C40F10700F630C9 /* icon_04.png in Resources */,
 				51D5796B1C98061D00385BD2 /* dm02.png in Resources */,
 				51811AFA1C745CEA004E29A8 /* 101.png in Resources */,
+				51D0E0051C9FE0EE0074F0D3 /* iconfont-search.png in Resources */,
 				51D10E3A1C40F10700F630C9 /* icon_14.png in Resources */,
 				5189303D1C7BF34000C5AB08 /* shangpingouwu.png in Resources */,
 				51D24D881C9961C900F2D90E /* d2.png in Resources */,

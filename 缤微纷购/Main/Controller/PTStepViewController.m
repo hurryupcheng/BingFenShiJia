@@ -23,6 +23,8 @@
     
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Teambuy&a=help"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    web.scrollView.showsVerticalScrollIndicator = NO;
+    web.scrollView.showsHorizontalScrollIndicator = NO;
     
     [web loadRequest:request];
     [self.view addSubview:web];

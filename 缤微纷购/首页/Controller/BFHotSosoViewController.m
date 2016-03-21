@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSMutableArray * SearchWordArr;
 /**搜索历史*/
 @property (nonatomic, strong) NSMutableArray * HotSosoHistoryArr;
+@property (nonatomic, retain) UIButton *LikeImage;
+
 @end
 
 @implementation BFHotSosoViewController
@@ -147,21 +149,21 @@
     lab.text = @"猜你喜欢";
 
     for (int j = 0; j < _LikeSearArr.count; j++) {
-        UIButton * LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
+        self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
 
-        LikeImage.layer.cornerRadius = 10;
-        LikeImage.layer.masksToBounds = YES;
-        LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
-        LikeImage.layer.borderWidth = 1;
-        LikeImage.tag = j;
-        LikeImage.userInteractionEnabled = YES;
+        _LikeImage.layer.cornerRadius = 10;
+        _LikeImage.layer.masksToBounds = YES;
+        _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
+        _LikeImage.layer.borderWidth = 1;
+        _LikeImage.tag = j;
+        _LikeImage.userInteractionEnabled = YES;
         NSDictionary * dic = _LikeSearArr[j];
 //        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
-        [LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
        
-        [LikeImage addTarget:self action:@selector(tapitem:) forControlEvents:UIControlEventTouchUpInside];
+        [_LikeImage addTarget:self action:@selector(tapitem:) forControlEvents:UIControlEventTouchUpInside];
         
-        [hotView addSubview:LikeImage];
+        [hotView addSubview:_LikeImage];
     }
 
     CGFloat LikeHeights;
@@ -173,8 +175,8 @@
         LikeHeights = (_LikeSearArr.count/2) * ((kScreenWidth-30)/2)+1;
     }
     
-    hotView.frame = CGRectMake(0, 0, kScreenWidth, hot.frame.size.height+buttonView.frame.size.height+lab.frame.size.height+15+LikeHeights+40);
-
+//    hotView.frame = CGRectMake(0, 0, kScreenWidth, hot.frame.size.height+buttonView.frame.size.height+lab.frame.size.height+15+LikeHeights+40);
+    hotView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
     
     [hotView addSubview:buttonView];
     [hotView addSubview:hot];
@@ -188,7 +190,7 @@
     NSDictionary *dic = _LikeSearArr[img.tag];
     FXQViewController *fx = [[FXQViewController alloc]init];
     fx.ID = dic[@"id"];
-
+ 
     [self.navigationController pushViewController:fx animated:YES];
 }
 
@@ -224,19 +226,19 @@
     [searchView addSubview:lab];
     
     for (int j = 0; j < _SearchWordArr.count; j++) {
-        UIButton * LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
+        self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
         
-        LikeImage.layer.cornerRadius = 10;
-        LikeImage.layer.masksToBounds = YES;
-        LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
-        LikeImage.layer.borderWidth = 1;
-        LikeImage.tag = j;
+        _LikeImage.layer.cornerRadius = 10;
+        _LikeImage.layer.masksToBounds = YES;
+        _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
+        _LikeImage.layer.borderWidth = 1;
+        _LikeImage.tag = j;
         NSDictionary * dic = _SearchWordArr[j];
-        [LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         
-        [LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
+        [_LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
         
-        [searchView addSubview:LikeImage];
+        [searchView addSubview:_LikeImage];
     }
 
     CGFloat SearHeights;
@@ -248,7 +250,8 @@
         SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2)+1;
     }
     
-    searchView.frame = CGRectMake(0, 0, kScreenWidth, 15+lab.frame.size.height+SearHeights+10);
+//    searchView.frame = CGRectMake(0, 0, kScreenWidth, 15+lab.frame.size.height+SearHeights+10);
+    searchView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
     
     return searchView;
 }

@@ -214,6 +214,7 @@
                 }];
             }else {
                 self.navigationController.navigationBarHidden = NO;
+                self.tabBarController.tabBar.hidden = YES;
                 BFMyWalletController *myWallet = [[BFMyWalletController alloc]init];
                 [self.navigationController pushViewController:myWallet animated:YES];
                 BFLog(@"我的钱包");
@@ -229,6 +230,7 @@
                     self.navigationController.navigationBarHidden = NO;
                 }];
             }else {
+                self.tabBarController.tabBar.hidden = YES;
                 BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
                 [self.navigationController pushViewController:myorder animated:YES];
                 BFLog(@"我的订单");
@@ -246,6 +248,7 @@
             }else{
             BFLog(@"我的拼团");
                 self.navigationController.navigationBarHidden = NO;
+                self.tabBarController.tabBar.hidden = YES;
                 BFMyGroupPurchaseController *myGroupPurchaseVC = [BFMyGroupPurchaseController new];
                 [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
             }
@@ -261,6 +264,7 @@
                 }];
             }else {
                 self.navigationController.navigationBarHidden = NO;
+                self.tabBarController.tabBar.hidden = YES;
                 BFMyCouponsController *myCoupons = [[BFMyCouponsController alloc]init];
                 [self.navigationController pushViewController:myCoupons animated:YES];
                 BFLog(@"我的优惠券");
@@ -276,6 +280,7 @@
                 }];
             }else {
                 self.navigationController.navigationBarHidden = NO;
+                self.tabBarController.tabBar.hidden = YES;
                 BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
                 [self.navigationController pushViewController:personInfoVC animated:YES];
                 BFLog(@"我的资料");

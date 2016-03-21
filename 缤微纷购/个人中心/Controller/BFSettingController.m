@@ -257,4 +257,8 @@
     }
     return 0;
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+self.tabBarController.tabBar.hidden = YES;
+}
 @end

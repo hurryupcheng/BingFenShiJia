@@ -27,6 +27,7 @@
     
     //    self.navigationController.navigationBar.barTintColor = [UIColor grayColor];
     self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.tabBarController.tabBar.hidden = YES;
     
     SosoHistoryDe = [NSUserDefaults standardUserDefaults];
@@ -145,7 +146,7 @@
 
 
 - (void)sosoBut{
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

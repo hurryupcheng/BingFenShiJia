@@ -196,7 +196,7 @@
 }
 
 - (void)initWithLoveView{
-
+    [self.tabView reloadData];
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth/3-20, 1)];
     lab.backgroundColor = [UIColor grayColor];
     
@@ -209,15 +209,15 @@
     UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
     label.backgroundColor = [UIColor grayColor];
     
-    self.scroll.frame = CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, kScreenWidth/4);
+    self.scroll.frame = CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, (kScreenWidth-90)/3);
 
     _scroll.contentSize = CGSizeMake(_scroll.width*(self.dataArray.count/3), 0);
     _scroll.shouldGroupAccessibilityChildren = NO;
     _scroll.showsHorizontalScrollIndicator = NO;
     _scroll.pagingEnabled = YES;
-
+  
     for (int i = 0; i < self.dataArray.count; i++) {
-        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
+        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake(((kScreenWidth-90)/3*i)+(i*10), 0, (kScreenWidth-90)/3, (kScreenWidth-90)/3)];
         _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
         _imgButton.layer.borderWidth = 1;
         _imgButton.tag = i;

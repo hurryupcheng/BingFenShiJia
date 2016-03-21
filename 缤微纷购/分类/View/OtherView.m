@@ -17,7 +17,7 @@
 
 @property (nonatomic,retain)UIButton *selecdent;
 @property (nonatomic,retain)NSArray *arrays;
-@property (nonatomic,retain)NSArray *guige;
+//@property (nonatomic,retain)NSArray *guige;
 @property (nonatomic,retain)BFClassminView *name;
 @property (nonatomic,retain)BFClassminView *het;
 @property (nonatomic,retain)BFClassminView *num;
@@ -52,7 +52,7 @@
 
         self.arrays = [NSArray array];
         self.arrays = [money copy];
-        
+        NSLog(@"...%@",self.arrays);
         NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
         float money = [string floatValue];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
@@ -95,7 +95,6 @@
         _red.layer.borderWidth = 1;
         _red.layer.borderColor = [UIColor redColor].CGColor;
         
-        self.guige = [set copy];
         for (int k= 0; k < set.count; k++) {
             self.arrayBut = [[UIButton alloc]initWithFrame:CGRectMake(10+(k%4)*10+(k%4)*((kScreenWidth-50)/4), 10+CGRectGetMaxY(_het.frame)+(k/4)*10+(k/4)*CGFloatY(30), (kScreenWidth-50)/4, CGFloatY(30))];
             
@@ -251,7 +250,7 @@
     self.selecdent = but;
     self.reds.frame = but.frame;
     
-    NSString *string = [NSString stringWithFormat:@"%@",self.arrays[but.tag]];
+    NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
     float money = [string floatValue];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
     
@@ -277,10 +276,10 @@
     
     self.moneyLabel.attributedText = str;
     
-    if (self.arrayBut.selected == YES) {
-        self.hot = _guige[self.arrayBut.tag];
-        NSLog(@"%@",_guige[self.arrayBut.tag]);
-    }
+//    if (self.arrayBut.selected == YES) {
+//        self.hot = _guige[self.arrayBut.tag];
+//        NSLog(@"%@",_guige[self.arrayBut.tag]);
+//    }
 }
 
 - (void)minButSelented{

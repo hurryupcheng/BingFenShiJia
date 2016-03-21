@@ -63,6 +63,8 @@
     CGRect frame = self.webBrowserView.frame;
     frame.origin.y = CGRectGetMaxY(self.header.frame);
     self.webBrowserView.frame = frame;
+    self.webView.scrollView.showsHorizontalScrollIndicator = NO;
+    self.webView.scrollView.showsVerticalScrollIndicator = NO;
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:model.info]];
     [self.webView loadRequest:request];
