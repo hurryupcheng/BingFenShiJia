@@ -40,8 +40,8 @@
 
 /**接口宏定义*/
 #define BF_URL  @"http://bingo.luexue.com/index.php/"
-#define NET_URL  @"http://192.168.1.201/binfen"
-//#define NET_URL  @"http://bingo.luexue.com"
+//#define NET_URL  @"http://192.168.1.201/binfen"
+#define NET_URL  @"http://bingo.luexue.com"
 
 
 /**宏定义打印*/

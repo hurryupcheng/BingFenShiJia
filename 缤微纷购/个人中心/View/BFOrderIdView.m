@@ -35,14 +35,14 @@
     UIView *firstLine = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
     [self addSubview:firstLine];
     
-    self.orderIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(200), self.height)];
+    self.orderIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), self.height)];
     self.orderIDLabel.text = @"订单编号：160589998";
-    self.orderIDLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    self.orderIDLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     //self.orderID.backgroundColor = [UIColor redColor];
     [self addSubview:self.orderIDLabel];
     
-    self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), 0, BF_ScaleWidth(90), self.orderIDLabel.height)];
-    self.statusLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+    self.statusLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(215), 0, BF_ScaleWidth(90), self.orderIDLabel.height)];
+    self.statusLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     self.statusLabel.textAlignment = NSTextAlignmentRight;
     self.statusLabel.textColor = BFColor(0x4992D3);
     //self.statusLabel.backgroundColor = [UIColor greenColor];

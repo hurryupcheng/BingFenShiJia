@@ -7,23 +7,22 @@
 //
 
 #import "BFMyOrderDetailController.h"
-#import "BFLogisticInfoView.h"
 #import "BFProductInfoModel.h"
-#import "BFOrderDetailView.h"
 #import "BFProductDetailCell.h"
-#import "BFModeCell.h"
 #import "BFOrderProductModel.h"
 #import "BFCheckLogisticsController.h"
 #import "BFOrderDetailAddressCell.h"
 #import "BFOrderIdView.h"
+#import "BFOrderDetailBottomView.h"
+#import "BFOrderDetailInfoCell.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFLogisticInfoViewDelegate>
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
 @property (nonatomic, strong) BFOrderIdView*headerView;
 /**自定义footer视图*/
-@property (nonatomic, strong) BFLogisticInfoView *footerView;
+@property (nonatomic, strong) BFOrderDetailBottomView *footerView;
 /**BFProductInfoModel模型*/
 @property (nonatomic, strong) BFProductInfoModel *model;
 /**BFModeCell的高度*/
@@ -50,20 +49,21 @@
     return _headerView;
 }
 
-//- (BFLogisticInfoView *)footerView {
-//    if (!_footerView) {
-//        _footerView = [BFLogisticInfoView logisticView];
-//    }
-//    return _footerView;
-//}
+- (BFOrderDetailBottomView *)footerView {
+    if (!_footerView) {
+        _footerView = [BFOrderDetailBottomView createFooterView];
+    }
+    return _footerView;
+}
+
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35), ScreenWidth, ScreenHeight-66) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35), ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        //_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_tableView];
     }
     return _tableView;
@@ -82,15 +82,12 @@
     [self getData];
     //头部视图
     [self setUpHeaderView];
-    //[self setUpFooterView];
+    //头部视图
+    [self setUpFooterView];
+  
 }
 #pragma mark --viewDidLoad
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.tableView.y = -ScreenHeight;
-//    }];
-//}
+
 
 
 #pragma mark --获取数据
@@ -109,9 +106,7 @@
         //BFLog(@"%@",responseObject);
 
         [self.tableView reloadData];
-//        [UIView animateWithDuration:0.5 animations:^{
-//            self.tableView.y = 0;
-//        }];
+
     } failure:^(NSError *error) {
         BFLog(@"%@",error);
     }];
@@ -122,50 +117,13 @@
 }
 
 #pragma mark --footer视图
-//- (void)setUpFooterView {
-//    self.footerView = [BFLogisticInfoView logisticView];
-//    self.footerView.model = self.model;
-//    self.footerView.delegate = self;
-//    self.tableView.tableFooterView = self.footerView;
-//}
-
-//footer代理
-//- (void)logisticInfoView:(BFLogisticInfoView *)view type:(BFLogisticInfoViewButtonType)type {
-//    switch (type) {
-//        case BFLogisticInfoViewButtonTypeCheckLogistics:{
-//            BFLog(@"查看物流");
-//            BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
-//            vc.freecode = self.model.freecode;
-//            [self.navigationController pushViewController:vc animated:YES];
-//            break;
-//        }
-//        case BFLogisticInfoViewButtonTypePay:
-//            BFLog(@"付款");
-//            break;
-//        case BFLogisticInfoViewButtonTypeCancleOrder:
-//            BFLog(@"取消订单");
-//            break;
-//        case BFLogisticInfoViewButtonTypeApplyRebund:
-//            BFLog(@"申请退款");
-//            break;
-//        case BFLogisticInfoViewButtonTypeApplyReturnGoods:
-//            BFLog(@"申请退货退款");
-//            break;
-//        case BFLogisticInfoViewButtonTypeConfirmReceipt:
-//            BFLog(@"确认收货");
-//            break;
-//        case BFLogisticInfoViewButtonTypeCancleReturn:
-//            BFLog(@"撤销退货退款申请");
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//}
+- (void)setUpFooterView {
+    [self.view addSubview:self.footerView];
+}
 
 #pragma mark --代理
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    return 3;
 }
 
 
@@ -173,7 +131,7 @@
     if (section == 0) {
         return 1;
     }else if (section == 2) {
-        return 6;
+        return 1;
     }else {
         return 3;
     }
@@ -184,8 +142,14 @@
     if (indexPath.section == 0) {
         BFOrderDetailAddressCell *cell = [BFOrderDetailAddressCell cellWithTableView:tableView];
         return cell;
+    }else if (indexPath.section == 2) {
+        BFOrderDetailInfoCell *cell = [BFOrderDetailInfoCell cellWithTableView:tableView];
+        return cell;
+    }else {
+        BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
+        return cell;
     }
-    return [[UITableViewCell alloc] init];
+    
     
 }
 
@@ -194,13 +158,26 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  {
-    if (indexPath.row == self.productArray.count) {
-        return self.modeCellH;
-        BFLog(@"%f",self.modeCellH);
+    if (indexPath.section == 0) {
+        return BF_ScaleHeight(110);
+    }else if (indexPath.section == 2){
+        return BF_ScaleHeight(264);
     }else {
-        return self.orderProductH;
+        return BF_ScaleHeight(100);
     }
     
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return BF_ScaleHeight(15);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 2) {
+        return 40;
+    }
+    return 0.1;
 }
 
 @end
