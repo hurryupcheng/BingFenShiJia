@@ -26,5 +26,5 @@
 /**默认*/
 @property (nonatomic, strong) NSString *type;
 /**id*/
-@property (nonatomic, strong) NSString *defaultAddress;
+@property (nonatomic, strong) NSString *def;
 @end

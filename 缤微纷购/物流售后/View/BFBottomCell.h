@@ -1,13 +1,14 @@
 //
-//  BFLogisticsCell.h
+//  BFBottomCell.h
 //  缤微纷购
 //
-//  Created by 程召华 on 16/3/18.
+//  Created by 程召华 on 16/3/21.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "BFLogisticsModel.h"
+
 
 typedef enum {
     BFLogisticsCellButtonTypeApplyAfterSale,//申请售后
@@ -16,18 +17,17 @@ typedef enum {
 }BFLogisticsCellButtonType;
 
 
-@protocol BFLogisticsCellDelegate <NSObject>
+@protocol BFBottomCellDelegate <NSObject>
 
 - (void)clickToOperateWithType:(BFLogisticsCellButtonType)type;
 
 @end
 
 
-@interface BFLogisticsCell : UITableViewCell
+
+@interface BFBottomCell : UITableViewCell
 /**自定义类方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**代理*/
-@property (nonatomic, weak) id<BFLogisticsCellDelegate>delegate;
-/**模型类*/
-@property (nonatomic, strong) BFLogisticsModel *model;
+@property (nonatomic, weak) id<BFBottomCellDelegate>delegate;
 @end

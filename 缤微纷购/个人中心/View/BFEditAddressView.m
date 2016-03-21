@@ -67,7 +67,7 @@
     } else {
         self.category.text = @"其他";
     }
-    if ([model.defaultAddress isEqualToString:@"1"]) {
+    if ([model.def isEqualToString:@"1"]) {
         [self.switchButton setOn:YES];
     }else {
         [self.switchButton setOn:NO];

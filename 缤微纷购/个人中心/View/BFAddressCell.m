@@ -62,9 +62,9 @@
     
     self.categoryLabel.frame = CGRectMake(CGRectGetMaxX(self.nameLabel.frame)+BF_ScaleWidth(5), self.nameLabel.y, BF_ScaleWidth(50), self.nameLabel.height) ;
     
-    self.areaLabel.frame = CGRectMake(self.nameLabel.x, CGRectGetMaxY(self.nameLabel.frame)+BF_ScaleHeight(15), BF_ScaleWidth(150), BF_ScaleHeight(12)) ;
+    self.areaLabel.frame = CGRectMake(self.nameLabel.x, CGRectGetMaxY(self.nameLabel.frame)+BF_ScaleHeight(15), BF_ScaleWidth(250), BF_ScaleHeight(12)) ;
 
-    self.detailAddressLabel.frame = CGRectMake(self.nameLabel.x, CGRectGetMaxY(self.areaLabel.frame)+BF_ScaleHeight(4), BF_ScaleWidth(180), BF_ScaleHeight(12)) ;
+    self.detailAddressLabel.frame = CGRectMake(self.nameLabel.x, CGRectGetMaxY(self.areaLabel.frame)+BF_ScaleHeight(4), BF_ScaleWidth(250), BF_ScaleHeight(12)) ;
     
     self.phoneLabel.frame = CGRectMake(self.nameLabel.x, CGRectGetMaxY(self.detailAddressLabel.frame)+BF_ScaleHeight(6), BF_ScaleWidth(200), BF_ScaleHeight(12)) ;
     
@@ -79,7 +79,7 @@
     self.areaLabel.text = [NSString stringWithFormat:@"%@ %@ %@",model.sheng, model.shi, model.qu];
     self.detailAddressLabel.text = model.address;
     self.phoneLabel.text = model.mobile;
-    if ([model.defaultAddress isEqualToString:@"1"]) {
+    if ([model.def isEqualToString:@"1"]) {
         self.defaultImageView.hidden = NO;
         self.selectButton.selected = YES;
     }else {

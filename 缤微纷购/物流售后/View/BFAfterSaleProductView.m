@@ -1,23 +1,14 @@
 //
-//  BFProductInfoView.m
+//  BFAfterSaleProductView.m
 //  缤微纷购
 //
-//  Created by 程召华 on 16/3/18.
+//  Created by 程召华 on 16/3/19.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
-#import "BFProductInfoView.h"
+#import "BFAfterSaleProductView.h"
 
-@interface BFProductInfoView()
-
-
-@end
-
-
-
-@implementation BFProductInfoView
-
-
+@implementation BFAfterSaleProductView
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -36,7 +27,7 @@
     self.productIcon.layer.masksToBounds = YES;
     [self addSubview:self.productIcon];
     
-    self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0)];
+    self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(3), BF_ScaleWidth(170), 0)];
     self.productTitle.text = @"云南冰糖橙-明星为你甜蜜助跑响起扑鼻 细嫩多汁";
     self.productTitle.numberOfLines = 0;
     //self.productTitle.backgroundColor = [UIColor redColor];
@@ -45,11 +36,18 @@
     [self.productTitle sizeToFit];
     
     
-    self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(10), BF_ScaleWidth(160), BF_ScaleHeight(10))];
+    self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(5), BF_ScaleWidth(160), BF_ScaleHeight(10))];
     self.productSize.textColor = BFColor(0x9A9B9C);
     self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
     self.productSize.text = @"5斤装";
     [self addSubview:self.productSize];
+    
+    
+    self.productPrice = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productSize.frame)+BF_ScaleHeight(8), BF_ScaleWidth(160), BF_ScaleHeight(10))];
+    self.productPrice.textColor = BFColor(0xF98828);
+    self.productPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+    self.productPrice.text = @"¥32.00";
+    [self addSubview:self.productPrice];
     
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(300), 0, BF_ScaleWidth(10), self.height)];
@@ -67,5 +65,6 @@
     line.backgroundColor = BFColor(0xBDBEC0);
     return line;
 }
+
 
 @end

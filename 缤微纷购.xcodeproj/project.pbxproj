@@ -311,6 +311,8 @@
 		594EE0E21C8C1F2600A243AE /* BFMyCouponsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */; };
 		594EE0E51C8C201200A243AE /* BFMyCouponsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E41C8C201200A243AE /* BFMyCouponsCell.m */; };
 		594EE0E81C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */; };
+		59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B1C1C9F89D30028B008 /* BFOrderIDCell.m */; };
+		59513B201C9F8B3D0028B008 /* BFBottomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B1F1C9F8B3D0028B008 /* BFBottomCell.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
@@ -327,6 +329,13 @@
 		59F9F1E81C992B8A00CA9986 /* BFModeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC0F711C9855EE00052707 /* BFModeCell.m */; };
 		59FA432E1C97AE0C00DA28BB /* BFLogisticInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */; };
 		59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */; };
+		59FA7A951C9CDB32008E3813 /* BFAfterSaleProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A941C9CDB32008E3813 /* BFAfterSaleProgressController.m */; };
+		59FA7A981C9CDE73008E3813 /* BFAfterSaleProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A971C9CDE73008E3813 /* BFAfterSaleProgressCell.m */; };
+		59FA7A9B1C9CE70C008E3813 /* BFAfterSaleProductView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A9A1C9CE70C008E3813 /* BFAfterSaleProductView.m */; };
+		59FA7AA11C9CF615008E3813 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A9E1C9CF615008E3813 /* UIImage+ImageEffects.m */; };
+		59FA7AA21C9CF615008E3813 /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AA01C9CF615008E3813 /* UIImageView+LBBlurredImage.m */; };
+		59FA7AA51C9CF663008E3813 /* BFCustomerServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AA41C9CF663008E3813 /* BFCustomerServiceView.m */; };
+		59FA7AB11C9D46C1008E3813 /* BFLogisticsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */; };
 		59FB7FF51C90FB69008763B7 /* BFPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FB7FF41C90FB69008763B7 /* BFPickerView.m */; };
 		59FBA9311C87D0C800E1DA78 /* BFProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9301C87D0C800E1DA78 /* BFProgressHUD.m */; };
 		59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9361C88040700E1DA78 /* BFNavigationController.m */; };
@@ -919,6 +928,10 @@
 		594EE0E41C8C201200A243AE /* BFMyCouponsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCouponsCell.m; sourceTree = "<group>"; };
 		594EE0E61C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseController.h; sourceTree = "<group>"; };
 		594EE0E71C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseController.m; sourceTree = "<group>"; };
+		59513B1B1C9F89D30028B008 /* BFOrderIDCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFOrderIDCell.h; sourceTree = "<group>"; };
+		59513B1C1C9F89D30028B008 /* BFOrderIDCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderIDCell.m; sourceTree = "<group>"; };
+		59513B1E1C9F8B3D0028B008 /* BFBottomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBottomCell.h; sourceTree = "<group>"; };
+		59513B1F1C9F8B3D0028B008 /* BFBottomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBottomCell.m; sourceTree = "<group>"; };
 		599F19C01C8D73EB00319FA4 /* BFPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPassWordView.h; sourceTree = "<group>"; };
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
@@ -948,6 +961,20 @@
 		59FA432D1C97AE0C00DA28BB /* BFLogisticInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFLogisticInfoView.m; sourceTree = "<group>"; };
 		59FA432F1C97FF9D00DA28BB /* BFProductInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductInfoModel.h; sourceTree = "<group>"; };
 		59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductInfoModel.m; sourceTree = "<group>"; };
+		59FA7A931C9CDB32008E3813 /* BFAfterSaleProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAfterSaleProgressController.h; sourceTree = "<group>"; };
+		59FA7A941C9CDB32008E3813 /* BFAfterSaleProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAfterSaleProgressController.m; sourceTree = "<group>"; };
+		59FA7A961C9CDE73008E3813 /* BFAfterSaleProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAfterSaleProgressCell.h; sourceTree = "<group>"; };
+		59FA7A971C9CDE73008E3813 /* BFAfterSaleProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAfterSaleProgressCell.m; sourceTree = "<group>"; };
+		59FA7A991C9CE70C008E3813 /* BFAfterSaleProductView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAfterSaleProductView.h; sourceTree = "<group>"; };
+		59FA7A9A1C9CE70C008E3813 /* BFAfterSaleProductView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAfterSaleProductView.m; sourceTree = "<group>"; };
+		59FA7A9D1C9CF615008E3813 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = "<group>"; };
+		59FA7A9E1C9CF615008E3813 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = "<group>"; };
+		59FA7A9F1C9CF615008E3813 /* UIImageView+LBBlurredImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+LBBlurredImage.h"; sourceTree = "<group>"; };
+		59FA7AA01C9CF615008E3813 /* UIImageView+LBBlurredImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+LBBlurredImage.m"; sourceTree = "<group>"; };
+		59FA7AA31C9CF663008E3813 /* BFCustomerServiceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCustomerServiceView.h; sourceTree = "<group>"; };
+		59FA7AA41C9CF663008E3813 /* BFCustomerServiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCustomerServiceView.m; sourceTree = "<group>"; };
+		59FA7AAF1C9D46C1008E3813 /* BFLogisticsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFLogisticsModel.h; sourceTree = "<group>"; };
+		59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFLogisticsModel.m; sourceTree = "<group>"; };
 		59FB7FF31C90FB69008763B7 /* BFPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPickerView.h; sourceTree = "<group>"; };
 		59FB7FF41C90FB69008763B7 /* BFPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPickerView.m; sourceTree = "<group>"; };
 		59FBA92F1C87D0C800E1DA78 /* BFProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProgressHUD.h; sourceTree = "<group>"; };
@@ -1581,6 +1608,8 @@
 			children = (
 				59FBB4211C9BF0540081F65A /* BFLogisticsAndAfterSaleController.h */,
 				59FBB4221C9BF0540081F65A /* BFLogisticsAndAfterSaleController.m */,
+				59FA7A931C9CDB32008E3813 /* BFAfterSaleProgressController.h */,
+				59FA7A941C9CDB32008E3813 /* BFAfterSaleProgressController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1588,6 +1617,8 @@
 		51D122471C3FABB9004DE71E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				59FA7AAF1C9D46C1008E3813 /* BFLogisticsModel.h */,
+				59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1595,12 +1626,22 @@
 		51D122481C3FABB9004DE71E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				59513B1B1C9F89D30028B008 /* BFOrderIDCell.h */,
+				59513B1C1C9F89D30028B008 /* BFOrderIDCell.m */,
 				59FBB4241C9BF1950081F65A /* BFLogisticsCell.h */,
 				59FBB4251C9BF1950081F65A /* BFLogisticsCell.m */,
+				59513B1E1C9F8B3D0028B008 /* BFBottomCell.h */,
+				59513B1F1C9F8B3D0028B008 /* BFBottomCell.m */,
 				59FBB4271C9BF9EF0081F65A /* BFLogisticsHeaderView.h */,
 				59FBB4281C9BF9EF0081F65A /* BFLogisticsHeaderView.m */,
 				59FBB42D1C9C07700081F65A /* BFProductInfoView.h */,
 				59FBB42E1C9C07700081F65A /* BFProductInfoView.m */,
+				59FA7A961C9CDE73008E3813 /* BFAfterSaleProgressCell.h */,
+				59FA7A971C9CDE73008E3813 /* BFAfterSaleProgressCell.m */,
+				59FA7A991C9CE70C008E3813 /* BFAfterSaleProductView.h */,
+				59FA7A9A1C9CE70C008E3813 /* BFAfterSaleProductView.m */,
+				59FA7AA31C9CF663008E3813 /* BFCustomerServiceView.h */,
+				59FA7AA41C9CF663008E3813 /* BFCustomerServiceView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1810,6 +1851,7 @@
 		592523EA1C8681CF000F609F /* 第三方 */ = {
 			isa = PBXGroup;
 			children = (
+				59FA7A9C1C9CF615008E3813 /* LBBlurredImage */,
 				59F82C001C9AF78D006B76E6 /* HZQRegexTestter */,
 				59F82BFA1C9AF785006B76E6 /* AddressPick */,
 				590D3C0A1C94166A0042D42E /* UM */,
@@ -2277,6 +2319,17 @@
 			path = HZQRegexTestter;
 			sourceTree = "<group>";
 		};
+		59FA7A9C1C9CF615008E3813 /* LBBlurredImage */ = {
+			isa = PBXGroup;
+			children = (
+				59FA7A9D1C9CF615008E3813 /* UIImage+ImageEffects.h */,
+				59FA7A9E1C9CF615008E3813 /* UIImage+ImageEffects.m */,
+				59FA7A9F1C9CF615008E3813 /* UIImageView+LBBlurredImage.h */,
+				59FA7AA01C9CF615008E3813 /* UIImageView+LBBlurredImage.m */,
+			);
+			path = LBBlurredImage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2524,7 +2577,9 @@
 				592525C51C8681CF000F609F /* SMProgressHUDAlertView.m in Sources */,
 				51D4589E1C96B6EE00B52516 /* BFPayoffViewController.m in Sources */,
 				59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */,
+				59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */,
 				592525AC1C8681CF000F609F /* SDCollectionViewCell.m in Sources */,
+				59513B201C9F8B3D0028B008 /* BFBottomCell.m in Sources */,
 				592525A91C8681CF000F609F /* TAAnimatedDotView.m in Sources */,
 				51D458AD1C96E48C00B52516 /* BFPaymentViewController.m in Sources */,
 				592525B11C8681CF000F609F /* SDWaitingView.m in Sources */,
@@ -2557,10 +2612,13 @@
 				59F9F1E81C992B8A00CA9986 /* BFModeCell.m in Sources */,
 				592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */,
 				51811AFD1C746752004E29A8 /* TextFieldLog.m in Sources */,
+				59FA7AA51C9CF663008E3813 /* BFCustomerServiceView.m in Sources */,
 				592F86D31C8FB474006E0CEE /* BFMyWalletBottomView.m in Sources */,
 				59FF46C41C8A8B990040689A /* BFMyOrderCell.m in Sources */,
+				59FA7AA21C9CF615008E3813 /* UIImageView+LBBlurredImage.m in Sources */,
 				59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */,
 				592521BD1C86757C000F609F /* BFHttpTool.m in Sources */,
+				59FA7AA11C9CF615008E3813 /* UIImage+ImageEffects.m in Sources */,
 				5925259B1C8681CF000F609F /* MJRefreshAutoStateFooter.m in Sources */,
 				592525861C8681CF000F609F /* ViewController+MASAdditions.m in Sources */,
 				592525AB1C8681CF000F609F /* TAPageControl.m in Sources */,
@@ -2601,6 +2659,7 @@
 				592F86DC1C902C2D006E0CEE /* BFRecommenderModel.m in Sources */,
 				592525361C8681CF000F609F /* AFNetworkReachabilityManager.m in Sources */,
 				51D5DC941C59CE4B00453E02 /* BFMyWalletController.m in Sources */,
+				59FA7A981C9CDE73008E3813 /* BFAfterSaleProgressCell.m in Sources */,
 				592525951C8681CF000F609F /* MJRefreshBackFooter.m in Sources */,
 				592525AE1C8681CF000F609F /* UIView+SDExtension.m in Sources */,
 				51D1A9501C4A3CC000D9002C /* JFView.m in Sources */,
@@ -2623,6 +2682,7 @@
 				5925258B1C8681CF000F609F /* MJFoundation.m in Sources */,
 				592525B41C8681CF000F609F /* SDImageCache.m in Sources */,
 				592525821C8681CF000F609F /* MASViewConstraint.m in Sources */,
+				59FA7AB11C9D46C1008E3813 /* BFLogisticsModel.m in Sources */,
 				512B99BE1C438AEE00882CE3 /* HomeModel.m in Sources */,
 				592525801C8681CF000F609F /* MASLayoutConstraint.m in Sources */,
 				59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */,
@@ -2696,6 +2756,7 @@
 				594EE0E21C8C1F2600A243AE /* BFMyCouponsController.m in Sources */,
 				592525A61C8681CF000F609F /* UIView+MJExtension.m in Sources */,
 				59FF5F2C1C91474900DA6E5B /* BFProvinceModel.m in Sources */,
+				59FA7A951C9CDB32008E3813 /* BFAfterSaleProgressController.m in Sources */,
 				592525911C8681CF000F609F /* NSObject+MJKeyValue.m in Sources */,
 				592525D31C8681CF000F609F /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				592525E61C86B781000F609F /* BFPTDetailHeaderView.m in Sources */,
@@ -2742,6 +2803,7 @@
 				592525391C8681CF000F609F /* AFURLRequestSerialization.m in Sources */,
 				5925257B1C8681CF000F609F /* JSDropDownMenu.m in Sources */,
 				51D2DE821C4DDF0000EC5601 /* SPTableViewCell.m in Sources */,
+				59FA7A9B1C9CE70C008E3813 /* BFAfterSaleProductView.m in Sources */,
 				592525961C8681CF000F609F /* MJRefreshComponent.m in Sources */,
 				592525371C8681CF000F609F /* AFSecurityPolicy.m in Sources */,
 				51A9969A1C9ABB4300B4783C /* BFAddAddressView.m in Sources */,
