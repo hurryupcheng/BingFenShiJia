@@ -81,12 +81,14 @@
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = BFPassWordView.phoneTX.text;
         parameter[@"pass"] = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
+        
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
 
             BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
             [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
             BFLog(@"responseObject%@",userInfo);
+            
             [self.navigationController popToRootViewControllerAnimated:YES];
         } failure:^(NSError *error) {
             BFLog(@"error%@",error);

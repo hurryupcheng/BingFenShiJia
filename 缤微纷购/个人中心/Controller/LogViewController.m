@@ -230,7 +230,7 @@
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                 BFLog(@"responseObject%@",userInfo);
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.navigationController popViewControllerAnimated:YES];
             }];
         } failure:^(NSError *error) {
             BFLog(@"error%@",error);

@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "LogViewController.h"
+#import "PrefixHeader.pch"
 #import "BFStorage.h"
 #import "ViewController.h"
 #import "BFZFViewController.h"
@@ -43,6 +45,7 @@
 @property (nonatomic,assign)NSInteger cellHeight;
 @property (nonatomic,assign)BOOL isEdits; //是否全选
 @property (nonatomic,retain)NSMutableArray *selectGoods;// 已选中
+@property (nonatomic,retain)BFUserInfo *userInfo;
 
 @end
 
@@ -292,7 +295,7 @@
         weakCell.add.textF.text = numStr;
         model.numbers = count;
         
-        [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
         [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES];
         
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
@@ -315,7 +318,7 @@
         model.numbers = count;
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
         
-        [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
         [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:NO];
         
 //        判断已选择数组里有无该对象，有就删除重新添加
@@ -349,7 +352,7 @@
     for (UITableViewCell *cell in arr) {
         if (cell.tag == button.tag) {
             BFStorage * storage = [self.dateArr objectAtIndex:cell.tag];
-            [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
             [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:storage.shopID];
             
             [self.dateArr removeObjectAtIndex:cell.tag];
@@ -390,18 +393,26 @@
 
 
 - (void)viewWillAppear:(BOOL)animated{
-    [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:nil];
-    self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-//    [self.tabView reloadData];
-    if (self.dateArr.count == 0) {
-        [self data];
+    
+    self.userInfo = [BFUserDefaluts getUserInfo];
+    
+    if (self.userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
+            LogViewController *log = [LogViewController new];
+            [self.navigationController pushViewController:log animated:YES];
+        }];
     }else{
-     
-        [self getDate];
-//        [self.views removeFromSuperview];
-        [_groubView removeFromSuperview];
-        [self initWithTabView];
-        [self.tabView reloadData];
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        
+        if (self.dateArr.count == 0) {
+            [self data];
+        }else{
+            [self getDate];
+            [_groubView removeFromSuperview];
+            [self initWithTabView];
+            [self.tabView reloadData];
+        }
     }
     
     self.tabBarController.tabBar.hidden = NO;

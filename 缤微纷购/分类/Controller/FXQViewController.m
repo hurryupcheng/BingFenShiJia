@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/1/13.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "LogViewController.h"
+#import "PrefixHeader.pch"
 #import "UMSocial.h"
 #import "BFShareView.h"
 #import "BFWebHeaderView.h"
@@ -41,6 +43,8 @@
 
 @property (nonatomic,assign)NSInteger number;
 @property (nonatomic,assign)NSInteger nowIndex;
+@property (nonatomic,retain)BFUserInfo *userInfo;
+@property (nonatomic)BOOL popView;//判断点击弹出哪个视图
 
 @end
 
@@ -178,14 +182,12 @@
 }
 
 #pragma  mark 购买点击
-- (void)butSelent:(UIButton *)but{
-    self.tableView.userInteractionEnabled = NO;
-    self.buttonView.userInteractionEnabled = NO;
-    [self initWithOtherView:but.tag];
+- (void)butSelent:(UIButton *)pop{
+    [self ifLog:pop];
 }
 
 #pragma  mark 弹出视图
-- (void)initWithOtherView:(NSInteger)tag{
+- (void)initWithOtherView:(UIButton *)pop{
 
     self.clearView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     self.clearView.image = [UIImage imageNamed:@"ban.png"];
@@ -207,7 +209,7 @@
     [view addSubview:button];
     [view addSubview:_other];
     
-    if (tag == 10) {
+    if (pop.tag == 10) {
         UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2-(kScreenWidth/3/2), CGRectGetMaxY(_other.addShopp.frame)+35, kScreenWidth/3, CGFloatY(30))];
         
         [buyButton setTitle:@"确定支付" forState:UIControlStateNormal];
@@ -250,7 +252,7 @@
 }
 
 - (void)closes:(UIButton *)button{
-   
+
     switch (button.tag) {
         case 111:{
             [self zhifu];
@@ -264,7 +266,7 @@
 //            NSString *num = self.other.addShopp.textF.text;
             BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num shopId:self.ID];
            
-            [[CXArchiveShopManager sharedInstance]initWithUserID:@"111" ShopItem:storage];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
             [[CXArchiveShopManager sharedInstance]startArchiveShop];
             
             self.tabBarController.selectedIndex = 1;
@@ -275,9 +277,9 @@
         case 112:{
             [self zhifu];
             BFZFViewController *zf = [[BFZFViewController alloc]init];
-            zf.titles = self.fxq.title;
             NSString *str = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
             zf.sum = str;
+          
         [self.navigationController pushViewController:zf animated:YES
              ];
         }
@@ -294,12 +296,13 @@
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     BFShareView *share = [BFShareView shareView];
     share.delegate = self;
+    
     [window addSubview:share];
 }
 
 - (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type {
     switch (type) {
-            
+           
         case BFShareButtonTypeMoments:
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatTimeline] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
                 if(response.responseCode == UMSResponseCodeSuccess) {
@@ -401,9 +404,25 @@
     
 }
 
+#pragma  mark 判断登陆
+- (void)ifLog:(UIButton *)pop{
+    if (self.userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
+            LogViewController *log = [LogViewController new];
+            [self.navigationController pushViewController:log animated:YES];
+        }];
+    }else{
+        self.tableView.userInteractionEnabled = NO;
+        self.buttonView.userInteractionEnabled = NO;
+        [self initWithOtherView:pop];
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    self.userInfo = [BFUserDefaluts getUserInfo];
+    self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = YES;
 }
 

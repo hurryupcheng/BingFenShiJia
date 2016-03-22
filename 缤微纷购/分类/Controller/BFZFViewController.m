@@ -80,18 +80,17 @@
     self.groubeImg.image = [UIImage imageNamed:@"adds.png"];
     self.groubeImg.backgroundColor = [UIColor whiteColor];
     
-    self.name = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth, CGFloatY(30))];
-    _name.text = @"测试";
+    self.name = [[UILabel alloc]initWithFrame:CGRectMake(10, 30, kScreenWidth, CGFloatY(25))];
     self.name.font = [UIFont systemFontOfSize:CGFloatX(17)];
 //    self.name.backgroundColor = [UIColor grayColor];
     
-    self.photo = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_name.frame), kScreenWidth, CGFloatY(30))];
-    _photo.text = @"11111111";
+    self.photo = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_name.frame), kScreenWidth, CGFloatY(25))];
+    
     _photo.font = [UIFont systemFontOfSize:CGFloatX(17)];
 //    _photo.backgroundColor = [UIColor greenColor];
     
     self.adds = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_photo.frame), kScreenWidth-50, CGFloatY(50))];
-    _adds.text = self.titles;
+    
     _adds.numberOfLines = 2;
     _adds.font = [UIFont systemFontOfSize:CGFloatX(17)];
 //    _adds.backgroundColor = [UIColor redColor];
@@ -112,8 +111,7 @@
 - (void)initWithTableView{
 
     self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
-    
-//    self.tableV.rowHeight = 40;
+
     self.tableV.delegate = self;
     self.tableV.dataSource = self;
     self.tableV.showsHorizontalScrollIndicator = NO;
@@ -141,7 +139,7 @@
     if (section == 0) {
         return self.groubeImg.height+30;
     }else if(section == 1){
-        return kScreenWidth/4+20*self.count;
+        return (kScreenWidth/4+20)*(self.modelArr.count);
     }else{
         return 7;
     }
@@ -163,8 +161,8 @@
         
     }else if(section == 1){
         
-        for (int i = 0; i < self.count; i++) {
-            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:@"1" title:self.titles money:@"22" guige:@"33" number:@"22"];
+        for (int i = 0; i < self.modelArr.count; i++) {
+            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:@"1" title:nil money:@"22" guige:@"33" number:@"22"];
             order.backgroundColor = [UIColor whiteColor];
             
             [_imageV addSubview:order];
@@ -180,7 +178,10 @@
     BFAddressController *addVC = [BFAddressController new];
     addVC.block = ^(BFAddressModel *model) {
         self.model = model;
-        BFLog(@"%@",model.address);
+        _name.text = model.consignee;
+         _photo.text = model.mobile;
+        _adds.text = model.address;
+        BFLog(@".....%@",self.model.address);
     };
     [self.navigationController pushViewController:addVC animated:YES];
 }
