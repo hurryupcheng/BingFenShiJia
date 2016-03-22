@@ -9,6 +9,9 @@
 #import "BFOrderDetailInfoCell.h"
 
 @interface BFOrderDetailInfoCell()
+
+/**应付款/实付款*/
+@property (nonatomic, strong) UILabel *paymentAmount;
 /**下单时间*/
 @property (nonatomic, strong) UILabel *addOrderTime;
 /**商品总价*/
@@ -47,6 +50,12 @@
 
 - (void)setModel:(BFProductInfoModel *)model {
     _model = model;
+    if ([model.status isEqualToString:@"1"]) {
+        self.paymentAmount.text = @"应付款";
+    }else {
+        self.paymentAmount.text = @"实付款";
+    }
+    
     self.addOrderTime.text = [BFTranslateTime translateTimeIntoAccurateTime:model.add_time];
     
     self.productTotalPrice.text = [NSString stringWithFormat:@"¥ %@", model.goods_sumPrice];
@@ -61,7 +70,7 @@
 }
 
 - (void)setCell {
-    NSArray *array = @[@"下单时间", @"商品总价", @"运费", @"积分抵扣", @"优惠券抵扣", @"实付款"];
+    NSArray *array = @[@"下单时间", @"商品总价", @"运费", @"积分抵扣", @"优惠券抵扣"];
     for (NSInteger i = 0; i < array.count; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), cellHeight * i, BF_ScaleWidth(150), cellHeight)];
         label.text = array[i];
@@ -72,6 +81,10 @@
         line.backgroundColor = BFColor(0xC3C0C9);
         [self addSubview:line];
     }
+    
+    self.paymentAmount = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), BF_ScaleHeight(220), BF_ScaleWidth(150), cellHeight)];
+    self.paymentAmount.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
+    [self addSubview:self.paymentAmount];
     
     
     self.addOrderTime = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(160), 0, BF_ScaleWidth(145), cellHeight) textColor:BFColor(0x000000) text:@"2016-01-22 11:22:33"];

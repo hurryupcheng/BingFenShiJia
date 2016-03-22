@@ -16,7 +16,7 @@
 #import "BFOrderDetailBottomView.h"
 #import "BFOrderDetailInfoCell.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource>
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
@@ -49,6 +49,7 @@
 - (BFOrderDetailBottomView *)footerView {
     if (!_footerView) {
         _footerView = [[BFOrderDetailBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(45))];
+        _footerView.delegate = self;
         [self.view addSubview:_footerView];
     }
     return _footerView;
@@ -126,8 +127,31 @@
     }];
 }
 
-
-
+#pragma mark --BFOrderDetailBottomViewDelegate
+- (void)clickToOperateWithType:(BFOrderDetailBottomViewButtonType)type {
+    switch (type) {
+        case BFOrderDetailBottomViewButtonTypeCancleOrder:{
+            BFLog(@"取消订单");
+            break;
+        }
+        case BFOrderDetailBottomViewButtonTypePay:
+            BFLog(@"支付");
+            break;
+        case BFOrderDetailBottomViewButtonTypeCheckLogistics:{
+            BFCheckLogisticsController *checkLogisticsVC = [[BFCheckLogisticsController alloc] init];
+            checkLogisticsVC.freecode = self.model.freecode;
+            [self.navigationController pushViewController:checkLogisticsVC animated:YES];
+            BFLog(@"查看物流");
+            break;
+        }
+        case BFOrderDetailBottomViewButtonTypeConfirmReceipt:
+            BFLog(@"确认收货");
+            break;
+            
+        default:
+            break;
+    }
+}
 
 
 #pragma mark --代理

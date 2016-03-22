@@ -19,8 +19,17 @@ typedef enum {
     BFOrderDetailBottomViewButtonTypeCheckLogistics//查看物流详情、
 }BFOrderDetailBottomViewButtonType;
 
+
+@protocol BFOrderDetailBottomViewDelegate <NSObject>
+
+- (void)clickToOperateWithType:(BFOrderDetailBottomViewButtonType)type;
+
+@end
+
+
 @interface BFOrderDetailBottomView : UIView
 /**BFProductInfoModel*/
 @property (nonatomic, strong) BFProductInfoModel *model;
-
+/**代理*/
+@property (nonatomic, weak) id<BFOrderDetailBottomViewDelegate>delegate;
 @end

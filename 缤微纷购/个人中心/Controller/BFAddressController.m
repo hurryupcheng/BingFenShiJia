@@ -15,6 +15,8 @@
 @interface BFAddressController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, BFAddressCellDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
+/**无地址时的背景*/
+@property (nonatomic, strong) UIImageView *bgImageView;
 /**地址可变数组*/
 @property (nonatomic, strong) NSMutableArray *addressArray;
 /**提示button*/
@@ -47,7 +49,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-66)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xffffff);
@@ -56,9 +58,32 @@
     }
     return _tableView;
 }
+
+
+- (UIImageView *)bgImageView {
+    if (!_bgImageView) {
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenHeight, ScreenHeight)];
+        _bgImageView.image = [UIImage imageNamed:@"address_bg"];
+        _bgImageView.userInteractionEnabled = YES;
+        _bgImageView.hidden = YES;
+        [self.view addSubview:_bgImageView];
+        UIButton *button = [UIButton buttonWithType:0];
+        button.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
+        [button setTitle:@"还未添加地址，点击添加" forState:UIControlStateNormal];
+        [button setTitleColor:BFColor(0x00008C) forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+        [button addTarget:self action:@selector(clickToAddAddress) forControlEvents:UIControlEventTouchUpInside];
+        [_bgImageView addSubview:button];
+    }
+    return _bgImageView;
+}
+
+
+
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"收货地址";
     //添加导航栏
     [self setNavigationBar];
@@ -72,9 +97,13 @@
     [super viewWillAppear:animated];
     //获取地址数据
     [self getData];
-   
+}
 
-
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = -ScreenHeight;
+    }];
 }
 
 #pragma mark -- 添加导航栏
@@ -90,24 +119,40 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        [self.addressArray removeAllObjects];
-        NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
-        [self.addressArray addObjectsFromArray:array];
-        if (self.addressArray.count == 0) {
-            self.remindButton.hidden = NO;
-        }else {
-            self.remindButton.hidden = YES;
-        }
-        [self.tableView reloadData];
-        BFLog(@"%@", responseObject);
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
-        BFLog(@"%@", error);
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求...." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            if (responseObject) {
+
+                [self.addressArray removeAllObjects];
+                NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
+                [self.addressArray addObjectsFromArray:array];
+                if (self.addressArray.count == 0) {
+                    self.bgImageView.hidden = NO;
+                }else {
+                    self.bgImageView.hidden = YES;
+                }
+            }else {
+                self.bgImageView.hidden = NO;
+            }
+            [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 0;
+            }];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.bgImageView.y = 0;
+            }];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            BFLog(@"%@", error);
+        }];
+
     }];
 }
 
 - (void)clickToAddAddress {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.bgImageView.y = -ScreenHeight;
+    }];
     BFAddAddressController *addVC = [BFAddAddressController new];
     [self.navigationController pushViewController:addVC animated:YES];
 }
