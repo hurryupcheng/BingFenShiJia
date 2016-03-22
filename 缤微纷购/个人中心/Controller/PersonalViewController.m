@@ -77,7 +77,7 @@
     }
     return _functionView;
 }
-
+#pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -93,7 +93,7 @@
     [self.view addSubview:self.functionView];
 
 }
-
+#pragma mark -- viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     //添加上部视图改变状态方法
@@ -105,6 +105,16 @@
     
 }
 
+#pragma mark -- viewWillAppear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    self.navigationController.navigationBarHidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+
+#pragma mark -- 添加推荐人代理
 - (void)hideView {
     [self.topView changeStatus];
 }
@@ -298,184 +308,6 @@
 }
 
 
-- (void)initWithButton{
-    self.arr = @[@"我的钱包",@"我的订单",@"我的拼团",@"优惠卷",@"我的资料",@"我的特权"];
 
-    self.backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, button_y, kScreenWidth, button_y)];
-    self.backgroundView.backgroundColor = [UIColor clearColor];
-    [self.groundView addSubview:self.backgroundView];
-    
-    for (int i = 0; i < 6; i++) {
-        
-        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake((i%3)+(i%3)* (button_x1),(i/3)*-1+(i/3)*((button_y)/2), button_x1+2, (button_y)/2);
-//        button.backgroundColor = [UIColor redColor];
-        
-        button.tag = i;
-        button.layer.borderWidth = 1;
-        button.layer.borderColor = rgb(245, 245, 245, 1.0).CGColor;
-        [button addTarget:self action:@selector(selectedButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        CGFloat x = button.frame.size.width-50;
-        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(25, 20, x ,x)];
-        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
-//        image.backgroundColor = [UIColor redColor];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(image.frame)+10, button.frame.size.width, 30)];
-//        label.backgroundColor = [UIColor greenColor];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.text = self.arr[i];
-        label.font = [UIFont systemFontOfSize:CGFloatY(14)];
-    
-        [button addSubview:label];
-        [button addSubview:image];
-        [self.backgroundView addSubview:button];
-        
-    }
-
-}
-
-#pragma  mark 头像登陆注册
-- (void)initWithPic{
-    
-    self.picImageBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.picImageBut.frame = CGRectMake(kScreenWidth/2-(((kScreenWidth/4)-10)/2), CGRectGetMinY(self.backgroundView.frame)-100-(kScreenWidth/4)-10, (kScreenWidth/4)-10, kScreenWidth/4-10);
-    [self.picImageBut addTarget:self action:@selector(picimage) forControlEvents:UIControlEventTouchUpInside];
-    [self.picImageBut setBackgroundImage:[UIImage imageNamed:@"touxiang1.png"] forState:UIControlStateNormal];
-
-    if (self.denglu == NO) {
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth/2-((kScreenWidth/3)/2), CGRectGetMinY(self.backgroundView.frame)-110, kScreenWidth/3, 25)];
-        label.userInteractionEnabled = YES;
-        label.layer.cornerRadius = 10;
-        label.layer.masksToBounds = YES;
-        label.layer.borderWidth = 1;
-        label.layer.borderColor = [UIColor grayColor].CGColor;
-   
-        NSArray *arr = @[@"登陆",@"注册"];
-        for (int i = 0; i < 2; i++) {
-            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/3)/2*i, 0, (kScreenWidth/3)/2, 25)];
-            
-            [button setTitle:arr[i] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-            button.tag = 100+i;
-            button.titleLabel.font = [UIFont systemFontOfSize:14];
-            [button addTarget:self action:@selector(log:) forControlEvents:UIControlEventTouchUpInside];
-
-            [label addSubview:button];
-        }
-        [self.groundView addSubview:label];
-        
-        UILabel *black = [[UILabel alloc]initWithFrame:CGRectMake((kScreenWidth/3)/2, 5, 1, 15)];
-        black.backgroundColor = [UIColor grayColor];
-        [label addSubview:black];
-        
-    }else{
-        
-    UILabel *nameLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.backgroundView.frame)-110, kScreenWidth, 30)];
-    nameLabel.text = [NSString stringWithFormat:@"ID:%@      推荐人:%@",@"8",@"一号"];
-    nameLabel.textAlignment = NSTextAlignmentCenter;
-    [self.groundView addSubview:nameLabel];
-}
-    
-    JFView *jf = [[JFView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.backgroundView.frame)-60, kScreenWidth, 60) jifen:@"100" yuer:[NSString stringWithFormat:@"¥ %.2f",10.00] kehu:@"100"];
-    
-    [self.groundView addSubview:jf];
-    
-    [self.groundView addSubview:self.picImageBut];
-
-}
-
-#pragma  mark 设置按钮
-- (void)initWithInstall{
- 
-    UIButton *install = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-60, 30, 20, 20)];
-    [install addTarget:self action:@selector(goToSetting) forControlEvents:UIControlEventTouchUpInside];
-    [install setBackgroundImage:[UIImage imageNamed:@"iconfont-setting.png"] forState:UIControlStateNormal];
-    
-    [self.view addSubview:install];
-
-}
-
-- (void)goToSetting {
-    BFSettingController *settingVC = [BFSettingController new];
-    [self.navigationController pushViewController:settingVC animated:YES];
-    self.navigationController.navigationBar.hidden = NO;
-    //self.tabBarController.tabBar.hidden = YES;
-}
-
-
-#pragma  mark  登陆注册按钮点击事件
-- (void)log:(UIButton *)button{
-    switch (button.tag) {
-        case 100:{
-            NSLog(@"登陆");
-            LogViewController *log = [[LogViewController alloc]init];
-            [self.navigationController pushViewController:log animated:YES];
-        }
-            break;
-            case 101:
-        {
-            NSLog(@"注册");
-            ZCViewController *zc = [[ZCViewController alloc]init];
-            [self.navigationController pushViewController:zc animated:YES];
-        }
-            break;
-        default:
-            break;
-    }
-
-}
-
-- (void)selectedButton:(UIButton *)button{
-
-    switch (button.tag) {
-        case 0:{
-                       self.navigationController.navigationBar.hidden = NO;
-            self.tabBarController.tabBar.hidden = NO;
-            break;
-        }case 1:{
-            BFMyOrderController *myorder = [[BFMyOrderController alloc]init];
-            //myorder.titles = self.arr[1];
-            [self.navigationController pushViewController:myorder animated:YES];
-            self.navigationController.navigationBar.hidden = NO;
-            self.tabBarController.tabBar.hidden = YES;
-            
-            break;
-        }case 2:{
-           
-            break;
-        }case 3:{
-
-            break;
-        }case 4:{
-            
-            BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
-            [self.navigationController pushViewController:personInfoVC animated:NO];
-            self.navigationController.navigationBar.hidden = NO;
-            self.tabBarController.tabBar.hidden = YES;
-            
-            break;
-        }case 5:{
-            UIAlertView *aler = [[UIAlertView alloc]initWithTitle:@"温馨提示" message:@"暂未开放,尽请期待!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [aler show];
-            break;
-            
-        }default:
-            break;
-    }
-
-}
-
-// 更换头像
-- (void)picimage{
-    NSLog(@"");
-}
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 @end

@@ -202,6 +202,7 @@
         }
         case BFCustomerServiceViewButtonTypeWechat:
             BFLog(@"点击微信客服");
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
             break;
             
     }
