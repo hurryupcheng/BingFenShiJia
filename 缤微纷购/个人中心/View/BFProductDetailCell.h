@@ -13,6 +13,5 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**BFOrderProductModel模型类*/
 @property (nonatomic, strong) BFOrderProductModel *model;
-/**分区高度*/
-@property (nonatomic, assign) CGFloat productDetailH;
+
 @end

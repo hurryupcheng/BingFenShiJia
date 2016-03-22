@@ -50,7 +50,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-116) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-116) style:UITableViewStyleGrouped];
         _tableView.backgroundColor = BFColor(0xD6D6D6);
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -107,6 +107,9 @@
             }
             BFLog(@"%@",responseObject);
             [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 50;
+            } completion:nil];
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"%@",error);
@@ -115,7 +118,9 @@
 }
 #pragma mark -- 分段控制器View的代理
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
-    
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = 50 - ScreenHeight;
+    }];
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:
             BFLog(@"点击未领取");

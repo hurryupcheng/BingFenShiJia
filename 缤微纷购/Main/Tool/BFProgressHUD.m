@@ -86,7 +86,9 @@
         hud.labelText = labelText;
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [MBProgressHUD hideHUDForView:view animated:YES];
+            
             if (mainBlock) {
                 mainBlock();
             }

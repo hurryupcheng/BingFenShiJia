@@ -29,7 +29,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
@@ -43,6 +43,7 @@
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xF4F4F4);
     self.title = @"我的拼团";
     //添加tableView;
     [self tableView];
@@ -63,6 +64,9 @@
             [self.groupArray addObjectsFromArray:array];
             BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
             [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 0;
+            } completion:nil];
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
             BFLog(@"error:%@",error);

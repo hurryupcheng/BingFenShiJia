@@ -24,7 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[@"http://m.kuaidi100.com/result.jsp?com=&nu=" stringByAppendingPathComponent:self.freecode]]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://m.kuaidi100.com/result.jsp?com=&nu=%@", self.freecode]]];
+    BFLog(@"%@",[NSString stringWithFormat:@"http://m.kuaidi100.com/result.jsp?com=&nu=%@", self.freecode]);
     [self.webView loadRequest:request];
     [self.view addSubview:self.webView];
 

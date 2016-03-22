@@ -13,9 +13,6 @@
     if ([propertyName isEqualToString:@"ID"]) {
         propertyName = @"id";
     }
-    if ([propertyName isEqualToString:@"defaultAddress"]) {
-        propertyName = @"default";
-    }
     return propertyName;
 }
 

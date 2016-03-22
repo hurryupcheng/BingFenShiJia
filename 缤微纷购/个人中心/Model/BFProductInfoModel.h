@@ -15,6 +15,10 @@
 @property (nonatomic, strong) NSString *orderId;
 /**添加订单时间*/
 @property (nonatomic, strong) NSString *add_time;
+/**优惠券抵扣*/
+@property (nonatomic, strong) NSString *coupon_money;
+/**积分抵扣*/
+@property (nonatomic, strong) NSString *user_score;
 /**单价*/
 @property (nonatomic, strong) NSString *goods_sumPrice;
 /**总价*/

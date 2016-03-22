@@ -13,4 +13,6 @@
 + (NSString *)translateTimeIntoCurrurents:(NSString *)totalSecond;
 /**把返回的时间总秒数转变成yyyy-MM-dd*/
 + (NSString *)translateTimeIntoCurrurentDate:(NSString *)totalSecond;
+/**把返回的时间总秒数转变成yyyy-MM-dd HH:mm:ss*/
++ (NSString *)translateTimeIntoAccurateTime:(NSString *)totalSecond;
 @end

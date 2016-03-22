@@ -7,27 +7,24 @@
 //
 
 #import "BFMyOrderDetailController.h"
-#import "BFLogisticInfoView.h"
 #import "BFProductInfoModel.h"
-#import "BFOrderDetailView.h"
 #import "BFProductDetailCell.h"
-#import "BFModeCell.h"
 #import "BFOrderProductModel.h"
 #import "BFCheckLogisticsController.h"
+#import "BFOrderDetailAddressCell.h"
+#import "BFOrderIdView.h"
+#import "BFOrderDetailBottomView.h"
+#import "BFOrderDetailInfoCell.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFLogisticInfoViewDelegate>
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
-@property (nonatomic, strong) BFOrderDetailView *headerView;
+@property (nonatomic, strong) BFOrderIdView*headerView;
 /**自定义footer视图*/
-@property (nonatomic, strong) BFLogisticInfoView *footerView;
+@property (nonatomic, strong) BFOrderDetailBottomView *footerView;
 /**BFProductInfoModel模型*/
 @property (nonatomic, strong) BFProductInfoModel *model;
-/**BFModeCell的高度*/
-@property (nonatomic, assign) CGFloat modeCellH;
-/**BFOrderProductModel的高度*/
-@property (nonatomic, assign) CGFloat orderProductH;
 /**商品数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
 @end
@@ -41,27 +38,30 @@
     return _productArray;
 }
 
-- (BFOrderDetailView *)headerView {
+- (BFOrderIdView *)headerView {
     if (!_headerView) {
-        _headerView = [BFOrderDetailView detailView];
+        _headerView = [[BFOrderIdView alloc] initWithFrame:CGRectMake(0, -BF_ScaleHeight(35), ScreenWidth, BF_ScaleHeight(35))];
+        [self.view addSubview:_headerView];
     }
     return _headerView;
 }
 
-//- (BFLogisticInfoView *)footerView {
-//    if (!_footerView) {
-//        _footerView = [BFLogisticInfoView logisticView];
-//    }
-//    return _footerView;
-//}
+- (BFOrderDetailBottomView *)footerView {
+    if (!_footerView) {
+        _footerView = [[BFOrderDetailBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(45))];
+        [self.view addSubview:_footerView];
+    }
+    return _footerView;
+}
+
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35)-ScreenHeight, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        //_tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_tableView];
     }
     return _tableView;
@@ -72,15 +72,17 @@
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xF4F4F4);
     self.title = @"订单详情";
     //添加tableView
     [self tableView];
     //获取数据
     [self getData];
-    //头部视图
-    self.tableView.tableHeaderView = self.headerView;
-    [self setUpFooterView];
+    
+  
 }
+#pragma mark --viewDidLoad
+
 
 
 #pragma mark --获取数据
@@ -91,87 +93,74 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     parameter[@"orderId"] = self.orderId;
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        
-        self.model = [BFProductInfoModel parse:responseObject[@"order"]];
-        NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
-        [self.productArray addObjectsFromArray:array];
-        //BFLog(@"%@",responseObject);
-        self.headerView.model = self.model;
-        self.footerView.model = self.model;
-        [self.tableView reloadData];
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+            if (responseObject) {
+                self.model = [BFProductInfoModel parse:responseObject[@"order"]];
+                self.headerView.model = self.model;
+                self.footerView.model = self.model;
+                NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+                [self.productArray addObjectsFromArray:array];
+                BFLog(@"%@,,%@",responseObject, parameter);
+            }
+            
+            [self.tableView reloadData];
+            [self animation];
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+    }];
+}
+#pragma mark --动画效果
+- (void)animation {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(35);
+    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.headerView.y = 0;
+    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.footerView.y = ScreenHeight-BF_ScaleHeight(45)-64;
     }];
 }
 
 
-#pragma mark --footer视图
-- (void)setUpFooterView {
-    self.footerView = [BFLogisticInfoView logisticView];
-    self.footerView.model = self.model;
-    self.footerView.delegate = self;
-    self.tableView.tableFooterView = self.footerView;
-}
 
-//footer代理
-- (void)logisticInfoView:(BFLogisticInfoView *)view type:(BFLogisticInfoViewButtonType)type {
-    switch (type) {
-        case BFLogisticInfoViewButtonTypeCheckLogistics:{
-            BFLog(@"查看物流");
-            BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
-            vc.freecode = self.model.freecode;
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case BFLogisticInfoViewButtonTypePay:
-            BFLog(@"付款");
-            break;
-        case BFLogisticInfoViewButtonTypeCancleOrder:
-            BFLog(@"取消订单");
-            break;
-        case BFLogisticInfoViewButtonTypeApplyRebund:
-            BFLog(@"申请退款");
-            break;
-        case BFLogisticInfoViewButtonTypeApplyReturnGoods:
-            BFLog(@"申请退货退款");
-            break;
-        case BFLogisticInfoViewButtonTypeConfirmReceipt:
-            BFLog(@"确认收货");
-            break;
-        case BFLogisticInfoViewButtonTypeCancleReturn:
-            BFLog(@"撤销退货退款申请");
-            break;
-            
-        default:
-            break;
-    }
-}
+
 
 #pragma mark --代理
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 3;
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return  self.productArray.count+1;
+    if (section == 0) {
+        return 1;
+    }else if (section == 2) {
+        return 1;
+    }else {
+        return self.productArray.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFLog(@"%lu",self.productArray.count);
-    if (self.productArray.count == 0) {
-        return [[UITableViewCell alloc] init];
+    if (indexPath.section == 0) {
+        BFOrderDetailAddressCell *cell = [BFOrderDetailAddressCell cellWithTableView:tableView];
+        cell.model = self.model;
+        return cell;
+    }else if (indexPath.section == 2) {
+        BFOrderDetailInfoCell *cell = [BFOrderDetailInfoCell cellWithTableView:tableView];
+        cell.model = self.model;
+        return cell;
     }else {
-        if (indexPath.row == self.productArray.count) {
-            BFModeCell *cell = [BFModeCell cellWithTableView:tableView];
-            cell.model = self.model;
-            self.modeCellH = cell.modeCellH;
-            cell.userInteractionEnabled = NO;
-            return cell;
-        }else {
-            BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
-            cell.model = self.productArray[indexPath.row];
-            self.orderProductH = cell.productDetailH;
-            return cell;
-        }
+        BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
+        cell.model = self.productArray[indexPath.row];
+        return cell;
     }
+    
     
 }
 
@@ -180,13 +169,26 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath  {
-    if (indexPath.row == self.productArray.count) {
-        return self.modeCellH;
-        BFLog(@"%f",self.modeCellH);
+    if (indexPath.section == 0) {
+        return BF_ScaleHeight(110);
+    }else if (indexPath.section == 2){
+        return BF_ScaleHeight(264);
     }else {
-        return self.orderProductH;
+        return BF_ScaleHeight(100);
     }
     
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return BF_ScaleHeight(15);
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if (section == 2) {
+        return 40;
+    }
+    return 0.1;
 }
 
 @end

@@ -28,7 +28,11 @@
 }
 
 - (void)setView {
-    self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), BF_ScaleHeight(15), BF_ScaleWidth(65), BF_ScaleHeight(65))];
+    
+    UIView *line = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
+    [self addSubview:line];
+    
+    self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(12.5), BF_ScaleHeight(12.5), BF_ScaleWidth(70), BF_ScaleHeight(70))];
     self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
     self.productIcon.layer.borderWidth = 1;
     self.productIcon.layer.borderColor = BFColor(0xBDBEC0).CGColor;
@@ -36,11 +40,11 @@
     self.productIcon.layer.masksToBounds = YES;
     [self addSubview:self.productIcon];
     
-    self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(15), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0)];
+    self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0)];
     self.productTitle.text = @"云南冰糖橙-明星为你甜蜜助跑响起扑鼻 细嫩多汁";
     self.productTitle.numberOfLines = 0;
-    self.productTitle.backgroundColor = [UIColor redColor];
-    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+    //self.productTitle.backgroundColor = [UIColor redColor];
+    self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
     [self addSubview:self.productTitle];
     [self.productTitle sizeToFit];
     
@@ -57,14 +61,13 @@
     arrowImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:arrowImageView];
     
-    UIView *line = [self setUpLineWithFrame:CGRectMake(0, self.height-0.5, ScreenWidth, 0.5)];
-    [self addSubview:line];
+    
     
 }
 
 - (UIView *)setUpLineWithFrame:(CGRect)frame {
     UIView *line = [[UIView alloc] initWithFrame:frame];
-    line.backgroundColor = BFColor(0xEAEAEA);
+    line.backgroundColor = BFColor(0xBDBEC0);
     return line;
 }
 

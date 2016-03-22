@@ -40,7 +40,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-116) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-116) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -61,6 +61,7 @@
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"我的订单";
     //添加tableView
     [self tableView];
@@ -90,6 +91,9 @@
                 [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有数据"];
             }
             [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 50;
+            } completion:nil];
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
             BFLog(@"error%@",error);
@@ -102,7 +106,11 @@
 
 #pragma mark -- 分段控制器View的代理
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
-
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = 50-ScreenHeight;
+    } completion:^(BOOL finished) {
+        
+    }];
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:
             BFLog(@"点击未付款");
@@ -125,6 +133,7 @@
         default:
             break;
     }
+    
 }
 
 
