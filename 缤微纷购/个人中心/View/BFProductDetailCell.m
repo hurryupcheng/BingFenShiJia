@@ -45,8 +45,24 @@
 
 - (void)setModel:(BFOrderProductModel *)model {
     _model = model;
-
-   
+    
+    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    
+    
+    self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(180), 0);
+    self.productTitle.text = model.title;
+    [self.productTitle sizeToFit];
+    
+    self.productSize.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(10), BF_ScaleWidth(100), 0);
+    self.productSize.text = model.size;
+    [self.productSize sizeToFit];
+    
+    self.productPrice.text = [NSString stringWithFormat:@"¥ %@", model.price];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productPrice.text];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)] range:NSMakeRange(2,model.price.length-3)];
+    self.productPrice.attributedText = attributedString;
+    
+    self.productCount.text = [NSString stringWithFormat:@"x %@", model.quantity];
     
 }
 
@@ -67,16 +83,16 @@
     self.productTitle.textColor = BFColor(0x5B5B5B);
     self.productTitle.numberOfLines = 0;
     [self addSubview:self.productTitle];
-    [self.productTitle sizeToFit];
     
-    self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(10), BF_ScaleWidth(100), BF_ScaleHeight(14))];
+    
+    self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(10), BF_ScaleWidth(100), BF_ScaleHeight(15))];
     self.productSize.text = @"1斤/盒";
     self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     self.productSize.textColor = BFColor(0x9B9B9B);
     [self addSubview:self.productSize];
 
     
-    self.productCount = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(270), 0, BF_ScaleWidth(20), BF_ScaleHeight(100))];
+    self.productCount = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(260), 0, BF_ScaleWidth(20), BF_ScaleHeight(100))];
     self.productCount.text = @"x 1";
     self.productCount.textAlignment = NSTextAlignmentRight;
     self.productCount.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
@@ -85,7 +101,7 @@
     
     self.productPrice = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, BF_ScaleHeight(75), BF_ScaleWidth(100), BF_ScaleHeight(16))];
     self.productPrice.text = @"¥ 69.00";
-    self.productPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+    self.productPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     self.productPrice.textColor = BFColor(0xFD8627);
     [self addSubview:self.productPrice];
     

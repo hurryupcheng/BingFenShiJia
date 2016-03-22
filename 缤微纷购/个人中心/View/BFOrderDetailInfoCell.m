@@ -32,6 +32,7 @@
     BFOrderDetailInfoCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFOrderDetailInfoCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -42,6 +43,21 @@
         [self setCell];
     }
     return self;
+}
+
+- (void)setModel:(BFProductInfoModel *)model {
+    _model = model;
+    self.addOrderTime.text = [BFTranslateTime translateTimeIntoAccurateTime:model.add_time];
+    
+    self.productTotalPrice.text = [NSString stringWithFormat:@"¥ %@", model.goods_sumPrice];
+    
+    self.freight.text = [NSString stringWithFormat:@"¥ %@", model.freeprice];
+    
+    self.integralOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.user_score floatValue]/100];
+    
+    self.couponsOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.coupon_money floatValue]];
+    
+    self.actualPayment.text = [NSString stringWithFormat:@"¥ %@", model.order_sumPrice];
 }
 
 - (void)setCell {
@@ -59,6 +75,7 @@
     
     
     self.addOrderTime = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(160), 0, BF_ScaleWidth(145), cellHeight) textColor:BFColor(0x000000) text:@"2016-01-22 11:22:33"];
+    self.addOrderTime.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
   
     self.productTotalPrice = [self setUpLabelWithFrame:CGRectMake(self.addOrderTime.x, CGRectGetMaxY(self.addOrderTime.frame), BF_ScaleWidth(145), self.addOrderTime.height) textColor:BFColor(0xFD8627) text:@"¥ 69.00"];
     
@@ -68,14 +85,15 @@
     
     self.couponsOffset = [self setUpLabelWithFrame:CGRectMake(self.addOrderTime.x, CGRectGetMaxY(self.integralOffset.frame), BF_ScaleWidth(145), self.addOrderTime.height) textColor:BFColor(0x5E5E60) text:@"- ¥ 40.00"];
     
-    self.actualPayment = [self setUpLabelWithFrame:CGRectMake(self.addOrderTime.x, CGRectGetMaxY(self.couponsOffset.frame), BF_ScaleWidth(145), self.addOrderTime.height) textColor:BFColor(0xFD8627) text:@" ¥ 29.00"];
+    self.actualPayment = [self setUpLabelWithFrame:CGRectMake(self.addOrderTime.x, CGRectGetMaxY(self.couponsOffset.frame), BF_ScaleWidth(145), self.addOrderTime.height) textColor:BFColor(0xFD8627) text:@"¥ 29.00"];
+    self.actualPayment.font = [UIFont systemFontOfSize:BF_ScaleFont(20)];
 }
 
 
 - (UILabel *)setUpLabelWithFrame:(CGRect)frame textColor:(UIColor *)textColor text:(NSString *)text {
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = text;
-    label.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
     label.textAlignment = NSTextAlignmentRight;
     label.textColor = textColor;
     [self addSubview:label];

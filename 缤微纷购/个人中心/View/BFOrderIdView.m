@@ -17,26 +17,39 @@
 
 @implementation BFOrderIdView
 
-+ (instancetype)createHeaderView {
-    BFOrderIdView *view = [[BFOrderIdView alloc] init];
-    return view;
-}
 
-- (id)init {
-    if (self = [super init]) {
-        self.frame = CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(35));
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         self.backgroundColor = BFColor(0xffffff);
         [self setView];
     }
     return self;
 }
 
+- (void)setModel:(BFProductInfoModel *)model {
+    _model = model;
+    self.orderIDLabel.text = [NSString stringWithFormat:@"订单编号：%@", model.orderId];
+    
+    if ([model.status isEqualToString:@"1"]) {
+        self.statusLabel.text = @"未付款";
+    } else if ([model.status isEqualToString:@"2"]){
+        self.statusLabel.text = @"待发货";
+    } else if ([model.status isEqualToString:@"3"]){
+        self.statusLabel.text = @"已发货";
+    } else if ([model.status isEqualToString:@"4"]){
+        self.statusLabel.text = @"已完成";
+    } else {
+        self.statusLabel.text = @"关闭";
+    }
+}
+
 - (void)setView {
     UIView *firstLine = [self setUpLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
     [self addSubview:firstLine];
     
-    self.orderIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), self.height)];
-    self.orderIDLabel.text = @"订单编号：160589998";
+    self.orderIDLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(230), self.height)];
+    self.orderIDLabel.text = @"订单编号:160589998";
     self.orderIDLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     //self.orderID.backgroundColor = [UIColor redColor];
     [self addSubview:self.orderIDLabel];

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
 
 @interface BFOrderIdView : UIView
-/**订单详情区头*/
-+ (instancetype)createHeaderView;
+/**BFProductInfoModel*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 @end

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
 
 @interface BFOrderDetailAddressCell : UITableViewCell
 /**自定义方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-
+/**BFProductInfoModel*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 @end

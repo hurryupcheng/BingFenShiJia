@@ -7,9 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFProductInfoModel.h"
+
+typedef enum {
+    BFOrderDetailBottomViewButtonTypePay,//付款、
+    BFOrderDetailBottomViewButtonTypeCancleOrder, //取消订单、
+    BFOrderDetailBottomViewButtonTypeApplyRebund,//申请退款、
+    BFOrderDetailBottomViewButtonTypeApplyReturnGoods,//申请退货退款、
+    BFOrderDetailBottomViewButtonTypeCancleReturn,//取消退货退款申请，
+    BFOrderDetailBottomViewButtonTypeConfirmReceipt,//确认收货、
+    BFOrderDetailBottomViewButtonTypeCheckLogistics//查看物流详情、
+}BFOrderDetailBottomViewButtonType;
 
 @interface BFOrderDetailBottomView : UIView
-/**订单详情区头*/
-+ (instancetype)createFooterView;
+/**BFProductInfoModel*/
+@property (nonatomic, strong) BFProductInfoModel *model;
 
 @end

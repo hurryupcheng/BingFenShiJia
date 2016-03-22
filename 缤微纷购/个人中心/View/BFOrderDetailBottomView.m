@@ -8,20 +8,27 @@
 
 #import "BFOrderDetailBottomView.h"
 
+@interface BFOrderDetailBottomView()
+/**取消订单*/
+
+
+@end
+
+
 @implementation BFOrderDetailBottomView
 
-+ (instancetype)createFooterView {
-    BFOrderDetailBottomView *view = [[BFOrderDetailBottomView alloc] init];
-    return view;
-}
 
-- (id)init {
-    if (self = [super init]) {
-        self.frame = CGRectMake(0, ScreenHeight-BF_ScaleHeight(50)-64, ScreenWidth, BF_ScaleHeight(50));
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         self.backgroundColor = BFColor(0xffffff);
         [self setView];
     }
     return self;
+}
+
+- (void)setModel:(BFProductInfoModel *)model {
+    _model = model;
 }
 
 - (void)setView {

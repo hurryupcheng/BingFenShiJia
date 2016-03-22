@@ -28,4 +28,14 @@
     //HUALog(@"%@",timeStr);
     return timeStr;
 }
+
++ (NSString *)translateTimeIntoAccurateTime:(NSString *)totalSecond {
+    NSInteger total = [totalSecond integerValue];
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:total];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *timeStr = [formatter stringFromDate:date];
+    //HUALog(@"%@",timeStr);
+    return timeStr;
+}
 @end

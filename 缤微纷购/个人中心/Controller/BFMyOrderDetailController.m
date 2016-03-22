@@ -25,10 +25,6 @@
 @property (nonatomic, strong) BFOrderDetailBottomView *footerView;
 /**BFProductInfoModel模型*/
 @property (nonatomic, strong) BFProductInfoModel *model;
-/**BFModeCell的高度*/
-@property (nonatomic, assign) CGFloat modeCellH;
-/**BFOrderProductModel的高度*/
-@property (nonatomic, assign) CGFloat orderProductH;
 /**商品数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
 @end
@@ -44,14 +40,16 @@
 
 - (BFOrderIdView *)headerView {
     if (!_headerView) {
-        _headerView = [BFOrderIdView createHeaderView];
+        _headerView = [[BFOrderIdView alloc] initWithFrame:CGRectMake(0, -BF_ScaleHeight(35), ScreenWidth, BF_ScaleHeight(35))];
+        [self.view addSubview:_headerView];
     }
     return _headerView;
 }
 
 - (BFOrderDetailBottomView *)footerView {
     if (!_footerView) {
-        _footerView = [BFOrderDetailBottomView createFooterView];
+        _footerView = [[BFOrderDetailBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(45))];
+        [self.view addSubview:_footerView];
     }
     return _footerView;
 }
@@ -59,7 +57,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35), ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35)-ScreenHeight, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
@@ -80,10 +78,7 @@
     [self tableView];
     //获取数据
     [self getData];
-    //头部视图
-    [self setUpHeaderView];
-    //头部视图
-    [self setUpFooterView];
+    
   
 }
 #pragma mark --viewDidLoad
@@ -98,28 +93,42 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     parameter[@"orderId"] = self.orderId;
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        
-        self.model = [BFProductInfoModel parse:responseObject[@"order"]];
-        NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
-        [self.productArray addObjectsFromArray:array];
-        //BFLog(@"%@",responseObject);
-
-        [self.tableView reloadData];
-
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+            if (responseObject) {
+                self.model = [BFProductInfoModel parse:responseObject[@"order"]];
+                self.headerView.model = self.model;
+                self.footerView.model = self.model;
+                NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+                [self.productArray addObjectsFromArray:array];
+                BFLog(@"%@,,%@",responseObject, parameter);
+            }
+            
+            [self.tableView reloadData];
+            [self animation];
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
     }];
 }
-#pragma mark --订单编号视图
-- (void)setUpHeaderView {
-    [self.view addSubview:self.headerView];
+#pragma mark --动画效果
+- (void)animation {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(35);
+    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.headerView.y = 0;
+    }];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.footerView.y = ScreenHeight-BF_ScaleHeight(45)-64;
+    }];
 }
 
-#pragma mark --footer视图
-- (void)setUpFooterView {
-    [self.view addSubview:self.footerView];
-}
+
+
+
 
 #pragma mark --代理
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -133,20 +142,22 @@
     }else if (section == 2) {
         return 1;
     }else {
-        return 3;
+        return self.productArray.count;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFLog(@"%lu",self.productArray.count);
     if (indexPath.section == 0) {
         BFOrderDetailAddressCell *cell = [BFOrderDetailAddressCell cellWithTableView:tableView];
+        cell.model = self.model;
         return cell;
     }else if (indexPath.section == 2) {
         BFOrderDetailInfoCell *cell = [BFOrderDetailInfoCell cellWithTableView:tableView];
+        cell.model = self.model;
         return cell;
     }else {
         BFProductDetailCell *cell = [BFProductDetailCell cellWithTableView:tableView];
+        cell.model = self.productArray[indexPath.row];
         return cell;
     }
     
