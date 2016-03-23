@@ -13,28 +13,33 @@
 #import "BFAdvertisingExpenseInformationCell.h"
 #import "BFPersonInformationController.h"
 #import "BFMyAdvertisingExpenseTabbar.h"
+#import "BFBottomHeaderCell.h"
+#import "BFUpYearAndMonthCell.h"
+#import "BFCustomerOrderCell.h"
+#import "BFDateModel.h"
 
-@interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate>
-/**tableView*/
-@property (nonatomic, strong) UITableView *tableView;
 
-@property (nonatomic, strong) NSArray *listArray;
-/**是否打开*/
-@property (nonatomic, getter=isOpen) BOOL isOpen;
-/**底部视图*/
-@property (nonatomic, strong) UIView *bottomView;
-/**自定义分区头*/
-@property (nonatomic, strong) BFMyAdvertisingExpenseSectionView *headerView;
+@interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
+
+/**底部tableView*/
+@property (nonatomic, strong) UITableView *bottomTableView;
+/**上面tableView*/
+@property (nonatomic, strong) UITableView *upTableView;
 /**自定义tabbar*/
 @property (nonatomic, strong) BFMyAdvertisingExpenseTabbar *myTabbar;
 /**自定义分段控制器页面*/
 @property (nonatomic, strong) BFSegmentView *segment;
-
+/**底部头cell*/
+@property (nonatomic, strong) BFBottomHeaderCell *headerCell;
+/**_upTableView的cell*/
+@property (nonatomic, strong) BFUpYearAndMonthCell *dateCell;
+/**年月数组*/
+@property (nonatomic, strong) NSMutableArray *dateArray;
+/**参数字典*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 @end
 
 @implementation BFMyAdvertisingExpenseController
-
 
 - (NSMutableDictionary *)parameter {
     if (!_parameter) {
@@ -42,6 +47,7 @@
     }
     return _parameter;
 }
+
 
 - (BFMyAdvertisingExpenseTabbar *)myTabbar {
     if (!_myTabbar) {
@@ -53,76 +59,120 @@
     return _myTabbar;
 }
 
-
-- (NSArray *)listArray{
-    if (!_listArray) {
-        NSString * path = [[NSBundle mainBundle] pathForResource:@"list.plist" ofType:nil];
-        NSArray * dicArr = [NSArray arrayWithContentsOfFile:path];
-        
-        NSMutableArray * arr = [NSMutableArray array];
-        for (NSDictionary *dict in dicArr) {
-            BFMyAdvertisingExpenseModel *group = [BFMyAdvertisingExpenseModel parsingJsonWithDictionary:dict];
-            [arr addObject:group];
-        }
-        _listArray = arr;
+- (NSMutableArray *)dateArray {
+    if (!_dateArray) {
+        _dateArray = [NSMutableArray array];
     }
-    return _listArray;
+    return _dateArray;
 }
 
-- (UITableView *)tableView {
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-160) style:UITableViewStylePlain];
-        //_tableView.backgroundColor = [UIColor redColor];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+- (UITableView *)bottomTableView {
+    if (!_bottomTableView) {
+        _bottomTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-166) style:UITableViewStylePlain];
+        _bottomTableView.delegate = self;
+        _bottomTableView.dataSource = self;
+        _bottomTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [self.view addSubview:_bottomTableView];
+        
+        
     }
-    return _tableView;
+    return _bottomTableView;
+}
+
+- (UITableView *)upTableView {
+    if (!_upTableView) {
+        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
+        _upTableView.delegate = self;
+        _upTableView.dataSource = self;
+        [self.view addSubview:_upTableView];
+        _upTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+    }
+    return _upTableView;
 }
 
 - (BFSegmentView *)segment {
     if (!_segment) {
         _segment = [BFSegmentView segmentView];
-        _segment.titleArray = @[@"VIP订单",@"客户订单",@"推荐分成订单"];
+        _segment.delegate = self;
+        _segment.titleArray = @[@"VIP订单", @"客户订单", @"推荐分成订单"];
+        [self.view addSubview:_segment];
     }
     return _segment;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"本月广告费";
-    //self.view.backgroundColor = [UIColor greenColor];
-    //设置头部分段控制器
-    [self.view addSubview:self.segment];
+    self.title = @"当月广告费";
+    self.view.backgroundColor = BFColor(0xffffff);
+    //添加分段控制器
+    [self segment];
+    //进入页面点击分段控制器第一个
+    self.segment.segmented.selectedSegmentIndex = 1;
+    [self.segment click];
+    //添加底部tableView
+    [self bottomTableView];
+    //添加上面tableView
+    [self upTableView];
+    //获取数据
+    [self getData];
+    //底部固定视图
     [self myTabbar];
-    //设置底部tabBar
-    //[self setBottomTabbar];
-    [self.view addSubview:self.tableView];
 
-    
 }
 
 
 - (void)getData {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
-    self.parameter[@"uid"] = userInfo.ID;
-    self.parameter[@"token"] = userInfo.token;
-    //self.parameter[@"p"] = @1;
-    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
-        BFLog(@"%@,",responseObject);
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=year_month"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            if (responseObject) {
+                NSArray *array = [BFDateModel parse:responseObject];
+                [self.dateArray addObjectsFromArray:array];
+                BFLog(@"%lu",(unsigned long)self.dateArray.count);
+            }
+            [self.upTableView reloadData];
+            BFLog(@"%@",responseObject);
+            NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
+            
+            [self tableView:self.upTableView didSelectRowAtIndexPath:path];
+            [self tableView:self.upTableView didSelectRowAtIndexPath:path];
+            [self animation];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+            BFLog(@"%@", error);
+        }];
     }];
+
 }
 
-/**进入页面就点击第一个*/
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)animation {
     
-    self.headerView = (BFMyAdvertisingExpenseSectionView *)[self tableView:self.tableView viewForHeaderInSection:0] ;
-    [self.headerView click];
 }
+
+#pragma mark --BFSegmentView代理方法
+- (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    switch (segmentedControl.selectedSegmentIndex) {
+        case 0:{
+            
+            BFLog(@"VIP订单");
+            break;
+        }
+        case 1:
+            BFLog(@"客户订单");
+            break;
+        case 2:
+            BFLog(@"推荐分成订单");
+            break;
+    }
+}
+
+
+
 
 
 
@@ -130,79 +180,104 @@
 #pragma mark -- 创建固定的头部视图
 
 
-- (void)change:(UISegmentedControl *)segment {
-    BFLog(@"%lu",segment.selectedSegmentIndex);
-}
-#pragma mark --- datasource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return self.listArray.count;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (tableView == self.upTableView) {
+        return self.dateArray.count;
+    }else {
+        return 3;
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    BFMyAdvertisingExpenseModel *group = self.listArray[section];
-    //BFLog(@"%lu",(unsigned long)group.groups.count);
-    return group.isOpen?group.groups.count+1:0;
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
-        if (self.listArray) {
-            BFMyAdvertisingExpenseModel *group = self.listArray[indexPath.section];
-            self.myTabbar.model = group;
-            cell.total = group;
+    
+    if (tableView == self.upTableView) {
+        BFUpYearAndMonthCell *cell = [BFUpYearAndMonthCell cellWithTableView:tableView];
+        cell.model = self.dateArray[indexPath.row];
+        self.dateCell = cell;
+        return cell;
+    }else {
+        if (indexPath.row == 0) {
+            BFBottomHeaderCell *cell = [BFBottomHeaderCell cellWithTabelView:tableView];
+            self.headerCell = cell;
+            cell.delegate = self;
+            return cell;
+        } else if (indexPath.row == 1) {
+            BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
+            return cell;
+        }
+        else {
+            BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
+    
+            return cell;
+            
             
         }
-            return cell;
-    }else {
-        BFInstructionCell *cell = [BFInstructionCell cellWithTableView:tableView];
-        if (self.listArray) {
-            BFMyAdvertisingExpenseModel *group = self.listArray[indexPath.section];
-            BFUserModel *user = group.groups[indexPath.row-1];
-            cell.user = user;
-        }
-         return cell;
+        
+        
     }
-
 }
 
+#pragma mark --BFBottomHeaderCellDelegate方法
+- (void)clickToChangeStatus:(UIButton *)button {
+    if (button.selected == YES) {
+        self.upTableView.hidden = YES;
+    }else {
+        self.upTableView.hidden = NO;
+    }
+}
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (tableView == self.upTableView) {
+        BFDateModel *model = self.dateArray[indexPath.row];
+        self.headerCell.timeLabel.text = [NSString stringWithFormat:@"%ld年%@月",(long)model.year, model.month];
+        [self getMyClientData:model];
+        [self.headerCell click];
+        self.upTableView.hidden = YES;
+        [self.bottomTableView reloadData];
+        
+    }else {
+        if (indexPath.row == 0) {
+            self.upTableView.hidden = NO;
+        }
+        
+    }
+}
+
+- (void)getMyClientData:(BFDateModel *)model {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    self.parameter[@"year"] = @(model.year);
+    self.parameter[@"month"] = model.month;
+    
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        
+        
+        BFLog(@"%@,%@",responseObject,self.parameter);
+        [self.upTableView reloadData];
+        [self animation];
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+        BFLog(@"%@", error);
+    }];
+    
+}
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return BF_ScaleHeight(90);
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    self.headerView = [BFMyAdvertisingExpenseSectionView myHeadViewWithTableView:tableView];
-    self.headerView.contentView.backgroundColor = BFColor(0xffffff);
-    self.headerView.delegate = self;
-    if (self.listArray) {
-        BFMyAdvertisingExpenseModel *group = self.listArray[section];
-        group.isOpen = NO;
-        self.headerView.group = group;
-      
+    if (tableView == self.upTableView) {
+        return BF_ScaleHeight(44);
+    }else {
+        if (indexPath.row == 0) {
+            return BF_ScaleHeight(44);
+        }else if (indexPath.row == 1){
+            return BF_ScaleHeight(135);
+        }else {
+            return BF_ScaleHeight(140);
+        }
     }
-    
-    return self.headerView;
-}
-
-
-- (void)myAdvertisingExpenseSectionView:(BFMyAdvertisingExpenseSectionView *)view didButton:(UIButton *)button {
-    
-    NSString *year = [button.titleLabel.text substringWithRange:NSMakeRange(0,4)];
-    NSString *month = [button.titleLabel.text substringWithRange:NSMakeRange(5,2)];
-    
-    self.parameter[@"year"] = year;
-    self.parameter[@"month"] = month;
-    [self getData];
-    BFLog(@"---%@,,,%@,,,%@,,,%@",button.titleLabel.text,year,month,self.parameter);
-    [self.tableView reloadData];
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 44;
 }
 
 @end

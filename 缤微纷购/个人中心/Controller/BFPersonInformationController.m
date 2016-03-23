@@ -90,7 +90,8 @@
         }
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"  广告主";
-        cell.accessoryView = [[UISwitch alloc] init];
+        UISwitch *switchButton = [[UISwitch alloc] init];
+        cell.accessoryView = switchButton;
     } else if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:

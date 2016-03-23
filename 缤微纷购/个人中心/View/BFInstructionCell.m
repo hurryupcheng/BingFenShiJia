@@ -54,15 +54,15 @@
     return self;
 }
 
-- (void)setUser:(BFUserModel *)user
-{
-    _user = user;
-    if (_user) {
-        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",_user.name];
-        self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@",_user.time];
-        self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@",_user.money];
-    }
-}
+//- (void)setUser:(BFUserModel *)user
+//{
+//    _user = user;
+//    if (_user) {
+//        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",_user.name];
+//        self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@",_user.time];
+//        self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@",_user.money];
+//    }
+//}
 
 
 - (void)layoutSubviews {

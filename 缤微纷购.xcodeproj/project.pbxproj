@@ -388,6 +388,8 @@
 		59FF46CA1C8AB3620040689A /* BFPersonalCenterTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46C91C8AB3620040689A /* BFPersonalCenterTopView.m */; };
 		59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */; };
 		59FF46D01C8AD8860040689A /* BFFuctionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CF1C8AD8860040689A /* BFFuctionButton.m */; };
+		59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF55161CA2E25600EF191F /* BFCustomerOrderCell.m */; };
+		59FF551A1CA2EFF600EF191F /* BFMyCustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF55191CA2EFF600EF191F /* BFMyCustomerCell.m */; };
 		59FF5F291C91473900DA6E5B /* BFBankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F281C91473900DA6E5B /* BFBankModel.m */; };
 		59FF5F2C1C91474900DA6E5B /* BFProvinceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F2B1C91474900DA6E5B /* BFProvinceModel.m */; };
 		59FF5F2F1C91475A00DA6E5B /* BFCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F2E1C91475A00DA6E5B /* BFCityModel.m */; };
@@ -1094,6 +1096,10 @@
 		59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFunctionButtonView.m; sourceTree = "<group>"; };
 		59FF46CE1C8AD8860040689A /* BFFuctionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFFuctionButton.h; sourceTree = "<group>"; };
 		59FF46CF1C8AD8860040689A /* BFFuctionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFuctionButton.m; sourceTree = "<group>"; };
+		59FF55151CA2E25600EF191F /* BFCustomerOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCustomerOrderCell.h; sourceTree = "<group>"; };
+		59FF55161CA2E25600EF191F /* BFCustomerOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCustomerOrderCell.m; sourceTree = "<group>"; };
+		59FF55181CA2EFF600EF191F /* BFMyCustomerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerCell.h; sourceTree = "<group>"; };
+		59FF55191CA2EFF600EF191F /* BFMyCustomerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerCell.m; sourceTree = "<group>"; };
 		59FF5F271C91473900DA6E5B /* BFBankModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBankModel.h; sourceTree = "<group>"; };
 		59FF5F281C91473900DA6E5B /* BFBankModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBankModel.m; sourceTree = "<group>"; };
 		59FF5F2A1C91474900DA6E5B /* BFProvinceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProvinceModel.h; sourceTree = "<group>"; };
@@ -1505,6 +1511,10 @@
 				590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */,
 				59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */,
 				59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */,
+				59FF55181CA2EFF600EF191F /* BFMyCustomerCell.h */,
+				59FF55191CA2EFF600EF191F /* BFMyCustomerCell.m */,
+				59FF55151CA2E25600EF191F /* BFCustomerOrderCell.h */,
+				59FF55161CA2E25600EF191F /* BFCustomerOrderCell.m */,
 				599847471CA274470085FE48 /* BFUpYearAndMonthCell.h */,
 				599847481CA274470085FE48 /* BFUpYearAndMonthCell.m */,
 				599847441CA260170085FE48 /* BFBottomHeaderCell.h */,
@@ -2730,6 +2740,7 @@
 				51D289B61C802C9B007B7176 /* Height.m in Sources */,
 				599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */,
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
+				59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */,
 				592521B81C867522000F609F /* PTStepViewController.m in Sources */,
 				592525D01C8681CF000F609F /* STIndicatorView.m in Sources */,
 				51D1220D1C3A75B400640A44 /* PersonalViewController.m in Sources */,
@@ -2859,6 +2870,7 @@
 				590D3B451C93B4540042D42E /* BFMyClientController.m in Sources */,
 				592525AA1C8681CF000F609F /* TADotView.m in Sources */,
 				592525DC1C868B1A000F609F /* BFDataTool.m in Sources */,
+				59FF551A1CA2EFF600EF191F /* BFMyCustomerCell.m in Sources */,
 				5925258D1C8681CF000F609F /* MJPropertyKey.m in Sources */,
 				51E968AD1C46207400AA00F1 /* FXQViewController.m in Sources */,
 				59FF0D121C8D161D00D3C2A9 /* BFMyAdvertisingExpenseModel.m in Sources */,

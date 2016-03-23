@@ -55,6 +55,7 @@
 }
 
 - (void)click {
+    BFLog(@"点击了分段控制器");
     //self.segmented.selectedSegmentIndex = 2;
     [self changeNumber:self.segmented];
 }
