@@ -9,7 +9,7 @@
 #import "BFPersonInformationController.h"
 #import "BFAddressController.h"
 
-@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIActionSheetDelegate>
+@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
 /**图片data*/
 @property (nonatomic, strong)  NSData *imgData;
 /**头像图片*/
@@ -67,6 +67,8 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40))];
+                self.imageView  = [UIImageView new];
+                self.imageView = headImageView;
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head"]];
                 headImageView.layer.cornerRadius = BF_ScaleHeight(20);
                 headImageView.layer.masksToBounds = YES;
@@ -164,32 +166,21 @@
     
     //添加从手机相册选择
     UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        UIImagePickerController *pc = [UIImagePickerController new];
-        //获取图片以后，图片会从代理中回传给我们
-        pc.delegate = self;
-        // 开启编辑状态
-        pc.allowsEditing = YES;
-        
-        [self presentViewController:pc animated:YES completion:nil];
+
+        [self openAlbum];
     }];
     
     //添加拍照
     UIAlertAction *pictureAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        
-        UIImagePickerController *pc = [UIImagePickerController new];
-        //获取图片以后，图片会从代理中回传给我们
-        pc.delegate = self;
-        //数据的获取源，模式是相册
-        pc.sourceType = UIImagePickerControllerSourceTypeCamera;
-        [self presentViewController:pc animated:YES completion:nil];
-        
+     
+        [self openCamera];
     }];
     
     [alertC addAction:cancleAction];
     [alertC addAction:pictureAction];
     [alertC addAction:phoneAction];
     
-    // [alertC showDetailViewController:[HUAMyInformationViewController new] sender:nil];
+    
     
     [self presentViewController:alertC animated:YES completion:nil];
     
@@ -227,30 +218,43 @@
 
 
 
+- (void)openCamera
+{
+    [self openImagePickerController:UIImagePickerControllerSourceTypeCamera];
+}
+
+- (void)openAlbum
+{
+    // 如果想自己写一个图片选择控制器，得利用AssetsLibrary.framework，利用这个框架可以获得手机上的所有相册图片
+    // UIImagePickerControllerSourceTypePhotoLibrary > UIImagePickerControllerSourceTypeSavedPhotosAlbum
+    [self openImagePickerController:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
+- (void)openImagePickerController:(UIImagePickerControllerSourceType)type
+{
+    if (![UIImagePickerController isSourceTypeAvailable:type]) return;
+    
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = type;
+    ipc.allowsEditing = YES;
+    ipc.delegate = self;
+    [self presentViewController:ipc animated:YES completion:nil];
+}
+
 #pragma mark - UIImagePickerControllerDelegate
-//相片选取控制器 不会把本身消失掉，需要我们在回调中处理
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
+/**
+ * 从UIImagePickerController选择完图片后就调用（拍照完毕或者选择相册图片完毕）
+ */
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
     
-    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    // info中就包含了选择的图片
     
-    //当选择的类型是图片
-    if ([type isEqualToString:@"public.image"])
-    {
-        //先把图片转成NSData
-        UIImage* image = [self fixOrientation:[info objectForKey:@"UIImagePickerControllerOriginalImage"]];
-        
-        self.imgData = UIImageJPEGRepresentation(image, 0.01);
-        
-        NSLog(@"您选择了图片");
-        NSLog(@"%lu", self.imgData.length);
-        //  获取原始视图
-        self.imageView.image = info[UIImagePickerControllerOriginalImage];
-        //  获取编辑状态的视图
-        self.imageView.image = info[UIImagePickerControllerEditedImage];
-        
-        [picker dismissViewControllerAnimated:YES completion:nil];
-    }
+    UIImage *image = info[UIImagePickerControllerEditedImage];
     
+    // 添加图片到photosView中
+    self.imageView.image = [self fixOrientation:image];
 }
 
 //修正照片方向(手机转90度方向拍照)
@@ -330,9 +334,6 @@
     CGImageRelease(cgimg);
     return img;
 }
-
-
-
 
 
 

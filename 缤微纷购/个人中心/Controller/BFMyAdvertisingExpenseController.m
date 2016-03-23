@@ -119,7 +119,7 @@
 /**进入页面就点击第一个*/
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
+    
     self.headerView = (BFMyAdvertisingExpenseSectionView *)[self tableView:self.tableView viewForHeaderInSection:0] ;
     [self.headerView click];
 }
@@ -129,27 +129,7 @@
 
 #pragma mark -- 创建固定的头部视图
 
-//- (void)setHeadaerSegmented {
-//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 50)];
-//    headerView.backgroundColor = BFColor(0xffffff);
-//    [self.view addSubview:headerView];
-//    
-//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, ScreenWidth, 0.5)];
-//    line.backgroundColor = BFColor(0xA3A3A3);
-//    [headerView addSubview:line];
-//    
-//    NSArray *segmentedArray = @[@"VIP订单",@"客户订单",@"推荐分成订单"];
-//    UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:segmentedArray];
-//    //改变segment的字体大小和颜色
-//    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:BFColor(0x13359A),NSForegroundColorAttributeName,nil];
-//    //设置各种状态的字体和颜色
-//    [segmented setTitleTextAttributes:dic forState:UIControlStateNormal];
-//    segmented.frame = CGRectMake(5, 10, ScreenWidth-10, 30);
-//    [segmented setTintColor:BFColor(0xFD8727)];
-//    [segmented addTarget:self action:@selector(change:) forControlEvents:UIControlEventTouchUpInside];
-//    [headerView addSubview:segmented];
-//    
-//}
+
 - (void)change:(UISegmentedControl *)segment {
     BFLog(@"%lu",segment.selectedSegmentIndex);
 }

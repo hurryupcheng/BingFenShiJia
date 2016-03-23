@@ -22,7 +22,5 @@
 /**从最view窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromView:(UIView *)view LabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock;
 
-
-
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText;
 @end

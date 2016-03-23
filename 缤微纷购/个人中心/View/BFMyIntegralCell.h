@@ -7,10 +7,11 @@
 //
 #define MyIntegralCellH  BF_ScaleHeight(60)
 #import <UIKit/UIKit.h>
-
+#import "BFScoreModel.h"
 @interface BFMyIntegralCell : UITableViewCell
 
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-
+/**积分模型*/
+@property (nonatomic, strong) BFScoreModel *model;
 @end
