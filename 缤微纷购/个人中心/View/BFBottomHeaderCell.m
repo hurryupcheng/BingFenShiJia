@@ -77,9 +77,10 @@
 - (void)clickToLookDetail:(UIButton *)sender {
     sender.selected = !sender.selected;
     BFLog(@"点击了");
-    [self setArrowImageViewWithIfUnfold:sender.selected];
+    
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickToChangeStatus:)]) {
+        [self setArrowImageViewWithIfUnfold:sender.selected];
         [self.delegate clickToChangeStatus:sender];
     }
 }

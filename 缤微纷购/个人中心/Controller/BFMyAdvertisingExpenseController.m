@@ -17,6 +17,7 @@
 #import "BFUpYearAndMonthCell.h"
 #import "BFCustomerOrderCell.h"
 #import "BFDateModel.h"
+#import "BFCommissionModel.h"
 
 
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
@@ -37,6 +38,10 @@
 @property (nonatomic, strong) NSMutableArray *dateArray;
 /**参数字典*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
+/**BFCommissionModel*/
+@property (nonatomic, strong) BFCommissionModel *model;
+/**_upTableView的cell*/
+@property (nonatomic, strong) BFAdvertisingExpenseInformationCell *cell;
 @end
 
 @implementation BFMyAdvertisingExpenseController
@@ -204,6 +209,7 @@
             return cell;
         } else if (indexPath.row == 1) {
             BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
+            self.cell = cell;
             return cell;
         }
         else {
@@ -255,9 +261,12 @@
     [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
         
         
+        self.model = [BFCommissionModel parse:responseObject];
+        self.cell.model = self.model;
+        
         BFLog(@"%@,%@",responseObject,self.parameter);
         [self.upTableView reloadData];
-        [self animation];
+    
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
         BFLog(@"%@", error);

@@ -49,14 +49,14 @@
         _totalMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         _totalMoneyLabel.numberOfLines = 0;
         _totalMoneyLabel.text = [NSString stringWithFormat:@"本月总佣金：¥0.7（其中¥2.56已确认，¥5.25待确认）"];
-        [self setLineSpace:BF_ScaleHeight(4.5) headIndent:0 text:_totalMoneyLabel.text label:_totalMoneyLabel];
+        
         //_totalMoneyLabel.backgroundColor = [UIColor redColor];
         [self.bgView addSubview:_totalMoneyLabel];
-        [_totalMoneyLabel sizeToFit];
+        
         
         
         _instructionLabel = [UILabel new];
-        self.instructionLabel.frame = CGRectMake(BF_ScaleWidth(5), CGRectGetMaxY(self.totalMoneyLabel.frame)+BF_ScaleHeight(4.5), BF_ScaleWidth(300), BF_ScaleHeight(70));
+        
         _instructionLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         _instructionLabel.text = @"说明：订单状态为【交易成功】的才能结算佣金，请在个人中心填写银行账号，以便商家打款。（此处仅显示最新50条订单信息）";
         _instructionLabel.numberOfLines = 0;
@@ -70,12 +70,20 @@
     return self;
 }
 
-//- (void)setTotal:(BFMyAdvertisingExpenseModel *)total {
-//    _total = total;
-//    if (total) {
-//        self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月客户订单总佣金:¥%@已确认",total.total];
-//    }
-//}
+- (void)setModel:(BFCommissionModel *)model {
+    _model = model;
+    
+    
+   
+        BFLog(@"%@,%@",model.proxy_order_money,model.proxy_order_money_confirm);
+        _totalMoneyLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@（其中¥%@已确认，¥%@待确认）", model.proxy_order_money, model.proxy_order_money_confirm, model.proxy_order_money_need_confirm];
+        [self setLineSpace:BF_ScaleHeight(4.5) headIndent:0 text:_totalMoneyLabel.text label:_totalMoneyLabel];
+        [_totalMoneyLabel sizeToFit];
+        
+        self.instructionLabel.frame = CGRectMake(BF_ScaleWidth(5), CGRectGetMaxY(self.totalMoneyLabel.frame)+BF_ScaleHeight(4.5), BF_ScaleWidth(300), BF_ScaleHeight(70));
+
+    
+}
 
 
 

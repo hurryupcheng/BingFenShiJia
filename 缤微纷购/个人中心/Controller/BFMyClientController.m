@@ -75,7 +75,31 @@
 
 #pragma mark -- getData
 - (void)getData {
-   
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=my_customers"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+//    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+//        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+//            if (responseObject) {
+//                NSArray *array = [BFDateModel parse:responseObject];
+//                [self.dateArray addObjectsFromArray:array];
+//                BFLog(@"%lu",(unsigned long)self.dateArray.count);
+//            }
+//            [self.upTableView reloadData];
+//            BFLog(@"%@",responseObject);
+//            NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
+//            
+//            [self tableView:self.upTableView didSelectRowAtIndexPath:path];
+//            [self tableView:self.upTableView didSelectRowAtIndexPath:path];
+//            [self animation];
+//        } failure:^(NSError *error) {
+//            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+//            BFLog(@"%@", error);
+//        }];
+//    }];
+
 }
 
 - (void)animation {
