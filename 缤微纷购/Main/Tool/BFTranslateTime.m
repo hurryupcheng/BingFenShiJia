@@ -38,4 +38,14 @@
     //HUALog(@"%@",timeStr);
     return timeStr;
 }
+
++ (NSString *)translateTimeIntoAccurateChineseTime:(NSString *)totalSecond {
+    NSInteger total = [totalSecond integerValue];
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:total];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy年MM月dd日HH时mm分"];
+    NSString *timeStr = [formatter stringFromDate:date];
+    //HUALog(@"%@",timeStr);
+    return timeStr;
+}
 @end

@@ -90,7 +90,7 @@
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {
-                self.headerView.totalScore = responseObject[@"sum_score"][@"score"];
+                self.headerView.totalScore = responseObject[@"0"][@"score"];
                 NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
                 [self.scoreArray addObjectsFromArray:array];
                 BFLog(@"%@,,%@,,%lu", responseObject,parameter,(unsigned long)self.scoreArray.count);

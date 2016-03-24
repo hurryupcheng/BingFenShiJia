@@ -336,6 +336,7 @@
 		599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 599847481CA274470085FE48 /* BFUpYearAndMonthCell.m */; };
 		5998474C1CA28BA60085FE48 /* BFDateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5998474B1CA28BA60085FE48 /* BFDateModel.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
+		59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
@@ -995,6 +996,8 @@
 		5998474B1CA28BA60085FE48 /* BFDateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDateModel.m; sourceTree = "<group>"; };
 		599F19C01C8D73EB00319FA4 /* BFPassWordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPassWordView.h; sourceTree = "<group>"; };
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
+		59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerModel.h; sourceTree = "<group>"; };
+		59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerModel.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
 		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
@@ -1463,6 +1466,8 @@
 				5998474B1CA28BA60085FE48 /* BFDateModel.m */,
 				59F9FB2B1CA388D600042501 /* BFCommissionModel.h */,
 				59F9FB2C1CA388D600042501 /* BFCommissionModel.m */,
+				59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */,
+				59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2858,6 +2863,7 @@
 				51E968AA1C46085500AA00F1 /* XQCollectionViewCell.m in Sources */,
 				592525BD1C8681CF000F609F /* UIImage+MultiFormat.m in Sources */,
 				59513B7E1C9FFCE20028B008 /* UIViewController+HUD.m in Sources */,
+				59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */,
 				592525981C8681CF000F609F /* MJRefreshHeader.m in Sources */,
 				5925257E1C8681CF000F609F /* MASConstraint.m in Sources */,
 				51D2FE891C7EEE6500155588 /* PTModel.m in Sources */,

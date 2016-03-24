@@ -18,7 +18,7 @@
 #import "BFCustomerOrderCell.h"
 #import "BFDateModel.h"
 #import "BFCommissionModel.h"
-
+#import "BFMyClientController.h"
 
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
 
@@ -73,7 +73,7 @@
 
 - (UITableView *)bottomTableView {
     if (!_bottomTableView) {
-        _bottomTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-166) style:UITableViewStylePlain];
+        _bottomTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-166) style:UITableViewStylePlain];
         _bottomTableView.delegate = self;
         _bottomTableView.dataSource = self;
         _bottomTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -86,7 +86,7 @@
 
 - (UITableView *)upTableView {
     if (!_upTableView) {
-        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
+        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94+ScreenHeight, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
         _upTableView.delegate = self;
         _upTableView.dataSource = self;
         [self.view addSubview:_upTableView];
@@ -110,11 +110,7 @@
     [super viewDidLoad];
     self.title = @"当月广告费";
     self.view.backgroundColor = BFColor(0xffffff);
-    //添加分段控制器
-    [self segment];
-    //进入页面点击分段控制器第一个
-    self.segment.segmented.selectedSegmentIndex = 1;
-    [self.segment click];
+    
     //添加底部tableView
     [self bottomTableView];
     //添加上面tableView
@@ -124,6 +120,15 @@
     //底部固定视图
     [self myTabbar];
 
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //添加分段控制器
+    [self segment];
+    //进入页面点击分段控制器第一个
+    self.segment.segmented.selectedSegmentIndex = 1;
+    [self.segment click];
 }
 
 
@@ -163,16 +168,27 @@
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:{
-            
+            BFMyClientController *myClientVC = [[BFMyClientController alloc] init];
+            [self.navigationController pushViewController:myClientVC animated:YES];
             BFLog(@"VIP订单");
             break;
         }
-        case 1:
+        case 1:{
             BFLog(@"客户订单");
+            [UIView animateWithDuration:0.5 animations:^{
+                self.bottomTableView.y = 50;
+                
+            }];
             break;
-        case 2:
+        }
+        case 2:{
             BFLog(@"推荐分成订单");
+            [UIView animateWithDuration:0.5 animations:^{
+                self.bottomTableView.y = 50-ScreenHeight;
+                
+            }];
             break;
+        }
     }
 }
 
@@ -202,24 +218,36 @@
         self.dateCell = cell;
         return cell;
     }else {
-        if (indexPath.row == 0) {
-            BFBottomHeaderCell *cell = [BFBottomHeaderCell cellWithTabelView:tableView];
-            self.headerCell = cell;
-            cell.delegate = self;
-            return cell;
-        } else if (indexPath.row == 1) {
-            BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
-            self.cell = cell;
-            return cell;
-        }
-        else {
-            BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
-    
-            return cell;
+        if (self.segment.segmented.selectedSegmentIndex == 1) {
+            if (indexPath.row == 0) {
+                BFBottomHeaderCell *cell = [BFBottomHeaderCell cellWithTabelView:tableView];
+                self.headerCell = cell;
+                cell.delegate = self;
+                return cell;
+            } else if (indexPath.row == 1) {
+                BFAdvertisingExpenseInformationCell *cell = [BFAdvertisingExpenseInformationCell cellWithTableView:tableView];
+                self.cell = cell;
+                return cell;
+            }
+            else {
+                BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
+                
+                return cell;
+                
+                
+            }
+
+        }else if (self.segment.segmented.selectedSegmentIndex == 2 ) {
             
+                BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
+                
+                return cell;
+                
+                
             
+        }else {
+            return [[UITableViewCell alloc] init];
         }
-        
         
     }
 }
@@ -227,9 +255,15 @@
 #pragma mark --BFBottomHeaderCellDelegate方法
 - (void)clickToChangeStatus:(UIButton *)button {
     if (button.selected == YES) {
-        self.upTableView.hidden = YES;
+        //self.upTableView.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.upTableView.y = 94+ScreenHeight;
+        }];
     }else {
-        self.upTableView.hidden = NO;
+        //self.upTableView.hidden = NO;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.upTableView.y = 94;
+        }];
     }
 }
 
@@ -239,12 +273,16 @@
         self.headerCell.timeLabel.text = [NSString stringWithFormat:@"%ld年%@月",(long)model.year, model.month];
         [self getMyClientData:model];
         [self.headerCell click];
-        self.upTableView.hidden = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.upTableView.y = 94+ScreenHeight;
+        }];
         [self.bottomTableView reloadData];
         
     }else {
         if (indexPath.row == 0) {
-            self.upTableView.hidden = NO;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.upTableView.y = 94;
+            }];
         }
         
     }
@@ -266,7 +304,9 @@
         
         BFLog(@"%@,%@",responseObject,self.parameter);
         [self.upTableView reloadData];
-    
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bottomTableView.y = 50;
+        }];
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
         BFLog(@"%@", error);

@@ -253,10 +253,43 @@
     // info中就包含了选择的图片
     
     UIImage *image = info[UIImagePickerControllerEditedImage];
+    [self changeHeadIcon:image];
     
-    // 添加图片到photosView中
-    self.imageView.image = [self fixOrientation:image];
+    
+    // 添加图片到头像中
+    self.imageView.image = image;
 }
+
+- (void)changeHeadIcon:(UIImage *)image {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    // 1.请求管理者
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=header_ico"];
+    // 2.拼接请求参数
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    
+    // 3.发送请求
+    [mgr POST:url parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        // 拼接文件数据
+        NSData *data = UIImageJPEGRepresentation(image, 1.0);
+        [formData appendPartWithFileData:data name:@"header_ico" fileName:@"test.jpg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        BFLog(@"%@", responseObject);
+        if (responseObject) {
+            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+            userInfo.user_icon = responseObject[@"img"];
+            BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
+            [BFUserDefaluts modifyUserInfo:userInfo];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        BFLog(@"%@", error);
+
+    }];
+}
+
 
 //修正照片方向(手机转90度方向拍照)
 - (UIImage *)fixOrientation:(UIImage *)aImage {

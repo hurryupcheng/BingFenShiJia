@@ -229,10 +229,11 @@
                 
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-                BFLog(@"responseObject%@",userInfo);
+                BFLog(@"responseObject%@",userInfo.user_icon);
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];
     }

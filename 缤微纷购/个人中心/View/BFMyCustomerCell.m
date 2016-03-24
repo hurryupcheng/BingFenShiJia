@@ -45,6 +45,14 @@
     return self;
 }
 
+- (void)setModel:(BFCustomerList *)model {
+    _model = model;
+    [self.headIcon sd_setImageWithURL:[NSURL URLWithString:model.user_icon] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+    self.nickName.text = [NSString stringWithFormat:@"昵称：%@", model.nickname];
+    self.joinTime.text = [NSString stringWithFormat:@"加入时间：%@", [BFTranslateTime translateTimeIntoAccurateChineseTime:model.reg_time]];
+    self.memberCount.text = [NSString stringWithFormat:@"团队人数：%@", model.sub_team_num];
+}
+
 - (void)setCell {
     
     self.bottomView = [[UIView alloc] init];

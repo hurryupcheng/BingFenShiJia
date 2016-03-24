@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFMyCustomerModel.h"
 
 @interface BFMyCustomerCell : UITableViewCell
 /**自定义方法*/
 + (instancetype)cellWithTabelView:(UITableView *)tableView;
+/**BFMyCustomerModel*/
+@property (nonatomic, strong) BFCustomerList *model;
 @end
