@@ -337,6 +337,7 @@
 		5998474C1CA28BA60085FE48 /* BFDateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5998474B1CA28BA60085FE48 /* BFDateModel.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */; };
+		59F55B371CA4E117007351A9 /* BFGetYearAndMonth.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
@@ -998,6 +999,8 @@
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerModel.h; sourceTree = "<group>"; };
 		59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerModel.m; sourceTree = "<group>"; };
+		59F55B351CA4E117007351A9 /* BFGetYearAndMonth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGetYearAndMonth.h; sourceTree = "<group>"; };
+		59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGetYearAndMonth.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
 		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
@@ -1927,6 +1930,8 @@
 				59FBB42B1C9BFBE10081F65A /* UnderLineLabel.m */,
 				51D24D6D1C99549200F2D90E /* BFPTStep.h */,
 				51D24D6E1C99549200F2D90E /* BFPTStep.m */,
+				59F55B351CA4E117007351A9 /* BFGetYearAndMonth.h */,
+				59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2894,6 +2899,7 @@
 				59513B341C9FFAA10028B008 /* BFSosoHistoryViewController.m in Sources */,
 				59FBA9311C87D0C800E1DA78 /* BFProgressHUD.m in Sources */,
 				599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */,
+				59F55B371CA4E117007351A9 /* BFGetYearAndMonth.m in Sources */,
 				51A996881C9AA19800B4783C /* CXArchiveShopManager.m in Sources */,
 				5925258F1C8681CF000F609F /* NSObject+MJClass.m in Sources */,
 				51D121B01C3A6DA700640A44 /* main.m in Sources */,

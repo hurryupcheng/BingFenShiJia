@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFCommissionModel.h"
 
 @interface BFCustomerOrderCell : UITableViewCell
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**ProxyOrderList模型*/
+@property (nonatomic, strong) ProxyOrderList *model;
 @end

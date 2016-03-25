@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BFDateModel.h"
+
 
 @interface BFUpYearAndMonthCell : UITableViewCell
 
@@ -15,6 +15,5 @@
 
 /**年月*/
 @property (nonatomic, strong) UILabel *yearAndMonth;
-/**BFDateModel*/
-@property (nonatomic, strong) BFDateModel *model;
+
 @end

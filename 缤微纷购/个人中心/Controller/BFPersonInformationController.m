@@ -67,6 +67,7 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40))];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
                 self.imageView  = [UIImageView new];
                 self.imageView = headImageView;
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head"]];
@@ -279,10 +280,17 @@
     } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {
-            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-            userInfo.user_icon = responseObject[@"img"];
-            BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
-            [BFUserDefaluts modifyUserInfo:userInfo];
+            if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传成功"];
+                BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+                userInfo.user_icon = responseObject[@"img"];
+                BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
+                [BFUserDefaluts modifyUserInfo:userInfo];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传失败"];
+                
+            }
+            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         BFLog(@"%@", error);

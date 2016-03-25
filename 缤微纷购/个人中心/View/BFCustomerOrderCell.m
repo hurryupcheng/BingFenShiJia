@@ -51,6 +51,13 @@
     return self;
 }
 
+- (void)setModel:(ProxyOrderList *)model {
+    _model = model;
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+    self.addOrderTime.text = [NSString stringWithFormat:@"下单时间：%@", [BFTranslateTime translateTimeIntoCurrurents:model.add_time]];
+    
+}
+
 - (void)setCell {
     self.bgView = [UIView new];
     self.bgView.frame = CGRectMake(MaginW, MaginH, BF_ScaleWidth(310), BF_ScaleHeight(130));

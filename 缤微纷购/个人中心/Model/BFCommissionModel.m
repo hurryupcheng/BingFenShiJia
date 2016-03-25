@@ -9,4 +9,13 @@
 #import "BFCommissionModel.h"
 
 @implementation BFCommissionModel
++ (NSDictionary *)mj_objectClassInArray {
+    return @{@"proxy_order" : [ProxyOrderList class]};
+}
+@end
+
+
+@implementation ProxyOrderList
+
+
 @end

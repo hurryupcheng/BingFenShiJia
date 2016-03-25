@@ -26,10 +26,7 @@
     return self;
 }
 
-- (void)setModel:(BFDateModel *)model {
-    _model = model;
-    self.yearAndMonth.text = [NSString stringWithFormat:@"%ld年%@月", (long)model.year, model.month];
-}
+
 
 - (void)setCell {
     self.yearAndMonth = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(44))];
