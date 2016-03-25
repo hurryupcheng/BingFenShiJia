@@ -33,6 +33,7 @@
 #import "BFBankTool.h"
 #import "BFSegmentView.h"
 #import "BFTranslateTime.h"
+#import "BFUserInfo.h"
 
 #pragma mark ---宏定义
 

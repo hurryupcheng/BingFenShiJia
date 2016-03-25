@@ -46,7 +46,6 @@
 - (void)setModel:(BFMyOrderModel *)model {
     _model = model;
     NSString *timeString = [BFTranslateTime translateTimeIntoCurrurents:model.add_time];
-    BFLog(@"%@,,%@",model.add_time,timeString);
     self.orderingTimeLabel.text = [NSString stringWithFormat:@"下单时间：%@",timeString];
     self.orderNumberLabel.text = [NSString stringWithFormat:@"订单编号：%@",model.orderId];
     self.orderMoneyLabel.text = [NSString stringWithFormat:@"订单金额：¥%@",model.order_sumPrice];

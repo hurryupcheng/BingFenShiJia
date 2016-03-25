@@ -391,29 +391,33 @@
 }
 #pragma  mark 是否登陆
 - (void)ifInfo{
-
-    self.userInfo = [BFUserDefaluts getUserInfo];
-    
-    if (self.userInfo == nil) {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
-            LogViewController *log = [LogViewController new];
-            [self.navigationController pushViewController:log animated:YES];
-        }];
-    }else{
-        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-        
-        if (self.dateArr.count == 0) {
-            [self data];
-        }else{
-            [self getDate];
-            [_groubView removeFromSuperview];
-            [self initWithTabView];
-            [self.tabView reloadData];
-        }
-    }
-
 }
+
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.translucent = NO;
+//    self.userInfo = [BFUserDefaluts getUserInfo];
+//    
+//    if (self.userInfo == nil) {
+//        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
+//            LogViewController *log = [LogViewController new];
+//            [self.navigationController pushViewController:log animated:YES];
+//        }];
+//    }else{
+//        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+//        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+//        
+//        if (self.dateArr.count == 0) {
+//            [self data];
+//        }else{
+//            [self getDate];
+//            [_groubView removeFromSuperview];
+//            [self initWithTabView];
+//            [self.tabView reloadData];
+//        }
+//    }
+//
+//}
 
 
 - (void)viewWillAppear:(BOOL)animated{

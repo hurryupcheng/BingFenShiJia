@@ -91,6 +91,7 @@
             
             [self.navigationController popToRootViewControllerAnimated:YES];
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];
 
@@ -104,6 +105,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = YES;
     

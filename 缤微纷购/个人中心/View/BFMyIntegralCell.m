@@ -24,6 +24,7 @@
     BFMyIntegralCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MyIntegral"];
     if (!cell) {
         cell = [[BFMyIntegralCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"MyIntegral"];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -37,13 +38,22 @@
     return self;
 }
 
-- (void)setCell {
-    self.integralLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(50), BF_ScaleHeight(20)) font:BF_ScaleFont(13) textColor:nil text:@"+1"];
-    if ([self.integralLabel.text hasPrefix:@"-"]) {
+- (void)setModel:(BFScoreModel *)model {
+    if ([model.score hasPrefix:@"-"]) {
         self.integralLabel.textColor = BFColor(0x00188F);
+        
     }else {
         self.integralLabel.textColor = BFColor(0xFA830E);
+        
     }
+    self.integralLabel.text = model.score;
+    self.timeLabel.text = [NSString stringWithFormat:@"%@", [BFTranslateTime translateTimeIntoCurrurentDate:model.add_time]];
+    self.instructionLabel.text = model.action;
+}
+
+- (void)setCell {
+    self.integralLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(50), BF_ScaleHeight(20)) font:BF_ScaleFont(13) textColor:nil text:@"+1"];
+    
     //self.integralLabel.backgroundColor = [UIColor greenColor];
     [self addSubview:self.integralLabel];
     

@@ -6,20 +6,33 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //  我的积分
 
-#define SectionHeaderH   BF_ScaleHeight(50)
+
 
 #import "BFMyIntegralController.h"
 #import "BFMyIntegralCell.h"
+#import "BFMyIntegralHeaderView.h"
+#import "BFScoreModel.h"
 
 @interface BFMyIntegralController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**背景图*/
 @property (nonatomic, strong) UIImageView *bgImageView;
-
+/**积分数组*/
+@property (nonatomic, strong) NSMutableArray *scoreArray;
+/**头部视图*/
+@property (nonatomic, strong) BFMyIntegralHeaderView *headerView;
 @end
 
 @implementation BFMyIntegralController
+
+- (NSMutableArray *)scoreArray {
+    if (!_scoreArray) {
+        _scoreArray = [NSMutableArray array];
+    }
+    return _scoreArray;
+}
+
 
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
@@ -31,7 +44,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-114) style:UITableViewStylePlain];
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
@@ -39,20 +52,65 @@
     }
     return _tableView;
 }
-//
+
+
+- (BFMyIntegralHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[BFMyIntegralHeaderView alloc] initWithFrame:CGRectMake(0, -HeaderH, ScreenWidth, HeaderH)];
+        [self.view addSubview:_headerView];
+    }
+    return _headerView;
+}
+
+#pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.bgImageView];
-    [self.view addSubview:self.tableView];
     self.title = @"我的积分";
+    //导航栏
     [self setNavigationBar];
-    
+    //添加背景图
+    [self.view addSubview:self.bgImageView];
+    //添加头部视图
+    [self headerView];
+    //添加tableView
+    [self.view addSubview:self.tableView];
+    //获取数据
+    [self getData];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
 
+#pragma mark -- getData
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=score_list"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+            if (responseObject) {
+                self.headerView.totalScore = responseObject[@"score"];
+                NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
+                [self.scoreArray addObjectsFromArray:array];
+                BFLog(@"%@,,%@,,%lu", responseObject,parameter,(unsigned long)self.scoreArray.count);
+            }
+            [self.tableView reloadData];
+            [self animation];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+            BFLog(@"%@", error);
+        }];
+    }];
 }
+#pragma mark -- 动画效果
+- (void)animation{
+    [UIView animateWithDuration:0.5 animations:^{
+        self.headerView.y = 0;
+        self.tableView.y = 50;
+    }];
+}
+
 
 #pragma mark -- 设置导航栏
 - (void)setNavigationBar {
@@ -66,12 +124,13 @@
 
 #pragma mark --- datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.scoreArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFMyIntegralCell *cell = [BFMyIntegralCell cellWithTableView:tableView];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.model = self.scoreArray[indexPath.row];
+    
     return cell;
 }
 
@@ -80,31 +139,10 @@
 
 
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, SectionHeaderH)];
-    view.backgroundColor = BFColor(0xE5E6E7);
-    
-    UIView *topLine = [UIView drawLineWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
-    [view addSubview:topLine];
-    
-    UIView *bottomLine = [UIView drawLineWithFrame:CGRectMake(0, view.height-1, ScreenWidth, 1)];
-    [view addSubview:bottomLine];
-    
-    
-    UILabel *titleLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(90), view.height) font:BF_ScaleFont(12) textColor:BFColor(0x000000) text:@"当前可用积分："];
-    [view addSubview:titleLabel];
-    
-    UILabel *integeralLabel = [UILabel labelWithFrame:CGRectMake(CGRectGetMaxX(titleLabel.frame), 0, BF_ScaleWidth(180), view.height) font:BF_ScaleFont(20) textColor:BFColor(0xFD8727) text:@"1001"];
-    integeralLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(18)];
-    [view addSubview:integeralLabel];
 
-    
-    return view;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return SectionHeaderH;
-}
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+//    return SectionHeaderH;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return MyIntegralCellH;

@@ -9,7 +9,11 @@
 #import "BFPersonInformationController.h"
 #import "BFAddressController.h"
 
-@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
+/**图片data*/
+@property (nonatomic, strong)  NSData *imgData;
+/**头像图片*/
+@property (nonatomic, strong)UIImageView *imageView;
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -63,6 +67,9 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40))];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
+                self.imageView  = [UIImageView new];
+                self.imageView = headImageView;
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head"]];
                 headImageView.layer.cornerRadius = BF_ScaleHeight(20);
                 headImageView.layer.masksToBounds = YES;
@@ -84,7 +91,8 @@
         }
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"  广告主";
-        cell.accessoryView = [[UISwitch alloc] init];
+        UISwitch *switchButton = [[UISwitch alloc] init];
+        cell.accessoryView = switchButton;
     } else if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
@@ -138,6 +146,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         BFLog(@"点击头像");
+        [self changeHeadIcon];
     }
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -148,6 +157,36 @@
     }
 }
 
+- (void)changeHeadIcon{
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    //添加取消按钮
+    
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消"style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"点击");
+        
+    }];
+    
+    //添加从手机相册选择
+    UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+
+        [self openAlbum];
+    }];
+    
+    //添加拍照
+    UIAlertAction *pictureAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+     
+        [self openCamera];
+    }];
+    
+    [alertC addAction:cancleAction];
+    [alertC addAction:pictureAction];
+    [alertC addAction:phoneAction];
+    
+    
+    
+    [self presentViewController:alertC animated:YES completion:nil];
+    
+}
 
 
 
@@ -178,5 +217,171 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
+
+
+
+- (void)openCamera
+{
+    [self openImagePickerController:UIImagePickerControllerSourceTypeCamera];
+}
+
+- (void)openAlbum
+{
+    // 如果想自己写一个图片选择控制器，得利用AssetsLibrary.framework，利用这个框架可以获得手机上的所有相册图片
+    // UIImagePickerControllerSourceTypePhotoLibrary > UIImagePickerControllerSourceTypeSavedPhotosAlbum
+    [self openImagePickerController:UIImagePickerControllerSourceTypePhotoLibrary];
+}
+
+- (void)openImagePickerController:(UIImagePickerControllerSourceType)type
+{
+    if (![UIImagePickerController isSourceTypeAvailable:type]) return;
+    
+    UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
+    ipc.sourceType = type;
+    ipc.allowsEditing = YES;
+    ipc.delegate = self;
+    [self presentViewController:ipc animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+/**
+ * 从UIImagePickerController选择完图片后就调用（拍照完毕或者选择相册图片完毕）
+ */
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    // info中就包含了选择的图片
+    
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    [self changeHeadIcon:image];
+    
+    
+    // 添加图片到头像中
+    self.imageView.image = image;
+}
+
+- (void)changeHeadIcon:(UIImage *)image {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    // 1.请求管理者
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=header_ico"];
+    // 2.拼接请求参数
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    
+    // 3.发送请求
+    [mgr POST:url parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        // 拼接文件数据
+        NSData *data = UIImageJPEGRepresentation(image, 1.0);
+        [formData appendPartWithFileData:data name:@"header_ico" fileName:@"test.jpg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+        BFLog(@"%@", responseObject);
+        if (responseObject) {
+            if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传成功"];
+                BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+                userInfo.user_icon = responseObject[@"img"];
+                BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
+                [BFUserDefaluts modifyUserInfo:userInfo];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传失败"];
+                
+            }
+            
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        BFLog(@"%@", error);
+
+    }];
+}
+
+
+//修正照片方向(手机转90度方向拍照)
+- (UIImage *)fixOrientation:(UIImage *)aImage {
+    
+    // No-op if the orientation is already correct
+    if (aImage.imageOrientation == UIImageOrientationUp)
+        return aImage;
+    
+    // We need to calculate the proper transformation to make the image upright.
+    // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationDown:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, M_PI);
+            break;
+            
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformRotate(transform, M_PI_2);
+            break;
+            
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, 0, aImage.size.height);
+            transform = CGAffineTransformRotate(transform, -M_PI_2);
+            break;
+        default:
+            break;
+    }
+    
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationUpMirrored:
+        case UIImageOrientationDownMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.width, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+            
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRightMirrored:
+            transform = CGAffineTransformTranslate(transform, aImage.size.height, 0);
+            transform = CGAffineTransformScale(transform, -1, 1);
+            break;
+        default:
+            break;
+    }
+    
+    // Now we draw the underlying CGImage into a new context, applying the transform
+    // calculated above.
+    CGContextRef ctx = CGBitmapContextCreate(NULL, aImage.size.width, aImage.size.height,
+                                             CGImageGetBitsPerComponent(aImage.CGImage), 0,
+                                             CGImageGetColorSpace(aImage.CGImage),
+                                             CGImageGetBitmapInfo(aImage.CGImage));
+    CGContextConcatCTM(ctx, transform);
+    switch (aImage.imageOrientation) {
+        case UIImageOrientationLeft:
+        case UIImageOrientationLeftMirrored:
+        case UIImageOrientationRight:
+        case UIImageOrientationRightMirrored:
+            // Grr...
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.height,aImage.size.width), aImage.CGImage);
+            break;
+            
+        default:
+            CGContextDrawImage(ctx, CGRectMake(0,0,aImage.size.width,aImage.size.height), aImage.CGImage);
+            break;
+    }
+    
+    // And now we just create a new UIImage from the drawing context
+    CGImageRef cgimg = CGBitmapContextCreateImage(ctx);
+    UIImage *img = [UIImage imageWithCGImage:cgimg];
+    CGContextRelease(ctx);
+    CGImageRelease(cgimg);
+    return img;
+}
+
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

@@ -17,7 +17,9 @@
 @property (nonatomic, strong) NSString *cr_id;
 /**状态*/
 @property (nonatomic, strong) NSString *status;
-/**是否领取0.未领取1.领取*/
+/**是否过期 0.过期 1.未过期*/
+@property (nonatomic, strong) NSString *time_status;
+/**是否领取 0.未领取1.领取*/
 @property (nonatomic, strong) NSString *is_used;
 /**领取时间*/
 @property (nonatomic, strong) NSString *receive_time;

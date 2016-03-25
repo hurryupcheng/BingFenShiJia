@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "BFMyAdvertisingExpenseModel.h"
+#import "BFCommissionModel.h"
 
 @interface BFAdvertisingExpenseInformationCell : UITableViewCell
 /**自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-
-@property (nonatomic, strong) BFMyAdvertisingExpenseModel *total;
+/**BFCommissionModel模型*/
+@property (nonatomic, strong) BFCommissionModel *model;
 
 @end

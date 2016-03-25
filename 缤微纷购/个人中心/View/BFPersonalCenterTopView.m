@@ -48,6 +48,7 @@
         BFLog(@"没登录");
         self.buttonView.hidden = NO;
         self.nickNameView.hidden = YES;
+        
         [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://bingo.luexue.com/Style/teambuy/images/avatar_4_64.png"] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
         
     }else {
@@ -58,7 +59,7 @@
         self.myClientLabel.text = userInfo.proxy_num;
         
 
-        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:nil];
+        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
 
         
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];

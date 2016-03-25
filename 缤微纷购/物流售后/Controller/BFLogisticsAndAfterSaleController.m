@@ -94,6 +94,7 @@
 #pragma mark --viewDidLoad
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = NO;
     //获取数据
     [self getData];
 }
@@ -111,6 +112,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"物流·售后";
+    //
+    [self bgImageView];
     //添加tableView
     [self tableView];
     //添加顶部视图
@@ -120,8 +123,7 @@
     //客服电话按钮
     [self setUpCustomerService];
     
-    //
-    [self bgImageView];
+    
 }
 
 #pragma mark --获取数据
@@ -135,11 +137,19 @@
     [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
-                self.bgImageView.hidden = YES;
-                NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-                [self.logisticsArray addObjectsFromArray:array];
+                if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                    self.bgImageView.hidden = NO;
+                    self.tableView.hidden = YES;
+                }else {
+                    self.bgImageView.hidden = YES;
+                    self.tableView.hidden = NO;
+                    NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                    [self.logisticsArray addObjectsFromArray:array];
+                }
+               
             }else {
                 self.bgImageView.hidden = NO;
+                self.tableView.hidden = YES;
             }
             BFLog(@"---%@,,",responseObject);
             [self.tableView reloadData];
@@ -202,6 +212,7 @@
         }
         case BFCustomerServiceViewButtonTypeWechat:
             BFLog(@"点击微信客服");
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
             break;
             
     }
