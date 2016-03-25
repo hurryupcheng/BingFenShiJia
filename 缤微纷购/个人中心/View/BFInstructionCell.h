@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BFUserModel.h"
+#import "BFRecommendDividedModel.h"
 
 @interface BFInstructionCell : UITableViewCell
 
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
-@property (nonatomic, strong) BFUserModel *user;
+@property (nonatomic, strong) RecommendDividedList *model;
 @end

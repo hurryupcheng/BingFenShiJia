@@ -53,27 +53,28 @@
     }
     return self;
 }
-
-//- (void)setUser:(BFUserModel *)user
-//{
-//    _user = user;
-//    if (_user) {
-//        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",_user.name];
-//        self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@",_user.time];
-//        self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@",_user.money];
+- (void)setModel:(RecommendDividedList *)model
+{
+    _model = model;
+//    if (model) {
+//        //[self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.user_icon] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+//        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@", model.nickname];
+//        self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@", [BFTranslateTime translateTimeIntoAccurateChineseTime:model.addtime]];
+//        self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@", model.jiner];
 //    }
-//}
+}
+
 
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.bgView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(5), ScreenWidth-BF_ScaleWidth(10), BF_ScaleHeight(80));
-    self.headImageView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(60), BF_ScaleHeight(60));
-    self.nickNameLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(225), BF_ScaleHeight(10));
+    self.bgView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(5), ScreenWidth-BF_ScaleWidth(10), BF_ScaleHeight(100));
+    self.headImageView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(5), BF_ScaleWidth(80), BF_ScaleHeight(80));
+    self.nickNameLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(225), BF_ScaleHeight(80)/3);
     
-    self.recommendTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleHeight(10), CGRectGetMidY(self.headImageView.frame), BF_ScaleWidth(225), BF_ScaleHeight(10));
+    self.recommendTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleHeight(10), CGRectGetMaxY(self.nickNameLabel.frame), BF_ScaleWidth(225), BF_ScaleHeight(80)/3);
     
-    self.divideMoneyLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleHeight(10), CGRectGetMaxY(self.headImageView.frame)-BF_ScaleHeight(10), BF_ScaleWidth(225), BF_ScaleHeight(10));
+    self.divideMoneyLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleHeight(10), CGRectGetMaxY(self.recommendTimeLabel.frame), BF_ScaleWidth(225), BF_ScaleHeight(80)/3);
 }
 
 
@@ -92,6 +93,7 @@
 - (UILabel *)nickNameLabel {
     if (!_nickNameLabel) {
         _nickNameLabel = [UILabel new];
+        _nickNameLabel.textColor = BFColor(0x595A5C);
         _nickNameLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         _nickNameLabel.text = @"asdasd";
         //_nickNameLabel.backgroundColor = [UIColor redColor];
@@ -104,6 +106,7 @@
 - (UILabel *)recommendTimeLabel {
     if (!_recommendTimeLabel) {
         _recommendTimeLabel = [UILabel new];
+        _recommendTimeLabel.textColor = BFColor(0x595A5C);
         _recommendTimeLabel.text = @"asdasd";
         //_recommendTimeLabel.backgroundColor = [UIColor blueColor];
         _recommendTimeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
@@ -116,6 +119,7 @@
 - (UILabel *)divideMoneyLabel {
     if (!_divideMoneyLabel) {
         _divideMoneyLabel = [UILabel new];
+        _divideMoneyLabel.textColor = BFColor(0x595A5C);
         _divideMoneyLabel.text = @"asdasd";
         //_divideMoneyLabel.backgroundColor = [UIColor greenColor];
         _divideMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];

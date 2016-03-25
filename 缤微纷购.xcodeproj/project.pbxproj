@@ -338,6 +338,8 @@
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */; };
 		59F55B371CA4E117007351A9 /* BFGetYearAndMonth.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */; };
+		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
+		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
@@ -1001,6 +1003,10 @@
 		59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerModel.m; sourceTree = "<group>"; };
 		59F55B351CA4E117007351A9 /* BFGetYearAndMonth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGetYearAndMonth.h; sourceTree = "<group>"; };
 		59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGetYearAndMonth.m; sourceTree = "<group>"; };
+		59F55B3E1CA513FB007351A9 /* BFRecommendDividedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedCell.h; sourceTree = "<group>"; };
+		59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedCell.m; sourceTree = "<group>"; };
+		59F55B411CA517AC007351A9 /* BFRecommendDividedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedModel.h; sourceTree = "<group>"; };
+		59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedModel.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
 		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
@@ -1469,6 +1475,8 @@
 				5998474B1CA28BA60085FE48 /* BFDateModel.m */,
 				59F9FB2B1CA388D600042501 /* BFCommissionModel.h */,
 				59F9FB2C1CA388D600042501 /* BFCommissionModel.m */,
+				59F55B411CA517AC007351A9 /* BFRecommendDividedModel.h */,
+				59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */,
 				59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */,
 				59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */,
 			);
@@ -1520,6 +1528,8 @@
 				59FF0D0E1C8D0D0600D3C2A9 /* BFMyAdvertisingExpenseSectionView.m */,
 				59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */,
 				59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */,
+				59F55B3E1CA513FB007351A9 /* BFRecommendDividedCell.h */,
+				59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */,
 				590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */,
 				590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */,
 				59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */,
@@ -2798,6 +2808,7 @@
 				51F5CA911C58C9610073F783 /* FXQModel.m in Sources */,
 				5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */,
 				592F86D61C8FC184006E0CEE /* BFAgreeButton.m in Sources */,
+				59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */,
 				592525BF1C8681CF000F609F /* UIImageView+HighlightedWebCache.m in Sources */,
 				59FFCEC11C89DC2800ADF8F0 /* BFMobileNumber.m in Sources */,
 				592525C61C8681CF000F609F /* SMProgressHUDLoadingView.m in Sources */,
@@ -2864,6 +2875,7 @@
 				5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */,
 				51A996951C9ABB2A00B4783C /* BFAddressModel.m in Sources */,
 				5925257F1C8681CF000F609F /* MASConstraintMaker.m in Sources */,
+				59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */,
 				59046A781C89780C00566210 /* MyMD5.m in Sources */,
 				51E968AA1C46085500AA00F1 /* XQCollectionViewCell.m in Sources */,
 				592525BD1C8681CF000F609F /* UIImage+MultiFormat.m in Sources */,

@@ -20,6 +20,8 @@
 #import "BFCommissionModel.h"
 #import "BFMyClientController.h"
 #import "BFGetYearAndMonth.h"
+#import "BFRecommendDividedCell.h"
+#import "BFRecommendDividedModel.h"
 
 
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
@@ -43,7 +45,9 @@
 /**参数字典*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 /**BFCommissionModel*/
-@property (nonatomic, strong) BFCommissionModel *model;
+@property (nonatomic, strong) BFCommissionModel *commissionModel;
+/**BFCommissionModel*/
+@property (nonatomic, strong) BFRecommendDividedModel *recommendDividedmodel;
 /**_upTableView的cell*/
 @property (nonatomic, strong) BFAdvertisingExpenseInformationCell *cell;
 
@@ -98,7 +102,7 @@
 
 - (UITableView *)upTableView {
     if (!_upTableView) {
-        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94+ScreenHeight, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
+        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50+ScreenHeight, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
         _upTableView.delegate = self;
         _upTableView.dataSource = self;
         [self.view addSubview:_upTableView];
@@ -154,16 +158,18 @@
     self.parameter[@"token"] = userInfo.token;
     self.parameter[@"year"] = year;
     self.parameter[@"month"] = month;
-    
+    BFLog(@"++++++%@,%@",url,self.parameter);
     [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
         if (responseObject) {
             [self.proxyOrderArray removeAllObjects];
-            self.model = [BFCommissionModel parse:responseObject];
-            NSArray *array = [ProxyOrderList parse:self.model.proxy_order];
+            self.commissionModel = [BFCommissionModel parse:responseObject];
+            NSArray *array = [ProxyOrderList parse:self.commissionModel.proxy_order];
             [self.proxyOrderArray addObjectsFromArray:array];
-            self.cell.model = self.model;
+            self.cell.model = self.commissionModel;
         }
-        BFLog(@"%@,%lu",responseObject,(unsigned long)self.proxyOrderArray.count);
+        if (!date) {
+             self.dateCell.yearAndMonth.text = [self.dateArray firstObject];
+        }
         [self.bottomTableView reloadData];
         [UIView animateWithDuration:0.5 animations:^{
             self.bottomTableView.y = 50;
@@ -175,6 +181,40 @@
     
 }
 
+- (void)getData:(NSString *)date {
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *year = [date substringWithRange:NSMakeRange(0, 4)];
+    NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_recom"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    self.parameter[@"year"] = year;
+    self.parameter[@"month"] = month;
+    BFLog(@"--------%@,%@",url,self.parameter);
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        if (responseObject) {
+            [self.proxyOrderArray removeAllObjects];
+            self.recommendDividedmodel = [BFRecommendDividedModel parse:responseObject];
+            NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
+            [self.proxyOrderArray addObjectsFromArray:array];
+            //self.cell.model = self.recommendDividedmodel;
+        }
+        BFLog(@"%@,%lu",responseObject,(unsigned long)self.proxyOrderArray.count);
+        if (!date) {
+            self.dateCell.yearAndMonth.text = [self.dateArray firstObject];
+             BFLog(@"------------------%@,%@",self.dateCell.yearAndMonth.text,[self.dateArray firstObject]);
+        }
+        [self.bottomTableView reloadData];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bottomTableView.y = 50;
+        }];
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+        BFLog(@"%@", error);
+    }];
+    
+}
 
 - (void)animation {
     
@@ -182,6 +222,15 @@
 
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    [UIView animateWithDuration:0.5 animations:^{
+        self.bottomTableView.y = -ScreenHeight;
+        if (self.upTableView.y == 50) {
+            
+            NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
+            [self tableView:self.upTableView didSelectRowAtIndexPath:index];
+           
+        }
+    }];
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:{
             BFMyClientController *myClientVC = [[BFMyClientController alloc] init];
@@ -191,12 +240,14 @@
         }
         case 1:{
             BFLog(@"客户订单");
+            self.dateCell.yearAndMonth.text = [self.dateArray firstObject];
             [self getMyClientData:nil];
             break;
-        }
+        } 
         case 2:{
             BFLog(@"推荐分成订单");
-            
+            self.dateCell.yearAndMonth.text = [self.dateArray firstObject];
+            [self getData:nil];
             break;
         }
     }
@@ -254,14 +305,26 @@
             }
 
         }else if (self.segment.segmented.selectedSegmentIndex == 2 ) {
-            
-            
-            BFInstructionCell *cell = [BFInstructionCell cellWithTableView:tableView];
+            if (indexPath.row == 0) {
+                BFBottomHeaderCell *cell = [BFBottomHeaderCell cellWithTabelView:tableView];
+                if (!cell.timeLabel.text) {
+                    cell.timeLabel.text = self.dateArray[indexPath.row];
+                }
+                cell.delegate = self;
+                self.headerCell = cell;
                 
                 return cell;
+            } else if (indexPath.row == 1) {
+                BFRecommendDividedCell *cell = [BFRecommendDividedCell cellWithTableView:tableView];
                 
-                
-            
+                return cell;
+            }
+            else {
+                BFInstructionCell *cell = [BFInstructionCell cellWithTableView:tableView];
+                cell.model = self.proxyOrderArray[indexPath.row];
+                return cell;
+            }
+
         }else {
             return [[UITableViewCell alloc] init];
         }
@@ -274,12 +337,12 @@
     if (button.selected == YES) {
         //self.upTableView.hidden = YES;
         [UIView animateWithDuration:0.5 animations:^{
-            self.upTableView.y = 94+ScreenHeight;
+            self.upTableView.y = 50+ScreenHeight;
         }];
     }else {
         //self.upTableView.hidden = NO;
         [UIView animateWithDuration:0.5 animations:^{
-            self.upTableView.y = 94;
+            self.upTableView.y = 50;
         }];
     }
 }
@@ -291,19 +354,27 @@
         
         self.headerCell.timeLabel.text = self.dateCell.yearAndMonth.text;
         BFLog(@"----%@--%@",self.dateCell.yearAndMonth.text,self.headerCell.timeLabel.text);
-        [self getMyClientData:self.dateCell.yearAndMonth.text];
+        if (self.segment.segmented.selectedSegmentIndex == 1) {
+            [self getMyClientData:self.dateCell.yearAndMonth.text];
+        }else if (self.segment.segmented.selectedSegmentIndex == 2) {
+            [self getData:self.dateCell.yearAndMonth.text];
+        }
         [self.headerCell click];
         [UIView animateWithDuration:0.5 animations:^{
-            self.upTableView.y = 94+ScreenHeight;
+            self.upTableView.y = 50+ScreenHeight;
         }];
         [self.bottomTableView reloadData];
         
     }else {
         if (indexPath.row == 0) {
+            if (self.upTableView.y == 94) {
+                
+            }else {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.upTableView.y = 50;
+                }];
+            }
             
-            [UIView animateWithDuration:0.5 animations:^{
-                self.upTableView.y = 94;
-            }];
         }
         
     }
@@ -315,12 +386,24 @@
     if (tableView == self.upTableView) {
         return BF_ScaleHeight(44);
     }else {
-        if (indexPath.row == 0) {
-            return BF_ScaleHeight(44);
-        }else if (indexPath.row == 1){
-            return BF_ScaleHeight(135);
+        if (self.segment.segmented.selectedSegmentIndex == 1){
+            if (indexPath.row == 0) {
+                return BF_ScaleHeight(44);
+            }else if (indexPath.row == 1){
+                return BF_ScaleHeight(135);
+            }else {
+                return BF_ScaleHeight(140);
+            }
+        }else if (self.segment.segmented.selectedSegmentIndex == 2) {
+            if (indexPath.row == 0) {
+                return BF_ScaleHeight(44);
+            }else if (indexPath.row == 1){
+                return BF_ScaleHeight(95);
+            }else {
+                return BF_ScaleHeight(110);
+            }
         }else {
-            return BF_ScaleHeight(140);
+            return 0;
         }
     }
 }
