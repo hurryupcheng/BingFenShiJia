@@ -55,6 +55,15 @@
     _model = model;
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
     self.addOrderTime.text = [NSString stringWithFormat:@"下单时间：%@", [BFTranslateTime translateTimeIntoCurrurents:model.add_time]];
+    self.orderNumber.text = [NSString stringWithFormat:@"订单编号：%@",model.orderId];
+    self.orderAmount.text = [NSString stringWithFormat:@"订单金额：%@",model.order_sumPrice];
+    self.orderStatus.text = [NSString stringWithFormat:@"订单状态：%@",model.status_w];
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.orderStatus.text];
+    [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xFD6268) range:NSMakeRange(5,model.status_w.length)];
+    self.orderStatus.attributedText = attributedString;
+
+    
+    self.myCommission.text = [NSString stringWithFormat:@"我的佣金：%@",model.jiner];
     
 }
 

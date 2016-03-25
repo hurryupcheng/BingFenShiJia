@@ -21,6 +21,7 @@
 #import "BFMyClientController.h"
 #import "BFGetYearAndMonth.h"
 
+
 @interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
 
 /**底部tableView*/
@@ -97,7 +98,7 @@
 
 - (UITableView *)upTableView {
     if (!_upTableView) {
-        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
+        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94+ScreenHeight, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
         _upTableView.delegate = self;
         _upTableView.dataSource = self;
         [self.view addSubview:_upTableView];
@@ -127,7 +128,7 @@
     //添加上面tableView
     [self upTableView];
     //获取数据
-    [self getData];
+    
     //底部固定视图
     [self myTabbar];
 
@@ -143,9 +144,37 @@
 }
 
 
-- (void)getData {
-   
+- (void)getMyClientData:(NSString *)date {
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *year = [date substringWithRange:NSMakeRange(0, 4)];
+    NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+    self.parameter[@"year"] = year;
+    self.parameter[@"month"] = month;
+    
+    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+        if (responseObject) {
+            [self.proxyOrderArray removeAllObjects];
+            self.model = [BFCommissionModel parse:responseObject];
+            NSArray *array = [ProxyOrderList parse:self.model.proxy_order];
+            [self.proxyOrderArray addObjectsFromArray:array];
+            self.cell.model = self.model;
+        }
+        BFLog(@"%@,%lu",responseObject,(unsigned long)self.proxyOrderArray.count);
+        [self.bottomTableView reloadData];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.bottomTableView.y = 50;
+        }];
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+        BFLog(@"%@", error);
+    }];
+    
 }
+
 
 - (void)animation {
     
@@ -162,6 +191,7 @@
         }
         case 1:{
             BFLog(@"客户订单");
+            [self getMyClientData:nil];
             break;
         }
         case 2:{
@@ -185,7 +215,7 @@
     if (tableView == self.upTableView) {
         return self.dateArray.count;
     }else {
-        return self.proxyOrderArray.count;
+        return self.proxyOrderArray.count ;
     }
 }
 
@@ -203,6 +233,9 @@
         if (self.segment.segmented.selectedSegmentIndex == 1) {
             if (indexPath.row == 0) {
                 BFBottomHeaderCell *cell = [BFBottomHeaderCell cellWithTabelView:tableView];
+                if (!cell.timeLabel.text) {
+                    cell.timeLabel.text = self.dateArray[indexPath.row];
+                }
                 cell.delegate = self;
                 self.headerCell = cell;
                 
@@ -214,7 +247,7 @@
             }
             else {
                 BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
-                
+                cell.model = self.proxyOrderArray[indexPath.row];
                 return cell;
                 
                 
@@ -222,7 +255,8 @@
 
         }else if (self.segment.segmented.selectedSegmentIndex == 2 ) {
             
-                BFCustomerOrderCell*cell = [BFCustomerOrderCell cellWithTableView:tableView];
+            
+            BFInstructionCell *cell = [BFInstructionCell cellWithTableView:tableView];
                 
                 return cell;
                 
@@ -251,6 +285,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (tableView == self.upTableView) {
         self.dateCell.yearAndMonth.text = self.dateArray[indexPath.row];
         
@@ -265,6 +300,7 @@
         
     }else {
         if (indexPath.row == 0) {
+            
             [UIView animateWithDuration:0.5 animations:^{
                 self.upTableView.y = 94;
             }];
@@ -273,34 +309,6 @@
     }
 }
 
-- (void)getMyClientData:(NSString *)date {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *year = [date substringWithRange:NSMakeRange(0, 4)];
-    NSString *month = [date substringWithRange:NSMakeRange(5, 2)];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
-    self.parameter[@"uid"] = userInfo.ID;
-    self.parameter[@"token"] = userInfo.token;
-    self.parameter[@"year"] = year;
-    self.parameter[@"month"] = month;
-    
-    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
-        if (responseObject) {
-            self.model = [BFCommissionModel parse:responseObject];
-            NSArray *array = [ProxyOrderList parse:self.model.proxy_order];
-            [self.proxyOrderArray addObjectsFromArray:array];
-            self.cell.model = self.model;
-        }
-        BFLog(@"%@,%lu",responseObject,(unsigned long)self.proxyOrderArray.count);
-        [self.bottomTableView reloadData];
-        [UIView animateWithDuration:0.5 animations:^{
-            self.bottomTableView.y = 50;
-        }];
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
-        BFLog(@"%@", error);
-    }];
-    
-}
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

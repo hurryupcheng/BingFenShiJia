@@ -21,16 +21,16 @@
 
 
 @interface ProxyOrderList : NSObject
-/**已确认佣金*/
+/**订单编号*/
 @property (nonatomic, strong) NSString *orderId;
-/**已确认佣金*/
+/**商品图片*/
 @property (nonatomic, strong) NSString *img;
-/**已确认佣金*/
+/**订单金额*/
 @property (nonatomic, strong) NSString *order_sumPrice;
-/**已确认佣金*/
+/**我的佣金*/
 @property (nonatomic, strong) NSString *jiner;
-/**已确认佣金*/
+/**订单状态*/
 @property (nonatomic, strong) NSString *status_w;
-/**已确认佣金*/
+/**下单时间*/
 @property (nonatomic, strong) NSString *add_time;
 @end

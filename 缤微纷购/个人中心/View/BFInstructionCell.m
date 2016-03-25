@@ -93,6 +93,7 @@
     if (!_nickNameLabel) {
         _nickNameLabel = [UILabel new];
         _nickNameLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+        _nickNameLabel.text = @"asdasd";
         //_nickNameLabel.backgroundColor = [UIColor redColor];
         [self.bgView addSubview:_nickNameLabel];
     }
@@ -103,6 +104,7 @@
 - (UILabel *)recommendTimeLabel {
     if (!_recommendTimeLabel) {
         _recommendTimeLabel = [UILabel new];
+        _recommendTimeLabel.text = @"asdasd";
         //_recommendTimeLabel.backgroundColor = [UIColor blueColor];
         _recommendTimeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         [self.bgView addSubview:_recommendTimeLabel];
@@ -114,6 +116,7 @@
 - (UILabel *)divideMoneyLabel {
     if (!_divideMoneyLabel) {
         _divideMoneyLabel = [UILabel new];
+        _divideMoneyLabel.text = @"asdasd";
         //_divideMoneyLabel.backgroundColor = [UIColor greenColor];
         _divideMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         [self.bgView addSubview:_divideMoneyLabel];
