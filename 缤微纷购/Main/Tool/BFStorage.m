@@ -10,22 +10,12 @@
 
 @implementation BFStorage
 
-//MJCodingImplementation
-
-//+(NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
-//    //判断某个属性 所对应的key
-//    if ([propertyName isEqualToString:@"ID"]) {
-//        propertyName = @"id";
-//    }
-//    return propertyName;
-//}
-
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number shopId:(NSString *)shopId{
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId{
     if ([super init]) {
         _title = title;
         _img = img;
         _spec = spec;
-        _money = money;
+        _price = price;
         _numbers = number;
         _shopID = shopId;
     }
@@ -36,7 +26,7 @@
     [aCoder encodeObject:self.title forKey:@"title"];
     [aCoder encodeObject:self.img forKey:@"img"];
     [aCoder encodeObject:self.spec forKey:@"spec"];
-    [aCoder encodeObject:self.money forKey:@"money"];
+    [aCoder encodeObject:self.price forKey:@"price"];
     [aCoder encodeInteger:self.numbers forKey:@"number"];
     [aCoder encodeObject:self.shopID forKey:@"shopID"];
 };
@@ -46,7 +36,7 @@
         self.title = [aDecoder decodeObjectForKey:@"title"];
         self.img = [aDecoder decodeObjectForKey:@"img"];
         self.spec = [aDecoder decodeObjectForKey:@"spec"];
-        self.money = [aDecoder decodeObjectForKey:@"money"];
+        self.price = [aDecoder decodeObjectForKey:@"price"];
         self.numbers = [aDecoder decodeIntegerForKey:@"number"];
         self.shopID = [aDecoder decodeObjectForKey:@"shopID"];
     }

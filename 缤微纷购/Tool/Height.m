@@ -16,7 +16,15 @@
     CGRect rect = [str boundingRectWithSize:CGSizeMake(kScreenWidth-10, 0) options:NSStringDrawingUsesLineFragmentOrigin attributes:dic context:nil];
     
     return rect.size.height;
+ 
+}
 
++ (CGFloat)widthString:(NSString *)str font:(UIFont *)font{
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 10000, 0)];
+    label.text = str;
+    label.font = font;
+    [label sizeToFit];
+    return label.frame.size.width;
 }
 
 @end

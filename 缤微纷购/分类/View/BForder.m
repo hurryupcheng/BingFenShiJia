@@ -24,19 +24,26 @@
         self.title.numberOfLines = 0;
         self.title.font = [UIFont systemFontOfSize:CGFloatX(14)];
         [self.title sizeToFit];
-        self.title.backgroundColor = [UIColor redColor];
+//        self.title.backgroundColor = [UIColor redColor];
         
         self.guige = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.img.frame)+5, CGRectGetMaxY(self.title.frame), kScreenWidth, 15)];
         self.guige.text = guige;
 //        self.guige.backgroundColor = [UIColor greenColor];
         
         self.money = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.img.frame)+5, CGRectGetMaxY(self.guige.frame), kScreenWidth, self.frame.size.height-self.title.size.height-self.guige.frame.size.height)];
-        self.money.text = [NSString stringWithFormat:@"¥%@",money];
+        double price = [money doubleValue];
+        self.money.text = [NSString stringWithFormat:@"¥%.2f",price];
+        self.money.textColor = [UIColor orangeColor];
 //        self.money.backgroundColor = [UIColor orangeColor];
         
-        self.number = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.title.frame), (self.frame.size.height/2)-10, self.frame.size.width-self.img.width-self.title.width-15, 30)];
-        self.number.text = [NSString stringWithFormat:@"x%@",number];
-        self.number.backgroundColor = [UIColor greenColor];
+        self.number = [[UILabel alloc]init];
+        self.number.text = [NSString stringWithFormat:@"x %@",number];
+        self.number.textColor = [UIColor grayColor];
+//        self.number.backgroundColor = [UIColor greenColor];
+        self.number.font = [UIFont systemFontOfSize:CGFloatX(15)];
+        
+        CGFloat width = [Height widthString:self.number.text font:[UIFont systemFontOfSize:CGFloatX(15)]];
+        self.number.frame = CGRectMake(CGRectGetMaxX(self.frame)-width-15, (self.frame.size.height/2)-10, width, 30);
         
         [self addSubview:self.img];
         [self addSubview:self.title];

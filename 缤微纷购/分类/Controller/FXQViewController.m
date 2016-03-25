@@ -45,6 +45,8 @@
 @property (nonatomic,assign)NSInteger nowIndex;
 @property (nonatomic,retain)BFUserInfo *userInfo;
 @property (nonatomic)BOOL popView;//判断点击弹出哪个视图
+@property (nonatomic,retain)NSMutableArray *dataArray;
+@property (nonatomic)BOOL isPT;
 
 @end
 
@@ -81,7 +83,8 @@
 
 #pragma  mark 初始化webview
 - (void)initWithWeb{
-
+    
+    self.isPT = NO;
     NSURL *url = [NSURL URLWithString:self.fxq.info];
     NSURLRequest *requser = [NSURLRequest requestWithURL:url];
     self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-115)];
@@ -200,7 +203,7 @@
     [self.view addSubview:self.clearView];
     [self.clearView addSubview:view];
 
-       self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenHeight-160) img:self.fxq.img title:self.fxq.title money:self.fxq.moneyArr arr:self.fxq.nameArr set:self.fxq.guigeArr num:self.header.addShopp.textF.text];
+       self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenHeight-160) img:self.fxq.img title:self.fxq.title money:self.fxq.moneyArr arr:self.fxq.nameArr set:self.fxq.guigeArr num:self.header.addShopp.textF.text stock:self.fxq.stockArr];
    
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-20, 0, 20, 20)];
 //    button.backgroundColor = [UIColor redColor];
@@ -276,10 +279,11 @@
         }break;
         case 112:{
             [self zhifu];
-            BFZFViewController *zf = [[BFZFViewController alloc]init];
-            NSString *str = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
-            zf.sum = str;
-          
+        BFZFViewController *zf = [[BFZFViewController alloc]init];
+            _fxq.numbers = [_other.addShopp.textF.text integerValue];
+            zf.isPT = _isPT;
+            NSLog(@"%@",_fxq.price);
+            zf.modelArr = _dataArray;
         [self.navigationController pushViewController:zf animated:YES
              ];
         }
@@ -363,6 +367,7 @@
             self.fxq.stockArr = [NSMutableArray array];
             self.fxq.imageArr = [NSMutableArray array];
             self.fxq.moneyArr = [NSMutableArray array];
+            self.dataArray = [NSMutableArray array];
             
          FXQModel *fxq = [[FXQModel alloc]init];
          fxq.img = [dic valueForKey:@"img"];
@@ -371,6 +376,7 @@
         fxq.oldMoney = [dic valueForKey:@"yprice"];
         NSArray *arr = [dic valueForKey:@"price_array"];
         fxq.info = [dic valueForKey:@"info"];
+        fxq.shopID = [dic valueForKey:@"id"];
         
             NSMutableArray *nameArray = [NSMutableArray array];
         for (NSDictionary *dic2 in arr) {
@@ -380,6 +386,7 @@
             NSArray *guigeArr = [dic2 valueForKey:@"guige"];
             NSMutableArray *pric = [NSMutableArray array];
             NSMutableArray *guige = [NSMutableArray array];
+            NSMutableArray *stock = [NSMutableArray array];
             
             for (NSDictionary *dic3 in guigeArr) {
                 fxq.guige = [dic3 valueForKey:@"choose"];
@@ -387,17 +394,20 @@
                 NSArray *answer = [dic3 valueForKey:@"answer"];
                 
                 for (NSDictionary *dic4 in answer) {
-                    fxq.stockArr = [dic4 valueForKey:@"stock"];
+                    fxq.stock = [dic4 valueForKey:@"stock"];
                     fxq.price = [dic4 valueForKey:@"price"];
                     [pric addObject:fxq.price];
+                    [stock addObject:fxq.stock];
                     
                 }
                 fxq.guigeArr = [guige copy];
                 fxq.moneyArr = [pric copy];
+                fxq.stockArr = [stock copy];
             }
             fxq.nameArr = [nameArray copy];
         }
         self.fxq = fxq;
+        [self.dataArray addObject:fxq];
         }
           [self updateViewCtrl];
     }];

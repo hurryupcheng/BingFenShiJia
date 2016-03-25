@@ -24,7 +24,7 @@
 @property (nonatomic,retain)UILabel *red;
 @property (nonatomic,retain)UILabel *reds;
 
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num;;
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num stock:(NSMutableArray *)stock;
 
 @end
 

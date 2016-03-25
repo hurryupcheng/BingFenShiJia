@@ -11,5 +11,6 @@
 @interface Height : NSObject
 
 + (CGFloat)heightString:(NSString *)str font:(NSInteger)font;
++ (CGFloat)widthString:(NSString *)str font:(UIFont *)font;
 
 @end

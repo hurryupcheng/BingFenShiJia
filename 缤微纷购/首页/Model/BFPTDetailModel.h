@@ -10,7 +10,7 @@
 
 @interface BFPTDetailModel : NSObject
 /**id*/
-@property (nonatomic, strong) NSString *ID;
+@property (nonatomic, strong) NSString *shopID;
 /**标题*/
 @property (nonatomic, strong) NSString *title;
 /**分类id*/
@@ -37,4 +37,5 @@
 @property (nonatomic, strong) NSString *team_cycle;
 /**webview参数*/
 @property (nonatomic, strong) NSString *info;
+@property (nonatomic, assign) NSInteger numbers;
 @end

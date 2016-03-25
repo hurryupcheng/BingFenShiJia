@@ -20,6 +20,8 @@
 /**自定义头部视图*/
 @property (nonatomic, strong) UIView* webBrowserView;
 
+@property (nonatomic,retain)NSMutableArray *dataArray;
+@property (nonatomic)BOOL isPT;
 
 @end
 
@@ -27,6 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isPT = YES;
     //获取数据
     [self getData];
     
@@ -42,7 +45,11 @@
     parameters[@"id"] = self.ID;
     [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
         
+        _dataArray = [NSMutableArray array];
         BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
+        model.numbers = 1;
+        model.shopID = self.ID;
+        [_dataArray addObject:model];
         //显示图形
         [self initView:model];
     } failure:^(NSError *error) {
@@ -83,6 +90,8 @@
 
 - (void)groupPurchaseButton{
     BFZFViewController *zf = [[BFZFViewController alloc]init];
+    zf.isPT = _isPT;
+    zf.modelArr = _dataArray;
     [self.navigationController pushViewController:zf animated:YES];
 }
 

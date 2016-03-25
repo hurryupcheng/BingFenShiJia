@@ -19,6 +19,8 @@
 @property (nonatomic,retain)NSString *url;
 @property (nonatomic,retain)NSString *oldMoney;
 @property (nonatomic,retain)NSString *info;
+@property (nonatomic,assign)NSInteger numbers;
+@property (nonatomic,retain)NSString *shopID;
 
 @property (nonatomic,retain)NSMutableArray *nameArr;
 @property (nonatomic,retain)NSArray *guigeArr;
