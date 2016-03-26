@@ -8,8 +8,9 @@
 
 #import "BFPersonInformationController.h"
 #import "BFAddressController.h"
+#import "BFHeadSelectionView.h"
 
-@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate>
+@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, BFHeadSelectionViewDelegate>
 /**图片data*/
 @property (nonatomic, strong)  NSData *imgData;
 /**头像图片*/
@@ -158,36 +159,54 @@
 }
 
 - (void)changeHeadIcon{
-    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    //添加取消按钮
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    BFHeadSelectionView *headSelectionView = [BFHeadSelectionView headSelectionView];
+    headSelectionView.delegate = self;
+    [window addSubview:headSelectionView];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消"style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        NSLog(@"点击");
-        
-    }];
-    
-    //添加从手机相册选择
-    UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-
-        [self openAlbum];
-    }];
-    
-    //添加拍照
-    UIAlertAction *pictureAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-     
-        [self openCamera];
-    }];
-    
-    [alertC addAction:cancleAction];
-    [alertC addAction:pictureAction];
-    [alertC addAction:phoneAction];
-    
-    
-    
-    [self presentViewController:alertC animated:YES completion:nil];
+//    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+//    //添加取消按钮
+//    
+//    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消"style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+//        NSLog(@"点击");
+//        
+//    }];
+//    
+//    //添加从手机相册选择
+//    UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//
+//        [self openAlbum];
+//    }];
+//    
+//    //添加拍照
+//    UIAlertAction *pictureAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+//     
+//        [self openCamera];
+//    }];
+//    
+//    [alertC addAction:cancleAction];
+//    [alertC addAction:pictureAction];
+//    [alertC addAction:phoneAction];
+//    
+//    
+//    
+//    [self presentViewController:alertC animated:YES completion:nil];
     
 }
 
+
+- (void)clickToChooseModeWithType:(BFHeadSelectionViewButtonType)type {
+    switch (type) {
+        case BFHeadSelectionViewButtonTypeCamera:
+            [self openCamera];
+            break;
+        case BFHeadSelectionViewButtonTypeAlbum:
+            [self openAlbum];
+            break;
+        default:
+            break;
+    }
+}
 
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
@@ -280,14 +299,14 @@
     } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
+            if ([responseObject[@"msg"] isEqualToString:@"头像更换成功"]) {
                 [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传成功"];
                 BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
                 userInfo.user_icon = responseObject[@"img"];
                 BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
                 [BFUserDefaluts modifyUserInfo:userInfo];
             }else {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传失败"];
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"头像更换失败"];
                 
             }
             

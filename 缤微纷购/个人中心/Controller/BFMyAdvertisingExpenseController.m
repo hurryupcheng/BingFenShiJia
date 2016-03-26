@@ -22,9 +22,9 @@
 #import "BFGetYearAndMonth.h"
 #import "BFRecommendDividedCell.h"
 #import "BFRecommendDividedModel.h"
+#import "BFBottomHeaderView.h"
 
-
-@interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate>
+@interface BFMyAdvertisingExpenseController ()<UITableViewDelegate, UITableViewDataSource, SectionHeaderViewDelegate, BFBottomHeaderCellDelegate, BFSegmentViewDelegate, BFBottomHeaderViewDelegate>
 
 /**底部tableView*/
 @property (nonatomic, strong) UITableView *bottomTableView;
@@ -51,9 +51,20 @@
 /**_upTableView的cell*/
 @property (nonatomic, strong) BFAdvertisingExpenseInformationCell *cell;
 
+@property (nonatomic, strong) BFBottomHeaderView *headerView;
 @end
 
 @implementation BFMyAdvertisingExpenseController
+
+- (BFBottomHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[BFBottomHeaderView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, 44)];
+        _headerView.delegate = self;
+        [self.view addSubview:_headerView];
+    }
+    return _headerView;
+}
+
 
 - (NSMutableDictionary *)parameter {
     if (!_parameter) {
@@ -89,20 +100,18 @@
 
 - (UITableView *)bottomTableView {
     if (!_bottomTableView) {
-        _bottomTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-166) style:UITableViewStylePlain];
+        _bottomTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
         _bottomTableView.delegate = self;
         _bottomTableView.dataSource = self;
         _bottomTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_bottomTableView];
-        
-        
     }
     return _bottomTableView;
 }
 
 - (UITableView *)upTableView {
     if (!_upTableView) {
-        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight-166) style:UITableViewStylePlain];
+        _upTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 94, ScreenWidth, ScreenHeight-210) style:UITableViewStylePlain];
         _upTableView.delegate = self;
         _upTableView.dataSource = self;
         [self.view addSubview:_upTableView];
@@ -126,7 +135,8 @@
     [super viewDidLoad];
     self.title = @"当月广告费";
     self.view.backgroundColor = BFColor(0xffffff);
-    
+    [self headerView];
+    self.headerView.timeLabel.text = [self.dateArray firstObject];
     //添加底部tableView
     [self bottomTableView];
     //添加上面tableView
@@ -146,7 +156,7 @@
 }
 
 
-#pragma mark --viewWillAppear
+#pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:{
@@ -168,9 +178,23 @@
 
 - (void)getCustomerOrder {
 
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    
+}
+
+#pragma mark --BFBottomHeaderView代理方法
+- (void)clickToChangeStatus:(UIButton *)button {
+    if (button.selected) {
+        self.upTableView.hidden = YES;
+        self.bottomTableView.hidden = NO;
+    }else {
+        self.upTableView.hidden = NO;
+        self.bottomTableView.hidden = YES;
+    }
 }
 
 
+#pragma mark --tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 10;
 }
@@ -194,13 +218,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (tableView == self.upTableView) {
+        [self.headerView click];
+        self.headerView.timeLabel.text = self.dateArray[indexPath.row];
         self.upTableView.hidden = YES;
         self.bottomTableView.hidden = NO;
-    }else {
-        if (indexPath.row == 0) {
-            self.upTableView.hidden = NO;
-            self.bottomTableView.hidden = YES;
-        }
+        
     }
 }
 
