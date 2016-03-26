@@ -10,7 +10,7 @@
 
 @interface BFZFViewController : UIViewController
 
-@property (nonatomic,retain)NSString *sum;
-
 @property (nonatomic,retain)NSMutableArray *modelArr;
+@property (nonatomic)BOOL isPT;
+
 @end

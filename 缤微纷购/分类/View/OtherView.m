@@ -23,15 +23,18 @@
 @property (nonatomic,retain)BFClassminView *num;
 
 @property (nonatomic,assign)NSInteger number;
+@property (nonatomic,assign)NSInteger stock;
+@property (nonatomic,retain)NSMutableArray *stockArr;
+
 @end
 
 @implementation OtherView
 
 
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num{
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSMutableArray *)money arr:(NSMutableArray *)arr set:(NSArray *)set num:(NSString *)num stock:(NSMutableArray *)stock{
 
     if ([super initWithFrame:frame]) {
-  
+        self.stockArr = stock;
         self.imageView = [[UIImageView alloc]initWithFrame:CGRectMake1(5, 0, kScreenWidth/4, kScreenWidth/4)];
 //        self.imageView.backgroundColor = [UIColor greenColor];
         
@@ -52,7 +55,7 @@
 
         self.arrays = [NSArray array];
         self.arrays = [money copy];
-        NSLog(@"...%@",self.arrays);
+       
         NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
         float money = [string floatValue];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
@@ -105,6 +108,7 @@
             self.arrayBut.tag = k;
             [self.arrayBut addTarget:self action:@selector(arrayBut:) forControlEvents:UIControlEventTouchUpInside];
             self.arrayBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
+            
             [self addSubview:self.arrayBut];
             }
     
@@ -124,10 +128,16 @@
         
         self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(label.frame), CGRectGetMaxY(self.num.frame)+10, CGFloatX(kScreenWidth/3), CGFloatY(35))];
         
+        NSInteger nums = [num integerValue];
+        self.number = nums;
         self.addShopp.textF.text = num;
 //        self.addShopp.backgroundColor = [UIColor greenColor];
         [self.addShopp.maxBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
         [self.addShopp.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
+        
+        if ([self.addShopp.textF.text integerValue] <= 1) {
+            self.addShopp.minBut.enabled = NO;
+        }
         
         [self addSubview:_titleLabel];
         [self addSubview:_moneyLabel];
@@ -249,7 +259,7 @@
     but.selected = YES;
     self.selecdent = but;
     self.reds.frame = but.frame;
-    
+   
     NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
     float money = [string floatValue];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
@@ -276,6 +286,10 @@
     
     self.moneyLabel.attributedText = str;
     
+    if (but.selected == YES) {
+        NSLog(@">>>>>%@",self.stockArr[but.tag]);
+    }
+    
 //    if (self.arrayBut.selected == YES) {
 //        self.hot = _guige[self.arrayBut.tag];
 //        NSLog(@"%@",_guige[self.arrayBut.tag]);
@@ -283,18 +297,22 @@
 }
 
 - (void)minButSelented{
+    self.addShopp.maxBut.enabled = YES;
     self.number--;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if (self.number <= 1) {
-        self.addShopp.minBut.userInteractionEnabled = NO;
+    if ([self.addShopp.textF.text integerValue] <= 1) {
+        self.addShopp.textF.text = @"1";
+        self.addShopp.minBut.enabled = NO;
     }
 }
 
 - (void)maxButSelented{
+    self.addShopp.minBut.enabled = YES;
     self.number++;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if (self.number > 1) {
-        self.addShopp.minBut.userInteractionEnabled = YES;
+    if ([self.addShopp.textF.text integerValue] > 99) {
+        self.addShopp.textF.text = @"99";
+        self.addShopp.maxBut.enabled = NO;
     }
 }
 

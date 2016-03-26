@@ -31,6 +31,7 @@
 		51A996951C9ABB2A00B4783C /* BFAddressModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996941C9ABB2A00B4783C /* BFAddressModel.m */; };
 		51A9969A1C9ABB4300B4783C /* BFAddAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996971C9ABB4300B4783C /* BFAddAddressView.m */; };
 		51A9969B1C9ABB4300B4783C /* BFAddressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A996991C9ABB4300B4783C /* BFAddressCell.m */; };
+		51D0E0081CA3AE600074F0D3 /* BFPayoffModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D0E0071CA3AE600074F0D3 /* BFPayoffModel.m */; };
 		51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D10E011C40B79000F630C9 /* XCCollectionViewCell.m */; };
 		51D10E321C40F10700F630C9 /* icon_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D10E281C40F10600F630C9 /* icon_01.png */; };
 		51D10E331C40F10700F630C9 /* icon_02.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D10E291C40F10600F630C9 /* icon_02.png */; };
@@ -45,7 +46,6 @@
 		51D121B01C3A6DA700640A44 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D121AF1C3A6DA700640A44 /* main.m */; };
 		51D121B91C3A6DA700640A44 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51D121B71C3A6DA700640A44 /* Main.storyboard */; };
 		51D121BB1C3A6DA700640A44 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51D121BA1C3A6DA700640A44 /* Assets.xcassets */; };
-		51D121BE1C3A6DA700640A44 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 51D121BC1C3A6DA700640A44 /* LaunchScreen.storyboard */; };
 		51D121C91C3A6DA800640A44 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D121C81C3A6DA800640A44 /* ____Tests.m */; };
 		51D121D41C3A6DA800640A44 /* ____UITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D121D31C3A6DA800640A44 /* ____UITests.m */; };
 		51D122041C3A751400640A44 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D122031C3A751400640A44 /* HomeViewController.m */; };
@@ -464,6 +464,8 @@
 		51A996971C9ABB4300B4783C /* BFAddAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddAddressView.m; sourceTree = "<group>"; };
 		51A996981C9ABB4300B4783C /* BFAddressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddressCell.h; sourceTree = "<group>"; };
 		51A996991C9ABB4300B4783C /* BFAddressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAddressCell.m; sourceTree = "<group>"; };
+		51D0E0061CA3AE600074F0D3 /* BFPayoffModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPayoffModel.h; sourceTree = "<group>"; };
+		51D0E0071CA3AE600074F0D3 /* BFPayoffModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPayoffModel.m; sourceTree = "<group>"; };
 		51D10E001C40B79000F630C9 /* XCCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XCCollectionViewCell.h; sourceTree = "<group>"; };
 		51D10E011C40B79000F630C9 /* XCCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XCCollectionViewCell.m; sourceTree = "<group>"; };
 		51D10E281C40F10600F630C9 /* icon_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_01.png; sourceTree = "<group>"; };
@@ -480,7 +482,6 @@
 		51D121AF1C3A6DA700640A44 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		51D121B81C3A6DA700640A44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		51D121BA1C3A6DA700640A44 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		51D121BD1C3A6DA700640A44 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		51D121BF1C3A6DA800640A44 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		51D121C41C3A6DA800640A44 /* 缤微纷购Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "缤微纷购Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		51D121C81C3A6DA800640A44 /* ____Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "____Tests.m"; sourceTree = "<group>"; };
@@ -1282,7 +1283,6 @@
 				51D121B71C3A6DA700640A44 /* Main.storyboard */,
 				59FF0D131C8D181E00D3C2A9 /* list.plist */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
-				51D121BC1C3A6DA700640A44 /* LaunchScreen.storyboard */,
 				51D121BF1C3A6DA800640A44 /* Info.plist */,
 				592523B71C8676E5000F609F /* PrefixHeader.pch */,
 				51D121AE1C3A6DA700640A44 /* Supporting Files */,
@@ -1354,6 +1354,8 @@
 				51D175C91C76F18800B73E5B /* XQModel.m */,
 				51F5CA8F1C58C9610073F783 /* FXQModel.h */,
 				51F5CA901C58C9610073F783 /* FXQModel.m */,
+				51D0E0061CA3AE600074F0D3 /* BFPayoffModel.h */,
+				51D0E0071CA3AE600074F0D3 /* BFPayoffModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1363,8 +1365,8 @@
 			children = (
 				51D4589F1C96B73600B52516 /* BFStorages.h */,
 				51D458A01C96B73600B52516 /* BFStorages.m */,
-				51D458A11C96B73600B52516 /* BFWebHeaderView.m */,
 				51D458A21C96B73600B52516 /* BFWebHeaderView.h */,
+				51D458A11C96B73600B52516 /* BFWebHeaderView.m */,
 				51D541661C8E5FA4005CB936 /* BForder.h */,
 				51D541671C8E5FA4005CB936 /* BForder.m */,
 				51D4D95C1C44FB9F00453CD1 /* ClassCollectionViewCell.h */,
@@ -2630,7 +2632,6 @@
 				51D458BD1C96EDAC00B52516 /* pufa.png in Resources */,
 				590D3C3B1C94166A0042D42E /* UMSShareListController.xib in Resources */,
 				59F82BFE1C9AF785006B76E6 /* Address.plist in Resources */,
-				51D121BE1C3A6DA700640A44 /* LaunchScreen.storyboard in Resources */,
 				5189303C1C7BF34000C5AB08 /* shangpinfenlei.png in Resources */,
 				590D3C321C94166A0042D42E /* UMSocialLocalizable.strings in Resources */,
 				51D24D871C9961C900F2D90E /* d1.png in Resources */,
@@ -2718,6 +2719,7 @@
 				592525D61C8681CF000F609F /* UIImageView+AFNetworking.m in Sources */,
 				592525731C8681CF000F609F /* EMMallSectionView.m in Sources */,
 				59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */,
+				51D0E0081CA3AE600074F0D3 /* BFPayoffModel.m in Sources */,
 				59F82BF91C9AF581006B76E6 /* BFEditAddressController.m in Sources */,
 				59FF46C71C8AAEA00040689A /* BFMyIntegralController.m in Sources */,
 				59513B231C9F93410028B008 /* BFProductModel.m in Sources */,
@@ -3032,14 +3034,6 @@
 				51D121B81C3A6DA700640A44 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		51D121BC1C3A6DA700640A44 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				51D121BD1C3A6DA700640A44 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 		590D3C0C1C94166A0042D42E /* UMSocialLocalizable.strings */ = {

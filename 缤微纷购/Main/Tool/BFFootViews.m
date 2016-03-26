@@ -40,7 +40,7 @@
         if (money == nil) {
             [self addSubview:self.homeButton];
         }else{
-        [self addSubview:_money];
+            [self addSubview:_money];
         }
         [self addSubview:self.buyButton];
     }

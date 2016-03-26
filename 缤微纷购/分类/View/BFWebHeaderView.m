@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/3/12.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "Height.h"
 #import "ViewController.h"
 #import "Header.h"
 #import "LBView.h"
@@ -40,15 +40,16 @@
 //        self.titleLabel.backgroundColor = [UIColor greenColor];
         self.titleLabel.text = model.title;
         
-        self.moneyLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
+        self.moneyLabel = [[UILabel alloc]init];
 //        self.moneyLabel.backgroundColor = [UIColor orangeColor];
         self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatY(20)];
        
         float mon = [model.moneyArr[0] floatValue];
         self.moneyLabel.text = [NSString stringWithFormat:@"¥ %.2f",mon];
         self.moneyLabel.textColor = [UIColor orangeColor];
+        self.moneyLabel.frame = CGRectMake(15, CGRectGetMaxY(self.titleLabel.frame), [Height widthString:self.moneyLabel.text font:self.moneyLabel.font], CGFloatY(30));
         
-        self.oldLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
+        self.oldLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)+15, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
 //        self.oldLabel.backgroundColor = [UIColor grayColor];
         NSString *oldPrice = [NSString stringWithFormat:@"¥ %@",model.oldMoney];
         self.oldLabel.font = [UIFont systemFontOfSize:CGFloatY(17)];
@@ -64,6 +65,10 @@
         
         [self.addShopp.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
         [self.addShopp.maxBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
+        
+        if ([self.addShopp.textF.text integerValue] <= 1) {
+            self.addShopp.minBut.enabled = NO;
+        }
         
         UIView *colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.moneyLabel.frame), kScreenWidth, 1)];
         colorV.backgroundColor = [UIColor grayColor];
@@ -81,17 +86,21 @@
 
 - (void)minButSelented{
     self.number--;
+    self.addShopp.maxBut.enabled = YES;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if (self.number <= 1) {
-        self.addShopp.minBut.userInteractionEnabled = NO;
+    if ([self.addShopp.textF.text integerValue] <= 1) {
+        self.addShopp.textF.text = @"1";
+        self.addShopp.minBut.enabled = NO;
     }
 }
 
 - (void)maxButSelented{
     self.number++;
+    self.addShopp.minBut.enabled = YES;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if (self.number > 1) {
-        self.addShopp.minBut.userInteractionEnabled = YES;
+    if ([self.addShopp.textF.text integerValue] > 99) {
+        self.addShopp.textF.text = @"99";
+        self.addShopp.maxBut.enabled = NO;
     }
 }
 

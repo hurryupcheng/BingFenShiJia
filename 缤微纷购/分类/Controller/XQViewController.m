@@ -75,6 +75,11 @@
             self.segmentBut.selected = YES;
             self.selectend = self.segmentBut;
         }
+        
+        if (self.segmentBut.tag == 2) {
+            self.segmentBut.titleEdgeInsets = UIEdgeInsetsMake(0, CGFloatX(-30), 0, 0);
+        }
+        
         [_segmented addSubview:self.segmentBut];
      
     }

@@ -55,10 +55,10 @@
     [super viewDidLoad];
     self.view.backgroundColor = rgb(220, 220, 220, 1.0);
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
     
      self.title = @"购物车";
-   
+//    [self ifInfo];
 }
 
 - (void)data{
@@ -108,7 +108,7 @@
 - (void)countPrice{
     double price = 0.0;
     for (BFStorage *model in self.selectGoods) {
-        double pri = [model.money doubleValue];
+        double pri = [model.price doubleValue];
         price += pri*model.numbers;
     }
     
@@ -366,9 +366,8 @@
 }
 
 - (void)jiesuan{
+    
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
-    NSString *str = [self.foot.money.text substringFromIndex:5];
-    bfzf.sum = str;
     bfzf.modelArr = _selectGoods;
     [self.navigationController pushViewController:bfzf animated:YES];
 }
@@ -390,32 +389,54 @@
        [self initWithLoveView];
    }];
 }
+#pragma  mark 是否登陆
+- (void)ifInfo{
+}
+
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.translucent = NO;
+//    self.userInfo = [BFUserDefaluts getUserInfo];
+//    
+//    if (self.userInfo == nil) {
+//        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
+//            LogViewController *log = [LogViewController new];
+//            [self.navigationController pushViewController:log animated:YES];
+//        }];
+//    }else{
+//        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+//        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+//        
+//        if (self.dateArr.count == 0) {
+//            [self data];
+//        }else{
+//            [self getDate];
+//            [_groubView removeFromSuperview];
+//            [self initWithTabView];
+//            [self.tabView reloadData];
+//        }
+//    }
+//
+//}
 
 
 - (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.translucent = NO;
     self.userInfo = [BFUserDefaluts getUserInfo];
-    
     if (self.userInfo == nil) {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
-            LogViewController *log = [LogViewController new];
-            [self.navigationController pushViewController:log animated:YES];
-        }];
+        [self data];
     }else{
-        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-        
-        if (self.dateArr.count == 0) {
-            [self data];
-        }else{
-            [self getDate];
-            [_groubView removeFromSuperview];
-            [self initWithTabView];
-            [self.tabView reloadData];
-        }
-    }
+    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+    self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
+    if (self.dateArr.count == 0 || self.userInfo == nil) {
+        [self data];
+    }else{
+        [self getDate];
+        [_groubView removeFromSuperview];
+        [self initWithTabView];
+        [self.tabView reloadData];
+    }
+    }
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.selectGoods removeAllObjects];

@@ -11,7 +11,7 @@
 #import "ViewController.h"
 #import "SPTableViewCell.h"
 
-@interface SPTableViewCell ()<UITextFieldDelegate>
+@interface SPTableViewCell ()
 
 @property (nonatomic,retain)UIButton *needV;
 @property (nonatomic,retain)UIImageView *imageV;
@@ -36,8 +36,8 @@
         
         self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, CGFloatX(80), CGFloatX(80))];
 //        self.imageV.backgroundColor = [UIColor greenColor];
-        self.imageV.layer.borderWidth = 1;
-        self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
+//        self.imageV.layer.borderWidth = 1;
+//        self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
         
         self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, 0)];
         self.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(15)];
@@ -50,6 +50,7 @@
         self.moneyLabel = [[UILabel alloc]init];
 //        self.moneyLabel.backgroundColor = [UIColor orangeColor];
         self.moneyLabel.textColor = [UIColor orangeColor];
+        self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
         
         self.close = [[UIButton alloc]init];
         [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
@@ -81,16 +82,27 @@
 }
 // 添加
 - (void)maxButton{
+    self.add.minBut.enabled = YES;
     if (self.numAddBlock) {
         self.numAddBlock();
+    }
+    if ([self.add.textF.text integerValue]>99) {
+        self.add.textF.text = @"99";
+        self.add.maxBut.enabled = NO;
     }
 
 }
 
 // 减少
 - (void)minButton{
+    self.add.maxBut.enabled = YES;
     if (self.numCutBlock) {
         self.numCutBlock();
+    }
+    if ([self.add.textF.text integerValue] <= 1) {
+        self.add.textF.text = @"1";
+        self.add.minBut.enabled = NO;
+        
     }
 }
 
@@ -109,7 +121,7 @@
     
     self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
 //    self.add.backgroundColor = [UIColor redColor];
-    self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.money];
+    self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.price];
 
     self.add.textF.text = [NSString stringWithFormat:@"%d",model.numbers];
     self.hetLabel.text = model.spec;

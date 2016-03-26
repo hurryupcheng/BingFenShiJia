@@ -14,9 +14,9 @@
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *spec;
-@property (nonatomic,retain)NSString *money;
+@property (nonatomic,retain)NSString *price;
 @property (nonatomic,assign)NSInteger numbers;
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)money number:(NSInteger)number shopId:(NSString *)shopId;
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId;
 
 @end
