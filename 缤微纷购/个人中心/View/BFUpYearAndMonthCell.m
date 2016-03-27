@@ -15,6 +15,7 @@
     BFUpYearAndMonthCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFUpYearAndMonthCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
+        //cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }

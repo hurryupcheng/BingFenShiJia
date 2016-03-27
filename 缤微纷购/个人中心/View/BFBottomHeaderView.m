@@ -9,8 +9,7 @@
 #import "BFBottomHeaderView.h"
 
 @interface BFBottomHeaderView()
-/**按钮*/
-@property (nonatomic, strong) UIButton *clickButton;
+
 /**箭头图片*/
 @property (nonatomic, strong) UIImageView *arrawImageView;
 @end
@@ -27,7 +26,7 @@
 - (void)setView {
     _clickButton = [UIButton buttonWithType:0];
     _clickButton.tag = 10000;
-    _clickButton.frame = CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(44));
+    _clickButton.frame = CGRectMake(0, 0, ScreenWidth, 44);
     _clickButton.selected = NO;
     _clickButton.backgroundColor = BFColor(0xffffff);
     [_clickButton setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
@@ -36,7 +35,7 @@
     
     
     _timeLabel = [UILabel new];
-    _timeLabel.frame = CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(44));
+    _timeLabel.frame = CGRectMake(0, 0, ScreenWidth, 44);
     _timeLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     // _timeLabel.backgroundColor = BFColor(0xffffff);
@@ -62,7 +61,7 @@
 
 - (void)clickToLookDetail:(UIButton *)sender {
     sender.selected = !sender.selected;
-    BFLog(@"-------%d",sender.selected);
+    
     
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickToChangeStatus:)]) {

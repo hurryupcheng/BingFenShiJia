@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BFMyAdvertisingExpenseModel.h"
-@interface BFMyAdvertisingExpenseTabbar : UIView
-/**自定义实例方法*/
-+ (instancetype)myTabbar;
+#import "BFCommissionModel.h"
+#import "BFRecommendDividedModel.h"
 
-@property (nonatomic, strong) BFMyAdvertisingExpenseModel *model;
+@interface BFMyAdvertisingExpenseTabbar : UIView
+
+/**客户订单模型*/
+@property (nonatomic, strong) BFCommissionModel *commissionModel;
+/**推荐分成订单模型*/
+@property (nonatomic, strong) BFRecommendDividedModel *recommendDividedModel;
 @end

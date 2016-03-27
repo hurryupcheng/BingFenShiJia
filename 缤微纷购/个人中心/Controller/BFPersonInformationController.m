@@ -71,10 +71,10 @@
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
                 self.imageView  = [UIImageView new];
                 self.imageView = headImageView;
-                [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head"]];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
                 headImageView.layer.cornerRadius = BF_ScaleHeight(20);
                 headImageView.layer.masksToBounds = YES;
-                headImageView.backgroundColor = [UIColor redColor];
+                //headImageView.backgroundColor = [UIColor redColor];
                 headImageView.contentMode = UIViewContentModeScaleAspectFill;
                 [cell addSubview:headImageView];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -99,18 +99,24 @@
             case 0:
             {
                 cell.textLabel.text = @"  地址管理";
-                UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location"]];
-                headImageView.backgroundColor = [UIColor redColor];
-                headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(15), BF_ScaleHeight(24));
+                UIImageView *headImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"location_blue"]];
+                //headImageView.backgroundColor = [UIColor redColor];
+                headImageView.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(18), BF_ScaleHeight(24));
                 headImageView.contentMode = UIViewContentModeScaleAspectFit;
                 [cell addSubview:headImageView];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
                 break;
             }
-            case 1:
+            case 1:{
                 cell.textLabel.text = @"  我的名片";
+                UIImageView *qrCode = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"QRcode"]];
+                //qrCode.backgroundColor = [UIColor redColor];
+                qrCode.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(18), BF_ScaleHeight(24));
+                qrCode.contentMode = UIViewContentModeScaleAspectFit;
+                [cell addSubview:qrCode];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;                break;
+            }
             case 2:
                 cell.textLabel.text = @"  绑定手机";
                 cell.detailTextLabel.text = @"  未绑定";
@@ -119,9 +125,13 @@
         }
     }else {
         cell.textLabel.text = @"  余额";
-        UILabel *balanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(90), 0, BF_ScaleWidth(200), 44)];
+        UILabel *balanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(90), 0, BF_ScaleWidth(200), BF_ScaleHeight(44))];
         balanceLabel.textColor = BFColor(0xFD8727);
-        balanceLabel.text = @"¥00.00";
+        balanceLabel.text = @"¥ 00.00";
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:balanceLabel.text];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(19)] range:NSMakeRange(2,balanceLabel.text.length-5)];
+        balanceLabel.attributedText = attributedString;
+        
         [cell addSubview:balanceLabel];
         
     }
@@ -146,8 +156,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        BFLog(@"点击头像");
-        [self changeHeadIcon];
+        if (indexPath.row == 0) {
+            BFLog(@"点击头像");
+            [self changeHeadIcon];
+        }
     }
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
@@ -158,43 +170,15 @@
     }
 }
 
+#pragma mark -- 点击更换头像
 - (void)changeHeadIcon{
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     BFHeadSelectionView *headSelectionView = [BFHeadSelectionView headSelectionView];
     headSelectionView.delegate = self;
     [window addSubview:headSelectionView];
-    
-//    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//    //添加取消按钮
-//    
-//    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消"style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-//        NSLog(@"点击");
-//        
-//    }];
-//    
-//    //添加从手机相册选择
-//    UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"从手机相册选择" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//
-//        [self openAlbum];
-//    }];
-//    
-//    //添加拍照
-//    UIAlertAction *pictureAction = [UIAlertAction actionWithTitle:@"拍照" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//     
-//        [self openCamera];
-//    }];
-//    
-//    [alertC addAction:cancleAction];
-//    [alertC addAction:pictureAction];
-//    [alertC addAction:phoneAction];
-//    
-//    
-//    
-//    [self presentViewController:alertC animated:YES completion:nil];
-    
 }
 
-
+#pragma mark -- 相机和相册按钮代理
 - (void)clickToChooseModeWithType:(BFHeadSelectionViewButtonType)type {
     switch (type) {
         case BFHeadSelectionViewButtonTypeCamera:
@@ -208,7 +192,7 @@
     }
 }
 
-
+#pragma mark -- 退出按钮
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     if (section == 3) {
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(60))];
@@ -238,16 +222,15 @@
 }
 
 
-
+#pragma mark -- 打开相机
 - (void)openCamera
 {
     [self openImagePickerController:UIImagePickerControllerSourceTypeCamera];
 }
-
+#pragma mark -- 打开相册
 - (void)openAlbum
 {
-    // 如果想自己写一个图片选择控制器，得利用AssetsLibrary.framework，利用这个框架可以获得手机上的所有相册图片
-    // UIImagePickerControllerSourceTypePhotoLibrary > UIImagePickerControllerSourceTypeSavedPhotosAlbum
+
     [self openImagePickerController:UIImagePickerControllerSourceTypePhotoLibrary];
 }
 
@@ -280,6 +263,7 @@
     self.imageView.image = image;
 }
 
+#pragma mark -- 网络请求
 - (void)changeHeadIcon:(UIImage *)image {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     // 1.请求管理者

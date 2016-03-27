@@ -59,7 +59,7 @@
         self.myClientLabel.text = userInfo.proxy_num;
         
 
-        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
+        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
 
         
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];

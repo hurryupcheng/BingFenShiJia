@@ -19,6 +19,8 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 /**代理*/
 @property (nonatomic, weak) id<BFBottomHeaderViewDelegate>delegate;
+/**按钮*/
+@property (nonatomic, strong) UIButton *clickButton;
 /**点击按钮*/
 - (void)click;
 @end

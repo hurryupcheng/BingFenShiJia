@@ -35,7 +35,7 @@
     BFCustomerOrderCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFCustomerOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }

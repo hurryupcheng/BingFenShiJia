@@ -14,12 +14,25 @@
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
 @property (nonatomic, strong) UIView *getCashView;
-
+/**收款人*/
+@property (nonatomic, strong) UILabel *recieverLabel;
+/**实付金额*/
+@property (nonatomic, strong) UILabel *paidCashLabel;
 
 
 @end
 
 @implementation BFMyWalletBottomView
+
+- (void)setModel:(BFMyWalletModel *)model {
+    _model = model;
+    if (!model.true_name) {
+        self.recieverLabel.text = @"收款人：";
+    }else {
+        self.recieverLabel.text = [NSString stringWithFormat:@"收款人：%@", model.true_name];
+    }
+}
+
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -71,13 +84,13 @@
         UIView *paidCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(self.getCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
         
         //实付金额label
-        UILabel *paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(60), paidCashView.height) tetx:@"实付金额："];
+        self.paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(260), paidCashView.height) tetx:@"实付金额："];
         
         //收款人底部视图
         UIView *recieverView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(paidCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
         
         //收款人label
-        UILabel *recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), paidCashView.height) tetx:@"收款人：叶文敏"];
+        self.recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), paidCashView.height) tetx:@"收款人：叶文敏"];
         
         //确认提现底部视图
         UIView *sureView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), self.height-(CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(7)))];
@@ -111,6 +124,10 @@
             [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入提现金额"];
         }else {
             [self endEditing:YES];
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
+                [self.delegate gotoGetCashWithView:self];
+            }
             BFLog(@"确认提现");
         }
         
@@ -160,11 +177,15 @@
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+
     [self endEditing:YES];
 }
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
+    self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
     [self.getCashTX resignFirstResponder];
     return YES;
 }

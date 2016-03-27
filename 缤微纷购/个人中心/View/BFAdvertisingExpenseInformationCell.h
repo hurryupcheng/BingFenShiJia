@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BFMyAdvertisingExpenseModel.h"
 #import "BFCommissionModel.h"
 
 @interface BFAdvertisingExpenseInformationCell : UITableViewCell
