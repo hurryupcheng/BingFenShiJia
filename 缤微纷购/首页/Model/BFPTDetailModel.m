@@ -17,3 +17,9 @@
     return propertyName;
 }
 @end
+
+@implementation BFCarouselList
+
+
+
+@end

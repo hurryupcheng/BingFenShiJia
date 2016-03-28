@@ -9,7 +9,10 @@
 #import "UMSocial.h"
 #import "BFSettingController.h"
 #import "BFShareView.h"
-@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
+#import "BFCustomerServiceView.h"
+#import "BFPersonInformationController.h"
+
+@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -159,7 +162,27 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 2) {
+    if (indexPath.section == 0) {
+        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+        BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
+        customerServiceView.delegate = self;
+        [window addSubview:customerServiceView];
+    }else if (indexPath.section == 1) {
+        switch (indexPath.row) {
+            case 0:
+                BFLog(@"修改密码");
+                break;
+            case 1:
+                BFLog(@"清空图片缓存");
+                break;
+            case 2:{
+                BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
+                [self.navigationController pushViewController:personInformationVC animated:YES];
+                BFLog(@"个人信息");
+                break;
+            }
+        }
+    }else if (indexPath.section == 2) {
         if (indexPath.row == 2) {
             UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
             BFShareView *share = [BFShareView shareView];
@@ -169,12 +192,43 @@
     }
 }
 
+
+
+#pragma mark --BFCustomerServiceViewDelegate
+- (void)clickToChooseCustomerServiceWithType:(BFCustomerServiceViewButtonType)type {
+    switch (type) {
+        case BFCustomerServiceViewButtonTypeTelephone:{
+            BFLog(@"点击电话客服");
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            //添加取消按钮
+            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                NSLog(@"点击");
+            }];
+            //添加电话按钮
+            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"020-38875719" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://020-38875719"]]];
+            }];
+            [alertC addAction:cancleAction];
+            [alertC addAction:phoneAction];
+            [self presentViewController:alertC animated:YES completion:nil];
+            
+            break;
+        }
+        case BFCustomerServiceViewButtonTypeWechat:
+            BFLog(@"点击微信客服");
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
+            break;
+            
+    }
+}
+
+
+
+
+
 - (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type {
     switch (type) {
-            
-            
-            
-            
+
         case BFShareButtonTypeMoments:
             [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToWechatTimeline] content:@"分享内嵌文字" image:nil location:nil urlResource:nil presentedController: self completion:^(UMSocialResponseEntity *response){
                 if(response.responseCode == UMSResponseCodeSuccess) {

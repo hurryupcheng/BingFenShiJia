@@ -44,7 +44,7 @@
     parameters[@"a"] = @"team_item";
     parameters[@"id"] = self.ID;
     [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
-        
+        BFLog(@"BFPTDetailViewController%@",responseObject);
         _dataArray = [NSMutableArray array];
         BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
         model.numbers = 1;

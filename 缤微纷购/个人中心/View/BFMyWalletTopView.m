@@ -154,6 +154,9 @@
 
 - (void)personalCenterTopButtonClick:(UIButton *)sender {
     BFLog(@"提现记录");
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goToCheckWithdrawalRecordWithType:)]) {
+        [self.delegate goToCheckWithdrawalRecordWithType:sender.tag];
+    }
 }
 
 

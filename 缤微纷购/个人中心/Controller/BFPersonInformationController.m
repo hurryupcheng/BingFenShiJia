@@ -9,6 +9,7 @@
 #import "BFPersonInformationController.h"
 #import "BFAddressController.h"
 #import "BFHeadSelectionView.h"
+#import "BFMyBusinessCardController.h"
 
 @interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, BFHeadSelectionViewDelegate>
 /**图片data*/
@@ -67,12 +68,12 @@
             case 0:
             {
                 cell.textLabel.text = @"  头像";
-                UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(70), BF_ScaleHeight(10), BF_ScaleHeight(40), BF_ScaleHeight(40))];
+                UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(90), BF_ScaleHeight(10), BF_ScaleHeight(60), BF_ScaleHeight(60))];
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
                 self.imageView  = [UIImageView new];
                 self.imageView = headImageView;
                 [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
-                headImageView.layer.cornerRadius = BF_ScaleHeight(20);
+                headImageView.layer.cornerRadius = BF_ScaleHeight(30);
                 headImageView.layer.masksToBounds = YES;
                 //headImageView.backgroundColor = [UIColor redColor];
                 headImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -147,7 +148,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            return BF_ScaleHeight(60);
+            return BF_ScaleHeight(80);
         }
     }
     return BF_ScaleHeight(44);
@@ -166,6 +167,11 @@
             BFAddressController *addressVC = [BFAddressController new];
             [self.navigationController pushViewController:addressVC animated:YES];
             BFLog(@"地址管理");
+        }else if (indexPath.row == 1) {
+            BFMyBusinessCardController *myBusinessCardVC = [[BFMyBusinessCardController alloc] init];
+            [self.navigationController pushViewController:myBusinessCardVC animated:YES];
+        }else {
+            
         }
     }
 }
@@ -283,8 +289,8 @@
     } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"头像更换成功"]) {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"上传成功"];
+            if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"头像更换成功"];
                 BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
                 userInfo.user_icon = responseObject[@"img"];
                 BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);

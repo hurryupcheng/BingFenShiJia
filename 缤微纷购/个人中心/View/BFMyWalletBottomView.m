@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/9.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "HZQRegexTestter.h"
 #import "BFMyWalletBottomView.h"
 #import "BFAgreeButton.h"
 
@@ -123,12 +123,19 @@
         if ([self.getCashTX.text isEqualToString:@""]) {
             [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入提现金额"];
         }else {
-            [self endEditing:YES];
-            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
-            if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
-                [self.delegate gotoGetCashWithView:self];
+            
+            if ([HZQRegexTestter validateFloatingPoint:self.getCashTX.text]) {
+                self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+                [self endEditing:YES];
+                if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
+                    [self.delegate gotoGetCashWithView:self];
+                }
+                BFLog(@"确认提现");
+            }else {
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
             }
-            BFLog(@"确认提现");
+
+            
         }
         
     }
@@ -137,11 +144,28 @@
 
 //修改银行信息
 - (void)modifyBankInfo {
-    [self endEditing:YES];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
-        [self.delegate goToModifyBankCardInformation];
+    if (self.getCashTX.text.length == 0) {
+        [self.getCashTX resignFirstResponder];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
+            [self.delegate goToModifyBankCardInformation];
+        }
+        BFLog(@"我要修改银行信息");
+    }else {
+        if ([HZQRegexTestter validateFloatingPoint:self.getCashTX.text]) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+            [self.getCashTX resignFirstResponder];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
+                [self.delegate goToModifyBankCardInformation];
+            }
+            BFLog(@"我要修改银行信息");
+        }else {
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+        }
+        
     }
-    BFLog(@"我要修改银行信息");
+    
+   
+
 }
 
 //我以阅读按钮
@@ -177,16 +201,29 @@
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+    if ([HZQRegexTestter validateFloatingPoint:self.getCashTX.text]) {
+        self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+        [self.getCashTX resignFirstResponder];
+    }else {
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+    }
 
     [self endEditing:YES];
 }
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
-    [self.getCashTX resignFirstResponder];
+    if (textField.text.length == 0) {
+        [self.getCashTX resignFirstResponder];
+    }else {
+        if ([HZQRegexTestter validateFloatingPoint:textField.text]) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
+            [self.getCashTX resignFirstResponder];
+        }else {
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+        }
+
+    }
     return YES;
 }
 @end

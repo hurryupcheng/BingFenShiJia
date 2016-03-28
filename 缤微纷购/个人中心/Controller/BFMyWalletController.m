@@ -11,9 +11,9 @@
 #import "BFMyWalletBottomView.h"
 #import "BFModifyBankCardController.h"
 #import "BFMyWalletModel.h"
+#import "BFWithdrawalRecordController.h"
 
-
-@interface BFMyWalletController()<UITextFieldDelegate, BFMyWalletBottomViewDelegate>
+@interface BFMyWalletController()<UITextFieldDelegate, BFMyWalletBottomViewDelegate, BFMyWalletTopViewDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**自定义我的钱包页面上班部分*/
@@ -27,7 +27,7 @@
 @end
 
 @implementation BFMyWalletController
-
+#pragma mark --懒加载
 /**定义*/
 - (BFMyWalletBottomView *)bottomView {
     if (!_bottomView) {
@@ -43,6 +43,7 @@
 - (BFMyWalletTopView *)topView {
     if (!_topView) {
         _topView = [[BFMyWalletTopView alloc] initWithFrame:CGRectMake(0, ScreenHeight*0.42-ScreenHeight, ScreenWidth, ScreenHeight*0.42)];
+        _topView.delegate = self;
         [self.view addSubview:_topView];
     }
     return _topView;
@@ -111,6 +112,20 @@
     } failure:^(NSError *error) {
         BFLog(@"error%@",error);
     }];
+}
+
+
+#pragma mark -- BFMyWalletTopViewDelegate
+- (void)goToCheckWithdrawalRecordWithType:(BFMyWalletTopButtonType)type {
+    switch (type) {
+        case BFMyWalletTopButtonTypeRecord:{
+            BFWithdrawalRecordController *withdrawalRecordVC = [[BFWithdrawalRecordController alloc] init];
+            [self.navigationController pushViewController:withdrawalRecordVC animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 #pragma mark -- BFMyWalletBottomViewDelegate 

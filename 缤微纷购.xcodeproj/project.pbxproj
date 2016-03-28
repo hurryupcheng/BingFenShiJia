@@ -334,6 +334,10 @@
 		59513B8D1C9FFD8D0028B008 /* iconfont-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B851C9FFD8D0028B008 /* iconfont-search.png */; };
 		59513B8E1C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B861C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png */; };
 		59513B8F1C9FFD8D0028B008 /* kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B871C9FFD8D0028B008 /* kong.png */; };
+		597CE6961CA8D9A2005B6C28 /* NSString+QRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6951CA8D9A2005B6C28 /* NSString+QRCode.m */; };
+		597CE6981CA8D9C7005B6C28 /* BFMyBusinessCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6971CA8D9C7005B6C28 /* BFMyBusinessCardController.m */; };
+		597CE69E1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */; };
+		597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */; };
 		598F21501CA66CF700E7A82A /* BFMyWalletModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 598F214F1CA66CF700E7A82A /* BFMyWalletModel.m */; };
 		599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 599847481CA274470085FE48 /* BFUpYearAndMonthCell.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
@@ -993,6 +997,14 @@
 		59513B851C9FFD8D0028B008 /* iconfont-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-search.png"; sourceTree = "<group>"; };
 		59513B861C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-xuanzegequyoujianjiao.png"; sourceTree = "<group>"; };
 		59513B871C9FFD8D0028B008 /* kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kong.png; sourceTree = "<group>"; };
+		597CE68E1CA8CE4E005B6C28 /* BFMyBusinessCardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyBusinessCardController.h; sourceTree = "<group>"; };
+		597CE6941CA8D9A2005B6C28 /* NSString+QRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+QRCode.h"; sourceTree = "<group>"; };
+		597CE6951CA8D9A2005B6C28 /* NSString+QRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+QRCode.m"; sourceTree = "<group>"; };
+		597CE6971CA8D9C7005B6C28 /* BFMyBusinessCardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyBusinessCardController.m; sourceTree = "<group>"; };
+		597CE69C1CA8F3A5005B6C28 /* BFWithdrawalRecordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordController.h; sourceTree = "<group>"; };
+		597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordController.m; sourceTree = "<group>"; };
+		597CE69F1CA8F5B1005B6C28 /* BFWithdrawalRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordCell.h; sourceTree = "<group>"; };
+		597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordCell.m; sourceTree = "<group>"; };
 		598F214E1CA66CF700E7A82A /* BFMyWalletModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyWalletModel.h; sourceTree = "<group>"; };
 		598F214F1CA66CF700E7A82A /* BFMyWalletModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyWalletModel.m; sourceTree = "<group>"; };
 		599847471CA274470085FE48 /* BFUpYearAndMonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUpYearAndMonthCell.h; sourceTree = "<group>"; };
@@ -1409,6 +1421,8 @@
 				590D3B441C93B4540042D42E /* BFMyClientController.m */,
 				51D5DC921C59CE4B00453E02 /* BFMyWalletController.h */,
 				51D5DC931C59CE4B00453E02 /* BFMyWalletController.m */,
+				597CE69C1CA8F3A5005B6C28 /* BFWithdrawalRecordController.h */,
+				597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */,
 				592F86D71C901B75006E0CEE /* BFModifyBankCardController.h */,
 				592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */,
 				59FF46BF1C8A86800040689A /* BFMyOrderController.h */,
@@ -1423,6 +1437,8 @@
 				594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */,
 				59FF46781C8A74AF0040689A /* BFPersonInformationController.h */,
 				59FF46791C8A74AF0040689A /* BFPersonInformationController.m */,
+				597CE68E1CA8CE4E005B6C28 /* BFMyBusinessCardController.h */,
+				597CE6971CA8D9C7005B6C28 /* BFMyBusinessCardController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1537,6 +1553,8 @@
 				5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */,
 				59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */,
 				59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */,
+				597CE69F1CA8F5B1005B6C28 /* BFWithdrawalRecordCell.h */,
+				597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1929,6 +1947,8 @@
 				51D24D6E1C99549200F2D90E /* BFPTStep.m */,
 				59F55B351CA4E117007351A9 /* BFGetYearAndMonth.h */,
 				59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */,
+				597CE6941CA8D9A2005B6C28 /* NSString+QRCode.h */,
+				597CE6951CA8D9A2005B6C28 /* NSString+QRCode.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -2778,6 +2798,7 @@
 				592525A51C8681CF000F609F /* UIScrollView+MJRefresh.m in Sources */,
 				592525A71C8681CF000F609F /* NSString+Emojize.m in Sources */,
 				51811AF51C7451AC004E29A8 /* LogViewController.m in Sources */,
+				597CE69E1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m in Sources */,
 				592525381C8681CF000F609F /* AFURLConnectionOperation.m in Sources */,
 				5915E36E1C96A46A0097D43F /* BFMyGroupPurchaseModel.m in Sources */,
 				51D24D6F1C99549200F2D90E /* BFPTStep.m in Sources */,
@@ -2906,7 +2927,9 @@
 				51D579631C97A37B00385BD2 /* BFPayoffHeader.m in Sources */,
 				59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */,
 				59FF5F321C91477700DA6E5B /* BFBranchModel.m in Sources */,
+				597CE6961CA8D9A2005B6C28 /* NSString+QRCode.m in Sources */,
 				592525BE1C8681CF000F609F /* UIImage+WebP.m in Sources */,
+				597CE6981CA8D9C7005B6C28 /* BFMyBusinessCardController.m in Sources */,
 				592525CE1C8681CF000F609F /* UIView+ST.m in Sources */,
 				592525C11C8681CF000F609F /* UIView+WebCacheOperation.m in Sources */,
 				592525C41C8681CF000F609F /* SMProgressHUDActionSheet.m in Sources */,
@@ -2939,6 +2962,7 @@
 				51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */,
 				592525A11C8681CF000F609F /* MJRefreshStateHeader.m in Sources */,
 				59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */,
+				597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */,
 				592525341C8681CF000F609F /* AFHTTPRequestOperationManager.m in Sources */,
 				51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */,
 				592521B91C867522000F609F /* RootViewController.m in Sources */,

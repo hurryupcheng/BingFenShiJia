@@ -63,7 +63,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-ScreenHeight, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-ScreenHeight, ScreenWidth, ScreenHeight-113-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         //_tableView.backgroundColor = [UIColor redColor];
         _tableView.delegate = self;
@@ -319,11 +319,9 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == self.logisticsArray.count - 1) {
-        return 0.1;
-    }else {
+
         return 10;
-    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

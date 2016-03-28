@@ -13,7 +13,14 @@
 
 @implementation HZQRegexTestter
 
-
+#pragma mark - 真实姓名（只能是汉字且10个字内）
++ (BOOL)validateFloatingPoint:(NSString *)floatingPoint
+{
+    NSString *nameRegex = @"^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
+    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
+    return [namePredicate evaluateWithObject:floatingPoint];
+    
+}
 
 
 #pragma mark -  1.用户名 - 2.密码 （英文、数字都可，且不包含特殊字符）
