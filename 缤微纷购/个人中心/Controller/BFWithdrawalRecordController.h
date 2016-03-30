@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BFWithdrawalRecordController : UIViewController
-
+/**余额*/
+@property (nonatomic, strong) NSString *user_account;
 @end

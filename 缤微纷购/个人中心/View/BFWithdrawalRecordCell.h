@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFWithdrawalRecordModel.h"
 
 @interface BFWithdrawalRecordCell : UITableViewCell
 /**自定义方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**提现记录的模型*/
+@property (nonatomic, strong) BFWithdrawalRecordList *model;
 @end

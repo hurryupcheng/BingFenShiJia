@@ -55,12 +55,7 @@
     return _addView;
 }
 
-//- (BFUserInfo *)userInfo {
-//    if (!_userInfo) {
-//        _userInfo = [BFUserDefaluts getUserInfo];
-//    }
-//    return _userInfo;
-//}
+
 
 - (BFPersonalCenterTopView *)topView {
     if (!_topView) {
@@ -110,7 +105,7 @@
     [super viewWillDisappear:animated];
 
     self.navigationController.navigationBarHidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
+//    self.tabBarController.tabBar.hidden = YES;
     
 }
 
@@ -148,6 +143,7 @@
         
     }else {
         self.navigationController.navigationBarHidden = NO;
+        self.tabBarController.tabBar.hidden = YES;
         BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
         [self.navigationController pushViewController:personInfoVC animated:YES];
         BFLog(@"我的资料");

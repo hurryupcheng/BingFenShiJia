@@ -27,4 +27,8 @@
 @property (nonatomic, strong) NSString *card_id;
 /**地址*/
 @property (nonatomic, strong) NSString *card_address;
+/**银行状态，当card_id，true_name，card_address为空才返回*/
+@property (nonatomic, strong) NSString *bank_status;
+/**当card_id，true_name，card_address为空才返回*/
+@property (nonatomic, strong) NSString *bank_msg;
 @end

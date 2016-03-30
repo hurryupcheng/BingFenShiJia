@@ -120,6 +120,7 @@
     switch (type) {
         case BFMyWalletTopButtonTypeRecord:{
             BFWithdrawalRecordController *withdrawalRecordVC = [[BFWithdrawalRecordController alloc] init];
+            withdrawalRecordVC.user_account = self.model.user_account;
             [self.navigationController pushViewController:withdrawalRecordVC animated:YES];
             break;
         }
@@ -132,6 +133,32 @@
 - (void)gotoGetCashWithView:(BFMyWalletBottomView *)view {
     if ([view.getCashTX.text floatValue] > [self.model.user_account floatValue]) {
         [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"余额不足，请重新输入"];
+    }else if ([self.model.bank_status isEqualToString:@"0"]) {
+        [BFProgressHUD MBProgressFromView:self.view LabelText:@"请先完善银行信息" dispatch_get_main_queue:^{
+            BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
+            [self.navigationController pushViewController:modifyBankCardVC animated:YES];
+        }];
+    }else {
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit_do"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = self.userInfo.ID;
+        parameter[@"token"] = self.userInfo.token;
+        parameter[@"money"] = view.getCashTX.text;
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"responseObject%@,,%@",responseObject,parameter);
+            if (responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"提现成功，请等待工作人员处理"]) {
+
+                }else if ([responseObject[@"msg"] isEqualToString:@"每月只能申请提现一次！请等下个月再提现。"]) {
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"每月只能申请提现一次！"];
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"提现失败,请稍后再试"];
+                }
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"error%@",error);
+        }];
+
     }
 }
 
@@ -141,9 +168,7 @@
     [self.navigationController pushViewController:modifyBankCardVC animated:YES];
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
-}
+
 
 //如果非显示状态，则不需要监听
 -(void)viewWillAppear:(BOOL)animated{

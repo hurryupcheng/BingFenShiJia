@@ -11,6 +11,7 @@
 #import "BFShareView.h"
 #import "BFCustomerServiceView.h"
 #import "BFPersonInformationController.h"
+#import "BFModifyPasswordController.h"
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
@@ -169,9 +170,12 @@
         [window addSubview:customerServiceView];
     }else if (indexPath.section == 1) {
         switch (indexPath.row) {
-            case 0:
+            case 0:{
+                BFModifyPasswordController *modifyPasswordVC = [BFModifyPasswordController new];
+                [self.navigationController pushViewController:modifyPasswordVC animated:YES];
                 BFLog(@"修改密码");
                 break;
+            }
             case 1:
                 BFLog(@"清空图片缓存");
                 break;

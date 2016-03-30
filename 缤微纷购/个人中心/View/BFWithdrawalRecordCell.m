@@ -41,6 +41,24 @@
     return self;
 }
 
+
+- (void)setModel:(BFWithdrawalRecordList *)model {
+    _model = model;
+    if (model) {
+        self.withdrawalsTime.text = [NSString stringWithFormat:@"提现时间：%@", [BFTranslateTime translateTimeIntoAccurateTime:model.addtime]];
+        
+
+        self.withdrawalsAmount.text = [NSString stringWithFormat:@"提现金额：¥%@", model.jiner];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.withdrawalsAmount.text];
+        [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xC1C1C1) range:NSMakeRange(5,model.jiner.length+1)];
+        self.withdrawalsAmount.attributedText = attributedString;
+        
+        self.receivedAmount.frame = CGRectMake(CGRectGetMaxX(self.withdrawalsAmount.frame)+BF_ScaleWidth(5), self.withdrawalsAmount.y, BF_ScaleWidth(250), 0);
+        self.receivedAmount.text = [NSString stringWithFormat:@"实收金额：¥%@", model.actual_amount];
+        [self.receivedAmount sizeToFit];
+    }
+}
+
 - (void)setCell {
     self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(310), BF_ScaleHeight(50))];
     self.bottomView.backgroundColor = BFColor(0xffffff);

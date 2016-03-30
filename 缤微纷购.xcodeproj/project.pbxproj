@@ -168,6 +168,7 @@
 		590D3C401C94166A0042D42E /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2D1C94166A0042D42E /* libSocialWechat.a */; };
 		590D3C411C94166A0042D42E /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2E1C94166A0042D42E /* libWeChatSDK.a */; };
 		590D3C421C94185F0042D42E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 51D121BF1C3A6DA800640A44 /* Info.plist */; };
+		5912E7631CAA2EB600D9B81B /* BFWithdrawalRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */; };
 		5915E35C1C965C8A0097D43F /* BFSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35B1C965C8A0097D43F /* BFSegmentView.m */; };
 		5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35E1C967C7A0097D43F /* BFMyOrderModel.m */; };
 		5915E3621C96860E0097D43F /* BFTranslateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E3611C96860E0097D43F /* BFTranslateTime.m */; };
@@ -338,6 +339,8 @@
 		597CE6981CA8D9C7005B6C28 /* BFMyBusinessCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6971CA8D9C7005B6C28 /* BFMyBusinessCardController.m */; };
 		597CE69E1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */; };
 		597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */; };
+		597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6A31CA92547005B6C28 /* BFModifyPasswordController.m */; };
+		597CE6A71CA92649005B6C28 /* BFModifyPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 597CE6A61CA92649005B6C28 /* BFModifyPasswordView.m */; };
 		598F21501CA66CF700E7A82A /* BFMyWalletModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 598F214F1CA66CF700E7A82A /* BFMyWalletModel.m */; };
 		599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 599847481CA274470085FE48 /* BFUpYearAndMonthCell.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
@@ -345,6 +348,7 @@
 		59F55B371CA4E117007351A9 /* BFGetYearAndMonth.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B361CA4E117007351A9 /* BFGetYearAndMonth.m */; };
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
+		59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */; };
 		59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */; };
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
@@ -367,6 +371,8 @@
 		59FA7AA21C9CF615008E3813 /* UIImageView+LBBlurredImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AA01C9CF615008E3813 /* UIImageView+LBBlurredImage.m */; };
 		59FA7AA51C9CF663008E3813 /* BFCustomerServiceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AA41C9CF663008E3813 /* BFCustomerServiceView.m */; };
 		59FA7AB11C9D46C1008E3813 /* BFLogisticsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */; };
+		59FB582E1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FB582D1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m */; };
+		59FB58311CAA80A800CCAEB4 /* BFGroupOrderDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FB58301CAA80A800CCAEB4 /* BFGroupOrderDetailView.m */; };
 		59FB7FF51C90FB69008763B7 /* BFPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FB7FF41C90FB69008763B7 /* BFPickerView.m */; };
 		59FBA9311C87D0C800E1DA78 /* BFProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9301C87D0C800E1DA78 /* BFProgressHUD.m */; };
 		59FBA9371C88040700E1DA78 /* BFNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBA9361C88040700E1DA78 /* BFNavigationController.m */; };
@@ -669,6 +675,8 @@
 		590D3C2F1C94166A0042D42E /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		590D3C301C94166A0042D42E /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		590D3C311C94166A0042D42E /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		5912E7611CAA2EB600D9B81B /* BFWithdrawalRecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordModel.h; sourceTree = "<group>"; };
+		5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordModel.m; sourceTree = "<group>"; };
 		5915E35A1C965C8A0097D43F /* BFSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSegmentView.h; sourceTree = "<group>"; };
 		5915E35B1C965C8A0097D43F /* BFSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSegmentView.m; sourceTree = "<group>"; };
 		5915E35D1C967C7A0097D43F /* BFMyOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyOrderModel.h; sourceTree = "<group>"; };
@@ -1005,6 +1013,10 @@
 		597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordController.m; sourceTree = "<group>"; };
 		597CE69F1CA8F5B1005B6C28 /* BFWithdrawalRecordCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordCell.h; sourceTree = "<group>"; };
 		597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordCell.m; sourceTree = "<group>"; };
+		597CE6A21CA92547005B6C28 /* BFModifyPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFModifyPasswordController.h; sourceTree = "<group>"; };
+		597CE6A31CA92547005B6C28 /* BFModifyPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyPasswordController.m; sourceTree = "<group>"; };
+		597CE6A51CA92649005B6C28 /* BFModifyPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFModifyPasswordView.h; sourceTree = "<group>"; };
+		597CE6A61CA92649005B6C28 /* BFModifyPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyPasswordView.m; sourceTree = "<group>"; };
 		598F214E1CA66CF700E7A82A /* BFMyWalletModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyWalletModel.h; sourceTree = "<group>"; };
 		598F214F1CA66CF700E7A82A /* BFMyWalletModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyWalletModel.m; sourceTree = "<group>"; };
 		599847471CA274470085FE48 /* BFUpYearAndMonthCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUpYearAndMonthCell.h; sourceTree = "<group>"; };
@@ -1019,6 +1031,8 @@
 		59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedCell.m; sourceTree = "<group>"; };
 		59F55B411CA517AC007351A9 /* BFRecommendDividedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedModel.h; sourceTree = "<group>"; };
 		59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedModel.m; sourceTree = "<group>"; };
+		59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailModel.h; sourceTree = "<group>"; };
+		59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailModel.m; sourceTree = "<group>"; };
 		59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCheckLogisticsController.h; sourceTree = "<group>"; };
 		59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCheckLogisticsController.m; sourceTree = "<group>"; };
 		59F7A9F61C8F1596007DAF42 /* BFAddRecommenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAddRecommenderView.h; sourceTree = "<group>"; };
@@ -1062,6 +1076,10 @@
 		59FA7AA41C9CF663008E3813 /* BFCustomerServiceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCustomerServiceView.m; sourceTree = "<group>"; };
 		59FA7AAF1C9D46C1008E3813 /* BFLogisticsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFLogisticsModel.h; sourceTree = "<group>"; };
 		59FA7AB01C9D46C1008E3813 /* BFLogisticsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFLogisticsModel.m; sourceTree = "<group>"; };
+		59FB582C1CAA78B400CCAEB4 /* BFGroupOrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailController.h; sourceTree = "<group>"; };
+		59FB582D1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailController.m; sourceTree = "<group>"; };
+		59FB582F1CAA80A800CCAEB4 /* BFGroupOrderDetailView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailView.h; sourceTree = "<group>"; };
+		59FB58301CAA80A800CCAEB4 /* BFGroupOrderDetailView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailView.m; sourceTree = "<group>"; };
 		59FB7FF31C90FB69008763B7 /* BFPickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPickerView.h; sourceTree = "<group>"; };
 		59FB7FF41C90FB69008763B7 /* BFPickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPickerView.m; sourceTree = "<group>"; };
 		59FBA92F1C87D0C800E1DA78 /* BFProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProgressHUD.h; sourceTree = "<group>"; };
@@ -1409,6 +1427,8 @@
 				51D1220C1C3A75B400640A44 /* PersonalViewController.m */,
 				59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */,
 				59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */,
+				597CE6A21CA92547005B6C28 /* BFModifyPasswordController.h */,
+				597CE6A31CA92547005B6C28 /* BFModifyPasswordController.m */,
 				51811AF31C7451AC004E29A8 /* LogViewController.h */,
 				51811AF41C7451AC004E29A8 /* LogViewController.m */,
 				51811AF61C745205004E29A8 /* ZCViewController.h */,
@@ -1433,6 +1453,8 @@
 				59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */,
 				5900A03B1C91BD2600B6AE5A /* BFMyGroupPurchaseController.h */,
 				5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */,
+				59FB582C1CAA78B400CCAEB4 /* BFGroupOrderDetailController.h */,
+				59FB582D1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m */,
 				594EE0E01C8C1F2600A243AE /* BFMyCouponsController.h */,
 				594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */,
 				59FF46781C8A74AF0040689A /* BFPersonInformationController.h */,
@@ -1472,6 +1494,8 @@
 				59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */,
 				5915E36C1C96A46A0097D43F /* BFMyGroupPurchaseModel.h */,
 				5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */,
+				59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */,
+				59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */,
 				59F7EC8B1C96F9A2006ABB2A /* BFMyCouponsModel.h */,
 				59F7EC8C1C96F9A2006ABB2A /* BFMyCouponsModel.m */,
 				59506F981CA23757008E773A /* BFScoreModel.h */,
@@ -1501,6 +1525,8 @@
 				51811AFC1C746752004E29A8 /* TextFieldLog.m */,
 				599F19C01C8D73EB00319FA4 /* BFPassWordView.h */,
 				599F19C11C8D73EB00319FA4 /* BFPassWordView.m */,
+				597CE6A51CA92649005B6C28 /* BFModifyPasswordView.h */,
+				597CE6A61CA92649005B6C28 /* BFModifyPasswordView.m */,
 				51D5B6421C75B4F2000897BB /* MyorderTableViewCell.h */,
 				51D5B6431C75B4F2000897BB /* MyorderTableViewCell.m */,
 				59FF46C21C8A8B990040689A /* BFMyOrderCell.h */,
@@ -1553,8 +1579,12 @@
 				5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */,
 				59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */,
 				59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */,
+				59FB582F1CAA80A800CCAEB4 /* BFGroupOrderDetailView.h */,
+				59FB58301CAA80A800CCAEB4 /* BFGroupOrderDetailView.m */,
 				597CE69F1CA8F5B1005B6C28 /* BFWithdrawalRecordCell.h */,
 				597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */,
+				5912E7611CAA2EB600D9B81B /* BFWithdrawalRecordModel.h */,
+				5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2722,6 +2752,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				592525D61C8681CF000F609F /* UIImageView+AFNetworking.m in Sources */,
+				59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */,
 				592525731C8681CF000F609F /* EMMallSectionView.m in Sources */,
 				59FBA97C1C8817FD00E1DA78 /* BFHotCityCell.m in Sources */,
 				51D0E0081CA3AE600074F0D3 /* BFPayoffModel.m in Sources */,
@@ -2812,6 +2843,7 @@
 				51D541621C8E5DB6005CB936 /* BFShoppModel.m in Sources */,
 				592525CC1C8681CF000F609F /* STConst.m in Sources */,
 				592525351C8681CF000F609F /* AFHTTPSessionManager.m in Sources */,
+				59FB582E1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m in Sources */,
 				59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */,
 				51F5CA911C58C9610073F783 /* FXQModel.m in Sources */,
 				5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */,
@@ -2889,6 +2921,7 @@
 				592525BD1C8681CF000F609F /* UIImage+MultiFormat.m in Sources */,
 				59513B7E1C9FFCE20028B008 /* UIViewController+HUD.m in Sources */,
 				59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */,
+				5912E7631CAA2EB600D9B81B /* BFWithdrawalRecordModel.m in Sources */,
 				592525981C8681CF000F609F /* MJRefreshHeader.m in Sources */,
 				5925257E1C8681CF000F609F /* MASConstraint.m in Sources */,
 				51D2FE891C7EEE6500155588 /* PTModel.m in Sources */,
@@ -2962,14 +2995,17 @@
 				51D10E021C40B79000F630C9 /* XCCollectionViewCell.m in Sources */,
 				592525A11C8681CF000F609F /* MJRefreshStateHeader.m in Sources */,
 				59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */,
+				597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */,
 				597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */,
 				592525341C8681CF000F609F /* AFHTTPRequestOperationManager.m in Sources */,
 				51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */,
 				592521B91C867522000F609F /* RootViewController.m in Sources */,
 				5915E35C1C965C8A0097D43F /* BFSegmentView.m in Sources */,
+				597CE6A71CA92649005B6C28 /* BFModifyPasswordView.m in Sources */,
 				59FC0F6F1C984D2000052707 /* BFProductDetailCell.m in Sources */,
 				592525A31C8681CF000F609F /* MJRefreshConst.m in Sources */,
 				51D4AA881C85372800943ABD /* PTStep.m in Sources */,
+				59FB58311CAA80A800CCAEB4 /* BFGroupOrderDetailView.m in Sources */,
 				59FFCEC91C89EA6600ADF8F0 /* BFSettingController.m in Sources */,
 				5915E3621C96860E0097D43F /* BFTranslateTime.m in Sources */,
 				51D582771C53175A00686A2E /* SoSoViewController.m in Sources */,

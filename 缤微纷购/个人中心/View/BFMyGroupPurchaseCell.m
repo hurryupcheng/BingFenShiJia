@@ -45,13 +45,26 @@
 
 - (void)setModel:(BFMyGroupPurchaseModel *)model{
     _model = model;
-    [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
-    self.titleLabel.text = model.title;
-    self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@",model.team_num, model.team_price];
-    
-    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.goView.infoLabel.text];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]-1)];
-    self.goView.infoLabel.attributedText = attributedString;
+    if (model) {
+        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+        self.titleLabel.text = model.title;
+        self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@",model.team_num, model.team_price];
+        
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.goView.infoLabel.text];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]-1)];
+        self.goView.infoLabel.attributedText = attributedString;
+        
+        if ([model.status isEqualToString:@"0"]) {
+            self.sucessLabel.textColor = BFColor(0xe02a2f);
+            self.sucessLabel.text = @"拼团中";
+        }else if ([model.status isEqualToString:@"1"]) {
+            self.sucessLabel.textColor = BFColor(0xe02a2f);
+            self.sucessLabel.text = @"拼团成功";
+        }else {
+            self.sucessLabel.text = @"拼团失败";
+            self.sucessLabel.textColor = BFColor(0x4da800);
+        }
+    }
     
     
 }
@@ -90,7 +103,7 @@
         self.sucessLabel = [UILabel new];
         self.sucessLabel.text = @"团购成功";
         self.sucessLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
-        self.sucessLabel.textColor = BFColor(0xe02a2f);
+        
         [self.backgroudView addSubview:self.sucessLabel];
         
         self.checkGroupDetail = [self setUpButtonWithTitle:@"查看团详情" type:MyGroupPurchaseCellCheckButtonTypeGroup];
@@ -145,8 +158,10 @@
 }
 
 - (void)checkButtonClick:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGotoCheckDetailWithButtonType:)]) {
-        [self.delegate clickToGotoCheckDetailWithButtonType:sender.tag];
+    
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGotoCheckDetailWithButtonType: model:)]) {
+        [self.delegate clickToGotoCheckDetailWithButtonType:sender.tag model:self.model];
     }
 }
 

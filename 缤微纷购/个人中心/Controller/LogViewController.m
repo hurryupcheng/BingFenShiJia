@@ -37,6 +37,7 @@
 
 @implementation LogViewController
 
+#pragma mark --懒加载
 
 - (NSString *)phonePath {
     if (!_phonePath) {
@@ -52,11 +53,15 @@
     return _passwordPath;
 }
 
+
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"登录";
     
+    //修改密码成功后的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanUpPassword) name:@"cleanPassword" object:nil];
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -66,15 +71,23 @@
     self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
     self.bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bgImageView];
-    
+    //创建view
     [self initWithView];
 }
 
+#pragma mark --通知方法
+- (void)cleanUpPassword {
+    NSFileManager * fileManager = [[NSFileManager alloc]init];
+    [fileManager removeItemAtPath:self.passwordPath error:nil];
+}
+
+#pragma mark --创建view
 - (void)initWithView{
 
     self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];
     self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
     //self.phoneTX.keyboardType = UIKeyboardTypeNumberPad;
+    self.phoneTX.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.phoneTX.delegate = self;
     self.phoneTX.returnKeyType = UIReturnKeyNext;
     [self.bgImageView addSubview:self.phoneTX];
@@ -173,13 +186,14 @@
             break;
     }
 }
-
+#pragma mark --忘记密码
 - (void)forgetPassWord:(UIButton *)sender {
     BFLog(@"忘记密码");
 }
 
-//  登陆点击按钮事件
+#pragma mark --登录按钮点击事件
 - (void)login{
+    [self.view endEditing:YES];
     leftTime = 2;
     [self.loginButton setEnabled:NO];
     [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
@@ -239,6 +253,7 @@
     }
 }
 
+#pragma mark --注册按钮点击事件
 - (void)registerUser{
 
     ZCViewController *zc = [[ZCViewController alloc]init];
@@ -274,14 +289,14 @@
     }
     return ret;
 }
-
+#pragma mark --viewWillAppear
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
    self.tabBarController.tabBar.hidden = YES;
     
 }
-
+#pragma mark --viewWillDisappear
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     self.navigationController.navigationBarHidden = NO;

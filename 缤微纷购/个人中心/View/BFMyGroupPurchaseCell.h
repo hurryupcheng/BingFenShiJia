@@ -16,7 +16,7 @@ typedef enum {
 
 @protocol BFMyGroupPurchaseCellDelegate <NSObject>
 
-- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type;
+- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type model:(BFMyGroupPurchaseModel *)model;
 
 @end
 

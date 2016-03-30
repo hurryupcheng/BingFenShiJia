@@ -13,10 +13,10 @@
 
 @implementation HZQRegexTestter
 
-#pragma mark - 真实姓名（只能是汉字且10个字内）
+#pragma mark - 非负浮点数
 + (BOOL)validateFloatingPoint:(NSString *)floatingPoint
 {
-    NSString *nameRegex = @"^(([0-9]+\\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\\.[0-9]+)|([0-9]*[1-9][0-9]*))$";
+    NSString *nameRegex = @"^\\d+(\\.\\d+)?$";
     NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
     return [namePredicate evaluateWithObject:floatingPoint];
     
