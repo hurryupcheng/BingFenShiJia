@@ -10,6 +10,8 @@
 #import "BFMyGroupPurchaseCell.h"
 #import "BFMyGroupPurchaseModel.h"
 #import "BFGroupOrderDetailController.h"
+#import "BFGroupDetailController.h"
+
 
 @interface BFMyGroupPurchaseController ()<UITableViewDelegate, UITableViewDataSource, BFMyGroupPurchaseCellDelegate>
 /**tableView*/
@@ -80,7 +82,6 @@
 
 #pragma mark -- tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    BFLog(@"%lu",(unsigned long)self.groupArray.count);
     return self.groupArray.count;
     
 }
@@ -113,6 +114,10 @@
     switch (type)  {
             
         case MyGroupPurchaseCellCheckButtonTypeGroup:{
+            BFGroupDetailController *groupDetailVC = [[BFGroupDetailController alloc] init];
+            groupDetailVC.itemid = model.ID;
+            groupDetailVC.teamid = model.tid;
+            [self.navigationController pushViewController:groupDetailVC animated:YES];
             BFLog(@"团详情");
             break;
         }

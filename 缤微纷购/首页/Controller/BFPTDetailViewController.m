@@ -12,7 +12,7 @@
 #import "BFPTDetailHeaderView.h"
 #import "BFPTDetailModel.h"
 
-@interface BFPTDetailViewController ()
+@interface BFPTDetailViewController ()<BFPTStepDelegate>
 /**webView*/
 @property (nonatomic, strong) UIWebView *webView;
 /**自定义头部视图*/
@@ -59,11 +59,12 @@
 
 - (void)initView:(BFPTDetailModel *)model{
     self.header = [[BFPTDetailHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+    self.header.step.delegate = self;
     self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
     [self.header.alonePurchaseButton addTarget:self action:@selector(alonePurchaseButton) forControlEvents:UIControlEventTouchUpInside];
     [self.header.groupPurchaseButton addTarget:self action:@selector(groupPurchaseButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.header.step.stepBut addTarget:self action:@selector(stepButs) forControlEvents:UIControlEventTouchUpInside];
+    
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
     self.webBrowserView = self.webView.scrollView.subviews[0];
@@ -95,9 +96,10 @@
     [self.navigationController pushViewController:zf animated:YES];
 }
 
-- (void)stepButs{
+- (void)goToCheckDetail {
     PTStepViewController *pt = [[PTStepViewController alloc]init];
     [self.navigationController pushViewController:pt animated:YES];
 }
+
 
 @end

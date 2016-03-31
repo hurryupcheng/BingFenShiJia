@@ -16,6 +16,12 @@
                     <view key="view" contentMode="scaleAspectFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="group_detail_group_fail" translatesAutoresizingMaskIntoConstraints="NO" id="eht-35-J4G">
+                                <rect key="frame" x="83" y="160" width="138" height="185"/>
+                                <color key="backgroundColor" red="0.92549019610000005" green="0.92549019610000005" blue="0.92549019610000005" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" red="0.53333333333333333" green="0.53333333333333333" blue="0.53333333333333333" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="12.png" id="YPf-zg-Lrf"/>
@@ -49,5 +55,6 @@
     </scenes>
     <resources>
         <image name="12.png" width="371" height="65"/>
+        <image name="group_detail_group_fail" width="147" height="147"/>
     </resources>
 </document>

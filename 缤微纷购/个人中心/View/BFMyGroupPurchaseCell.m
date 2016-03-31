@@ -54,15 +54,15 @@
         [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]-1)];
         self.goView.infoLabel.attributedText = attributedString;
         
-        if ([model.status isEqualToString:@"0"]) {
-            self.sucessLabel.textColor = BFColor(0xe02a2f);
-            self.sucessLabel.text = @"拼团中";
+        if ([model.status isEqualToString:@"2"]) {
+            self.sucessLabel.text = @"拼团失败";
+            self.sucessLabel.textColor = BFColor(0x4da800);
         }else if ([model.status isEqualToString:@"1"]) {
             self.sucessLabel.textColor = BFColor(0xe02a2f);
             self.sucessLabel.text = @"拼团成功";
         }else {
-            self.sucessLabel.text = @"拼团失败";
-            self.sucessLabel.textColor = BFColor(0x4da800);
+            self.sucessLabel.textColor = BFColor(0xe02a2f);
+            self.sucessLabel.text = @"拼团中";
         }
     }
     

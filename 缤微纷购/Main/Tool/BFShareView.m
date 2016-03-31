@@ -121,6 +121,9 @@
 - (UIButton *)setUpButtonWithFrame:(CGRect)frame image:(NSString *)image type:(BFShareButtonType)type{
     UIButton *button = [[UIButton alloc] initWithFrame:frame];
     button.tag = type;
+    button.layer.shadowOffset = CGSizeMake(0, 0);
+    button.layer.shadowColor = BFColor(0x000000).CGColor;
+    button.layer.shadowOpacity = 0.7;
     //button.backgroundColor = [UIColor redColor];
     [button addTarget:self action:@selector(clickToShare:) forControlEvents:UIControlEventTouchUpInside];
     [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];

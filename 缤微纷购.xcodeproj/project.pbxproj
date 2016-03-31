@@ -168,7 +168,6 @@
 		590D3C401C94166A0042D42E /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2D1C94166A0042D42E /* libSocialWechat.a */; };
 		590D3C411C94166A0042D42E /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3C2E1C94166A0042D42E /* libWeChatSDK.a */; };
 		590D3C421C94185F0042D42E /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 51D121BF1C3A6DA800640A44 /* Info.plist */; };
-		5912E7631CAA2EB600D9B81B /* BFWithdrawalRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */; };
 		5915E35C1C965C8A0097D43F /* BFSegmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35B1C965C8A0097D43F /* BFSegmentView.m */; };
 		5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35E1C967C7A0097D43F /* BFMyOrderModel.m */; };
 		5915E3621C96860E0097D43F /* BFTranslateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E3611C96860E0097D43F /* BFTranslateTime.m */; };
@@ -306,6 +305,11 @@
 		592F86D61C8FC184006E0CEE /* BFAgreeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 592F86D51C8FC184006E0CEE /* BFAgreeButton.m */; };
 		592F86D91C901B75006E0CEE /* BFModifyBankCardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */; };
 		592F86DC1C902C2D006E0CEE /* BFRecommenderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 592F86DB1C902C2D006E0CEE /* BFRecommenderModel.m */; };
+		5938ACBE1CAB7991004D076A /* BFGroupDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */; };
+		5938ACC11CAB80FD004D076A /* BFWithdrawalRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC01CAB80FD004D076A /* BFWithdrawalRecordModel.m */; };
+		5938ACC41CAB8145004D076A /* BFGroupDetailTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */; };
+		5938ACC71CABB07E004D076A /* BFGroupDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */; };
+		5938ACCA1CABD0F8004D076A /* BFGroupDetailHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC91CABD0F8004D076A /* BFGroupDetailHeader.m */; };
 		594E3A9C1CA61B4C004C3635 /* BFHeadSelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594E3A9B1CA61B4C004C3635 /* BFHeadSelectionView.m */; };
 		594E3AA21CA627BF004C3635 /* BFBottomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594E3AA11CA627BF004C3635 /* BFBottomHeaderView.m */; };
 		594EE0DE1C8C162F00A243AE /* BFMyIntegralCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0DC1C8C162F00A243AE /* BFMyIntegralCell.m */; };
@@ -385,6 +389,8 @@
 		59FBB4291C9BF9EF0081F65A /* BFLogisticsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBB4281C9BF9EF0081F65A /* BFLogisticsHeaderView.m */; };
 		59FBB42C1C9BFBE10081F65A /* UnderLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBB42B1C9BFBE10081F65A /* UnderLineLabel.m */; };
 		59FBB42F1C9C07700081F65A /* BFProductInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBB42E1C9C07700081F65A /* BFProductInfoView.m */; };
+		59FBEA751CACBF0800EF12EE /* BFHeadPortraitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBEA741CACBF0800EF12EE /* BFHeadPortraitView.m */; };
+		59FBEA781CACC0C300EF12EE /* BFHeadPortraitsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FBEA771CACC0C300EF12EE /* BFHeadPortraitsView.m */; };
 		59FC0F6F1C984D2000052707 /* BFProductDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC0F6E1C984D2000052707 /* BFProductDetailCell.m */; };
 		59FC1A9E1C8DDB4A00809732 /* BFMyWalletTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC1A9D1C8DDB4A00809732 /* BFMyWalletTopView.m */; };
 		59FC2DB11C891F4500E41D16 /* UIButton+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC2DB01C891F4500E41D16 /* UIButton+Extension.m */; };
@@ -400,6 +406,7 @@
 		59FF46CA1C8AB3620040689A /* BFPersonalCenterTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46C91C8AB3620040689A /* BFPersonalCenterTopView.m */; };
 		59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */; };
 		59FF46D01C8AD8860040689A /* BFFuctionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46CF1C8AD8860040689A /* BFFuctionButton.m */; };
+		59FF51901CAC08AD00F17C78 /* BFGroupDetailProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF518F1CAC08AD00F17C78 /* BFGroupDetailProductCell.m */; };
 		59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF55161CA2E25600EF191F /* BFCustomerOrderCell.m */; };
 		59FF551A1CA2EFF600EF191F /* BFMyCustomerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF55191CA2EFF600EF191F /* BFMyCustomerCell.m */; };
 		59FF5F291C91473900DA6E5B /* BFBankModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF5F281C91473900DA6E5B /* BFBankModel.m */; };
@@ -675,8 +682,6 @@
 		590D3C2F1C94166A0042D42E /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		590D3C301C94166A0042D42E /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		590D3C311C94166A0042D42E /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
-		5912E7611CAA2EB600D9B81B /* BFWithdrawalRecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordModel.h; sourceTree = "<group>"; };
-		5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordModel.m; sourceTree = "<group>"; };
 		5915E35A1C965C8A0097D43F /* BFSegmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSegmentView.h; sourceTree = "<group>"; };
 		5915E35B1C965C8A0097D43F /* BFSegmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSegmentView.m; sourceTree = "<group>"; };
 		5915E35D1C967C7A0097D43F /* BFMyOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyOrderModel.h; sourceTree = "<group>"; };
@@ -956,6 +961,16 @@
 		592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyBankCardController.m; sourceTree = "<group>"; };
 		592F86DA1C902C2D006E0CEE /* BFRecommenderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommenderModel.h; sourceTree = "<group>"; };
 		592F86DB1C902C2D006E0CEE /* BFRecommenderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommenderModel.m; sourceTree = "<group>"; };
+		5938ACBC1CAB7991004D076A /* BFGroupDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailController.h; sourceTree = "<group>"; };
+		5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailController.m; sourceTree = "<group>"; };
+		5938ACBF1CAB80FD004D076A /* BFWithdrawalRecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordModel.h; sourceTree = "<group>"; };
+		5938ACC01CAB80FD004D076A /* BFWithdrawalRecordModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFWithdrawalRecordModel.m; sourceTree = "<group>"; };
+		5938ACC21CAB8145004D076A /* BFGroupDetailTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailTabbar.h; sourceTree = "<group>"; };
+		5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailTabbar.m; sourceTree = "<group>"; };
+		5938ACC51CABB07E004D076A /* BFGroupDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailModel.h; sourceTree = "<group>"; };
+		5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailModel.m; sourceTree = "<group>"; };
+		5938ACC81CABD0F8004D076A /* BFGroupDetailHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailHeader.h; sourceTree = "<group>"; };
+		5938ACC91CABD0F8004D076A /* BFGroupDetailHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailHeader.m; sourceTree = "<group>"; };
 		594E3A9A1CA61B4C004C3635 /* BFHeadSelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHeadSelectionView.h; sourceTree = "<group>"; };
 		594E3A9B1CA61B4C004C3635 /* BFHeadSelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHeadSelectionView.m; sourceTree = "<group>"; };
 		594E3AA01CA627BF004C3635 /* BFBottomHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBottomHeaderView.h; sourceTree = "<group>"; };
@@ -1104,6 +1119,10 @@
 		59FBB42B1C9BFBE10081F65A /* UnderLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnderLineLabel.m; sourceTree = "<group>"; };
 		59FBB42D1C9C07700081F65A /* BFProductInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductInfoView.h; sourceTree = "<group>"; };
 		59FBB42E1C9C07700081F65A /* BFProductInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductInfoView.m; sourceTree = "<group>"; };
+		59FBEA731CACBF0800EF12EE /* BFHeadPortraitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHeadPortraitView.h; sourceTree = "<group>"; };
+		59FBEA741CACBF0800EF12EE /* BFHeadPortraitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHeadPortraitView.m; sourceTree = "<group>"; };
+		59FBEA761CACC0C300EF12EE /* BFHeadPortraitsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHeadPortraitsView.h; sourceTree = "<group>"; };
+		59FBEA771CACC0C300EF12EE /* BFHeadPortraitsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHeadPortraitsView.m; sourceTree = "<group>"; };
 		59FC0F6D1C984D2000052707 /* BFProductDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailCell.h; sourceTree = "<group>"; };
 		59FC0F6E1C984D2000052707 /* BFProductDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductDetailCell.m; sourceTree = "<group>"; };
 		59FC1A9C1C8DDB4A00809732 /* BFMyWalletTopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyWalletTopView.h; sourceTree = "<group>"; };
@@ -1133,6 +1152,8 @@
 		59FF46CC1C8AD34F0040689A /* BFFunctionButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFunctionButtonView.m; sourceTree = "<group>"; };
 		59FF46CE1C8AD8860040689A /* BFFuctionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFFuctionButton.h; sourceTree = "<group>"; };
 		59FF46CF1C8AD8860040689A /* BFFuctionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFFuctionButton.m; sourceTree = "<group>"; };
+		59FF518E1CAC08AD00F17C78 /* BFGroupDetailProductCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailProductCell.h; sourceTree = "<group>"; };
+		59FF518F1CAC08AD00F17C78 /* BFGroupDetailProductCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailProductCell.m; sourceTree = "<group>"; };
 		59FF55151CA2E25600EF191F /* BFCustomerOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCustomerOrderCell.h; sourceTree = "<group>"; };
 		59FF55161CA2E25600EF191F /* BFCustomerOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCustomerOrderCell.m; sourceTree = "<group>"; };
 		59FF55181CA2EFF600EF191F /* BFMyCustomerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerCell.h; sourceTree = "<group>"; };
@@ -1453,6 +1474,8 @@
 				59F6B2491C9A5D280054F317 /* BFCheckLogisticsController.m */,
 				5900A03B1C91BD2600B6AE5A /* BFMyGroupPurchaseController.h */,
 				5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */,
+				5938ACBC1CAB7991004D076A /* BFGroupDetailController.h */,
+				5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */,
 				59FB582C1CAA78B400CCAEB4 /* BFGroupOrderDetailController.h */,
 				59FB582D1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m */,
 				594EE0E01C8C1F2600A243AE /* BFMyCouponsController.h */,
@@ -1478,6 +1501,8 @@
 				592F86DB1C902C2D006E0CEE /* BFRecommenderModel.m */,
 				598F214E1CA66CF700E7A82A /* BFMyWalletModel.h */,
 				598F214F1CA66CF700E7A82A /* BFMyWalletModel.m */,
+				5938ACBF1CAB80FD004D076A /* BFWithdrawalRecordModel.h */,
+				5938ACC01CAB80FD004D076A /* BFWithdrawalRecordModel.m */,
 				59FF5F271C91473900DA6E5B /* BFBankModel.h */,
 				59FF5F281C91473900DA6E5B /* BFBankModel.m */,
 				59FF5F2A1C91474900DA6E5B /* BFProvinceModel.h */,
@@ -1494,6 +1519,8 @@
 				59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */,
 				5915E36C1C96A46A0097D43F /* BFMyGroupPurchaseModel.h */,
 				5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */,
+				5938ACC51CABB07E004D076A /* BFGroupDetailModel.h */,
+				5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */,
 				59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */,
 				59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */,
 				59F7EC8B1C96F9A2006ABB2A /* BFMyCouponsModel.h */,
@@ -1579,12 +1606,20 @@
 				5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */,
 				59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */,
 				59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */,
+				5938ACC81CABD0F8004D076A /* BFGroupDetailHeader.h */,
+				5938ACC91CABD0F8004D076A /* BFGroupDetailHeader.m */,
+				59FBEA761CACC0C300EF12EE /* BFHeadPortraitsView.h */,
+				59FBEA771CACC0C300EF12EE /* BFHeadPortraitsView.m */,
+				59FBEA731CACBF0800EF12EE /* BFHeadPortraitView.h */,
+				59FBEA741CACBF0800EF12EE /* BFHeadPortraitView.m */,
+				59FF518E1CAC08AD00F17C78 /* BFGroupDetailProductCell.h */,
+				59FF518F1CAC08AD00F17C78 /* BFGroupDetailProductCell.m */,
+				5938ACC21CAB8145004D076A /* BFGroupDetailTabbar.h */,
+				5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */,
 				59FB582F1CAA80A800CCAEB4 /* BFGroupOrderDetailView.h */,
 				59FB58301CAA80A800CCAEB4 /* BFGroupOrderDetailView.m */,
 				597CE69F1CA8F5B1005B6C28 /* BFWithdrawalRecordCell.h */,
 				597CE6A01CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m */,
-				5912E7611CAA2EB600D9B81B /* BFWithdrawalRecordModel.h */,
-				5912E7621CAA2EB600D9B81B /* BFWithdrawalRecordModel.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2801,6 +2836,7 @@
 				5925259D1C8681CF000F609F /* MJRefreshBackNormalFooter.m in Sources */,
 				51D2FE861C7EE5B500155588 /* PTTableViewCell.m in Sources */,
 				51D289B61C802C9B007B7176 /* Height.m in Sources */,
+				59FBEA781CACC0C300EF12EE /* BFHeadPortraitsView.m in Sources */,
 				599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */,
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
 				59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */,
@@ -2841,6 +2877,7 @@
 				5925253A1C8681CF000F609F /* AFURLResponseSerialization.m in Sources */,
 				516204D41C72EACA00E9FB0D /* FooterCollectionReusableView.m in Sources */,
 				51D541621C8E5DB6005CB936 /* BFShoppModel.m in Sources */,
+				59FF51901CAC08AD00F17C78 /* BFGroupDetailProductCell.m in Sources */,
 				592525CC1C8681CF000F609F /* STConst.m in Sources */,
 				592525351C8681CF000F609F /* AFHTTPSessionManager.m in Sources */,
 				59FB582E1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m in Sources */,
@@ -2848,6 +2885,7 @@
 				51F5CA911C58C9610073F783 /* FXQModel.m in Sources */,
 				5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */,
 				592F86D61C8FC184006E0CEE /* BFAgreeButton.m in Sources */,
+				5938ACCA1CABD0F8004D076A /* BFGroupDetailHeader.m in Sources */,
 				59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */,
 				592525BF1C8681CF000F609F /* UIImageView+HighlightedWebCache.m in Sources */,
 				59FFCEC11C89DC2800ADF8F0 /* BFMobileNumber.m in Sources */,
@@ -2870,6 +2908,7 @@
 				592525AE1C8681CF000F609F /* UIView+SDExtension.m in Sources */,
 				51D1A9501C4A3CC000D9002C /* JFView.m in Sources */,
 				592525B91C8681CF000F609F /* SDWebImageManager.m in Sources */,
+				5938ACC71CABB07E004D076A /* BFGroupDetailModel.m in Sources */,
 				592525D91C8681CF000F609F /* UIWebView+AFNetworking.m in Sources */,
 				592525D41C8681CF000F609F /* UIAlertView+AFNetworking.m in Sources */,
 				592525D81C8681CF000F609F /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -2921,7 +2960,6 @@
 				592525BD1C8681CF000F609F /* UIImage+MultiFormat.m in Sources */,
 				59513B7E1C9FFCE20028B008 /* UIViewController+HUD.m in Sources */,
 				59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */,
-				5912E7631CAA2EB600D9B81B /* BFWithdrawalRecordModel.m in Sources */,
 				592525981C8681CF000F609F /* MJRefreshHeader.m in Sources */,
 				5925257E1C8681CF000F609F /* MASConstraint.m in Sources */,
 				51D2FE891C7EEE6500155588 /* PTModel.m in Sources */,
@@ -2998,8 +3036,11 @@
 				597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */,
 				597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */,
 				592525341C8681CF000F609F /* AFHTTPRequestOperationManager.m in Sources */,
+				59FBEA751CACBF0800EF12EE /* BFHeadPortraitView.m in Sources */,
 				51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */,
 				592521B91C867522000F609F /* RootViewController.m in Sources */,
+				5938ACC41CAB8145004D076A /* BFGroupDetailTabbar.m in Sources */,
+				5938ACC11CAB80FD004D076A /* BFWithdrawalRecordModel.m in Sources */,
 				5915E35C1C965C8A0097D43F /* BFSegmentView.m in Sources */,
 				597CE6A71CA92649005B6C28 /* BFModifyPasswordView.m in Sources */,
 				59FC0F6F1C984D2000052707 /* BFProductDetailCell.m in Sources */,
@@ -3029,6 +3070,7 @@
 				59FA7A9B1C9CE70C008E3813 /* BFAfterSaleProductView.m in Sources */,
 				592525961C8681CF000F609F /* MJRefreshComponent.m in Sources */,
 				592525371C8681CF000F609F /* AFSecurityPolicy.m in Sources */,
+				5938ACBE1CAB7991004D076A /* BFGroupDetailController.m in Sources */,
 				51A9969A1C9ABB4300B4783C /* BFAddAddressView.m in Sources */,
 				5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */,
 				592525C71C8681CF000F609F /* SMProgressHUDTipView.m in Sources */,

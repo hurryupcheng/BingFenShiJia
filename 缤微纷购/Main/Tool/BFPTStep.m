@@ -10,9 +10,13 @@
 #import "BFPTStep.h"
 
 @interface BFPTStep ()
-
+/**查看详情按钮*/
+@property (nonatomic,retain)UIButton *stepBut;
+/**步骤图片*/
 @property (nonatomic,retain)UIImageView *img;
+/**步骤title*/
 @property (nonatomic,retain)UILabel *title;
+/**底部view*/
 @property (nonatomic,retain)UIView *groub;
 
 @end
@@ -28,6 +32,7 @@
         self.stepBut = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(pt.frame)-(kScreenWidth/4), 10, kScreenWidth/4, CGFloatX(25))];
         [self.stepBut setTitle:@"查看详情" forState:UIControlStateNormal];
         [self.stepBut setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [self.stepBut addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
         self.stepBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(13)];
         
         NSArray *imgArr = @[@"a1.png",@"b1.png",@"c1.png",@"d1.png"];
@@ -65,5 +70,15 @@
     }
     return self;
 }
+
+//代理方法
+- (void)click:(UIButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goToCheckDetail)]) {
+        [self.delegate goToCheckDetail];
+    }
+}
+
+
+
 
 @end

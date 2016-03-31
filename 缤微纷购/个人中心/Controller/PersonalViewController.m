@@ -181,6 +181,7 @@
 #pragma mark -- 注册按钮代理点击
 - (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type {
     self.navigationController.navigationBarHidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
     switch (type) {
         case BFPersonalCenterTopButtonTypeIntegral:{
             BFMyIntegralController *myIntegralVC = [BFMyIntegralController new];
