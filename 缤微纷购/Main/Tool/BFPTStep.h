@@ -8,9 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BFPTStepDelegate <NSObject>
+
+- (void)goToCheckDetail;
+
+@end
+
+
 @interface BFPTStep : UIView
 
-@property (nonatomic,retain)UIButton *stepBut;
-- (instancetype)initWithFrame:(CGRect)frame index:(NSInteger)index;
 
+/**自定义方法*/
+- (instancetype)initWithFrame:(CGRect)frame index:(NSInteger)index;
+/**代理*/
+@property (nonatomic, weak) id<BFPTStepDelegate>delegate;
 @end

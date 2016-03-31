@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/9.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "HZQRegexTestter.h"
 #import "BFMyWalletBottomView.h"
 #import "BFAgreeButton.h"
 
@@ -14,12 +14,25 @@
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
 @property (nonatomic, strong) UIView *getCashView;
-
+/**收款人*/
+@property (nonatomic, strong) UILabel *recieverLabel;
+/**实付金额*/
+@property (nonatomic, strong) UILabel *paidCashLabel;
 
 
 @end
 
 @implementation BFMyWalletBottomView
+
+- (void)setModel:(BFMyWalletModel *)model {
+    _model = model;
+    if (!model.true_name) {
+        self.recieverLabel.text = @"收款人：";
+    }else {
+        self.recieverLabel.text = [NSString stringWithFormat:@"收款人：%@", model.true_name];
+    }
+}
+
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -65,19 +78,20 @@
         self.getCashTX.layer.cornerRadius = 3;
         self.getCashTX.layer.borderWidth = 1;
         self.getCashTX.layer.borderColor = BFColor(0xDCDCDC).CGColor;
+        [self.getCashTX addTarget:self action:@selector(change:) forControlEvents:UIControlEventEditingChanged];
         [self.getCashView addSubview:self.getCashTX];
         
         //实付金额底部视图
         UIView *paidCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(self.getCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
         
         //实付金额label
-        UILabel *paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(60), paidCashView.height) tetx:@"实付金额："];
+        self.paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(260), paidCashView.height) tetx:@"实付金额："];
         
         //收款人底部视图
         UIView *recieverView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(paidCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
         
         //收款人label
-        UILabel *recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), paidCashView.height) tetx:@"收款人：叶文敏"];
+        self.recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), paidCashView.height) tetx:@"收款人：叶文敏"];
         
         //确认提现底部视图
         UIView *sureView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), self.height-(CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(7)))];
@@ -110,8 +124,23 @@
         if ([self.getCashTX.text isEqualToString:@""]) {
             [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入提现金额"];
         }else {
-            [self endEditing:YES];
-            BFLog(@"确认提现");
+            
+            if ([HZQRegexTestter validateFloatingPoint:self.getCashTX.text]) {
+                if ([self.getCashTX.text floatValue] < 1.0) {
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"提现金额最少1元"];
+                }else {
+                    self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+                    [self endEditing:YES];
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
+                        [self.delegate gotoGetCashWithView:self];
+                    }
+                    BFLog(@"确认提现");
+                }
+            }else {
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+            }
+
+            
         }
         
     }
@@ -120,11 +149,28 @@
 
 //修改银行信息
 - (void)modifyBankInfo {
-    [self endEditing:YES];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
-        [self.delegate goToModifyBankCardInformation];
+    if (self.getCashTX.text.length == 0) {
+        [self.getCashTX resignFirstResponder];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
+            [self.delegate goToModifyBankCardInformation];
+        }
+        BFLog(@"我要修改银行信息");
+    }else {
+        if ([HZQRegexTestter validateFloatingPoint:self.getCashTX.text]) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
+            [self.getCashTX resignFirstResponder];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(goToModifyBankCardInformation)]) {
+                [self.delegate goToModifyBankCardInformation];
+            }
+            BFLog(@"我要修改银行信息");
+        }else {
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+        }
+        
     }
-    BFLog(@"我要修改银行信息");
+    
+   
+
 }
 
 //我以阅读按钮
@@ -159,13 +205,45 @@
 }
 
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self endEditing:YES];
+#pragma mark -- 点击done收起键盘
+- (void)change:(UITextField *)textField {
+    if (self.getCashTX.text.length == 0) {
+        self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
+    }else if (![HZQRegexTestter validateFloatingPoint:textField.text]) {
+        [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+    }else {
+        if ([textField.text floatValue] <= 3500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
+        }else if ([textField.text floatValue] > 3500 && [textField.text floatValue] <= 5000) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f",[textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.03];
+        }else if ([textField.text floatValue] > 5000 && [textField.text floatValue] <= 8000) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.1 + 105];
+        }else if ([textField.text floatValue] > 8000 && [textField.text floatValue] <= 12500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.2 + 555];
+        }else if ([textField.text floatValue] > 12500 && [textField.text floatValue] <= 38500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.25 + 1005];
+        }else if ([textField.text floatValue] > 38500 && [textField.text floatValue] <= 58500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.3 + 2755];
+        }else if ([textField.text floatValue] > 58500 && [textField.text floatValue] <= 83500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.35 + 5505];
+        }else if ([textField.text floatValue] > 83500) {
+            self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%.2f", [textField.text floatValue] - ([textField.text floatValue] - 3500) * 0.45 + 13505];
+        }
+    }
 }
 
-
+#pragma mark -- 点击done收起键盘
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
     [self.getCashTX resignFirstResponder];
-    return YES;
+        return YES;
 }
+
+#pragma mark -- 点击view结束编辑
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    [self endEditing:YES];
+    
+}
+
 @end

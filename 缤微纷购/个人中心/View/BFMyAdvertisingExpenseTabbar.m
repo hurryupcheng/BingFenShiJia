@@ -16,14 +16,11 @@
 
 @implementation BFMyAdvertisingExpenseTabbar
 
-+ (instancetype)myTabbar {
-    BFMyAdvertisingExpenseTabbar *tabbar = [[BFMyAdvertisingExpenseTabbar alloc] init];
-    return tabbar;
-}
 
-- (id)init {
-    if (self = [super init]) {
-        self.frame = CGRectMake(0, ScreenHeight-110, ScreenWidth, 46);
+
+- (id)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        
         self.backgroundColor = [UIColor whiteColor];
         self.layer.shadowOpacity = 0.3;
         self.layer.shadowColor = BFColor(0x000000).CGColor;
@@ -33,20 +30,20 @@
     return self;
 }
 
-- (void)setModel:(BFMyAdvertisingExpenseModel *)model{
-    _model = model;
-    if (model) {
-        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",model.total];
+- (void)setCommissionModel:(BFCommissionModel *)commissionModel {
+    _commissionModel = commissionModel;
+    if (commissionModel) {
+        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",commissionModel.proxy_order_money];
     }
 }
 
 - (void)setUpTabbar{
 
     
-    self.commissionLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), self.height) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.60"];
+    self.commissionLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), 46) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.60"];
     [self addSubview:self.commissionLabel];
     
-    UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(5), BF_ScaleWidth(60), self.height-BF_ScaleHeight(10)) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
+    UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(5), BF_ScaleWidth(60), 46-BF_ScaleHeight(10)) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
     raiseCashButton.layer.cornerRadius = 3;
     raiseCashButton.backgroundColor = BFColor(0x102D97);
     [raiseCashButton addTarget:self action:@selector(howToGetCash) forControlEvents:UIControlEventTouchUpInside];

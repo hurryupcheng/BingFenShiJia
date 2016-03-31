@@ -24,7 +24,7 @@
     BFAdvertisingExpenseInformationCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFAdvertisingExpenseInformationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -44,26 +44,27 @@
         [self.contentView addSubview:self.bgView];
         
         
-        _totalMoneyLabel = [UILabel new];
+        self.totalMoneyLabel = [UILabel new];
         self.totalMoneyLabel.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(300), 0);
-        _totalMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        _totalMoneyLabel.numberOfLines = 0;
-        _totalMoneyLabel.text = [NSString stringWithFormat:@"本月总佣金：¥0.7（其中¥2.56已确认，¥5.25待确认）"];
+        self.totalMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        self.totalMoneyLabel.numberOfLines = 0;
+        self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月总佣金：¥0.7（其中¥2.56已确认，¥5.25待确认）"];
         
         //_totalMoneyLabel.backgroundColor = [UIColor redColor];
-        [self.bgView addSubview:_totalMoneyLabel];
+        [self.bgView addSubview:self.totalMoneyLabel];
+        [self.totalMoneyLabel sizeToFit];
         
         
         
-        _instructionLabel = [UILabel new];
-        
-        _instructionLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        _instructionLabel.text = @"说明：订单状态为【交易成功】的才能结算佣金，请在个人中心填写银行账号，以便商家打款。（此处仅显示最新50条订单信息）";
-        _instructionLabel.numberOfLines = 0;
+        self.instructionLabel = [UILabel new];
+        self.instructionLabel.frame = CGRectMake(BF_ScaleWidth(5), CGRectGetMaxY(self.totalMoneyLabel.frame)+BF_ScaleHeight(4.5), BF_ScaleWidth(300), BF_ScaleHeight(70));
+        self.instructionLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        self.instructionLabel.text = @"说明：订单状态为【交易成功】的才能结算佣金，请在个人中心填写银行账号，以便商家打款。（此处仅显示最新50条订单信息）";
+        self.instructionLabel.numberOfLines = 0;
         [self setLineSpace:BF_ScaleHeight(4.5) headIndent:0 text:_instructionLabel.text label:_instructionLabel];
         //_instructionLabel.backgroundColor = [UIColor greenColor];
-        [self.bgView addSubview:_instructionLabel];
-        [_instructionLabel sizeToFit];
+        [self.bgView addSubview:self.instructionLabel];
+        [self.instructionLabel sizeToFit];
         
         
     }

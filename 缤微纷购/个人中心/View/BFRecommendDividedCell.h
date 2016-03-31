@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFRecommendDividedModel.h"
+
 
 @interface BFRecommendDividedCell : UITableViewCell
 /**自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+/**推荐分成订单模型*/
+@property (nonatomic, strong) BFRecommendDividedModel *model;
 @end

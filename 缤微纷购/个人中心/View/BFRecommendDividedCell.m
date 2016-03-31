@@ -26,9 +26,14 @@
     BFRecommendDividedCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFRecommendDividedCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ID];
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
+}
+
+- (void)setModel:(BFRecommendDividedModel *)model {
+    _model = model;
+    self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月推荐分成总佣金：¥%@已确认",model.proxy_order_money_confirm];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

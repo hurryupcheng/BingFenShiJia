@@ -55,12 +55,7 @@
     return _addView;
 }
 
-//- (BFUserInfo *)userInfo {
-//    if (!_userInfo) {
-//        _userInfo = [BFUserDefaluts getUserInfo];
-//    }
-//    return _userInfo;
-//}
+
 
 - (BFPersonalCenterTopView *)topView {
     if (!_topView) {
@@ -148,6 +143,7 @@
         
     }else {
         self.navigationController.navigationBarHidden = NO;
+        self.tabBarController.tabBar.hidden = YES;
         BFPersonInformationController *personInfoVC = [[BFPersonInformationController alloc]init];
         [self.navigationController pushViewController:personInfoVC animated:YES];
         BFLog(@"我的资料");
@@ -185,6 +181,7 @@
 #pragma mark -- 注册按钮代理点击
 - (void)goToPersonalCenterTopButtoInterfaceWithType:(BFPersonalCenterTopButtonType)type {
     self.navigationController.navigationBarHidden = NO;
+    self.tabBarController.tabBar.hidden = YES;
     switch (type) {
         case BFPersonalCenterTopButtonTypeIntegral:{
             BFMyIntegralController *myIntegralVC = [BFMyIntegralController new];

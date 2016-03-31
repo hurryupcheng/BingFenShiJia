@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFMyWalletModel.h"
+@class BFMyWalletBottomView;
 @protocol BFMyWalletBottomViewDelegate <NSObject>
 
 - (void)goToModifyBankCardInformation;
+/**点击确认提现的代理*/
+- (void)gotoGetCashWithView:(BFMyWalletBottomView *)view;
 
 @end
 
@@ -19,4 +22,6 @@
 @property (nonatomic, strong) UITextField *getCashTX;
 /**代理*/
 @property (nonatomic, weak) id<BFMyWalletBottomViewDelegate>delegate;
+/**我的钱包模型*/
+@property (nonatomic, strong) BFMyWalletModel *model;
 @end

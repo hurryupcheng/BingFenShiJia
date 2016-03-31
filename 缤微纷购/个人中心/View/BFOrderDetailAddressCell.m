@@ -41,10 +41,10 @@
 
 - (void)setModel:(BFProductInfoModel *)model {
     _model = model;
-    self.addressLabel.frame = CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(40), BF_ScaleWidth(285), 0);
+    //self.addressLabel.frame = CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(40), BF_ScaleWidth(285), 0);
     self.addressLabel.text = model.address;
     self.addressLabel.textAlignment = NSTextAlignmentRight;
-    [self.addressLabel sizeToFit];
+    
     
     self.nameAndPhoneNumberLabel.text = [NSString stringWithFormat:@"%@,%@",model.address_name, model.mobile];
 }
@@ -61,11 +61,12 @@
     [titleLabel sizeToFit];
     
     self.addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(40), BF_ScaleWidth(285), 0)];
-    self.addressLabel.text = @"广东省广州市天河区华夏路30号富力盈通大厦3008";
+    self.addressLabel.text = @"广东省广州市天河区华夏路30号富力盈通大厦3008富力盈通大厦3008";
     
     self.addressLabel.numberOfLines = 0;
     self.addressLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
     [self.bgImageView addSubview:self.addressLabel];
+    [self.addressLabel sizeToFit];
     
     
     

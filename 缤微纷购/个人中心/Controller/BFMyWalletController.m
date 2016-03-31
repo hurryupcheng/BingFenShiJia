@@ -10,8 +10,10 @@
 #import "BFMyWalletTopView.h"
 #import "BFMyWalletBottomView.h"
 #import "BFModifyBankCardController.h"
+#import "BFMyWalletModel.h"
+#import "BFWithdrawalRecordController.h"
 
-@interface BFMyWalletController()<UITextFieldDelegate, BFMyWalletBottomViewDelegate>
+@interface BFMyWalletController()<UITextFieldDelegate, BFMyWalletBottomViewDelegate, BFMyWalletTopViewDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**自定义我的钱包页面上班部分*/
@@ -20,14 +22,16 @@
 @property (nonatomic, strong) BFMyWalletBottomView *bottomView;
 /**用户信息*/
 @property (nonatomic, strong) BFUserInfo *userInfo;
+/**我的钱包模型*/
+@property (nonatomic, strong) BFMyWalletModel *model;
 @end
 
 @implementation BFMyWalletController
-
+#pragma mark --懒加载
 /**定义*/
 - (BFMyWalletBottomView *)bottomView {
     if (!_bottomView) {
-        _bottomView = [[BFMyWalletBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight*0.42, ScreenWidth, ScreenHeight*0.58)];
+        _bottomView = [[BFMyWalletBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight*0.58)];
         _bottomView.delegate = self;
         //_bottomView.backgroundColor = BFColor(0xF4F4F6);
         [self.view addSubview:_bottomView];
@@ -38,7 +42,8 @@
 /**定义*/
 - (BFMyWalletTopView *)topView {
     if (!_topView) {
-        _topView = [[BFMyWalletTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
+        _topView = [[BFMyWalletTopView alloc] initWithFrame:CGRectMake(0, ScreenHeight*0.42-ScreenHeight, ScreenWidth, ScreenHeight*0.42)];
+        _topView.delegate = self;
         [self.view addSubview:_topView];
     }
     return _topView;
@@ -57,18 +62,11 @@
     return _bgImageView;
 }
 
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     //self.navigationController.navigationBar.translucent = YES;
     self.userInfo = [BFUserDefaluts getUserInfo];
-    if ([self.userInfo.tel isEqualToString:@""] || [self.userInfo.bank_name isEqualToString:@""] || [self.userInfo.card_id isEqualToString:@""] || [self.userInfo.card_address isEqualToString:@""] || [self.userInfo.nickname isEqualToString:@""] || [self.userInfo.true_name isEqualToString:@""]) {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"请先完善银行信息" dispatch_get_main_queue:^{
-            BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
-            [self.navigationController pushViewController:modifyBankCardVC animated:YES];
-            
-        }];
-        
-    }
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -101,19 +99,68 @@
     
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"responseObject%@",responseObject);
-//        if ([responseObject[@"msg"] isEqualToString:@"请先完善银行信息"]) {
-//            self.view.userInteractionEnabled = NO;
-//        [BFProgressHUD MBProgressFromWindowWithLabelText:@"请先完善银行信息" dispatch_get_main_queue:^{
-//            BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
-//            [self.navigationController pushViewController:modifyBankCardVC animated:YES];
-//
-//        }];
-//    }
+        if (responseObject) {
+            self.model = [BFMyWalletModel parse:responseObject];
+            self.topView.model = self.model;
+            self.bottomView.model = self.model;
+
+        }
+        [UIView animateWithDuration:0.5 animations:^{
+            self.topView.y = 0;
+            self.bottomView.y = ScreenHeight*0.42;
+        }];
     } failure:^(NSError *error) {
         BFLog(@"error%@",error);
     }];
 }
 
+
+#pragma mark -- BFMyWalletTopViewDelegate
+- (void)goToCheckWithdrawalRecordWithType:(BFMyWalletTopButtonType)type {
+    switch (type) {
+        case BFMyWalletTopButtonTypeRecord:{
+            BFWithdrawalRecordController *withdrawalRecordVC = [[BFWithdrawalRecordController alloc] init];
+            withdrawalRecordVC.user_account = self.model.user_account;
+            [self.navigationController pushViewController:withdrawalRecordVC animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+#pragma mark -- BFMyWalletBottomViewDelegate 
+- (void)gotoGetCashWithView:(BFMyWalletBottomView *)view {
+    if ([view.getCashTX.text floatValue] > [self.model.user_account floatValue]) {
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"余额不足，请重新输入"];
+    }else if ([self.model.bank_status isEqualToString:@"0"]) {
+        [BFProgressHUD MBProgressFromView:self.view LabelText:@"请先完善银行信息" dispatch_get_main_queue:^{
+            BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
+            [self.navigationController pushViewController:modifyBankCardVC animated:YES];
+        }];
+    }else {
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit_do"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = self.userInfo.ID;
+        parameter[@"token"] = self.userInfo.token;
+        parameter[@"money"] = view.getCashTX.text;
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"responseObject%@,,%@",responseObject,parameter);
+            if (responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"提现成功，请等待工作人员处理"]) {
+
+                }else if ([responseObject[@"msg"] isEqualToString:@"每月只能申请提现一次！请等下个月再提现。"]) {
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"每月只能申请提现一次！"];
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"提现失败,请稍后再试"];
+                }
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"error%@",error);
+        }];
+
+    }
+}
 
 #pragma mark -- BFMyWalletBottomViewDelegate 
 - (void)goToModifyBankCardInformation {
@@ -121,9 +168,7 @@
     [self.navigationController pushViewController:modifyBankCardVC animated:YES];
 }
 
-- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    [self.view endEditing:YES];
-}
+
 
 //如果非显示状态，则不需要监听
 -(void)viewWillAppear:(BOOL)animated{

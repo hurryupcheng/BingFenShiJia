@@ -13,6 +13,10 @@
 
 @interface HZQRegexTestter : NSObject
 /**
+ *  判断是不是非负的浮点数
+ */
++ (BOOL)validateFloatingPoint:(NSString *)floatingPoint;
+/**
  *  1.用户名 - 2.密码 （英文、数字都可，且不包含特殊字符
  */
 + (BOOL)validateStrWithRange:(NSString *)range str:(NSString *)str;

@@ -9,6 +9,9 @@
 #import "BFMyGroupPurchaseController.h"
 #import "BFMyGroupPurchaseCell.h"
 #import "BFMyGroupPurchaseModel.h"
+#import "BFGroupOrderDetailController.h"
+#import "BFGroupDetailController.h"
+
 
 @interface BFMyGroupPurchaseController ()<UITableViewDelegate, UITableViewDataSource, BFMyGroupPurchaseCellDelegate>
 /**tableView*/
@@ -60,13 +63,15 @@
     parameter[@"token"] = userInfo.token;
     [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];
-            [self.groupArray addObjectsFromArray:array];
-            BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
-            [self.tableView reloadData];
-            [UIView animateWithDuration:0.5 animations:^{
-                self.tableView.y = 0;
-            } completion:nil];
+            if (responseObject) {
+                NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];
+                [self.groupArray addObjectsFromArray:array];
+                BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
+                [self.tableView reloadData];
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = 0;
+                } completion:nil];
+            }
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
             BFLog(@"error:%@",error);
@@ -77,7 +82,6 @@
 
 #pragma mark -- tableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    BFLog(@"%lu",(unsigned long)self.groupArray.count);
     return self.groupArray.count;
     
 }
@@ -106,13 +110,23 @@
 }
 #pragma mark --BFMyGroupPurchaseCell代理方法
 /**BFMyGroupPurchaseCell代理方法*/
-- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type {
-    switch (type) {
+- (void)clickToGotoCheckDetailWithButtonType:(MyGroupPurchaseCellCheckButtonType)type model:(BFMyGroupPurchaseModel *)model{
+    switch (type)  {
+            
         case MyGroupPurchaseCellCheckButtonTypeGroup:{
+            BFGroupDetailController *groupDetailVC = [[BFGroupDetailController alloc] init];
+            groupDetailVC.itemid = model.ID;
+            groupDetailVC.teamid = model.tid;
+            [self.navigationController pushViewController:groupDetailVC animated:YES];
             BFLog(@"团详情");
             break;
         }
         case MyGroupPurchaseCellCheckButtonTypeOrder:{
+            BFGroupOrderDetailController *groupOrderDetailVC = [[BFGroupOrderDetailController alloc] init];
+            groupOrderDetailVC.itemid = model.ID;
+            groupOrderDetailVC.teamid = model.tid;
+            BFLog(@"====%@,,%@",model.ID, model.tid);
+            [self.navigationController pushViewController:groupOrderDetailVC animated:YES];
             BFLog(@"订单详情");
             break;
         }

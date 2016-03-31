@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFMyWalletModel.h"
 
 typedef enum {
     BFMyWalletTopButtonTypeBalance,//余额
@@ -14,6 +15,18 @@ typedef enum {
     BFMyWalletTopButtonTypeFrozen//冻结金额
 } BFMyWalletTopButtonType;
 
+
+@protocol BFMyWalletTopViewDelegate <NSObject>
+
+- (void)goToCheckWithdrawalRecordWithType:(BFMyWalletTopButtonType)type;
+
+@end
+
+
 @interface BFMyWalletTopView : UIView
 
+/**我的钱包模型*/
+@property (nonatomic, strong) BFMyWalletModel *model;
+/**代理*/
+@property (nonatomic, weak) id<BFMyWalletTopViewDelegate>delegate;
 @end

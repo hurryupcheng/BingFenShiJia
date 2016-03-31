@@ -12,7 +12,7 @@
 
 + (UIView *)drawLineWithFrame:(CGRect)frame {
     UIView *line = [[UIView alloc] initWithFrame:frame];
-    line.backgroundColor = BFColor(0xC5C7C8);
+    line.backgroundColor = BFColor(0x848484);
     return line;
 }
 

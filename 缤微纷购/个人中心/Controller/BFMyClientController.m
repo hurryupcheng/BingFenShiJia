@@ -24,9 +24,17 @@
 @property (nonatomic, strong) BFMyCustomerModel *model;
 /**分页数*/
 @property (nonatomic, assign) NSUInteger page;
+/**页数label*/
+@property (nonatomic, strong) UILabel *pageLabel;
+/**判断是不是第一次加载数据*/
+@property (nonatomic, assign) BOOL isFirstTime;
 @end
 
 @implementation BFMyClientController
+
+
+
+
 
 - (NSMutableArray *)customerArray {
     if (!_customerArray) {
@@ -77,6 +85,7 @@
     self.title = @"我的客户";
     self.view.backgroundColor = BFColor(0xEBEBEB);
     self.page = 1;
+    self.isFirstTime = YES;
     //添加分段控制器
     [self segment];
     self.segment.segmented.selectedSegmentIndex = 0;
@@ -85,6 +94,8 @@
     [self tableView];
     //上啦刷新
     [self setupUpRefresh];
+    //添加页数
+   
     
 }
 
@@ -103,7 +114,7 @@
 - (void)loadMoreData {
     self.page++;
     if (self.page > self.model.page_count) {
-        [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
         [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
         return;
     }
@@ -118,26 +129,48 @@
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
     self.parameter[@"page"] = @(self.page);
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    //判断是不是第一次加载，第一次加载就有弹窗
+    if (self.isFirstTime) {
+        [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+            [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
+                if (responseObject) {
+                    
+                    self.model = [BFMyCustomerModel parse:responseObject];
+                    NSArray *array = [BFCustomerList parse:self.model.sub_list];
+                    [self.customerArray addObjectsFromArray:array];
+                    [self showPage];
+                }
+                [self.tableView reloadData];
+                self.isFirstTime = NO;
+                //BFLog(@"%@,%@",responseObject,self.parameter);
+                [self animation];
+                [self.tableView.mj_footer endRefreshing];
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+                [self.tableView.mj_footer endRefreshing];
+                self.page--;
+                BFLog(@"%@", error);
+            }];
+        }];
+    }else {
         [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
             if (responseObject) {
-               
+                
                 self.model = [BFMyCustomerModel parse:responseObject];
                 NSArray *array = [BFCustomerList parse:self.model.sub_list];
                 [self.customerArray addObjectsFromArray:array];
+                [self showPage];
             }
             [self.tableView reloadData];
-            BFLog(@"%@,%@",responseObject,self.parameter);
-            [self animation];
             [self.tableView.mj_footer endRefreshing];
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
-            [self.tableView.mj_footer endRefreshing];
+            [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
             self.page--;
             BFLog(@"%@", error);
         }];
-    }];
 
+    }
 }
 
 - (void)animation {
@@ -146,10 +179,22 @@
     }];
 }
 
+- (void)showPage {
+    _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(110), BF_ScaleHeight(450), BF_ScaleWidth(100), BF_ScaleHeight(20))];
+    _pageLabel.text = [NSString stringWithFormat:@"%lu / %ld",(unsigned long)self.page, (long)self.model.page_count];
+    _pageLabel.textAlignment = NSTextAlignmentCenter;
+    _pageLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+    _pageLabel.textColor = BFColor(0xffffff);
+    //_pageLabel.hidden = YES;
+    _pageLabel.backgroundColor = BFColor(0x000000);
+    _pageLabel.alpha = 0;
+    [self.view addSubview:_pageLabel];
+}
+
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     self.page = 1;
-    
+    self.isFirstTime = YES;
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = 50-ScreenHeight;
     }];
@@ -203,5 +248,34 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleHeight(110);
 }
+
+
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.pageLabel.alpha = 0;
+    }];
+}
+
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [UIView animateWithDuration:0.2 animations:^{
+        self.pageLabel.alpha = 0.6;
+    }];
+}
+
+
+//减速停止了时执行，手触摸时执行执行
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+{
+    [UIView animateWithDuration:0.2 animations:^{
+        self.pageLabel.alpha = 0;
+    }];
+
+}
+
+
+
+
 
 @end

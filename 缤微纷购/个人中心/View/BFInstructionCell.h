@@ -13,6 +13,6 @@
 
 /**创建自定义cell*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-
+/**推荐分成数组模型*/
 @property (nonatomic, strong) RecommendDividedList *model;
 @end

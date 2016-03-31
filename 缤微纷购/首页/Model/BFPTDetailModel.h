@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class BFCarouselList;
 @interface BFPTDetailModel : NSObject
 /**id*/
 @property (nonatomic, strong) NSString *shopID;
@@ -38,4 +38,14 @@
 /**webview参数*/
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, assign) NSInteger numbers;
+
+/**轮播图数组*/
+@property (nonatomic, strong) NSArray <BFCarouselList *>*imgs;
+@end
+
+
+
+@interface BFCarouselList : NSObject
+/**图片地址*/
+@property (nonatomic, strong) NSString *url;
 @end
