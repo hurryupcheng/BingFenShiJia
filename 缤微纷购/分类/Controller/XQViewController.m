@@ -179,7 +179,7 @@
             
             [self.dataArray removeAllObjects];
           
-            NSArray *array = [dic valueForKey:@"title"];
+            NSArray *array = [dic valueForKey:@"items"];
             for (NSDictionary *dis in array) {
 
                 for (NSDictionary *dics in dis[@"item"]) {

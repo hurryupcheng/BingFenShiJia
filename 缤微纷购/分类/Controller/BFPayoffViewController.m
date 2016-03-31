@@ -126,7 +126,7 @@
     cell.detailTextLabel.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     NSArray *arr = @[@"配送时间",@"支付方式"];
-    NSArray *array = @[@"2016-01-16发货(工作日配送)",@"支付宝"];
+    NSArray *array = @[@"2016-01-16发货(工作日配送)",self.pay];
     
     if (indexPath.section == 1) {
         cell.textLabel.text = arr[indexPath.row];

@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BFPaymentViewController : UIViewController
-
+@property (nonatomic,copy)void (^payBlock)(NSString *str);
 @end
