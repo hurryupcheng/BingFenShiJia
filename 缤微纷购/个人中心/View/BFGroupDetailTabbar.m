@@ -78,7 +78,7 @@
                 self.failButton.hidden = YES;
                 self.successButton.hidden = YES;
                 self.lackButton.hidden = NO;
-                [self.lackButton setTitle:[NSString stringWithFormat:@"还差%ld人组团成功", (long)model.havenum] forState:UIControlStateNormal];
+                [self.lackButton setTitle:[NSString stringWithFormat:@"还差%ld人组团成功", (long)(model.havenum-model.thisteam.count)] forState:UIControlStateNormal];
             } else {
                 self.payButton.hidden = YES;
                 self.payToJoinButton.hidden = YES;

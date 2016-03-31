@@ -11,6 +11,8 @@
 #import "BFGroupDetailModel.h"
 #import "BFGroupDetailHeader.h"
 #import "BFGroupDetailProductCell.h"
+#import "BFShareView.h"
+#import "BFHeadPortraitView.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) BFGroupDetailModel *model;
 /**头部视图*/
 @property (nonatomic, strong) NSMutableArray *itemArray;
+
+@property (nonatomic, strong) BFHeadPortraitView *headPortrait;
 @end
 
 @implementation BFGroupDetailController
@@ -80,6 +84,9 @@
     [self getData];
     //头部视图
     [self setUpHeaderView];
+    //
+    [self setUpFooterView];
+    
     
 }
 
@@ -123,7 +130,16 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
-
+- (void)setUpFooterView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
+    view.backgroundColor = BFColor(0xeeeeee);
+    self.tableView.tableFooterView = view;
+    
+    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(20), BF_ScaleWidth(280), BF_ScaleHeight(200))];
+    self.headPortrait.model = self.model;
+    [view addSubview:self.headPortrait];
+    
+}
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -156,6 +172,9 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
+            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+            BFShareView *shareView = [BFShareView shareView];
+            [window addSubview:shareView];
             BFLog(@"分享");
             break;
         }

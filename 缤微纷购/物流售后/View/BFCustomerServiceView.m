@@ -71,28 +71,40 @@
 
 - (void)showView {
     self.bgImageView.alpha = 0;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 1;
         self.telephoneService.y = BF_ScaleHeight(450);
-        self.wechatService.y = BF_ScaleHeight(450);
-        self.cancle.y = BF_ScaleHeight(530);
     } completion:nil];
     
-
+    [UIView animateWithDuration:0.8 delay:0.2f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.wechatService.y = BF_ScaleHeight(450);
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:1.0f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.cancle.y = BF_ScaleHeight(530);
+    } completion:nil];
 
 }
 
 - (void)hideView {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 0;
         self.telephoneService.y = BF_ScaleHeight(450) - ScreenHeight;
-        self.wechatService.y = BF_ScaleHeight(450) - ScreenHeight;
-        self.cancle.y = BF_ScaleHeight(530)+ScreenHeight;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
     
-
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.wechatService.y = BF_ScaleHeight(450) - ScreenHeight;
+    } completion:^(BOOL finished) {
+        //[self removeFromSuperview];
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:1.0f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.cancle.y = BF_ScaleHeight(530)+ScreenHeight;
+    } completion:^(BOOL finished) {
+        //[self removeFromSuperview];
+    }];
     
 }
 

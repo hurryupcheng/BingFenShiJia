@@ -66,49 +66,49 @@
 
 - (void)showShareView {
     self.backgroundColor = [UIColor clearColor];
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = BF_ScaleHeight(120);
         self.backgroundColor = windowColor;
     } completion:nil];
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:1.0 delay:0.08f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.QQZone.y = BF_ScaleHeight(160);
     } completion:nil];
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1.2 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.QQFriends.y = BF_ScaleHeight(230);
     } completion:nil];
     
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1.2 delay:0.08f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.sinaBlog.y = BF_ScaleHeight(230);
     } completion:nil];
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:1.0 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.wechatFriends.y = BF_ScaleHeight(160);
     } completion:nil];
 }
 
 - (void)hideShareView {
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:1 delay:0.16f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.QQZone.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.wechatFriends.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:1 delay:0.08f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.QQFriends.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
-    [UIView animateWithDuration:0.3 animations:^{
+    [UIView animateWithDuration:1 delay:0.04f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.sinaBlog.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
