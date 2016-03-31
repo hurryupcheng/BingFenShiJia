@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFCouponView.h"
+#import "BFScoreView.h"
 #import "BFPTDetailModel.h"
 #import "BFPayoffModel.h"
 #import "FXQModel.h"
@@ -21,7 +23,7 @@
 #import "Header.h"
 #import "BFZFViewController.h"
 #import "BFAddressModel.h"
-@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>
+@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>
 @property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UIImageView *groubeImg;
@@ -36,20 +38,33 @@
 @property (nonatomic,retain)NSMutableArray *dataArr;
 @property (nonatomic,retain)BFUserInfo *userInfo;
 
+@property (nonatomic,retain)BFScoreView *scoreView;//积分视图
+@property (nonatomic,retain)UIView *scoreBackView;
+@property (nonatomic,retain)UILabel *scoreTitle;
 @property (nonatomic,retain)UISwitch *swit;// 开启积分
 @property (nonatomic,assign)float freeprice;//运费
 @property (nonatomic,assign)NSInteger score;//总积分
 @property (nonatomic,assign)NSInteger scores;// 可用积分
-@property (nonatomic,assign)double sum_price;
-@property (nonatomic,retain)UILabel *everMoney;//
-@property (nonatomic,retain)UILabel *scoreLabel;
+@property (nonatomic,assign)double sum_price; // 总价
+@property (nonatomic,assign)double useScorePrice;// 抵扣金额
+@property (nonatomic,retain)UILabel *everMoney;// cell中金额
 @property (nonatomic,retain)UILabel *nullAdds;// 未添加地址
 @property (nonatomic,assign)double lastPrice;//实际支付金额
-
-@property (nonatomic,retain)UIButton *wordesBut;
-@property (nonatomic,retain)UIView *footV;//尾视图
+@property (nonatomic,assign)double couponPrice;//优惠卷金额
+@property (nonatomic,retain)UIImageView *wordesImg;
+@property (nonatomic,retain)UIView *wordesBack;
+@property (nonatomic,assign)NSInteger wordesNum;
+@property (nonatomic)BOOL isWordes;
+@property (nonatomic,retain)UITextView *textView;//留言输入
 @property (nonatomic,retain)NSMutableArray *favourableArr;//优惠卷名字
 @property (nonatomic,retain)NSMutableArray *favourablePrice;//优惠卷金额
+@property (nonatomic,retain)NSMutableArray *favourableTime;//使用期限
+@property (nonatomic,retain)UILabel *payTitle;//回调支付方式
+
+@property (nonatomic,retain)BFCouponView *couponView;//弹出优惠卷视图
+@property (nonatomic,assign)NSInteger couponHeight;// 视图高度
+@property (nonatomic)BOOL isCoupon;//是否弹出视图
+@property (nonatomic,assign)NSInteger nums;//cell点击次数
 
 @end
 
@@ -60,14 +75,18 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"确认支付";
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+   
+    self.isCoupon = NO;
+    self.isWordes = NO;
     
     [self initWithFootView];
     [self initWithTableView];
     [self addsView];
+    [self getData];
 }
 
 - (void)initWithFootView{
-    NSLog(@"**********%f==%f==%d",self.sum_price,self.freeprice,self.scores);
+
     self.footView = [[BFFootViews alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-114, kScreenWidth, 50) money:@"合计:¥ 0.00" home:nil name:@"提交订单"];
     self.footView.backgroundColor = [UIColor whiteColor];
     [self.footView.buyButton addTarget:self action:@selector(payoff) forControlEvents:UIControlEventTouchUpInside];
@@ -80,9 +99,12 @@
     
     if (self.name.text == nil) {
         [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"请选择地址"];
+    }else if([self.payTitle.text isEqualToString:@"请选择"]){
+        [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"请选择支付方式"];
     }else{
-    BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-    [self.navigationController pushViewController:pay animated:YES];
+        BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+        pay.pay = self.payTitle.text;
+        [self.navigationController pushViewController:pay animated:YES];
     }
 }
 
@@ -145,43 +167,77 @@
     self.tableV.dataSource = self;
     self.tableV.showsHorizontalScrollIndicator = NO;
     self.tableV.showsVerticalScrollIndicator = NO;
-//    self.wordesBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
-//    [_wordesBut setTitle:@"   订单留言" forState:UIControlStateNormal];
-//    _wordesBut.backgroundColor = [UIColor grayColor];
-//    [_wordesBut addTarget:self action:@selector(wordes) forControlEvents:UIControlEventTouchUpInside];
     
+// 积分抵扣控件
     self.swit = [[UISwitch alloc]init];
-    _scoreLabel = [[UILabel alloc]init];
-    _scoreLabel.text = @"¥ 0.00";
-    _scoreLabel.font = [UIFont systemFontOfSize:15];
-    CGFloat width = [Height widthString:_scoreLabel.text font:[UIFont systemFontOfSize:15]];
-    _scoreLabel.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-width-10, 0, width, 44);
     
-    [self.view addSubview:self.tableV];
-}
+    _scoreTitle = [[UILabel alloc]init];
+    NSInteger useScore = self.score/100;
+//    NSInteger useScore = 100000/100;
+    if (useScore > _sum_price/2) {
+        self.scores = _sum_price/2;
+    }else{
+        self.scores = useScore;
+    }
 
-- (void)wordes{
+    _scoreTitle.text = [NSString stringWithFormat:@"积分抵扣(最多%d元)",self.scores];
+     _scoreTitle.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_scoreTitle.text];
+    [str addAttribute:NSForegroundColorAttributeName value:rgb(0, 128, 0, 1.0) range:NSMakeRange(4, 6)];
+    _scoreTitle.attributedText = str;
+   
+//  开启积分抵扣后控件
+    _scoreBackView = [[UIView alloc]init];
+    _scoreView = [[BFScoreView alloc]initWithFrame:CGRectMake(0, 0, 0, 0) num:self.scores];
+    
+//
+    _payTitle = [[UILabel alloc]init];
+    _payTitle.text = @"请选择";
+    _payTitle.font = [UIFont systemFontOfSize:CGFloatX(16)];
+    CGFloat widths = [Height widthString:_payTitle.text font:[UIFont systemFontOfSize:16]];
+    _payTitle.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-CGFloatX(widths)-CGFloatX(30), 0, CGFloatX(widths), 44);
+   
+    self.nums = 1;
+    self.wordesNum = 1;
+    
+    _wordesImg = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-40, 13, CGFloatX(25), CGFloatX(25))];
+    _wordesImg.image = [UIImage imageNamed:@"iconfont-xiajianhao.png"];
+
+    [self.view addSubview:self.tableV];
 }
 
 #pragma  mark 代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
         return 2;
-    }else{
+    }else if(section == 1){
         return 4;
+    }else if(section == 2){
+        return 1;
+    }else{
+        return 0;
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
         return self.groubeImg.height+30;
-    }else{
+    }else if(section == 1){
         return (kScreenWidth/4+20)*(self.modelArr.count);
+    }else if(section == 2){
+        if (self.isCoupon == YES) {
+         return (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count);
+        }else{
+            return 0;
+        }
+    }else{
+        return 0;
     }
 }
 
@@ -224,10 +280,21 @@
             
             [_imageV addSubview:order];
         }
+    }else if (section == 2){
+   
+        if (self.isCoupon == YES) {
+            
+            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
+            _couponHeight = _couponView.height;
+            _couponView.couponDelegate = self;
+            
+           [_imageV addSubview:_couponView];
+        }
     }
-    
+
     return _imageV;
 }
+
 #pragma  mark 回调地址
 - (void)headerDid{
     NSLog(@"地址点击");
@@ -263,18 +330,32 @@
         switch (indexPath.row) {
             case 0:{
                 cell.textLabel.text = @"支付方式*";
-                UILabel *rigt = [[UILabel alloc]initWithFrame:CGRectMake(CGFloatX(CGRectGetMaxX(cell.frame)-50), 0, kScreenWidth/4, cell.height)];
-                rigt.text = @"请选择";
-                rigt.font = [UIFont systemFontOfSize:CGFloatX(16)];
-                [cell addSubview:rigt];
+                [cell addSubview:_payTitle];
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
                 break;
             case 1:{
-            cell.textLabel.text = @"积分抵扣";
-//            self.swit = [[UISwitch alloc]init];
-                cell.accessoryView = self.swit;
+                if (self.swit.on == YES) {
+                    _scoreBackView.frame = CGRectMake(0, 0, kScreenWidth, _scoreView.height+50);
+                    _scoreView.frame = CGRectMake(0, CGRectGetMaxY(_scoreTitle.frame)+10, kScreenWidth, _scoreView.height);
+                    
+                    [_scoreBackView addSubview:_scoreView];
+                }else{
+                    _scoreBackView.frame = CGRectMake(0, 0, kScreenWidth, 44);
+                    [_scoreView removeFromSuperview];
+                }
+                
+            _scoreTitle.frame = CGRectMake(15, 5, kScreenWidth, 30);
+            _swit.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-65, 5, 40, 30);
+                
+                [_scoreBackView addSubview:_swit];
+                [_scoreBackView addSubview:_scoreTitle];
+                [cell addSubview:_scoreBackView];
+                if (self.scores == 0) {
+                    self.swit.userInteractionEnabled = NO;
+                }else{
                 [self.swit addTarget:self action:@selector(scoreBut:) forControlEvents:UIControlEventValueChanged];
+                }
             }
                 break;
             default:
@@ -285,68 +366,87 @@
      
             NSArray *array = @[@"商品总价",@"运费",@"积分抵扣",@"优惠卷抵扣"];
             cell.textLabel.text = array[indexPath.row];
-        self.everMoney = [[UILabel alloc]init];
-        _everMoney.font = [UIFont systemFontOfSize:15];
         
-        _everMoney.textAlignment = NSTextAlignmentCenter;
         switch (indexPath.row) {
             case 0:{
-                [self getPrice:self.sum_price];
+                [self getPrice:self.sum_price height:cell.height];
                 _everMoney.textColor = [UIColor orangeColor];
                 break;
             }case 1:{
-                [self getPrice:self.freeprice];
+                [self getPrice:self.freeprice height:cell.height];
             _everMoney.textColor = [UIColor orangeColor];
                 break;
-            }case 2:
-                [cell addSubview:_scoreLabel];
-                _scoreLabel.textColor = [UIColor grayColor];
+            }case 2:{
+        
+                [self getPrice:self.useScorePrice height:cell.height];
+                _everMoney.textColor = [UIColor grayColor];
                 break;
-                case 3:
-                [self getPrice:0.00];
+            }case 3:
+                [self getPrice:self.couponPrice height:cell.height];
                 _everMoney.textColor = [UIColor grayColor];
                 break;
             default:
                 break;
         }
-        CGFloat width = [Height widthString:_everMoney.text font:[UIFont systemFontOfSize:15]];
-        _everMoney.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-width-10, 0, width, cell.height);
+          [cell addSubview:_everMoney];
         
-        [cell addSubview:_everMoney];
-        
+    }else if (indexPath.section == 2){
+        cell.textLabel.text = @"订单留言";
+        [cell addSubview:_wordesImg];
     }
-    
     return cell;
 }
 
-- (void)getPrice:(double)price{
-    if (self.sum_price == 0.00) {
+- (void)getPrice:(double)price height:(NSInteger)height{
+    _everMoney = [[UILabel alloc]init];
+    _everMoney.font = [UIFont systemFontOfSize:15];
+    _everMoney.textAlignment = NSTextAlignmentCenter;
+    if (price == 0.00) {
         _everMoney.text = @"¥ 0.00";
     }else{
-        _everMoney.text = [NSString stringWithFormat:@"¥ %.2f",price];
-        NSLog(@"%@",_everMoney.text);
+    _everMoney.text = [NSString stringWithFormat:@"¥ %.2f",price];
     }
+    CGFloat width = [Height widthString:_everMoney.text font:[UIFont systemFontOfSize:15]];
+    _everMoney.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-width-10, 0, width, height);
 }
 
 #pragma  mark 开启积分抵扣
 - (void)scoreBut:(UISwitch *)switc{
-
+   _scoreView.price.text = nil;
     if (switc.on == YES) {
-//        NSInteger useScore = self.score/100;
-        NSInteger useScore = 10000/100;
-        if (useScore > _sum_price/2) {
-            self.scores = _sum_price/2;
+        if (_scoreView.price.text == nil) {
+
+            _everMoney.text = @"¥ 0.00";
         }else{
-            self.scores = useScore;
+            
+            __block typeof(self) weak = self;
+            _scoreView.scoreBlock = ^(NSString *str){
+                weak.useScorePrice = [str doubleValue];
+
+                    weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice-weak.useScorePrice-weak.couponPrice];
+
+                [weak.tableV reloadData];
+             
+            };
         }
-        _scoreLabel.text = [NSString stringWithFormat:@"¥ %d.00",self.scores];
-        _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.scores];
+        
     }else{
-        _scoreLabel.text = @"¥ 0.00";
-        _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
+        _useScorePrice = 0.00;
+        _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
     }
-    CGFloat width = [Height widthString:_scoreLabel.text font:[UIFont systemFontOfSize:15]];
-    _scoreLabel.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-width-10, 0, width, 44);
+    
+    [self.tableV reloadData];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (self.swit.on == YES) {
+        if (indexPath.section == 0) {
+            if (indexPath.row == 1) {
+                return _scoreView.height+50;
+            }
+        }
+    }
+        return 44;
 }
 
 #pragma  mark cell点击
@@ -354,15 +454,58 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             BFPaymentViewController *payment = [[BFPaymentViewController alloc]init];
+            payment.payBlock = ^(NSString *str){
+                self.payTitle.text = str;
+                CGFloat width = [Height widthString:str font:[UIFont systemFontOfSize:16]];
+                _payTitle.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-CGFloatX(width)-CGFloatX(30), 0, CGFloatX(width), 44);
+            };
+        
             [self.navigationController pushViewController:payment animated:YES];
         }
     }else if (indexPath.section == 1){
         if (indexPath.row == 3) {
-            
+           
+            if (_favourableArr == nil) {
+                self.isCoupon = NO;
+            }else{
+            self.nums++;
+            if (self.nums%2 == 0) {
+                self.isCoupon = YES;
+            }else{
+            self.isCoupon = NO;
+            self.couponPrice = 0.00;
+            self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+            }
+            [self.tableV reloadData];
+            }
+        }
+    }else if (indexPath.section == 2){
+        self.wordesNum++;
+        if (self.wordesNum%2 == 0) {
+            self.isWordes = YES;
+        }else{
+            self.isWordes = NO;
+        }
+        if (self.isWordes == YES) {
+            _wordesBack = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+            _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 50)];
+            [_wordesBack addSubview:_textView];
+            self.tableV.tableFooterView = _wordesBack;
+        }else{
+            [self.tableV.tableFooterView removeFromSuperview];
         }
     }
 }
-#pragma  mark 优惠卷选择
+#pragma  mark 代理优惠卷选择
+- (void)BFCouponViewDelegate:(BFCouponView *)view index:(NSInteger)index{
+
+    self.nums = 1;
+    self.isCoupon = NO;
+    self.couponPrice = [_favourablePrice[index] doubleValue];
+    self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.couponPrice-self.useScorePrice];
+    [self.tableV reloadData];
+}
+
 
 #pragma  mark 解析
 - (void)getData{
@@ -382,7 +525,7 @@
         urlStr = [urlStr stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
     }
     NSLog(@"\\\\\\%@",urlStr);
-    NSString *urlStrs = [NSString stringWithFormat:@"id=627,num=1,price=18.90;"];
+    NSString *urlStrs = [NSString stringWithFormat:@"id=627,num=1,price=118.90;"];
     self.userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
@@ -392,7 +535,7 @@
     boty[@"sheng"] = self.model.sheng;
 
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
-//        NSLog(@"...%@,%@",responseObject,boty);
+        NSLog(@"...%@",responseObject);
         self.freeprice = [responseObject[@"freeprice"] floatValue];
        double score = [responseObject[@"score"] integerValue];
         self.score = score;
@@ -403,9 +546,11 @@
         NSArray *data = [BFPayoffModel parse:responseObject[@"coupon_data"]];
         self.favourableArr = [NSMutableArray array];
         self.favourablePrice = [NSMutableArray array];
+        self.favourableTime = [NSMutableArray array];
         for (BFPayoffModel *model in data) {
             [_favourableArr addObject:model.name];
             [_favourablePrice addObject:model.money];
+            [_favourableTime addObject:model.end_time];
         }
         NSLog(@"%@",_favourablePrice);
         [self initWithTableView];
@@ -421,16 +566,12 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     if (self.name.text == nil) {
         self.nullAdds.alpha = 1;
-    }else{
-        self.nullAdds.alpha = 0;
-        [self getData];
-    }
-    
-    if (self.type.text == nil) {
         self.type.alpha = 0;
     }else{
+        self.nullAdds.alpha = 0;
         self.type.alpha = 1;
     }
     
@@ -441,5 +582,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

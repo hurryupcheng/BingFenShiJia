@@ -12,6 +12,7 @@
 @interface BFPaymentViewController ()<UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,retain)UITableView *tableView;
+@property (nonatomic,retain)NSString *pay;
 
 @end
 
@@ -89,6 +90,18 @@
     
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+   NSIndexPath *index = [self.tableView indexPathForSelectedRow];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:index];
+    self.pay = cell.textLabel.text;
+    _payBlock(self.pay);
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

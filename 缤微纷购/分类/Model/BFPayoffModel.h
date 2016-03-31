@@ -12,5 +12,6 @@
 
 @property (nonatomic,retain)NSString *name;
 @property (nonatomic,retain)NSString *money;
+@property (nonatomic,retain)NSString *end_time;
 
 @end
