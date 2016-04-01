@@ -9,24 +9,24 @@
 #import "BFGroupDetailController.h"
 #import "BFGroupDetailTabbar.h"
 #import "BFGroupDetailModel.h"
-#import "BFGroupDetailHeader.h"
-#import "BFGroupDetailProductCell.h"
+#import "BFGroupDetailStatusView.h"
+#import "BFGroupDetailProductView.h"
 #import "BFShareView.h"
 #import "BFHeadPortraitView.h"
+#import "BFGroupDetailHeaderView.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
 @property (nonatomic, strong) BFGroupDetailTabbar *tabbar;
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
-/**头部视图*/
-@property (nonatomic, strong) BFGroupDetailHeader *headerView;
 /**BFGroupDetailModel*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
 /**头部视图*/
 @property (nonatomic, strong) NSMutableArray *itemArray;
+/**tableViewHeaderView*/
+@property (nonatomic, strong) BFGroupDetailHeaderView *headerView;
 
-@property (nonatomic, strong) BFHeadPortraitView *headPortrait;
 @end
 
 @implementation BFGroupDetailController
@@ -40,6 +40,15 @@
     }
     return _itemArray;
 }
+
+- (BFGroupDetailHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[BFGroupDetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+        
+    }
+    return _headerView;
+}
+
 
 - (BFGroupDetailTabbar *)tabbar {
     if (!_tabbar) {
@@ -61,15 +70,6 @@
     return _tableView;
 }
 
-- (BFGroupDetailHeader *)headerView {
-    if (!_headerView) {
-        _headerView = [[BFGroupDetailHeader alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(70))];
-        
-        [self.view addSubview:_headerView];
-    }
-    return _headerView;
-}
-
 
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
@@ -82,10 +82,7 @@
     [self tabbar];
     //获取数据
     [self getData];
-    //头部视图
-    [self setUpHeaderView];
-    //
-    
+
     
     
 }
@@ -104,13 +101,14 @@
        
         if (responseObject) {
             self.model = [BFGroupDetailModel parse:responseObject];
-            ItemModel *itemModel = [ItemModel parse:self.model.item];
-            [self.itemArray addObject:itemModel];
-            
-            self.tabbar.model = self.model;
+            //给头部视图模型赋值
             self.headerView.model = self.model;
-            [self setUpFooterView];
-            BFLog(@"---%@,%@,,%lu",responseObject,parameter,(unsigned long)self.itemArray.count);
+            //返回的高度赋值
+            self.headerView.height = self.headerView.headerViewH;
+            self.tableView.tableHeaderView = self.headerView;
+            //给状态栏赋值
+            self.tabbar.model = self.model;
+            BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
             [self.tableView reloadData];
             [self animation];
         }
@@ -126,41 +124,41 @@
     }];
 }
 
-#pragma mark --添加头部视图
-- (void)setUpHeaderView {
-    self.tableView.tableHeaderView = self.headerView;
-}
+
+
 
 - (void)setUpFooterView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
     view.backgroundColor = BFColor(0xCACACA);
     self.tableView.tableFooterView = view;
     
-    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
-    self.headPortrait.model = self.model;
-    self.headPortrait.height = self.headPortrait.headPortraitViewH;
-    BFLog(@"头像--%f,",self.headPortrait.height);
-    [view addSubview:self.headPortrait];
+//    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
+//    self.headPortrait.model = self.model;
+//    self.headPortrait.height = self.headPortrait.headPortraitViewH;
+//    BFLog(@"头像--%f,",self.headPortrait.height);
+//    [view addSubview:self.headPortrait];
     
 }
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    BFLog(@"-------%lu",(unsigned long)self.itemArray.count);
-    return self.itemArray.count;
+
+    return 3;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFGroupDetailProductCell *cell = [BFGroupDetailProductCell cellWithTableView:tableView];
-    cell.model = self.itemArray[indexPath.row];
-    cell.detailModel = self.model;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"id"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"id"];
+    }
+    cell.textLabel.text = @"hahah";
     return cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return BF_ScaleHeight(110);
+    return BF_ScaleHeight(44);
 }
 
 

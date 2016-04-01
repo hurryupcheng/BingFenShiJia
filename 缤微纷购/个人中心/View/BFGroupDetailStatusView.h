@@ -10,7 +10,7 @@
 #import "BFGroupDetailModel.h"
 
 
-@interface BFGroupDetailHeader : UIView
+@interface BFGroupDetailStatusView : UIView
 /**团详情模型*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
 @end

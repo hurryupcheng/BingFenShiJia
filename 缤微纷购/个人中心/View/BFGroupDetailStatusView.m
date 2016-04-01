@@ -7,9 +7,9 @@
 //
 #define MarginH   BF_ScaleHeight(10)
 
-#import "BFGroupDetailHeader.h"
+#import "BFGroupDetailStatusView.h"
 
-@interface BFGroupDetailHeader()
+@interface BFGroupDetailStatusView()
 /**成功imageview*/
 @property (nonatomic, strong) UIImageView *sucessExpression;
 /**失败imageview*/
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) UILabel *detail;
 @end
 
-@implementation BFGroupDetailHeader
+@implementation BFGroupDetailStatusView
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
