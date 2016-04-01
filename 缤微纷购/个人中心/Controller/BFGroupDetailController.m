@@ -9,11 +9,10 @@
 #import "BFGroupDetailController.h"
 #import "BFGroupDetailTabbar.h"
 #import "BFGroupDetailModel.h"
-#import "BFGroupDetailStatusView.h"
-#import "BFGroupDetailProductView.h"
 #import "BFShareView.h"
 #import "BFHeadPortraitView.h"
 #import "BFGroupDetailHeaderView.h"
+#import "BFGroupDetailTeamCell.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
@@ -22,8 +21,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 /**BFGroupDetailModel*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
-/**头部视图*/
-@property (nonatomic, strong) NSMutableArray *itemArray;
+/**团购数组*/
+@property (nonatomic, strong) NSMutableArray *teamArray;
 /**tableViewHeaderView*/
 @property (nonatomic, strong) BFGroupDetailHeaderView *headerView;
 
@@ -33,7 +32,12 @@
 
 
 #pragma mark -- 懒加载
-
+- (NSMutableArray *)teamArray {
+    if (!_teamArray) {
+        _teamArray = [NSMutableArray array];
+    }
+    return _teamArray;
+}
 
 - (BFGroupDetailHeaderView *)headerView {
     if (!_headerView) {
@@ -76,9 +80,8 @@
     [self tabbar];
     //获取数据
     [self getData];
-
     
-    
+    [self setUpFooter];
 }
 
 #pragma mark -- 获取数据
@@ -95,6 +98,8 @@
        
         if (responseObject) {
             self.model = [BFGroupDetailModel parse:responseObject];
+            NSArray *array = [TeamList parse:self.model.thisteam];
+            [self.teamArray addObjectsFromArray:array];
             //给头部视图模型赋值
             self.headerView.model = self.model;
             //返回的高度赋值
@@ -123,40 +128,33 @@
 }
 
 
-
-
-- (void)setUpFooterView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
-    view.backgroundColor = BFColor(0xCACACA);
+- (void)setUpFooter {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,BF_ScaleHeight(200))];
+    view.backgroundColor = BFColor(0xcccccc);
     self.tableView.tableFooterView = view;
-    
-//    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
-//    self.headPortrait.model = self.model;
-//    self.headPortrait.height = self.headPortrait.headPortraitViewH;
-//    BFLog(@"头像--%f,",self.headPortrait.height);
-//    [view addSubview:self.headPortrait];
-    
 }
+
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 3;
+    return self.teamArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"id"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"id"];
-    }
+    BFGroupDetailTeamCell *cell = [BFGroupDetailTeamCell cellWithTableView:tableView];
     cell.textLabel.text = @"hahah";
     return cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return BF_ScaleHeight(44);
+    if (indexPath.row == self.teamArray.count - 1) {
+        return BF_ScaleHeight(45);
+    } else {
+        return BF_ScaleHeight(65);
+    }
 }
 
 

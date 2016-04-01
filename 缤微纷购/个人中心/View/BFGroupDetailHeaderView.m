@@ -63,6 +63,7 @@
         
         self.countdownView = [[BFGroupDetailCountdownView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(75))];
         self.countdownView.model = model;
+        self.countdownView.height = self.countdownView.countdownViewH;
         [self addSubview:self.countdownView];
         
         self.headerViewH = CGRectGetMaxY(self.countdownView.frame);

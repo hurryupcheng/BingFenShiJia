@@ -26,7 +26,6 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        //self.backgroundColor = [UIColor whiteColor];
         [self setView];
     }
     return self;
@@ -35,7 +34,6 @@
 - (void)setModel:(BFGroupDetailModel *)model {
     _model = model;
     if (model) {
-
         
         [self refreshTime];
         [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
@@ -77,16 +75,19 @@
     todayDateComponents.second = [_timeArray[2] integerValue];
     
     
-    NSDate *todayDate = [todayCalender dateFromComponents:todayDateComponents];
+
     
     NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate date]init]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime integerValue]] options:0];
     
     NSString *betweenTime;
 
-    //self.titleLabel.text = [NSString stringWithFormat:@"距离今天\n%@\n还有",_setTimeString];
-    
-    betweenTime = [self hourMinuteSecond:betweenDate.second];
-    BFLog(@"%@,%@,%@",betweenDate,[[NSDate date]init],[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime integerValue]]);
+    if (betweenDate.second <= 0){
+        self.hour.text = @"0时";
+        self.minute.text = @"0分";
+        self.second.text = @"0秒";
+    }else {
+        betweenTime = [self hourMinuteSecond:betweenDate.second];
+    }
 }
 
 
@@ -101,18 +102,16 @@
     time /= 60;
     if (time >=0)
     {
-        timeString = [NSString stringWithFormat:@"%ld分\n%@",time%60,timeString];
+        timeString = [NSString stringWithFormat:@"%ld分\n",time%60];
         self.minute.text = timeString;
     }
-    
     // 时
     time /= 60;
     if (time >= 0)
     {
-        timeString = [NSString stringWithFormat:@"%ld小时\n%@",time%60,timeString];
+        timeString = [NSString stringWithFormat:@"%ld时\n",time];
         self.hour.text = timeString;
     }
-    
     return timeString;
 }
 

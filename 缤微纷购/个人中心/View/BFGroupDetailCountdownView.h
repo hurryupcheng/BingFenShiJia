@@ -12,4 +12,6 @@
 @interface BFGroupDetailCountdownView : UIView
 /**BFGroupDetailModel*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
+/**返回高度*/
+@property (nonatomic, assign) CGFloat countdownViewH;
 @end
