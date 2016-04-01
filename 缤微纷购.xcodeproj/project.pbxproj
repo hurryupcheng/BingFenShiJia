@@ -421,6 +421,7 @@
 		59FF75271CAE1A860063F770 /* TencentOpenApi_IOS_Bundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 59FF74771CAE1A860063F770 /* TencentOpenApi_IOS_Bundle.bundle */; };
 		59FF75281CAE1A860063F770 /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FF747A1CAE1A860063F770 /* libSocialWechat.a */; };
 		59FF75291CAE1A860063F770 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FF747B1CAE1A860063F770 /* libWeChatSDK.a */; };
+		59FF752C1CAE3C720063F770 /* BFCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF752B1CAE3C720063F770 /* BFCountdownView.m */; };
 		59FFB0C81C906D4100B04F8E /* BFModifyBankCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */; };
 		59FFCEC91C89EA6600ADF8F0 /* BFSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */; };
 /* End PBXBuildFile section */
@@ -1186,6 +1187,8 @@
 		59FF747C1CAE1A860063F770 /* UMSocialWechatHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMSocialWechatHandler.h; sourceTree = "<group>"; };
 		59FF747D1CAE1A860063F770 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		59FF747E1CAE1A860063F770 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		59FF752A1CAE3C720063F770 /* BFCountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCountdownView.h; sourceTree = "<group>"; };
+		59FF752B1CAE3C720063F770 /* BFCountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCountdownView.m; sourceTree = "<group>"; };
 		59FFB0C61C906D4100B04F8E /* BFModifyBankCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFModifyBankCardView.h; sourceTree = "<group>"; };
 		59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyBankCardView.m; sourceTree = "<group>"; };
 		59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingController.h; sourceTree = "<group>"; };
@@ -1635,6 +1638,8 @@
 				59FBEA7D1CACD12700EF12EE /* BFHeadPortraitView.m */,
 				59FF70C61CAE0E080063F770 /* BFGroupDetailCountdownView.h */,
 				59FF70C71CAE0E080063F770 /* BFGroupDetailCountdownView.m */,
+				59FF752A1CAE3C720063F770 /* BFCountdownView.h */,
+				59FF752B1CAE3C720063F770 /* BFCountdownView.m */,
 				59FF518E1CAC08AD00F17C78 /* BFGroupDetailProductCell.h */,
 				59FF518F1CAC08AD00F17C78 /* BFGroupDetailProductCell.m */,
 				5938ACC21CAB8145004D076A /* BFGroupDetailTabbar.h */,
@@ -2834,6 +2839,7 @@
 				59FF75031CAE1A860063F770 /* SMProgressHUD.m in Sources */,
 				59FF74CE1CAE1A860063F770 /* MJPropertyType.m in Sources */,
 				51D4589E1C96B6EE00B52516 /* BFPayoffViewController.m in Sources */,
+				59FF752C1CAE3C720063F770 /* BFCountdownView.m in Sources */,
 				59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */,
 				59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */,
 				59FF74DE1CAE1A860063F770 /* MJRefreshBackStateFooter.m in Sources */,

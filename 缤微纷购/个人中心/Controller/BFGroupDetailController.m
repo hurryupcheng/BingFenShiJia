@@ -34,12 +34,6 @@
 
 #pragma mark -- 懒加载
 
-- (NSMutableArray *)itemArray {
-    if (!_itemArray) {
-        _itemArray = [NSMutableArray array];
-    }
-    return _itemArray;
-}
 
 - (BFGroupDetailHeaderView *)headerView {
     if (!_headerView) {
@@ -52,7 +46,7 @@
 
 - (BFGroupDetailTabbar *)tabbar {
     if (!_tabbar) {
-        _tabbar = [[BFGroupDetailTabbar alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 70)];
+        _tabbar = [[BFGroupDetailTabbar alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(70))];
         _tabbar.delegate = self;
         [self.view addSubview:_tabbar];
     }
@@ -61,7 +55,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -104,8 +98,11 @@
             //给头部视图模型赋值
             self.headerView.model = self.model;
             //返回的高度赋值
-            self.headerView.height = self.headerView.headerViewH;
-            self.tableView.tableHeaderView = self.headerView;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.headerView.height = self.headerView.headerViewH;
+                self.tableView.tableHeaderView = self.headerView;
+            }];
+            
             //给状态栏赋值
             self.tabbar.model = self.model;
             BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
@@ -120,7 +117,8 @@
 #pragma mark --添加动画效果
 - (void)animation {
     [UIView animateWithDuration:0.5 animations:^{
-        self.tabbar.y = ScreenHeight - 134;
+        self.tabbar.y = ScreenHeight - 64 - BF_ScaleHeight(70);
+        self.tableView.y = 0;
     }];
 }
 

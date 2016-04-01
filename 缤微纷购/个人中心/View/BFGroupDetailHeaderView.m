@@ -54,13 +54,15 @@
     _model = model;
     if (model) {
         self.statusView.model = model;
+        
         self.productView.model = model;
         
         self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5))];
         self.headPortrait.model = model;
         [self addSubview:self.headPortrait];
         
-        self.countdownView = [[BFGroupDetailCountdownView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(70))];
+        self.countdownView = [[BFGroupDetailCountdownView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(75))];
+        self.countdownView.model = model;
         [self addSubview:self.countdownView];
         
         self.headerViewH = CGRectGetMaxY(self.countdownView.frame);

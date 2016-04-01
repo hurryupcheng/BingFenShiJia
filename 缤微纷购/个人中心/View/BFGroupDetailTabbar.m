@@ -6,7 +6,8 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 #define MarginW  BF_ScaleWidth(10)
-#define MarginH  15
+#define MarginH  BF_ScaleHeight(15)
+#define ButtonH  BF_ScaleHeight(40)
 #import "BFGroupDetailTabbar.h"
 
 @interface BFGroupDetailTabbar()
@@ -93,32 +94,32 @@
 
 
 - (void)setTabbar {
-    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 70)];
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(70))];
     bottomView.backgroundColor = BFColor(0x000000);
     bottomView.alpha = 0.5;
     [self addSubview:bottomView];
     
     
-    self.homeButton = [self setUpButtonWithFrame:CGRectMake(MarginW, MarginH, BF_ScaleWidth(40), 40) image:@"group_detail_home" backgroundColor:BFColor(0x646464) type:BFGroupDetailTabbarButtonTypeHome title:nil];
+    self.homeButton = [self setUpButtonWithFrame:CGRectMake(MarginW, MarginH, BF_ScaleWidth(40), ButtonH) image:@"group_detail_home" backgroundColor:BFColor(0x646464) type:BFGroupDetailTabbarButtonTypeHome title:nil];
     
-    self.shareButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.homeButton.frame) + MarginW, MarginH, BF_ScaleWidth(40), 40) image:@"group_detail_share" backgroundColor:BFColor(0x646464) type:BFGroupDetailTabbarButtonTypeShare title:nil];
+    self.shareButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.homeButton.frame) + MarginW, MarginH, BF_ScaleWidth(40), ButtonH) image:@"group_detail_share" backgroundColor:BFColor(0x646464) type:BFGroupDetailTabbarButtonTypeShare title:nil];
     
-    self.payButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypePay title:@"立即支付"];
+    self.payButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypePay title:@"立即支付"];
     self.payButton.hidden = YES;
     
-    self.payToJoinButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypePayToJoin title:@"立即支付参团"];
+    self.payToJoinButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypePayToJoin title:@"立即支付参团"];
     self.payToJoinButton.hidden = YES;
     
-    self.joinButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeJoin title:@"我也要参团"];
+    self.joinButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeJoin title:@"我也要参团"];
     self.joinButton.hidden = YES;
     
-    self.successButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeSuccess title:@"组团成功，我要开新团"];
+    self.successButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeSuccess title:@"组团成功，我要开新团"];
     self.successButton.hidden = YES;
     
-    self.failButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeFail title:@"组团失败，我要开新团"];
+    self.failButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeFail title:@"组团失败，我要开新团"];
     self.failButton.hidden = YES;
     
-    self.lackButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), 40) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeLack title:@"还差几人组团成功"];
+    self.lackButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.shareButton.frame) + MarginW, MarginH, BF_ScaleWidth(200), ButtonH) image:nil backgroundColor:BFColor(0xD4041E) type:BFGroupDetailTabbarButtonTypeLack title:@"还差几人组团成功"];
     self.lackButton.hidden = YES;
 }
 
@@ -133,7 +134,8 @@
     button.frame = frame;
     button.layer.cornerRadius = 5;
     button.layer.masksToBounds = YES;
-    [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    //[button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:button];
     

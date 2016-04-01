@@ -33,9 +33,11 @@
     }
     return self;
 }
-- (void)setDetailModel:(BFGroupDetailModel *)model {
+
+- (void)setModel:(BFGroupDetailModel *)model {
     _model = model;
     if (model) {
+        BFLog(@"BFGroupDetailProductView%@",model.status);
         if ([model.status isEqualToString:@"1"]) {
             self.cover.image = [UIImage imageNamed:@"group_detail_group_success"];
         }else if ([model.status isEqualToString:@"2"]) {
@@ -58,27 +60,6 @@
     }
 }
 
-- (void)setModel:(ItemModel *)model {
-    _model = model;
-    if (model) {
-        
-        
-        
-//        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-//        
-//        
-//        self.productTitle.text = model.title;
-//        
-//        self.teamNumber.text = [NSString stringWithFormat:@"%@人团：¥%@/件", model.team_num, model.team_price];
-//        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.teamNumber.text];
-//        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(9)] range:NSMakeRange(model.team_num.length + 3,(self.teamNumber.text.length - model.team_num.length - 3))];
-//        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(17)] range:NSMakeRange(model.team_num.length + 4,model.team_price.length)];
-//        [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xD00000) range:NSMakeRange(model.team_num.length + 3,(self.teamNumber.text.length - model.team_num.length - 3))];
-//        self.teamNumber.attributedText = attributedString;
-        
-    }
-    
-}
 
 - (void)setView {
     UIView *firstLine = [UIView drawLineWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
