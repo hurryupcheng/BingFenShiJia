@@ -11,6 +11,8 @@
 #import "BFGroupDetailModel.h"
 #import "BFGroupDetailHeader.h"
 #import "BFGroupDetailProductCell.h"
+#import "BFShareView.h"
+#import "BFHeadPortraitView.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) BFGroupDetailModel *model;
 /**头部视图*/
 @property (nonatomic, strong) NSMutableArray *itemArray;
+
+@property (nonatomic, strong) BFHeadPortraitView *headPortrait;
 @end
 
 @implementation BFGroupDetailController
@@ -80,6 +84,9 @@
     [self getData];
     //头部视图
     [self setUpHeaderView];
+    //
+    
+    
     
 }
 
@@ -102,6 +109,7 @@
             
             self.tabbar.model = self.model;
             self.headerView.model = self.model;
+            [self setUpFooterView];
             BFLog(@"---%@,%@,,%lu",responseObject,parameter,(unsigned long)self.itemArray.count);
             [self.tableView reloadData];
             [self animation];
@@ -123,7 +131,18 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
-
+- (void)setUpFooterView {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
+    view.backgroundColor = BFColor(0xCACACA);
+    self.tableView.tableFooterView = view;
+    
+    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
+    self.headPortrait.model = self.model;
+    self.headPortrait.height = self.headPortrait.headPortraitViewH;
+    BFLog(@"头像--%f,",self.headPortrait.height);
+    [view addSubview:self.headPortrait];
+    
+}
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -156,6 +175,9 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
+            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+            BFShareView *shareView = [BFShareView shareView];
+            [window addSubview:shareView];
             BFLog(@"分享");
             break;
         }

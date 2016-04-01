@@ -9,7 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "BFGroupDetailModel.h"
 
-@interface BFHeadPortraitView : UIImageView
-/**用户模型*/
-@property (nonatomic, strong) TeamList *user;
+@interface BFHeadPortraitView : UIView
+
+
+/** */
+@property (nonatomic, strong) BFGroupDetailModel *model;
+/**返回的头像视图的高度*/
+@property (nonatomic, assign) CGFloat headPortraitViewH;
 @end
