@@ -11,7 +11,6 @@
 
 @interface BFWebHeaderView : UIView
 
-@property (nonatomic,retain)FXQModel *model;
 @property (nonatomic,assign)NSInteger headerHeight;
 @property (nonatomic,retain)AddShopping *addShopp;
 

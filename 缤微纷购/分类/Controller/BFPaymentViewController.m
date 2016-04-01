@@ -10,7 +10,7 @@
 #import "BFPaymentViewController.h"
 
 @interface BFPaymentViewController ()<UITableViewDataSource,UITableViewDelegate>
-
+@property (nonatomic,assign)double lastPrice;
 @property (nonatomic,retain)UITableView *tableView;
 @property (nonatomic,retain)NSString *pay;
 
@@ -84,20 +84,39 @@
         cell.imageView.image = [UIImage imageNamed:img[indexPath.row]];
         cell.textLabel.text = name[indexPath.row];
     }else{
+        self.lastPrice = 200.00;
         cell.imageView.image = [UIImage imageNamed:@"geren.png"];
-        cell.textLabel.text = @"账户余额支付(当前余额0元)";
+        cell.textLabel.text = [NSString stringWithFormat:@"账户余额支付(当前余额%.2f元)",self.lastPrice];
     }
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+   
    NSIndexPath *index = [self.tableView indexPathForSelectedRow];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:index];
     self.pay = cell.textLabel.text;
+    if (indexPath.section == 2) {
+        if (self.lastPrice < self.price) {
+            
+            UIAlertController *aler = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"当前余额不足" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
+            
+            [aler addAction:action];
+            
+            [self presentViewController:aler animated:YES completion:nil];
+            
+        }else{
+        NSString *str = @"余额支付";
+        _payBlock(str);
+        [self.navigationController popViewControllerAnimated:YES];
+        }
+    }else{
     _payBlock(self.pay);
     [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 

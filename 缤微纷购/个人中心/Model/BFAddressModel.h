@@ -27,4 +27,5 @@
 @property (nonatomic, strong) NSString *type;
 /**id*/
 @property (nonatomic, strong) NSString *def;
+
 @end
