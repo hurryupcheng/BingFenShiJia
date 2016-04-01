@@ -8,9 +8,7 @@
 
 #import "BFHeadPortraitView.h"
 
-@interface BFHeadPortraitView()
 
-@end
 
 
 @interface BFHeadPortraitView()
@@ -28,47 +26,70 @@
 }
 
 - (void)setModel:(BFGroupDetailModel *)model {
+    //self.backgroundColor = [UIColor redColor];
     _model = model;
-    TeamList *list = [TeamList parse:model.thisteam];
+    NSArray *array = [TeamList parse:model.thisteam];
     NSUInteger number = model.havenum;
     //行数
     NSInteger hang = number%5 != 0 ? number/5 + 1 : number/5;
     //btn大小
-    NSInteger width = 50;
+    NSInteger width = BF_ScaleWidth(50);
     //间距
-    NSInteger jiange = 10;
+    NSInteger jiange = BF_ScaleWidth(10);
+    NSInteger dianji = 1;
     for (int H = 0; H < hang; H ++) {
         UIView *view = [[UIView alloc]initWithFrame:CGRectZero];
-        view.backgroundColor = [UIColor blueColor];
+        //view.backgroundColor = [UIColor blueColor];
         NSInteger viewW = 0;
+        
         if (H == hang - 1  && number%5 != 0) {  //最后一行并且不为5
             for (int i = 0 ; i < number%5; i++) {
-                UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-                btn.layer.cornerRadius = 25;
-                btn.layer.masksToBounds = YES;
-                btn.backgroundColor = [UIColor grayColor];
-                btn.frame = CGRectMake(jiange + i * (jiange +width),5, 50, 50);
-                [view addSubview:btn];
-                viewW = CGRectGetMaxX(btn.frame)+jiange;
+                
+                UIImageView *headPortrait = [[UIImageView alloc] init];
+                self.headPortrait = headPortrait;
+                headPortrait.image = [UIImage imageNamed:@"group_detail_head_image"];
+                headPortrait.layer.cornerRadius = BF_ScaleWidth(25);
+                headPortrait.layer.borderColor = BFColor(0xffffff).CGColor;
+                headPortrait.layer.borderWidth = 1;
+                headPortrait.layer.masksToBounds = YES;
+                
+                headPortrait.backgroundColor = [UIColor whiteColor];
+                headPortrait.frame = CGRectMake(jiange + i * (jiange +width),5, BF_ScaleWidth(50), BF_ScaleWidth(50));
+                headPortrait.tag = dianji;
+                [view addSubview:headPortrait];
+                viewW = CGRectGetMaxX(headPortrait.frame)+jiange;
+                dianji++;
             }
         }else{
             for (int i = 0 ; i < 5; i++) {
-                UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-                btn.layer.cornerRadius = 25;
-                btn.layer.masksToBounds = YES;
-                btn.backgroundColor = [UIColor grayColor];
-                btn.frame = CGRectMake(jiange + i * (jiange +width),5, 50, 50);
-                [view addSubview:btn];
-                viewW = CGRectGetMaxX(btn.frame)+jiange;
+                UIImageView *headPortrait = [[UIImageView alloc] init];
+                self.headPortrait = headPortrait;
+                headPortrait.image = [UIImage imageNamed:@"group_detail_head_image"];
+                headPortrait.layer.cornerRadius = BF_ScaleWidth(25);
+                headPortrait.layer.borderColor = BFColor(0xffffff).CGColor;
+                headPortrait.layer.borderWidth = 1;
+                headPortrait.layer.masksToBounds = YES;
+             
+                headPortrait.backgroundColor = [UIColor whiteColor];
+                headPortrait.frame = CGRectMake(jiange + i * (jiange +width),5, BF_ScaleWidth(50), BF_ScaleWidth(50));
+                headPortrait.tag = dianji;
+                [view addSubview:headPortrait];
+                viewW = CGRectGetMaxX(headPortrait.frame)+jiange;
+                dianji++;
             }
         }
-        view.frame = CGRectMake(0,H*60, viewW, 60);
-        view.frame = CGRectMake(0,H*60, viewW, 60);
+        for (NSInteger i = 1; i <= array.count; i++) {
+            TeamList *list = array[i-1];
+        
+            [(UIImageView *)[view viewWithTag:i] sd_setImageWithURL:[NSURL URLWithString:list.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        }
+        view.frame = CGRectMake(0,H*BF_ScaleWidth(60), viewW, BF_ScaleWidth(60));
         //将view居中在父视图上
-        view.center = CGPointMake(self.frame.size.width/2, view.center.y);
+        view.center = CGPointMake(ScreenWidth/2, view.center.y);
+        self.headPortraitViewH = hang * BF_ScaleHeight(60);
         [self addSubview:view];
     }
-
+    
 
 }
 

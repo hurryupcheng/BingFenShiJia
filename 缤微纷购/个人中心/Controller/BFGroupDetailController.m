@@ -85,7 +85,7 @@
     //头部视图
     [self setUpHeaderView];
     //
-    [self setUpFooterView];
+    
     
     
 }
@@ -109,6 +109,7 @@
             
             self.tabbar.model = self.model;
             self.headerView.model = self.model;
+            [self setUpFooterView];
             BFLog(@"---%@,%@,,%lu",responseObject,parameter,(unsigned long)self.itemArray.count);
             [self.tableView reloadData];
             [self animation];
@@ -132,11 +133,13 @@
 
 - (void)setUpFooterView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
-    view.backgroundColor = BFColor(0xeeeeee);
+    view.backgroundColor = BFColor(0xCACACA);
     self.tableView.tableFooterView = view;
     
-    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(20), BF_ScaleWidth(280), BF_ScaleHeight(200))];
+    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
     self.headPortrait.model = self.model;
+    self.headPortrait.height = self.headPortrait.headPortraitViewH;
+    BFLog(@"头像--%f,",self.headPortrait.height);
     [view addSubview:self.headPortrait];
     
 }
