@@ -17,6 +17,8 @@
 @property (nonatomic,retain)UILabel *titleLabel;
 @property (nonatomic,retain)UILabel *moneyLabel;
 @property (nonatomic,retain)UILabel *oldLabel;
+@property (nonatomic,retain)UILabel *stockLabel;
+@property (nonatomic,retain)NSString *stock;
 
 @property (nonatomic,assign)NSInteger number;
 
@@ -47,9 +49,9 @@
         float mon = [model.moneyArr[0] floatValue];
         self.moneyLabel.text = [NSString stringWithFormat:@"¥ %.2f",mon];
         self.moneyLabel.textColor = [UIColor orangeColor];
-        self.moneyLabel.frame = CGRectMake(15, CGRectGetMaxY(self.titleLabel.frame), [Height widthString:self.moneyLabel.text font:self.moneyLabel.font], CGFloatY(30));
+        self.moneyLabel.frame = CGRectMake(15, CGRectGetMaxY(self.titleLabel.frame)+10, [Height widthString:self.moneyLabel.text font:self.moneyLabel.font], CGFloatY(30));
         
-        self.oldLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)+15, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth/4, CGFloatY(30))];
+        self.oldLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)+15, CGRectGetMaxY(self.titleLabel.frame)+10, kScreenWidth/4, CGFloatY(30))];
 //        self.oldLabel.backgroundColor = [UIColor grayColor];
         NSString *oldPrice = [NSString stringWithFormat:@"¥ %@",model.oldMoney];
         self.oldLabel.font = [UIFont systemFontOfSize:CGFloatY(17)];
@@ -61,7 +63,7 @@
         [attri addAttribute:NSStrikethroughColorAttributeName value:[UIColor grayColor] range:NSMakeRange(0, length)];
         [self.oldLabel setAttributedText:attri];
         
-        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-kScreenWidth/3, CGRectGetMaxY(self.lbView.frame)+10, kScreenWidth/3, CGFloatY(35))];
+        self.addShopp = [[AddShopping alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-kScreenWidth/3, CGRectGetMaxY(self.lbView.frame)+5, kScreenWidth/3, CGFloatY(35))];
         
         [self.addShopp.minBut addTarget:self action:@selector(minButSelented) forControlEvents:UIControlEventTouchUpInside];
         [self.addShopp.maxBut addTarget:self action:@selector(maxButSelented) forControlEvents:UIControlEventTouchUpInside];
@@ -70,7 +72,12 @@
             self.addShopp.minBut.enabled = NO;
         }
         
-        UIView *colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.moneyLabel.frame), kScreenWidth, 1)];
+        self.stock = model.stock;
+        self.stockLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-kScreenWidth/3, CGRectGetMaxY(self.addShopp.frame)+5, kScreenWidth, CGFloatX(30))];
+        self.stockLabel.text = [NSString stringWithFormat:@"库存数量:%@",model.stock];
+        self.stockLabel.font = [UIFont systemFontOfSize:CGFloatX(15)];
+        
+        UIView *colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stockLabel.frame), kScreenWidth, 0.5)];
         colorV.backgroundColor = [UIColor grayColor];
         
         [self addSubview:_lbView];
@@ -79,6 +86,7 @@
         [self addSubview:_addShopp];
         [self addSubview:_moneyLabel];
         [self addSubview:self.oldLabel];
+        [self addSubview:_stockLabel];
      
     }
     return self;
@@ -98,8 +106,9 @@
     self.number++;
     self.addShopp.minBut.enabled = YES;
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if ([self.addShopp.textF.text integerValue] > 99) {
-        self.addShopp.textF.text = @"99";
+    
+    if ([self.addShopp.textF.text integerValue] >= [_stock integerValue]) {
+        
         self.addShopp.maxBut.enabled = NO;
     }
 }

@@ -66,6 +66,8 @@
 @property (nonatomic)BOOL isCoupon;//是否弹出视图
 @property (nonatomic,assign)NSInteger nums;//cell点击次数
 
+@property (nonatomic)BOOL hidden;
+
 @end
 
 @implementation BFZFViewController
@@ -459,7 +461,9 @@
                 CGFloat width = [Height widthString:str font:[UIFont systemFontOfSize:16]];
                 _payTitle.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-CGFloatX(width)-CGFloatX(30), 0, CGFloatX(width), 44);
             };
-        
+            NSString *strs = [self.footView.money.text substringFromIndex:5];
+            payment.price = [strs doubleValue];
+           
             [self.navigationController pushViewController:payment animated:YES];
         }
     }else if (indexPath.section == 1){
@@ -563,10 +567,9 @@
 
 }
 
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+   
     if (self.name.text == nil) {
         self.nullAdds.alpha = 1;
         self.type.alpha = 0;
@@ -577,6 +580,7 @@
     
     self.tabBarController.tabBar.hidden = YES;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

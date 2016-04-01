@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface BFPaymentViewController : UIViewController
+
+@property (nonatomic,assign)double price;
 @property (nonatomic,copy)void (^payBlock)(NSString *str);
+
 @end
