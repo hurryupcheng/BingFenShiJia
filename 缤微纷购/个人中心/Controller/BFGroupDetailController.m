@@ -13,6 +13,7 @@
 #import "BFHeadPortraitView.h"
 #import "BFGroupDetailHeaderView.h"
 #import "BFGroupDetailTeamCell.h"
+#import "BFSettingController.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
