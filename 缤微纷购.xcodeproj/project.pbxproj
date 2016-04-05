@@ -147,6 +147,11 @@
 		590D3B801C9406600042D42E /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3B7F1C9406600042D42E /* libstdc++.tbd */; };
 		590D3B821C94066A0042D42E /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3B811C94066A0042D42E /* libz.tbd */; };
 		590D3B841C9412A40042D42E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3B831C9412A40042D42E /* SystemConfiguration.framework */; };
+		59132F881CB359EF00F711C6 /* BFGroupDetailCaptainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59132F871CB359EF00F711C6 /* BFGroupDetailCaptainCell.m */; };
+		59132F8B1CB3899900F711C6 /* BFGroupDetailFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59132F8A1CB3899900F711C6 /* BFGroupDetailFooterView.m */; };
+		59132F8E1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59132F8D1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m */; };
+		59132F911CB397D000F711C6 /* BFGroupDetailIntroduceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59132F901CB397D000F711C6 /* BFGroupDetailIntroduceView.m */; };
+		59132F941CB3A90C00F711C6 /* BFStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59132F931CB3A90C00F711C6 /* BFStepView.m */; };
 		5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35E1C967C7A0097D43F /* BFMyOrderModel.m */; };
 		5915E3651C9690910097D43F /* BFMyOrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E3641C9690910097D43F /* BFMyOrderDetailController.m */; };
 		5915E36E1C96A46A0097D43F /* BFMyGroupPurchaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */; };
@@ -646,6 +651,16 @@
 		590D3B7F1C9406600042D42E /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		590D3B811C94066A0042D42E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		590D3B831C9412A40042D42E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		59132F861CB359EF00F711C6 /* BFGroupDetailCaptainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailCaptainCell.h; sourceTree = "<group>"; };
+		59132F871CB359EF00F711C6 /* BFGroupDetailCaptainCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailCaptainCell.m; sourceTree = "<group>"; };
+		59132F891CB3899900F711C6 /* BFGroupDetailFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailFooterView.h; sourceTree = "<group>"; };
+		59132F8A1CB3899900F711C6 /* BFGroupDetailFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailFooterView.m; sourceTree = "<group>"; };
+		59132F8C1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailBottomStatusView.h; sourceTree = "<group>"; };
+		59132F8D1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailBottomStatusView.m; sourceTree = "<group>"; };
+		59132F8F1CB397D000F711C6 /* BFGroupDetailIntroduceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailIntroduceView.h; sourceTree = "<group>"; };
+		59132F901CB397D000F711C6 /* BFGroupDetailIntroduceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailIntroduceView.m; sourceTree = "<group>"; };
+		59132F921CB3A90C00F711C6 /* BFStepView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFStepView.h; sourceTree = "<group>"; };
+		59132F931CB3A90C00F711C6 /* BFStepView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFStepView.m; sourceTree = "<group>"; };
 		5915E35D1C967C7A0097D43F /* BFMyOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyOrderModel.h; sourceTree = "<group>"; };
 		5915E35E1C967C7A0097D43F /* BFMyOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyOrderModel.m; sourceTree = "<group>"; };
 		5915E3631C9690910097D43F /* BFMyOrderDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyOrderDetailController.h; sourceTree = "<group>"; };
@@ -1640,8 +1655,18 @@
 				59FF70C71CAE0E080063F770 /* BFGroupDetailCountdownView.m */,
 				59FF752A1CAE3C720063F770 /* BFCountdownView.h */,
 				59FF752B1CAE3C720063F770 /* BFCountdownView.m */,
+				59132F861CB359EF00F711C6 /* BFGroupDetailCaptainCell.h */,
+				59132F871CB359EF00F711C6 /* BFGroupDetailCaptainCell.m */,
 				59FF752D1CAE78550063F770 /* BFGroupDetailTeamCell.h */,
 				59FF752E1CAE78550063F770 /* BFGroupDetailTeamCell.m */,
+				59132F891CB3899900F711C6 /* BFGroupDetailFooterView.h */,
+				59132F8A1CB3899900F711C6 /* BFGroupDetailFooterView.m */,
+				59132F8C1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.h */,
+				59132F8D1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m */,
+				59132F8F1CB397D000F711C6 /* BFGroupDetailIntroduceView.h */,
+				59132F901CB397D000F711C6 /* BFGroupDetailIntroduceView.m */,
+				59132F921CB3A90C00F711C6 /* BFStepView.h */,
+				59132F931CB3A90C00F711C6 /* BFStepView.m */,
 				5938ACC21CAB8145004D076A /* BFGroupDetailTabbar.h */,
 				5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */,
 				59FB582F1CAA80A800CCAEB4 /* BFGroupOrderDetailView.h */,
@@ -2841,6 +2866,7 @@
 				51D4589E1C96B6EE00B52516 /* BFPayoffViewController.m in Sources */,
 				59FF752C1CAE3C720063F770 /* BFCountdownView.m in Sources */,
 				59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */,
+				59132F8B1CB3899900F711C6 /* BFGroupDetailFooterView.m in Sources */,
 				59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */,
 				59FF74DE1CAE1A860063F770 /* MJRefreshBackStateFooter.m in Sources */,
 				59FF74CB1CAE1A860063F770 /* MJFoundation.m in Sources */,
@@ -2889,6 +2915,7 @@
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
 				59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */,
 				59FF74921CAE1A860063F770 /* BFGetYearAndMonth.m in Sources */,
+				59132F911CB397D000F711C6 /* BFGroupDetailIntroduceView.m in Sources */,
 				51D1220D1C3A75B400640A44 /* PersonalViewController.m in Sources */,
 				51D458A31C96B73600B52516 /* BFStorages.m in Sources */,
 				59FF74F71CAE1A860063F770 /* SDWebImageDownloader.m in Sources */,
@@ -2934,6 +2961,8 @@
 				59FF74FC1CAE1A860063F770 /* UIImage+GIF.m in Sources */,
 				59FF74F31CAE1A860063F770 /* NSData+ImageContentType.m in Sources */,
 				51D1223D1C3F891A004DE71E /* LBView.m in Sources */,
+				59132F941CB3A90C00F711C6 /* BFStepView.m in Sources */,
+				59132F881CB359EF00F711C6 /* BFGroupDetailCaptainCell.m in Sources */,
 				59FF70C81CAE0E080063F770 /* BFGroupDetailCountdownView.m in Sources */,
 				59FF74AF1CAE1A860063F770 /* UIView+SDAutoLayout.m in Sources */,
 				516204D41C72EACA00E9FB0D /* FooterCollectionReusableView.m in Sources */,
@@ -3070,6 +3099,7 @@
 				597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */,
 				59FF74BD1CAE1A860063F770 /* MASCompositeConstraint.m in Sources */,
 				597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */,
+				59132F8E1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m in Sources */,
 				59FF749A1CAE1A860063F770 /* BFSegmentView.m in Sources */,
 				59FF74CA1CAE1A860063F770 /* MJExtensionConst.m in Sources */,
 				59FBEA7E1CACD12700EF12EE /* BFHeadPortraitView.m in Sources */,

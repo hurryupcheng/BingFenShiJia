@@ -12,7 +12,9 @@
 #import "BFShareView.h"
 #import "BFHeadPortraitView.h"
 #import "BFGroupDetailHeaderView.h"
+#import "BFGroupDetailFooterView.h"
 #import "BFGroupDetailTeamCell.h"
+#import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
@@ -26,7 +28,8 @@
 @property (nonatomic, strong) NSMutableArray *teamArray;
 /**tableViewHeaderView*/
 @property (nonatomic, strong) BFGroupDetailHeaderView *headerView;
-
+/**tableViewFooterView*/
+@property (nonatomic, strong) BFGroupDetailFooterView *footerView;
 @end
 
 @implementation BFGroupDetailController
@@ -48,6 +51,13 @@
     return _headerView;
 }
 
+- (BFGroupDetailFooterView *)footerView {
+    if (!_footerView) {
+        _footerView = [[BFGroupDetailFooterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
+        
+    }
+    return _footerView;
+}
 
 - (BFGroupDetailTabbar *)tabbar {
     if (!_tabbar) {
@@ -82,7 +92,6 @@
     //获取数据
     [self getData];
     
-    [self setUpFooter];
 }
 
 #pragma mark -- 获取数据
@@ -103,10 +112,13 @@
             [self.teamArray addObjectsFromArray:array];
             //给头部视图模型赋值
             self.headerView.model = self.model;
+            //给底部视图模型赋值
+            self.footerView.model = self.model;
             //返回的高度赋值
             [UIView animateWithDuration:0.5 animations:^{
                 self.headerView.height = self.headerView.headerViewH;
                 self.tableView.tableHeaderView = self.headerView;
+                self.tableView.tableFooterView = self.footerView;
             }];
             
             //给状态栏赋值
@@ -129,11 +141,7 @@
 }
 
 
-- (void)setUpFooter {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,BF_ScaleHeight(200))];
-    view.backgroundColor = BFColor(0xcccccc);
-    self.tableView.tableFooterView = view;
-}
+
 
 
 #pragma mark --tableView代理
@@ -144,18 +152,50 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFGroupDetailTeamCell *cell = [BFGroupDetailTeamCell cellWithTableView:tableView];
-    cell.textLabel.text = @"hahah";
-    return cell;
+    if (self.teamArray.count == 1) {
+        BFGroupDetailCaptainCell *cell = [BFGroupDetailCaptainCell cellWithTableView:tableView];
+        cell.model = self.teamArray[indexPath.row];
+        cell.detailModel = self.model;
+        return cell;
+    }else {
+        if (indexPath.row == 0) {
+            BFGroupDetailCaptainCell *cell = [BFGroupDetailCaptainCell cellWithTableView:tableView];
+            cell.model = self.teamArray[indexPath.row];
+            cell.detailModel = self.model;
+            return cell;
+        }else {
+            BFGroupDetailTeamCell *cell = [BFGroupDetailTeamCell cellWithTableView:tableView];
+            cell.model = self.teamArray[indexPath.row];
+            return cell;
+        }
+    }
+    
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == self.teamArray.count - 1) {
-        return BF_ScaleHeight(45);
-    } else {
-        return BF_ScaleHeight(65);
+    
+    if (self.teamArray.count == 1) {
+        return BF_ScaleHeight(70);
+    } else if (self.teamArray.count == 2) {
+        switch (indexPath.row) {
+            case 0:
+                return BF_ScaleHeight(90);
+                break;
+            case 1:
+                return BF_ScaleHeight(45);
+                break;
+        }
+    } else if (self.teamArray.count >= 3) {
+        if (indexPath.row == 0) {
+            return BF_ScaleHeight(90);
+        } else if (indexPath.row == self.teamArray.count-1) {
+            return BF_ScaleHeight(45);
+        } else {
+            return BF_ScaleHeight(65);
+        }
     }
+    return 0;
 }
 
 
