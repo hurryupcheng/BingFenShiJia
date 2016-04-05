@@ -21,13 +21,15 @@
         self.title = [[UILabel alloc]init];
         self.title.text = title;
         self.title.frame = CGRectMake(CGRectGetMaxX(self.img.frame)+5, 5, (self.frame.size.width-(kScreenWidth/4))-50,[Height heightString:title font:CGFloatX(14)]);
-        self.title.numberOfLines = 0;
-        self.title.font = [UIFont systemFontOfSize:CGFloatX(14)];
+        self.title.numberOfLines = 2;
+        self.title.font = [UIFont systemFontOfSize:CGFloatX(15)];
         [self.title sizeToFit];
 //        self.title.backgroundColor = [UIColor redColor];
         
-        self.guige = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.img.frame)+5, CGRectGetMaxY(self.title.frame), kScreenWidth, 15)];
+        self.guige = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.img.frame)+5, CGRectGetMaxY(self.title.frame)+5, kScreenWidth, 15)];
         self.guige.text = guige;
+        self.guige.font = [UIFont systemFontOfSize:CGFloatX(14)];
+        self.guige.textColor = [UIColor grayColor];
 //        self.guige.backgroundColor = [UIColor greenColor];
         
         self.money = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.img.frame)+5, CGRectGetMaxY(self.guige.frame), kScreenWidth, self.frame.size.height-self.title.size.height-self.guige.frame.size.height)];

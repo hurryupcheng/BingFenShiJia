@@ -23,7 +23,7 @@
 @property (nonatomic,retain)NSString *shopID;
 
 @property (nonatomic,retain)NSMutableArray *nameArr;
-@property (nonatomic,retain)NSArray *guigeArr;
+@property (nonatomic,retain)NSMutableArray *guigeArr;
 @property (nonatomic,retain)NSMutableArray *stockArr;
 @property (nonatomic,retain)NSMutableArray *imageArr;
 @property (nonatomic,retain)NSMutableArray *imgsArr;

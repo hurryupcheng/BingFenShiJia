@@ -19,6 +19,8 @@
 @property (nonatomic,retain)UILabel *oldLabel;
 @property (nonatomic,retain)UILabel *stockLabel;
 @property (nonatomic,retain)NSString *stock;
+@property (nonatomic,retain)UILabel *guige;
+@property (nonatomic,retain)UIView *colorV;
 
 @property (nonatomic,assign)NSInteger number;
 
@@ -41,6 +43,7 @@
         self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(_lbView.frame), kScreenWidth/2+40, CGFloatY(30))];
 //        self.titleLabel.backgroundColor = [UIColor greenColor];
         self.titleLabel.text = model.title;
+        self.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
         
         self.moneyLabel = [[UILabel alloc]init];
 //        self.moneyLabel.backgroundColor = [UIColor orangeColor];
@@ -75,19 +78,43 @@
         self.stock = model.stock;
         self.stockLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-kScreenWidth/3, CGRectGetMaxY(self.addShopp.frame)+5, kScreenWidth, CGFloatX(30))];
         self.stockLabel.text = [NSString stringWithFormat:@"库存数量:%@",model.stock];
-        self.stockLabel.font = [UIFont systemFontOfSize:CGFloatX(15)];
+        self.stockLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
         
-        UIView *colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stockLabel.frame), kScreenWidth, 0.5)];
-        colorV.backgroundColor = [UIColor grayColor];
+        for (int i = 0; i < 3; i++) {
+           _colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stockLabel.frame)+(CGFloatX(40)*i), kScreenWidth, 0.5)];
+            _colorV.backgroundColor = [UIColor grayColor];
+            
+            [self addSubview:_colorV];
+        }
+        
+        self.guige = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.stockLabel.frame)+5, kScreenWidth, CGFloatX(30))];
+        
+        self.guige.text = @"商品规格";
+        self.guige.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        
+        UILabel *choose = [[UILabel alloc]init];
+        choose.text = model.guigeArr[0];
+        choose.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        
+        CGFloat weight = [Height widthString:choose.text font:[UIFont systemFontOfSize:CGFloatX(16)]];
+        choose.frame = CGRectMake(kScreenWidth-weight-20, 0, weight, CGFloatX(30));
+        
+        UILabel *shop = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.guige.frame)+10, kScreenWidth, CGFloatX(30))];
+        shop.text = @"商品详情(建议wifi状态下查看)";
+        shop.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        
+        self.headerHeight = CGRectGetMaxY(_colorV.frame)+5;
         
         [self addSubview:_lbView];
         [self addSubview:_titleLabel];
-        [self addSubview:colorV];
         [self addSubview:_addShopp];
         [self addSubview:_moneyLabel];
         [self addSubview:self.oldLabel];
         [self addSubview:_stockLabel];
-     
+        [self.guige addSubview:choose];
+        [self addSubview:self.guige];
+        [self addSubview:shop];
+  
     }
     return self;
 }

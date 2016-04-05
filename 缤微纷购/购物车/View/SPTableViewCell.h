@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/19.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "FXQModel.h"
 #import "AddShopping.h"
 #import "BFStorage.h"
 #import <UIKit/UIKit.h>

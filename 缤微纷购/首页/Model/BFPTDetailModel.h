@@ -38,6 +38,7 @@
 /**webview参数*/
 @property (nonatomic, strong) NSString *info;
 @property (nonatomic, assign) NSInteger numbers;
+@property (nonatomic,retain)NSString *guige;
 
 /**轮播图数组*/
 @property (nonatomic, strong) NSArray <BFCarouselList *>*imgs;

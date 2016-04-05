@@ -18,6 +18,7 @@
 @property (nonatomic,retain)UILabel *titleLabel;
 @property (nonatomic,retain)UILabel *hetLabel;
 @property (nonatomic,retain)UILabel *moneyLabel;
+@property (nonatomic,retain)NSString *stock;
 
 @end
 
@@ -83,12 +84,14 @@
 // 添加
 - (void)maxButton{
     self.add.minBut.enabled = YES;
-    if (self.numAddBlock) {
-        self.numAddBlock();
-    }
-    if ([self.add.textF.text integerValue]>99) {
-        self.add.textF.text = @"99";
+    
+    if ([self.add.textF.text integerValue] >= [self.stock integerValue]) {
+        
         self.add.maxBut.enabled = NO;
+    }else{
+        if (self.numAddBlock) {
+            self.numAddBlock();
+        }
     }
 
 }
@@ -107,7 +110,7 @@
 }
 
 - (void)reloadDataWith:(BFStorage *)model{
-
+    self.stock = model.stock;
     [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
     self.titleLabel.text = model.title;
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(17)]);

@@ -20,6 +20,7 @@
 @property (nonatomic,retain)AddShopping *addShopp;
 @property (nonatomic,retain)NSString *hot;
 @property (nonatomic,retain)NSString *img;
+@property (nonatomic,retain)NSString *selectedGuige;
 
 @property (nonatomic,retain)UILabel *red;
 @property (nonatomic,retain)UILabel *reds;

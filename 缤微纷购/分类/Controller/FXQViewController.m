@@ -37,6 +37,7 @@
 @property (nonatomic,retain)BFWebHeaderView *header;
 @property (nonatomic,retain)UIView *webBrowserView;
 @property (nonatomic,retain)UIWebView *webView;
+@property (nonatomic)BOOL scalesPageToFit;
 
 @property (nonatomic,retain)UIImageView *clearView;
 @property (nonatomic,retain)UIButton *selecdent;
@@ -92,8 +93,10 @@
     self.webView.scrollView.showsHorizontalScrollIndicator = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     
-    self.header = [[BFWebHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 300) model:self.fxq];
-  
+    _webView.scalesPageToFit = YES;
+    
+    self.header = [[BFWebHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0) model:self.fxq];
+    self.header.frame = CGRectMake(0, 0, kScreenWidth, self.header.headerHeight);
     self.webBrowserView = self.webView.scrollView.subviews[0];
     CGRect frame = self.webBrowserView.frame;
     frame.origin.y = CGRectGetMaxY(self.header.frame);
@@ -255,20 +258,21 @@
 }
 
 - (void)closes:(UIButton *)button{
-
+    
+    NSString *money = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
+    NSString *title = self.other.titleLabel.text;
+    NSString *img = self.other.img;
+    NSString *hot = self.other.hot;
+   float num = [self.other.addShopp.textF.text intValue];
+    
     switch (button.tag) {
         case 111:{
             [self zhifu];
             
             ShoppingViewController *shopp = [[ShoppingViewController alloc]init];
-            NSString *title = self.other.titleLabel.text;
-            NSString *img = self.other.img;
-            NSString *hot = self.other.hot;
-            NSString *money = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
-            float num = [self.other.addShopp.textF.text intValue];
-//            NSString *num = self.other.addShopp.textF.text;
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num shopId:self.ID];
-           
+ 
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num shopId:self.ID stock:_fxq.stock];
+            
             [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
             [[CXArchiveShopManager sharedInstance]startArchiveShop];
             
@@ -280,9 +284,12 @@
         case 112:{
             [self zhifu];
         BFZFViewController *zf = [[BFZFViewController alloc]init];
-            _fxq.numbers = [_other.addShopp.textF.text integerValue];
+           
+            _fxq.numbers = num;
+            _fxq.price = money;
+            _fxq.guige = _other.selectedGuige;
             zf.isPT = _isPT;
-            NSLog(@"%@",_fxq.price);
+            NSLog(@"////%@",_other.selectedGuige);
             zf.modelArr = _dataArray;
         [self.navigationController pushViewController:zf animated:YES
              ];
@@ -363,7 +370,7 @@
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
         
             self.fxq.nameArr = [NSMutableArray array];
-            self.fxq.guigeArr = [NSArray array];
+            self.fxq.guigeArr = [NSMutableArray array];
             self.fxq.stockArr = [NSMutableArray array];
             self.fxq.imageArr = [NSMutableArray array];
             self.fxq.moneyArr = [NSMutableArray array];
@@ -392,10 +399,10 @@
                 fxq.guige = [dic3 valueForKey:@"choose"];
                 [guige addObject:fxq.guige];
                 NSArray *answer = [dic3 valueForKey:@"answer"];
-                
-                for (NSDictionary *dic4 in answer) {
-                    fxq.stock = [dic4 valueForKey:@"stock"];
-                    fxq.price = [dic4 valueForKey:@"price"];
+               
+                for (NSDictionary *dic5 in answer) {
+                    fxq.stock = [dic5 valueForKey:@"stock"];
+                    fxq.price = [dic5 valueForKey:@"price"];
                     [pric addObject:fxq.price];
                     [stock addObject:fxq.stock];
                     

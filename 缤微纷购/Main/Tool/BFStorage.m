@@ -10,7 +10,7 @@
 
 @implementation BFStorage
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId{
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId stock:(NSString *)stock{
     if ([super init]) {
         _title = title;
         _img = img;
@@ -18,6 +18,7 @@
         _price = price;
         _numbers = number;
         _shopID = shopId;
+        _stock = stock;
     }
     return self;
 }
@@ -29,6 +30,7 @@
     [aCoder encodeObject:self.price forKey:@"price"];
     [aCoder encodeInteger:self.numbers forKey:@"number"];
     [aCoder encodeObject:self.shopID forKey:@"shopID"];
+    [aCoder encodeObject:self.stock forKey:@"stock"];
 };
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
@@ -39,6 +41,7 @@
         self.price = [aDecoder decodeObjectForKey:@"price"];
         self.numbers = [aDecoder decodeIntegerForKey:@"number"];
         self.shopID = [aDecoder decodeObjectForKey:@"shopID"];
+        self.stock = [aDecoder decodeObjectForKey:@"stock"];
     }
     return self;
 }
