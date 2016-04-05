@@ -9,41 +9,48 @@
 #import "BFGroupDetailController.h"
 #import "BFGroupDetailTabbar.h"
 #import "BFGroupDetailModel.h"
-#import "BFGroupDetailHeader.h"
-#import "BFGroupDetailProductCell.h"
 #import "BFShareView.h"
 #import "BFHeadPortraitView.h"
+#import "BFGroupDetailHeaderView.h"
+#import "BFGroupDetailTeamCell.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
 /**自定义tabbar*/
 @property (nonatomic, strong) BFGroupDetailTabbar *tabbar;
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
-/**头部视图*/
-@property (nonatomic, strong) BFGroupDetailHeader *headerView;
 /**BFGroupDetailModel*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
-/**头部视图*/
-@property (nonatomic, strong) NSMutableArray *itemArray;
+/**团购数组*/
+@property (nonatomic, strong) NSMutableArray *teamArray;
+/**tableViewHeaderView*/
+@property (nonatomic, strong) BFGroupDetailHeaderView *headerView;
 
-@property (nonatomic, strong) BFHeadPortraitView *headPortrait;
 @end
 
 @implementation BFGroupDetailController
 
 
 #pragma mark -- 懒加载
-
-- (NSMutableArray *)itemArray {
-    if (!_itemArray) {
-        _itemArray = [NSMutableArray array];
+- (NSMutableArray *)teamArray {
+    if (!_teamArray) {
+        _teamArray = [NSMutableArray array];
     }
-    return _itemArray;
+    return _teamArray;
 }
+
+- (BFGroupDetailHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[BFGroupDetailHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+        
+    }
+    return _headerView;
+}
+
 
 - (BFGroupDetailTabbar *)tabbar {
     if (!_tabbar) {
-        _tabbar = [[BFGroupDetailTabbar alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, 70)];
+        _tabbar = [[BFGroupDetailTabbar alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(70))];
         _tabbar.delegate = self;
         [self.view addSubview:_tabbar];
     }
@@ -52,22 +59,13 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight) style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
         [self.view addSubview:_tableView];
     }
     return _tableView;
-}
-
-- (BFGroupDetailHeader *)headerView {
-    if (!_headerView) {
-        _headerView = [[BFGroupDetailHeader alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(70))];
-        
-        [self.view addSubview:_headerView];
-    }
-    return _headerView;
 }
 
 
@@ -82,12 +80,8 @@
     [self tabbar];
     //获取数据
     [self getData];
-    //头部视图
-    [self setUpHeaderView];
-    //
     
-    
-    
+    [self setUpFooter];
 }
 
 #pragma mark -- 获取数据
@@ -104,13 +98,19 @@
        
         if (responseObject) {
             self.model = [BFGroupDetailModel parse:responseObject];
-            ItemModel *itemModel = [ItemModel parse:self.model.item];
-            [self.itemArray addObject:itemModel];
-            
-            self.tabbar.model = self.model;
+            NSArray *array = [TeamList parse:self.model.thisteam];
+            [self.teamArray addObjectsFromArray:array];
+            //给头部视图模型赋值
             self.headerView.model = self.model;
-            [self setUpFooterView];
-            BFLog(@"---%@,%@,,%lu",responseObject,parameter,(unsigned long)self.itemArray.count);
+            //返回的高度赋值
+            [UIView animateWithDuration:0.5 animations:^{
+                self.headerView.height = self.headerView.headerViewH;
+                self.tableView.tableHeaderView = self.headerView;
+            }];
+            
+            //给状态栏赋值
+            self.tabbar.model = self.model;
+            BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
             [self.tableView reloadData];
             [self animation];
         }
@@ -122,45 +122,39 @@
 #pragma mark --添加动画效果
 - (void)animation {
     [UIView animateWithDuration:0.5 animations:^{
-        self.tabbar.y = ScreenHeight - 134;
+        self.tabbar.y = ScreenHeight - 64 - BF_ScaleHeight(70);
+        self.tableView.y = 0;
     }];
 }
 
-#pragma mark --添加头部视图
-- (void)setUpHeaderView {
-    self.tableView.tableHeaderView = self.headerView;
+
+- (void)setUpFooter {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth,BF_ScaleHeight(200))];
+    view.backgroundColor = BFColor(0xcccccc);
+    self.tableView.tableFooterView = view;
 }
 
-- (void)setUpFooterView {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(400))];
-    view.backgroundColor = BFColor(0xCACACA);
-    self.tableView.tableFooterView = view;
-    
-    self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(20), ScreenWidth, 0)];
-    self.headPortrait.model = self.model;
-    self.headPortrait.height = self.headPortrait.headPortraitViewH;
-    BFLog(@"头像--%f,",self.headPortrait.height);
-    [view addSubview:self.headPortrait];
-    
-}
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    BFLog(@"-------%lu",(unsigned long)self.itemArray.count);
-    return self.itemArray.count;
+
+    return self.teamArray.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFGroupDetailProductCell *cell = [BFGroupDetailProductCell cellWithTableView:tableView];
-    cell.model = self.itemArray[indexPath.row];
-    cell.detailModel = self.model;
+    BFGroupDetailTeamCell *cell = [BFGroupDetailTeamCell cellWithTableView:tableView];
+    cell.textLabel.text = @"hahah";
     return cell;
 }
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return BF_ScaleHeight(110);
+    if (indexPath.row == self.teamArray.count - 1) {
+        return BF_ScaleHeight(45);
+    } else {
+        return BF_ScaleHeight(65);
+    }
 }
 
 

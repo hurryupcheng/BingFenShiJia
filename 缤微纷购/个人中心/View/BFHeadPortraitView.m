@@ -14,6 +14,11 @@
 @interface BFHeadPortraitView()
 /**头像*/
 @property (nonatomic, strong) UIImageView *headPortrait;
+/**团长*/
+@property (nonatomic, strong) UIImageView *captain;
+/**沙发*/
+@property (nonatomic, strong) UIImageView *sofa;
+
 @end
 
 @implementation BFHeadPortraitView
@@ -80,7 +85,7 @@
         }
         for (NSInteger i = 1; i <= array.count; i++) {
             TeamList *list = array[i-1];
-        
+            
             [(UIImageView *)[view viewWithTag:i] sd_setImageWithURL:[NSURL URLWithString:list.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
         }
         view.frame = CGRectMake(0,H*BF_ScaleWidth(60), viewW, BF_ScaleWidth(60));

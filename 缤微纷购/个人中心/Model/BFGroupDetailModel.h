@@ -11,7 +11,7 @@
 @interface BFGroupDetailModel : NSObject
 /**产品模型*/
 @property (nonatomic, strong) ItemModel *item;
-/**产品模型*/
+/**参团人数*/
 @property (nonatomic, strong) NSArray<TeamList *> *thisteam;
 /**状态 1组团成功 2组团失败 0 根据xinxi判断*/
 @property (nonatomic, strong) NSString *status;
@@ -19,6 +19,10 @@
 @property (nonatomic, assign) NSInteger havenum;
 /**判断 1.立即支付 2.立即支付参团 3.还差几个组团成功 else.我也要参团*/
 @property (nonatomic, strong) NSString *xinxi;
+/**活动结束时间*/
+@property (nonatomic, strong) NSString *endtime;
+/**活动结束时间*/
+@property (nonatomic, strong) NSString *nowtime;
 @end
 
 @interface ItemModel : NSObject
