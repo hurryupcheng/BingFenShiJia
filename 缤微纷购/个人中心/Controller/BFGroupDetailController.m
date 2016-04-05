@@ -5,7 +5,8 @@
 //  Created by 程召华 on 16/3/30.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFMyGroupPurchaseController.h"
+#import "PTStepViewController.h"
 #import "BFGroupDetailController.h"
 #import "BFGroupDetailTabbar.h"
 #import "BFGroupDetailModel.h"
@@ -91,7 +92,33 @@
     [self tabbar];
     //获取数据
     [self getData];
-    
+    //接收footerView的拼团玩法的点击事件
+    [BFNotificationCenter addObserver:self selector:@selector(clickToLookDetail) name:@"lookDetail" object:nil];
+    //接收footerView的缤纷世家按钮的点击事件
+    [BFNotificationCenter addObserver:self selector:@selector(goToHome) name:@"homeButtonClick" object:nil];
+    //接收footerView的我的团按钮的点击事件
+    [BFNotificationCenter addObserver:self selector:@selector(goToGroupDetail) name:@"myGroupClick" object:nil];
+}
+#pragma mark -- 拼团玩法的通知事件
+- (void)clickToLookDetail {
+    PTStepViewController *pt = [[PTStepViewController alloc]init];
+    [self.navigationController pushViewController:pt animated:YES];
+}
+
+#pragma mark -- 缤纷世家按钮的通知事件
+- (void)goToHome {
+    self.tabBarController.selectedIndex = 0;
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark -- 我的团按钮的通知事件
+- (void)goToGroupDetail {
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    for (UIViewController *lastVC in vcsArray) {
+        if ([lastVC isKindOfClass:[BFMyGroupPurchaseController class]]) {
+            [self.navigationController popToViewController:lastVC animated:YES];
+        }
+    }
 }
 
 #pragma mark -- 获取数据
@@ -104,31 +131,33 @@
     parameter[@"itemid"] = self.itemid;
     parameter[@"teamid"] = self.teamid;
     
-    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-       
-        if (responseObject) {
-            self.model = [BFGroupDetailModel parse:responseObject];
-            NSArray *array = [TeamList parse:self.model.thisteam];
-            [self.teamArray addObjectsFromArray:array];
-            //给头部视图模型赋值
-            self.headerView.model = self.model;
-            //给底部视图模型赋值
-            self.footerView.model = self.model;
-            //返回的高度赋值
-            [UIView animateWithDuration:0.5 animations:^{
-                self.headerView.height = self.headerView.headerViewH;
-                self.tableView.tableHeaderView = self.headerView;
-                self.tableView.tableFooterView = self.footerView;
-            }];
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"请求数据..." dispatch_get_main_queue:^{
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             
-            //给状态栏赋值
-            self.tabbar.model = self.model;
-            BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
-            [self.tableView reloadData];
-            [self animation];
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+            if (responseObject) {
+                self.model = [BFGroupDetailModel parse:responseObject];
+                NSArray *array = [TeamList parse:self.model.thisteam];
+                [self.teamArray addObjectsFromArray:array];
+                //给头部视图模型赋值
+                self.headerView.model = self.model;
+                //给底部视图模型赋值
+                self.footerView.model = self.model;
+                //返回的高度赋值
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.headerView.height = self.headerView.headerViewH;
+                    self.tableView.tableHeaderView = self.headerView;
+                    self.tableView.tableFooterView = self.footerView;
+                }];
+                
+                //给状态栏赋值
+                self.tabbar.model = self.model;
+                BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
+                [self.tableView reloadData];
+                [self animation];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
     }];
 }
 

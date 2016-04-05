@@ -16,6 +16,6 @@
 /**下Label*/
 @property (nonatomic, strong) UILabel *bottomLabel;
 
-+ (id)setUpViewWithX:(CGFloat)x image:(NSString *)image title:(NSString *)title;
+
 
 @end

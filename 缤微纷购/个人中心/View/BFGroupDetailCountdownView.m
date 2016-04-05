@@ -11,13 +11,13 @@
 
 @interface BFGroupDetailCountdownView()
 
-/***/
+/**对于诸位大侠的相助，团长感激涕零*/
 @property (nonatomic, strong) UILabel *helpLabel;
-/***/
+/**团购成功或者失败*/
 @property (nonatomic, strong) UILabel *statusLabel;
-/***/
+/**倒计时view*/
 @property (nonatomic, strong) BFCountdownView *countdown;
-/***/
+/**还差几人*/
 @property (nonatomic, strong) UILabel *lackLabel;
 @end
 

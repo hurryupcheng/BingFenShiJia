@@ -427,6 +427,7 @@
 		59FF75291CAE1A860063F770 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FF747B1CAE1A860063F770 /* libWeChatSDK.a */; };
 		59FF752C1CAE3C720063F770 /* BFCountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF752B1CAE3C720063F770 /* BFCountdownView.m */; };
 		59FF752F1CAE78550063F770 /* BFGroupDetailTeamCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF752E1CAE78550063F770 /* BFGroupDetailTeamCell.m */; };
+		59FF955E1CB3B68C0042AD41 /* BFGroupDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF955D1CB3B68C0042AD41 /* BFGroupDetailBottomView.m */; };
 		59FFB0C81C906D4100B04F8E /* BFModifyBankCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */; };
 		59FFCEC91C89EA6600ADF8F0 /* BFSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */; };
 /* End PBXBuildFile section */
@@ -1204,6 +1205,8 @@
 		59FF752B1CAE3C720063F770 /* BFCountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCountdownView.m; sourceTree = "<group>"; };
 		59FF752D1CAE78550063F770 /* BFGroupDetailTeamCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailTeamCell.h; sourceTree = "<group>"; };
 		59FF752E1CAE78550063F770 /* BFGroupDetailTeamCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailTeamCell.m; sourceTree = "<group>"; };
+		59FF955C1CB3B68C0042AD41 /* BFGroupDetailBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailBottomView.h; sourceTree = "<group>"; };
+		59FF955D1CB3B68C0042AD41 /* BFGroupDetailBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailBottomView.m; sourceTree = "<group>"; };
 		59FFB0C61C906D4100B04F8E /* BFModifyBankCardView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFModifyBankCardView.h; sourceTree = "<group>"; };
 		59FFB0C71C906D4100B04F8E /* BFModifyBankCardView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFModifyBankCardView.m; sourceTree = "<group>"; };
 		59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingController.h; sourceTree = "<group>"; };
@@ -1667,6 +1670,8 @@
 				59132F901CB397D000F711C6 /* BFGroupDetailIntroduceView.m */,
 				59132F921CB3A90C00F711C6 /* BFStepView.h */,
 				59132F931CB3A90C00F711C6 /* BFStepView.m */,
+				59FF955C1CB3B68C0042AD41 /* BFGroupDetailBottomView.h */,
+				59FF955D1CB3B68C0042AD41 /* BFGroupDetailBottomView.m */,
 				5938ACC21CAB8145004D076A /* BFGroupDetailTabbar.h */,
 				5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */,
 				59FB582F1CAA80A800CCAEB4 /* BFGroupOrderDetailView.h */,
@@ -2858,6 +2863,7 @@
 				59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */,
 				59FF74F01CAE1A860063F770 /* SDPhotoBrowser.m in Sources */,
 				59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */,
+				59FF955E1CB3B68C0042AD41 /* BFGroupDetailBottomView.m in Sources */,
 				59FF74F51CAE1A860063F770 /* SDWebImageCompat.m in Sources */,
 				59FF75111CAE1A860063F770 /* STPhotoBrowserController.m in Sources */,
 				59FF74FF1CAE1A860063F770 /* UIImageView+HighlightedWebCache.m in Sources */,

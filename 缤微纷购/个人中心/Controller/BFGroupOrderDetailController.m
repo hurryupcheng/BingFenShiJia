@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/29.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFGroupDetailController.h"
 #import "BFGroupOrderDetailController.h"
 #import "BFGroupOrderDetailView.h"
 #import "BFGroupOrderDetailModel.h"
@@ -48,16 +48,18 @@
     parameter[@"itemid"] = self.itemid;
     parameter[@"teamid"] = self.teamid;
     
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@",responseObject);
-        if (responseObject) {
-            self.detailView.model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
-            [UIView animateWithDuration:0.5 animations:^{
-                self.detailView.y = 0;
-            }];
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"请求数据..." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@",responseObject);
+            if (responseObject) {
+                self.detailView.model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.detailView.y = 0;
+                }];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
     }];
 }
 
@@ -69,6 +71,10 @@
             break;
         }
         case BFGroupOrderDetailViewButtonTypeGroup:{
+            BFGroupDetailController *groupDetailVC = [[BFGroupDetailController alloc] init];
+            groupDetailVC.itemid = self.itemid;
+            groupDetailVC.teamid = self.teamid;
+            [self.navigationController pushViewController:groupDetailVC animated:YES];
             BFLog(@"点击查看团详情");
             break;
         }

@@ -38,7 +38,12 @@
             self.stepFour.hidden = YES;
         } else if ([model.status isEqualToString:@"1"]) {
             self.stepFour.numberImageView.image = [UIImage imageNamed:@"d2"];
-            self.stepFour.upLabel.textColor = BFColor(0x4da800);
+            self.stepFour.upLabel.textColor = BFColor(0xEB2E3D);
+            self.stepFour.bottomLabel.textColor = BFColor(0xEB2E3D);
+        } else if ([model.status isEqualToString:@"0"]) {
+            self.stepThree.numberImageView.image = [UIImage imageNamed:@"c2"];
+            self.stepThree.upLabel.textColor = BFColor(0xEB2E3D);
+            self.stepThree.bottomLabel.textColor = BFColor(0xEB2E3D);
         }
     }
 }
@@ -59,13 +64,18 @@
     [detailButton setTitle:@"查看详情" forState:UIControlStateNormal];
     [self addSubview:detailButton];
     
-    self.stepOne = [BFStepView setUpViewWithX:0 image:@"a1" title:@"选择心仪商品"];
+    UIImageView *arrow = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(35), BF_ScaleWidth(60), BF_ScaleHeight(12))];
     
-    self.stepTwo = [BFStepView setUpViewWithX:CGRectGetMaxX(self.stepOne.frame) image:@"b1" title:@"支付开团或参团"];
+    arrow.image = [UIImage imageNamed:@"group_detai_arrow"];
+    [self addSubview:arrow];
     
-    self.stepThree = [BFStepView setUpViewWithX:CGRectGetMaxX(self.stepTwo.frame) image:@"c1" title:@"等待好友参团支付"];
+    self.stepOne = [self setUpViewWithX:CGRectGetMaxX(self.stepOne.frame) image:@"a1" uptitle:@"选择" bottomTitle:@"心仪商品"];
     
-    self.stepFour = [BFStepView setUpViewWithX:CGRectGetMaxX(self.stepThree.frame) image:@"d1" title:@"达到人数团购成功"];
+    self.stepTwo = [self setUpViewWithX:CGRectGetMaxX(self.stepOne.frame) image:@"b1" uptitle:@"支付开团" bottomTitle:@"或参团"];
+    
+    self.stepThree = [self setUpViewWithX:CGRectGetMaxX(self.stepTwo.frame) image:@"c1" uptitle:@"等待好友" bottomTitle:@"参团支付"];
+    
+    self.stepFour = [self setUpViewWithX:CGRectGetMaxX(self.stepThree.frame) image:@"d1" uptitle:@"达到人数" bottomTitle:@"团购成功"];
 
     
     
@@ -76,19 +86,11 @@
 }
 
 //创建view
-- (UIView *)setUpViewWithX:(CGFloat)x image:(NSString *)image title:(NSString *)title{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(x, BF_ScaleHeight(44), BF_ScaleWidth(75), BF_ScaleHeight(22))];
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleHeight(22), BF_ScaleHeight(22))];
-    imageView.image = [UIImage imageNamed:image];
-    [view addSubview:imageView];
-    
-    UILabel *introduce = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(35), 0, BF_ScaleWidth(40), BF_ScaleHeight(22))];
-    introduce.numberOfLines = 2;
-    introduce.text = title;
-    introduce.textColor = BFColor(0x747474);
-    introduce.font = [UIFont systemFontOfSize:BF_ScaleFont(9)];
-    [view addSubview:introduce];
-    
+- (BFStepView *)setUpViewWithX:(CGFloat)x image:(NSString *)image uptitle:(NSString *)uptitle bottomTitle:(NSString *)bottomTitle{
+    BFStepView *view = [[BFStepView alloc] initWithFrame:CGRectMake(x, BF_ScaleHeight(44), BF_ScaleWidth(75), BF_ScaleHeight(22))];
+    view.numberImageView.image = [UIImage imageNamed:image];
+    view.upLabel.text = uptitle;
+    view.bottomLabel.text = bottomTitle;
     [self addSubview:view];
     return view;
 }
@@ -96,7 +98,7 @@
 
 //查看详情
 - (void)click:(UIButton *)sender {
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"lookDetail" object:nil];
 }
 
 
