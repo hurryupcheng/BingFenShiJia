@@ -109,13 +109,10 @@
             [self.arrayBut addTarget:self action:@selector(arrayBut:) forControlEvents:UIControlEventTouchUpInside];
             self.arrayBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
             
+            self.selectedGuige = set[0];
             [self addSubview:self.arrayBut];
             }
-    
-        if (self.arrayBut.tag == 0) {
-            self.arrayBut.selected = YES;
-
-        }
+        
         
         
         self.num = [[BFClassminView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.arrayBut.frame)+10, kScreenWidth, CGFloatY(25)) title:@"数量"];
@@ -169,6 +166,7 @@
 }
 
 - (void)arrayBut:(UIButton *)but{
+    
     self.selecdent.selected = NO;
     but.selected = YES;
     self.selecdent = but;
@@ -182,9 +180,13 @@
     [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[str length])];
     
     self.moneyLabel.attributedText = str;
-    
+    self.selectedGuige = but.titleLabel.text;
     if (but.selected == YES) {
-        NSLog(@">>>>>%@",self.stockArr[but.tag]);
+        
+        if ([self.addShopp.textF.text integerValue] >= [self.stockArr[but.tag] integerValue]) {
+            self.addShopp.textF.text = self.stockArr[but.tag];
+           
+        }
     }
     
 //    if (self.arrayBut.selected == YES) {
@@ -204,12 +206,15 @@
 }
 
 - (void)maxButSelented{
-    self.addShopp.minBut.enabled = YES;
-    self.number++;
-    self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-    if ([self.addShopp.textF.text integerValue] > 99) {
-        self.addShopp.textF.text = @"99";
+    
+    if ([self.addShopp.textF.text integerValue] >= [self.stockArr[0] integerValue]) {
+
         self.addShopp.maxBut.enabled = NO;
+    }else{
+    
+        self.addShopp.minBut.enabled = YES;
+        self.number++;
+        self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
     }
 }
 

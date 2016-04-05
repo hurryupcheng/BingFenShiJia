@@ -27,10 +27,6 @@
 
 @implementation PTTableViewCell
 
-
-
-
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         

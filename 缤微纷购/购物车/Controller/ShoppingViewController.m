@@ -288,10 +288,11 @@
     
     __block SPTableViewCell *weakCell = cell;
     cell.numAddBlock = ^(){
-        NSInteger count = [weakCell.add.textF.text integerValue];NSLog(@"%d",count);
+        NSInteger count = [weakCell.add.textF.text integerValue];
         count++;
         NSString *numStr = [NSString stringWithFormat:@"%ld",(long)count];
         BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
+       
         weakCell.add.textF.text = numStr;
         model.numbers = count;
         
@@ -314,6 +315,7 @@
         }  
         NSString *numStr = [NSString stringWithFormat:@"%ld",(long)count];
         BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
+       
         weakCell.add.textF.text = numStr;
         model.numbers = count;
         [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
@@ -389,36 +391,6 @@
        [self initWithLoveView];
    }];
 }
-#pragma  mark 是否登陆
-- (void)ifInfo{
-}
-
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    self.navigationController.navigationBar.translucent = NO;
-//    self.userInfo = [BFUserDefaluts getUserInfo];
-//    
-//    if (self.userInfo == nil) {
-//        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..." dispatch_get_main_queue:^{
-//            LogViewController *log = [LogViewController new];
-//            [self.navigationController pushViewController:log animated:YES];
-//        }];
-//    }else{
-//        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-//        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-//        
-//        if (self.dateArr.count == 0) {
-//            [self data];
-//        }else{
-//            [self getDate];
-//            [_groubView removeFromSuperview];
-//            [self initWithTabView];
-//            [self.tabView reloadData];
-//        }
-//    }
-//
-//}
-
 
 - (void)viewWillAppear:(BOOL)animated{
     self.userInfo = [BFUserDefaluts getUserInfo];

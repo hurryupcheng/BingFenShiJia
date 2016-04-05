@@ -534,7 +534,7 @@
     self.tableV.showsHorizontalScrollIndicator = NO;
     self.tableV.showsVerticalScrollIndicator = NO;
     self.tableV.backgroundColor = BFColor(0xD4D4D4);
-    
+
     [self.tableV registerClass:[PTTableViewCell class] forCellReuseIdentifier:@"reuse"];
     
     [self.view addSubview:self.tableV];
@@ -573,7 +573,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc]init];
     
-    LBView *lb = [[LBView alloc]initWithFrame:CGRectMake(0, 10, 0, (kScreenWidth-20)/2)];
+    LBView *lb = [[LBView alloc]initWithFrame:CGRectMake(0, 0, 0, (kScreenWidth-20)/2)];
     NSMutableArray *arr = [NSMutableArray array];
     for (NSString *str in self.ptLBView) {
         [arr addObject:str];

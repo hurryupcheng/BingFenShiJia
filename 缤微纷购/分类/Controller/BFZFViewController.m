@@ -263,6 +263,7 @@
         NSMutableArray *money = [NSMutableArray array];
         NSMutableArray *number = [NSMutableArray array];
         NSMutableArray *img = [NSMutableArray array];
+        NSMutableArray *guige = [NSMutableArray array];
         
         for (BFPTDetailModel *model in self.modelArr) {
             [title addObject:model.title];
@@ -274,10 +275,12 @@
             [img addObject:model.img];
             NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
             [number addObject:num];
-
+            
+            [guige addObject:model.guige];
+            
         }
         for (int i = 0; i < self.modelArr.count; i++) {
-            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:img[i] title:title[i] money:money[i] guige:nil number:number[i]];
+            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:img[i] title:title[i] money:money[i] guige:guige[i] number:number[i]];
             order.backgroundColor = [UIColor whiteColor];
             
             [_imageV addSubview:order];
