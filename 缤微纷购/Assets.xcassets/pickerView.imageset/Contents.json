@@ -5,14 +5,14 @@
         "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 1,
+          "width" : 9,
           "height" : 1
         },
         "cap-insets" : {
-          "bottom" : 22,
-          "top" : 9,
-          "right" : 153,
-          "left" : 27
+          "bottom" : 23,
+          "top" : 8,
+          "right" : 150,
+          "left" : 33
         }
       },
       "idiom" : "iphone",

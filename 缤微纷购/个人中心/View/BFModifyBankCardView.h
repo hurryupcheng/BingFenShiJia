@@ -18,6 +18,6 @@ typedef enum {
 
 @interface BFModifyBankCardView : UIView
 
-- (void)refreshView;
+
 
 @end

@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface BFBankModel : NSObject
-/**id*/
-@property (nonatomic, strong) NSString *ID;
+
 /**name*/
 @property (nonatomic, strong) NSString *name;
 @end

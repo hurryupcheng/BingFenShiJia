@@ -16,7 +16,7 @@
 
 @implementation BFModifyBankCardController
 
-
+#pragma mark --懒加载
 - (BFModifyBankCardView *)modifyView {
     if (!_modifyView) {
         _modifyView = [[BFModifyBankCardView alloc] initWithFrame:self.view.frame];
@@ -25,6 +25,7 @@
     return _modifyView;
 }
 
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"修改银行卡";

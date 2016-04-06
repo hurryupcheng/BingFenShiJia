@@ -56,6 +56,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         hud.labelText = labelText;
+        
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{
             [MBProgressHUD hideHUDForView:view animated:YES];
@@ -81,9 +82,12 @@
 }
 /**从最view窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromView:(UIView *)view LabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock{
+    
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         hud.labelText = labelText;
+        //hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{
             

@@ -234,8 +234,8 @@
 		59FC0F6F1C984D2000052707 /* BFProductDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC0F6E1C984D2000052707 /* BFProductDetailCell.m */; };
 		59FC1A9E1C8DDB4A00809732 /* BFMyWalletTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC1A9D1C8DDB4A00809732 /* BFMyWalletTopView.m */; };
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
+		59FC986B1CB4D1BA0076B311 /* bankAddress.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FC986A1CB4D1BA0076B311 /* bankAddress.plist */; };
 		59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */; };
-		59FF0D141C8D181E00D3C2A9 /* list.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FF0D131C8D181E00D3C2A9 /* list.plist */; };
 		59FF0D231C8D1F7D00D3C2A9 /* BFInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */; };
 		59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */; };
 		59FF467A1C8A74AF0040689A /* BFPersonInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46791C8A74AF0040689A /* BFPersonInformationController.m */; };
@@ -817,9 +817,9 @@
 		59FC1A9D1C8DDB4A00809732 /* BFMyWalletTopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyWalletTopView.m; sourceTree = "<group>"; };
 		59FC307E1C8737A0002EFB40 /* BFPTDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailModel.h; sourceTree = "<group>"; };
 		59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailModel.m; sourceTree = "<group>"; };
+		59FC986A1CB4D1BA0076B311 /* bankAddress.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankAddress.plist; sourceTree = "<group>"; };
 		59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGoGroupShoppingView.h; sourceTree = "<group>"; };
 		59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGoGroupShoppingView.m; sourceTree = "<group>"; };
-		59FF0D131C8D181E00D3C2A9 /* list.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = list.plist; path = "物流售后/list.plist"; sourceTree = "<group>"; };
 		59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFInstructionCell.h; sourceTree = "<group>"; };
 		59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFInstructionCell.m; sourceTree = "<group>"; };
 		59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAdvertisingExpenseInformationCell.h; sourceTree = "<group>"; };
@@ -1359,8 +1359,8 @@
 				51D121E41C3A746A00640A44 /* 分类 */,
 				51D122451C3FABB9004DE71E /* 物流售后 */,
 				51D121B71C3A6DA700640A44 /* Main.storyboard */,
-				59FF0D131C8D181E00D3C2A9 /* list.plist */,
 				59FF72FA1CAE17240063F770 /* Info.plist */,
+				59FC986A1CB4D1BA0076B311 /* bankAddress.plist */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
 				592523B71C8676E5000F609F /* PrefixHeader.pch */,
 				51D121AE1C3A6DA700640A44 /* Supporting Files */,
@@ -2801,7 +2801,7 @@
 				51D24D881C9961C900F2D90E /* d2.png in Resources */,
 				59FF75021CAE1A860063F770 /* progresshud.bundle in Resources */,
 				59FF751C1CAE1A860063F770 /* UMSCommentDetailController.xib in Resources */,
-				59FF0D141C8D181E00D3C2A9 /* list.plist in Resources */,
+				59FC986B1CB4D1BA0076B311 /* bankAddress.plist in Resources */,
 				51A9968C1C9AA87C00B4783C /* buys.png in Resources */,
 				59FF75221CAE1A860063F770 /* UMSnsAccountViewController.xib in Resources */,
 				51D121B91C3A6DA700640A44 /* Main.storyboard in Resources */,
