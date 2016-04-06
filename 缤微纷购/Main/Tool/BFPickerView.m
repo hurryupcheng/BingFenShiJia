@@ -150,7 +150,7 @@
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel *lable=[[UILabel alloc]init];
     lable.textAlignment = NSTextAlignmentCenter;
-    lable.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(23)];
+    lable.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)];
     lable.text = self.dataArray[row];
     return lable;
 }

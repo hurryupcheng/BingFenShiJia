@@ -236,6 +236,7 @@
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
 		59FC986B1CB4D1BA0076B311 /* bankAddress.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FC986A1CB4D1BA0076B311 /* bankAddress.plist */; };
 		59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */; };
+		59FEC72A1CB553000081616D /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FEC7291CB553000081616D /* Province.plist */; };
 		59FF0D231C8D1F7D00D3C2A9 /* BFInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */; };
 		59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */; };
 		59FF467A1C8A74AF0040689A /* BFPersonInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46791C8A74AF0040689A /* BFPersonInformationController.m */; };
@@ -820,6 +821,7 @@
 		59FC986A1CB4D1BA0076B311 /* bankAddress.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankAddress.plist; sourceTree = "<group>"; };
 		59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGoGroupShoppingView.h; sourceTree = "<group>"; };
 		59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGoGroupShoppingView.m; sourceTree = "<group>"; };
+		59FEC7291CB553000081616D /* Province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Province.plist; sourceTree = "<group>"; };
 		59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFInstructionCell.h; sourceTree = "<group>"; };
 		59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFInstructionCell.m; sourceTree = "<group>"; };
 		59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAdvertisingExpenseInformationCell.h; sourceTree = "<group>"; };
@@ -1361,6 +1363,7 @@
 				51D121B71C3A6DA700640A44 /* Main.storyboard */,
 				59FF72FA1CAE17240063F770 /* Info.plist */,
 				59FC986A1CB4D1BA0076B311 /* bankAddress.plist */,
+				59FEC7291CB553000081616D /* Province.plist */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
 				592523B71C8676E5000F609F /* PrefixHeader.pch */,
 				51D121AE1C3A6DA700640A44 /* Supporting Files */,
@@ -2776,6 +2779,7 @@
 				51D458A81C96BD6C00B52516 /* blues.png in Resources */,
 				59513B8D1C9FFD8D0028B008 /* iconfont-search.png in Resources */,
 				59513B8A1C9FFD8D0028B008 /* dizhi.png in Resources */,
+				59FEC72A1CB553000081616D /* Province.plist in Resources */,
 				51D4D9571C44A8F200453CD1 /* iicon07.png in Resources */,
 				5189303E1C7BF34000C5AB08 /* shanpinshouye.png in Resources */,
 				51D458BC1C96EDAC00B52516 /* jiaotong.png in Resources */,

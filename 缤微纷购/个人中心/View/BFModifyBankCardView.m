@@ -65,8 +65,9 @@
 #pragma mark - get data
 - (void)getPickerData
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"bankAddress" ofType:@"plist"];
-    self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:path];
+    NSString *provincePath = [[NSBundle mainBundle] pathForResource:@"Province" ofType:@"plist"];
+    NSString *cityPath = [[NSBundle mainBundle] pathForResource:@"bankAddress" ofType:@"plist"];
+    self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:cityPath];
     self.provinceArray = [self.pickerDic allKeys];
 }
 
@@ -232,7 +233,7 @@
                 [mutableArray addObject:model.name];
             }
             self.branchArray = [mutableArray copy];
-            BFLog(@"%@",self.branchArray);
+            //BFLog(@"%@",self.branchArray);
         }
 
         

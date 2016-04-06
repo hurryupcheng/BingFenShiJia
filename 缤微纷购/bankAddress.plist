@@ -4,6 +4,164 @@
 <dict>
 	<key>--请选择--</key>
 	<array/>
+	<key>辽宁省</key>
+	<array>
+		<dict>
+			<key>--请选择--</key>
+			<array/>
+			<key>沈阳</key>
+			<array>
+				<string>和平区</string>
+				<string>沈河区</string>
+				<string>大东区</string>
+				<string>皇姑区</string>
+				<string>铁西区</string>
+				<string>苏家屯区</string>
+				<string>东陵区</string>
+				<string>新城子区</string>
+				<string>于洪区</string>
+				<string>辽中县</string>
+				<string>康平县</string>
+				<string>法库县</string>
+				<string>新民</string>
+			</array>
+			<key>大连</key>
+			<array>
+				<string>中山区</string>
+				<string>西岗区</string>
+				<string>沙河口区</string>
+				<string>甘井子区</string>
+				<string>旅顺口区</string>
+				<string>金州区</string>
+				<string>长海县</string>
+				<string>瓦房店</string>
+				<string>普兰店</string>
+				<string>庄河</string>
+			</array>
+			<key>鞍山</key>
+			<array>
+				<string>铁东区</string>
+				<string>铁西区</string>
+				<string>立山区</string>
+				<string>千山区</string>
+				<string>台安县</string>
+				<string>岫岩满族自治县</string>
+				<string>海城</string>
+			</array>
+			<key>抚顺</key>
+			<array>
+				<string>新抚区</string>
+				<string>东洲区</string>
+				<string>望花区</string>
+				<string>顺城区</string>
+				<string>抚顺县</string>
+				<string>新宾满族自治县</string>
+				<string>清原满族自治县</string>
+			</array>
+			<key>本溪</key>
+			<array>
+				<string>平山区</string>
+				<string>溪湖区</string>
+				<string>明山区</string>
+				<string>南芬区</string>
+				<string>本溪满族自治县</string>
+				<string>桓仁满族自治县</string>
+			</array>
+			<key>丹东</key>
+			<array>
+				<string>元宝区</string>
+				<string>振兴区</string>
+				<string>振安区</string>
+				<string>宽甸满族自治县</string>
+				<string>东港</string>
+				<string>凤城</string>
+			</array>
+			<key>锦州</key>
+			<array>
+				<string>古塔区</string>
+				<string>凌河区</string>
+				<string>太和区</string>
+				<string>黑山县</string>
+				<string>义县</string>
+				<string>凌海</string>
+				<string>北宁</string>
+			</array>
+			<key>营口</key>
+			<array>
+				<string>站前区</string>
+				<string>西区</string>
+				<string>鲅鱼圈区</string>
+				<string>老边区</string>
+				<string>盖州</string>
+				<string>大石桥</string>
+			</array>
+			<key>阜新</key>
+			<array>
+				<string>海州区</string>
+				<string>新邱区</string>
+				<string>太平区</string>
+				<string>清河门区</string>
+				<string>细河区</string>
+				<string>阜新蒙古族自治县</string>
+				<string>彰武县</string>
+			</array>
+			<key>辽阳</key>
+			<array>
+				<string>白塔区</string>
+				<string>文圣区</string>
+				<string>宏伟区</string>
+				<string>弓长岭区</string>
+				<string>太子河区</string>
+				<string>辽阳县</string>
+				<string>灯塔</string>
+			</array>
+			<key>盘锦</key>
+			<array>
+				<string>双台子区</string>
+				<string>兴隆台区</string>
+				<string>大洼县</string>
+				<string>盘山县</string>
+			</array>
+			<key>铁岭</key>
+			<array>
+				<string>银州区</string>
+				<string>清河区</string>
+				<string>铁岭县</string>
+				<string>西丰县</string>
+				<string>昌图县</string>
+				<string>调兵山</string>
+				<string>开原</string>
+			</array>
+			<key>朝阳</key>
+			<array>
+				<string>双塔区</string>
+				<string>龙城区</string>
+				<string>朝阳县</string>
+				<string>建平县</string>
+				<string>喀喇沁左翼蒙古族自治县</string>
+				<string>北票</string>
+				<string>凌源</string>
+			</array>
+			<key>葫芦岛</key>
+			<array>
+				<string>连山区</string>
+				<string>龙港区</string>
+				<string>南票区</string>
+				<string>绥中县</string>
+				<string>建昌县</string>
+				<string>兴城</string>
+			</array>
+		</dict>
+	</array>
+	<key>上海市</key>
+	<array>
+		<dict>
+			<key>--请选择--</key>
+			<array/>
+			<key>上海</key>
+			<array/>
+		</dict>
+	</array>
 	<key>北京市</key>
 	<array>
 		<dict>
@@ -16,20 +174,17 @@
 	<key>天津市</key>
 	<array>
 		<dict>
-			<key>天津</key>
+			<key>--请选择--</key>
 			<array/>
-		</dict>
-	</array>
-	<key>上海市</key>
-	<array>
-		<dict>
-			<key>上海</key>
+			<key>天津</key>
 			<array/>
 		</dict>
 	</array>
 	<key>重庆市</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>重庆</key>
 			<array/>
 		</dict>
@@ -37,6 +192,8 @@
 	<key>河北省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>石家庄</key>
 			<array/>
 			<key>唐山</key>
@@ -225,6 +382,8 @@
 	<key>山西省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>太原</key>
 			<array>
 				<string>小店区</string>
@@ -381,6 +540,8 @@
 	<key>内蒙古</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>呼和浩特</key>
 			<array>
 				<string>新城区</string>
@@ -528,156 +689,11 @@
 			</array>
 		</dict>
 	</array>
-	<key>辽宁省</key>
-	<array>
-		<dict>
-			<key>沈阳</key>
-			<array>
-				<string>和平区</string>
-				<string>沈河区</string>
-				<string>大东区</string>
-				<string>皇姑区</string>
-				<string>铁西区</string>
-				<string>苏家屯区</string>
-				<string>东陵区</string>
-				<string>新城子区</string>
-				<string>于洪区</string>
-				<string>辽中县</string>
-				<string>康平县</string>
-				<string>法库县</string>
-				<string>新民</string>
-			</array>
-			<key>大连</key>
-			<array>
-				<string>中山区</string>
-				<string>西岗区</string>
-				<string>沙河口区</string>
-				<string>甘井子区</string>
-				<string>旅顺口区</string>
-				<string>金州区</string>
-				<string>长海县</string>
-				<string>瓦房店</string>
-				<string>普兰店</string>
-				<string>庄河</string>
-			</array>
-			<key>鞍山</key>
-			<array>
-				<string>铁东区</string>
-				<string>铁西区</string>
-				<string>立山区</string>
-				<string>千山区</string>
-				<string>台安县</string>
-				<string>岫岩满族自治县</string>
-				<string>海城</string>
-			</array>
-			<key>抚顺</key>
-			<array>
-				<string>新抚区</string>
-				<string>东洲区</string>
-				<string>望花区</string>
-				<string>顺城区</string>
-				<string>抚顺县</string>
-				<string>新宾满族自治县</string>
-				<string>清原满族自治县</string>
-			</array>
-			<key>本溪</key>
-			<array>
-				<string>平山区</string>
-				<string>溪湖区</string>
-				<string>明山区</string>
-				<string>南芬区</string>
-				<string>本溪满族自治县</string>
-				<string>桓仁满族自治县</string>
-			</array>
-			<key>丹东</key>
-			<array>
-				<string>元宝区</string>
-				<string>振兴区</string>
-				<string>振安区</string>
-				<string>宽甸满族自治县</string>
-				<string>东港</string>
-				<string>凤城</string>
-			</array>
-			<key>锦州</key>
-			<array>
-				<string>古塔区</string>
-				<string>凌河区</string>
-				<string>太和区</string>
-				<string>黑山县</string>
-				<string>义县</string>
-				<string>凌海</string>
-				<string>北宁</string>
-			</array>
-			<key>营口</key>
-			<array>
-				<string>站前区</string>
-				<string>西区</string>
-				<string>鲅鱼圈区</string>
-				<string>老边区</string>
-				<string>盖州</string>
-				<string>大石桥</string>
-			</array>
-			<key>阜新</key>
-			<array>
-				<string>海州区</string>
-				<string>新邱区</string>
-				<string>太平区</string>
-				<string>清河门区</string>
-				<string>细河区</string>
-				<string>阜新蒙古族自治县</string>
-				<string>彰武县</string>
-			</array>
-			<key>辽阳</key>
-			<array>
-				<string>白塔区</string>
-				<string>文圣区</string>
-				<string>宏伟区</string>
-				<string>弓长岭区</string>
-				<string>太子河区</string>
-				<string>辽阳县</string>
-				<string>灯塔</string>
-			</array>
-			<key>盘锦</key>
-			<array>
-				<string>双台子区</string>
-				<string>兴隆台区</string>
-				<string>大洼县</string>
-				<string>盘山县</string>
-			</array>
-			<key>铁岭</key>
-			<array>
-				<string>银州区</string>
-				<string>清河区</string>
-				<string>铁岭县</string>
-				<string>西丰县</string>
-				<string>昌图县</string>
-				<string>调兵山</string>
-				<string>开原</string>
-			</array>
-			<key>朝阳</key>
-			<array>
-				<string>双塔区</string>
-				<string>龙城区</string>
-				<string>朝阳县</string>
-				<string>建平县</string>
-				<string>喀喇沁左翼蒙古族自治县</string>
-				<string>北票</string>
-				<string>凌源</string>
-			</array>
-			<key>葫芦岛</key>
-			<array>
-				<string>连山区</string>
-				<string>龙港区</string>
-				<string>南票区</string>
-				<string>绥中县</string>
-				<string>建昌县</string>
-				<string>兴城</string>
-			</array>
-		</dict>
-	</array>
 	<key>吉林省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>长春</key>
 			<array>
 				<string>南关区</string>
@@ -774,6 +790,8 @@
 	<key>黑龙江省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>哈尔滨</key>
 			<array>
 				<string>道里区</string>
@@ -948,6 +966,8 @@
 	<key>江苏省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>南京</key>
 			<array>
 				<string>玄武区</string>
@@ -1106,6 +1126,8 @@
 	<key>浙江省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>杭州</key>
 			<array>
 				<string>上城区</string>
@@ -1236,6 +1258,8 @@
 	<key>安徽省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>合肥</key>
 			<array>
 				<string>瑶海区</string>
@@ -1407,6 +1431,8 @@
 	<key>福建省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>福州</key>
 			<array>
 				<string>鼓楼区</string>
@@ -1524,6 +1550,8 @@
 	<key>江西省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>南昌</key>
 			<array>
 				<string>东湖区</string>
@@ -1661,6 +1689,8 @@
 	<key>山东省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>济南</key>
 			<array>
 				<string>历下区</string>
@@ -1861,6 +1891,8 @@
 	<key>河南省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>郑州</key>
 			<array>
 				<string>中原区</string>
@@ -2079,6 +2111,8 @@
 	<key>湖北省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>武汉</key>
 			<array>
 				<string>江岸区</string>
@@ -2226,6 +2260,8 @@
 	<key>湖南省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>长沙</key>
 			<array>
 				<string>芙蓉区</string>
@@ -2395,6 +2431,8 @@
 	<key>广东省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>广州</key>
 			<array>
 				<string>东山区</string>
@@ -2590,6 +2628,8 @@
 	<key>广西</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>南宁</key>
 			<array>
 				<string>兴宁区</string>
@@ -2746,6 +2786,8 @@
 	<key>海南省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>海口</key>
 			<array>
 				<string>秀英区</string>
@@ -2810,6 +2852,8 @@
 	<key>四川省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>成都</key>
 			<array>
 				<string>锦江区</string>
@@ -3063,6 +3107,8 @@
 	<key>贵州省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>贵阳</key>
 			<array>
 				<string>南明区</string>
@@ -3186,6 +3232,8 @@
 	<key>云南省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>昆明</key>
 			<array>
 				<string>五华区</string>
@@ -3372,6 +3420,8 @@
 	<key>西藏</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>拉萨</key>
 			<array>
 				<string>城关区</string>
@@ -3471,6 +3521,8 @@
 	<key>陕西省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>西安</key>
 			<array>
 				<string>新城区</string>
@@ -3613,6 +3665,8 @@
 	<key>甘肃省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>兰州</key>
 			<array>
 				<string>城关区</string>
@@ -3745,6 +3799,8 @@
 	<key>青海省</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>西宁</key>
 			<array>
 				<string>城东区</string>
@@ -3819,6 +3875,8 @@
 	<key>宁夏</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>银川</key>
 			<array>
 				<string>兴庆区</string>
@@ -3860,6 +3918,8 @@
 	<key>新疆</key>
 	<array>
 		<dict>
+			<key>--请选择--</key>
+			<array/>
 			<key>乌鲁木齐</key>
 			<array>
 				<string>天山区</string>
