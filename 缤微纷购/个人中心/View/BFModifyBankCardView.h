@@ -18,6 +18,7 @@ typedef enum {
 
 @interface BFModifyBankCardView : UIView
 
-
+/**银行网点view的高度*/
+@property (nonatomic, assign) CGFloat viewH;
 
 @end

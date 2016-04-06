@@ -39,6 +39,10 @@
 @property (nonatomic, strong) NSString *cityID;
 /**请求数据*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
+
+@property (nonatomic, strong) UITextField *branchTF;
+
+@property (nonatomic, strong) UIView *view;
 @end
 
 @implementation BFModifyBankCardView
@@ -68,7 +72,7 @@
     NSString *provincePath = [[NSBundle mainBundle] pathForResource:@"Province" ofType:@"plist"];
     NSString *cityPath = [[NSBundle mainBundle] pathForResource:@"bankAddress" ofType:@"plist"];
     self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:cityPath];
-    self.provinceArray = [self.pickerDic allKeys];
+    self.provinceArray = [[NSArray alloc] initWithContentsOfFile:provincePath];
 }
 
 
@@ -76,18 +80,18 @@
 
 - (void)setUpView {
     //银行网点
-    UILabel *bankBranch = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(30), BF_ScaleHeight(5), BF_ScaleWidth(100), BF_ScaleHeight(15)) text:@"银行网点："];
+    UILabel *bankBranch = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(15), BF_ScaleHeight(5), BF_ScaleWidth(100), BF_ScaleHeight(15)) text:@"银行网点："];
     
     //银行
-    UILabel *bank = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(30), CGRectGetMaxY(bankBranch.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"银行："];
+    UILabel *bank = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(15), CGRectGetMaxY(bankBranch.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"银行："];
     [self addSubview:bank];
     
     //地区
-    UILabel *area = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(30), CGRectGetMaxY(bank.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"地区："];
+    UILabel *area = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(15), CGRectGetMaxY(bank.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"地区："];
     [self addSubview:area];
     
     //支行
-    UILabel *branch = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(30), CGRectGetMaxY(area.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"支行："];
+    UILabel *branch = [self setUpLabelWithFrame:CGRectMake(BF_ScaleWidth(15), CGRectGetMaxY(area.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"支行："];
     [self addSubview:branch];
     
     self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(130), Height) type:BFChooseButtonTypeBank];
@@ -104,6 +108,23 @@
     self.branchButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(branch.frame), branch.y, BF_ScaleWidth(200), Height) type:BFChooseButtonTypeBranch];
     [self.branchButton addTarget:self action:@selector(branchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
+    self.branchTF = [[UITextField alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), 0)];
+    self.branchTF.placeholder = @"请输入银行支行";
+    //self.branchTF.hidden = YES;
+    self.branchTF.borderStyle = UITextBorderStyleRoundedRect;
+    self.branchTF.backgroundColor = BFColor(0x4da800);
+    [self addSubview:self.branchTF];
+    
+    self.view = [[UIView alloc] init];
+    self.view.backgroundColor = [UIColor redColor];
+    [self addSubview:self.view];
+    
+    [super layoutSubviews];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.view.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame), ScreenWidth, BF_ScaleHeight(20));
 }
 
 /**pickerview代理，改变按钮状态*/
@@ -164,7 +185,15 @@
         weakSelf.cityButton.buttonTitle.text = @"--请选择--";
         weakSelf.branchButton.buttonTitle.text = @"--请选择--";
         if (![sender.buttonTitle.text isEqualToString:@"--请选择--"]) {
-            weakSelf.cityArray = [[[weakSelf.pickerDic objectForKey:string] objectAtIndex:0] allKeys] ;
+            NSMutableArray *mutableArray = [NSMutableArray array];
+            for (NSString *object in weakSelf.provinceArray) {
+                if (object == string) {
+                    NSArray *array = [[[weakSelf.pickerDic objectForKey:string] objectAtIndex:0] allKeys] ;
+                    [mutableArray addObjectsFromArray:array];
+                }
+            }
+            [mutableArray insertObject:@"--请选择--" atIndex:0];
+            weakSelf.cityArray = [mutableArray copy];
             weakSelf.cityButton.hidden = NO;
             [weakSelf getBranchInfo];
         }
@@ -197,18 +226,35 @@
     self.pickerView.delegate = self;
     if (self.bankID.length == 0 || self.provinceID.length == 0 || self.cityID.length == 0) {
         self.pickerView.dataArray = @[@"--请选择--", @"其他"];
+        __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
+            if ([string isEqualToString:@"其他"]) {
+                weakSelf.branchTF.height = BF_ScaleHeight(35);
+                
+            }else {
+                weakSelf.branchTF.height = BF_ScaleHeight(0);
+                BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
+            }
         };
 
     }else {
         self.pickerView.dataArray = self.branchArray;
+        __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
+            if ([string isEqualToString:@"其他"]) {
+                weakSelf.branchTF.height = BF_ScaleHeight(35);
+                BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
+            }else {
+                weakSelf.branchTF.height = BF_ScaleHeight(0);
+                BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
+            }
         };
 
     }
-
+    
+    BFLog(@"123----%f",CGRectGetMaxY(self.branchTF.frame));
     [self addSubview:self.pickerView];
     
 }

@@ -7,8 +7,6 @@
 	<key>辽宁省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>沈阳</key>
 			<array>
 				<string>和平区</string>
@@ -156,8 +154,6 @@
 	<key>上海市</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>上海</key>
 			<array/>
 		</dict>
@@ -165,8 +161,6 @@
 	<key>北京市</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>北京</key>
 			<array/>
 		</dict>
@@ -174,8 +168,6 @@
 	<key>天津市</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>天津</key>
 			<array/>
 		</dict>
@@ -183,8 +175,6 @@
 	<key>重庆市</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>重庆</key>
 			<array/>
 		</dict>
@@ -192,8 +182,6 @@
 	<key>河北省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>石家庄</key>
 			<array/>
 			<key>唐山</key>
@@ -382,8 +370,6 @@
 	<key>山西省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>太原</key>
 			<array>
 				<string>小店区</string>
@@ -540,8 +526,6 @@
 	<key>内蒙古</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>呼和浩特</key>
 			<array>
 				<string>新城区</string>
@@ -692,8 +676,6 @@
 	<key>吉林省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>长春</key>
 			<array>
 				<string>南关区</string>
@@ -790,8 +772,6 @@
 	<key>黑龙江省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>哈尔滨</key>
 			<array>
 				<string>道里区</string>
@@ -966,8 +946,6 @@
 	<key>江苏省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>南京</key>
 			<array>
 				<string>玄武区</string>
@@ -1126,8 +1104,6 @@
 	<key>浙江省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>杭州</key>
 			<array>
 				<string>上城区</string>
@@ -1258,8 +1234,6 @@
 	<key>安徽省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>合肥</key>
 			<array>
 				<string>瑶海区</string>
@@ -1431,8 +1405,6 @@
 	<key>福建省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>福州</key>
 			<array>
 				<string>鼓楼区</string>
@@ -1550,8 +1522,6 @@
 	<key>江西省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>南昌</key>
 			<array>
 				<string>东湖区</string>
@@ -1689,8 +1659,6 @@
 	<key>山东省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>济南</key>
 			<array>
 				<string>历下区</string>
@@ -1891,8 +1859,6 @@
 	<key>河南省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>郑州</key>
 			<array>
 				<string>中原区</string>
@@ -2111,8 +2077,6 @@
 	<key>湖北省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>武汉</key>
 			<array>
 				<string>江岸区</string>
@@ -2260,8 +2224,6 @@
 	<key>湖南省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>长沙</key>
 			<array>
 				<string>芙蓉区</string>
@@ -2431,8 +2393,6 @@
 	<key>广东省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>广州</key>
 			<array>
 				<string>东山区</string>
@@ -2628,8 +2588,6 @@
 	<key>广西</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>南宁</key>
 			<array>
 				<string>兴宁区</string>
@@ -2786,8 +2744,6 @@
 	<key>海南省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>海口</key>
 			<array>
 				<string>秀英区</string>
@@ -2852,8 +2808,6 @@
 	<key>四川省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>成都</key>
 			<array>
 				<string>锦江区</string>
@@ -3107,8 +3061,6 @@
 	<key>贵州省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>贵阳</key>
 			<array>
 				<string>南明区</string>
@@ -3232,8 +3184,6 @@
 	<key>云南省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>昆明</key>
 			<array>
 				<string>五华区</string>
@@ -3420,8 +3370,6 @@
 	<key>西藏</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>拉萨</key>
 			<array>
 				<string>城关区</string>
@@ -3521,8 +3469,6 @@
 	<key>陕西省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>西安</key>
 			<array>
 				<string>新城区</string>
@@ -3665,8 +3611,6 @@
 	<key>甘肃省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>兰州</key>
 			<array>
 				<string>城关区</string>
@@ -3799,8 +3743,6 @@
 	<key>青海省</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>西宁</key>
 			<array>
 				<string>城东区</string>
@@ -3875,8 +3817,6 @@
 	<key>宁夏</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>银川</key>
 			<array>
 				<string>兴庆区</string>
@@ -3918,8 +3858,6 @@
 	<key>新疆</key>
 	<array>
 		<dict>
-			<key>--请选择--</key>
-			<array/>
 			<key>乌鲁木齐</key>
 			<array>
 				<string>天山区</string>
