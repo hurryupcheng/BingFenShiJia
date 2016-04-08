@@ -18,7 +18,7 @@
 + (void) netWorkstatusViewController:(UIViewController *)viewController;
 
 /*判断网络*/
--(BOOL)isNetWork;
+- (BOOL)isNetWork;
 
 /*JSON方式获取数据*/
 - (void)JSONDataWithUrl:(NSString *)url ViewController:(UIViewController *)viewController success:(void (^)(id json))success fail:(void (^)())fail;

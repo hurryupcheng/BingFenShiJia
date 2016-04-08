@@ -104,6 +104,11 @@
     // 因为self本来就是一个导航控制器，self.navigationController这里是nil的
     [self popViewControllerAnimated:YES];
 }
+#pragma  mark 导航栏样式
+//- (UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleLightContent;
+//}
 
 
 

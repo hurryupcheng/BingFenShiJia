@@ -76,9 +76,12 @@
         }
         
         self.stock = model.stock;
-        self.stockLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-kScreenWidth/3, CGRectGetMaxY(self.addShopp.frame)+5, kScreenWidth, CGFloatX(30))];
-        self.stockLabel.text = [NSString stringWithFormat:@"库存数量:%@",model.stock];
+        self.stockLabel = [[UILabel alloc]init];
+        self.stockLabel.text = [NSString stringWithFormat:@"库存数量:%@",model.stockArr[0]];
         self.stockLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        CGFloat stockWeight = [Height widthString:self.stockLabel.text font:self.stockLabel.font];
+        self.stockLabel.frame = CGRectMake(CGRectGetMaxX(self.frame)-stockWeight-10, CGRectGetMaxY(self.addShopp.frame)+5, stockWeight, CGFloatX(30));
+        self.stockLabel.textAlignment = NSTextAlignmentRight;
         
         for (int i = 0; i < 3; i++) {
            _colorV = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.stockLabel.frame)+(CGFloatX(40)*i), kScreenWidth, 0.5)];
@@ -96,7 +99,7 @@
         choose.text = model.guigeArr[0];
         choose.font = [UIFont systemFontOfSize:CGFloatX(16)];
         
-        CGFloat weight = [Height widthString:choose.text font:[UIFont systemFontOfSize:CGFloatX(16)]];
+        CGFloat weight = [Height widthString:choose.text font:choose.font];
         choose.frame = CGRectMake(kScreenWidth-weight-20, 0, weight, CGFloatX(30));
         
         UILabel *shop = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.guige.frame)+10, kScreenWidth, CGFloatX(30))];
@@ -132,6 +135,7 @@
 - (void)maxButSelented{
     self.number++;
     self.addShopp.minBut.enabled = YES;
+    
     self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
     
     if ([self.addShopp.textF.text integerValue] >= [_stock integerValue]) {

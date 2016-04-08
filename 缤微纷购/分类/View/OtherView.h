@@ -21,6 +21,7 @@
 @property (nonatomic,retain)NSString *hot;
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *selectedGuige;
+@property (nonatomic,retain)NSString *selectedColor;
 
 @property (nonatomic,retain)UILabel *red;
 @property (nonatomic,retain)UILabel *reds;

@@ -10,12 +10,6 @@
 
 @interface BForder : UIView
 
-@property (nonatomic,retain)UIImageView *img;
-@property (nonatomic,retain)UILabel *title;
-@property (nonatomic,retain)UILabel *money;
-@property (nonatomic,retain)UILabel *guige;
-@property (nonatomic,retain)UILabel *number;
-
-- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSString *)money guige:(NSString *)guige number:(NSString *)number;
+- (instancetype)initWithFrame:(CGRect)frame img:(NSString *)img title:(NSString *)title money:(NSString *)money guige:(NSString *)guige number:(NSString *)number color:(NSString *)color;
 
 @end

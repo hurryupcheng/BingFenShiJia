@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "CXArchiveShopManager.h"
 #import "BFCouponView.h"
 #import "BFScoreView.h"
 #import "BFPTDetailModel.h"
@@ -106,6 +107,10 @@
     }else{
         BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
         pay.pay = self.payTitle.text;
+        
+        for (BFPTDetailModel *model in self.modelArr){
+        [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+        }
         [self.navigationController pushViewController:pay animated:YES];
     }
 }
@@ -157,6 +162,7 @@
 
 - (void)gotoHomeController{
     self.tabBarController.selectedIndex = 0;
+    self.tabBarController.tabBar.hidden = NO;
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
@@ -174,8 +180,8 @@
     self.swit = [[UISwitch alloc]init];
     
     _scoreTitle = [[UILabel alloc]init];
-    NSInteger useScore = self.score/100;
-//    NSInteger useScore = 100000/100;
+//    NSInteger useScore = self.score/100;
+    NSInteger useScore = 100000/100;
     if (useScore > _sum_price/2) {
         self.scores = _sum_price/2;
     }else{
@@ -231,7 +237,7 @@
     if (section == 0) {
         return self.groubeImg.height+30;
     }else if(section == 1){
-        return (kScreenWidth/4+20)*(self.modelArr.count);
+        return (kScreenWidth/4+10)*(self.modelArr.count)+(self.modelArr.count*5);
     }else if(section == 2){
         if (self.isCoupon == YES) {
          return (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count);
@@ -264,6 +270,7 @@
         NSMutableArray *number = [NSMutableArray array];
         NSMutableArray *img = [NSMutableArray array];
         NSMutableArray *guige = [NSMutableArray array];
+        NSMutableArray *color = [NSMutableArray array];
         
         for (BFPTDetailModel *model in self.modelArr) {
             [title addObject:model.title];
@@ -275,12 +282,12 @@
             [img addObject:model.img];
             NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
             [number addObject:num];
-            
-            [guige addObject:model.guige];
-            
+            [guige addObject:model.choose];
+            [color addObject:model.color];
+           
         }
         for (int i = 0; i < self.modelArr.count; i++) {
-            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:img[i] title:title[i] money:money[i] guige:guige[i] number:number[i]];
+            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:img[i] title:title[i] money:money[i] guige:guige[i] number:number[i] color:color[i]];
             order.backgroundColor = [UIColor whiteColor];
             
             [_imageV addSubview:order];
@@ -496,7 +503,9 @@
         if (self.isWordes == YES) {
             _wordesBack = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
             _textView = [[UITextView alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth-20, 50)];
+            _textView.returnKeyType = UIReturnKeyDefault;
             [_wordesBack addSubview:_textView];
+            _textView.delegate = self;
             self.tableV.tableFooterView = _wordesBack;
         }else{
             [self.tableV.tableFooterView removeFromSuperview];
@@ -534,7 +543,7 @@
     NSLog(@"\\\\\\%@",urlStr);
     NSString *urlStrs = [NSString stringWithFormat:@"id=627,num=1,price=118.90;"];
     self.userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
+    NSString *url = [BF_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
     boty[@"uid"] = self.userInfo.ID;
     boty[@"token"] = self.userInfo.token;
@@ -573,6 +582,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    
     if (self.name.text == nil) {
         self.nullAdds.alpha = 1;
         self.type.alpha = 0;
@@ -583,6 +595,62 @@
     
     self.tabBarController.tabBar.hidden = YES;
 }
+
+
+-(void)hideKeyboard:(NSNotification *)noti{
+    
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = _tableV.frame;
+    bottomViewFrame.origin.y = self.view.frame.size.height-bottomViewFrame.size.height-50;
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tableV.frame = bottomViewFrame;
+    } completion:nil];
+    //为了显示动画
+    [self.view layoutIfNeeded];
+    
+}
+-(void)showKeyboard:(NSNotification *)noti{
+    //NSLog(@"userInfo %@",noti.userInfo);
+    //键盘出现后的位置
+    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    //键盘弹起时的动画效果
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = _tableV.frame;
+    bottomViewFrame.origin.y = endframe.origin.y - bottomViewFrame.size.height-50;
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tableV.frame = bottomViewFrame;
+    } completion:nil];
+    [self.view layoutIfNeeded];
+}
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    
+    if ([text isEqualToString:@"\n"]) {
+        
+        [textView resignFirstResponder];
+        
+        return NO;
+        
+    }
+    
+    return YES;    
+    
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.translucent = NO;
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+
 
 
 - (void)didReceiveMemoryWarning {

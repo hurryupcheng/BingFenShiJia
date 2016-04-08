@@ -10,15 +10,16 @@
 
 @implementation BFStorage
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId stock:(NSString *)stock{
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId stock:(NSString *)stock choose:(NSString *)choose color:(NSString *)color{
     if ([super init]) {
         _title = title;
         _img = img;
-        _spec = spec;
         _price = price;
         _numbers = number;
         _shopID = shopId;
         _stock = stock;
+        _choose = choose;
+        _color = color;
     }
     return self;
 }
@@ -26,22 +27,24 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder{
     [aCoder encodeObject:self.title forKey:@"title"];
     [aCoder encodeObject:self.img forKey:@"img"];
-    [aCoder encodeObject:self.spec forKey:@"spec"];
     [aCoder encodeObject:self.price forKey:@"price"];
     [aCoder encodeInteger:self.numbers forKey:@"number"];
     [aCoder encodeObject:self.shopID forKey:@"shopID"];
     [aCoder encodeObject:self.stock forKey:@"stock"];
+    [aCoder encodeObject:self.choose forKey:@"choose"];
+    [aCoder encodeObject:self.color forKey:@"color"];
 };
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder{
     if ([super init]) {
         self.title = [aDecoder decodeObjectForKey:@"title"];
         self.img = [aDecoder decodeObjectForKey:@"img"];
-        self.spec = [aDecoder decodeObjectForKey:@"spec"];
         self.price = [aDecoder decodeObjectForKey:@"price"];
         self.numbers = [aDecoder decodeIntegerForKey:@"number"];
         self.shopID = [aDecoder decodeObjectForKey:@"shopID"];
         self.stock = [aDecoder decodeObjectForKey:@"stock"];
+        self.choose = [aDecoder decodeObjectForKey:@"choose"];
+        self.color = [aDecoder decodeObjectForKey:@"color"];
     }
     return self;
 }

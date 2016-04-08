@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 @class BFStorage;
 
-
 #define SYNTHESIZE_SINGLETON_FOR_HEADER(className) \
 \
 + (className *)sharedInstance;

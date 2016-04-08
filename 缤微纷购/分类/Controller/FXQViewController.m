@@ -25,7 +25,7 @@
 #import "FXQViewController.h"
 #import "CXArchiveShopManager.h"
 
-@interface FXQViewController ()<BFShareViewDelegate,UITabBarControllerDelegate>
+@interface FXQViewController ()<BFShareViewDelegate,UITabBarControllerDelegate,UIWebViewDelegate>
 
 @property (nonatomic,retain)UITableView *tableView;
 @property (nonatomic,retain)UIView *buttonView;
@@ -37,7 +37,6 @@
 @property (nonatomic,retain)BFWebHeaderView *header;
 @property (nonatomic,retain)UIView *webBrowserView;
 @property (nonatomic,retain)UIWebView *webView;
-@property (nonatomic)BOOL scalesPageToFit;
 
 @property (nonatomic,retain)UIImageView *clearView;
 @property (nonatomic,retain)UIButton *selecdent;
@@ -64,7 +63,7 @@
 
 - (void)updateViewCtrl{
     [self initWithNavigationItem];
-    [self initWithWeb];
+//    [self initWithWeb];
     [self initWithTabBar];
 }
 
@@ -83,8 +82,9 @@
 }
 
 #pragma  mark 初始化webview
-- (void)initWithWeb{
-    
+- (UIWebView *)webView{
+    if (!_webView) {
+     
     self.isPT = NO;
     NSURL *url = [NSURL URLWithString:self.fxq.info];
     NSURLRequest *requser = [NSURLRequest requestWithURL:url];
@@ -92,6 +92,7 @@
     [self.webView loadRequest:requser];
     self.webView.scrollView.showsHorizontalScrollIndicator = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
+    _webView.delegate = self;
     
     _webView.scalesPageToFit = YES;
     
@@ -105,11 +106,13 @@
 
     [self.webView.scrollView addSubview:self.header];
     [self.view addSubview:self.webView];
+    }
+    return _webView;
 }
 
 #pragma  mark TabBar初始化
 - (void)initWithTabBar{
-
+    
     self.buttonView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.view.frame)-50, kScreenWidth, 50)];
     self.buttonView.backgroundColor = [UIColor whiteColor];
 //    self.buttonView.layer.borderWidth = 0.5;
@@ -207,14 +210,22 @@
     [self.clearView addSubview:view];
 
        self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenHeight-160) img:self.fxq.img title:self.fxq.title money:self.fxq.moneyArr arr:self.fxq.nameArr set:self.fxq.guigeArr num:self.header.addShopp.textF.text stock:self.fxq.stockArr];
-   
+
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-20, 0, 20, 20)];
 //    button.backgroundColor = [UIColor redColor];
     [button addTarget:self action:@selector(zhifu) forControlEvents:UIControlEventTouchUpInside];
     [button setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
     [view addSubview:button];
     [view addSubview:_other];
-    
+    NSLog(@"===%@",_fxq.stock);
+    if (_fxq.stock == 0) {
+        UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2-(kScreenWidth/3/2), CGRectGetMaxY(_other.addShopp.frame)+35, kScreenWidth/3, CGFloatY(30))];
+        
+        [buyButton setTitle:@"此商品已下架" forState:UIControlStateNormal];
+        buyButton.backgroundColor = [UIColor orangeColor];
+        [view addSubview:buyButton];
+        
+    }else{
     if (pop.tag == 10) {
         UIButton *buyButton = [[UIButton alloc]initWithFrame:CGRectMake(kScreenWidth/2-(kScreenWidth/3/2), CGRectGetMaxY(_other.addShopp.frame)+35, kScreenWidth/3, CGFloatY(30))];
         
@@ -246,6 +257,7 @@
         
         [view addSubview:shoppBut];
         [view addSubview:buyBut];
+        }
     }
 }
 
@@ -262,16 +274,17 @@
     NSString *money = [self.other.moneyLabel.text substringWithRange:NSMakeRange(4, [self.other.moneyLabel.text length]-5)];
     NSString *title = self.other.titleLabel.text;
     NSString *img = self.other.img;
-    NSString *hot = self.other.hot;
+    NSString *guige = self.other.selectedGuige;
+    NSString *color = self.other.selectedColor;
    float num = [self.other.addShopp.textF.text intValue];
     
     switch (button.tag) {
         case 111:{
             [self zhifu];
-            
+    
             ShoppingViewController *shopp = [[ShoppingViewController alloc]init];
  
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img spec:hot money:money number:num shopId:self.ID stock:_fxq.stock];
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:title img:img money:money number:num shopId:self.ID stock:_fxq.stock choose:guige color:color];
             
             [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
             [[CXArchiveShopManager sharedInstance]startArchiveShop];
@@ -287,9 +300,10 @@
            
             _fxq.numbers = num;
             _fxq.price = money;
-            _fxq.guige = _other.selectedGuige;
+            _fxq.choose = guige;
+            _fxq.color = color;
+           
             zf.isPT = _isPT;
-            NSLog(@"////%@",_other.selectedGuige);
             zf.modelArr = _dataArray;
         [self.navigationController pushViewController:zf animated:YES
              ];
@@ -385,38 +399,43 @@
         fxq.info = [dic valueForKey:@"info"];
         fxq.shopID = [dic valueForKey:@"id"];
         
-            NSMutableArray *nameArray = [NSMutableArray array];
+        NSMutableArray *nameArray = [NSMutableArray array];
+        NSMutableArray *stock = [NSMutableArray array];
         for (NSDictionary *dic2 in arr) {
-        fxq.guige = [dic2 valueForKey:@"yanse"];
-            [nameArray addObject:fxq.guige];
+        fxq.choose = [dic2 valueForKey:@"yanse"];
+            [nameArray addObject:fxq.choose];
             
             NSArray *guigeArr = [dic2 valueForKey:@"guige"];
             NSMutableArray *pric = [NSMutableArray array];
             NSMutableArray *guige = [NSMutableArray array];
-            NSMutableArray *stock = [NSMutableArray array];
+            
             
             for (NSDictionary *dic3 in guigeArr) {
-                fxq.guige = [dic3 valueForKey:@"choose"];
-                [guige addObject:fxq.guige];
-                NSArray *answer = [dic3 valueForKey:@"answer"];
+                fxq.choose = [dic3 valueForKey:@"choose"];
+                [guige addObject:fxq.choose];
+                
+               NSArray *answer = [dic3 valueForKey:@"answer"];
                
                 for (NSDictionary *dic5 in answer) {
                     fxq.stock = [dic5 valueForKey:@"stock"];
                     fxq.price = [dic5 valueForKey:@"price"];
-                    [pric addObject:fxq.price];
-                    [stock addObject:fxq.stock];
-                    
                 }
+                [pric addObject:fxq.price];
+                [stock addObject:fxq.stock];
+                
                 fxq.guigeArr = [guige copy];
                 fxq.moneyArr = [pric copy];
-                fxq.stockArr = [stock copy];
+
             }
             fxq.nameArr = [nameArray copy];
+            fxq.stockArr = [stock copy];
+            NSLog(@"-----%@",fxq.stockArr);
         }
         self.fxq = fxq;
         [self.dataArray addObject:fxq];
         }
-          [self updateViewCtrl];
+        [self updateViewCtrl];
+        [self.webView.scrollView.mj_header endRefreshing];
     }];
     
 }
@@ -433,6 +452,14 @@
         self.buttonView.userInteractionEnabled = NO;
         [self initWithOtherView:pop];
     }
+}
+
+#pragma  mark 刷新数据
+- (void)getNewDate{
+  self.webView.scrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+      [self getDate];
+  }];
+    [self.webView.scrollView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -462,6 +489,17 @@
         [self.navigationController popToRootViewControllerAnimated:YES];
 
     return YES;
+}
+
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else{
+        return YES;
+    }
 }
 
 @end
