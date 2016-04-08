@@ -13,6 +13,7 @@
 #import "BFMyIntegralHeaderView.h"
 #import "BFScoreModel.h"
 
+
 @interface BFMyIntegralController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;

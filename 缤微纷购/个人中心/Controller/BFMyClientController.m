@@ -133,6 +133,7 @@
     if (self.isFirstTime) {
         [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
             [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
+            
                 if (responseObject) {
                     
                     self.model = [BFMyCustomerModel parse:responseObject];

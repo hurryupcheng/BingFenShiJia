@@ -11,3 +11,8 @@
 @implementation BFBankModel
 
 @end
+
+@implementation BFBranchList
+
+
+@end

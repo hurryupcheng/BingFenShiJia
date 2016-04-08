@@ -39,6 +39,8 @@
 @property (nonatomic, strong) NSString *p_username;
 /**银行*/
 @property (nonatomic, strong) NSString *bank_name;
+/**支行id，为0为手动填写*/
+@property (nonatomic, strong) NSString *bank_branch;
 /**银行卡号*/
 @property (nonatomic, strong) NSString *card_id;
 /**银行支行*/
@@ -49,4 +51,8 @@
 @property (nonatomic, strong) NSString *nickname;
 /**微信id*/
 @property (nonatomic, strong) NSString *wechatid;
+/**省份*/
+@property (nonatomic, strong) NSString *sheng;
+/**城市*/
+@property (nonatomic, strong) NSString *shi;
 @end
