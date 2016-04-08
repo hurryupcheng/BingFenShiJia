@@ -42,7 +42,9 @@
     self.title = self.titles;
     
     [self initWithSegmented];
-    [self getDataids:self.ID number:0];
+//    [self getDataids:self.ID number:0];
+//    [self getNewDate:0 page:1];
+    [self getNewDate:self.ID number:0];
 }
 
 - (void)initWithSegmented{
@@ -107,8 +109,9 @@
 
 }
 
-- (void)initWithCollectionView{
-    
+- (UICollectionView *)collectionView{
+    if (!_collectionView) {
+        
     CGFloat x = (kScreenWidth-10-10-10)/2;
 
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -129,7 +132,8 @@
     [self.collectionView registerClass:[XQCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
     [self.view addSubview:self.collectionView];
-
+    }
+    return _collectionView;
 }
 
 #pragma  mark  CollectionView 代理方法
@@ -199,11 +203,27 @@
             }
          
         }
-        [self initWithCollectionView];
         [self.collectionView reloadData];
+        [self.collectionView.mj_header endRefreshing];
         
     }];
     
+}
+
+#pragma  mark 数据请求
+- (void)getNewDate:(NSInteger)num page:(NSInteger)page{
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
+    NSMutableDictionary *date = [NSMutableDictionary dictionary];
+    date[@"id"] = @(415);
+    date[@"sort"] = @(num);
+    date[@"p"] = @(page);
+    [BFHttpTool POST:url params:date success:^(id responseObject) {
+        NSLog(@"////%@ %@ %@",url,responseObject,date);
+        NSArray *arr = responseObject[@"items"];
+        NSLog(@"%@",arr);
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)segmented:(UIButton *)seg{
@@ -212,13 +232,11 @@
     self.selectend = seg;
     switch (seg.tag) {
         case 0:
-        {
-            [self getDataids:self.ID number:1];
+        {   [self getNewDate:self.ID number:1];
         }
             break;
         case 1:{
-
-            [self getDataids:self.ID number:2];
+            [self getNewDate:self.ID number:2];
         }
             break;
         case 2:{
@@ -226,7 +244,7 @@
             __block CGAffineTransform temp;
             
             if (self.sorke == YES) {
-              [self getDataids:self.ID number:4];
+                [self getNewDate:self.ID number:4];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                   temp = CGAffineTransformMakeTranslation(0, 0);
                   self.priceimg.transform = CGAffineTransformRotate(temp, 179.001);
@@ -235,7 +253,7 @@
               }];
                 self.sorke = NO;
             }else{
-            [self getDataids:self.ID number:3];
+            [self getNewDate:self.ID number:3];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                 temp = CGAffineTransformMakeTranslation(0, 0);
                 self.priceimg.transform = CGAffineTransformRotate(temp, 0);
@@ -272,6 +290,14 @@
         _dataArr = [NSMutableArray array];
     }
     return _dataArr;
+}
+
+#pragma  mark 刷新数据
+- (void)getNewDate:(NSString *)ids number:(NSInteger)num{
+  self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+     [self getDataids:ids number:num];
+  }];
+    [self.collectionView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

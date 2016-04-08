@@ -45,7 +45,8 @@
         self.titleLabel.numberOfLines = 2;
         
         self.hetLabel = [[UILabel alloc]init];
-//        self.hetLabel.text = @"111";
+        self.hetLabel.textColor = [UIColor grayColor];
+        self.hetLabel.font = [UIFont systemFontOfSize:CGFloatX(15)];
 //        self.hetLabel.backgroundColor = [UIColor greenColor];
         
         self.moneyLabel = [[UILabel alloc]init];
@@ -117,7 +118,7 @@
     [self.titleLabel sizeToFit];
     
     self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, CGFloatY(30));
-    
+   
     self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
 
     self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
@@ -125,12 +126,11 @@
     self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
 //    self.add.backgroundColor = [UIColor redColor];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.price];
-
+    self.hetLabel.text = [NSString stringWithFormat:@"%@  %@",model.color,model.choose];
     self.add.textF.text = [NSString stringWithFormat:@"%d",model.numbers];
-    self.hetLabel.text = model.spec;
     self.needV.selected = self.isSelected;
     self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
-
+   
 }
 
 - (void)awakeFromNib {

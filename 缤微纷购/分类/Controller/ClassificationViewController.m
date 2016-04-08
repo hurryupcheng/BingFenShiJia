@@ -34,21 +34,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"分类";
     
-    [self getDate];
-}
-
-- (void)updateViewCtrl{
-
-    [self initWithLeftView];
-    [self initWithCollectionView];
+    [self getNewDate];
 }
 
 #pragma mark 左边菜单栏
 - (void)initWithLeftView{
-   
-    if (self.scrollV) {
-        return;
-    }
+    
     self.scrollV = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, fen_x, self.view.bounds.size.height-50)];
     self.scrollV.contentSize = CGSizeMake(0, self.dataSourceArray.count*40);
     self.scrollV.showsHorizontalScrollIndicator = NO;
@@ -83,8 +74,10 @@
 
 }
 #pragma  mark UICollectionView初始化
-- (void)initWithCollectionView{
+- (UICollectionView *)collectionView{
   
+    if (!_collectionView) {
+    [self initWithLeftView];
     CGFloat x = ((kScreenWidth-fen_x)-5-5-5-5)/3;
     
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
@@ -103,8 +96,10 @@
     [self.collectionView registerClass:[ClassCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
     [self.view addSubview:self.collectionView];
-
+    }
+    return _collectionView;
 }
+
 - (void)buttontag:(UIButton *)butt{
     
     self.selectedButton.selected = NO;
@@ -139,6 +134,7 @@
 - (void)getDate{
 
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=cate"];
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
@@ -157,13 +153,18 @@
         if (self.dataSourceArray.count) {
           self.currentModel = self.dataSourceArray[0];
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateViewCtrl];
-
-        });
-       
+        [self initWithLeftView];
+        [self.collectionView reloadData];
+        [self.collectionView.mj_header endRefreshing];
     }];
 
+}
+
+- (void)getNewDate{
+    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self getDate];
+    }];
+    [self.collectionView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

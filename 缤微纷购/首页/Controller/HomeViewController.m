@@ -5,7 +5,9 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-#import "MJRefresh.h"
+#import "BFPTViewController.h"
+#import "BFHomeCollentionView.h"
+
 #import "PTXQViewController.h"
 #import "Height.h"
 #import "PTModel.h"
@@ -27,6 +29,9 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>
+@property (nonatomic,retain)BFHomeCollentionView *homeVC;
+@property (nonatomic,retain)BFPTViewController *ptVC;
+
 
 @property (nonatomic,retain)UIView *butView;
 @property (nonatomic,retain)UIButton *selectButton;
@@ -75,13 +80,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self CollectionViewgetDate];
+//    [self CollectionViewgetDate];
     [self initwithSegment];
+    
+    [self initVC];
     //[self getAddress];
+}
+
+- (void)initVC{
+    self.homeVC = [[BFHomeCollentionView alloc]init];
+    self.ptVC = [[BFPTViewController alloc]init];
+    
+    [self addChildViewController:self.homeVC];
+    [self addChildViewController:self.ptVC];
+    
+    [self.view addSubview:self.homeVC.view];
+    [self.view addSubview:self.ptVC.view];
+    [self.view bringSubviewToFront:self.homeVC.view];
 }
 
 - (void)currentCity:(NSNotification *)notification {
@@ -90,15 +108,14 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.currentCity forKey:@"city"];
     //[self.tableV reloadData];
 }
-
+/*
 - (void)updateViewCtrl{
     
-    [self initWithCollectionView];
+//    [self initWithCollectionView];
     [self initWithOtherView];
-    
 }
 
-
+*/
 - (void)initwithSegment{
  
     self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), 25)];
@@ -141,7 +158,7 @@
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
-
+/*
 #pragma  mark 缤纷商城初始化
 - (void)initWithScrollView{
   
@@ -162,6 +179,7 @@
 
     [self.headerView addSubview:self.lbView];
 }
+ */
 #pragma mark 分类列表初始化
 - (void)initWithBut{
     
@@ -197,9 +215,11 @@
         [self.viewBut addSubview:backView];
     }
 }
-
+/*
 #pragma  mark UICollectionView初始化
-- (void)initWithCollectionView{
+- (UICollectionView *)collentionView{
+    if (!_collentionView) {
+
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumInteritemSpacing = 5;
     flowLayout.minimumLineSpacing = 5;
@@ -225,7 +245,8 @@
     self.collentionView.allowsMultipleSelection = YES;
     
     [self.view addSubview:self.collentionView];
-    
+    }
+    return _collentionView;
 }
 
 #pragma  mark 首页下方广告图
@@ -243,7 +264,7 @@
     [self.footImageView addTarget:self action:@selector(footImageView:) forControlEvents:UIControlEventTouchUpInside];
         
     [self.footerView addSubview:self.footImageView];
-    }
+      }
 }
 
 #pragma  mark 上方广告图
@@ -320,7 +341,7 @@
         return;
     }
 }
-
+*/
 #pragma  mark 首页切换
 - (void)setControll:(UIButton *)button{
     
@@ -330,24 +351,22 @@
     
     switch (button.tag) {
         case 100:{
-            [self.tableV removeFromSuperview];
-            
+
             [self.butView bringSubviewToFront:button];
-            [self initWithCollectionView];
+
             self.button.backgroundColor = [UIColor whiteColor];
             self.but.backgroundColor = rgb(43, 97, 196, 1.0);
-            
+            [self.view bringSubviewToFront:self.homeVC.view];
         }
             break;
         case 200:{
-            [self.scrollV removeFromSuperview];
             
             [self.butView bringSubviewToFront:button];
-            [self tableViewgetDate];
+
             self.button.backgroundColor = rgb(43, 97, 196, 1.0);
             self.button.selected = NO;
             self.but.backgroundColor = [UIColor whiteColor];
-            
+            [self.view bringSubviewToFront:self.ptVC.view];
         }
             break;
         default:
@@ -355,7 +374,7 @@
     }
 
 }
-
+/*
 #pragma  mark 分类列表点击事件
 - (void)selectButton:(UIButton *)button{
     switch (button.tag) {
@@ -526,7 +545,7 @@
 #pragma  mark 缤纷拼团页面初始化
 - (void)initWithTabView{
     
-    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight+(kScreenWidth/2)) style:UITableViewStyleGrouped];
     
     self.tableV.dataSource = self;
     self.tableV.delegate = self;
@@ -536,7 +555,7 @@
     self.tableV.backgroundColor = BFColor(0xD4D4D4);
 
     [self.tableV registerClass:[PTTableViewCell class] forCellReuseIdentifier:@"reuse"];
-    
+    [self setDownDate];
     [self.view addSubview:self.tableV];
    
 }
@@ -620,7 +639,8 @@
 //    } failure:^(NSError *error) {
 //        
 //    }];
-
+    
+    
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=team_buy"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
@@ -660,7 +680,7 @@
         }
             [self initWithTabView];
             [self.tableV reloadData];
-        
+            [self.tableV.mj_header endRefreshing];
     }];
 
 }
@@ -668,7 +688,7 @@
 
 #pragma  mark 获取数据
 - (void)CollectionViewgetDate{
- 
+
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=index"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
@@ -681,15 +701,17 @@
             self.homeModel = homeModel;
 
         }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self updateViewCtrl];
             [self.collentionView reloadData];
+            [self.collentionView.mj_header endRefreshing];
         });
         
     }];
-
+    
 }
-
+*/
 #pragma  mark 搜索按钮点击事件
 - (void)soso{
  
@@ -701,7 +723,7 @@
 }
 
 
-
+/*
 - (NSMutableArray *)dataArray{
     if (!_dataArray) {
         _dataArray = [NSMutableArray array];
@@ -715,16 +737,18 @@
     }
     return _itemsArray;
 }
-
+*/
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+   
 //    [self initwithSegment];
     BFLog(@"asdadasd");
     self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
-
+   
 }
+
 
 - (void)getAddress{
     self.manager = [[CLLocationManager alloc]init];
@@ -794,13 +818,22 @@
 //            [alert show];
 //        }
     }];
-    
-    
+}
+/*
+#pragma  mark 下拉刷新
+- (void)getDownDate{
+
+    self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self CollectionViewgetDate];
+    }];
+  [self.collentionView.mj_header beginRefreshing];
 }
 
-
-
-
-
-
+- (void)setDownDate{
+     self.tableV.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+      [self tableViewgetDate];
+  }];
+    [self.tableV.mj_header beginRefreshing];
+}
+*/
 @end

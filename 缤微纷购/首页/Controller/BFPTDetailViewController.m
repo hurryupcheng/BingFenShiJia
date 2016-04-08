@@ -12,7 +12,7 @@
 #import "BFPTDetailHeaderView.h"
 #import "BFPTDetailModel.h"
 
-@interface BFPTDetailViewController ()<BFPTStepDelegate>
+@interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate>
 /**webView*/
 @property (nonatomic, strong) UIWebView *webView;
 /**自定义头部视图*/
@@ -71,6 +71,7 @@
     CGRect frame = self.webBrowserView.frame;
     frame.origin.y = CGRectGetMaxY(self.header.frame);
     self.webBrowserView.frame = frame;
+    self.webView.delegate = self;
     self.webView.scrollView.showsHorizontalScrollIndicator = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     
@@ -99,6 +100,17 @@
 - (void)goToCheckDetail {
     PTStepViewController *pt = [[PTStepViewController alloc]init];
     [self.navigationController pushViewController:pt animated:YES];
+}
+
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else{
+        return YES;
+    }
 }
 
 

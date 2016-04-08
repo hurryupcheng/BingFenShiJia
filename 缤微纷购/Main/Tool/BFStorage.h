@@ -13,11 +13,12 @@
 @property (nonatomic,retain)NSString *shopID;
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *img;
-@property (nonatomic,retain)NSString *spec;
 @property (nonatomic,retain)NSString *price;
 @property (nonatomic,assign)NSInteger numbers;
 @property (nonatomic,retain)NSString *stock;
+@property (nonatomic,retain)NSString *choose;
+@property (nonatomic,retain)NSString *color;
 
-- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img spec:(NSString *)spec money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId stock:(NSString *)stock;
+- (instancetype)initWithTitle:(NSString *)title img:(NSString *)img money:(NSString *)price number:(NSInteger)number shopId:(NSString *)shopId stock:(NSString *)stock choose:(NSString *)choose color:(NSString *)color;
 
 @end

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51088EA51CB65A3200941F51 /* BFHomeCollentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51088EA41CB65A3200941F51 /* BFHomeCollentionView.m */; };
+		51088EAB1CB68A2900941F51 /* BFPTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51088EAA1CB68A2900941F51 /* BFPTViewController.m */; };
 		512B99BE1C438AEE00882CE3 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 512B99BD1C438AEE00882CE3 /* HomeModel.m */; };
 		51589EE51C902D78001AB4D7 /* BFClassminView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51589EE41C902D78001AB4D7 /* BFClassminView.m */; };
 		516204D41C72EACA00E9FB0D /* FooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 516204D31C72EACA00E9FB0D /* FooterCollectionReusableView.m */; };
@@ -444,6 +446,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		51088EA31CB65A3200941F51 /* BFHomeCollentionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHomeCollentionView.h; sourceTree = "<group>"; };
+		51088EA41CB65A3200941F51 /* BFHomeCollentionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHomeCollentionView.m; sourceTree = "<group>"; };
+		51088EA91CB68A2900941F51 /* BFPTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTViewController.h; sourceTree = "<group>"; };
+		51088EAA1CB68A2900941F51 /* BFPTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTViewController.m; sourceTree = "<group>"; };
 		512B99BC1C438AEE00882CE3 /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
 		512B99BD1C438AEE00882CE3 /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		51589EE31C902D78001AB4D7 /* BFClassminView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFClassminView.h; sourceTree = "<group>"; };
@@ -1712,6 +1718,10 @@
 				59513B321C9FFAA10028B008 /* BFSosoHistoryViewController.m */,
 				51D122021C3A751400640A44 /* HomeViewController.h */,
 				51D122031C3A751400640A44 /* HomeViewController.m */,
+				51088EA31CB65A3200941F51 /* BFHomeCollentionView.h */,
+				51088EA41CB65A3200941F51 /* BFHomeCollentionView.m */,
+				51088EA91CB68A2900941F51 /* BFPTViewController.h */,
+				51088EAA1CB68A2900941F51 /* BFPTViewController.m */,
 				518DB30F1C50D94E00816643 /* DWTableViewController.h */,
 				518DB3101C50D94F00816643 /* DWTableViewController.m */,
 				51D582751C53175A00686A2E /* SoSoViewController.h */,
@@ -2955,6 +2965,7 @@
 				592F86DC1C902C2D006E0CEE /* BFRecommenderModel.m in Sources */,
 				51D5DC941C59CE4B00453E02 /* BFMyWalletController.m in Sources */,
 				59FA7A981C9CDE73008E3813 /* BFAfterSaleProgressCell.m in Sources */,
+				51088EAB1CB68A2900941F51 /* BFPTViewController.m in Sources */,
 				59FF74AE1CAE1A860063F770 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				59FF74931CAE1A860063F770 /* BFHeadSelectionView.m in Sources */,
 				51D1A9501C4A3CC000D9002C /* JFView.m in Sources */,
@@ -3024,6 +3035,7 @@
 				51D121B01C3A6DA700640A44 /* main.m in Sources */,
 				59FF749E1CAE1A860063F770 /* BFUserDefaluts.m in Sources */,
 				59FF5F291C91473900DA6E5B /* BFBankModel.m in Sources */,
+				51088EA51CB65A3200941F51 /* BFHomeCollentionView.m in Sources */,
 				59FF75091CAE1A860063F770 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				59FF74DD1CAE1A860063F770 /* MJRefreshBackNormalFooter.m in Sources */,
 				59FF74FE1CAE1A860063F770 /* UIImage+WebP.m in Sources */,

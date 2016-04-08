@@ -13,7 +13,7 @@
 @property (nonatomic,retain)NSString *img;
 @property (nonatomic,retain)NSString *price;
 @property (nonatomic,retain)NSString *yanse;
-@property (nonatomic,retain)NSString *guige;
+@property (nonatomic,retain)NSString *choose;
 @property (nonatomic,retain)NSString *stock;
 @property (nonatomic,retain)NSString *title;
 @property (nonatomic,retain)NSString *url;
@@ -21,6 +21,7 @@
 @property (nonatomic,retain)NSString *info;
 @property (nonatomic,assign)NSInteger numbers;
 @property (nonatomic,retain)NSString *shopID;
+@property (nonatomic,retain)NSString *color;
 
 @property (nonatomic,retain)NSMutableArray *nameArr;
 @property (nonatomic,retain)NSMutableArray *guigeArr;

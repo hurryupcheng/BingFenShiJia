@@ -86,6 +86,7 @@
             [self.arrBut addTarget:self action:@selector(arrBut:) forControlEvents:UIControlEventTouchUpInside]
             ;
             self.arrBut.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
+            self.selectedColor = arr[0];
             [self addSubview:self.arrBut];
         }
     }
@@ -162,6 +163,7 @@
     [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"ArialMT" size:CGFloatY(16)] range:NSMakeRange(0,[str length])];
     
     self.moneyLabel.attributedText = str;
+    self.selectedColor = but.titleLabel.text;
 
 }
 
@@ -214,7 +216,14 @@
     
         self.addShopp.minBut.enabled = YES;
         self.number++;
+        if (self.arrayBut.selected == NO) {
+//            self.number = 1;
+            NSLog(@"===%d",self.number);
         self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
+        }else{
+        self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
+            NSLog(@"////%d",self.number);
+        }
     }
 }
 

@@ -58,7 +58,7 @@
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
     
      self.title = @"购物车";
-//    [self ifInfo];
+ 
 }
 
 - (void)data{
@@ -346,6 +346,15 @@
     }
     
     return cell;
+}
+
+#pragma  mark 点击cell
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
+    FXQViewController *fx = [[FXQViewController alloc]init];
+    fx.ID = model.shopID;
+    [self.navigationController pushViewController:fx animated:YES];
 }
 
 //  移除商品

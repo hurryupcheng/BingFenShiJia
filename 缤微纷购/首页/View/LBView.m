@@ -75,6 +75,8 @@
 - (void)setDataArray:(NSArray *)dataArray{
     _dataArray = dataArray;
     self.pageC.numberOfPages = dataArray.count;
+    self.pageC.currentPageIndicatorTintColor = [UIColor redColor];
+    self.pageC.pageIndicatorTintColor = [UIColor whiteColor];
     [self updateCurViewWithPage:0];
     
     self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
