@@ -12,4 +12,6 @@
 + (UITextField *)textFieldWithTarget:(id)target action:(SEL)action Frame:(CGRect)frame image:(NSString *)image placeholder:(NSString *)placeholder;
 
 + (UITextField *)textFieldWithFrame:(CGRect)frame image:(NSString *)image placeholder:(NSString *)placeholder;
+/**修改银行信息页面*/
++ (UITextField *)textFieldWithFrame:(CGRect)frame placeholder:(NSString *)placeholder;
 @end

@@ -30,7 +30,7 @@
 + (UITextField *)textFieldWithFrame:(CGRect)frame image:(NSString *)image placeholder:(NSString *)placeholder {
     if (image == nil) {
         UIImageView *imageView = [[UIImageView alloc] init];
-        imageView.width = BF_ScaleWidth(5);
+        imageView.width = BF_ScaleWidth(10);
         imageView.height = BF_ScaleWidth(15) ;
         imageView.image = [UIImage imageNamed:image];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
@@ -38,7 +38,7 @@
         textField.placeholder = placeholder;
         textField.leftView = imageView;
         textField.leftViewMode = UITextFieldViewModeAlways;
-        textField.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+        textField.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
         return textField;
     }else {
         UIImageView *imageView = [[UIImageView alloc] init];
@@ -54,14 +54,22 @@
         textField.leftViewMode = UITextFieldViewModeAlways;
         return textField;
     }
-    
-    
-    
-
-    
-
 }
 
++ (UITextField *)textFieldWithFrame:(CGRect)frame placeholder:(NSString *)placeholder {
+    UIImageView *imageView = [[UIImageView alloc] init];
+    imageView.width = BF_ScaleWidth(10);
+    imageView.height = BF_ScaleWidth(15) ;
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    UITextField *textField = [[UITextField alloc]initWithFrame:frame];
+    textField.placeholder = placeholder;
+    textField.leftView = imageView;
+    textField.borderStyle = UITextBorderStyleRoundedRect;
+    textField.leftViewMode = UITextFieldViewModeAlways;
+    textField.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+    return textField;
+
+}
 
 
 

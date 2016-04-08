@@ -45,6 +45,9 @@
 //#define NET_URL  @"http://bingo.luexue.com"
 
 
+/**通知中心*/
+#define  BFNotificationCenter    [NSNotificationCenter defaultCenter]
+
 /**宏定义打印*/
 #ifdef DEBUG // 处于开发阶段
 #define BFLog(...) NSLog(__VA_ARGS__)

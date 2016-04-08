@@ -11,7 +11,16 @@
 
 #import <Foundation/Foundation.h>
 
+
 @interface HZQRegexTestter : NSObject
+/**
+ *  判断是不是汉字
+ */
++ (BOOL)validateChineseCharacter:(NSString *)chineseCharacter;
+/**
+ *  判断是不是银行卡号
+ */
++ (BOOL)validateBankCardNumber:(NSString *)bankCardNumber;
 /**
  *  判断是不是非负的浮点数
  */

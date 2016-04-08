@@ -58,6 +58,7 @@
     parameter[@"news_pass"] = [MyMD5 md5:modifyPasswordView.setting.text];
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
         BFLog(@"%@",responseObject);
+        
         if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
             [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"密码修改失败"];
         }else {

@@ -7,10 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class BFBranchList;
 @interface BFBankModel : NSObject
-/**id*/
-@property (nonatomic, strong) NSString *ID;
+/**省ID*/
+@property (nonatomic, strong) NSString *sheng_id;
+/**市ID*/
+@property (nonatomic, strong) NSString *shi_id;
+/**银行id*/
+@property (nonatomic, strong) NSString *bank_id;
+/**银行id*/
+@property (nonatomic, strong) NSArray<BFBranchList *> *bank;
+@end
+
+@interface BFBranchList : NSObject
 /**name*/
 @property (nonatomic, strong) NSString *name;
 @end

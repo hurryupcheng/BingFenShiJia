@@ -65,25 +65,46 @@
     
 }
 
+
+
 - (void)showHeadSelectionView {
+    
     self.bgImageView.alpha = 0;
-    [UIView animateWithDuration:0.5 animations:^{
+    [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 1;
         self.camera.y = BF_ScaleHeight(450);
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.8 delay:0.2f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.album.y = BF_ScaleHeight(450);
+    } completion:nil];
+    
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:1.0f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.cancle.y = BF_ScaleHeight(530);
     } completion:nil];
 
 }
 
 - (void)hideHeadSelectionView {
-    [UIView animateWithDuration:0.5 animations:^{
+    
+    
+    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 0;
-        self.camera.y =  -BF_ScaleWidth(55);
-        self.album.y = -BF_ScaleWidth(55);
-        self.cancle.y = ScreenHeight;
+        self.camera.y = BF_ScaleHeight(450) - ScreenHeight;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.album.y = BF_ScaleHeight(450) - ScreenHeight;
+    } completion:^(BOOL finished) {
+        //[self removeFromSuperview];
+    }];
+    
+    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:1.0f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.cancle.y = BF_ScaleHeight(530)+ScreenHeight;
+    } completion:^(BOOL finished) {
+        //[self removeFromSuperview];
     }];
 }
 

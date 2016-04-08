@@ -10,6 +10,8 @@
 #import "BFAddressController.h"
 #import "BFHeadSelectionView.h"
 #import "BFMyBusinessCardController.h"
+#import "BFModifyNicknameController.h"
+#import "BFBindPhoneNumberController.h"
 
 @interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, BFHeadSelectionViewDelegate>
 /**图片data*/
@@ -18,9 +20,18 @@
 @property (nonatomic, strong)UIImageView *imageView;
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) BFUserInfo *userInfo;
 @end
 
 @implementation BFPersonInformationController
+
+- (BFUserInfo *)userInfo {
+    if (!_userInfo) {
+        _userInfo = [BFUserDefaluts getUserInfo];
+    }
+    return _userInfo;
+}
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -56,7 +67,7 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     }
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    
     
     cell.accessoryView.backgroundColor = [UIColor redColor];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -69,10 +80,10 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(90), BF_ScaleHeight(10), BF_ScaleHeight(60), BF_ScaleHeight(60))];
-                [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:nil];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.userInfo.user_icon]] placeholderImage:nil];
                 self.imageView  = [UIImageView new];
                 self.imageView = headImageView;
-                [headImageView sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
                 headImageView.layer.cornerRadius = BF_ScaleHeight(30);
                 headImageView.layer.masksToBounds = YES;
                 //headImageView.backgroundColor = [UIColor redColor];
@@ -84,11 +95,11 @@
             }
             case 1:
                 cell.textLabel.text = @"  推荐人";
-                cell.detailTextLabel.text = userInfo.p_username;
+                cell.detailTextLabel.text = self.userInfo.p_username;
                 break;
             case 2:
                 cell.textLabel.text = @"  昵称";
-                cell.detailTextLabel.text = userInfo.nickname;
+                cell.detailTextLabel.text = self.userInfo.nickname;
                 break;
         }
     } else if (indexPath.section == 1) {
@@ -120,8 +131,13 @@
             }
             case 2:
                 cell.textLabel.text = @"  绑定手机";
-                cell.detailTextLabel.text = @"  未绑定";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                if (self.userInfo.tel) {
+                    cell.detailTextLabel.text = self.userInfo.tel;
+                }else {
+                    cell.detailTextLabel.text =  @"  未绑定";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+               
                 break;
         }
     }else {
@@ -160,6 +176,14 @@
         if (indexPath.row == 0) {
             BFLog(@"点击头像");
             [self changeHeadIcon];
+        }else if (indexPath.row == 2) {
+            BFModifyNicknameController *modifyNicknameVC = [[BFModifyNicknameController alloc] init];
+            modifyNicknameVC.block = ^(BFUserInfo *userInfo) {
+                self.userInfo = userInfo;
+                [BFUserDefaluts modifyUserInfo:userInfo];
+                [self.tableView reloadData];
+            };
+            [self.navigationController pushViewController:modifyNicknameVC animated:YES];
         }
     }
     if (indexPath.section == 2) {
@@ -171,7 +195,17 @@
             BFMyBusinessCardController *myBusinessCardVC = [[BFMyBusinessCardController alloc] init];
             [self.navigationController pushViewController:myBusinessCardVC animated:YES];
         }else {
-            
+            if (self.userInfo.tel) {
+                return;
+            }else {
+                BFBindPhoneNumberController *bindPhoneNumberVC = [[BFBindPhoneNumberController alloc] init];
+                bindPhoneNumberVC.block = ^(BFUserInfo *userInfo) {
+                self.userInfo = userInfo;
+                [BFUserDefaluts modifyUserInfo:userInfo];
+                [self.tableView reloadData];
+            };
+                [self.navigationController pushViewController:bindPhoneNumberVC animated:YES];
+            }
         }
     }
 }

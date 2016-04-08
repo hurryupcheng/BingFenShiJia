@@ -8,7 +8,7 @@
 #define navigationViewHeight 44.0f
 #define pickViewViewHeight  BF_ScaleHeight(250)
 #define buttonWidth 60.0f
-#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
+#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]
 
 #import "BFPickerView.h"
 #import "BFModifyBankCardView.h"
@@ -98,10 +98,10 @@
     //点击确定回调block
     if (button.tag == 1) {
         
-        BFBankModel *model = [self.dataArray objectAtIndex:[_pickView selectedRowInComponent:0]];
+        NSString *string = [self.dataArray objectAtIndex:[_pickView selectedRowInComponent:0]];
 
         
-        _block(model.name);
+        _block(string);
         
     }
     
@@ -150,9 +150,8 @@
 -(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
     UILabel *lable=[[UILabel alloc]init];
     lable.textAlignment = NSTextAlignmentCenter;
-    lable.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(23)];
-    BFBankModel *model = _dataArray[row];
-    lable.text = model.name;
+    lable.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)];
+    lable.text = self.dataArray[row];
     return lable;
 }
 

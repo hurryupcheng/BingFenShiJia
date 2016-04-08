@@ -9,12 +9,5 @@
 #import "BFBankTool.h"
 #import "BFBankModel.h"
 @implementation BFBankTool
-+ (NSString *)convertNameIntoIDWithName:(NSString *)name array:(NSArray *)array {
-    for (BFBankModel *model in array) {
-        if ([name isEqualToString:model.name]) {
-            return model.ID;
-        }
-    }
-    return @"";
-}
+
 @end

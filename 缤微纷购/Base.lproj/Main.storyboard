@@ -16,7 +16,16 @@
                     <view key="view" contentMode="scaleAspectFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.792156862745098" green="0.792156862745098" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="group_detai_arrow" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
+                                <rect key="frame" x="115" y="202" width="50" height="12"/>
+                            </imageView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Ps-Uj-Aef">
+                                <rect key="frame" x="227" y="330" width="97" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                     </view>
                     <navigationItem key="navigationItem" id="Bfy-Yg-PG4">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="zq7-bb-6Yd"/>
@@ -46,4 +55,7 @@
             <point key="canvasLocation" x="280" y="379"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="group_detai_arrow" width="97" height="24"/>
+    </resources>
 </document>

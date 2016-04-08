@@ -47,4 +47,6 @@
 @property (nonatomic, strong) NSString *nickname;
 /**参团时间*/
 @property (nonatomic, strong) NSString *addtime;
+/**参团顺序。1.团长，2.沙发，3其他*/
+@property (nonatomic, strong) NSString *join;
 @end

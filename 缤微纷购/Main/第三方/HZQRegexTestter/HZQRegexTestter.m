@@ -13,6 +13,26 @@
 
 @implementation HZQRegexTestter
 
+
+#pragma mark - 汉字
++ (BOOL)validateChineseCharacter:(NSString *)chineseCharacter
+{
+    NSString *nameRegex = @"^[\u4E00-\u9FA5]{10,25}";
+    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
+    return [namePredicate evaluateWithObject:chineseCharacter];
+    
+}
+
+#pragma mark - 银行卡号
++ (BOOL)validateBankCardNumber:(NSString *)bankCardNumber
+{
+    NSString *nameRegex = @"^\\d{16,19}$|^\\d{6}[- ]\\d{10,13}$|^\\d{4}[- ]\\d{4}[- ]\\d{4}[- ]\\d{4,7}$";
+    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
+    return [namePredicate evaluateWithObject:bankCardNumber];
+    
+}
+
+
 #pragma mark - 非负浮点数
 + (BOOL)validateFloatingPoint:(NSString *)floatingPoint
 {
@@ -36,7 +56,7 @@
 #pragma mark - 真实姓名（只能是汉字且10个字内）
 + (BOOL)validateRealName:(NSString *)name
 {
-    NSString *nameRegex = @"^[\u4E00-\u9FA5]{1,10}";
+    NSString *nameRegex = @"^[\u4E00-\u9FA5]{2,5}";
     NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
     return [namePredicate evaluateWithObject:name];
     

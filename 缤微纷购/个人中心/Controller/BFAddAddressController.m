@@ -8,6 +8,7 @@
 
 #import "BFAddAddressController.h"
 #import "BFAddAddressView.h"
+
 @interface BFAddAddressController ()<BFAddAddressViewDelegate>
 /**自定义的view*/
 @property (nonatomic, strong) BFAddAddressView *addView;
