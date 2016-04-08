@@ -210,7 +210,7 @@
     [self.clearView addSubview:view];
 
        self.other = [[OtherView alloc]initWithFrame:CGRectMake(0, 20, kScreenWidth, kScreenHeight-160) img:self.fxq.img title:self.fxq.title money:self.fxq.moneyArr arr:self.fxq.nameArr set:self.fxq.guigeArr num:self.header.addShopp.textF.text stock:self.fxq.stockArr];
-   
+
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.view.frame)-20, 0, 20, 20)];
 //    button.backgroundColor = [UIColor redColor];
     [button addTarget:self action:@selector(zhifu) forControlEvents:UIControlEventTouchUpInside];
@@ -399,7 +399,8 @@
         fxq.info = [dic valueForKey:@"info"];
         fxq.shopID = [dic valueForKey:@"id"];
         
-            NSMutableArray *nameArray = [NSMutableArray array];
+        NSMutableArray *nameArray = [NSMutableArray array];
+        NSMutableArray *stock = [NSMutableArray array];
         for (NSDictionary *dic2 in arr) {
         fxq.choose = [dic2 valueForKey:@"yanse"];
             [nameArray addObject:fxq.choose];
@@ -407,25 +408,28 @@
             NSArray *guigeArr = [dic2 valueForKey:@"guige"];
             NSMutableArray *pric = [NSMutableArray array];
             NSMutableArray *guige = [NSMutableArray array];
-            NSMutableArray *stock = [NSMutableArray array];
+            
             
             for (NSDictionary *dic3 in guigeArr) {
                 fxq.choose = [dic3 valueForKey:@"choose"];
                 [guige addObject:fxq.choose];
-                NSArray *answer = [dic3 valueForKey:@"answer"];
+                
+               NSArray *answer = [dic3 valueForKey:@"answer"];
                
                 for (NSDictionary *dic5 in answer) {
                     fxq.stock = [dic5 valueForKey:@"stock"];
                     fxq.price = [dic5 valueForKey:@"price"];
-                    [pric addObject:fxq.price];
-                    [stock addObject:fxq.stock];
-                    
                 }
+                [pric addObject:fxq.price];
+                [stock addObject:fxq.stock];
+                
                 fxq.guigeArr = [guige copy];
                 fxq.moneyArr = [pric copy];
-                fxq.stockArr = [stock copy];
+
             }
             fxq.nameArr = [nameArray copy];
+            fxq.stockArr = [stock copy];
+            NSLog(@"-----%@",fxq.stockArr);
         }
         self.fxq = fxq;
         [self.dataArray addObject:fxq];

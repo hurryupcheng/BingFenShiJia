@@ -367,13 +367,13 @@
         self.headerSection = indexPath.row;
         
         if (indexPath.section == 0) {
-            
+            NSLog(@"222");
             [self initWithScrollView];
             [self initWithBut];
             [self initWithUpView];
             self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
         }else{
-            
+            NSLog(@"4444");
             [self.viewBut removeFromSuperview];
             [self.lbView removeFromSuperview];
             [self.upBackView removeFromSuperview];
@@ -413,6 +413,7 @@
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         
         if (data != nil) {
+            [self.dataArray removeAllObjects];
             NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];

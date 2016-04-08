@@ -15,7 +15,7 @@
 
 @interface OtherView ()
 
-@property (nonatomic,retain)UIButton *selecdent;
+@property (nonatomic,retain)UIButton *selecdentArr;
 @property (nonatomic,retain)NSArray *arrays;
 //@property (nonatomic,retain)NSArray *guige;
 @property (nonatomic,retain)BFClassminView *name;
@@ -25,6 +25,7 @@
 @property (nonatomic,assign)NSInteger number;
 @property (nonatomic,assign)NSInteger stock;
 @property (nonatomic,retain)NSMutableArray *stockArr;
+@property (nonatomic,retain)NSMutableArray *colorArr;
 
 @end
 
@@ -150,11 +151,15 @@
 
 
 - (void)arrBut:(UIButton *)but{
-    self.selecdent.selected = NO;
+    self.addShopp.maxBut.enabled = YES;
+    self.addShopp.textF.text = @"1";
+    self.number = 1;
+    self.selecdentArr.selected = NO;
     but.selected = YES;
-    self.selecdent = but;
+    self.selecdentArr = but;
+    self.selecdentArr.tag = but.tag;
     self.reds.frame = but.frame;
-   
+    
     NSString *string = [NSString stringWithFormat:@"%@",self.arrays[0]];
     float money = [string floatValue];
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"价格:¥%.2f元",money]];
@@ -168,10 +173,12 @@
 }
 
 - (void)arrayBut:(UIButton *)but{
-    
-    self.selecdent.selected = NO;
+    self.addShopp.maxBut.enabled = YES;
+    self.addShopp.textF.text = @"1";
+    self.number = 1;
+    self.selecdentArr.selected = NO;
     but.selected = YES;
-    self.selecdent = but;
+    self.selecdentArr = but;
     self.red.frame = but.frame;
     
     NSString *string = [NSString stringWithFormat:@"%@",self.arrays[but.tag]];
@@ -209,22 +216,22 @@
 
 - (void)maxButSelented{
     
-    if ([self.addShopp.textF.text integerValue] >= [self.stockArr[0] integerValue]) {
-
+    if ([self.addShopp.textF.text integerValue] >= [self.stockArr[self.selecdentArr.tag] integerValue]) {
+        
         self.addShopp.maxBut.enabled = NO;
     }else{
-    
+        
         self.addShopp.minBut.enabled = YES;
         self.number++;
         if (self.arrayBut.selected == NO) {
-//            self.number = 1;
-            NSLog(@"===%d",self.number);
-        self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
+           
+            self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
         }else{
-        self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
-            NSLog(@"////%d",self.number);
+            self.addShopp.textF.text = [NSString stringWithFormat:@"%d",self.number];
+            
         }
     }
+
 }
 
 @end

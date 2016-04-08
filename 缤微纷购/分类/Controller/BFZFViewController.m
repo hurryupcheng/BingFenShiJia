@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "CXArchiveShopManager.h"
 #import "BFCouponView.h"
 #import "BFScoreView.h"
 #import "BFPTDetailModel.h"
@@ -106,6 +107,10 @@
     }else{
         BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
         pay.pay = self.payTitle.text;
+        
+        for (BFPTDetailModel *model in self.modelArr){
+        [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+        }
         [self.navigationController pushViewController:pay animated:YES];
     }
 }

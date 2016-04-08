@@ -63,8 +63,8 @@
 
 - (void)data{
     
-    [self getDate];
-    
+//    [self getNewDate];
+       [self getDate];
         self.views.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
     
         self.views.backgroundColor = [UIColor whiteColor];
@@ -132,8 +132,8 @@
     [self countPrice];
 }
 
-- (void)initWithTabView{
-
+- (void)initWithTableView{
+    NSLog(@">>>>>>>>>>>>>>");
     self.tabView = [[UITableView alloc]init];
     
     self.tabView.dataSource = self;
@@ -156,7 +156,7 @@
   
     [self.view addSubview:self.tabView];
     [self.view addSubview:_foot];
-    
+
 }
 
 #pragma  mark tabView代理方法
@@ -357,7 +357,7 @@
     [self.navigationController pushViewController:fx animated:YES];
 }
 
-//  移除商品
+#pragma mark  移除商品
 - (void)close:(UIButton *)button{
     NSArray *arr = [self.tabView visibleCells];
     for (UITableViewCell *cell in arr) {
@@ -398,6 +398,8 @@
 
         }
        [self initWithLoveView];
+//       [self.tabView reloadData];
+       [self.tabView.mj_header endRefreshing];
    }];
 }
 
@@ -410,11 +412,15 @@
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
     if (self.dateArr.count == 0 || self.userInfo == nil) {
+
         [self data];
+        NSLog(@"11111111");
     }else{
+        NSLog(@"22222222");
+//        [self getNewDate];
         [self getDate];
         [_groubView removeFromSuperview];
-        [self initWithTabView];
+        [self initWithTableView];
         [self.tabView reloadData];
     }
     }
@@ -460,6 +466,13 @@
         _selectGoods = [NSMutableArray array];
     }
     return _selectGoods;
+}
+
+- (void)getNewDate{
+  self.tabView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+      [self getDate];
+  }];
+    [self.tabView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
