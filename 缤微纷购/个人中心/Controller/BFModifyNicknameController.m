@@ -71,7 +71,7 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"nickname"] = self.nickNameTF.text;
     if (self.nickNameTF.text.length == 0) {
-        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入昵称"];
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"昵称不能为空"];
     }else if (self.nickNameTF.text.length > 16) {
         [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"昵称不得超过16个字符"];
     }else if ([userInfo.nickname isEqualToString:self.nickNameTF.text]) {

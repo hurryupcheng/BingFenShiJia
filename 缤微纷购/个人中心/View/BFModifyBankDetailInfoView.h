@@ -13,8 +13,8 @@
 @property (nonatomic, strong) UITextField *cardNumberTX;
 /**开户人textField*/
 @property (nonatomic, strong) UITextField *nameTX;
-/**昵称textField*/
-@property (nonatomic, strong) UITextField *nickNameTX;
-/**手机号码textField*/
-@property (nonatomic, strong) UITextField *telephoneTX;
+/**昵称label*/
+@property (nonatomic, strong) UILabel *nickName;
+/**手机号码label*/
+@property (nonatomic, strong) UILabel *telephone;
 @end

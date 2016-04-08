@@ -8,8 +8,10 @@
 
 #import "BFModifyBankCardController.h"
 #import "BFModifyBankCardView.h"
+#import "BFModifyNicknameController.h"
+#import "BFBindPhoneNumberController.h"
 
-@interface BFModifyBankCardController ()
+@interface BFModifyBankCardController ()<BFModifyBankCardViewDelegate>
 /**自定义修改银行卡view*/
 @property (nonatomic, strong) BFModifyBankCardView *modifyView;
 /**scrollView*/
@@ -22,6 +24,7 @@
 - (BFModifyBankCardView *)modifyView {
     if (!_modifyView) {
         _modifyView = [[BFModifyBankCardView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        _modifyView.delegate = self;
         
     }
     return _modifyView;
@@ -43,10 +46,37 @@
     [self scrollView];
     //添加自定义View
     [self.scrollView addSubview:self.modifyView];
-    
+    //修改昵称的通知
+    [BFNotificationCenter addObserver:self selector:@selector(gotoModifyNickname) name:@"gotoModifyNickname" object:nil];
+    //修改手机号的通知
+    [BFNotificationCenter addObserver:self selector:@selector(gotoBindPhoneNumber) name:@"gotoBindPhoneNumber" object:nil];
+}
+
+- (void)modifyBankInfomation {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
+#pragma mark --昵称label的通知
+- (void)gotoModifyNickname {
+    BFModifyNicknameController *modifyNicknameVC = [[BFModifyNicknameController alloc] init];
+    modifyNicknameVC.block = ^(BFUserInfo *userInfo) {
+        self.modifyView.detailInfo.nickName.text = [NSString stringWithFormat:@"   %@",userInfo.nickname];
+        self.modifyView.detailInfo.nickName.textColor = BFColor(0x090909);
+        self.modifyView.detailInfo.nickName.userInteractionEnabled = NO;
+    };
+    [self.navigationController pushViewController:modifyNicknameVC animated:YES];
+}
+#pragma mark --手机号label的通知
+- (void)gotoBindPhoneNumber {
+    BFBindPhoneNumberController *bindPhoneNumberVC = [[BFBindPhoneNumberController alloc] init];
+    bindPhoneNumberVC.block = ^(BFUserInfo *userInfo) {
+      self.modifyView.detailInfo.telephone.text = [NSString stringWithFormat:@"   %@",userInfo.tel];
+        self.modifyView.detailInfo.telephone.textColor = BFColor(0x090909);
+        self.modifyView.detailInfo.telephone.userInteractionEnabled = NO;
+    };
+    [self.navigationController pushViewController:bindPhoneNumberVC animated:YES];
+}
 
 //如果非显示状态，则不需要监听
 -(void)viewWillAppear:(BOOL)animated{

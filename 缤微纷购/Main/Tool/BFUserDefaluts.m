@@ -20,4 +20,16 @@
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
     [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"UserInfo"];
 }
+
++ (BFBankModel *)getBankInfo {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"bankInfo"];
+    BFBankModel *bankInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return bankInfo;
+}
+
+//修改user信息
++ (void)modifyBankInfo:(BFBankModel *)bankInfo {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:bankInfo];
+    [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"bankInfo"];
+}
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFModifyBankDetailInfoView.h"
 
 typedef enum {
     BFChooseButtonTypeBank,//选择银行按钮
@@ -16,15 +16,16 @@ typedef enum {
     BFChooseButtonTypeBranch//选择支行按钮
 }BFChooseButtonType;
 
+@protocol BFModifyBankCardViewDelegate <NSObject>
+
+- (void)modifyBankInfomation;
+
+@end
+
 @interface BFModifyBankCardView : UIView
 
+@property (nonatomic, strong) BFModifyBankDetailInfoView *detailInfo;
+/**代理*/
+@property (nonatomic, weak) id<BFModifyBankCardViewDelegate>delegate;
 
-/**银行卡号textField*/
-@property (nonatomic, strong) UITextField *cardNumberTX;
-/**开户人textField*/
-@property (nonatomic, strong) UITextField *nameTX;
-/**昵称textField*/
-@property (nonatomic, strong) UITextField *nickNameTX;
-/**手机号码textField*/
-@property (nonatomic, strong) UITextField *telephoneTX;
 @end

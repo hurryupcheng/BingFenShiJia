@@ -13,7 +13,6 @@
 #define MarginH     BF_ScaleHeight(10)
 
 #import "BFModifyBankCardView.h"
-#import "BFModifyBankDetailInfoView.h"
 #import "BFBankButton.h"
 #import "BFPickerView.h"
 #import "BFBankModel.h"
@@ -45,19 +44,55 @@
 @property (nonatomic, strong) NSString *provinceID;
 /**城市*/
 @property (nonatomic, strong) NSString *cityID;
+/**支行id*/
+@property (nonatomic, strong) NSString *branchID;
 /**请求数据*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 
 @property (nonatomic, strong) UITextField *branchTF;
 
-@property (nonatomic, strong) BFModifyBankDetailInfoView *detailInfo;
-
 @property (nonatomic, strong) UIButton *sureButton;
 
 @property (nonatomic, strong) BFBankModel *model;
+
+@property (nonatomic, strong) BFUserInfo *userInfo;
+
+@property (nonatomic, strong) BFBankModel *bankInfo;
+/**保存城市数组*/
+@property (nonatomic, strong) NSString *cityPath;
+/**保存支行数组*/
+@property (nonatomic, strong) NSString *branchPath;
 @end
 
 @implementation BFModifyBankCardView
+
+- (NSString *)cityPath {
+    if (!_cityPath) {
+        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"cityPath.plist"];
+    }
+    return _cityPath;
+}
+
+- (NSString *)branchPath {
+    if (!_branchPath) {
+        _branchPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"branchPath.plist"];
+    }
+    return _branchPath;
+}
+
+- (BFBankModel *)bankInfo {
+    if (!_bankInfo) {
+        _bankInfo = [BFUserDefaluts getBankInfo];
+    }
+    return _bankInfo;
+}
+
+- (BFUserInfo *)userInfo {
+    if (!_userInfo) {
+        _userInfo = [BFUserDefaluts getUserInfo];
+    }
+    return _userInfo;
+}
 
 - (NSMutableDictionary *)parameter {
     if (!_parameter) {
@@ -85,13 +120,22 @@
     NSString *cityPath = [[NSBundle mainBundle] pathForResource:@"bankAddress" ofType:@"plist"];
     self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:cityPath];
     self.provinceArray = [[NSArray alloc] initWithContentsOfFile:provincePath];
+    
+    NSArray *cityArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.cityPath];
+    if (!self.cityArray) {
+        self.cityArray = cityArray;
+    }
+    
+    NSArray *branchArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.branchPath];
+    if (!self.branchArray) {
+        self.branchArray = branchArray;
+    }
 }
 
 
 
 
 - (void)setUpView {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     //银行网点
     UILabel *bankBranch = [self setUpLabelWithFrame:CGRectMake(MarginW, BF_ScaleHeight(5), BF_ScaleWidth(100), BF_ScaleHeight(15)) text:@"银行网点："];
     bankBranch.textColor = BFColor(0x9D9D9D);
@@ -111,17 +155,17 @@
     [self addSubview:branch];
     
     self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(130), Height) type:BFChooseButtonTypeBank];
-    self.bankButton.buttonTitle.text = userInfo.bank_name;
+    self.bankButton.buttonTitle.text = self.userInfo.bank_name;
     [self.bankButton addTarget:self action:@selector(bankButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
     self.provinceButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(area.frame), area.y, BF_ScaleWidth(80), Height) type:BFChooseButtonTypeProvince];
-    self.provinceButton.buttonTitle.text = userInfo.sheng ? userInfo.sheng : @"--请选择--";
+    self.provinceButton.buttonTitle.text = self.userInfo.sheng ? self.userInfo.sheng : @"--请选择--";
     [self.provinceButton addTarget:self action:@selector(provinceButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     self.cityButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(self.provinceButton.frame)+BF_ScaleWidth(10), area.y, BF_ScaleWidth(80), Height) type:BFChooseButtonTypeCity];
-    if (userInfo.shi) {
-        self.cityButton.buttonTitle.text = userInfo.sheng ? userInfo.sheng : @"--请选择--";
+    if (self.userInfo.shi) {
+        self.cityButton.buttonTitle.text = self.userInfo.shi ? self.userInfo.shi : @"--请选择--";
         self.cityButton.hidden = NO;
     }else {
         self.cityButton.buttonTitle.text = @"--请选择--";
@@ -132,11 +176,11 @@
     
     self.branchButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(branch.frame), branch.y, BF_ScaleWidth(200), Height) type:BFChooseButtonTypeBranch];
     CGRect frame = CGRectZero;
-    if ([userInfo.bank_branch isEqualToString:@"0"]) {
+    if ([self.userInfo.bank_branch isEqualToString:@"0"]) {
         self.branchButton.buttonTitle.text = @"其他";
         frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
     }else {
-        self.branchButton.buttonTitle.text = userInfo.card_address;
+        self.branchButton.buttonTitle.text = self.userInfo.card_address;
         frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(0));
     }
     [self.branchButton addTarget:self action:@selector(branchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -250,7 +294,9 @@
     [self endEditing:YES];
     self.pickerView = [BFPickerView pickerView];
     self.pickerView.delegate = self;
+
     self.pickerView.dataArray = self.cityArray;
+    [NSKeyedArchiver archiveRootObject:self.cityArray toFile:self.cityPath];
     __block typeof(self) weakSelf = self;
     self.pickerView.block = ^(NSString *string) {
         weakSelf.branchButton.buttonTitle.text = @"--请选择--";
@@ -268,12 +314,15 @@
     [self endEditing:YES];
     self.pickerView = [BFPickerView pickerView];
     self.pickerView.delegate = self;
-    if (self.bankID.length == 0 || self.provinceID.length == 0 || self.cityID.length == 0) {
+    if (self.bankButton.buttonTitle.text.length == 0 || self.provinceButton.buttonTitle.text.length == 0 || self.cityButton.buttonTitle.text.length == 0) {
         self.pickerView.dataArray = @[@"--请选择--", @"其他"];
         __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
             if ([string isEqualToString:@"其他"]) {
+                
+                weakSelf.bankInfo.bank_branch = @"999999";
+                [BFUserDefaluts modifyBankInfo:weakSelf.bankInfo];
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
             }else {
@@ -288,6 +337,13 @@
         __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
+            NSArray *array = [BFBranchList parse:weakSelf.model.bank];
+            for (BFBranchList *list in array) {
+                if ([list.name isEqualToString:sender.buttonTitle.text]) {
+                    weakSelf.bankInfo.bank_branch = list.ID;
+                    [BFUserDefaluts modifyBankInfo:weakSelf.bankInfo];
+                }
+            }
             if ([string isEqualToString:@"其他"]) {
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
@@ -300,28 +356,26 @@
         };
 
     }
-    
-    
-    BFLog(@"123----%f",CGRectGetMaxY(self.branchTF.frame));
     [self addSubview:self.pickerView];
     
 }
 
 //获取支行信息
 - (void)getBranchInfo {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=branch"];
-    self.parameter[@"uid"] = userInfo.ID;
-    self.parameter[@"token"] = userInfo.token;
-    self.parameter[@"bank"] = self.bankID;
-    self.parameter[@"sheng"] = self.provinceID;
-    self.parameter[@"shi"] = self.cityID;
+    self.parameter[@"uid"] = self.userInfo.ID;
+    self.parameter[@"token"] = self.userInfo.token;
+    self.parameter[@"bank"] = self.bankButton.buttonTitle.text;
+    self.parameter[@"sheng"] = self.provinceButton.buttonTitle.text;
+    self.parameter[@"shi"] = self.cityButton.buttonTitle.text;;
     [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
         BFLog(@"%@,%@",responseObject, self.parameter);
         if ([responseObject[@"status"] isEqualToString:@"0"]) {
             return ;
         }else {
             self.model = [BFBankModel parse:responseObject];
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.model];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"bankInfo"];
             NSArray *array = [BFBranchList parse:self.model.bank];
             NSMutableArray *mutableArray = [NSMutableArray array];
             for (BFBranchList *list in array) {
@@ -329,7 +383,7 @@
             }
             [mutableArray insertObject:@"--请选择--" atIndex:0];
             self.branchArray = [mutableArray copy];
-            
+            [NSKeyedArchiver archiveRootObject:self.branchArray toFile:self.branchPath];
         }
 
         
@@ -341,19 +395,19 @@
 
 - (void)click:(UIButton *)sender {
     [self endEditing:YES];
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    BFLog(@"========%@,,%@,,%@",self.bankInfo.shi_id,self.bankInfo.sheng_id,self.bankInfo.bank_id);
+    
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=up_username"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    parameter[@"uid"] = userInfo.ID;
-    parameter[@"token"] = userInfo.token;
+    parameter[@"uid"] = self.userInfo.ID;
+    parameter[@"token"] = self.userInfo.token;
     parameter[@"bank_name"] = self.bankButton.buttonTitle.text;
     parameter[@"card_id"] = self.detailInfo.cardNumberTX.text;
     parameter[@"true_name"] = self.detailInfo.nameTX.text;
-    parameter[@"card_address"] = self.branchTF.text ? self.branchTF.text : self.branchButton.buttonTitle.text;
-    parameter[@"nickname"] = self.detailInfo.nickNameTX.text;
-    parameter[@"bank_id"] = self.model.bank_id;
-    parameter[@"bank_city"] = self.model.shi_id;
-    parameter[@"bank_branch"] = self.model.shi_id;
+    parameter[@"card_address"] = self.branchTF.text.length != 0 ? self.branchTF.text : self.branchButton.buttonTitle.text;
+    parameter[@"bank_id"] = self.bankInfo.bank_id;
+    parameter[@"bank_city"] = self.bankInfo.shi_id;
+    parameter[@"bank_branch"] = self.bankInfo.bank_branch;
     if ([self.branchButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.bankButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.provinceButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.cityButton.buttonTitle.text isEqualToString:@"--请选择--"] || self.detailInfo.cardNumberTX.text.length == 0 || self.detailInfo.nameTX.text.length == 0) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善信息"];
     }else if(![HZQRegexTestter validateBankCardNumber:self.detailInfo.cardNumberTX.text]) {
@@ -378,7 +432,21 @@
 
 - (void)modifyInfo:(NSString *)url parameter:(NSMutableDictionary *)parameter {
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@",responseObject);
+        BFLog(@"%@,%@",responseObject,parameter);
+        if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"银行信息修改失败"];
+        }else {
+            [BFProgressHUD MBProgressFromView:self LabelText:@"银行信息修改成功,正在跳转..." dispatch_get_main_queue:^{
+                if (self.delegate && [self.delegate respondsToSelector:@selector(modifyBankInfomation)]) {
+                    self.userInfo.bank_name = self.bankButton.buttonTitle.text;
+                    self.userInfo.sheng = self.provinceButton.buttonTitle.text;
+                    self.userInfo.shi = self.cityButton.buttonTitle.text;
+                    self.userInfo.card_address = self.branchButton.buttonTitle.text;
+                    [BFUserDefaluts modifyUserInfo:self.userInfo];
+                    [self.delegate modifyBankInfomation];
+                }
+            }];
+        }
     } failure:^(NSError *error) {
         BFLog(@"%@",error);
     }];

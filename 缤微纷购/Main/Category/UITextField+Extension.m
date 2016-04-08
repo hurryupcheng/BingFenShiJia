@@ -64,7 +64,10 @@
     UITextField *textField = [[UITextField alloc]initWithFrame:frame];
     textField.placeholder = placeholder;
     textField.leftView = imageView;
-    textField.borderStyle = UITextBorderStyleRoundedRect;
+    [textField setValue:BFColor(0xC3C3C9) forKeyPath:@"_placeholderLabel.textColor"];
+    textField.layer.borderColor = BFColor(0xC3C3C9).CGColor;
+    textField.layer.borderWidth = 1;
+    textField.layer.cornerRadius = 3;
     textField.leftViewMode = UITextFieldViewModeAlways;
     textField.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     return textField;
