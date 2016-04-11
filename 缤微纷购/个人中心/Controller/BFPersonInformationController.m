@@ -144,7 +144,8 @@
         cell.textLabel.text = @"  余额";
         UILabel *balanceLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(90), 0, BF_ScaleWidth(200), BF_ScaleHeight(44))];
         balanceLabel.textColor = BFColor(0xFD8727);
-        balanceLabel.text = @"¥ 00.00";
+        balanceLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
+        balanceLabel.text = [NSString stringWithFormat:@"¥ %@", self.userInfo.user_account];;
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:balanceLabel.text];
         [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(19)] range:NSMakeRange(2,balanceLabel.text.length-5)];
         balanceLabel.attributedText = attributedString;

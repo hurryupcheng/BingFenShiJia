@@ -49,7 +49,7 @@
 /**请求数据*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 
-
+@property (nonatomic, strong) UITextField *branchTF;
 
 @property (nonatomic, strong) UIButton *sureButton;
 
@@ -163,7 +163,7 @@
     [self addSubview:branch];
     
     self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(130), Height) type:BFChooseButtonTypeBank];
-    self.bankButton.buttonTitle.text = self.userInfo.bank_name;
+    self.bankButton.buttonTitle.text = self.userInfo.bank_name.length != 0 ? self.userInfo.bank_name : @"--请选择--";
     [self.bankButton addTarget:self action:@selector(bankButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     
@@ -183,25 +183,32 @@
     [self.cityButton addTarget:self action:@selector(cityButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     self.branchButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(branch.frame), branch.y, BF_ScaleWidth(200), Height) type:BFChooseButtonTypeBranch];
+    
     CGRect frame = CGRectZero;
     BFLog(@"********%@",self.userInfo.bank_branch);
     if ([userInfo.bank_branch isEqualToString:@"999999"]) {
         self.branchButton.buttonTitle.text = @"其他";
-        //frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
+        frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
     }else {
-        self.branchButton.buttonTitle.text = self.userInfo.card_address;
-        //frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(0));
+        self.branchButton.buttonTitle.text = self.userInfo.card_address.length != 0 ? self.userInfo.card_address : @"--请选择--";
+        frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(0));
     }
     [self.branchButton addTarget:self action:@selector(branchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
 
-    self.branchTF = [UITextField textFieldWithFrame:CGRectZero placeholder:@"请输入银行支行"];
+    self.branchTF = [UITextField textFieldWithFrame:frame placeholder:@"请输入银行支行"];
     self.branchTF.text = userInfo.card_address;
     self.branchTF.delegate = self;
     self.branchTF.returnKeyType = UIReturnKeyDone;
     [self addSubview:self.branchTF];
     
-    self.detailInfo = [[BFModifyBankDetailInfoView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260))];
+    CGRect branchFrame = CGRectZero;
+    if ([userInfo.bank_branch isEqualToString:@"999999"]) {
+        branchFrame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
+    }else {
+        branchFrame = CGRectMake(0, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
+    }
+    self.detailInfo = [[BFModifyBankDetailInfoView alloc] initWithFrame:branchFrame];
     //self.detailInfo.backgroundColor = [UIColor redColor];
     [self addSubview:self.detailInfo];
     
@@ -220,11 +227,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.sureButton.frame = CGRectMake(MarginW, CGRectGetMaxY(self.detailInfo.frame), BF_ScaleWidth(290), BF_ScaleHeight(30));
-    if ([self.userInfo.bank_branch isEqualToString:@"999999"]) {
-        self.branchTF.frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
-    }else {
-        self.branchTF.frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), 0);
-    }
+
 }
 
 /**pickerview代理，改变按钮状态*/
@@ -364,6 +367,7 @@
             }
             if ([string isEqualToString:@"其他"]) {
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
+                weakSelf.branchTF.text = nil;
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
                 BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
             }else {
@@ -391,6 +395,7 @@
         if ([responseObject[@"status"] isEqualToString:@"0"]) {
             return ;
         }else {
+            self.branchArray = nil;
             self.model = [BFBankModel parse:responseObject];
             NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.model];
             [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"bankInfo"];

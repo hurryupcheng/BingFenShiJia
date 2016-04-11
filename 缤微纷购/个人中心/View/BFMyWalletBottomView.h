@@ -18,6 +18,8 @@
 @end
 
 @interface BFMyWalletBottomView : UIView
+/**收款人*/
+@property (nonatomic, strong) UILabel *recieverLabel;
 /**提现金额输入框*/
 @property (nonatomic, strong) UITextField *getCashTX;
 /**代理*/

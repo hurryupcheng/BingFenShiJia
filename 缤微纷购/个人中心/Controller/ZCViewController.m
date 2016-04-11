@@ -16,10 +16,7 @@
 #import "BFRegistModel.h"
 #import "BFUserInfo.h"
 
-@interface ZCViewController ()<RegisterDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface ZCViewController ()<RegisterDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**密码页面*/
@@ -37,7 +34,7 @@
 }
 
 /**密码页面*/
-- (UIView *)bgView {
+- (BFPassWordView *)bgView {
     if (!_bgView) {
         _bgView = [BFPassWordView new];
         _bgView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight) ;
@@ -63,14 +60,12 @@
     self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
     self.bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bgImageView];
+    //添加自定义的view
+
     [self bgView];
 }
 
-//- (void)sendVerificationCodeBFPassWordView:(BFPassWordView *)BFPassWordView button:(UIButton *)button {
-//    
-//
-//    
-//}
+
 
 
 #pragma mark --注册按钮代理

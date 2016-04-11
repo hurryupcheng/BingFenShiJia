@@ -84,6 +84,7 @@
                     userInfo.nickname = self.nickNameTF.text;
                     [BFUserDefaluts modifyUserInfo:userInfo];
                     _block(userInfo);
+                    [BFNotificationCenter postNotificationName:@"modifyNickName" object:nil];
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
             }else {

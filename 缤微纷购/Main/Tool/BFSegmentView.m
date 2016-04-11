@@ -42,12 +42,12 @@
     
     [segmented addTarget:self action:@selector(changeNumber:) forControlEvents:UIControlEventValueChanged];
     //改变segment的字体大小和颜色
-    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:BFColor(0x13359A),NSForegroundColorAttributeName,nil];
+    NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:BFColor(0x0055BC),NSForegroundColorAttributeName,nil];
     //设置各种状态的字体和颜色
     [segmented setTitleTextAttributes:dic forState:UIControlStateNormal];
     segmented.frame = CGRectMake(5, 10, ScreenWidth-10, 30);
     //segmented.backgroundColor = [UIColor redColor];
-    [segmented setTintColor:BFColor(0xFD8727)];
+    [segmented setTintColor:BFColor(0x0E57AA)];
     [self addSubview:segmented];
 
  

@@ -14,6 +14,7 @@
 #import "LogViewController.h"
 #import "BFMobileNumber.h"
 #import "MyMD5.h"
+#import "BFForgetPasswordController.h"
 
 @interface LogViewController ()<UITextFieldDelegate>{
     __block int         leftTime;
@@ -188,6 +189,8 @@
 }
 #pragma mark --忘记密码
 - (void)forgetPassWord:(UIButton *)sender {
+    BFForgetPasswordController *forgetPasswordVC = [[BFForgetPasswordController alloc] init];
+    [self.navigationController pushViewController:forgetPasswordVC animated:YES];
     BFLog(@"忘记密码");
 }
 

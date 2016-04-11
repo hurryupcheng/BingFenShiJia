@@ -39,7 +39,7 @@
 #pragma mark -- 创建控件
 - (void)setUpView {
     
-    self.phoneNumberTX = [UITextField textFieldWithFrame:CGRectMake(0, BF_ScaleHeight(20), BF_ScaleWidth(320), BF_ScaleHeight(30)) image:nil placeholder:@"请输入手机号"];
+    self.phoneNumberTX = [UITextField textFieldWithFrame:CGRectMake(0, BF_ScaleHeight(20), BF_ScaleWidth(320), BF_ScaleHeight(30)) image:@"phone" placeholder:@"请输入手机号"];
     self.phoneNumberTX.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.phoneNumberTX.delegate = self;
     self.phoneNumberTX.returnKeyType = UIReturnKeyDone;
@@ -49,7 +49,7 @@
     [self.view addSubview:firstLine];
     
     
-    self.verificationCodeTX = [UITextField textFieldWithFrame:CGRectMake(0, CGRectGetMaxY(firstLine.frame)+BF_ScaleHeight(20), BF_ScaleWidth(185), BF_ScaleHeight(30)) image:nil placeholder:@"请输入验证码"];
+    self.verificationCodeTX = [UITextField textFieldWithFrame:CGRectMake(0, CGRectGetMaxY(firstLine.frame)+BF_ScaleHeight(20), BF_ScaleWidth(185), BF_ScaleHeight(30)) image:@"yanzhengma" placeholder:@"请输入验证码"];
     //self.verificationCodeTX.backgroundColor = [UIColor redColor];
     self.verificationCodeTX.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.verificationCodeTX.delegate = self;

@@ -24,7 +24,8 @@ typedef enum {
 
 
 @interface BFMyWalletTopView : UIView
-
+/**昵称*/
+@property (nonatomic, strong) UILabel *nickName;
 /**我的钱包模型*/
 @property (nonatomic, strong) BFMyWalletModel *model;
 /**代理*/

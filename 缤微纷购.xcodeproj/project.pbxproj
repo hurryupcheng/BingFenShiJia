@@ -139,6 +139,8 @@
 		51F5CA911C58C9610073F783 /* FXQModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F5CA901C58C9610073F783 /* FXQModel.m */; };
 		5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */; };
 		5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */; };
+		5900BF7C1CBB5A1200DDA0B8 /* BFForgetPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */; };
+		5900BF7F1CBB5C1400DDA0B8 /* BFForgetPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */; };
 		590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */; };
 		590D3B451C93B4540042D42E /* BFMyClientController.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B441C93B4540042D42E /* BFMyClientController.m */; };
 		590D3B761C94060C0042D42E /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 590D3B751C94060C0042D42E /* Security.framework */; };
@@ -650,6 +652,10 @@
 		5900A03C1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseController.m; sourceTree = "<group>"; };
 		5900A03E1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyGroupPurchaseCell.h; sourceTree = "<group>"; };
 		5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseCell.m; sourceTree = "<group>"; };
+		5900BF7A1CBB5A1200DDA0B8 /* BFForgetPasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFForgetPasswordController.h; sourceTree = "<group>"; };
+		5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordController.m; sourceTree = "<group>"; };
+		5900BF7D1CBB5C1400DDA0B8 /* BFForgetPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFForgetPasswordView.h; sourceTree = "<group>"; };
+		5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordView.m; sourceTree = "<group>"; };
 		590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseTabbar.h; sourceTree = "<group>"; };
 		590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseTabbar.m; sourceTree = "<group>"; };
 		590D3B431C93B4540042D42E /* BFMyClientController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyClientController.h; sourceTree = "<group>"; };
@@ -1512,6 +1518,8 @@
 				51811AF41C7451AC004E29A8 /* LogViewController.m */,
 				51811AF61C745205004E29A8 /* ZCViewController.h */,
 				51811AF71C745205004E29A8 /* ZCViewController.m */,
+				5900BF7A1CBB5A1200DDA0B8 /* BFForgetPasswordController.h */,
+				5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */,
 				59FF46C51C8AAEA00040689A /* BFMyIntegralController.h */,
 				59FF46C61C8AAEA00040689A /* BFMyIntegralController.m */,
 				594EE0E61C8C6A9D00A243AE /* BFMyAdvertisingExpenseController.h */,
@@ -1614,6 +1622,8 @@
 				51811AFC1C746752004E29A8 /* TextFieldLog.m */,
 				599F19C01C8D73EB00319FA4 /* BFPassWordView.h */,
 				599F19C11C8D73EB00319FA4 /* BFPassWordView.m */,
+				5900BF7D1CBB5C1400DDA0B8 /* BFForgetPasswordView.h */,
+				5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */,
 				597CE6A51CA92649005B6C28 /* BFModifyPasswordView.h */,
 				597CE6A61CA92649005B6C28 /* BFModifyPasswordView.m */,
 				51D5B6421C75B4F2000897BB /* MyorderTableViewCell.h */,
@@ -2887,6 +2897,7 @@
 				59FF46C71C8AAEA00040689A /* BFMyIntegralController.m in Sources */,
 				59513B231C9F93410028B008 /* BFProductModel.m in Sources */,
 				516204D71C72EB3100E9FB0D /* HeaderCollectionReusableView.m in Sources */,
+				5900BF7C1CBB5A1200DDA0B8 /* BFForgetPasswordController.m in Sources */,
 				59FF748E1CAE1A860063F770 /* BFBankTool.m in Sources */,
 				59FF74D11CAE1A860063F770 /* NSObject+MJKeyValue.m in Sources */,
 				59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */,
@@ -3136,6 +3147,7 @@
 				59FF74D61CAE1A860063F770 /* MJRefreshComponent.m in Sources */,
 				59FF74901CAE1A860063F770 /* BFFootViews.m in Sources */,
 				597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */,
+				5900BF7F1CBB5C1400DDA0B8 /* BFForgetPasswordView.m in Sources */,
 				59FF74BD1CAE1A860063F770 /* MASCompositeConstraint.m in Sources */,
 				597CE6A11CA8F5B1005B6C28 /* BFWithdrawalRecordCell.m in Sources */,
 				59132F8E1CB38ACA00F711C6 /* BFGroupDetailBottomStatusView.m in Sources */,

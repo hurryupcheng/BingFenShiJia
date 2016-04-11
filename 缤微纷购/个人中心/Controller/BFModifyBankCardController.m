@@ -53,6 +53,7 @@
 }
 
 - (void)modifyBankInfomation {
+    _block([BFUserDefaluts getUserInfo]);
     [self.navigationController popViewControllerAnimated:YES];
 }
 
