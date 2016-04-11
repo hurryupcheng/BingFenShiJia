@@ -23,6 +23,7 @@ typedef enum {
 @end
 
 @interface BFModifyBankCardView : UIView
+@property (nonatomic, strong) UITextField *branchTF;
 
 @property (nonatomic, strong) BFModifyBankDetailInfoView *detailInfo;
 /**代理*/

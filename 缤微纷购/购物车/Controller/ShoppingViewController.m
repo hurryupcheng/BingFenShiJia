@@ -412,11 +412,13 @@
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
     if (self.dateArr.count == 0 || self.userInfo == nil) {
-
+        self.tabView.hidden = YES;
         [self data];
+        [self.tabView reloadData];
         NSLog(@"11111111");
     }else{
         NSLog(@"22222222");
+        self.tabView.hidden = NO;
 //        [self getNewDate];
         [self getDate];
         [_groubView removeFromSuperview];

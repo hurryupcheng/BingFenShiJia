@@ -49,7 +49,7 @@
 /**请求数据*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 
-@property (nonatomic, strong) UITextField *branchTF;
+
 
 @property (nonatomic, strong) UIButton *sureButton;
 
@@ -121,6 +121,8 @@
     self.pickerDic = [[NSDictionary alloc] initWithContentsOfFile:cityPath];
     self.provinceArray = [[NSArray alloc] initWithContentsOfFile:provincePath];
     
+    
+    
     NSArray *cityArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.cityPath];
     if (!self.cityArray) {
         self.cityArray = cityArray;
@@ -129,13 +131,19 @@
     NSArray *branchArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.branchPath];
     if (!self.branchArray) {
         self.branchArray = branchArray;
+
     }
+    
+
+
+    
 }
 
 
 
 
 - (void)setUpView {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     //银行网点
     UILabel *bankBranch = [self setUpLabelWithFrame:CGRectMake(MarginW, BF_ScaleHeight(5), BF_ScaleWidth(100), BF_ScaleHeight(15)) text:@"银行网点："];
     bankBranch.textColor = BFColor(0x9D9D9D);
@@ -176,17 +184,19 @@
     
     self.branchButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(branch.frame), branch.y, BF_ScaleWidth(200), Height) type:BFChooseButtonTypeBranch];
     CGRect frame = CGRectZero;
-    if ([self.userInfo.bank_branch isEqualToString:@"0"]) {
+    BFLog(@"********%@",self.userInfo.bank_branch);
+    if ([userInfo.bank_branch isEqualToString:@"999999"]) {
         self.branchButton.buttonTitle.text = @"其他";
-        frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
+        //frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
     }else {
         self.branchButton.buttonTitle.text = self.userInfo.card_address;
-        frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(0));
+        //frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(0));
     }
     [self.branchButton addTarget:self action:@selector(branchButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
 
-    self.branchTF = [UITextField textFieldWithFrame:frame placeholder:@"请输入银行支行"];
+    self.branchTF = [UITextField textFieldWithFrame:CGRectZero placeholder:@"请输入银行支行"];
+    self.branchTF.text = userInfo.card_address;
     self.branchTF.delegate = self;
     self.branchTF.returnKeyType = UIReturnKeyDone;
     [self addSubview:self.branchTF];
@@ -210,6 +220,11 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.sureButton.frame = CGRectMake(MarginW, CGRectGetMaxY(self.detailInfo.frame), BF_ScaleWidth(290), BF_ScaleHeight(30));
+    if ([self.userInfo.bank_branch isEqualToString:@"999999"]) {
+        self.branchTF.frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), BF_ScaleHeight(30));
+    }else {
+        self.branchTF.frame = CGRectMake(MarginW, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), BF_ScaleWidth(290), 0);
+    }
 }
 
 /**pickerview代理，改变按钮状态*/
@@ -314,6 +329,7 @@
     [self endEditing:YES];
     self.pickerView = [BFPickerView pickerView];
     self.pickerView.delegate = self;
+    BFBankModel *bankInfo = [BFUserDefaluts getBankInfo];
     if (self.bankButton.buttonTitle.text.length == 0 || self.provinceButton.buttonTitle.text.length == 0 || self.cityButton.buttonTitle.text.length == 0) {
         self.pickerView.dataArray = @[@"--请选择--", @"其他"];
         __block typeof(self) weakSelf = self;
@@ -321,8 +337,8 @@
             sender.buttonTitle.text = string;
             if ([string isEqualToString:@"其他"]) {
                 
-                weakSelf.bankInfo.bank_branch = @"999999";
-                [BFUserDefaluts modifyBankInfo:weakSelf.bankInfo];
+                bankInfo.bank_branch = @"999999";
+                [BFUserDefaluts modifyBankInfo:bankInfo];
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
             }else {
@@ -337,11 +353,13 @@
         __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
-            NSArray *array = [BFBranchList parse:weakSelf.model.bank];
+            BFBankModel *model = [BFUserDefaluts getBankInfo];
+            NSArray *array = [BFBranchList parse:model.bank];
             for (BFBranchList *list in array) {
-                if ([list.name isEqualToString:sender.buttonTitle.text]) {
-                    weakSelf.bankInfo.bank_branch = list.ID;
-                    [BFUserDefaluts modifyBankInfo:weakSelf.bankInfo];
+                if ([list.name isEqualToString:string]) {
+                    bankInfo.bank_branch = list.ID;
+                    BFLog(@"####%@,,,,,%@",list.ID, bankInfo.bank_branch);
+                    [BFUserDefaluts modifyBankInfo:bankInfo];
                 }
             }
             if ([string isEqualToString:@"其他"]) {
@@ -393,10 +411,14 @@
     
 }
 
+//确定按钮
 - (void)click:(UIButton *)sender {
     [self endEditing:YES];
-    BFLog(@"========%@,,%@,,%@",self.bankInfo.shi_id,self.bankInfo.sheng_id,self.bankInfo.bank_id);
     
+    BFBankModel *bankInfo = [BFUserDefaluts getBankInfo];
+
+
+    BFLog(@"========%@,",bankInfo.bank_branch);
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=up_username"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = self.userInfo.ID;
@@ -404,10 +426,15 @@
     parameter[@"bank_name"] = self.bankButton.buttonTitle.text;
     parameter[@"card_id"] = self.detailInfo.cardNumberTX.text;
     parameter[@"true_name"] = self.detailInfo.nameTX.text;
-    parameter[@"card_address"] = self.branchTF.text.length != 0 ? self.branchTF.text : self.branchButton.buttonTitle.text;
-    parameter[@"bank_id"] = self.bankInfo.bank_id;
-    parameter[@"bank_city"] = self.bankInfo.shi_id;
-    parameter[@"bank_branch"] = self.bankInfo.bank_branch;
+    if ([self.branchButton.buttonTitle.text isEqualToString:@"其他"]) {
+        parameter[@"card_address"] = self.branchTF.text;
+    }else {
+        parameter[@"card_address"] = self.branchButton.buttonTitle.text;
+    }
+//    parameter[@"card_address"] = [self.branchButton.buttonTitle.text isEqualToString:@"其他"] ? self.branchTF.text : self.branchButton.buttonTitle.text;
+    parameter[@"bank_id"] = bankInfo.bank_id;
+    parameter[@"bank_city"] = bankInfo.shi_id;
+    parameter[@"bank_branch"] = bankInfo.bank_branch;
     if ([self.branchButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.bankButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.provinceButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.cityButton.buttonTitle.text isEqualToString:@"--请选择--"] || self.detailInfo.cardNumberTX.text.length == 0 || self.detailInfo.nameTX.text.length == 0) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善信息"];
     }else if(![HZQRegexTestter validateBankCardNumber:self.detailInfo.cardNumberTX.text]) {
@@ -441,7 +468,10 @@
                     self.userInfo.bank_name = self.bankButton.buttonTitle.text;
                     self.userInfo.sheng = self.provinceButton.buttonTitle.text;
                     self.userInfo.shi = self.cityButton.buttonTitle.text;
-                    self.userInfo.card_address = self.branchButton.buttonTitle.text;
+                    self.userInfo.card_address = [self.branchButton.buttonTitle.text isEqualToString:@"其他"] ? self.branchTF.text : self.branchButton.buttonTitle.text;
+                    self.userInfo.card_id = self.detailInfo.cardNumberTX.text;
+                    self.userInfo.true_name = self.detailInfo.nameTX.text;
+                    self.userInfo.bank_branch = parameter[@"bank_branch"];
                     [BFUserDefaluts modifyUserInfo:self.userInfo];
                     [self.delegate modifyBankInfomation];
                 }
