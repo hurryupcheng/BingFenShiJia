@@ -6,11 +6,11 @@
         "center" : {
           "mode" : "tile",
           "width" : 9,
-          "height" : 1
+          "height" : 8
         },
         "cap-insets" : {
-          "bottom" : 23,
-          "top" : 8,
+          "bottom" : 6,
+          "top" : 6,
           "right" : 150,
           "left" : 33
         }

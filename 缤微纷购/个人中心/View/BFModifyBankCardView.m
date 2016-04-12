@@ -162,7 +162,7 @@
     UILabel *branch = [self setUpLabelWithFrame:CGRectMake(MarginW, CGRectGetMaxY(area.frame)+BF_ScaleHeight(10), BF_ScaleWidth(40), Height) text:@"支行："];
     [self addSubview:branch];
     
-    self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(130), Height) type:BFChooseButtonTypeBank];
+    self.bankButton = [self setUpButtonWithFrame:CGRectMake(CGRectGetMaxX(bank.frame), bank.y,BF_ScaleWidth(110), Height) type:BFChooseButtonTypeBank];
     self.bankButton.buttonTitle.text = self.userInfo.bank_name.length != 0 ? self.userInfo.bank_name : @"--请选择--";
     [self.bankButton addTarget:self action:@selector(bankButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -300,6 +300,8 @@
             weakSelf.cityArray = [mutableArray copy];
             weakSelf.cityButton.hidden = NO;
             [weakSelf getBranchInfo];
+        }else {
+            weakSelf.cityButton.hidden = YES;
         }
     };
     [self addSubview:self.pickerView];

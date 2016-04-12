@@ -20,8 +20,10 @@
 #import "HeaderCollectionReusableView.h"
 #import "FooterCollectionReusableView.h"
 #import "BFHomeCollentionView.h"
+#import "BFHomeFunctionView.h"
+#import "BFBestSellingController.h"
 
-@interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
 @property (nonatomic,retain)UICollectionView *collentionView;
 @property (nonatomic,retain)UIView *butView;
@@ -45,6 +47,9 @@
 @property (nonatomic,retain)UIButton *footImageView;
 @property (nonatomic,retain)UIButton *upImageView;
 @property (nonatomic,retain)UIView *upBackView;
+
+/***/
+@property (nonatomic, strong) BFHomeFunctionView *functionView;
 
 @end
 
@@ -78,38 +83,93 @@
 #pragma mark 分类列表初始化
 - (void)initWithBut{
     
+//    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160))];
+//    self.functionView.backgroundColor = [UIColor blueColor];
+//    [self.headerView addSubview:self.functionView];
+    
     self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
+    self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
+    [self.headerView addSubview:self.viewBut];
     
-    if (self.titleArr.count <= 4) {
-        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);
-    }else{
-        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20);
-    }
     
-    for (int i = 0; i < 8; i++) {
-        //        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIView *backView = [[UIView alloc]init];
-        backView.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
-        
-        //        button.tag = 10 + i;
-        //        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, image_x-5, image_x-5)];
-        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(image.frame), but_x, 20)];
-        label.text = [NSString stringWithFormat:@"%@",self.titleArr[i]];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor blackColor];
-        label.font = [UIFont systemFontOfSize:CGFloatY(14)];
-        
-        [backView addSubview:image];
-        [backView addSubview:label];
-        [self.headerView addSubview:self.viewBut];
-        [self.viewBut addSubview:backView];
+    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(160))];
+    self.functionView.delegate = self;
+    [self.viewBut addSubview:self.functionView];
+    
+    
+    
+//    if (self.titleArr.count <= 4) {
+//        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);
+//    }else{
+//        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20);
+//    }
+    
+//    for (int i = 0; i < 8; i++) {
+//        //        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        UIView *backView = [[UIView alloc]init];
+//        backView.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
+//        
+//        //        button.tag = 10 + i;
+//        //        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, image_x-5, image_x-5)];
+//        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
+//        
+//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(image.frame), but_x, 20)];
+//        label.text = [NSString stringWithFormat:@"%@",self.titleArr[i]];
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.textColor = [UIColor blackColor];
+//        label.font = [UIFont systemFontOfSize:CGFloatY(14)];
+//        
+//        [backView addSubview:image];
+//        [backView addSubview:label];
+//        [self.viewBut addSubview:backView];
+//    }
+    
+
+}
+#pragma  mark --BFHomeFunctionViewDelegate
+- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type {
+    
+    switch (type) {
+        case BFHomeFunctionViewButtonTypeFruitEating:{
+            BFLog(@"点击了果食");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeLocalSpeciality:{
+            BFLog(@"点击了地方特产");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeCasualSnacks:{
+            BFLog(@"点击了休闲零食");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeWineDrinking:{
+            BFLog(@"点击了酒水");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeDailySpecial:{
+            BFLog(@"点击了今日特价");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeFirstPublish:{
+            BFLog(@"点击了新品首发");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeBestSelling:{
+            BFLog(@"点击了热销排行");
+            BFBestSellingController *bestSellingVC = [[BFBestSellingController alloc] init];
+            [self.navigationController pushViewController:bestSellingVC animated:YES];
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeTastingExperience:{
+            BFLog(@"点击了试吃体验");
+            break;
+        }
     }
 }
+
 
 #pragma  mark UICollectionView初始化
 - (UICollectionView *)collentionView{
@@ -245,7 +305,7 @@
         }
             break;
         case 11:{
-            
+            NSLog(@"首页分类点击有效");
         }
             break;
         case 12:{

@@ -59,7 +59,7 @@
     
     VC.tabBarItem.title = title;
     BFNavigationController *navigation = [[BFNavigationController alloc]initWithRootViewController:VC];
-    [VC.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:CGFloatX(20)],NSForegroundColorAttributeName:[UIColor blueColor]}];
+    [VC.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:CGFloatX(20)],NSForegroundColorAttributeName:BFColor(0x0E61C0)}];
     //VC.navigationController.navigationBar.translucent = NO;
     VC.tabBarItem.image = [[UIImage imageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     VC.tabBarItem.selectedImage = [[UIImage imageNamed:selectimage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

@@ -14,11 +14,31 @@
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**自定义的view*/
 @property (nonatomic, strong) BFForgetPasswordView *forgetPasswordView;
+/**手机号保存路径*/
+@property (nonatomic, strong) NSString *phonePath;
+/**密码保存路径*/
+@property (nonatomic, strong) NSString *passwordPath;
 @end
 
 @implementation BFForgetPasswordController
 
 #pragma mark --懒加载
+- (NSString *)phonePath {
+    if (!_phonePath) {
+        _phonePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"phone.plist"];
+    }
+    return _phonePath;
+}
+
+
+- (NSString *)passwordPath {
+    if (!_passwordPath) {
+        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
+    }
+    return _passwordPath;
+}
+
+
 
 - (BFForgetPasswordView *)forgetPasswordView {
     if (!_forgetPasswordView) {
@@ -50,6 +70,10 @@
 
 #pragma mark --自定义view代理
 - (void)gotoLoginVC {
+    [self.forgetPasswordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
+//    NSFileManager * fileManager = [[NSFileManager alloc]init];
+//    [fileManager removeItemAtPath:self.passwordPath error:nil];
+    [BFNotificationCenter postNotificationName:@"clean" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -53,6 +53,7 @@
     //获取特定类的所有导航条
     
     UINavigationBar *navigationBar = [UINavigationBar appearanceWhenContainedIn:self, nil];
+    
    // navigationBar.tintColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"back_green"]];
     //    navigationBar.backIndicatorImage = [[UIImage imageNamed:@"back_green"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     //    navigationBar.backIndicatorTransitionMaskImage = [[UIImage imageNamed:@"back_green"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -60,7 +61,7 @@
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,[UIFont boldSystemFontOfSize:20.0],NSFontAttributeName, nil];
     navigationBar.titleTextAttributes = dict;
     
-//    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : BFColor(0x1A2E90)}];
+//    [navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : BFColor(0x4da800)}];
 //    [navigationBar setTitleTextAttributes:@{NSFontAttributeName : [UIFont systemFontOfSize:BF_ScaleFont(10)]}];
     
     

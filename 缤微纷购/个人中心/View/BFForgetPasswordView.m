@@ -120,15 +120,15 @@
         
         
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
-        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?a=reg&m=Json"];
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=reup_pass"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"phone"] = self.phoneTX.text;
-        parameter[@"pass"] = firstPW;
+        parameter[@"tel"] = self.phoneTX.text;
+        parameter[@"news_pass"] = firstPW;
         parameter[@"code"] = self.verificationCodeTX.text;
         // 1.创建请求管理者
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@,,,",responseObject);
-            //BFRegistModel *model = [BFRegistModel parse:responseObject];
+            BFLog(@"responseObject%@,,,%@",responseObject, parameter);
+
             if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
             } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
@@ -176,13 +176,13 @@
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入有效的手机号"];
     }else {
         
-        NSString *url  = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=send_code"];
+        NSString *url  = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=sendpass_code"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         //BFLog(@"responseObject%@，，，%@",parameter,url);
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"已注册"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号已注册"];
+            if ([responseObject[@"msg"] isEqualToString:@"用户不存在"]) {
+                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号不是注册用户"];
             }else {
                 verificationTime = 60;
                 [self.sendVerificationCodeButton setEnabled:NO];

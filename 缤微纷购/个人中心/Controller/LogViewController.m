@@ -74,10 +74,19 @@
     [self.view addSubview:self.bgImageView];
     //创建view
     [self initWithView];
+    
+    [BFNotificationCenter addObserver:self selector:@selector(clean) name:@"clean" object:nil];
+}
+- (void)clean {
+    self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
+    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
+    NSFileManager * fileManager = [[NSFileManager alloc]init];
+    [fileManager removeItemAtPath:self.passwordPath error:nil];
 }
 
 #pragma mark --通知方法
 - (void)cleanUpPassword {
+    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
     NSFileManager * fileManager = [[NSFileManager alloc]init];
     [fileManager removeItemAtPath:self.passwordPath error:nil];
 }
@@ -197,7 +206,7 @@
 #pragma mark --登录按钮点击事件
 - (void)login{
     [self.view endEditing:YES];
-    leftTime = 2;
+    leftTime = 5;
     [self.loginButton setEnabled:NO];
     [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
     
@@ -207,21 +216,15 @@
     
     
     if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"手机号或密码不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
+
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"手机号或密码不能为空"];
         
     } else if ( ![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
-//            UIAlertView *alers = [[UIAlertView alloc]
-//                                  initWithTitle:@"温馨提示" message:@"请输入有效的手机号码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//            [alers show];
+
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入有效的手机号码"];
     
     }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >20){
-//        UIAlertView *aler = [[UIAlertView alloc]
-//                             initWithTitle:@"温馨提示" message:@"请输入6~15位长度密码" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-//        [aler show];
+
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入6~20位长度密码"];
 
     }else {
