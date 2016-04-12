@@ -133,7 +133,7 @@
 }
 
 - (void)initWithTableView{
-    NSLog(@">>>>>>>>>>>>>>");
+    
     self.tabView = [[UITableView alloc]init];
     
     self.tabView.dataSource = self;
@@ -412,11 +412,11 @@
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
     if (self.dateArr.count == 0 || self.userInfo == nil) {
-
+//        [self.tabView removeFromSuperview];
         [self data];
-        NSLog(@"11111111");
+       
     }else{
-        NSLog(@"22222222");
+        
 //        [self getNewDate];
         [self getDate];
         [_groubView removeFromSuperview];

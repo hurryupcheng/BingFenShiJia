@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "SoSoViewController.h"
 #import "Classification.h"
 #import "ViewController.h"
 #import "XQViewController.h"
@@ -34,7 +35,14 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"分类";
     
-    [self getNewDate];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(SOSO)];
+    
+    [self getDate];
+}
+
+- (void)SOSO{
+    SoSoViewController *soso = [[SoSoViewController alloc]init];
+    [self.navigationController pushViewController:soso animated:YES];
 }
 
 #pragma mark 左边菜单栏
@@ -74,9 +82,8 @@
 
 }
 #pragma  mark UICollectionView初始化
-- (UICollectionView *)collectionView{
+- (void)initWithCollectionView{
   
-    if (!_collectionView) {
     [self initWithLeftView];
     CGFloat x = ((kScreenWidth-fen_x)-5-5-5-5)/3;
     
@@ -96,8 +103,7 @@
     [self.collectionView registerClass:[ClassCollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
     
     [self.view addSubview:self.collectionView];
-    }
-    return _collectionView;
+   
 }
 
 - (void)buttontag:(UIButton *)butt{
@@ -154,17 +160,11 @@
           self.currentModel = self.dataSourceArray[0];
         }
         [self initWithLeftView];
+        [self initWithCollectionView];
         [self.collectionView reloadData];
-        [self.collectionView.mj_header endRefreshing];
+       
     }];
 
-}
-
-- (void)getNewDate{
-    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self getDate];
-    }];
-    [self.collectionView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

@@ -7,9 +7,20 @@
 //
 #import "XQModel.h"
 #import <UIKit/UIKit.h>
+@class XQCollectionViewCell;
+
+@protocol XQViewCellDelegate <NSObject>
+
+- (void)xqViewDelegate:(UICollectionViewCell *)cell index:(NSInteger )index;
+
+@end
 
 @interface XQCollectionViewCell : UICollectionViewCell
 
-- (void)setXQModel:(XQModel *)xqModel;
+@property (nonatomic,retain)UIButton *shopp;
+@property (nonatomic,assign)id<XQViewCellDelegate>butDelegate;
+
+- (void)setXQModel:(XQSubOtherModel *)xqModel;
+
 
 @end

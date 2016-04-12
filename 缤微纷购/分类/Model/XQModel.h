@@ -7,13 +7,32 @@
 //
 
 #import <Foundation/Foundation.h>
+@class XQSubOtherModel;
+@class XQSubModel;
 
 @interface XQModel : NSObject
+@property (nonatomic,retain)NSArray <XQSubModel *> *items;
+@end
 
+@interface XQSubModel : NSObject
+@property (nonatomic,retain)NSArray <XQSubOtherModel *> *item;
+@end
+
+@interface XQSubOtherModel : NSObject
+/** 产品ID **/
 @property (nonatomic,retain)NSString *ID;
+/** 产品图片 **/
 @property (nonatomic,retain)NSString *img;
+/** 产品名称 **/
 @property (nonatomic,retain)NSString *title;
+/** 产品价格 **/
 @property (nonatomic,retain)NSString *price;
+/** 产品库存 **/
+@property (nonatomic,retain)NSString *stock;
+/** 产品颜色 **/
+@property (nonatomic,retain)NSString *color;
+/** 产品规格 **/
+@property (nonatomic,retain)NSString *size;
 
 @end
 

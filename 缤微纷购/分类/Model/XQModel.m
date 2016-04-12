@@ -11,3 +11,16 @@
 @implementation XQModel
 
 @end
+
+@implementation XQSubModel
+
+@end
+
+@implementation XQSubOtherModel
++ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName {
+    if ([propertyName isEqualToString:@"ID"]) {
+        propertyName = @"id";
+    }
+    return propertyName;
+}
+@end

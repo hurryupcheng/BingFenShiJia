@@ -40,7 +40,6 @@
 @property (nonatomic,retain)UIButton *button;
 @property (nonatomic,retain)NSMutableArray *dataArray;
 @property (nonatomic,retain)NSArray *titleArr;
-@property (nonatomic,assign)NSInteger headerSection;
 
 @property (nonatomic,retain)UIButton *footImageView;
 @property (nonatomic,retain)UIButton *upImageView;
@@ -52,12 +51,19 @@
 
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
+    
     [self getDownDate];
+}
+
+- (void)otherView{
+    [self initWithScrollView];
+    [self initWithBut];
+    [self initWithUpView];
 }
 
 #pragma  mark 缤纷商城初始化
 - (void)initWithScrollView{
-    
+
 #warning 契合度最高的话 最好时修改 LBView   直接传model进去
     NSMutableArray * arr = [NSMutableArray arrayWithCapacity:0];
     if (_homeModel.bannerDataArray.count != 0) {
@@ -73,11 +79,11 @@
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
     
-    [self.headerView addSubview:self.lbView];
+    
 }
 #pragma mark 分类列表初始化
 - (void)initWithBut{
-    
+    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
     self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
     
@@ -106,7 +112,7 @@
         
         [backView addSubview:image];
         [backView addSubview:label];
-        [self.headerView addSubview:self.viewBut];
+//        [self.headerView addSubview:self.viewBut];
         [self.viewBut addSubview:backView];
     }
 }
@@ -180,7 +186,7 @@
         [self.upImageView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         [self.upImageView addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
         
-        [self.headerView addSubview:self.upBackView];
+//        [self.headerView addSubview:self.upBackView];
         [self.upBackView addSubview:self.upImageView];
     }
     
@@ -325,9 +331,7 @@
 
 #pragma  mark  分区头高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    
-    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
-    
+ 
     if (section == 0) {
         if (self.titleArr.count <= 4) {
             return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+20);
@@ -364,21 +368,19 @@
         [self.headerView.sectionImage addTarget:self action:@selector(sectionImage:) forControlEvents:UIControlEventTouchUpInside];
         self.headerView.sectionImage.tag = indexPath.section;
         
-        self.headerSection = indexPath.row;
-        
-        if (indexPath.section == 0) {
-            NSLog(@"222");
-            [self initWithScrollView];
-            [self initWithBut];
-            [self initWithUpView];
-            self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
-        }else{
-            NSLog(@"4444");
-            [self.viewBut removeFromSuperview];
-            [self.lbView removeFromSuperview];
-            [self.upBackView removeFromSuperview];
-            self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+        if (indexPath.section != 0) {
             
+            self.viewBut.alpha = 0;
+            self.lbView.alpha = 0;
+            self.upBackView.alpha = 0;
+            self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+        }else{
+            [self.headerView addSubview:self.lbView];
+            [self.headerView addSubview:self.viewBut];
+            [self.headerView addSubview:self.upBackView];
+            
+            self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
+ 
             }
         return self.headerView;
         
@@ -419,8 +421,10 @@
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];
             self.homeModel = homeModel;
             
+        }else{
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"当前网络异常"];
         }
-        
+        [self otherView];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];
