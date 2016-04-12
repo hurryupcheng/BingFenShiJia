@@ -10,4 +10,6 @@
 
 @interface BFModifyBankCardController : UIViewController
 
+@property (nonatomic, copy) void (^block)(BFUserInfo *userInfo);
+
 @end

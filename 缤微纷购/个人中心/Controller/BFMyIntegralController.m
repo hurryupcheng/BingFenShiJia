@@ -89,11 +89,15 @@
     parameter[@"token"] = userInfo.token;
     [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            
+            BFLog(@"%@",responseObject);
             if (responseObject) {
                 self.headerView.totalScore = responseObject[@"score"];
-                NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
-                [self.scoreArray addObjectsFromArray:array];
+                
+                if (![[BFScoreModel parse:responseObject[@"score_list"]] isKindOfClass:[NSNull class]]) {
+                    NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
+                    [self.scoreArray addObjectsFromArray:array];
+                }
+                
                 BFLog(@"%@,,%@,,%lu", responseObject,parameter,(unsigned long)self.scoreArray.count);
             }
             [self.tableView reloadData];

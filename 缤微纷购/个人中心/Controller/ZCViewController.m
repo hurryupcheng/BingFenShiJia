@@ -16,28 +16,40 @@
 #import "BFRegistModel.h"
 #import "BFUserInfo.h"
 
-@interface ZCViewController ()<RegisterDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface ZCViewController ()<RegisterDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**密码页面*/
 @property (nonatomic, strong) BFPassWordView *bgView;
 ///**获取验证码*/
 @property (nonatomic, strong) UIButton *sendVerificationCodeButton;
+/**手机号保存路径*/
+@property (nonatomic, strong) NSString *phonePath;
+/**密码保存路径*/
+@property (nonatomic, strong) NSString *passwordPath;
 @end
 
 @implementation ZCViewController
-- (UIButton *)sendVerificationCodeButton {
-    if (!_sendVerificationCodeButton) {
-        _sendVerificationCodeButton =[self.bgView viewWithTag:1000];
+
+- (NSString *)phonePath {
+    if (!_phonePath) {
+        _phonePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"phone.plist"];
     }
-    return _sendVerificationCodeButton;
+    return _phonePath;
 }
 
+- (NSString *)passwordPath {
+    if (!_passwordPath) {
+        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
+    }
+    return _passwordPath;
+}
+
+
+
+
 /**密码页面*/
-- (UIView *)bgView {
+- (BFPassWordView *)bgView {
     if (!_bgView) {
         _bgView = [BFPassWordView new];
         _bgView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight) ;
@@ -63,37 +75,36 @@
     self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
     self.bgImageView.userInteractionEnabled = YES;
     [self.view addSubview:self.bgImageView];
+    //添加自定义的view
+
     [self bgView];
 }
 
-//- (void)sendVerificationCodeBFPassWordView:(BFPassWordView *)BFPassWordView button:(UIButton *)button {
-//    
-//
-//    
-//}
+
 
 
 #pragma mark --注册按钮代理
 - (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView {
    [self.view endEditing:YES];
     
-        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"phone"] = BFPassWordView.phoneTX.text;
-        parameter[@"pass"] = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
-        
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"phone"] = BFPassWordView.phoneTX.text;
+    parameter[@"pass"] = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
+    
+    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
 
-            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-            BFLog(@"responseObject%@",userInfo);
-            
-            [self.navigationController popToRootViewControllerAnimated:YES];
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
-            BFLog(@"error%@",error);
-        }];
+        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+        BFLog(@"responseObject%@",userInfo);
+        [BFPassWordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
+        [BFPassWordView.firstPasswordTX.text writeToFile:self.passwordPath atomically:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+        BFLog(@"error%@",error);
+    }];
 
 }
 

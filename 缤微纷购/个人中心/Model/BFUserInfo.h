@@ -13,6 +13,8 @@
 @property (nonatomic, strong) NSString *ID;
 /**手机号*/
 @property (nonatomic, strong) NSString *tel;
+/**账户余额*/
+@property (nonatomic, strong) NSString *user_account;
 /**用户名*/
 @property (nonatomic, strong) NSString *username;
 /**用户头像*/

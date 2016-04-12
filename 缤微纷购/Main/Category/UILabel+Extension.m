@@ -17,4 +17,14 @@
     label.text = text;
     return label;
 }
+
+//+ (UILabel *)labelWithLineFrame:(CGRect)frame font:(CGFloat)font textColor:(UIColor *)textColor text:(NSString *)text {
+//    UILabel *label = [[UILabel alloc] initWithFrame:frame];
+//    label.textColor = textColor;
+//    //label.backgroundColor = [UIColor greenColor];
+//    label.font = [UIFont systemFontOfSize:font];
+//    label.text = text;
+//
+//    return label;
+//}
 @end

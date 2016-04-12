@@ -11,4 +11,5 @@
 @interface BFBankButton : UIButton
 /**title*/
 @property (nonatomic, strong) UILabel *buttonTitle;
+
 @end

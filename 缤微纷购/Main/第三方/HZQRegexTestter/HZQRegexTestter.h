@@ -5,9 +5,7 @@
 //  Created by 1 on 16/3/8.
 //  Copyright © 2016年 HZQ. All rights reserved.
 
-/*********************************************************/
-/* Github地址：https://github.com/huzhiqin                */
-/*********************************************************/
+
 
 #import <Foundation/Foundation.h>
 
@@ -52,6 +50,4 @@
 + (BOOL)validateIDCardNumber:(NSString *)value;
 
 @end
-/*********************************************************/
-/* Github地址：https://github.com/huzhiqin                */
-/*********************************************************/
+

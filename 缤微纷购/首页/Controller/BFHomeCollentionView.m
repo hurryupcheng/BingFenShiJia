@@ -20,8 +20,10 @@
 #import "HeaderCollectionReusableView.h"
 #import "FooterCollectionReusableView.h"
 #import "BFHomeCollentionView.h"
+#import "BFHomeFunctionView.h"
+#import "BFBestSellingController.h"
 
-@interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
 @property (nonatomic,retain)UICollectionView *collentionView;
 @property (nonatomic,retain)UIView *butView;
@@ -40,10 +42,14 @@
 @property (nonatomic,retain)UIButton *button;
 @property (nonatomic,retain)NSMutableArray *dataArray;
 @property (nonatomic,retain)NSArray *titleArr;
+@property (nonatomic,assign)NSInteger headerSection;
 
 @property (nonatomic,retain)UIButton *footImageView;
 @property (nonatomic,retain)UIButton *upImageView;
 @property (nonatomic,retain)UIView *upBackView;
+
+/***/
+@property (nonatomic, strong) BFHomeFunctionView *functionView;
 
 @end
 
@@ -51,19 +57,12 @@
 
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
-    
     [self getDownDate];
-}
-
-- (void)otherView{
-    [self initWithScrollView];
-    [self initWithBut];
-    [self initWithUpView];
 }
 
 #pragma  mark 缤纷商城初始化
 - (void)initWithScrollView{
-
+    
 #warning 契合度最高的话 最好时修改 LBView   直接传model进去
     NSMutableArray * arr = [NSMutableArray arrayWithCapacity:0];
     if (_homeModel.bannerDataArray.count != 0) {
@@ -79,43 +78,98 @@
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
     
-    
+    [self.headerView addSubview:self.lbView];
 }
 #pragma mark 分类列表初始化
 - (void)initWithBut{
-    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
+    
+//    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160))];
+//    self.functionView.backgroundColor = [UIColor blueColor];
+//    [self.headerView addSubview:self.functionView];
+    
     self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
+    self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
+    [self.headerView addSubview:self.viewBut];
     
-    if (self.titleArr.count <= 4) {
-        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);
-    }else{
-        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20);
-    }
     
-    for (int i = 0; i < 8; i++) {
-        //        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        UIView *backView = [[UIView alloc]init];
-        backView.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
-        
-        //        button.tag = 10 + i;
-        //        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, image_x-5, image_x-5)];
-        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
-        
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(image.frame), but_x, 20)];
-        label.text = [NSString stringWithFormat:@"%@",self.titleArr[i]];
-        label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor blackColor];
-        label.font = [UIFont systemFontOfSize:CGFloatY(14)];
-        
-        [backView addSubview:image];
-        [backView addSubview:label];
-//        [self.headerView addSubview:self.viewBut];
-        [self.viewBut addSubview:backView];
+    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(160))];
+    self.functionView.delegate = self;
+    [self.viewBut addSubview:self.functionView];
+    
+    
+    
+//    if (self.titleArr.count <= 4) {
+//        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);
+//    }else{
+//        self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, ((but_x)*2)+20);
+//    }
+    
+//    for (int i = 0; i < 8; i++) {
+//        //        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        UIView *backView = [[UIView alloc]init];
+//        backView.frame = CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x);
+//        
+//        //        button.tag = 10 + i;
+//        //        [button addTarget:self action:@selector(selectButton:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake(10, 5, image_x-5, image_x-5)];
+//        image.image = [UIImage imageNamed:[NSString stringWithFormat:@"iicon0%d.png",i+1]];
+//        
+//        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(image.frame), but_x, 20)];
+//        label.text = [NSString stringWithFormat:@"%@",self.titleArr[i]];
+//        label.textAlignment = NSTextAlignmentCenter;
+//        label.textColor = [UIColor blackColor];
+//        label.font = [UIFont systemFontOfSize:CGFloatY(14)];
+//        
+//        [backView addSubview:image];
+//        [backView addSubview:label];
+//        [self.viewBut addSubview:backView];
+//    }
+    
+
+}
+#pragma  mark --BFHomeFunctionViewDelegate
+- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type {
+    
+    switch (type) {
+        case BFHomeFunctionViewButtonTypeFruitEating:{
+            BFLog(@"点击了果食");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeLocalSpeciality:{
+            BFLog(@"点击了地方特产");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeCasualSnacks:{
+            BFLog(@"点击了休闲零食");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeWineDrinking:{
+            BFLog(@"点击了酒水");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeDailySpecial:{
+            BFLog(@"点击了今日特价");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeFirstPublish:{
+            BFLog(@"点击了新品首发");
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeBestSelling:{
+            BFLog(@"点击了热销排行");
+            BFBestSellingController *bestSellingVC = [[BFBestSellingController alloc] init];
+            [self.navigationController pushViewController:bestSellingVC animated:YES];
+            break;
+        }
+        case BFHomeFunctionViewButtonTypeTastingExperience:{
+            BFLog(@"点击了试吃体验");
+            break;
+        }
     }
 }
+
 
 #pragma  mark UICollectionView初始化
 - (UICollectionView *)collentionView{
@@ -186,7 +240,7 @@
         [self.upImageView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         [self.upImageView addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
         
-//        [self.headerView addSubview:self.upBackView];
+        [self.headerView addSubview:self.upBackView];
         [self.upBackView addSubview:self.upImageView];
     }
     
@@ -251,7 +305,7 @@
         }
             break;
         case 11:{
-            
+            NSLog(@"首页分类点击有效");
         }
             break;
         case 12:{
@@ -331,7 +385,9 @@
 
 #pragma  mark  分区头高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
- 
+    
+    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
+    
     if (section == 0) {
         if (self.titleArr.count <= 4) {
             return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+20);
@@ -368,19 +424,21 @@
         [self.headerView.sectionImage addTarget:self action:@selector(sectionImage:) forControlEvents:UIControlEventTouchUpInside];
         self.headerView.sectionImage.tag = indexPath.section;
         
-        if (indexPath.section != 0) {
-            
-            self.viewBut.alpha = 0;
-            self.lbView.alpha = 0;
-            self.upBackView.alpha = 0;
-            self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
-        }else{
-            [self.headerView addSubview:self.lbView];
-            [self.headerView addSubview:self.viewBut];
-            [self.headerView addSubview:self.upBackView];
-            
+        self.headerSection = indexPath.row;
+        
+        if (indexPath.section == 0) {
+            NSLog(@"222");
+            [self initWithScrollView];
+            [self initWithBut];
+            [self initWithUpView];
             self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
- 
+        }else{
+            NSLog(@"4444");
+            [self.viewBut removeFromSuperview];
+            [self.lbView removeFromSuperview];
+            [self.upBackView removeFromSuperview];
+            self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+            
             }
         return self.headerView;
         
@@ -421,10 +479,8 @@
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];
             self.homeModel = homeModel;
             
-        }else{
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"当前网络异常"];
         }
-        [self otherView];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];

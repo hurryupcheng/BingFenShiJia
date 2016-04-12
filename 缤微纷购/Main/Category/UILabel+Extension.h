@@ -10,4 +10,6 @@
 
 @interface UILabel (Extension)
 + (UILabel *)labelWithFrame:(CGRect)frame font:(CGFloat)font textColor:(UIColor *)textColor text:(NSString *)text;
+
+//+ (UILabel *)labelWithLineFrame:(CGRect)frame font:(CGFloat)font textColor:(UIColor *)textColor text:(NSString *)text;
 @end

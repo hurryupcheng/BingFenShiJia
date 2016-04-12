@@ -28,6 +28,14 @@
 
 @implementation BFMyWalletController
 #pragma mark --懒加载
+
+- (BFUserInfo *)userInfo {
+    if (!_userInfo) {
+        _userInfo = [BFUserDefaluts getUserInfo];
+    }
+    return _userInfo;
+}
+
 /**定义*/
 - (BFMyWalletBottomView *)bottomView {
     if (!_bottomView) {
@@ -66,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //self.navigationController.navigationBar.translucent = YES;
-    self.userInfo = [BFUserDefaluts getUserInfo];
+    //self.userInfo = [BFUserDefaluts getUserInfo];
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -79,10 +87,14 @@
     [self topView];
     //添加下面视图
     [self bottomView];
-    
+    //
+    [BFNotificationCenter addObserver:self selector:@selector(modifyNickName) name:@"modifyNickName" object:nil];
     
 }
-
+- (void)modifyNickName {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    self.topView.nickName.text = [NSString stringWithFormat:@"%@", userInfo.nickname];
+}
 
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
@@ -165,6 +177,10 @@
 #pragma mark -- BFMyWalletBottomViewDelegate 
 - (void)goToModifyBankCardInformation {
     BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
+    modifyBankCardVC.block = ^(BFUserInfo *userInfo) {
+        self.bottomView.recieverLabel.text = [NSString stringWithFormat:@"收款人：%@", userInfo.true_name];
+        self.userInfo = userInfo;
+    };
     [self.navigationController pushViewController:modifyBankCardVC animated:YES];
 }
 

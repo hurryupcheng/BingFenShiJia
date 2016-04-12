@@ -17,8 +17,7 @@
 @property (nonatomic, strong) UIButton *headButton;
 /**向右箭头*/
 @property (nonatomic, strong) UIImageView *arrowImageView;
-/**昵称*/
-@property (nonatomic, strong) UILabel *nickName;
+
 /**余额按钮*/
 @property (nonatomic, strong) UIButton *balanceButton;
 /**提现记录按钮*/

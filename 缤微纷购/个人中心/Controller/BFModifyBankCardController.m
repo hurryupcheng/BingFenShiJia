@@ -26,7 +26,7 @@
         _modifyView = [[BFModifyBankCardView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _modifyView.delegate = self;
         
-    }
+    } 
     return _modifyView;
 }
 
@@ -53,6 +53,7 @@
 }
 
 - (void)modifyBankInfomation {
+    _block([BFUserDefaluts getUserInfo]);
     [self.navigationController popViewControllerAnimated:YES];
 }
 

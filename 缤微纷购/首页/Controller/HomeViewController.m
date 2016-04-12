@@ -184,7 +184,7 @@
 - (void)initWithBut{
     
     self.viewBut = [[UIView alloc]init];
-    self.viewBut.backgroundColor = [UIColor whiteColor];
+    self.viewBut.backgroundColor = [UIColor redColor];
     
     if (self.titleArr.count <= 4) {
         self.viewBut.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), kScreenWidth, (but_x)+20);

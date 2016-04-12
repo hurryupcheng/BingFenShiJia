@@ -14,8 +14,6 @@
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
 @property (nonatomic, strong) UIView *getCashView;
-/**收款人*/
-@property (nonatomic, strong) UILabel *recieverLabel;
 /**实付金额*/
 @property (nonatomic, strong) UILabel *paidCashLabel;
 

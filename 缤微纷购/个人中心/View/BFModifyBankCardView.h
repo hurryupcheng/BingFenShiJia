@@ -24,6 +24,7 @@ typedef enum {
 
 @interface BFModifyBankCardView : UIView
 
+
 @property (nonatomic, strong) BFModifyBankDetailInfoView *detailInfo;
 /**代理*/
 @property (nonatomic, weak) id<BFModifyBankCardViewDelegate>delegate;
