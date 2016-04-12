@@ -22,14 +22,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="gouwuche" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
-                                <rect key="frame" x="150" y="212" width="300" height="76"/>
+                            <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBE-1Z-FXq">
+                                <rect key="frame" x="34" y="388" width="369" height="101"/>
+                                <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" backgroundImage="shoppingCart"/>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shoppingCart" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
+                                <rect key="frame" x="43" y="124" width="381" height="86"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bBE-1Z-FXq">
-                                <rect key="frame" x="281" y="442" width="22" height="22"/>
-                                <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
-                            </button>
                         </subviews>
                     </view>
                     <navigationItem key="navigationItem" id="Bfy-Yg-PG4">
@@ -61,6 +62,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="gouwuche" width="25" height="25"/>
+        <image name="shoppingCart" width="201" height="200"/>
     </resources>
 </document>

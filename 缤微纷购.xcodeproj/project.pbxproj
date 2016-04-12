@@ -226,6 +226,7 @@
 		59F82BF91C9AF581006B76E6 /* BFEditAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F82BF81C9AF581006B76E6 /* BFEditAddressController.m */; };
 		59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */; };
 		59F9FB2D1CA388D600042501 /* BFCommissionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9FB2C1CA388D600042501 /* BFCommissionModel.m */; };
+		59FA30661CBCF8E00053FD96 /* BFCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA30651CBCF8E00053FD96 /* BFCountView.m */; };
 		59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */; };
 		59FA7A951C9CDB32008E3813 /* BFAfterSaleProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A941C9CDB32008E3813 /* BFAfterSaleProgressController.m */; };
 		59FA7A981C9CDE73008E3813 /* BFAfterSaleProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA7A971C9CDE73008E3813 /* BFAfterSaleProgressCell.m */; };
@@ -247,7 +248,16 @@
 		59FC30801C8737A0002EFB40 /* BFPTDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FC307F1C8737A0002EFB40 /* BFPTDetailModel.m */; };
 		59FC986B1CB4D1BA0076B311 /* bankAddress.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FC986A1CB4D1BA0076B311 /* bankAddress.plist */; };
 		59FCE2061CBC901C00CCBDEA /* BFBestSellingModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2051CBC901C00CCBDEA /* BFBestSellingModel.m */; };
+		59FCE2091CBCBEA500CCBDEA /* BFProductDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2081CBCBEA500CCBDEA /* BFProductDetailHeaderView.m */; };
+		59FCE20C1CBCC3ED00CCBDEA /* BFProductDetialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE20B1CBCC3ED00CCBDEA /* BFProductDetialModel.m */; };
+		59FCE20F1CBCCFE000CCBDEA /* BFProductDetailTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE20E1CBCCFE000CCBDEA /* BFProductDetailTabBar.m */; };
+		59FCE2121CBCD37700CCBDEA /* BFShoppingCartButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2111CBCD37700CCBDEA /* BFShoppingCartButton.m */; };
+		59FCE2151CBCE37A00CCBDEA /* BFProductStockView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2141CBCE37A00CCBDEA /* BFProductStockView.m */; };
+		59FCE21A1CBCE6E900CCBDEA /* HJCAdjustNumButton.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 59FCE2171CBCE6E900CCBDEA /* HJCAdjustNumButton.bundle */; };
+		59FCE21B1CBCE6E900CCBDEA /* HJCAjustNumButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2191CBCE6E900CCBDEA /* HJCAjustNumButton.m */; };
 		59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */; };
+		59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */; };
+		59FE13BA1CBD4FED00ACAF54 /* BFProductDetailWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B91CBD4FED00ACAF54 /* BFProductDetailWebViewController.m */; };
 		59FEC72A1CB553000081616D /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FEC7291CB553000081616D /* Province.plist */; };
 		59FF0D231C8D1F7D00D3C2A9 /* BFInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */; };
 		59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */; };
@@ -814,6 +824,8 @@
 		59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderProductModel.m; sourceTree = "<group>"; };
 		59F9FB2B1CA388D600042501 /* BFCommissionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCommissionModel.h; sourceTree = "<group>"; };
 		59F9FB2C1CA388D600042501 /* BFCommissionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCommissionModel.m; sourceTree = "<group>"; };
+		59FA30641CBCF8E00053FD96 /* BFCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCountView.h; sourceTree = "<group>"; };
+		59FA30651CBCF8E00053FD96 /* BFCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCountView.m; sourceTree = "<group>"; };
 		59FA432F1C97FF9D00DA28BB /* BFProductInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductInfoModel.h; sourceTree = "<group>"; };
 		59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductInfoModel.m; sourceTree = "<group>"; };
 		59FA7A931C9CDB32008E3813 /* BFAfterSaleProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAfterSaleProgressController.h; sourceTree = "<group>"; };
@@ -855,8 +867,25 @@
 		59FC986A1CB4D1BA0076B311 /* bankAddress.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bankAddress.plist; sourceTree = "<group>"; };
 		59FCE2041CBC901C00CCBDEA /* BFBestSellingModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBestSellingModel.h; sourceTree = "<group>"; };
 		59FCE2051CBC901C00CCBDEA /* BFBestSellingModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBestSellingModel.m; sourceTree = "<group>"; };
+		59FCE2071CBCBEA500CCBDEA /* BFProductDetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailHeaderView.h; sourceTree = "<group>"; };
+		59FCE2081CBCBEA500CCBDEA /* BFProductDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductDetailHeaderView.m; sourceTree = "<group>"; };
+		59FCE20A1CBCC3ED00CCBDEA /* BFProductDetialModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetialModel.h; sourceTree = "<group>"; };
+		59FCE20B1CBCC3ED00CCBDEA /* BFProductDetialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductDetialModel.m; sourceTree = "<group>"; };
+		59FCE20D1CBCCFE000CCBDEA /* BFProductDetailTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailTabBar.h; sourceTree = "<group>"; };
+		59FCE20E1CBCCFE000CCBDEA /* BFProductDetailTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductDetailTabBar.m; sourceTree = "<group>"; };
+		59FCE2101CBCD37700CCBDEA /* BFShoppingCartButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFShoppingCartButton.h; sourceTree = "<group>"; };
+		59FCE2111CBCD37700CCBDEA /* BFShoppingCartButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFShoppingCartButton.m; sourceTree = "<group>"; };
+		59FCE2131CBCE37A00CCBDEA /* BFProductStockView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductStockView.h; sourceTree = "<group>"; };
+		59FCE2141CBCE37A00CCBDEA /* BFProductStockView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductStockView.m; sourceTree = "<group>"; };
+		59FCE2171CBCE6E900CCBDEA /* HJCAdjustNumButton.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = HJCAdjustNumButton.bundle; sourceTree = "<group>"; };
+		59FCE2181CBCE6E900CCBDEA /* HJCAjustNumButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HJCAjustNumButton.h; sourceTree = "<group>"; };
+		59FCE2191CBCE6E900CCBDEA /* HJCAjustNumButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HJCAjustNumButton.m; sourceTree = "<group>"; };
 		59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGoGroupShoppingView.h; sourceTree = "<group>"; };
 		59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGoGroupShoppingView.m; sourceTree = "<group>"; };
+		59FE13B51CBD4D1A00ACAF54 /* BFDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFDetailCell.h; sourceTree = "<group>"; };
+		59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDetailCell.m; sourceTree = "<group>"; };
+		59FE13B81CBD4FED00ACAF54 /* BFProductDetailWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailWebViewController.h; sourceTree = "<group>"; };
+		59FE13B91CBD4FED00ACAF54 /* BFProductDetailWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFProductDetailWebViewController.m; sourceTree = "<group>"; };
 		59FEC7291CB553000081616D /* Province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Province.plist; sourceTree = "<group>"; };
 		59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFInstructionCell.h; sourceTree = "<group>"; };
 		59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFInstructionCell.m; sourceTree = "<group>"; };
@@ -1456,6 +1485,8 @@
 				51D122431C3FA77E004DE71E /* XQViewController.m */,
 				51E968AB1C46207400AA00F1 /* FXQViewController.h */,
 				51E968AC1C46207400AA00F1 /* FXQViewController.m */,
+				59FE13B81CBD4FED00ACAF54 /* BFProductDetailWebViewController.h */,
+				59FE13B91CBD4FED00ACAF54 /* BFProductDetailWebViewController.m */,
 				51D458AB1C96E48C00B52516 /* BFPaymentViewController.h */,
 				51D458AC1C96E48C00B52516 /* BFPaymentViewController.m */,
 			);
@@ -1473,6 +1504,8 @@
 				51F5CA901C58C9610073F783 /* FXQModel.m */,
 				51D0E0061CA3AE600074F0D3 /* BFPayoffModel.h */,
 				51D0E0071CA3AE600074F0D3 /* BFPayoffModel.m */,
+				59FCE20A1CBCC3ED00CCBDEA /* BFProductDetialModel.h */,
+				59FCE20B1CBCC3ED00CCBDEA /* BFProductDetialModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1500,6 +1533,18 @@
 				51D416971CA8F96B00C541F8 /* BFScoreView.m */,
 				51E933DA1CAA4E8A004E9EA4 /* BFCouponView.h */,
 				51E933DB1CAA4E8A004E9EA4 /* BFCouponView.m */,
+				59FE13B51CBD4D1A00ACAF54 /* BFDetailCell.h */,
+				59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */,
+				59FCE2071CBCBEA500CCBDEA /* BFProductDetailHeaderView.h */,
+				59FCE2081CBCBEA500CCBDEA /* BFProductDetailHeaderView.m */,
+				59FCE2131CBCE37A00CCBDEA /* BFProductStockView.h */,
+				59FCE2141CBCE37A00CCBDEA /* BFProductStockView.m */,
+				59FA30641CBCF8E00053FD96 /* BFCountView.h */,
+				59FA30651CBCF8E00053FD96 /* BFCountView.m */,
+				59FCE20D1CBCCFE000CCBDEA /* BFProductDetailTabBar.h */,
+				59FCE20E1CBCCFE000CCBDEA /* BFProductDetailTabBar.m */,
+				59FCE2101CBCD37700CCBDEA /* BFShoppingCartButton.h */,
+				59FCE2111CBCD37700CCBDEA /* BFShoppingCartButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2000,6 +2045,16 @@
 			path = OMGToast;
 			sourceTree = "<group>";
 		};
+		59FCE2161CBCE6E900CCBDEA /* HJCAdjustNumButton */ = {
+			isa = PBXGroup;
+			children = (
+				59FCE2171CBCE6E900CCBDEA /* HJCAdjustNumButton.bundle */,
+				59FCE2181CBCE6E900CCBDEA /* HJCAjustNumButton.h */,
+				59FCE2191CBCE6E900CCBDEA /* HJCAjustNumButton.m */,
+			);
+			path = HJCAdjustNumButton;
+			sourceTree = "<group>";
+		};
 		59FF72FC1CAE1A860063F770 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -2108,6 +2163,7 @@
 		59FF73471CAE1A860063F770 /* 第三方 */ = {
 			isa = PBXGroup;
 			children = (
+				59FCE2161CBCE6E900CCBDEA /* HJCAdjustNumButton */,
 				59FF73481CAE1A860063F770 /* AddressPick */,
 				59FF734C1CAE1A860063F770 /* AFNetworking */,
 				59FF73651CAE1A860063F770 /* EMMallSectionView */,
@@ -2792,6 +2848,7 @@
 				59FF75201CAE1A860063F770 /* UMShareEditViewControlleriPad.xib in Resources */,
 				59FF751E1CAE1A860063F770 /* UMSCommentInputControlleriPad.xib in Resources */,
 				51D4D9541C44A8F200453CD1 /* iicon04.png in Resources */,
+				59FCE21A1CBCE6E900CCBDEA /* HJCAdjustNumButton.bundle in Resources */,
 				51D10E391C40F10700F630C9 /* icon_13.png in Resources */,
 				59FF751A1CAE1A860063F770 /* UMSocialLocalizable.strings in Resources */,
 				51D189121C4CE2E700847EB9 /* iconfont-jianhao.png in Resources */,
@@ -2961,6 +3018,7 @@
 				59FF74BB1CAE1A860063F770 /* UIImageView+LBBlurredImage.m in Sources */,
 				51A9969B1C9ABB4300B4783C /* BFAddressCell.m in Sources */,
 				59FF74BE1CAE1A860063F770 /* MASConstraint.m in Sources */,
+				59FCE2151CBCE37A00CCBDEA /* BFProductStockView.m in Sources */,
 				59FF74A51CAE1A860063F770 /* AFHTTPRequestOperation.m in Sources */,
 				59FF750C1CAE1A860063F770 /* STConst.m in Sources */,
 				59FF75181CAE1A860063F770 /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -2986,6 +3044,7 @@
 				599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */,
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
 				59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */,
+				59FCE2121CBCD37700CCBDEA /* BFShoppingCartButton.m in Sources */,
 				59FF74921CAE1A860063F770 /* BFGetYearAndMonth.m in Sources */,
 				59132F911CB397D000F711C6 /* BFGroupDetailIntroduceView.m in Sources */,
 				51D1220D1C3A75B400640A44 /* PersonalViewController.m in Sources */,
@@ -2993,6 +3052,7 @@
 				59FF74F71CAE1A860063F770 /* SDWebImageDownloader.m in Sources */,
 				59513B291C9FF4A40028B008 /* BFOrderIdView.m in Sources */,
 				592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */,
+				59FCE20F1CBCCFE000CCBDEA /* BFProductDetailTabBar.m in Sources */,
 				59FF75081CAE1A860063F770 /* UIView+SMAutolayout.m in Sources */,
 				59FF75001CAE1A860063F770 /* UIImageView+WebCache.m in Sources */,
 				59FF752F1CAE78550063F770 /* BFGroupDetailTeamCell.m in Sources */,
@@ -3092,6 +3152,7 @@
 				51D1220A1C3A757C00640A44 /* ShoppingViewController.m in Sources */,
 				59FF74961CAE1A860063F770 /* BFPickerView.m in Sources */,
 				59F7EC8D1C96F9A2006ABB2A /* BFMyCouponsModel.m in Sources */,
+				59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */,
 				59FF74EB1CAE1A860063F770 /* TAPageControl.m in Sources */,
 				5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */,
 				51A996951C9ABB2A00B4783C /* BFAddressModel.m in Sources */,
@@ -3142,6 +3203,7 @@
 				59FF75141CAE1A860063F770 /* UIAlertView+AFNetworking.m in Sources */,
 				59FF5F2C1C91474900DA6E5B /* BFProvinceModel.m in Sources */,
 				59F778021CBC016800585B7A /* BFBestSellingCell.m in Sources */,
+				59FA30661CBCF8E00053FD96 /* BFCountView.m in Sources */,
 				59FF74C11CAE1A860063F770 /* MASViewAttribute.m in Sources */,
 				59FA7A951C9CDB32008E3813 /* BFAfterSaleProgressController.m in Sources */,
 				59FF74BA1CAE1A860063F770 /* UIImage+ImageEffects.m in Sources */,
@@ -3152,10 +3214,12 @@
 				59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */,
 				59FF75151CAE1A860063F770 /* UIButton+AFNetworking.m in Sources */,
 				59F777F91CBBE9EC00585B7A /* BFHomeFunctionView.m in Sources */,
+				59FCE21B1CBCE6E900CCBDEA /* HJCAjustNumButton.m in Sources */,
 				51D122441C3FA77E004DE71E /* XQViewController.m in Sources */,
 				51D458A41C96B73600B52516 /* BFWebHeaderView.m in Sources */,
 				59FF74E01CAE1A860063F770 /* MJRefreshNormalHeader.m in Sources */,
 				59FF749B1CAE1A860063F770 /* BFShareView.m in Sources */,
+				59FCE2091CBCBEA500CCBDEA /* BFProductDetailHeaderView.m in Sources */,
 				518930471C7C367000C5AB08 /* OtherView.m in Sources */,
 				59FF75171CAE1A860063F770 /* UIProgressView+AFNetworking.m in Sources */,
 				59FBB4261C9BF1950081F65A /* BFLogisticsCell.m in Sources */,
@@ -3174,6 +3238,7 @@
 				59FF74AB1CAE1A860063F770 /* AFURLRequestSerialization.m in Sources */,
 				59FF74ED1CAE1A860063F770 /* SDCycleScrollView.m in Sources */,
 				59FF74D61CAE1A860063F770 /* MJRefreshComponent.m in Sources */,
+				59FCE20C1CBCC3ED00CCBDEA /* BFProductDetialModel.m in Sources */,
 				59FF74901CAE1A860063F770 /* BFFootViews.m in Sources */,
 				597CE6A41CA92547005B6C28 /* BFModifyPasswordController.m in Sources */,
 				5900BF7F1CBB5C1400DDA0B8 /* BFForgetPasswordView.m in Sources */,
@@ -3200,6 +3265,7 @@
 				59F777FC1CBBEA5700585B7A /* BFHomeFunctionButton.m in Sources */,
 				51A996921C9ABB1600B4783C /* BFAddressController.m in Sources */,
 				59513B7D1C9FFCE20028B008 /* Reachability.m in Sources */,
+				59FE13BA1CBD4FED00ACAF54 /* BFProductDetailWebViewController.m in Sources */,
 				59FF74F21CAE1A860063F770 /* MKAnnotationView+WebCache.m in Sources */,
 				59FF75131CAE1A860063F770 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				59F7E0C11CA04C61008D7D21 /* BFOrderDetailInfoCell.m in Sources */,
