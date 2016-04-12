@@ -109,6 +109,7 @@
         pay.pay = self.payTitle.text;
         
         for (BFPTDetailModel *model in self.modelArr){
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
         [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
         }
         [self.navigationController pushViewController:pay animated:YES];

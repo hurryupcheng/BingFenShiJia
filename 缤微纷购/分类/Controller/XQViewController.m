@@ -46,7 +46,7 @@
     self.title = self.titles;
     
     [self initWithSegmented];
-    [self getNewDate:self.ID number:0];
+    [self getNewDateNumber:0];
 }
 
 - (void)initWithSegmented{
@@ -70,8 +70,6 @@
     
     UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:rightBut];
     self.navigationItem.rightBarButtonItem = right;
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_02.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButton)];
     
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
     self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-10, 30)];
@@ -192,8 +190,7 @@
     date[@"sort"] = @(num);
     date[@"p"] = @(page);
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-        
-//        NSLog(@"////%@ %@ %@",url,responseObject,date);
+        [self.dataArray removeAllObjects];
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
@@ -214,11 +211,11 @@
     self.selectend = seg;
     switch (seg.tag) {
         case 0:
-        {   [self getNewDate:self.ID number:1];
+        {   [self getNewDateNumber:1];
         }
             break;
         case 1:{
-            [self getNewDate:self.ID number:2];
+            [self getNewDateNumber:2];
         }
             break;
         case 2:{
@@ -226,7 +223,7 @@
             __block CGAffineTransform temp;
             
             if (self.sorke == YES) {
-                [self getNewDate:self.ID number:4];
+                [self getNewDateNumber:4];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                   temp = CGAffineTransformMakeTranslation(0, 0);
                   self.priceimg.transform = CGAffineTransformRotate(temp, 179.001);
@@ -235,7 +232,7 @@
               }];
                 self.sorke = NO;
             }else{
-            [self getNewDate:self.ID number:3];
+            [self getNewDateNumber:3];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                 temp = CGAffineTransformMakeTranslation(0, 0);
                 self.priceimg.transform = CGAffineTransformRotate(temp, 0);
@@ -256,11 +253,6 @@
     }
 }
 
-//  导航栏左按钮点击事件
-//- (void)leftButton{
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
 //  导航栏右按钮点击事件
 - (void)rightButton{
     self.tabBarController.selectedIndex = 1;
@@ -282,7 +274,7 @@
 }
 
 #pragma  mark 刷新数据
-- (void)getNewDate:(NSString *)ids number:(NSInteger)num{
+- (void)getNewDateNumber:(NSInteger)num{
   self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 //     [self getDataids:ids number:num];
       [self getNewDate:num page:0];
