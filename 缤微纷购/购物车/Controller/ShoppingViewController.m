@@ -55,8 +55,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = rgb(220, 220, 220, 1.0);
     
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
-    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"laji.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(removeAll)];
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(removeAll)];
      self.title = @"购物车";
  
 }
@@ -99,8 +99,31 @@
         [_groubView addSubview:image];
 
 }
+#pragma  mark 删除所有商品
+- (void)removeAll{
+    UIAlertController *aler = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定清除购物车吗" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *alerV = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+                [[CXArchiveShopManager sharedInstance]removeItemKeyOneDataSource:self.userInfo.ID];
+            
+                [self.dateArr removeAllObjects];
+                [self.tabView reloadData];
+                if (self.dateArr.count == 0) {
+                    [self.tabView removeFromSuperview];
+                    [self data];
+                }
+        
+    }];
+    UIAlertAction *alers = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+    [aler addAction:alers];
+    [aler addAction:alerV];
+    
+    
+    [self presentViewController:aler animated:YES completion:nil];
+    
+}
 
-- (void)gotoHomeController {
+- (void)gotoHomeController{
     self.tabBarController.selectedIndex = 0;
 }
 
@@ -133,7 +156,7 @@
 }
 
 - (void)initWithTableView{
-    NSLog(@">>>>>>>>>>>>>>");
+    
     self.tabView = [[UITableView alloc]init];
     
     self.tabView.dataSource = self;
@@ -412,13 +435,11 @@
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
     if (self.dateArr.count == 0 || self.userInfo == nil) {
-        self.tabView.hidden = YES;
+//        [self.tabView removeFromSuperview];
         [self data];
-        [self.tabView reloadData];
-        NSLog(@"11111111");
+       
     }else{
-        NSLog(@"22222222");
-        self.tabView.hidden = NO;
+        
 //        [self getNewDate];
         [self getDate];
         [_groubView removeFromSuperview];

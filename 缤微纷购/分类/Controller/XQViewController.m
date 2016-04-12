@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/1/8.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "CXArchiveShopManager.h"
+#import "BFStorage.h"
 #import "XQModel.h"
 #import "ViewController.h"
 #import "ShoppingViewController.h"
@@ -13,22 +15,24 @@
 #import "Header.h"
 #import "XQViewController.h"
 
-@interface XQViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
+@interface XQViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,XQViewCellDelegate>
 
 @property (nonatomic,retain)UICollectionView *collectionView;
 @property (nonatomic,retain)UIView *segmented;
 @property (nonatomic,retain)XQModel *xqModel;
+@property (nonatomic,retain)XQSubModel *xqSubModel;
+@property (nonatomic,retain)XQSubOtherModel *xqOtherModel;
 @property (nonatomic,retain)NSMutableArray *dataArr;
-@property (nonatomic,retain)NSMutableArray *moneyArr;
-@property (nonatomic,retain)NSMutableArray *titleArr;
-@property (nonatomic,retain)NSMutableArray *imgArr;
-@property (nonatomic,retain)NSMutableArray *idArr;
 @property (nonatomic,retain)NSMutableArray *dataArray;
+@property (nonatomic,retain)NSMutableArray *selectGoods;
 
 @property (nonatomic)BOOL sorke;
 @property (nonatomic,retain)UIButton *selectend;
 @property (nonatomic,retain)UIButton *segmentBut;
 @property (nonatomic,retain)UIImageView *priceimg;
+@property (nonatomic,retain)BFUserInfo *userInfo;
+@property (nonatomic,retain)UILabel *numLabel;//购物车数量
+@property (nonatomic,assign)NSInteger number;
 
 @end
 
@@ -42,16 +46,30 @@
     self.title = self.titles;
     
     [self initWithSegmented];
-//    [self getDataids:self.ID number:0];
-//    [self getNewDate:0 page:1];
-    [self getNewDate:self.ID number:0];
+    [self getNewDateNumber:0];
 }
 
 - (void)initWithSegmented{
     
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(leftButton)];
+    UIView *butView = [[UIView alloc]initWithFrame:CGRectMake(kScreenWidth-50, 0, 44, 44)];
+    UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [rightBut setImage:[UIImage imageNamed:@"ff1.png"] forState:UIControlStateNormal];
+    [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_02.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rightButton)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(rightBut.frame)-10, 0, 18, 18)];
+    _numLabel.backgroundColor = [UIColor redColor];
+    _numLabel.layer.cornerRadius = 9;
+    _numLabel.layer.masksToBounds = YES;
+   
+    _numLabel.textAlignment = NSTextAlignmentCenter;
+    _numLabel.font = [UIFont systemFontOfSize:13];
+    _numLabel.textColor = [UIColor whiteColor];
+    
+    [butView addSubview:rightBut];
+    [rightBut addSubview:_numLabel];
+    
+    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:rightBut];
+    self.navigationItem.rightBarButtonItem = right;
     
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
     self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-10, 30)];
@@ -95,17 +113,6 @@
         color.backgroundColor = rgb(0, 0, 205, 1.0);
         [_segmented addSubview:color];
     }
-//    self.segmented = [[UISegmentedControl alloc]initWithItems:arr];
-//    self.segmented.frame = CGRectMake(5, 5, kScreenWidth-10, 30);
-//    self.segmented.tintColor = rgb(0, 0, 205, 1.0);
-//    self.segmented.selectedSegmentIndex = 0;
-//    
-//    NSDictionary* selectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)], NSForegroundColorAttributeName: [UIColor whiteColor]};
-//    self.segmented.tintColor = [UIColor blueColor];
-//    [self.segmented setTitleTextAttributes:selectedTextAttributes forState:UIControlStateSelected];
-//    NSDictionary* unselectedTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:CGFloatY(16)],NSForegroundColorAttributeName: [UIColor blueColor]};
-//    [self.segmented setTitleTextAttributes:unselectedTextAttributes forState:UIControlStateNormal];
-//    [self.segmented addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventValueChanged];
 
 }
 
@@ -146,83 +153,55 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     XQCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-   
-    [cell setXQModel:self.dataArray[indexPath.row]];
+
+     cell.butDelegate = self;
+     cell.shopp.tag = indexPath.row;
+     [cell setXQModel:self.dataArray[indexPath.row]];
     
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    FXQViewController *fxq = [[FXQViewController alloc]init];
-    fxq.ID = self.idArr[indexPath.row];
-    [self.navigationController pushViewController:fxq animated:YES];
+- (void)xqViewDelegate:(UICollectionViewCell *)cell index:(NSInteger)index{
+    self.number++;
+    self.numLabel.alpha = 1;
+     _numLabel.text = [NSString stringWithFormat:@"%d",self.number];
+    XQSubOtherModel *model = self.dataArray[index];
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:model.title img:model.img money:model.price number:1 shopId:model.ID stock:model.stock choose:model.size color:model.color];
+
+    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
+    [[CXArchiveShopManager sharedInstance]startArchiveShop];
     
 }
 
-#pragma  mark 请求数据
-- (void)getDataids:(NSString *)ids number:(NSInteger )number{
-  NSString *string = [NSString stringWithFormat:@"?m=Json&a=item_cate&id=%@&sort=%ld",ids,(long)number];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",URL,string]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:0 timeoutInterval:5];
-//    [request setHTTPMethod:@"post"];
-//    NSString *string = [NSString stringWithFormat:@"?m=Json&a=item_cate&id=%@&sorte=%d",self.ID,self.number];
-//    request.HTTPBody = [string dataUsingEncoding:NSUTF8StringEncoding];
-    NSLog(@"%@",url);
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-        
-        if (data != nil) {
-        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            
-            self.moneyArr = [NSMutableArray array];
-            self.titleArr = [NSMutableArray array];
-            self.imgArr = [NSMutableArray array];
-            self.idArr = [NSMutableArray array];
-            self.dataArray = [NSMutableArray array];
-            
-            [self.dataArray removeAllObjects];
-          
-            NSArray *array = [dic valueForKey:@"items"];
-            for (NSDictionary *dis in array) {
 
-                for (NSDictionary *dics in dis[@"item"]) {
-                  self.xqModel = [[XQModel alloc]init];
-                  self.xqModel.ID = dics[@"id"];
-                  self.xqModel.img = dics[@"img"];
-                  self.xqModel.title = dics[@"title"];
-                  self.xqModel.price = dics[@"price"];
-
-                [self.moneyArr addObject:self.xqModel.price];
-                [self.titleArr addObject:self.xqModel.title];
-                [self.imgArr addObject:self.xqModel.img];
-                [self.idArr addObject:self.xqModel.ID];
-                    
-                [self.dataArray addObject:self.xqModel];
-                }
-            }
-         
-        }
-        [self.collectionView reloadData];
-        [self.collectionView.mj_header endRefreshing];
-        
-    }];
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    XQSubOtherModel *model = self.dataArray[indexPath.row];
+    FXQViewController *fxq = [[FXQViewController alloc]init];
+    fxq.ID = model.ID;
+    [self.navigationController pushViewController:fxq animated:YES];
     
 }
 
 #pragma  mark 数据请求
 - (void)getNewDate:(NSInteger)num page:(NSInteger)page{
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
+    NSString *url = [BF_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
     NSMutableDictionary *date = [NSMutableDictionary dictionary];
-    date[@"id"] = @(415);
+    date[@"id"] = self.ID;
     date[@"sort"] = @(num);
     date[@"p"] = @(page);
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-        NSLog(@"////%@ %@ %@",url,responseObject,date);
-        NSArray *arr = responseObject[@"items"];
-        NSLog(@"%@",arr);
+        [self.dataArray removeAllObjects];
+        self.xqModel = [XQModel parse:responseObject];
+        NSArray *array = [XQSubModel parse:self.xqModel.items];
+        for (XQSubModel *xqsubModel in array) {
+            NSArray *array = [XQSubOtherModel parse:xqsubModel.item];
+            [self.dataArray addObjectsFromArray:array];
+        }
+        [self.collectionView reloadData];
+        [self.collectionView.mj_header endRefreshing];
+        NSLog(@"%@",self.dataArray);
     } failure:^(NSError *error) {
-        
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
     }];
 }
 
@@ -232,11 +211,11 @@
     self.selectend = seg;
     switch (seg.tag) {
         case 0:
-        {   [self getNewDate:self.ID number:1];
+        {   [self getNewDateNumber:1];
         }
             break;
         case 1:{
-            [self getNewDate:self.ID number:2];
+            [self getNewDateNumber:2];
         }
             break;
         case 2:{
@@ -244,7 +223,7 @@
             __block CGAffineTransform temp;
             
             if (self.sorke == YES) {
-                [self getNewDate:self.ID number:4];
+                [self getNewDateNumber:4];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                   temp = CGAffineTransformMakeTranslation(0, 0);
                   self.priceimg.transform = CGAffineTransformRotate(temp, 179.001);
@@ -253,7 +232,7 @@
               }];
                 self.sorke = NO;
             }else{
-            [self getNewDate:self.ID number:3];
+            [self getNewDateNumber:3];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                 temp = CGAffineTransformMakeTranslation(0, 0);
                 self.priceimg.transform = CGAffineTransformRotate(temp, 0);
@@ -274,34 +253,50 @@
     }
 }
 
-//  导航栏左按钮点击事件
-//- (void)leftButton{
-//    
-//    [self.navigationController popViewControllerAnimated:YES];
-//}
 //  导航栏右按钮点击事件
 - (void)rightButton{
     self.tabBarController.selectedIndex = 1;
     self.tabBarController.tabBar.hidden = NO;
 }
 
-- (NSMutableArray *)dataArr{
-    if (!_dataArr) {
-        _dataArr = [NSMutableArray array];
+- (NSMutableArray *)dataArray{
+    if (!_dataArray) {
+        _dataArray = [NSMutableArray array];
     }
-    return _dataArr;
+    return _dataArray;
+}
+
+- (NSMutableArray *)selectGoods{
+    if (!_selectGoods) {
+        _selectGoods = [NSMutableArray array];
+    }
+    return _selectGoods;
 }
 
 #pragma  mark 刷新数据
-- (void)getNewDate:(NSString *)ids number:(NSInteger)num{
+- (void)getNewDateNumber:(NSInteger)num{
   self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-     [self getDataids:ids number:num];
+//     [self getDataids:ids number:num];
+      [self getNewDate:num page:0];
   }];
     [self.collectionView.mj_header beginRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.userInfo = [BFUserDefaluts getUserInfo];
+    
+    self.dataArr = [NSMutableArray array];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+    self.dataArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+    
+    if (self.userInfo == nil || self.dataArr == nil) {
+        _numLabel.alpha = 0;
+        _number = 0;
+    }else{
+        _numLabel.alpha = 1;
+        _numLabel.text = [NSString stringWithFormat:@"%d",self.dataArr.count];
+    }
     self.tabBarController.tabBar.hidden = YES;
 }
 

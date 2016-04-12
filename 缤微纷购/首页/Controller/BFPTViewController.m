@@ -36,7 +36,7 @@
 
 - (UITableView *)tableV{
     if (!_tableV) {
-        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, -30, kScreenWidth, kScreenHeight+280) style:UITableViewStyleGrouped];
+        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, -30, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
         
         self.tableV.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableV.showsHorizontalScrollIndicator = NO;
