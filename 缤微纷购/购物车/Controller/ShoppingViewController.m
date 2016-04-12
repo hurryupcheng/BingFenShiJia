@@ -102,7 +102,7 @@
 #pragma  mark 删除所有商品
 - (void)removeAll{
     UIAlertController *aler = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定清除购物车吗" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *alerV = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *alerV = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
                 [[CXArchiveShopManager sharedInstance]removeItemKeyOneDataSource:self.userInfo.ID];
             
@@ -114,9 +114,10 @@
                 }
         
     }];
-    UIAlertAction *alers = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil];
-    [aler addAction:alerV];
+    UIAlertAction *alers = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
     [aler addAction:alers];
+    [aler addAction:alerV];
+    
     
     [self presentViewController:aler animated:YES completion:nil];
     
