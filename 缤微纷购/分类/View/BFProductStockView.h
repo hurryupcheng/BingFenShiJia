@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BFProductDetialModel.h"
+#import "BFCountView.h"
 
 @interface BFProductStockView : UIView
+/**加减按钮*/
+@property (nonatomic, strong) BFCountView *countView;
 /**BFProductDetialModel*/
 @property (nonatomic, strong) BFProductDetialModel *model;
 @end

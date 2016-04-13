@@ -7,13 +7,12 @@
 //
 
 #import "BFProductDetailHeaderView.h"
-#import "BFProductStockView.h"
+
 
 @interface BFProductDetailHeaderView()
 /**商品图片*/
 @property (nonatomic, strong) UIImageView *productIcon;
-/**产品信息，库存*/
-@property (nonatomic, strong) BFProductStockView *stockView;
+
 /**规格尺寸*/
 @property (nonatomic, strong) UILabel *size;
 /**特别说明*/

@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BFProductDetialModel.h"
+#import "BFProductStockView.h"
 
 @interface BFProductDetailHeaderView : UIView
+/**产品信息，库存*/
+@property (nonatomic, strong) BFProductStockView *stockView;
 /**BFProductDetialModel*/
 @property (nonatomic, strong) BFProductDetialModel *model;
 /**头部视图高度*/

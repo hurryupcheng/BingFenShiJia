@@ -54,7 +54,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-BF_ScaleHeight(50)-64)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -132,7 +132,8 @@
             break;
         }
         case BFProductDetailTabBarButtonTypeAddCart:{
-            if ([BFUserDefaluts getUserInfo] == nil) {
+            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+            if (userInfo == nil) {
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
                     LogViewController *logVC= [LogViewController new];
                     [self.navigationController pushViewController:logVC animated:YES];
@@ -142,6 +143,11 @@
             }else if ([self.model.first_stock integerValue] < 1) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
                 return;
+            }else if (userInfo != nil) {
+                BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
+                
+                [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+                [[CXArchiveShopManager sharedInstance]startArchiveShop];
             }
             BFLog(@"加入购物车");
             break;
@@ -175,5 +181,19 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
+
+
+#pragma mark --不让点击webview
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
 
 @end

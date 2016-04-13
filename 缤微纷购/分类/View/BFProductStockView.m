@@ -7,7 +7,7 @@
 //
 
 #import "BFProductStockView.h"
-#import "BFCountView.h"
+
 
 @interface BFProductStockView()
 /**标题*/
@@ -18,8 +18,7 @@
 @property (nonatomic, strong) UILabel *productOriginPrice;
 /**标库存*/
 @property (nonatomic, strong) UILabel *productStock;
-/**加减按钮*/
-@property (nonatomic, strong) BFCountView *countView;
+
 @end
 
 @implementation BFProductStockView
