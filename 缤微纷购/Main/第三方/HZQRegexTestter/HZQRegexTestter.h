@@ -12,6 +12,10 @@
 
 @interface HZQRegexTestter : NSObject
 /**
+ *  判断是不是数字
+ */
++ (BOOL)validateIntegerNumber:(NSString *)integerNumber;
+/**
  *  判断是不是汉字
  */
 + (BOOL)validateChineseCharacter:(NSString *)chineseCharacter;

@@ -14,6 +14,15 @@
 @implementation HZQRegexTestter
 
 
+#pragma mark - 数字
++ (BOOL)validateIntegerNumber:(NSString *)integerNumber
+{
+    NSString *nameRegex = @"^\\d+$";
+    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
+    return [namePredicate evaluateWithObject:integerNumber];
+    
+}
+
 #pragma mark - 汉字
 + (BOOL)validateChineseCharacter:(NSString *)chineseCharacter
 {
