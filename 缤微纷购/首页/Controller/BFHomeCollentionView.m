@@ -21,6 +21,7 @@
 #import "FooterCollectionReusableView.h"
 #import "BFHomeCollentionView.h"
 #import "BFHomeFunctionView.h"
+#import "BFDailySpecialController.h"
 #import "BFBestSellingController.h"
 #import "BFPanicBuyingController.h"
 
@@ -152,6 +153,8 @@
         }
         case BFHomeFunctionViewButtonTypeDailySpecial:{
             BFLog(@"点击了今日特价");
+            BFDailySpecialController *dailySpecialVC = [[BFDailySpecialController alloc] init];
+            [self.navigationController pushViewController:dailySpecialVC animated:YES];
             break;
         }
         case BFHomeFunctionViewButtonTypeFirstPublish:{
@@ -302,51 +305,6 @@
     }
 }
 
-#pragma  mark 分类列表点击事件
-- (void)selectButton:(UIButton *)button{
-    switch (button.tag) {
-        case 10:{
-            NSLog(@"首页分类点击有效");
-        }
-            break;
-        case 11:{
-            NSLog(@"首页分类点击有效");
-        }
-            break;
-        case 12:{
-            
-        }
-            break;
-        case 13:{
-            
-        }
-            break;
-        case 14:{
-            
-        }
-            break;
-        case 15:{
-            
-        }
-            break;
-        case 16:{
-            
-        }
-            break;
-        case 17:{
-            
-        }
-            break;
-        case 18:{
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-}
 
 #pragma  mark  CollectionView 代理方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{

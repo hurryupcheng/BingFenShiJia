@@ -7,20 +7,26 @@
 //
 
 #import "BFPanicBuyingController.h"
+#import "BFProductDetailWebViewController.h"
+#import "LogViewController.h"
 #import "BFCustomerServiceView.h"
 #import "BFPanicBuyingCell.h"
 #import "BFPanicBuyingTabBar.h"
 #import "BFPanicBuyingModel.h"
 #import "BFPanicBuyingHeaderView.h"
+#import "BFPanicTimeView.h"
+
 @interface BFPanicBuyingController ()<UITableViewDelegate, UITableViewDataSource, BFCustomerServiceViewDelegate, BFPanicBuyingTabBarDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**数组*/
 @property (nonatomic, strong) NSArray *listArray;
-/**tabbar*/
+/**头部视图*/
 @property (nonatomic, strong) BFPanicBuyingHeaderView *headerView;
 /**tabbar*/
 @property (nonatomic, strong) BFPanicBuyingTabBar *tabBar;
+/**倒计时view*/
+@property (nonatomic, strong) BFPanicTimeView *panicTime;
 /**BFPanicBuyingModel*/
 @property (nonatomic, strong) BFPanicBuyingModel *model;
 @end
@@ -36,6 +42,13 @@
     
 }
 
+- (BFPanicTimeView *)panicTime {
+    if (!_panicTime) {
+        _panicTime = [[BFPanicTimeView alloc] initWithFrame:CGRectMake(0, -BF_ScaleHeight(40), ScreenWidth, BF_ScaleHeight(40))];
+        [self.view addSubview:_panicTime];
+    }
+    return _panicTime;
+}
 
 - (BFPanicBuyingTabBar *)tabBar {
     if (!_tabBar) {
@@ -94,13 +107,14 @@
         if (responseObject) {
             self.model = [BFPanicBuyingModel parse:responseObject];
             self.headerView.model = self.model;
+            self.panicTime.model = self.model;
             
             [UIView animateWithDuration:0.5 animations:^{
-                self.headerView.height = BF_ScaleHeight(500);
+                self.headerView.height = self.headerView.headerHeight;
                 self.tableView.tableHeaderView = self.headerView;
                 self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
+                self.panicTime.y = 0;
                 self.tableView.y = 0;
-                
             }];
             
             BFLog(@"%@", responseObject);
@@ -113,7 +127,15 @@
 
 #pragma mark -- 自定义tabbar代理
 - (void)clickToPanic {
-    BFLog(@"立即抢购");
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+            LogViewController *logVC= [LogViewController new];
+            [self.navigationController pushViewController:logVC animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+        }];
+
+    }
 }
 
 #pragma mark -- 设置客服按钮
@@ -172,9 +194,19 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFPanicBuyingCell *cell = [BFPanicBuyingCell cellWithTableView:tableView];
-    cell.textLabel.text = self.listArray[indexPath.row];
+    cell.titleLabel.text = self.listArray[indexPath.row];
     return cell;
 }
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.row == 0) {
+        BFProductDetailWebViewController *webVC = [[BFProductDetailWebViewController alloc] init];
+        webVC.info = self.model.info;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleHeight(40);

@@ -11,6 +11,8 @@
 @interface BFPanicCountdownView()
 /**时*/
 @property (nonatomic, strong) UILabel *hour;
+/**时*/
+@property (nonatomic, strong) UILabel *timeLabel;
 /**分*/
 @property (nonatomic, strong) UILabel *minute;
 /**秒*/
@@ -35,7 +37,19 @@
         [self refreshTime];
         [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
         
-        self.hour = [self setUpTimeLabelWithFrame:CGRectMake(0, BF_ScaleHeight(10), BF_ScaleWidth(30), ViewH)];
+        
+        
+        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(10), BF_ScaleWidth(80), ViewH)];
+        self.timeLabel = timeLabel;
+        timeLabel.textAlignment = NSTextAlignmentRight;
+        timeLabel.textColor = BFColor(0xF9FBFB);
+        timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        [self addSubview:timeLabel];
+        
+
+        
+        
+        self.hour = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame)+BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), ViewH)];
         
         
         
@@ -70,11 +84,14 @@
     todayDateComponents.minute = [_timeArray[1] integerValue];
     todayDateComponents.second = [_timeArray[2] integerValue];
     
+
     NSInteger time;
     if (self.model.is_seckill == 1) {
         time = self.model.seckill_endtime;
+        self.timeLabel.text = @"距离结束";
     }else if (self.model.is_seckill == 0) {
         time = self.model.seckill_starttime;
+        self.timeLabel.text = @"距离开始";
     }
     
     

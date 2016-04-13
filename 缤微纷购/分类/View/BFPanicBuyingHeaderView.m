@@ -8,11 +8,13 @@
 
 #import "BFPanicBuyingHeaderView.h"
 #import "BFPanicTimeView.h"
+#import "BFPanicBuyingDetailView.h"
+
 @interface BFPanicBuyingHeaderView()
 /**轮播图*/
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 /**倒计时view*/
-@property (nonatomic, strong) BFPanicTimeView *panicTime;
+@property (nonatomic, strong) BFPanicBuyingDetailView *detailView;
 @end
 
 @implementation BFPanicBuyingHeaderView
@@ -41,9 +43,13 @@
         self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
         [self addSubview:self.cycleScrollView];
         
-        self.panicTime = [[BFPanicTimeView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(40))];
-        self.panicTime.model = model;
-        [self addSubview:self.panicTime];
+
+        
+        self.detailView = [[BFPanicBuyingDetailView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cycleScrollView.frame), ScreenWidth, BF_ScaleHeight(75))];
+        self.detailView.model = model;
+        [self addSubview:self.detailView];
+        
+        self.headerHeight = CGRectGetMaxY(self.detailView.frame);
         
     }
     

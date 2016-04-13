@@ -25,7 +25,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(12), 0, BF_ScaleWidth(100), BF_ScaleHeight(40))];
         self.titleLabel.textColor = BFColor(0x000000);
-        self.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+        self.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         [self addSubview:self.titleLabel];
         
         UIView *line = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleHeight(40)-0.5, ScreenWidth, 0.5)];

@@ -1,40 +1,42 @@
 //
-//  BFProductStockView.m
+//  BFPanicBuyingDetailView.m
 //  缤微纷购
 //
-//  Created by 程召华 on 16/4/12.
+//  Created by 程召华 on 16/4/13.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
-#import "BFProductStockView.h"
+#import "BFPanicBuyingDetailView.h"
+#import "BFPanicCountView.h"
 
-
-@interface BFProductStockView()
+@interface BFPanicBuyingDetailView()
 /**标题*/
 @property (nonatomic, strong) UILabel *productTitle;
 /**现价格*/
 @property (nonatomic, strong) UILabel *productNewPrice;
 /**原价格*/
 @property (nonatomic, strong) UILabel *productOriginPrice;
-/**标库存*/
-@property (nonatomic, strong) UILabel *productStock;
+/**尺寸*/
+@property (nonatomic, strong) UILabel *productSize;
+/**加减按钮*/
+@property (nonatomic, strong) BFPanicCountView *countView;
+
 
 @end
 
-@implementation BFProductStockView
+@implementation BFPanicBuyingDetailView
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        [self setView];
-        //self.backgroundColor = [UIColor redColor];
+        
     }
     return self;
 }
 
-- (void)setModel:(BFProductDetialModel *)model {
+- (void)setModel:(BFPanicBuyingModel *)model {
     _model = model;
     if (model) {
-        self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(5), BF_ScaleWidth(190), BF_ScaleHeight(35))];
+        self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(5), BF_ScaleWidth(200), BF_ScaleHeight(35))];
         self.productTitle.text = model.title;
         //self.productTitle.backgroundColor = [UIColor blueColor];
         self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
@@ -42,7 +44,7 @@
         self.productTitle.numberOfLines = 2;
         [self addSubview:self.productTitle];
         
-        self.productNewPrice = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), BF_ScaleHeight(40), BF_ScaleWidth(200), BF_ScaleHeight(20))];
+        self.productNewPrice = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(42), BF_ScaleWidth(200), BF_ScaleHeight(20))];
         self.productNewPrice.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(16)];
         self.productNewPrice.numberOfLines = 0;
         self.productNewPrice.textColor = BFColor(0xFD872A);
@@ -53,8 +55,8 @@
         [self addSubview:self.productNewPrice];
         [self.productNewPrice sizeToFit];
         
-        self.productOriginPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productNewPrice.frame)+BF_ScaleWidth(5), BF_ScaleHeight(52), BF_ScaleWidth(200), BF_ScaleHeight(10))];
-        self.productOriginPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+        self.productOriginPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productNewPrice.frame)+BF_ScaleWidth(20), BF_ScaleHeight(50), BF_ScaleWidth(200), BF_ScaleHeight(10))];
+        self.productOriginPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         self.productOriginPrice.numberOfLines = 0;
         self.productOriginPrice.textColor = BFColor(0xB3B3B3);
         self.productOriginPrice.text = [NSString stringWithFormat:@"¥%@", model.yprice];
@@ -66,28 +68,27 @@
         [self addSubview:seperateLine];
         
         
-        self.countView = [[BFCountView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), BF_ScaleHeight(10), BF_ScaleWidth(90), BF_ScaleHeight(30))];
+        self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), BF_ScaleHeight(10), BF_ScaleWidth(90), BF_ScaleHeight(11))];
+        self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
+        self.productSize.textColor = BFColor(0xB3B3B3);
+        self.productSize.textAlignment = NSTextAlignmentRight;
+        self.productSize.text = model.first_size;
+        [self addSubview:self.productSize];
+        
+        
+        
+        self.countView = [[BFPanicCountView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), BF_ScaleHeight(40), BF_ScaleWidth(90), BF_ScaleHeight(30))];
         self.countView.model = model;
         [self addSubview:self.countView];
         
         
-        self.productStock = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(220), BF_ScaleHeight(52), BF_ScaleWidth(90), BF_ScaleHeight(11))];
-        self.productStock.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
-        self.productStock.textColor = BFColor(0xB3B3B3);
-        self.productStock.textAlignment = NSTextAlignmentCenter;
-        self.productStock.text = [NSString stringWithFormat:@"库存数量:%@", model.first_stock];
-        [self addSubview:self.productStock];
-
-
         
-        UIView *line = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleHeight(70)-0.5, ScreenWidth, 0.5)];
+        UIView *line = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleHeight(77)-0.5, ScreenWidth, 0.5)];
         line.backgroundColor = BFColor(0xBABABA);
         [self addSubview:line];
-    }
-}
 
-- (void)setView {
-    
+
+    }
 }
 
 @end

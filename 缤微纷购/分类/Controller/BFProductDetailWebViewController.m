@@ -8,7 +8,7 @@
 
 #import "BFProductDetailWebViewController.h"
 
-@interface BFProductDetailWebViewController ()
+@interface BFProductDetailWebViewController ()<UIWebViewDelegate>
 /**webView*/
 @property (nonatomic, strong) UIWebView *webView;
 @end
@@ -25,6 +25,7 @@
 
 - (void)setUpWebView {
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-2)];
+    self.webView.delegate = self;
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.info]];
     [self.webView loadRequest:request];
     [self.view addSubview:self.webView];

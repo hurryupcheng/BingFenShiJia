@@ -1,5 +1,5 @@
 //
-//  BFPanicBuyingHeaderView.h
+//  BFPanicCountView.h
 //  缤微纷购
 //
 //  Created by 程召华 on 16/4/13.
@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BFPanicBuyingModel.h"
 
-@interface BFPanicBuyingHeaderView : UIView
+@interface BFPanicCountView : UIView<UITextFieldDelegate>
+/**数量*/
+@property (nonatomic, strong) UITextField *countTX;
 /**BFPanicBuyingModel*/
 @property (nonatomic, strong) BFPanicBuyingModel *model;
-/**头部视图高度*/
-@property (nonatomic, assign) CGFloat headerHeight;
 @end
