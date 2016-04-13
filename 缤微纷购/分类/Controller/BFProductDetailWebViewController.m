@@ -32,5 +32,17 @@
     
 }
 
+#pragma mark --不让点击webview
+- (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if(navigationType==UIWebViewNavigationTypeLinkClicked)//判断是否是点击链接
+    {
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
 
 @end

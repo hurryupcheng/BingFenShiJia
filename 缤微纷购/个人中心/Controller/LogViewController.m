@@ -242,8 +242,6 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
-                
-                
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                 [self.passwordTX.text writeToFile:self.passwordPath atomically:YES];
                 

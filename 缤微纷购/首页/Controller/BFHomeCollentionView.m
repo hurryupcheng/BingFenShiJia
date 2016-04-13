@@ -22,6 +22,7 @@
 #import "BFHomeCollentionView.h"
 #import "BFHomeFunctionView.h"
 #import "BFBestSellingController.h"
+#import "BFPanicBuyingController.h"
 
 @interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
@@ -281,9 +282,13 @@
 - (void)setIndex:(NSInteger)index arr:(NSMutableArray *)arr IDArr:(NSMutableArray *)IDArr{
     
     if ([arr[index] isEqualToString:@"1"]) {
-        FXQViewController  *fx = [[FXQViewController alloc]init];
-        fx.ID = IDArr[index];
-        [self.navigationController pushViewController:fx animated:YES];
+//        FXQViewController  *fx = [[FXQViewController alloc]init];
+//        fx.ID = IDArr[index];
+//        [self.navigationController pushViewController:fx animated:YES];
+        
+        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
+        panicBuyingVC.ID = IDArr[index];
+        [self.navigationController pushViewController:panicBuyingVC animated:YES];
     }else if ([arr[index] isEqualToString:@"2"]){
         BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
         pt.ID = IDArr[index];
