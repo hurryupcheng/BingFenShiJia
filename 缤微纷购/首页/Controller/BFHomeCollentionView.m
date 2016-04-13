@@ -360,11 +360,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     XCCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-//    for (UIView *view in cell.contentView.subviews) {
-//        if (view) {
-//            [view removeFromSuperview];
-//        }
-//    }
+
     HomeSubModel *model = self.homeModel.homeDataArray[indexPath.section];
     
     [cell.imageView sd_setImageWithURL:[model.imageArray objectAtIndex:indexPath.row] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
@@ -427,13 +423,11 @@
         self.headerSection = indexPath.row;
         
         if (indexPath.section == 0) {
-            NSLog(@"222");
             [self initWithScrollView];
             [self initWithBut];
             [self initWithUpView];
             self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
         }else{
-            NSLog(@"4444");
             [self.viewBut removeFromSuperview];
             [self.lbView removeFromSuperview];
             [self.upBackView removeFromSuperview];

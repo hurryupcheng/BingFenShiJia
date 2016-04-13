@@ -56,7 +56,7 @@
     self.view.backgroundColor = rgb(220, 220, 220, 1.0);
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"laji.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(removeAll)];
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(removeAll)];
+
      self.title = @"购物车";
  
 }
@@ -403,6 +403,16 @@
     
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     bfzf.modelArr = _selectGoods;
+    bfzf.removeBlock = ^(){
+        
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        if (self.dateArr.count == 0) {
+            [self.tabView removeFromSuperview];
+            [self data];
+        }
+
+    };
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
