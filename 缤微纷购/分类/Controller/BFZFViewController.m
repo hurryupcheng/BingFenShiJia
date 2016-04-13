@@ -112,6 +112,7 @@
         [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
         [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
         }
+        self.removeBlock();
         [self.navigationController pushViewController:pay animated:YES];
     }
 }

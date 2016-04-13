@@ -12,5 +12,6 @@
 
 @property (nonatomic,retain)NSMutableArray *modelArr;
 @property (nonatomic)BOOL isPT;
+@property (nonatomic,copy)void (^removeBlock)();
 
 @end

@@ -403,6 +403,16 @@
     
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     bfzf.modelArr = _selectGoods;
+    bfzf.removeBlock = ^(){
+        
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+        self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        if (self.dateArr.count == 0) {
+            [self.tabView removeFromSuperview];
+            [self data];
+        }
+
+    };
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
