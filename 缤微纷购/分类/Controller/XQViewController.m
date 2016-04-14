@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/8.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "LogViewController.h"
 #import "CXArchiveShopManager.h"
 #import "BFStorage.h"
 #import "XQModel.h"
@@ -32,7 +33,7 @@
 @property (nonatomic,retain)UIImageView *priceimg;
 @property (nonatomic,retain)BFUserInfo *userInfo;
 @property (nonatomic,retain)UILabel *numLabel;//购物车数量
-@property (nonatomic,assign)NSInteger number;
+@property (nonatomic,assign)NSInteger sumNumber;
 
 @end
 
@@ -161,16 +162,44 @@
     return cell;
 }
 
+#pragma  mark 直接添加购物车代理方法
 - (void)xqViewDelegate:(UICollectionViewCell *)cell index:(NSInteger)index{
-    self.number++;
-    self.numLabel.alpha = 1;
-     _numLabel.text = [NSString stringWithFormat:@"%d",self.number];
-    XQSubOtherModel *model = self.dataArray[index];
-    BFStorage *storage = [[BFStorage alloc]initWithTitle:model.title img:model.img money:model.price number:1 shopId:model.ID stock:model.stock choose:model.size color:model.color];
-
+    if (self.userInfo == nil) {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..."];
+        LogViewController *log = [LogViewController new];
+        [self.navigationController pushViewController:log animated:YES];
+    }else{
+        [self sss];
+    _xqOtherModel = self.dataArray[index];
+    
+    BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_xqOtherModel.ID];
+    if (stor == nil) {
+        self.sumNumber++;
+        self.numLabel.alpha = 1;
+        self.numLabel.text = [NSString stringWithFormat:@"%d",self.sumNumber];
+    }
+    
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
+    
     [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
     [[CXArchiveShopManager sharedInstance]startArchiveShop];
+    }
+}
+
+- (void)sss{
+
+    self.dataArr = [NSMutableArray array];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+    self.dataArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
+    if (self.userInfo == nil || self.dataArr == nil) {
+        _numLabel.alpha = 0;
+    }else{
+        _numLabel.alpha = 1;
+        _sumNumber = self.dataArr.count;
+        _numLabel.text = [NSString stringWithFormat:@"%d",self.dataArr.count];
+    }
+
 }
 
 
@@ -285,18 +314,12 @@
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.userInfo = [BFUserDefaluts getUserInfo];
-    
-    self.dataArr = [NSMutableArray array];
-    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-    self.dataArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-    
-    if (self.userInfo == nil || self.dataArr == nil) {
-        _numLabel.alpha = 0;
-        _number = 0;
-    }else{
-        _numLabel.alpha = 1;
-        _numLabel.text = [NSString stringWithFormat:@"%d",self.dataArr.count];
+    self.sumNumber = 0;
+    self.numLabel.alpha = 0;
+    if (self.userInfo != nil) {
+        [self sss];
     }
+    
     self.tabBarController.tabBar.hidden = YES;
 }
 

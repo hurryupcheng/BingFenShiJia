@@ -16,6 +16,7 @@
 @property (nonatomic,retain)UILabel *title;
 @property (nonatomic,retain)UILabel *number;
 @property (nonatomic,retain)UILabel *money;
+@property (nonatomic,retain)UIButton *select;
 
 @end
 
@@ -75,14 +76,18 @@
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥ %@",xqModel.price]];
     [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Bold" size:CGFloatY(22)] range:NSMakeRange(2, [xqModel.price length])];
     self.money.attributedText = str;
-    self.shopp.selected = self.selected;
     
     self.number.text = xqModel.size;
   
 }
 
 - (void)buyShopp:(UIButton *)but{
+    self.select.selected = NO;
+    but.selected = YES;
+    self.select = but;
+    
     if (self.butDelegate != nil && [self.butDelegate respondsToSelector:@selector(xqViewDelegate:index:)]) {
+ 
         [self.butDelegate xqViewDelegate:self index:but.tag];
     }
 }

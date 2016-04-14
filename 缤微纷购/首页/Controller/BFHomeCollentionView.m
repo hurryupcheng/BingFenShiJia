@@ -73,7 +73,7 @@
         return;
     }
     
-    self.lbView = [[LBView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+    self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
@@ -86,8 +86,7 @@
 //    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160))];
 //    self.functionView.backgroundColor = [UIColor blueColor];
 //    [self.headerView addSubview:self.functionView];
-    
-    self.viewBut = [[UIView alloc]init];
+
     self.viewBut.backgroundColor = [UIColor whiteColor];
     self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
     [self.headerView addSubview:self.viewBut];
@@ -227,7 +226,7 @@
     
     NSInteger count = self.homeModel.oneDataArray.count;
     
-    self.upBackView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count)];
+    self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count);
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
@@ -297,52 +296,6 @@
     }
 }
 
-#pragma  mark 分类列表点击事件
-- (void)selectButton:(UIButton *)button{
-    switch (button.tag) {
-        case 10:{
-            NSLog(@"首页分类点击有效");
-        }
-            break;
-        case 11:{
-            NSLog(@"首页分类点击有效");
-        }
-            break;
-        case 12:{
-            
-        }
-            break;
-        case 13:{
-            
-        }
-            break;
-        case 14:{
-            
-        }
-            break;
-        case 15:{
-            
-        }
-            break;
-        case 16:{
-            
-        }
-            break;
-        case 17:{
-            
-        }
-            break;
-        case 18:{
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-    
-}
-
 #pragma  mark  CollectionView 代理方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
@@ -386,9 +339,9 @@
     
     if (section == 0) {
         if (self.titleArr.count <= 4) {
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+20);
+            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+10);
         }else{
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+20);
+            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+10);
         }
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
@@ -412,7 +365,6 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     if (kind == UICollectionElementKindSectionHeader) {
-        
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
         HomeSubModel *homeModel = self.homeModel.homeDataArray[indexPath.section];
         
@@ -487,6 +439,7 @@
 - (void)getDownDate{
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
         [self CollectionViewgetDate];
     }];
     [self.collentionView.mj_header beginRefreshing];
@@ -498,4 +451,26 @@
     }
     return _dataArray;
 }
+
+- (LBView *)lbView{
+    if (!_lbView) {
+        _lbView = [[LBView alloc]init];
+    }
+    return _lbView;
+}
+
+- (UIView *)viewBut{
+    if (!_viewBut) {
+        _viewBut = [[UIView alloc]init];
+    }
+    return _viewBut;
+}
+
+- (UIView *)upBackView{
+    if (!_upBackView) {
+        _upBackView = [[UIView alloc]init];
+    }
+    return _upBackView;
+}
+
 @end
