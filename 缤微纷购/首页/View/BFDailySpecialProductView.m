@@ -38,6 +38,7 @@
         [self addSubview:self.productIcon];
         
         self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame) + BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(192), 0)];
+        self.productTitle.backgroundColor = [UIColor redColor];
         self.productTitle.numberOfLines = 0;
         self.productTitle.textColor = BFColor(0x202021);
         self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
@@ -45,26 +46,27 @@
         [self addSubview:self.productTitle];
         [self.productTitle sizeToFit];
         
-        self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame) + BF_ScaleHeight(4), BF_ScaleWidth(192), BF_ScaleHeight(12))];
+        self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame) + BF_ScaleHeight(4), BF_ScaleWidth(192), BF_ScaleHeight(13))];
+        self.productSize.backgroundColor = [UIColor greenColor];
         self.productSize.textColor = BFColor(0x868788);
         self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         self.productSize.text = model.size;
         [self addSubview:self.productSize];
         
         
-        self.productNewPrice = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(90), BF_ScaleWidth(200), BF_ScaleHeight(20))];
-        self.productNewPrice.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(16)];
+        self.productNewPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame) + BF_ScaleWidth(10), BF_ScaleHeight(90), BF_ScaleWidth(200), BF_ScaleHeight(20))];
+        self.productNewPrice.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(14)];
         self.productNewPrice.numberOfLines = 0;
         self.productNewPrice.textColor = BFColor(0xFD872A);
         self.productNewPrice.text = [NSString stringWithFormat:@"¥ %@", model.price];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productNewPrice.text];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(25)] range:NSMakeRange(2,self.productNewPrice.text.length-5)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)] range:NSMakeRange(2,self.productNewPrice.text.length-5)];
         self.productNewPrice.attributedText = attributedString;
         [self addSubview:self.productNewPrice];
         [self.productNewPrice sizeToFit];
         
         self.productOriginPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productNewPrice.frame)+BF_ScaleWidth(20), BF_ScaleHeight(98), BF_ScaleWidth(200), BF_ScaleHeight(10))];
-        self.productOriginPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        self.productOriginPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
         self.productOriginPrice.numberOfLines = 0;
         self.productOriginPrice.textColor = BFColor(0xB3B3B3);
         self.productOriginPrice.text = [NSString stringWithFormat:@"¥%@", model.yprice];
