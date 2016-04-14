@@ -8,13 +8,12 @@
 
 #import "BFPanicBuyingHeaderView.h"
 #import "BFPanicTimeView.h"
-#import "BFPanicBuyingDetailView.h"
+
 
 @interface BFPanicBuyingHeaderView()
 /**轮播图*/
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
-/**倒计时view*/
-@property (nonatomic, strong) BFPanicBuyingDetailView *detailView;
+
 @end
 
 @implementation BFPanicBuyingHeaderView

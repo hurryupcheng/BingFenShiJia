@@ -42,7 +42,7 @@
         self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(clock.frame)+BF_ScaleWidth(5), MarginH, BF_ScaleWidth(40), ViewH)];
         self.timeLabel.textColor = BFColor(0xffffff);
         self.timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
-        self.timeLabel.backgroundColor = BFColor(0x4da800);
+        //self.timeLabel.backgroundColor = BFColor(0x4da800);
         [self addSubview:self.timeLabel];
         
         self.hour = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame), BF_ScaleHeight(5), BF_ScaleWidth(25), ViewH)];

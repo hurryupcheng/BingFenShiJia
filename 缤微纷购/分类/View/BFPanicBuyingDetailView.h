@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "BFPanicBuyingModel.h"
+#import "BFPanicCountView.h"
 
 @interface BFPanicBuyingDetailView : UIView
 /**BFPanicBuyingModel*/
 @property (nonatomic, strong) BFPanicBuyingModel *model;
+/**加减按钮*/
+@property (nonatomic, strong) BFPanicCountView *countView;
 @end

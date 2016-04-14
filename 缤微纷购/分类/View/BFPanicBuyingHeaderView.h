@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BFPanicBuyingModel.h"
+#import "BFPanicBuyingDetailView.h"
 
 @interface BFPanicBuyingHeaderView : UIView
 /**BFPanicBuyingModel*/
 @property (nonatomic, strong) BFPanicBuyingModel *model;
+/**倒计时view*/
+@property (nonatomic, strong) BFPanicBuyingDetailView *detailView;
 /**头部视图高度*/
 @property (nonatomic, assign) CGFloat headerHeight;
 @end

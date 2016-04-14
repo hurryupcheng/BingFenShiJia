@@ -10,9 +10,9 @@
 
 @interface BFPanicCountdownView()
 /**时*/
-@property (nonatomic, strong) UILabel *hour;
-/**时*/
 @property (nonatomic, strong) UILabel *timeLabel;
+/**时*/
+@property (nonatomic, strong) UILabel *hour;
 /**分*/
 @property (nonatomic, strong) UILabel *minute;
 /**秒*/
@@ -34,18 +34,26 @@
     _model = model;
     if (model) {
         
+//        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(124), 0, BF_ScaleWidth(80), ViewH)];
+//        self.timeLabel = timeLabel;
+//        timeLabel.textAlignment = NSTextAlignmentRight;
+//        timeLabel.textColor = BFColor(0xF9FBFB);
+//        timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+//        [self addSubview:timeLabel];
+//        if (model.is_seckill == 1) {
+//            timeLabel.text = @"距离结束";
+//        }else if (model.is_seckill == 0) {
+//            timeLabel.text = @"距离开始";
+//        }
         
         
         
+        self.timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(10), BF_ScaleWidth(80), ViewH)];
+        self.timeLabel.textAlignment = NSTextAlignmentRight;
+        self.timeLabel.textColor = BFColor(0xF9FBFB);
+        self.timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        [self addSubview:self.timeLabel];
         
-        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(10), BF_ScaleWidth(80), ViewH)];
-        self.timeLabel = timeLabel;
-        timeLabel.textAlignment = NSTextAlignmentRight;
-        timeLabel.textColor = BFColor(0xF9FBFB);
-        timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        [self addSubview:timeLabel];
-        
-
         
         
         self.hour = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(self.timeLabel.frame)+BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(30), ViewH)];
@@ -86,26 +94,39 @@
     
 
     NSInteger time;
-    if (self.model.is_seckill == 1) {
-        time = self.model.seckill_endtime;
-        self.timeLabel.text = @"距离结束";
-    }else if (self.model.is_seckill == 0) {
+    if ([self.model.seckill_type isEqualToString:@"0"]) {
         time = self.model.seckill_starttime;
         self.timeLabel.text = @"距离开始";
-    }
-    
-    
-    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate date]init]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:time] options:0];
-    
-    NSString *betweenTime;
-    
-    if (betweenDate.second <= 0){
+    }else if ([self.model.seckill_type isEqualToString:@"1"]) {
+        time = self.model.seckill_endtime;
+        self.timeLabel.text = @"距离结束";
+    }else if ([self.model.seckill_type isEqualToString:@"2"]) {
         self.hour.text = @"00";
         self.minute.text = @"00";
         self.second.text = @"00";
+        self.timeLabel.text = @"已经结束";
+    }
+    
+    
+    
+    
+    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:self.model.nowtime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:time] options:0];
+    
+    //BFLog(@"%ld, %@",(long)betweenDate.second, self.minute.text);
+    
+    if (betweenDate.second == 0 && ![self.model.seckill_type isEqualToString:@"2"]) {
+        [BFNotificationCenter postNotificationName:@"changeCountView" object:nil];
+    }
+    
+    NSString *betweenTime;
+    
+    if (betweenDate.second < 0){
+        
     }else {
         betweenTime = [self hourMinuteSecond:betweenDate.second];
     }
+
+    
 }
 
 
@@ -146,6 +167,7 @@
     }
     return timeString;
 }
+
 
 
 
