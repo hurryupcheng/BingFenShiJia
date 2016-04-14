@@ -87,12 +87,13 @@
             BFLog(@"+++%lu",(unsigned long)self.productArray.count);
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
-                if (![self.model.ads isKindOfClass:[NSNull class]]) {
-                    self.headerView.height = BF_ScaleHeight(115);
+                if (self.model.ads != nil) {
+                    self.headerView.height = BF_ScaleHeight(200);
+                    self.tableView.tableHeaderView = self.headerView;
                 }else {
                     self.headerView.height = BF_ScaleHeight(0);
                 }
-                self.tableView.tableHeaderView = self.headerView;
+                
                 self.tableView.y = 0;
             }];
         }
