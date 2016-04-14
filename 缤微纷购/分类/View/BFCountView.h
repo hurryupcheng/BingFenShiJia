@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "BFProductDetialModel.h"
 
+
 @interface BFCountView : UIView
 /**数量*/
 @property (nonatomic, strong) UITextField *countTX;
 /**模型*/
 @property (nonatomic, strong) BFProductDetialModel *model;
+
 @end

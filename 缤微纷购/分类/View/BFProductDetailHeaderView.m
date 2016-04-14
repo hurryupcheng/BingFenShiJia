@@ -7,13 +7,11 @@
 //
 
 #import "BFProductDetailHeaderView.h"
-#import "BFProductStockView.h"
+
 
 @interface BFProductDetailHeaderView()
-/**商品图片*/
-@property (nonatomic, strong) UIImageView *productIcon;
-/**产品信息，库存*/
-@property (nonatomic, strong) BFProductStockView *stockView;
+/**轮播图*/
+@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 /**规格尺寸*/
 @property (nonatomic, strong) UILabel *size;
 /**特别说明*/
@@ -32,12 +30,23 @@
 - (void)setModel:(BFProductDetialModel *)model{
     _model = model;
     if (model) {
-        self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(190))];
-        self.productIcon.contentMode = UIViewContentModeScaleToFill;
-        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-        [self addSubview:self.productIcon];
+        self.cycleScrollView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleWidth(320))];
+        self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
+        self.cycleScrollView.pageDotColor = BFColor(0xffffff);
+        self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
+        self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
+        self.cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
+        NSArray *array = [BFProductDetailCarouselList parse:model.imgs];
+        NSMutableArray *mutableArray = [NSMutableArray array];
+        for (BFProductDetailCarouselList *list in array) {
+            [mutableArray addObject:list.url];
+        }
+        self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
+        [self addSubview:self.cycleScrollView];
+
+
         
-        self.stockView = [[BFProductStockView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productIcon.frame), ScreenWidth, BF_ScaleHeight(70))];
+        self.stockView = [[BFProductStockView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.cycleScrollView.frame), ScreenWidth, BF_ScaleHeight(70))];
         self.stockView.model = model;
         [self addSubview:self.stockView];
         

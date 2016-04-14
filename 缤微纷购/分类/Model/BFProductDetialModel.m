@@ -31,3 +31,8 @@
 
 
 @end
+
+@implementation BFProductDetailCarouselList
+
+
+@end

@@ -21,7 +21,9 @@
 #import "FooterCollectionReusableView.h"
 #import "BFHomeCollentionView.h"
 #import "BFHomeFunctionView.h"
+#import "BFDailySpecialController.h"
 #import "BFBestSellingController.h"
+#import "BFPanicBuyingController.h"
 
 @interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
@@ -73,7 +75,7 @@
         return;
     }
     
-    self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+    self.lbView = [[LBView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
@@ -86,7 +88,8 @@
 //    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160))];
 //    self.functionView.backgroundColor = [UIColor blueColor];
 //    [self.headerView addSubview:self.functionView];
-
+    
+    self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
     self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
     [self.headerView addSubview:self.viewBut];
@@ -150,6 +153,8 @@
         }
         case BFHomeFunctionViewButtonTypeDailySpecial:{
             BFLog(@"点击了今日特价");
+            BFDailySpecialController *dailySpecialVC = [[BFDailySpecialController alloc] init];
+            [self.navigationController pushViewController:dailySpecialVC animated:YES];
             break;
         }
         case BFHomeFunctionViewButtonTypeFirstPublish:{
@@ -226,7 +231,7 @@
     
     NSInteger count = self.homeModel.oneDataArray.count;
     
-    self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count);
+    self.upBackView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count)];
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
@@ -280,9 +285,13 @@
 - (void)setIndex:(NSInteger)index arr:(NSMutableArray *)arr IDArr:(NSMutableArray *)IDArr{
     
     if ([arr[index] isEqualToString:@"1"]) {
-        FXQViewController  *fx = [[FXQViewController alloc]init];
-        fx.ID = IDArr[index];
-        [self.navigationController pushViewController:fx animated:YES];
+//        FXQViewController  *fx = [[FXQViewController alloc]init];
+//        fx.ID = IDArr[index];
+//        [self.navigationController pushViewController:fx animated:YES];
+        
+        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
+        panicBuyingVC.ID = IDArr[index];
+        [self.navigationController pushViewController:panicBuyingVC animated:YES];
     }else if ([arr[index] isEqualToString:@"2"]){
         BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
         pt.ID = IDArr[index];
@@ -295,6 +304,7 @@
         return;
     }
 }
+
 
 #pragma  mark  CollectionView 代理方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -339,9 +349,9 @@
     
     if (section == 0) {
         if (self.titleArr.count <= 4) {
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+10);
+            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+20);
         }else{
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+10);
+            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+20);
         }
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
@@ -365,6 +375,7 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     
     if (kind == UICollectionElementKindSectionHeader) {
+        
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
         HomeSubModel *homeModel = self.homeModel.homeDataArray[indexPath.section];
         
@@ -439,7 +450,6 @@
 - (void)getDownDate{
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         [self CollectionViewgetDate];
     }];
     [self.collentionView.mj_header beginRefreshing];
@@ -451,26 +461,4 @@
     }
     return _dataArray;
 }
-
-- (LBView *)lbView{
-    if (!_lbView) {
-        _lbView = [[LBView alloc]init];
-    }
-    return _lbView;
-}
-
-- (UIView *)viewBut{
-    if (!_viewBut) {
-        _viewBut = [[UIView alloc]init];
-    }
-    return _viewBut;
-}
-
-- (UIView *)upBackView{
-    if (!_upBackView) {
-        _upBackView = [[UIView alloc]init];
-    }
-    return _upBackView;
-}
-
 @end

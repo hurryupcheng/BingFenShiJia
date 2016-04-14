@@ -551,7 +551,7 @@
     boty[@"token"] = self.userInfo.token;
     boty[@"data"] = urlStr;
     boty[@"sheng"] = self.model.sheng;
-
+    NSLog(@"======%@",self.model.sheng);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
         NSLog(@"...%@  %@",responseObject,boty);
         self.freeprice = [responseObject[@"freeprice"] floatValue];
@@ -570,7 +570,7 @@
             [_favourablePrice addObject:model.money];
             [_favourableTime addObject:model.end_time];
         }
-        NSLog(@"%@",_favourablePrice);
+        NSLog(@"////%@",_favourablePrice);
         [self initWithTableView];
 
         self.lastPrice = self.sum_price+self.freeprice;
