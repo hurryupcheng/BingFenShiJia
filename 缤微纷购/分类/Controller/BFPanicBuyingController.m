@@ -99,7 +99,7 @@
 
 #pragma mark -- 请求数据
 - (void)getData {
-    NSString *url = @"http://bingo.luexue.com/index.php?m=Json&a=item";
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
@@ -201,11 +201,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        BFProductDetailWebViewController *webVC = [[BFProductDetailWebViewController alloc] init];
-        webVC.info = self.model.info;
-        [self.navigationController pushViewController:webVC animated:YES];
+        if (self.model.info != nil) {
+            BFProductDetailWebViewController *webVC = [[BFProductDetailWebViewController alloc] init];
+            webVC.info = self.model.info;
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
     }
 }
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

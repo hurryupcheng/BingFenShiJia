@@ -41,7 +41,7 @@
         [self addSubview:self.productIcon];
         
         self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame) + BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(192), 0)];
-        self.productTitle.backgroundColor = [UIColor redColor];
+        //self.productTitle.backgroundColor = [UIColor redColor];
         self.productTitle.numberOfLines = 0;
         self.productTitle.textColor = BFColor(0x202021);
         self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
@@ -50,7 +50,7 @@
         [self.productTitle sizeToFit];
         
         self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame) + BF_ScaleHeight(4), BF_ScaleWidth(192), BF_ScaleHeight(13))];
-        self.productSize.backgroundColor = [UIColor greenColor];
+        //self.productSize.backgroundColor = [UIColor greenColor];
         self.productSize.textColor = BFColor(0x868788);
         self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         self.productSize.text = model.size;
@@ -91,7 +91,8 @@
 }
 
 - (void)add:(UIButton *)sender {
-    [BFNotificationCenter postNotificationName:@"BFDailySpecialProductView" object:nil];
+    
+    [BFNotificationCenter postNotificationName:@"BFDailySpecialProductView" object:self userInfo:@{@"tag" : @(sender.tag)} ];
 }
 
 @end

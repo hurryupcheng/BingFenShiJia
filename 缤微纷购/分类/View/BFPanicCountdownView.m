@@ -34,8 +34,7 @@
     _model = model;
     if (model) {
         
-        [self refreshTime];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        
         
         
         
@@ -65,7 +64,8 @@
         
         self.second = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(secondSemicolon.frame), BF_ScaleHeight(10), BF_ScaleWidth(30), ViewH)];
         
-
+        [self refreshTime];
+        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
     }
 }
 

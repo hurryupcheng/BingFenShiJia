@@ -43,7 +43,7 @@
         leftLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         [self addSubview:leftLabel];
         
-        UILabel *stock = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftLabel.frame), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(20))];
+        UILabel *stock = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftLabel.frame), BF_ScaleHeight(10), BF_ScaleWidth(40), BF_ScaleHeight(20))];
         stock.backgroundColor = BFColor(0xFCFCFC);
         stock.layer.cornerRadius = 3;
         stock.layer.masksToBounds = YES;

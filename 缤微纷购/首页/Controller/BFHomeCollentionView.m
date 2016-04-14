@@ -24,6 +24,7 @@
 #import "BFDailySpecialController.h"
 #import "BFBestSellingController.h"
 #import "BFPanicBuyingController.h"
+#import "BFTastingExperienceController.h"
 
 @interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
@@ -56,6 +57,15 @@
 @end
 
 @implementation BFHomeCollentionView
+
+- (BFHomeFunctionView *)functionView {
+    if (!_functionView) {
+        _functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(160))];
+        _functionView.delegate = self;
+        
+    }
+    return _functionView;
+}
 
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
@@ -94,9 +104,8 @@
     [self.headerView addSubview:self.viewBut];
     
     
-    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(160))];
-    self.functionView.delegate = self;
     [self.viewBut addSubview:self.functionView];
+    
     
     
     
@@ -168,6 +177,8 @@
         }
         case BFHomeFunctionViewButtonTypeTastingExperience:{
             BFLog(@"点击了试吃体验");
+            BFTastingExperienceController *tastingExperienceVC = [[BFTastingExperienceController alloc] init];
+            [self.navigationController pushViewController:tastingExperienceVC animated:YES];
             break;
         }
     }
@@ -284,13 +295,13 @@
 - (void)setIndex:(NSInteger)index arr:(NSMutableArray *)arr IDArr:(NSMutableArray *)IDArr{
     
     if ([arr[index] isEqualToString:@"1"]) {
-//        FXQViewController  *fx = [[FXQViewController alloc]init];
-//        fx.ID = IDArr[index];
-//        [self.navigationController pushViewController:fx animated:YES];
+        FXQViewController  *fx = [[FXQViewController alloc]init];
+        fx.ID = IDArr[index];
+        [self.navigationController pushViewController:fx animated:YES];
         
-        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
-        panicBuyingVC.ID = IDArr[index];
-        [self.navigationController pushViewController:panicBuyingVC animated:YES];
+//        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
+//        panicBuyingVC.ID = IDArr[index];
+//        [self.navigationController pushViewController:panicBuyingVC animated:YES];
     }else if ([arr[index] isEqualToString:@"2"]){
         BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
         pt.ID = IDArr[index];

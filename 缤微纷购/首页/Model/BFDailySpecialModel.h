@@ -27,6 +27,8 @@
 @interface BFDailySpecialProductList : NSObject
 /**ID*/
 @property (nonatomic, strong) NSString *ID;
+/**判断0.没开始/1.进行中/2.过期*/
+@property (nonatomic, strong) NSString *seckill_type;
 /**地址*/
 @property (nonatomic, strong) NSString *img;
 /**标题*/
@@ -46,9 +48,11 @@
 /**尺寸*/
 @property (nonatomic, strong) NSString *size;
 /**开始时间*/
-@property (nonatomic, strong) NSString *special_starttime;
+@property (nonatomic, assign) NSInteger special_starttime;
 /**结束时间*/
-@property (nonatomic, strong) NSString *special_endtime;
+@property (nonatomic, assign) NSInteger special_endtime;
+/**服务器当前时间*/
+@property (nonatomic, assign) NSInteger nowtime;
 /**价格*/
 @property (nonatomic, assign) NSInteger thisprice;
 /**库存*/

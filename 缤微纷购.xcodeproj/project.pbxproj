@@ -178,6 +178,7 @@
 		593788B61CBE3E18009240C7 /* BFDailySpecialCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 593788B51CBE3E18009240C7 /* BFDailySpecialCell.m */; };
 		593788B91CBE4751009240C7 /* BFTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 593788B81CBE4751009240C7 /* BFTimeView.m */; };
 		593788BC1CBE47CC009240C7 /* BFDailySpecialModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 593788BB1CBE47CC009240C7 /* BFDailySpecialModel.m */; };
+		59382F141CBF5DEF00442A6F /* BFTastingExperienceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59382F131CBF5DEF00442A6F /* BFTastingExperienceController.m */; };
 		5938ACBE1CAB7991004D076A /* BFGroupDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */; };
 		5938ACC11CAB80FD004D076A /* BFWithdrawalRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC01CAB80FD004D076A /* BFWithdrawalRecordModel.m */; };
 		5938ACC41CAB8145004D076A /* BFGroupDetailTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */; };
@@ -753,6 +754,8 @@
 		593788B81CBE4751009240C7 /* BFTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTimeView.m; sourceTree = "<group>"; };
 		593788BA1CBE47CC009240C7 /* BFDailySpecialModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFDailySpecialModel.h; sourceTree = "<group>"; };
 		593788BB1CBE47CC009240C7 /* BFDailySpecialModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDailySpecialModel.m; sourceTree = "<group>"; };
+		59382F121CBF5DEF00442A6F /* BFTastingExperienceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceController.h; sourceTree = "<group>"; };
+		59382F131CBF5DEF00442A6F /* BFTastingExperienceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceController.m; sourceTree = "<group>"; };
 		5938ACBC1CAB7991004D076A /* BFGroupDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailController.h; sourceTree = "<group>"; };
 		5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailController.m; sourceTree = "<group>"; };
 		5938ACBF1CAB80FD004D076A /* BFWithdrawalRecordModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFWithdrawalRecordModel.h; sourceTree = "<group>"; };
@@ -1908,6 +1911,8 @@
 				593788B21CBE3CB8009240C7 /* BFDailySpecialController.m */,
 				59F777FD1CBBFD2E00585B7A /* BFBestSellingController.h */,
 				59F777FE1CBBFD2E00585B7A /* BFBestSellingController.m */,
+				59382F121CBF5DEF00442A6F /* BFTastingExperienceController.h */,
+				59382F131CBF5DEF00442A6F /* BFTastingExperienceController.m */,
 				51088EA91CB68A2900941F51 /* BFPTViewController.h */,
 				51088EAA1CB68A2900941F51 /* BFPTViewController.m */,
 				518DB30F1C50D94E00816643 /* DWTableViewController.h */,
@@ -3098,6 +3103,7 @@
 				59FF74BB1CAE1A860063F770 /* UIImageView+LBBlurredImage.m in Sources */,
 				51A9969B1C9ABB4300B4783C /* BFAddressCell.m in Sources */,
 				59FF74BE1CAE1A860063F770 /* MASConstraint.m in Sources */,
+				59382F141CBF5DEF00442A6F /* BFTastingExperienceController.m in Sources */,
 				59FCE2151CBCE37A00CCBDEA /* BFProductStockView.m in Sources */,
 				59FF74A51CAE1A860063F770 /* AFHTTPRequestOperation.m in Sources */,
 				59FF750C1CAE1A860063F770 /* STConst.m in Sources */,

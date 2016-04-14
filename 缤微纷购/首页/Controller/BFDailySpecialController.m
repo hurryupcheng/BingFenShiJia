@@ -7,9 +7,12 @@
 //
 
 #import "BFDailySpecialController.h"
+#import "BFPanicBuyingController.h"
 #import "BFDailySpecialCell.h"
 #import "BFDailySpecialModel.h"
 #import "BFDailySpecialHeaderView.h"
+#import "BFStorage.h"
+#import "CXArchiveShopManager.h"
 
 @interface BFDailySpecialController ()<UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
@@ -67,7 +70,8 @@
     //加载数据
     [self getData];
     //接收通知
-    [BFNotificationCenter addObserver:self selector:@selector(addToShoppingCart) name:@"BFDailySpecialProductView" object:nil];
+    [BFNotificationCenter addObserver:self selector:@selector(addToShoppingCart:) name:@"BFDailySpecialProductView" object:nil];
+    [BFNotificationCenter addObserver:self selector:@selector(changeView) name:@"changeView" object:nil];
     
 }
 
@@ -80,6 +84,7 @@
             self.model = [BFDailySpecialModel parse:responseObject];
             self.headerView.model = self.model;
             if ([self.model.item isKindOfClass:[NSArray class]]) {
+                [self.productArray removeAllObjects];
                 NSArray *array = [BFDailySpecialProductList parse:self.model.item];
                 [self.productArray addObjectsFromArray:array];
                 BFLog(@"===%lu",(unsigned long)self.productArray.count);
@@ -121,6 +126,10 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+- (void)changeView {
+    [self getData];
+    
+}
 
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -131,9 +140,20 @@
     BFDailySpecialCell *cell = [BFDailySpecialCell cellWithTableView:tableView];
     cell.model = self.productArray[indexPath.row];
     cell.productView.shoppingCart.tag = indexPath.row;
-    //cell.textLabel.text = @"测试";
+    
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BFDailySpecialProductList *list = self.productArray[indexPath.row];
+    BFPanicBuyingController *panicBuying = [[BFPanicBuyingController alloc] init];
+    panicBuying.ID = list.ID;
+    [self.navigationController pushViewController:panicBuying animated:YES];
+    
+    
+}
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return  BF_ScaleHeight(155);
@@ -141,7 +161,21 @@
 
 
 #pragma mark -- 通知方法
-- (void)addToShoppingCart {
+- (void)addToShoppingCart:(NSNotification *)notification {
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    BFDailySpecialProductList *list = self.productArray[[notification.userInfo[@"tag"] integerValue]];
+    if ([list.seckill_type isEqualToString:@"0"]) {
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购还未开始,请耐心等待"];
+    }else if ([list.seckill_type isEqualToString:@"2"]) {
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购已经结束,请等待下一波"];
+    }else {
+        BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:[NSString stringWithFormat:@"%ld", (long)list.stock] choose:list.size color:list.color];
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+        [[CXArchiveShopManager sharedInstance]startArchiveShop];
+    }
+    
+    
 
     
 }
