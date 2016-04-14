@@ -182,8 +182,8 @@
     self.swit = [[UISwitch alloc]init];
     
     _scoreTitle = [[UILabel alloc]init];
-//    NSInteger useScore = self.score/100;
-    NSInteger useScore = 100000/100;
+    NSInteger useScore = self.score/100;
+//    NSInteger useScore = 100000/100;
     if (useScore > _sum_price/2) {
         self.scores = _sum_price/2;
     }else{
@@ -194,7 +194,7 @@
      _scoreTitle.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_scoreTitle.text];
-    [str addAttribute:NSForegroundColorAttributeName value:rgb(0, 128, 0, 1.0) range:NSMakeRange(4, 6)];
+    [str addAttribute:NSForegroundColorAttributeName value:rgb(0, 128, 0, 1.0) range:NSMakeRange(4, [_scoreTitle.text length]-4)];
     _scoreTitle.attributedText = str;
    
 //  开启积分抵扣后控件
@@ -549,11 +549,11 @@
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
     boty[@"uid"] = self.userInfo.ID;
     boty[@"token"] = self.userInfo.token;
-    boty[@"data"] = urlStrs;
+    boty[@"data"] = urlStr;
     boty[@"sheng"] = self.model.sheng;
-
+    NSLog(@"======%@",self.model.sheng);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
-        NSLog(@"...%@",responseObject);
+        NSLog(@"...%@  %@",responseObject,boty);
         self.freeprice = [responseObject[@"freeprice"] floatValue];
        double score = [responseObject[@"score"] integerValue];
         self.score = score;
@@ -570,7 +570,7 @@
             [_favourablePrice addObject:model.money];
             [_favourableTime addObject:model.end_time];
         }
-        NSLog(@"%@",_favourablePrice);
+        NSLog(@"////%@",_favourablePrice);
         [self initWithTableView];
 
         self.lastPrice = self.sum_price+self.freeprice;

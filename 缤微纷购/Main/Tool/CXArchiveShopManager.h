@@ -42,4 +42,5 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(CXArchiveShopManager)
 -(void)removeItemKeyOneDataSource:(NSString *)userID;
 //删除所有数据
 -(void)removeAllKeysWithDataSource;
+
 @end
