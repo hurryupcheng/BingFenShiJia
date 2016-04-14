@@ -147,9 +147,10 @@
         for (BFStorage *model in self.dateArr) {
             [self.selectGoods addObject:model];
         }
-
+        self.foot.buyButton.enabled = YES;
     }else{
         [self.selectGoods removeAllObjects];
+        self.foot.buyButton.enabled = NO;
     }
     [self.tabView reloadData];
     [self countPrice];
@@ -168,6 +169,7 @@
     
     self.foot = [[BFFootViews alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-115, kScreenWidth, 50) money:@"合计:¥ 0.00" home:nil name:@"马上结算"];
     _foot.backgroundColor = [UIColor whiteColor];
+    _foot.buyButton.enabled = NO;
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
@@ -296,8 +298,10 @@
         
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
+            self.foot.buyButton.enabled = YES;
         }else{
             [self.selectGoods removeObject:[self.dateArr objectAtIndex:indexPath.row]];
+            self.foot.buyButton.enabled = NO;
         }
         
         if (self.selectGoods.count == self.dateArr.count) {
@@ -400,7 +404,7 @@
 }
 
 - (void)jiesuan{
-    
+
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     bfzf.modelArr = _selectGoods;
     bfzf.removeBlock = ^(){

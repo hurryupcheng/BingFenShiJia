@@ -67,6 +67,8 @@
 @property (nonatomic)BOOL isCoupon;//是否弹出视图
 @property (nonatomic,assign)NSInteger nums;//cell点击次数
 
+@property (nonatomic,retain)NSMutableArray *addressArray;
+
 @property (nonatomic)BOOL hidden;
 
 @end
@@ -84,8 +86,8 @@
     
     [self initWithFootView];
     [self initWithTableView];
-    [self addsView];
     [self getData];
+//    [self getNewData];
 }
 
 - (void)initWithFootView{
@@ -170,7 +172,7 @@
 }
 #pragma  mark 表视图初始化
 - (void)initWithTableView{
-
+ 
     self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
 
     self.tableV.delegate = self;
@@ -213,7 +215,8 @@
     
     _wordesImg = [[UIImageView alloc]initWithFrame:CGRectMake(kScreenWidth-40, 13, CGFloatX(25), CGFloatX(25))];
     _wordesImg.image = [UIImage imageNamed:@"iconfont-xiajianhao.png"];
-
+    
+    [self addsView];
     [self.view addSubview:self.tableV];
 }
 
@@ -262,6 +265,27 @@
         [_imageV addSubview:_img];
         [_imageV addSubview:_type];
         [_imageV addSubview:_nullAdds];
+        
+        if (self.addressArray.count == 0) {
+            self.nullAdds.alpha = 1;
+            self.type.alpha = 0;
+            NSLog(@"222222");
+        }else{
+            self.nullAdds.alpha = 0;
+            self.type.alpha = 1;
+            NSLog(@"444444");
+            _name.text = self.model.consignee;
+            _photo.text = self.model.mobile;
+            _adds.text = self.model.address;
+            if ([self.model.type isEqualToString:@"0"]) {
+                _type.text = @"家";
+            }else if ([self.model.type isEqualToString:@"1"]){
+                _type.text = @"公司";
+            }else{
+                _type.text = @"其他";
+            }
+    
+        }
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(headerDid)];
         [_imageV addGestureRecognizer:tap];
@@ -312,9 +336,11 @@
 #pragma  mark 回调地址
 - (void)headerDid{
     NSLog(@"地址点击");
+    self.model = nil;
     BFAddressController *addVC = [BFAddressController new];
     addVC.block = ^(BFAddressModel *model) {
         self.model = model;
+        [self.addressArray addObject:model];
         _name.text = model.consignee;
          _photo.text = model.mobile;
         _adds.text = model.address;
@@ -325,9 +351,12 @@
         }else{
         _type.text = @"其他";
         }
+        [self getNewData];
         BFLog(@".....%@",self.model);
     };
+    
     [self.navigationController pushViewController:addVC animated:YES];
+    
 }
 
 #pragma  mark 表视图代理方法
@@ -524,9 +553,35 @@
     [self.tableV reloadData];
 }
 
-
 #pragma  mark 解析
-- (void)getData{
+- (void)getData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=check_address"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求...." dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+                NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
+            for (BFAddressModel *model in array) {
+                if ([model.def isEqualToString:@"1"]) {
+                    
+                    self.model = model;
+                [self.addressArray addObject:model];
+                }
+                [self getNewData];
+             }
+            } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            BFLog(@"%@", error);
+        }];
+        
+    }];
+}
+
+
+- (void)getNewData{
  
     _dataArr = [NSMutableArray array];
     NSString *string;
@@ -583,17 +638,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-   
+    
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
-    
-    if (self.name.text == nil) {
-        self.nullAdds.alpha = 1;
-        self.type.alpha = 0;
-    }else{
-        self.nullAdds.alpha = 0;
-        self.type.alpha = 1;
-    }
     
     self.tabBarController.tabBar.hidden = YES;
 }
@@ -646,6 +693,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
     self.navigationController.navigationBar.translucent = NO;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
@@ -653,7 +701,12 @@
     
 }
 
-
+- (NSMutableArray *)addressArray{
+    if (!_addressArray) {
+        _addressArray = [NSMutableArray array];
+    }
+    return _addressArray;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
