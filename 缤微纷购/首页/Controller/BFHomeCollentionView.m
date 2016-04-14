@@ -75,7 +75,7 @@
         return;
     }
     
-    self.lbView = [[LBView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenWidth/2)];
+    self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
@@ -89,7 +89,6 @@
 //    self.functionView.backgroundColor = [UIColor blueColor];
 //    [self.headerView addSubview:self.functionView];
     
-    self.viewBut = [[UIView alloc]init];
     self.viewBut.backgroundColor = [UIColor whiteColor];
     self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
     [self.headerView addSubview:self.viewBut];
@@ -231,7 +230,7 @@
     
     NSInteger count = self.homeModel.oneDataArray.count;
     
-    self.upBackView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count)];
+    self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count);
     
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
@@ -460,5 +459,26 @@
         _dataArray = [NSMutableArray array];
     }
     return _dataArray;
+}
+
+- (LBView *)lbView{
+    if (!_lbView) {
+        _lbView = [[LBView alloc]init];
+    }
+    return _lbView;
+}
+
+- (UIView *)viewBut{
+    if (!_viewBut) {
+        _viewBut = [[UIView alloc]init];
+    }
+    return _viewBut;
+}
+
+- (UIView *)upBackView{
+    if (!_upBackView) {
+        _upBackView = [[UIView alloc]init];
+    }
+    return _upBackView;
 }
 @end
