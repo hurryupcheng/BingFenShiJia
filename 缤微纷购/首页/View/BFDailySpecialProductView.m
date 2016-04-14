@@ -34,6 +34,9 @@
     _model = model;
     if (model) {
         self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(8), BF_ScaleWidth(104), BF_ScaleHeight(104))];
+        self.productIcon.layer.borderWidth = 0.5;
+        self.productIcon.layer.borderColor = BFColor(0xF2F4F5).CGColor;
+        self.productIcon.layer.cornerRadius = 3;
         [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [self addSubview:self.productIcon];
         
@@ -65,7 +68,7 @@
         [self addSubview:self.productNewPrice];
         [self.productNewPrice sizeToFit];
         
-        self.productOriginPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productNewPrice.frame)+BF_ScaleWidth(20), BF_ScaleHeight(98), BF_ScaleWidth(200), BF_ScaleHeight(10))];
+        self.productOriginPrice = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productNewPrice.frame)+BF_ScaleWidth(20), BF_ScaleHeight(95), BF_ScaleWidth(200), BF_ScaleHeight(10))];
         self.productOriginPrice.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
         self.productOriginPrice.numberOfLines = 0;
         self.productOriginPrice.textColor = BFColor(0xB3B3B3);
@@ -77,7 +80,7 @@
         seperateLine.backgroundColor = BFColor(0xB3B3B3);
         [self addSubview:seperateLine];
         
-        self.shoppingCart = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(277), BF_ScaleHeight(75), BF_ScaleWidth(35), BF_ScaleHeight(35))];
+        self.shoppingCart = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(287), BF_ScaleHeight(90), BF_ScaleWidth(25), BF_ScaleHeight(20))];
         //shoppingCart.backgroundColor = [UIColor blueColor];
         [self.shoppingCart setImage:[UIImage imageNamed:@"gouwuche_tejia"] forState:UIControlStateNormal];
         [self.shoppingCart addTarget:self action:@selector(add:) forControlEvents:UIControlEventTouchUpInside];
