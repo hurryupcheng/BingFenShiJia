@@ -122,7 +122,6 @@
     [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求...." dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
-
                 [self.addressArray removeAllObjects];
                 NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
                 [self.addressArray addObjectsFromArray:array];
