@@ -99,12 +99,16 @@
     [self tabBar];
     //请求数据
     [self getData];
-    if (self.model != nil) {
 
-    }
-    
+    //状态改变发送通知
     [BFNotificationCenter addObserver:self selector:@selector(changeCountView) name:@"changeCountView" object:nil];
 }
+
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
 
 - (void)changeCountView {
     [self getData];

@@ -193,7 +193,7 @@
         }
     }else if (indexPath.section == 2) {
         if (indexPath.row == 2) {
-
+            
             id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
                                                defaultContent:@"ddsf"
                                                         image:nil

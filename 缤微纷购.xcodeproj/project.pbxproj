@@ -267,6 +267,7 @@
 		59F7EC8D1C96F9A2006ABB2A /* BFMyCouponsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7EC8C1C96F9A2006ABB2A /* BFMyCouponsModel.m */; };
 		59F82BF91C9AF581006B76E6 /* BFEditAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F82BF81C9AF581006B76E6 /* BFEditAddressController.m */; };
 		59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */; };
+		59F9F8DC1CC13C7C0010A9B5 /* BFSoundEffect.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9F8DB1CC13C7C0010A9B5 /* BFSoundEffect.m */; };
 		59F9FB2D1CA388D600042501 /* BFCommissionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9FB2C1CA388D600042501 /* BFCommissionModel.m */; };
 		59FA30661CBCF8E00053FD96 /* BFCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA30651CBCF8E00053FD96 /* BFCountView.m */; };
 		59FA43311C97FF9D00DA28BB /* BFProductInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FA43301C97FF9D00DA28BB /* BFProductInfoModel.m */; };
@@ -300,6 +301,10 @@
 		59FD130B1CBFEB8D00B2292A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FD130A1CBFEB8D00B2292A /* QuartzCore.framework */; };
 		59FD130E1CBFEC3B00B2292A /* ShareCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD130D1CBFEC3B00B2292A /* ShareCustom.m */; };
 		59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */; };
+		59FDDD061CC139EC00BF8C97 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FDDD051CC139EC00BF8C97 /* AudioToolbox.framework */; };
+		59FDDD0A1CC13A1000BF8C97 /* composer_close.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD071CC13A1000BF8C97 /* composer_close.wav */; };
+		59FDDD0B1CC13A1000BF8C97 /* composer_open.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD081CC13A1000BF8C97 /* composer_open.wav */; };
+		59FDDD0C1CC13A1000BF8C97 /* composer_select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD091CC13A1000BF8C97 /* composer_select.wav */; };
 		59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */; };
 		59FE13BA1CBD4FED00ACAF54 /* BFProductDetailWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B91CBD4FED00ACAF54 /* BFProductDetailWebViewController.m */; };
 		59FEC72A1CB553000081616D /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FEC7291CB553000081616D /* Province.plist */; };
@@ -923,6 +928,8 @@
 		59F82BF81C9AF581006B76E6 /* BFEditAddressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFEditAddressController.m; sourceTree = "<group>"; };
 		59F9F1E51C98F83300CA9986 /* BFOrderProductModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFOrderProductModel.h; sourceTree = "<group>"; };
 		59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFOrderProductModel.m; sourceTree = "<group>"; };
+		59F9F8DA1CC13C7C0010A9B5 /* BFSoundEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSoundEffect.h; sourceTree = "<group>"; };
+		59F9F8DB1CC13C7C0010A9B5 /* BFSoundEffect.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSoundEffect.m; sourceTree = "<group>"; };
 		59F9FB2B1CA388D600042501 /* BFCommissionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCommissionModel.h; sourceTree = "<group>"; };
 		59F9FB2C1CA388D600042501 /* BFCommissionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCommissionModel.m; sourceTree = "<group>"; };
 		59FA30641CBCF8E00053FD96 /* BFCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCountView.h; sourceTree = "<group>"; };
@@ -986,6 +993,10 @@
 		59FD130D1CBFEC3B00B2292A /* ShareCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareCustom.m; sourceTree = "<group>"; };
 		59FD9EE61C924C6A0087FCFF /* BFGoGroupShoppingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGoGroupShoppingView.h; sourceTree = "<group>"; };
 		59FD9EE71C924C6A0087FCFF /* BFGoGroupShoppingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGoGroupShoppingView.m; sourceTree = "<group>"; };
+		59FDDD051CC139EC00BF8C97 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		59FDDD071CC13A1000BF8C97 /* composer_close.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_close.wav; sourceTree = "<group>"; };
+		59FDDD081CC13A1000BF8C97 /* composer_open.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_open.wav; sourceTree = "<group>"; };
+		59FDDD091CC13A1000BF8C97 /* composer_select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_select.wav; sourceTree = "<group>"; };
 		59FE13B51CBD4D1A00ACAF54 /* BFDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFDetailCell.h; sourceTree = "<group>"; };
 		59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDetailCell.m; sourceTree = "<group>"; };
 		59FE13B81CBD4FED00ACAF54 /* BFProductDetailWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailWebViewController.h; sourceTree = "<group>"; };
@@ -1357,6 +1368,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59FDDD061CC139EC00BF8C97 /* AudioToolbox.framework in Frameworks */,
 				59F687561CC0838F00AD8308 /* MessageUI.framework in Frameworks */,
 				59FD130B1CBFEB8D00B2292A /* QuartzCore.framework in Frameworks */,
 				59382F521CBF9BB900442A6F /* libsqlite3.tbd in Frameworks */,
@@ -1476,6 +1488,7 @@
 		51D121A21C3A6DA700640A44 = {
 			isa = PBXGroup;
 			children = (
+				59FDDD051CC139EC00BF8C97 /* AudioToolbox.framework */,
 				59F687551CC0838F00AD8308 /* MessageUI.framework */,
 				59FD130A1CBFEB8D00B2292A /* QuartzCore.framework */,
 				59382F511CBF9BB900442A6F /* libsqlite3.tbd */,
@@ -1517,6 +1530,9 @@
 				59FF72FA1CAE17240063F770 /* Info.plist */,
 				59FC986A1CB4D1BA0076B311 /* bankAddress.plist */,
 				59FEC7291CB553000081616D /* Province.plist */,
+				59FDDD071CC13A1000BF8C97 /* composer_close.wav */,
+				59FDDD081CC13A1000BF8C97 /* composer_open.wav */,
+				59FDDD091CC13A1000BF8C97 /* composer_select.wav */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
 				5128383D1CBCDCFA00E21EBE /* laji.png */,
 				592523B71C8676E5000F609F /* PrefixHeader.pch */,
@@ -2365,6 +2381,8 @@
 				59FF73361CAE1A860063F770 /* BFSegmentView.m */,
 				59FF73371CAE1A860063F770 /* BFShareView.h */,
 				59FF73381CAE1A860063F770 /* BFShareView.m */,
+				59F9F8DA1CC13C7C0010A9B5 /* BFSoundEffect.h */,
+				59F9F8DB1CC13C7C0010A9B5 /* BFSoundEffect.m */,
 				59FD130C1CBFEC3B00B2292A /* ShareCustom.h */,
 				59FD130D1CBFEC3B00B2292A /* ShareCustom.m */,
 				59FF73391CAE1A860063F770 /* BFStorage.h */,
@@ -2977,6 +2995,7 @@
 				51D24D6C1C98ED9600F2D90E /* dm03.png in Resources */,
 				59513B8B1C9FFD8D0028B008 /* guanbi.png in Resources */,
 				51D1E9401C7BEE0000D2F9D9 /* jian.png in Resources */,
+				59FDDD0A1CC13A1000BF8C97 /* composer_close.wav in Resources */,
 				51D458B81C96EDAC00B52516 /* yinlian.png in Resources */,
 				59F687501CC07BF700AD8308 /* read_me.txt in Resources */,
 				51D579661C97A5CF00385BD2 /* cbg.png in Resources */,
@@ -3047,6 +3066,7 @@
 				59F6874C1CC07BF700AD8308 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				59FF74B81CAE1A860063F770 /* PushConfig.plist in Resources */,
 				51E933DE1CAB9E35004E9EA4 /* iconfont-xiajianhao.png in Resources */,
+				59FDDD0C1CC13A1000BF8C97 /* composer_select.wav in Resources */,
 				51D458BA1C96EDAC00B52516 /* zhifubao.png in Resources */,
 				51D4D9551C44A8F200453CD1 /* iicon05.png in Resources */,
 				59FF72FB1CAE17240063F770 /* Info.plist in Resources */,
@@ -3071,6 +3091,7 @@
 				59FF74B31CAE1A860063F770 /* btn-close-black@2x.png in Resources */,
 				59F687471CC07BF700AD8308 /* ShareSDKLocalizable.strings in Resources */,
 				59513B8F1C9FFD8D0028B008 /* kong.png in Resources */,
+				59FDDD0B1CC13A1000BF8C97 /* composer_open.wav in Resources */,
 				51D2FE811C7EAB1100155588 /* gg.jpg in Resources */,
 				51D4D9531C44A8F200453CD1 /* iicon03.png in Resources */,
 				51D10E3B1C40F10700F630C9 /* icon_15.png in Resources */,
@@ -3439,6 +3460,7 @@
 				59FF74861CAE1A860063F770 /* UIView+Extension.m in Sources */,
 				59FF5F2F1C91475A00DA6E5B /* BFCityModel.m in Sources */,
 				593788981CBDF117009240C7 /* BFPanicBuyingController.m in Sources */,
+				59F9F8DC1CC13C7C0010A9B5 /* BFSoundEffect.m in Sources */,
 				51D122041C3A751400640A44 /* HomeViewController.m in Sources */,
 				59FF74A21CAE1A860063F770 /* UnderLineLabel.m in Sources */,
 			);

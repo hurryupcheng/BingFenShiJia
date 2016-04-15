@@ -99,6 +99,13 @@
     //接收footerView的我的团按钮的点击事件
     [BFNotificationCenter addObserver:self selector:@selector(goToGroupDetail) name:@"myGroupClick" object:nil];
 }
+
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
+
 #pragma mark -- 拼团玩法的通知事件
 - (void)clickToLookDetail {
     PTStepViewController *pt = [[PTStepViewController alloc]init];

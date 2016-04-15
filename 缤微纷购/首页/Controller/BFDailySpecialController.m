@@ -75,6 +75,11 @@
     
 }
 
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
 #pragma mark -- 加载数据
 - (void)getData {
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=special_list"];
@@ -126,10 +131,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-- (void)changeView {
-    [self getData];
-    
-}
+
 
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -174,9 +176,11 @@
         [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
         [[CXArchiveShopManager sharedInstance]startArchiveShop];
     }
-    
-    
+}
 
+#pragma mark -- 通知方法重新加载数据
+- (void)changeView {
+    [self getData];
     
 }
 

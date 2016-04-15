@@ -70,6 +70,7 @@
 
 
 - (void)showView {
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.bgImageView.alpha = 0;
     [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 1;
@@ -110,11 +111,12 @@
 
 //取消按钮点击
 - (void)cancle:(UIButton *)sender {
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideView];
 }
 
 - (void)hide {
-   
+   [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideView];
 }
 
@@ -130,6 +132,7 @@
 
 - (void)chooseCustomerService:(UIButton *)sender {
     [self hideView];
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickToChooseCustomerServiceWithType:)]) {
         [self.delegate clickToChooseCustomerServiceWithType:sender.tag];
     }

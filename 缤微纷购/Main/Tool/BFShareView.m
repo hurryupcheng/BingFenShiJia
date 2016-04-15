@@ -86,6 +86,7 @@ static id _publishContent;
 
 
 - (void)showShareView {
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = BF_ScaleHeight(120);
@@ -110,6 +111,7 @@ static id _publishContent;
 }
 
 - (void)hideShareView {
+    
     [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];
@@ -136,6 +138,7 @@ static id _publishContent;
 }
 
 - (void)hide {
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideShareView];
 }
 
@@ -153,6 +156,9 @@ static id _publishContent;
 }
 
 - (void)clickToShare:(UIButton *)sender {
+    
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    
     int shareType = 0;
     id publishContent = _publishContent;
     switch (sender.tag) {
@@ -175,8 +181,9 @@ static id _publishContent;
         default:
             break;
     }
+    
     if (shareType == ShareTypeSinaWeibo) {
-        [self hide];
+        [self hideShareView];
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             BFLog(@"---%d",type);
             if (state == SSResponseStateSuccess) {
@@ -194,15 +201,15 @@ static id _publishContent;
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             BFLog(@"---%d",type);
             if (state == SSResponseStateSuccess) {
-                [self hide];
+                [self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [self hide];
+                [self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
-                [self hide];
+                [self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
             }
         }];
@@ -216,5 +223,9 @@ static id _publishContent;
     
     BFLog(@"点击了分享");
 }
+
+
+
+
 
 @end

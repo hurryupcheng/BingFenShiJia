@@ -23,11 +23,17 @@
 
 #define AppKey   @"11ae973b82132"
 
-#define  kWXKey         @"wx527fcee587d19017"
-#define  kWXSecret      @"80e78cd5c34542df24a1c3e6b28492b1"
+#define  kWXKey         @"wxfdfc235382c84b7d"
+#define  kWXSecret      @"d911c360a8a5ad90a9b5ca1250e35e97"
 
-#define  kQQKey         @"1104539912"
-#define  kQQSecret      @"eFVgRits2fqf36Jf"
+//#define  kQQKey         @"1104539912"
+//#define  kQQSecret      @"eFVgRits2fqf36Jf"
+#define  kQQKey         @"1105335960"
+#define  kQQSecret      @"KEYgTufBAzAgLcyXhb0"
+
+#define  kSinaKey         @"1177928191"
+#define  kSinaSecret      @"090912c73729b5aa7d1405fce0a6c76a"
+
 
 @interface AppDelegate ()<CLLocationManagerDelegate>
 /**定位管理*/
@@ -55,34 +61,34 @@
     
     
     
-    [ShareSDK registerApp:@"11ae973b82132"];//字符串api20为您的ShareSDK的AppKey
+    [ShareSDK registerApp:AppKey];//字符串api20为您的ShareSDK的AppKey
     
 
-    [ShareSDK connectQQWithQZoneAppKey:@"1104539912"
+    [ShareSDK connectQQWithQZoneAppKey:kQQKey
                      qqApiInterfaceCls:[QQApiInterface class]
                        tencentOAuthCls:[TencentOAuth class]];
 
     //微信登陆的时候需要初始化
 
     //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-    [ShareSDK  connectSinaWeiboWithAppKey:@"1177928191"
-                                appSecret:@"090912c73729b5aa7d1405fce0a6c76a"
+    [ShareSDK  connectSinaWeiboWithAppKey:kSinaKey
+                                appSecret:kSinaSecret
                               redirectUri:@"http://www.baidu.com"
                               weiboSDKCls:[WeiboSDK class]];
     
-    //添加新浪微博应用 注册网址 http://open.weibo.com
-    [ShareSDK connectSinaWeiboWithAppKey:@"1177928191"
-                               appSecret:@"090912c73729b5aa7d1405fce0a6c76a"
+//    //添加新浪微博应用 注册网址 http://open.weibo.com
+    [ShareSDK connectSinaWeiboWithAppKey:kSinaKey
+                               appSecret:kSinaSecret
                              redirectUri:@"http://www.baidu.com"];
     
     //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-    [ShareSDK connectQZoneWithAppKey:@"1104539912"
-                           appSecret:@"eFVgRits2fqf36Jf"
+    [ShareSDK connectQZoneWithAppKey:kQQKey
+                           appSecret:kQQSecret
                    qqApiInterfaceCls:[QQApiInterface class]
                      tencentOAuthCls:[TencentOAuth class]];
     
-    [ShareSDK connectWeChatWithAppId:@"wx527fcee587d19017"   //微信APPID
-                           appSecret:@"80e78cd5c34542df24a1c3e6b28492b1"  //微信APPSecret
+    [ShareSDK connectWeChatWithAppId:kWXKey   //微信APPID
+                           appSecret:kWXSecret  //微信APPSecret
                            wechatCls:[WXApi class]];
 
     
