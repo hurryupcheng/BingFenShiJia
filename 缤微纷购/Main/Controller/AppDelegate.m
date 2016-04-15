@@ -64,10 +64,16 @@
 
     //微信登陆的时候需要初始化
 
+    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
+    [ShareSDK  connectSinaWeiboWithAppKey:@"1177928191"
+                                appSecret:@"090912c73729b5aa7d1405fce0a6c76a"
+                              redirectUri:@"http://www.baidu.com"
+                              weiboSDKCls:[WeiboSDK class]];
+    
     //添加新浪微博应用 注册网址 http://open.weibo.com
-    [ShareSDK connectSinaWeiboWithAppKey:@"568898243"
-                               appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-                             redirectUri:@"http://www.sharesdk.cn"];
+    [ShareSDK connectSinaWeiboWithAppKey:@"1177928191"
+                               appSecret:@"090912c73729b5aa7d1405fce0a6c76a"
+                             redirectUri:@"http://www.baidu.com"];
     
     //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
     [ShareSDK connectQZoneWithAppKey:@"1104539912"
@@ -79,27 +85,6 @@
                            appSecret:@"80e78cd5c34542df24a1c3e6b28492b1"  //微信APPSecret
                            wechatCls:[WXApi class]];
 
-    //    //添加新浪微博应用 注册网址 http://open.weibo.com
-    //    [ShareSDK connectSinaWeiboWithAppKey:@"568898243"
-    //                               appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-    //                             redirectUri:@"http://www.sharesdk.cn"];
-    //    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-    //    [ShareSDK  connectSinaWeiboWithAppKey:@"568898243"
-    //                                appSecret:@"38a4f8204cc784f81f9f0daaf31e02e3"
-    //                              redirectUri:@"http://www.sharesdk.cn"
-    //                              weiboSDKCls:[WeiboSDK class]];
-    //
-    //
-    //    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-    //    [ShareSDK connectQZoneWithAppKey:@"100371282"
-    //                           appSecret:@"aed9b0303e3ed1e27bae87c33761161d"
-    //                   qqApiInterfaceCls:[QQApiInterface class]
-    //                     tencentOAuthCls:[TencentOAuth class]];
-    //
-    //    //添加QQ应用  注册网址   http://mobile.qq.com/api/
-    //    [ShareSDK connectQQWithQZoneAppKey:@"1104539912"
-    //                     qqApiInterfaceCls:[QQApiInterface class]
-    //                       tencentOAuthCls:[TencentOAuth class]];
     
     self.proportionX = kScreenWidth/375;
     self.proportionY = kScreenHeight/667;

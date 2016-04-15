@@ -175,20 +175,41 @@ static id _publishContent;
         default:
             break;
     }
-    [self hide];
-    [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-        if (state == SSResponseStateSuccess)
-        {
-            [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-                        NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
-        }else if (state == SSResponseStateFail)
-        {
-            UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"未检测到客户端 分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            [alert show];
-                        NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
-        }
-    }];
+    if (shareType == ShareTypeSinaWeibo) {
+        [self hide];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
 
+    }else {
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                [self hide];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [self hide];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                [self hide];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+
+    }
+    
+    
 //    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
 //        [self.delegate bfShareView:self type:sender.tag];
 //    }

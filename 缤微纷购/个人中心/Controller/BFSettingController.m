@@ -194,11 +194,9 @@
     }else if (indexPath.section == 2) {
         if (indexPath.row == 2) {
 
-            id<ISSContent> publishContent = [ShareSDK content:@"dd"
+            id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
                                                defaultContent:@"ddsf"
-                                                        image:[ShareSDK imageWithUrl:@"http://img.taopic.com/uploads/allimg/120924/219049-12092412401694.jpg"]
-                                             
-                                             
+                                                        image:nil
                                                         title:@"这是一个分享测试"
                                                           url:@"www.baidu.com"
                                                   description:@"哈哈哈"
