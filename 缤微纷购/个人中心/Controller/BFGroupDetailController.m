@@ -239,9 +239,9 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
-            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-            BFShareView *shareView = [BFShareView shareView];
-            [window addSubview:shareView];
+//            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+//            BFShareView *shareView = [BFShareView shareView];
+//            [window addSubview:shareView];
             BFLog(@"分享");
             break;
         }

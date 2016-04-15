@@ -13,8 +13,9 @@
 
 
 #import "BFShareView.h"
-
-
+#import <ShareSDK/ShareSDK.h>
+#import <QuartzCore/QuartzCore.h>
+static id _publishContent;
 @interface BFShareView ()
 /**微信朋友圈分享按钮*/
 @property (nonatomic, strong) UIButton *moments;
@@ -30,9 +31,29 @@
 
 @implementation BFShareView
 
-+ (instancetype) shareView {
+//+(void)shareWithContent:(id)publishContent/*只需要在分享按钮事件中 构建好分享内容publishContent传过来就好了*/
+//{
+//    _publishContent = publishContent;
+//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+//    
+//    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    blackView.backgroundColor = BFColor(0x000000);
+//    blackView.tag = 440;
+//    [window addSubview:blackView];
+//    
+//    UIView *shareView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    shareView.backgroundColor = BFColor(0xf6f6f6);
+//    shareView.tag = 441;
+//    [window addSubview:shareView];
+//
+//}
+static id _publishContent;
++ (instancetype)shareView:(id)publishContent {
+    _publishContent = publishContent;
+    //UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     BFShareView *share = [[BFShareView alloc] init];
     [share showShareView];
+    //[share addSubview:window];
     return share;
 }
 
@@ -132,10 +153,45 @@
 }
 
 - (void)clickToShare:(UIButton *)sender {
-    [self removeFromSuperview];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
-        [self.delegate bfShareView:self type:sender.tag];
+    int shareType = 0;
+    id publishContent = _publishContent;
+    switch (sender.tag) {
+        case BFShareButtonTypeMoments:
+            shareType = ShareTypeWeixiTimeline;
+            break;
+        case BFShareButtonTypeWechatFriends:
+            shareType = ShareTypeWeixiSession;
+            break;
+        case BFShareButtonTypeQQZone:
+            shareType = ShareTypeQQSpace;
+            break;
+        case BFShareButtonTypeQQFriends:
+            shareType = ShareTypeQQ;
+            break;
+        case BFShareButtonTypeSinaBlog:
+            shareType = ShareTypeSinaWeibo;
+            break;
+            
+        default:
+            break;
     }
+    [self hide];
+    [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+        if (state == SSResponseStateSuccess)
+        {
+            [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                        NSLog(NSLocalizedString(@"TEXT_ShARE_SUC", @"分享成功"));
+        }else if (state == SSResponseStateFail)
+        {
+            UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"" message:@"未检测到客户端 分享失败" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+                        NSLog(NSLocalizedString(@"TEXT_ShARE_FAI", @"分享失败,错误码:%d,错误描述:%@"), [error errorCode], [error errorDescription]);
+        }
+    }];
+
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
+//        [self.delegate bfShareView:self type:sender.tag];
+//    }
     
     BFLog(@"点击了分享");
 }
