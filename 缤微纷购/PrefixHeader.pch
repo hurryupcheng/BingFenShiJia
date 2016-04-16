@@ -11,6 +11,7 @@
 
 #pragma mark -- 头文件
 #import <AudioToolbox/AudioToolbox.h>  
+#import <ShareSDK/ShareSDK.h>
 
 #pragma mark -- 第三方
 #import "SDCycleScrollView.h"
@@ -35,6 +36,7 @@
 #import "BFSegmentView.h"
 #import "BFTranslateTime.h"
 #import "BFUserInfo.h"
+//#import "BFThirdPartyLoginUserInfo.h"
 #import "BFSoundEffect.h"
 
 #pragma mark ---宏定义
@@ -43,8 +45,8 @@
 
 /**接口宏定义*/
 #define BF_URL  @"http://bingo.luexue.com"
-//#define NET_URL  @"http://192.168.1.201/binfen"
-#define NET_URL  @"http://bingo.luexue.com"
+#define NET_URL  @"http://192.168.1.201/binfen"
+//#define NET_URL  @"http://bingo.luexue.com"
 
 
 /**通知中心*/

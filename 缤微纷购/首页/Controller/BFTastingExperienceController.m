@@ -7,6 +7,8 @@
 //
 
 #import "BFTastingExperienceController.h"
+#import "BFShareView.h"
+
 
 @interface BFTastingExperienceController ()<UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
@@ -86,7 +88,17 @@
 }
 
 - (void)share {
-    
+    id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+                                       defaultContent:@"ddsf"
+                                                image:nil
+                                                title:@"这是一个分享测试"
+                                                  url:@"www.baidu.com"
+                                          description:@"哈哈哈"
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //调用自定义分享
+    BFShareView *share = [BFShareView shareView:publishContent];
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    [window addSubview:share];
 }
 
 

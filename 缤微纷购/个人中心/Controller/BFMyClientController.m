@@ -9,8 +9,9 @@
 #import "BFMyClientController.h"
 #import "BFMyCustomerCell.h"
 #import "BFMyCustomerModel.h"
+#import "BFCustomerServiceView.h"
 
-@interface BFMyClientController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate>
+@interface BFMyClientController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate, BFCustomerServiceViewDelegate>
 
 /**底部tableView*/
 @property (nonatomic, strong) UITableView *tableView;
@@ -28,6 +29,7 @@
 @property (nonatomic, strong) UILabel *pageLabel;
 /**判断是不是第一次加载数据*/
 @property (nonatomic, assign) BOOL isFirstTime;
+
 @end
 
 @implementation BFMyClientController
@@ -228,6 +230,54 @@
             [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:[NSString stringWithFormat:@"团队人数%@",self.model.team_num]];
             BFLog(@"点击团队人数");
             break;
+    }
+}
+
+#pragma mark -- 设置客服按钮
+- (void)setUpNavigationBar {
+    UIButton *telephone = [UIButton buttonWithType:0];
+    //telephone.backgroundColor = [UIColor redColor];
+    telephone.width = 30;
+    telephone.height = 30;
+    [telephone addTarget:self action:@selector(telephone) forControlEvents:UIControlEventTouchUpInside];
+    [telephone setImage:[UIImage imageNamed:@"telephone"] forState:UIControlStateNormal];
+    UIBarButtonItem *telephoneItem = [[UIBarButtonItem alloc] initWithCustomView:telephone];
+    self.navigationItem.rightBarButtonItem = telephoneItem;
+}
+
+- (void)telephone {
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
+    customerServiceView.delegate = self;
+    [window addSubview:customerServiceView];
+}
+
+
+#pragma mark --BFCustomerServiceViewDelegate
+- (void)clickToChooseCustomerServiceWithType:(BFCustomerServiceViewButtonType)type {
+    switch (type) {
+        case BFCustomerServiceViewButtonTypeTelephone:{
+            BFLog(@"点击电话客服");
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            //添加取消按钮
+            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                NSLog(@"点击");
+            }];
+            //添加电话按钮
+            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"020-38875719" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://020-38875719"]]];
+            }];
+            [alertC addAction:cancleAction];
+            [alertC addAction:phoneAction];
+            [self presentViewController:alertC animated:YES completion:nil];
+            
+            break;
+        }
+        case BFCustomerServiceViewButtonTypeWechat:
+            BFLog(@"点击微信客服");
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
+            break;
+            
     }
 }
 

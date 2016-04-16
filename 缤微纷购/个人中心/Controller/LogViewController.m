@@ -33,8 +33,6 @@
 @property (nonatomic, strong) UITextField *passwordTX;
 /**手机号保存路径*/
 @property (nonatomic, strong) NSString *phonePath;
-/**密码保存路径*/
-@property (nonatomic, strong) NSString *passwordPath;
 /**登录按钮*/
 @property (nonatomic, strong) UIButton *loginButton;
 @end
@@ -50,12 +48,7 @@
     return _phonePath;
 }
 
-- (NSString *)passwordPath {
-    if (!_passwordPath) {
-        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
-    }
-    return _passwordPath;
-}
+
 
 
 #pragma mark --viewDidLoad
@@ -80,8 +73,7 @@
     //忘记密码重新设置密码清空缓存
     [BFNotificationCenter addObserver:self selector:@selector(clean) name:@"clean" object:nil];
     
-    //修改密码成功后的通知
-    [BFNotificationCenter addObserver:self selector:@selector(cleanUpPassword) name:@"cleanPassword" object:nil];
+
 }
 
 //移除通知
@@ -91,17 +83,9 @@
 
 - (void)clean {
     self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
-    NSFileManager * fileManager = [[NSFileManager alloc]init];
-    [fileManager removeItemAtPath:self.passwordPath error:nil];
 }
 
-#pragma mark --通知方法
-- (void)cleanUpPassword {
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
-    NSFileManager * fileManager = [[NSFileManager alloc]init];
-    [fileManager removeItemAtPath:self.passwordPath error:nil];
-}
+
 
 #pragma mark --创建view
 - (void)initWithView{
@@ -119,7 +103,6 @@
     [self.bgImageView addSubview:line1];
     
     self.passwordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"密码"];
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
     self.passwordTX.delegate = self;
     self.passwordTX.returnKeyType = UIReturnKeyDone;
     self.passwordTX.secureTextEntry = YES;
@@ -190,7 +173,6 @@
     return button;
 }
 #pragma mark -- 第三方登录点击
-//
 - (void)thirdLogin:(UIButton *)sender {
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
@@ -213,6 +195,9 @@
 #pragma mark --第三方登录
 - (void)thirdPartyLogin:(ShareType)shareType {
     
+    [ShareSDK cancelAuthWithType:shareType];
+    
+    
     [ShareSDK getUserInfoWithType:shareType authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
                                
        if (result)
@@ -222,9 +207,9 @@
            if (shareType == ShareTypeQQSpace) {
                parameter[@"type"] = @"1";
            }else if (shareType == ShareTypeSinaWeibo) {
-               parameter[@"type"] = @"3";
-           }else if (shareType == ShareTypeWeixiSession) {
                parameter[@"type"] = @"2";
+           }else if (shareType == ShareTypeWeixiSession) {
+               parameter[@"type"] = @"0";
            }
            parameter[@"nickname"] = [userInfo nickname];
            parameter[@"openid"] = [userInfo uid];
@@ -232,8 +217,19 @@
            
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                BFLog(@"%@,,%@", responseObject, parameter);
+               if ([responseObject[@"status"] isEqualToString:@"0"]) {
+                   [BFProgressHUD MBProgressFromView:self.view andLabelText:@"登录失败"];
+               }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                   [BFProgressHUD MBProgressFromView:self.view LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
+                       BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                       [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+
+                       [self.navigationController popToRootViewControllerAnimated:YES];
+                   }];
+
+               }
                
-               [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"成功"];
            } failure:^(NSError *error) {
                BFLog(@"%@", error);
            }];
@@ -302,8 +298,6 @@
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
-                [self.passwordTX.text writeToFile:self.passwordPath atomically:YES];
-                
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                 BFLog(@"responseObject%@",userInfo.user_icon);
@@ -366,10 +360,7 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 @end

@@ -24,8 +24,8 @@
     //    AudioServicesAddSystemSoundCompletion(soundID, NULL, NULL, NULL, NULL)
     //    AudioServicesAddSystemSoundCompletion(soundID, NULL, NULL, soundCompleteCallback, NULL);
     //2.播放音频
-    AudioServicesPlaySystemSound(soundID);//播放音效
-    //    AudioServicesPlayAlertSound(soundID);//播放音效并震动
+    //AudioServicesPlaySystemSound(soundID);//播放音效
+    AudioServicesPlayAlertSound(soundID);//播放音效并震动
 }
 
 //-(void)soundCompleteCallback (SystemSoundID soundID,voidvoid * clientData){

@@ -112,26 +112,26 @@ static id _publishContent;
 
 - (void)hideShareView {
     
-    [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.moments.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
     
-    [UIView animateWithDuration:1 delay:0.16f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.16f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.QQZone.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.wechatFriends.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.08f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.08f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.QQFriends.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.04f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.04f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.sinaBlog.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
@@ -198,18 +198,19 @@ static id _publishContent;
         }];
 
     }else {
+        [self hideShareView];
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             BFLog(@"---%d",type);
             if (state == SSResponseStateSuccess) {
-                [self hideShareView];
+                //[self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [self hideShareView];
+                //[self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
-                [self hideShareView];
+                //[self hideShareView];
                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
             }
         }];

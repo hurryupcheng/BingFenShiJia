@@ -13,10 +13,10 @@
 #import "BFPersonInformationController.h"
 #import "BFModifyPasswordController.h"
 #import "ShareCustom.h"
-#import <ShareSDK/ShareSDK.h>
 
 
-@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate, BFCustomerServiceViewDelegate>
+
+@interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 @end
@@ -57,7 +57,7 @@
 
 - (void)exit {
     [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+        [BFUserDefaluts removeUserInfo];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 
@@ -272,6 +272,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-self.tabBarController.tabBar.hidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
 }
 @end

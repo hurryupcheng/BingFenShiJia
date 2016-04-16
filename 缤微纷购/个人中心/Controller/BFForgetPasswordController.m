@@ -16,8 +16,7 @@
 @property (nonatomic, strong) BFForgetPasswordView *forgetPasswordView;
 /**手机号保存路径*/
 @property (nonatomic, strong) NSString *phonePath;
-/**密码保存路径*/
-@property (nonatomic, strong) NSString *passwordPath;
+
 @end
 
 @implementation BFForgetPasswordController
@@ -31,12 +30,7 @@
 }
 
 
-- (NSString *)passwordPath {
-    if (!_passwordPath) {
-        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
-    }
-    return _passwordPath;
-}
+
 
 
 
@@ -73,7 +67,6 @@
     [self.forgetPasswordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
 //    NSFileManager * fileManager = [[NSFileManager alloc]init];
 //    [fileManager removeItemAtPath:self.passwordPath error:nil];
-    [BFNotificationCenter postNotificationName:@"clean" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

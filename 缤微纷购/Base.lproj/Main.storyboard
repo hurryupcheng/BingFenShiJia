@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleAspectFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="514" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Ps-Uj-Aef">
@@ -28,19 +28,33 @@
                                 <state key="normal" backgroundImage="shoppingCart"/>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shoppingCart" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
-                                <rect key="frame" x="43" y="124" width="415" height="150"/>
+                                <rect key="frame" x="34" y="388" width="415" height="150"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9x-tV-25Z">
+                                <rect key="frame" x="0.0" y="64" width="514" height="149"/>
+                                <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="149" id="Tze-vX-MiS"/>
+                                </constraints>
+                            </view>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="v9x-tV-25Z" secondAttribute="trailing" id="Eic-Wp-IrD"/>
+                            <constraint firstItem="v9x-tV-25Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TmY-vb-9mP"/>
+                            <constraint firstItem="v9x-tV-25Z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="gYa-GD-aJg"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Bfy-Yg-PG4">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="zq7-bb-6Yd"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="514" height="600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1477" y="-3"/>
+            <point key="canvasLocation" x="1445" y="22"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TaD-bK-NBU">

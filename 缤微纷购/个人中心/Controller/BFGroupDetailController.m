@@ -150,17 +150,14 @@
                 //给底部视图模型赋值
                 self.footerView.model = self.model;
                 //返回的高度赋值
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.headerView.height = self.headerView.headerViewH;
-                    self.tableView.tableHeaderView = self.headerView;
-                    self.tableView.tableFooterView = self.footerView;
-                }];
+                [self animation];
+                
                 
                 //给状态栏赋值
                 self.tabbar.model = self.model;
                 BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
                 [self.tableView reloadData];
-                [self animation];
+                
             }
         } failure:^(NSError *error) {
             BFLog(@"%@",error);
@@ -171,7 +168,10 @@
 #pragma mark --添加动画效果
 - (void)animation {
     [UIView animateWithDuration:0.5 animations:^{
-        self.tabbar.y = ScreenHeight - 64 - BF_ScaleHeight(70);
+        self.headerView.height = self.headerView.headerViewH;
+        self.tableView.tableHeaderView = self.headerView;
+        self.tableView.tableFooterView = self.footerView;
+        self.tabbar.y = ScreenHeight - 60 - BF_ScaleHeight(70);
         self.tableView.y = 0;
     }];
 }
@@ -246,9 +246,18 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
-//            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-//            BFShareView *shareView = [BFShareView shareView];
-//            [window addSubview:shareView];
+            id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+                                               defaultContent:@"ddsf"
+                                                        image:nil
+                                                        title:@"这是一个分享测试"
+                                                          url:@"www.baidu.com"
+                                                  description:@"哈哈哈"
+                                                    mediaType:SSPublishContentMediaTypeNews];
+            //调用自定义分享
+            BFShareView *share = [BFShareView shareView:publishContent];
+            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+            [window addSubview:share];
+ 
             BFLog(@"分享");
             break;
         }

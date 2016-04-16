@@ -20,7 +20,7 @@
 @property (nonatomic, strong)UIImageView *imageView;
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
-
+/**手机注册用户的信息*/
 @property (nonatomic, strong) BFUserInfo *userInfo;
 @end
 
@@ -32,6 +32,7 @@
     }
     return _userInfo;
 }
+
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -80,10 +81,11 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(90), BF_ScaleHeight(10), BF_ScaleHeight(60), BF_ScaleHeight(60))];
-                [headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.userInfo.user_icon]] placeholderImage:nil];
-                self.imageView  = [UIImageView new];
+                headImageView.backgroundColor = [UIColor grayColor];
+                //[headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.userInfo.user_icon]] placeholderImage:nil];
+                //self.imageView  = [UIImageView new];
                 self.imageView = headImageView;
-                [headImageView sd_setImageWithURL:[NSURL URLWithString:self.userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                [headImageView sd_setImageWithURL:[NSURL URLWithString: self.userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
                 headImageView.layer.cornerRadius = BF_ScaleHeight(30);
                 headImageView.layer.masksToBounds = YES;
                 //headImageView.backgroundColor = [UIColor redColor];
@@ -131,13 +133,12 @@
             }
             case 2:
                 cell.textLabel.text = @"  绑定手机";
-                if (self.userInfo.tel) {
+                if (self.userInfo.tel.length != 0) {
                     cell.detailTextLabel.text = self.userInfo.tel;
                 }else {
                     cell.detailTextLabel.text =  @"  未绑定";
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                }
-               
+                    }
                 break;
         }
     }else {
@@ -176,8 +177,11 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             BFLog(@"点击头像");
+
             [self changeHeadIcon];
+            
         }else if (indexPath.row == 2) {
+
             BFModifyNicknameController *modifyNicknameVC = [[BFModifyNicknameController alloc] init];
             modifyNicknameVC.block = ^(BFUserInfo *userInfo) {
                 self.userInfo = userInfo;
@@ -185,6 +189,7 @@
                 [self.tableView reloadData];
             };
             [self.navigationController pushViewController:modifyNicknameVC animated:YES];
+            
         }
     }
     if (indexPath.section == 2) {
@@ -196,16 +201,17 @@
             BFMyBusinessCardController *myBusinessCardVC = [[BFMyBusinessCardController alloc] init];
             [self.navigationController pushViewController:myBusinessCardVC animated:YES];
         }else {
-            if (self.userInfo.tel) {
+            if (self.userInfo.tel.length != 0) {
                 return;
             }else {
-                BFBindPhoneNumberController *bindPhoneNumberVC = [[BFBindPhoneNumberController alloc] init];
-                bindPhoneNumberVC.block = ^(BFUserInfo *userInfo) {
-                self.userInfo = userInfo;
-                [BFUserDefaluts modifyUserInfo:userInfo];
-                [self.tableView reloadData];
-            };
-                [self.navigationController pushViewController:bindPhoneNumberVC animated:YES];
+                    BFBindPhoneNumberController *bindPhoneNumberVC = [[BFBindPhoneNumberController alloc] init];
+                    bindPhoneNumberVC.block = ^(BFUserInfo *userInfo) {
+                        self.userInfo = userInfo;
+                        [BFUserDefaluts modifyUserInfo:userInfo];
+                        [self.tableView reloadData];
+                    };
+                    [self.navigationController pushViewController:bindPhoneNumberVC animated:YES];
+                
             }
         }
     }
@@ -257,7 +263,7 @@
 - (void)exit {
     
     [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
+        [BFUserDefaluts removeUserInfo];
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
 }

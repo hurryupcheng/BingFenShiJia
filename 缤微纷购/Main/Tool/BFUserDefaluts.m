@@ -9,6 +9,23 @@
 #import "BFUserDefaluts.h"
 
 @implementation BFUserDefaluts
+
+///**获取第三方登录信息*/
+//+ (BFThirdPartyLoginUserInfo *)getThirdPartyLoginUserInfo {
+//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"ThirdPartyLoginUserInfo"];
+//    BFThirdPartyLoginUserInfo *userInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+//    return userInfo;
+//}
+///**修改第三方登录信息*/
+//+ (void)modifyThirdPartyLoginUserInfo:(BFThirdPartyLoginUserInfo *)thirdPartyLoginUserInfo {
+//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:thirdPartyLoginUserInfo];
+//    [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"ThirdPartyLoginUserInfo"];
+//}
+
++ (void)removeThirdPartyLoginUserInfo {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ThirdPartyLoginUserInfo"];
+}
+
 + (BFUserInfo *)getUserInfo {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"UserInfo"];
     BFUserInfo *userInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
@@ -19,6 +36,10 @@
 + (void)modifyUserInfo:(BFUserInfo *)userInfo{
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
     [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"UserInfo"];
+}
+
++ (void)removeUserInfo {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
 }
 
 + (BFBankModel *)getBankInfo {

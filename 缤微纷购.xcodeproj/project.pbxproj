@@ -223,6 +223,8 @@
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
 		59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */; };
+		59F64E661CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F64E651CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m */; };
+		59F64E691CC20695002F7537 /* BFBindPhoneNumberView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F64E681CC20695002F7537 /* BFBindPhoneNumberView.m */; };
 		59F6873C1CC07BF700AD8308 /* CopyConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6870D1CC07BF700AD8308 /* CopyConnection.framework */; };
 		59F6873D1CC07BF700AD8308 /* FacebookConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6870E1CC07BF700AD8308 /* FacebookConnection.framework */; };
 		59F6873E1CC07BF700AD8308 /* MailConnection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6870F1CC07BF700AD8308 /* MailConnection.framework */; };
@@ -851,6 +853,10 @@
 		59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedModel.m; sourceTree = "<group>"; };
 		59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailModel.h; sourceTree = "<group>"; };
 		59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailModel.m; sourceTree = "<group>"; };
+		59F64E641CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFThirdPartyLoginUserInfo.h; sourceTree = "<group>"; };
+		59F64E651CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFThirdPartyLoginUserInfo.m; sourceTree = "<group>"; };
+		59F64E671CC20695002F7537 /* BFBindPhoneNumberView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBindPhoneNumberView.h; sourceTree = "<group>"; };
+		59F64E681CC20695002F7537 /* BFBindPhoneNumberView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBindPhoneNumberView.m; sourceTree = "<group>"; };
 		59F6870D1CC07BF700AD8308 /* CopyConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CopyConnection.framework; sourceTree = "<group>"; };
 		59F6870E1CC07BF700AD8308 /* FacebookConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookConnection.framework; sourceTree = "<group>"; };
 		59F6870F1CC07BF700AD8308 /* MailConnection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MailConnection.framework; sourceTree = "<group>"; };
@@ -1750,6 +1756,8 @@
 				592F86DB1C902C2D006E0CEE /* BFRecommenderModel.m */,
 				59F7D26B1C8E986600E3F854 /* BFUserInfo.h */,
 				59F7D26C1C8E986600E3F854 /* BFUserInfo.m */,
+				59F64E641CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.h */,
+				59F64E651CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m */,
 				59F7D26E1C8E9B1D00E3F854 /* BFRegistModel.h */,
 				59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */,
 				598F214E1CA66CF700E7A82A /* BFMyWalletModel.h */,
@@ -1809,6 +1817,8 @@
 				5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */,
 				597CE6A51CA92649005B6C28 /* BFModifyPasswordView.h */,
 				597CE6A61CA92649005B6C28 /* BFModifyPasswordView.m */,
+				59F64E671CC20695002F7537 /* BFBindPhoneNumberView.h */,
+				59F64E681CC20695002F7537 /* BFBindPhoneNumberView.m */,
 				51D5B6421C75B4F2000897BB /* MyorderTableViewCell.h */,
 				51D5B6431C75B4F2000897BB /* MyorderTableViewCell.m */,
 				59FF46C21C8A8B990040689A /* BFMyOrderCell.h */,
@@ -3272,6 +3282,7 @@
 				5900A03D1C91BD2600B6AE5A /* BFMyGroupPurchaseController.m in Sources */,
 				59FF749C1CAE1A860063F770 /* BFStorage.m in Sources */,
 				5938ACCA1CABD0F8004D076A /* BFGroupDetailStatusView.m in Sources */,
+				59F64E691CC20695002F7537 /* BFBindPhoneNumberView.m in Sources */,
 				59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */,
 				59FF74AC1CAE1A860063F770 /* AFURLResponseSerialization.m in Sources */,
 				59FF46CA1C8AB3620040689A /* BFPersonalCenterTopView.m in Sources */,
@@ -3291,6 +3302,7 @@
 				59FF74D31CAE1A860063F770 /* NSString+MJExtension.m in Sources */,
 				59FF75191CAE1A860063F770 /* UIWebView+AFNetworking.m in Sources */,
 				59FBA9821C882DB300E1DA78 /* BFCurrentLocationCell.m in Sources */,
+				59F64E661CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m in Sources */,
 				59FA7AB11C9D46C1008E3813 /* BFLogisticsModel.m in Sources */,
 				59FF74C41CAE1A860063F770 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
 				512B99BE1C438AEE00882CE3 /* HomeModel.m in Sources */,

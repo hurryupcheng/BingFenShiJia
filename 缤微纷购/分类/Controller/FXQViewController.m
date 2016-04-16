@@ -119,7 +119,18 @@
 
 #pragma mark --分享按钮点击事件
 - (void)share {
-    
+    id<ISSContent> publishContent = [ShareSDK content:self.model.intro
+                                       defaultContent:nil
+                                                image:[ShareSDK imageWithUrl:self.model.img]
+                                                title:self.model.title
+                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@", self.ID]
+                                          description:self.model.title
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //调用自定义分享
+    BFShareView *share = [BFShareView shareView:publishContent];
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    [window addSubview:share];
+
 }
 
 #pragma mark --BFProductDetailTabBarDelegate
