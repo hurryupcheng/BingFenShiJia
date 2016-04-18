@@ -298,7 +298,7 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
-                [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
+                
                 
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];

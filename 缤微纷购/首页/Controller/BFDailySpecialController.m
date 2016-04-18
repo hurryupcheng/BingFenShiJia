@@ -73,7 +73,7 @@
     //添加tableview
     [self tableView];
     //添加navigationbar
-    
+    [self setUpNavigationBar];
     //加载数据
     [self getData];
     //接收通知
@@ -164,6 +164,25 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSMutableArray *array = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        if (array == 0) {
+            self.shoppingCart.badge.hidden = YES;
+        }else {
+            self.shoppingCart.badge.hidden = NO;
+            BFLog(@"---%lu", (unsigned long)array.count);
+            self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        }
+    }else {
+        self.shoppingCart.badge.hidden = YES;
+    }
+}
+
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.productArray.count;
@@ -211,17 +230,24 @@
 
 #pragma mark -- 改变导航栏图标
 - (void)navigationBarChange {
-//    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-//    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
-//    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-//    
-//    self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSMutableArray *array = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        if (array == 0) {
+            self.shoppingCart.badge.hidden = YES;
+        }else {
+            self.shoppingCart.badge.hidden = NO;
+            BFLog(@"---%lu", (unsigned long)array.count);
+            self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        }
+    }else {
+        self.shoppingCart.badge.hidden = YES;
+    }
 }
 
 
-- (void)navigationBarBadge {
 
-}
 
 #pragma mark -- 去登录
 - (void)gotoLogin {
