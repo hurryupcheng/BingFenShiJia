@@ -10,6 +10,8 @@
 #define PrefixHeader_pch
 
 #pragma mark -- 头文件
+#import <AudioToolbox/AudioToolbox.h>  
+#import <ShareSDK/ShareSDK.h>
 
 #pragma mark -- 第三方
 #import "SDCycleScrollView.h"
@@ -34,6 +36,11 @@
 #import "BFSegmentView.h"
 #import "BFTranslateTime.h"
 #import "BFUserInfo.h"
+#import "CXArchiveShopManager.h"
+#import "BFStorage.h"
+//#import "BFThirdPartyLoginUserInfo.h"
+#import "BFSoundEffect.h"
+#import "BFShopCartAnimation.h"
 
 #pragma mark ---宏定义
 

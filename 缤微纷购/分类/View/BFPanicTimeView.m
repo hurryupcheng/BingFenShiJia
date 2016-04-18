@@ -43,7 +43,7 @@
         leftLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         [self addSubview:leftLabel];
         
-        UILabel *stock = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftLabel.frame), BF_ScaleHeight(10), BF_ScaleWidth(30), BF_ScaleHeight(20))];
+        UILabel *stock = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(leftLabel.frame), BF_ScaleHeight(10), BF_ScaleWidth(40), BF_ScaleHeight(20))];
         stock.backgroundColor = BFColor(0xFCFCFC);
         stock.layer.cornerRadius = 3;
         stock.layer.masksToBounds = YES;
@@ -53,18 +53,10 @@
         stock.text = model.first_stock;
         [self addSubview:stock];
         
-        UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(124), 0, BF_ScaleWidth(80), ViewH)];
-        timeLabel.textAlignment = NSTextAlignmentRight;
-        timeLabel.textColor = BFColor(0xF9FBFB);
-        timeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        [self addSubview:timeLabel];
-        if (model.is_seckill == 1) {
-            timeLabel.text = @"距离结束";
-        }else if (model.is_seckill == 0) {
-            timeLabel.text = @"距离开始";
-        }
+
         
         self.countdownView = [[BFPanicCountdownView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(124), 0, BF_ScaleWidth(188), ViewH)];
+        //self.countdownView.backgroundColor = [UIColor greenColor];
         self.countdownView.model = model;
         [self addSubview:self.countdownView];
     }

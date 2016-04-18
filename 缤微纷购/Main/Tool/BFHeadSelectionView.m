@@ -68,7 +68,7 @@
 
 
 - (void)showHeadSelectionView {
-    
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.bgImageView.alpha = 0;
     [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.bgImageView.alpha = 1;
@@ -110,10 +110,12 @@
 
 //取消按钮点击
 - (void)cancle:(UIButton *)sender {
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideHeadSelectionView];
 }
 
 - (void)hide {
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideHeadSelectionView];
 }
 
@@ -129,6 +131,7 @@
 
 - (void)chooseHeadImage:(UIButton *)sender {
     [self hideHeadSelectionView];
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickToChooseModeWithType:)]) {
         [self.delegate clickToChooseModeWithType:sender.tag];
     }

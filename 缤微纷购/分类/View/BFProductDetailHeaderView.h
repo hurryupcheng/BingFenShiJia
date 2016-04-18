@@ -11,6 +11,8 @@
 #import "BFProductStockView.h"
 
 @interface BFProductDetailHeaderView : UIView
+/**轮播图*/
+@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
 /**产品信息，库存*/
 @property (nonatomic, strong) BFProductStockView *stockView;
 /**BFProductDetialModel*/

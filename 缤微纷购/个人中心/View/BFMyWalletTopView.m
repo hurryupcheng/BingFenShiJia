@@ -14,7 +14,7 @@
 @interface BFMyWalletTopView()
 /**用户信息*/
 /** 用户头像*/
-@property (nonatomic, strong) UIButton *headButton;
+@property (nonatomic, strong) UIImageView *headButton;
 /**向右箭头*/
 @property (nonatomic, strong) UIImageView *arrowImageView;
 
@@ -45,7 +45,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.headButton.frame = CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), BF_ScaleHeight(68));
+    self.headButton.frame = CGRectMake((ScreenWidth-BF_ScaleHeight(75))/2, ScreenHeight*0.10, BF_ScaleHeight(75), BF_ScaleHeight(75));
     self.arrowImageView.frame = CGRectMake(CGRectGetMaxX(self.headButton.frame)+BF_ScaleWidth(10), CGRectGetMinY(self.headButton.frame), BF_ScaleWidth(10), self.headButton.height);
     self.nickName.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+BF_ScaleHeight(10), ScreenWidth, ButtonViewHeight);
     self.threeButtonView.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+0.09*ScreenHeight, ScreenWidth, ButtonViewHeight);
@@ -75,10 +75,12 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-        _headButton = [UIButton new];
-        [_headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
+        _headButton = [UIImageView new];
+        _headButton.layer.cornerRadius = BF_ScaleHeight(75)/2;
+        _headButton.layer.masksToBounds = YES;
+        //[_headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
         //        [_headButton setImage:[UIImage imageNamed:@"touxiang1"] forState:UIControlStateNormal];
-        [_headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+        [self.headButton setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
         [self addSubview:_headButton];
         
         _arrowImageView = [UIImageView new];
@@ -146,9 +148,7 @@
     return button;
 }
 
-- (void)clickHead {
-    BFLog(@"点击头像");
-}
+
 
 
 - (void)personalCenterTopButtonClick:(UIButton *)sender {

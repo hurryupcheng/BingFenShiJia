@@ -7,9 +7,14 @@
 //
 
 #import "BFDailySpecialController.h"
+#import "BFPanicBuyingController.h"
 #import "BFDailySpecialCell.h"
 #import "BFDailySpecialModel.h"
 #import "BFDailySpecialHeaderView.h"
+#import "BFStorage.h"
+#import "CXArchiveShopManager.h"
+#import "LogViewController.h"
+#import "BFNavigaitonShopCartIButton.h"
 
 @interface BFDailySpecialController ()<UITableViewDelegate, UITableViewDataSource>
 /**tableView*/
@@ -18,13 +23,18 @@
 @property (nonatomic, strong) BFDailySpecialHeaderView *headerView;
 /**模型*/
 @property (nonatomic, strong) BFDailySpecialModel *model;
+/**导航栏购物车*/
+@property (nonatomic, strong) BFNavigaitonShopCartIButton *shoppingCart;
 /**产品可变数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
+
+
 @end
 
 @implementation BFDailySpecialController
 
-#pragma mark -- 懒加载
+
+
 
 - (NSMutableArray *)productArray {
     if (!_productArray) {
@@ -67,8 +77,22 @@
     //加载数据
     [self getData];
     //接收通知
-    [BFNotificationCenter addObserver:self selector:@selector(addToShoppingCart) name:@"BFDailySpecialProductView" object:nil];
+    [BFNotificationCenter addObserver:self selector:@selector(addToShoppingCart:) name:@"BFDailySpecialProductView" object:nil];
+    //改变倒计时
+    [BFNotificationCenter addObserver:self selector:@selector(changeView) name:@"changeView" object:nil];
+    //去登陆
+    [BFNotificationCenter addObserver:self selector:@selector(gotoLogin) name:@"gotoLogin" object:nil];
+    //改变导航栏
+    [BFNotificationCenter addObserver:self selector:@selector(navigationBarChange) name:@"navigationBarChange" object:nil];
+    //登陆后改变导航栏数值
+    [BFNotificationCenter addObserver:self selector:@selector(navigationBarBadge) name:@"navigationBarBadge" object:nil];
+
     
+}
+
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
 }
 
 #pragma mark -- 加载数据
@@ -80,6 +104,7 @@
             self.model = [BFDailySpecialModel parse:responseObject];
             self.headerView.model = self.model;
             if ([self.model.item isKindOfClass:[NSArray class]]) {
+                [self.productArray removeAllObjects];
                 NSArray *array = [BFDailySpecialProductList parse:self.model.item];
                 [self.productArray addObjectsFromArray:array];
                 BFLog(@"===%lu",(unsigned long)self.productArray.count);
@@ -106,14 +131,32 @@
 
 #pragma mark -- 设置客服按钮
 - (void)setUpNavigationBar {
-    UIButton *shoppingCart = [UIButton buttonWithType:0];
-    //telephone.backgroundColor = [UIColor redColor];
-    shoppingCart.width = 30;
-    shoppingCart.height = 30;
+    BFNavigaitonShopCartIButton *shoppingCart = [BFNavigaitonShopCartIButton buttonWithType:0];
+    self.shoppingCart = shoppingCart;
+    //shoppingCart.backgroundColor = [UIColor redColor];
+    shoppingCart.width = 40;
+    shoppingCart.height = 40;
     [shoppingCart addTarget:self action:@selector(click) forControlEvents:UIControlEventTouchUpInside];
-    [shoppingCart setImage:[UIImage imageNamed:@"ff1"] forState:UIControlStateNormal];
+    //[shoppingCart setImage:[UIImage imageNamed:@"ff1"] forState:UIControlStateNormal];
     UIBarButtonItem *telephoneItem = [[UIBarButtonItem alloc] initWithCustomView:shoppingCart];
-    self.navigationItem.rightBarButtonItem = telephoneItem;
+    UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleWidth(-15)];
+    self.navigationItem.rightBarButtonItems = @[leftSpace, telephoneItem];
+    
+
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+        BFLog(@"---%lu", (unsigned long)array.count);
+        if (array.count == 0) {
+            shoppingCart.badge.hidden = YES;
+        }else {
+            shoppingCart.badge.hidden = NO;
+            shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        }
+    }else {
+        shoppingCart.badge.hidden = YES;
+    }
 }
 
 - (void)click {
@@ -121,6 +164,15 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+    NSMutableArray *array = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+    BFLog(@"---%lu", (unsigned long)array.count);
+    self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+}
 
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -131,9 +183,20 @@
     BFDailySpecialCell *cell = [BFDailySpecialCell cellWithTableView:tableView];
     cell.model = self.productArray[indexPath.row];
     cell.productView.shoppingCart.tag = indexPath.row;
-    //cell.textLabel.text = @"测试";
+    
     return cell;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BFDailySpecialProductList *list = self.productArray[indexPath.row];
+    BFPanicBuyingController *panicBuying = [[BFPanicBuyingController alloc] init];
+    panicBuying.ID = list.ID;
+    [self.navigationController pushViewController:panicBuying animated:YES];
+    
+    
+}
+
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return  BF_ScaleHeight(155);
@@ -141,8 +204,50 @@
 
 
 #pragma mark -- 通知方法
-- (void)addToShoppingCart {
+- (void)addToShoppingCart:(NSNotification *)notification {
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    BFDailySpecialProductList *list = self.productArray[[notification.userInfo[@"tag"] integerValue]];
 
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:[NSString stringWithFormat:@"%ld", (long)list.stock] choose:list.size color:list.color];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+    [[CXArchiveShopManager sharedInstance]startArchiveShop];
+    
+    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+    
+}
+
+#pragma mark -- 改变导航栏图标
+- (void)navigationBarChange {
+//    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+//    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+//    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+//    
+//    self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+}
+
+
+- (void)navigationBarBadge {
+
+}
+
+#pragma mark -- 去登录
+- (void)gotoLogin {
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+        self.navigationController.navigationBarHidden = NO;
+        LogViewController *logVC= [LogViewController new];
+        [self.navigationController pushViewController:logVC animated:YES];
+    }];
+
+}
+
+
+
+#pragma mark -- 通知方法重新加载数据
+- (void)changeView {
+    [self getData];
     
 }
 

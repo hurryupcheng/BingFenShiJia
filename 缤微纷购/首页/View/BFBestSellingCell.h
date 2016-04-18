@@ -10,8 +10,10 @@
 #import "BFBestSellingModel.h"
 
 @protocol BFBestSellingCellDelegate <NSObject>
-
+//加入购物车代理
 - (void)addToShoppingCartWithButton:(UIButton *)button;
+//没有登录登录的代理
+- (void)gotoLogin;
 
 @end
 

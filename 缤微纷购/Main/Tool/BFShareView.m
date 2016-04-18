@@ -13,8 +13,9 @@
 
 
 #import "BFShareView.h"
-
-
+#import <ShareSDK/ShareSDK.h>
+#import <QuartzCore/QuartzCore.h>
+static id _publishContent;
 @interface BFShareView ()
 /**微信朋友圈分享按钮*/
 @property (nonatomic, strong) UIButton *moments;
@@ -30,9 +31,29 @@
 
 @implementation BFShareView
 
-+ (instancetype) shareView {
+//+(void)shareWithContent:(id)publishContent/*只需要在分享按钮事件中 构建好分享内容publishContent传过来就好了*/
+//{
+//    _publishContent = publishContent;
+//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+//    
+//    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    blackView.backgroundColor = BFColor(0x000000);
+//    blackView.tag = 440;
+//    [window addSubview:blackView];
+//    
+//    UIView *shareView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    shareView.backgroundColor = BFColor(0xf6f6f6);
+//    shareView.tag = 441;
+//    [window addSubview:shareView];
+//
+//}
+static id _publishContent;
++ (instancetype)shareView:(id)publishContent {
+    _publishContent = publishContent;
+    //UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     BFShareView *share = [[BFShareView alloc] init];
     [share showShareView];
+    //[share addSubview:window];
     return share;
 }
 
@@ -65,6 +86,7 @@
 
 
 - (void)showShareView {
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = BF_ScaleHeight(120);
@@ -89,32 +111,33 @@
 }
 
 - (void)hideShareView {
-    [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.moments.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
     }];
     
-    [UIView animateWithDuration:1 delay:0.16f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.16f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.QQZone.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.wechatFriends.y = ScreenHeight+BF_ScaleHeight(40);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.08f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.08f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.QQFriends.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
-    [UIView animateWithDuration:1 delay:0.04f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.04f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.sinaBlog.y = ScreenHeight+BF_ScaleHeight(110);
     } completion:nil];
     
 }
 
 - (void)hide {
+    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
     [self hideShareView];
 }
 
@@ -132,12 +155,77 @@
 }
 
 - (void)clickToShare:(UIButton *)sender {
-    [self removeFromSuperview];
-    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
-        [self.delegate bfShareView:self type:sender.tag];
+    
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    
+    int shareType = 0;
+    id publishContent = _publishContent;
+    switch (sender.tag) {
+        case BFShareButtonTypeMoments:
+            shareType = ShareTypeWeixiTimeline;
+            break;
+        case BFShareButtonTypeWechatFriends:
+            shareType = ShareTypeWeixiSession;
+            break;
+        case BFShareButtonTypeQQZone:
+            shareType = ShareTypeQQSpace;
+            break;
+        case BFShareButtonTypeQQFriends:
+            shareType = ShareTypeQQ;
+            break;
+        case BFShareButtonTypeSinaBlog:
+            shareType = ShareTypeSinaWeibo;
+            break;
+            
+        default:
+            break;
     }
+    
+    if (shareType == ShareTypeSinaWeibo) {
+        [self hideShareView];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+
+    }else {
+        [self hideShareView];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+
+    }
+    
+    
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
+//        [self.delegate bfShareView:self type:sender.tag];
+//    }
     
     BFLog(@"点击了分享");
 }
+
+
+
+
 
 @end

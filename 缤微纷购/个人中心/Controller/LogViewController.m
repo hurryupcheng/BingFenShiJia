@@ -7,7 +7,10 @@
 //
 #define ThirdLoginButtonHeight (CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25))
 #define ThirdLoginButtonWidth ((ScreenWidth-CGRectGetMaxX(quickLoginLabel.frame)-BF_ScaleWidth(140))/4)
-#define Magin   (BF_ScaleWidth(6))
+#define Magin        (BF_ScaleWidth(0))
+#define ThirdLoginWH  BF_ScaleHeight(50)
+
+#import <ShareSDK/ShareSDK.h>
 #import "Header.h"
 #import "TextFieldLog.h"
 #import "ZCViewController.h"
@@ -30,8 +33,6 @@
 @property (nonatomic, strong) UITextField *passwordTX;
 /**手机号保存路径*/
 @property (nonatomic, strong) NSString *phonePath;
-/**密码保存路径*/
-@property (nonatomic, strong) NSString *passwordPath;
 /**登录按钮*/
 @property (nonatomic, strong) UIButton *loginButton;
 @end
@@ -47,12 +48,7 @@
     return _phonePath;
 }
 
-- (NSString *)passwordPath {
-    if (!_passwordPath) {
-        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
-    }
-    return _passwordPath;
-}
+
 
 
 #pragma mark --viewDidLoad
@@ -61,8 +57,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"登录";
     
-    //修改密码成功后的通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(cleanUpPassword) name:@"cleanPassword" object:nil];
+    
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
@@ -75,21 +70,22 @@
     //创建view
     [self initWithView];
     
+    //忘记密码重新设置密码清空缓存
     [BFNotificationCenter addObserver:self selector:@selector(clean) name:@"clean" object:nil];
-}
-- (void)clean {
-    self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
-    NSFileManager * fileManager = [[NSFileManager alloc]init];
-    [fileManager removeItemAtPath:self.passwordPath error:nil];
+    
+
 }
 
-#pragma mark --通知方法
-- (void)cleanUpPassword {
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
-    NSFileManager * fileManager = [[NSFileManager alloc]init];
-    [fileManager removeItemAtPath:self.passwordPath error:nil];
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
 }
+
+- (void)clean {
+    self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
+}
+
+
 
 #pragma mark --创建view
 - (void)initWithView{
@@ -107,7 +103,6 @@
     [self.bgImageView addSubview:line1];
     
     self.passwordTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(line1.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"password" placeholder:@"密码"];
-    self.passwordTX.text = [[NSString alloc] initWithContentsOfFile:self.passwordPath];
     self.passwordTX.delegate = self;
     self.passwordTX.returnKeyType = UIReturnKeyDone;
     self.passwordTX.secureTextEntry = YES;
@@ -144,22 +139,22 @@
     [self.bgImageView addSubview:forgetButton];
     
     
-    UILabel *quickLoginLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.view.frame)-BF_ScaleHeight(50), 0, 0) font:BF_ScaleFont(14) textColor:BFColor(0x7B715C) text:@"快捷登录:"];
+    UILabel *quickLoginLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(self.view.frame)-BF_ScaleHeight(75), BF_ScaleWidth(70), ThirdLoginWH) font:BF_ScaleFont(14) textColor:BFColor(0x7B715C) text:@"快捷登录:"];
     [self.bgImageView addSubview:quickLoginLabel];
     //quickLoginLabel.backgroundColor = [UIColor redColor];
-    [quickLoginLabel sizeToFit];
     
-    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"QQ_Login" type:BFThirdLoginTypeQQ];
+    
+    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_qq" type:BFThirdLoginTypeQQ];
     [self.bgImageView addSubview:qqLogin];
     
     
-    UIButton *alipayLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"QQ_Login" type:BFThirdLoginTypeAlipay];
-    [self.bgImageView addSubview:alipayLogin];
+//    UIButton *alipayLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_alipay" type:BFThirdLoginTypeAlipay];
+//    [self.bgImageView addSubview:alipayLogin];
     
-    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(alipayLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"weibo_Login" type:BFThirdLoginTypeSina];
+    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_sina" type:BFThirdLoginTypeSina];
     [self.bgImageView addSubview:sinaLogin];
     
-    UIButton *wechatLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(sinaLogin.frame)+Magin, CGRectGetMaxY(quickLoginLabel.frame)-BF_ScaleHeight(25), BF_ScaleHeight(25), BF_ScaleHeight(25)) image:@"weixin_Login" type:BFThirdLoginTypeWechat];
+    UIButton *wechatLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(sinaLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_wechat" type:BFThirdLoginTypeWechat];
     [self.bgImageView addSubview:wechatLogin];
 }
 
@@ -171,31 +166,92 @@
     UIButton *button = [UIButton buttonWithType:0];
     button.frame = frame;
     button.tag = type;
+    //button.backgroundColor = BFColor(0x4da800);
     [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(thirdLogin:) forControlEvents:UIControlEventTouchUpInside];
     
     return button;
 }
 #pragma mark -- 第三方登录点击
-//
 - (void)thirdLogin:(UIButton *)sender {
     switch (sender.tag) {
-        case BFThirdLoginTypeQQ:
+        case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
+            [self thirdPartyLogin:ShareTypeQQSpace];
             break;
-        case BFThirdLoginTypeAlipay:
-            BFLog(@"BFThirdLoginTypeAlipay");
-            break;
-        case BFThirdLoginTypeSina:
+        }case BFThirdLoginTypeSina:{
+            [self thirdPartyLogin:ShareTypeSinaWeibo];
             BFLog(@"BFThirdLoginTypeSina");
             break;
-        case BFThirdLoginTypeWechat:
+        } case BFThirdLoginTypeWechat:{
             BFLog(@"BFThirdLoginTypeWechat");
-            break;
-        default:
-            break;
+            [self thirdPartyLogin:ShareTypeWeixiSession];
+                        break;
+        }
     }
 }
+
+
+#pragma mark --第三方登录
+- (void)thirdPartyLogin:(ShareType)shareType {
+    
+    [ShareSDK cancelAuthWithType:shareType];
+    
+    
+    [ShareSDK getUserInfoWithType:shareType authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
+                               
+       if (result)
+       {
+           NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=oauth"];
+           NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+           if (shareType == ShareTypeQQSpace) {
+               parameter[@"type"] = @"1";
+           }else if (shareType == ShareTypeSinaWeibo) {
+               parameter[@"type"] = @"2";
+           }else if (shareType == ShareTypeWeixiSession) {
+               parameter[@"type"] = @"0";
+           }
+           parameter[@"nickname"] = [userInfo nickname];
+           parameter[@"openid"] = [userInfo uid];
+           parameter[@"ico"] = [userInfo profileImage];
+           
+           [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+               BFLog(@"%@,,%@", responseObject, parameter);
+               if ([responseObject[@"status"] isEqualToString:@"0"]) {
+                   [BFProgressHUD MBProgressFromView:self.view andLabelText:@"登录失败"];
+               }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                   [BFProgressHUD MBProgressFromView:self.view LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
+                       BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                       [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
+                       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                       [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+
+                       [self.navigationController popToRootViewControllerAnimated:YES];
+                   }];
+
+               }
+               
+           } failure:^(NSError *error) {
+               BFLog(@"%@", error);
+           }];
+           
+           
+           BFLog(@" ---- %@",[userInfo nickname]);
+           //打印输出用户uid：
+           NSLog(@"uid = %@",[userInfo uid]);
+           //打印输出用户昵称：
+           NSLog(@"name = %@",[userInfo nickname]);
+           //打印输出用户头像地址：
+           NSLog(@"icon = %@",[userInfo profileImage]);
+           
+       }else{
+           [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"登录失败"];
+           NSLog(@"授权失败!error code == %ld, error code == %@", (long)[error errorCode], [error errorDescription]);
+       }
+   }];
+
+}
+
 #pragma mark --忘记密码
 - (void)forgetPassWord:(UIButton *)sender {
     BFForgetPasswordController *forgetPasswordVC = [[BFForgetPasswordController alloc] init];
@@ -242,9 +298,9 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
-                [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
-                [self.passwordTX.text writeToFile:self.passwordPath atomically:YES];
+                [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
                 
+                [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                 BFLog(@"responseObject%@",userInfo.user_icon);
@@ -284,6 +340,8 @@
     [self.view endEditing:YES];
 }
 
+
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     BOOL ret = NO;
     if (textField == self.phoneTX) {
@@ -307,10 +365,7 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+
 
 
 @end

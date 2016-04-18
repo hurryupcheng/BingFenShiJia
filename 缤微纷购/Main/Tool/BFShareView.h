@@ -30,6 +30,6 @@ typedef enum {
 /**代理*/
 @property (nonatomic, weak) id<BFShareViewDelegate>delegate;
 
-+ (instancetype) shareView;
++ (instancetype)shareView:(id)publishContent;
 
 @end

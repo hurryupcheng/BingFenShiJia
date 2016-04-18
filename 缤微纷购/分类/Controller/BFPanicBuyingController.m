@@ -15,6 +15,8 @@
 #import "BFPanicBuyingModel.h"
 #import "BFPanicBuyingHeaderView.h"
 #import "BFPanicTimeView.h"
+#import "BFStorage.h"
+#import "CXArchiveShopManager.h"
 
 @interface BFPanicBuyingController ()<UITableViewDelegate, UITableViewDataSource, BFCustomerServiceViewDelegate, BFPanicBuyingTabBarDelegate>
 /**tableView*/
@@ -29,6 +31,8 @@
 @property (nonatomic, strong) BFPanicTimeView *panicTime;
 /**BFPanicBuyingModel*/
 @property (nonatomic, strong) BFPanicBuyingModel *model;
+
+@property (nonatomic, assign) BOOL firstTime;
 @end
 
 @implementation BFPanicBuyingController
@@ -83,6 +87,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"抢购";
+    self.firstTime = YES;
     self.view.backgroundColor = BFColor(0xffffff);
     self.navigationController.navigationBar.barTintColor = BFColor(0xffffff);
     self.tabBarController.tabBar.hidden = YES;
@@ -94,12 +99,24 @@
     [self tabBar];
     //请求数据
     [self getData];
-    
+
+    //状态改变发送通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeCountView) name:@"changeCountView" object:nil];
+}
+
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
+
+- (void)changeCountView {
+    [self getData];
 }
 
 #pragma mark -- 请求数据
 - (void)getData {
-    NSString *url = @"http://bingo.luexue.com/index.php?m=Json&a=item";
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=seckill_item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
@@ -108,14 +125,16 @@
             self.model = [BFPanicBuyingModel parse:responseObject];
             self.headerView.model = self.model;
             self.panicTime.model = self.model;
-            
-            [UIView animateWithDuration:0.5 animations:^{
-                self.headerView.height = self.headerView.headerHeight;
-                self.tableView.tableHeaderView = self.headerView;
-                self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
-                self.panicTime.y = 0;
-                self.tableView.y = 0;
-            }];
+            if (self.firstTime == YES) {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.headerView.height = self.headerView.headerHeight;
+                    self.tableView.tableHeaderView = self.headerView;
+                    self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
+                    self.panicTime.y = 0;
+                    self.tableView.y = 0;
+                    self.firstTime = NO;
+                }];
+            }
             
             BFLog(@"%@", responseObject);
         }
@@ -134,6 +153,21 @@
             [self.navigationController pushViewController:logVC animated:YES];
             self.navigationController.navigationBarHidden = NO;
         }];
+
+    }else {
+        if ([self.model.seckill_type isEqualToString:@"0"]) {
+            
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购还未开始,请耐心等待"];
+        }else if ([self.model.seckill_type isEqualToString:@"2"]) {
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购已经结束,请等待下一波"];
+        }else {
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.detailView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+            [[CXArchiveShopManager sharedInstance]startArchiveShop];
+            self.tabBarController.selectedIndex = 1;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+
+        }
 
     }
 }
@@ -201,11 +235,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        BFProductDetailWebViewController *webVC = [[BFProductDetailWebViewController alloc] init];
-        webVC.info = self.model.info;
-        [self.navigationController pushViewController:webVC animated:YES];
+        if (self.model.info != nil) {
+            BFProductDetailWebViewController *webVC = [[BFProductDetailWebViewController alloc] init];
+            webVC.info = self.model.info;
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
     }
 }
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

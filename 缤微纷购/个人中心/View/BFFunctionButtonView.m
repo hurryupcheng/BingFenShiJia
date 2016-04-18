@@ -40,22 +40,22 @@
     [self addSubview:horizontalLine];
     
 
-    BFFuctionButton *myWallet = [self setUpButtonWithframe:CGRectMake(0, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyWallet image:@"iicon01.png" titleText:@"我的钱包"];
+    BFFuctionButton *myWallet = [self setUpButtonWithframe:CGRectMake(0, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyWallet image:@"my_wallet" titleText:@"我的钱包"];
     [self.bgView addSubview:myWallet];
     
-    BFFuctionButton *myOrder = [self setUpButtonWithframe:CGRectMake(ScreenWidth/3, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyOrder image:@"iicon02.png" titleText:@"我的订单"];
+    BFFuctionButton *myOrder = [self setUpButtonWithframe:CGRectMake(ScreenWidth/3, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyOrder image:@"my_order" titleText:@"我的订单"];
     [self.bgView addSubview:myOrder];
     
-    BFFuctionButton *myGroupPurchase = [self setUpButtonWithframe:CGRectMake(2*ScreenWidth/3, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyGroupPurchase image:@"iicon03.png" titleText:@"我的拼团"];
+    BFFuctionButton *myGroupPurchase = [self setUpButtonWithframe:CGRectMake(2*ScreenWidth/3, 0, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyGroupPurchase image:@"my_group_purchase" titleText:@"我的拼团"];
     [self.bgView addSubview:myGroupPurchase];
     
-    BFFuctionButton *myCoupons = [self setUpButtonWithframe:CGRectMake(0, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyCoupons image:@"iicon04.png" titleText:@"优惠券"];
+    BFFuctionButton *myCoupons = [self setUpButtonWithframe:CGRectMake(0, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyCoupons image:@"my_coupons" titleText:@"优惠券"];
     [self.bgView addSubview:myCoupons];
     
-    BFFuctionButton *myProFile = [self setUpButtonWithframe:CGRectMake(ScreenWidth/3, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyProFile image:@"iicon05.png" titleText:@"我的资料"];
+    BFFuctionButton *myProFile = [self setUpButtonWithframe:CGRectMake(ScreenWidth/3, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyProFile image:@"my_proFile" titleText:@"我的资料"];
     [self.bgView addSubview:myProFile];
     
-    BFFuctionButton *myPrivilege = [self setUpButtonWithframe:CGRectMake(2*ScreenWidth/3, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyPrivilege image:@"iicon06.png" titleText:@"我的特权"];
+    BFFuctionButton *myPrivilege = [self setUpButtonWithframe:CGRectMake(2*ScreenWidth/3, self.height/2, ScreenWidth/3, self.height/2) type:BFFunctionButtonTypeMyPrivilege image:@"my_privilege" titleText:@"我的特权"];
     [self.bgView addSubview:myPrivilege];
 
     

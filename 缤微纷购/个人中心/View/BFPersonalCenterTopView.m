@@ -43,13 +43,12 @@
 
 - (void)changeStatus {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    BFLog(@"%@",userInfo);
     if (userInfo == nil) {
         BFLog(@"没登录");
         self.buttonView.hidden = NO;
         self.nickNameView.hidden = YES;
         
-        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@"http://bingo.luexue.com/Style/teambuy/images/avatar_4_64.png"] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:@""] placeholderImage:[UIImage imageNamed:@"head_image"]];
         
     }else {
         self.buttonView.hidden = YES;
@@ -58,9 +57,9 @@
         self.advertisingExpenseLabel.text = [NSString stringWithFormat:@"¥%@",userInfo.proxy_order_money];
         self.myClientLabel.text = userInfo.proxy_num;
         
-
-        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
-
+        
+        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        
         
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];
         if (userInfo.p_username != nil) {
@@ -71,8 +70,6 @@
             self.referenceButton.hidden = NO;
             self.referenceLabel.hidden = YES;
         }
-        
-        
         BFLog(@"登录了,,%@,%@,%@,%@,",userInfo.p_username,userInfo.ID,userInfo.proxy_num,userInfo.proxy_order_money);
     }
 }
@@ -92,7 +89,10 @@
     [self addSubview:bgView];
     
     
-    self.headButton = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(126), ScreenHeight*0.11, BF_ScaleWidth(68), BF_ScaleHeight(68))];
+    self.headButton = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75))];
+    self.headButton.backgroundColor = [UIColor grayColor];
+    self.headButton.layer.cornerRadius = BF_ScaleHeight(75)/2;
+    self.headButton.layer.masksToBounds = YES;
     [self.headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:self.headButton];

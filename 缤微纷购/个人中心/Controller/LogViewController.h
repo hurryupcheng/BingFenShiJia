@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
+    /**QQ登录*/
     BFThirdLoginTypeQQ,
     BFThirdLoginTypeAlipay,
+    /**微博登录*/
     BFThirdLoginTypeSina,
+    /**微信登录*/
     BFThirdLoginTypeWechat
 } BFThirdLoginType;
 

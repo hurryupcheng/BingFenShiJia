@@ -11,4 +11,6 @@
 @interface BFShoppingCartButton : UIButton
 /**tupian*/
 @property (nonatomic, strong) UIImageView *shoppingCart;
+
+@property (nonatomic, strong) UILabel *badge;
 @end

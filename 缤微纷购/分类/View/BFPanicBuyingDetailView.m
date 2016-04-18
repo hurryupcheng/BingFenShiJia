@@ -7,7 +7,7 @@
 //
 
 #import "BFPanicBuyingDetailView.h"
-#import "BFPanicCountView.h"
+
 
 @interface BFPanicBuyingDetailView()
 /**标题*/
@@ -18,8 +18,7 @@
 @property (nonatomic, strong) UILabel *productOriginPrice;
 /**尺寸*/
 @property (nonatomic, strong) UILabel *productSize;
-/**加减按钮*/
-@property (nonatomic, strong) BFPanicCountView *countView;
+
 
 
 @end

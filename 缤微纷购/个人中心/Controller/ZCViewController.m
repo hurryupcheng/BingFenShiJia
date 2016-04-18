@@ -25,8 +25,6 @@
 @property (nonatomic, strong) UIButton *sendVerificationCodeButton;
 /**手机号保存路径*/
 @property (nonatomic, strong) NSString *phonePath;
-/**密码保存路径*/
-@property (nonatomic, strong) NSString *passwordPath;
 @end
 
 @implementation ZCViewController
@@ -38,12 +36,7 @@
     return _phonePath;
 }
 
-- (NSString *)passwordPath {
-    if (!_passwordPath) {
-        _passwordPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"password.plist"];
-    }
-    return _passwordPath;
-}
+
 
 
 
@@ -99,7 +92,6 @@
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
         BFLog(@"responseObject%@",userInfo);
         [BFPassWordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
-        [BFPassWordView.firstPasswordTX.text writeToFile:self.passwordPath atomically:YES];
         [self.navigationController popToRootViewControllerAnimated:YES];
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];

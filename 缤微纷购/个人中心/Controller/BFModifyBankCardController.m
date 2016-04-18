@@ -52,6 +52,11 @@
     [BFNotificationCenter addObserver:self selector:@selector(gotoBindPhoneNumber) name:@"gotoBindPhoneNumber" object:nil];
 }
 
+//移除通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
 - (void)modifyBankInfomation {
     _block([BFUserDefaluts getUserInfo]);
     [self.navigationController popViewControllerAnimated:YES];

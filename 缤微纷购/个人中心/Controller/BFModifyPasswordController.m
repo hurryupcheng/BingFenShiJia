@@ -63,8 +63,6 @@
             [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"密码修改失败"];
         }else {
             [BFProgressHUD MBProgressFromView:self.view LabelText:@"密码修改成功,正在跳转" dispatch_get_main_queue:^{
-                //修改密码成功，发送通知清空保存的密码
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"cleanPassword" object:nil];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }

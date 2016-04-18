@@ -19,7 +19,9 @@
 /**说明*/
 @property (nonatomic, strong) NSString *intro;
 /**1.开始抢购 ，0.未开始*/
-@property (nonatomic, assign) NSInteger is_seckill;
+@property (nonatomic, strong) NSString *seckill_type;
+/**系统时间*/
+@property (nonatomic, assign) NSInteger nowtime;
 /**开始时间*/
 @property (nonatomic, assign) NSInteger seckill_starttime;
 /**结束时间*/

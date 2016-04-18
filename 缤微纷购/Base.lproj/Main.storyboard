@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9035"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Item-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -14,7 +14,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleAspectFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="514" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8Ps-Uj-Aef">
@@ -27,20 +27,35 @@
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" backgroundImage="shoppingCart"/>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shoppingCart" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
-                                <rect key="frame" x="43" y="124" width="381" height="86"/>
+                            <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shoppingCart" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
+                                <rect key="frame" x="34" y="388" width="415" height="150"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9x-tV-25Z">
+                                <rect key="frame" x="0.0" y="64" width="514" height="149"/>
+                                <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="149" id="Tze-vX-MiS"/>
+                                </constraints>
+                            </view>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="v9x-tV-25Z" secondAttribute="trailing" id="Eic-Wp-IrD"/>
+                            <constraint firstItem="v9x-tV-25Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TmY-vb-9mP"/>
+                            <constraint firstItem="v9x-tV-25Z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="gYa-GD-aJg"/>
+                        </constraints>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Item" id="0r0-g3-5lN"/>
                     <navigationItem key="navigationItem" id="Bfy-Yg-PG4">
                         <barButtonItem key="rightBarButtonItem" style="done" systemItem="add" id="zq7-bb-6Yd"/>
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="514" height="600"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1477" y="-3"/>
+            <point key="canvasLocation" x="1748" y="351"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TaD-bK-NBU">
@@ -53,12 +68,30 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="T0u-4R-4JD"/>
+                        <segue destination="oDG-6Q-T6v" kind="relationship" relationship="rootViewController" id="T0u-4R-4JD"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lry-jk-e5u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="280" y="379"/>
+            <point key="canvasLocation" x="1066" y="-320"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="QAf-11-6M2">
+            <objects>
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="oDG-6Q-T6v" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="N7c-4m-RPt"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="PhA-74-yAw">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="DUZ-2o-GBh"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DyO-0w-ad0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1027" y="371"/>
         </scene>
     </scenes>
     <resources>

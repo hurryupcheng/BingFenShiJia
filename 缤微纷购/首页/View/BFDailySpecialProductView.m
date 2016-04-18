@@ -8,7 +8,7 @@
 
 #import "BFDailySpecialProductView.h"
 
-@interface BFDailySpecialProductView()
+@interface BFDailySpecialProductView()<BFShopCartAnimationDelegate>
 /**商品图片*/
 @property (nonatomic, strong) UIImageView *productIcon;
 /**商品标题*/
@@ -19,9 +19,21 @@
 @property (nonatomic, strong) UILabel *productNewPrice;
 /**商品原价格*/
 @property (nonatomic, strong) UILabel *productOriginPrice;
+
+@property (nonatomic, strong) NSMutableArray<CALayer *> *redLayers;
 @end
 
+
+
 @implementation BFDailySpecialProductView
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
+
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -41,7 +53,7 @@
         [self addSubview:self.productIcon];
         
         self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame) + BF_ScaleWidth(8), BF_ScaleHeight(10), BF_ScaleWidth(192), 0)];
-        self.productTitle.backgroundColor = [UIColor redColor];
+        //self.productTitle.backgroundColor = [UIColor redColor];
         self.productTitle.numberOfLines = 0;
         self.productTitle.textColor = BFColor(0x202021);
         self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
@@ -50,7 +62,7 @@
         [self.productTitle sizeToFit];
         
         self.productSize = [[UILabel alloc] initWithFrame:CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame) + BF_ScaleHeight(4), BF_ScaleWidth(192), BF_ScaleHeight(13))];
-        self.productSize.backgroundColor = [UIColor greenColor];
+        //self.productSize.backgroundColor = [UIColor greenColor];
         self.productSize.textColor = BFColor(0x868788);
         self.productSize.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
         self.productSize.text = model.size;
@@ -91,7 +103,53 @@
 }
 
 - (void)add:(UIButton *)sender {
-    [BFNotificationCenter postNotificationName:@"BFDailySpecialProductView" object:nil];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+ 
+    if ([self.model.seckill_type isEqualToString:@"0"]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"抢购还未开始,请耐心等待"];
+    } else if ([self.model.seckill_type isEqualToString:@"2"]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"抢购已经结束,请等待下一波"];
+    } else {
+        if (userInfo) {
+            [self animationStart];
+            [BFNotificationCenter postNotificationName:@"BFDailySpecialProductView" object:self userInfo:@{@"tag" : @(sender.tag)} ];
+        }else {
+            
+            [BFNotificationCenter postNotificationName:@"gotoLogin" object:nil];
+        }
+    }
 }
+
+
+//购物车动画
+- (void)animationStart{
+    //获取动画起点
+    CGPoint start = [self convertPoint:self.productIcon.center toView:self];
+    //获取动画终点
+    CGPoint end = [self convertPoint:self.shoppingCart.center toView:self];
+    //创建layer
+    CALayer *chLayer = [[CALayer alloc] init];
+    chLayer.contents = (UIImage *)self.productIcon.image.CGImage;
+    [self.redLayers addObject:chLayer];
+    chLayer.frame = CGRectMake(self.productIcon.centerX, self.productIcon.centerY, BF_ScaleHeight(40), BF_ScaleHeight(40));
+    chLayer.cornerRadius = CGRectGetWidth(chLayer.frame)/3.f;
+    chLayer.backgroundColor = [UIColor blueColor].CGColor;
+    [self.layer addSublayer:chLayer];
+    
+    
+    BFShopCartAnimation *animation = [[BFShopCartAnimation alloc]init];
+    animation.delegate = self;
+    [animation shopCatrAnimationWithLayer:chLayer startPoint:start endPoint:end changeX:start.x+BF_ScaleWidth(40) changeY:start.y-BF_ScaleHeight(75) endScale:0.3f  duration:1 isRotation:YES];
+}
+
+
+//动画代理动画结束移除layer
+- (void)animationStop {
+    [BFNotificationCenter postNotificationName:@"navigationBarChange" object:nil];
+    [self.redLayers[0] removeFromSuperlayer];
+    [self.redLayers removeObjectAtIndex:0];
+}
+
+
 
 @end

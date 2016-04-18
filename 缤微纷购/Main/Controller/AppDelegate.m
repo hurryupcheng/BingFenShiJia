@@ -5,9 +5,15 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-#import "UMSocial.h"
-#import "UMSocialWechatHandler.h"
-#import "UMSocialQQHandler.h"
+
+
+#import <ShareSDK/ShareSDK.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "WXApi.h"
+#import "WeiboSDK.h"
+
+
 #import "Header.h"
 #import "RootViewController.h"
 #import "AppDelegate.h"
@@ -15,13 +21,19 @@
 #import "DWTableViewController.h"
 #import "BFNavigationController.h"
 
-#define AppKey   @"56e3cf9fe0f55a2fe50023fb"
+#define AppKey   @"11ae973b82132"
 
-#define  kWXKey         @"wx527fcee587d19017"
-#define  kWXSecret      @"80e78cd5c34542df24a1c3e6b28492b1"
+#define  kWXKey         @"wxfdfc235382c84b7d"
+#define  kWXSecret      @"d911c360a8a5ad90a9b5ca1250e35e97"
 
-#define  kQQKey         @"1104539912"
-#define  kQQSecret      @"eFVgRits2fqf36Jf"
+//#define  kQQKey         @"1104539912"
+//#define  kQQSecret      @"eFVgRits2fqf36Jf"
+#define  kQQKey         @"1105335960"
+#define  kQQSecret      @"KEYgTufBAzAgLcyXhb0"
+
+#define  kSinaKey         @"1177928191"
+#define  kSinaSecret      @"090912c73729b5aa7d1405fce0a6c76a"
+
 
 @interface AppDelegate ()<CLLocationManagerDelegate>
 /**定位管理*/
@@ -39,16 +51,47 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    /**苹果审核要求：如果没有安装微信QQ等软件，则不允许显示分享按钮*/
-//    [UMSocialConfig hiddenNotInstallPlatforms:@[UMShareToQQ, UMShareToQzone,UMShareToWechatSession, UMShareToWechatTimeline,UMShareToSina]];
     
     
-    [UMSocialData setAppKey:AppKey];
+    /**
+     *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册
+     *  在将生成的AppKey传入到此方法中。
+     *  方法中的第二个第三个参数为需要连接社交平台SDK时触发，
+     *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
+     *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
+     */
     
-    //设置微信AppId、appSecret，分享url
-    [UMSocialWechatHandler setWXAppId:kWXKey appSecret:kWXSecret url:@"http://www.umeng.com/social"];
-    //设置分享到QQ/Qzone的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:kQQKey appKey:kQQSecret url:@"http://www.umeng.com/social"];
+    
+    
+    [ShareSDK registerApp:AppKey];//字符串api20为您的ShareSDK的AppKey
+    
+
+    [ShareSDK connectQQWithQZoneAppKey:kQQKey
+                     qqApiInterfaceCls:[QQApiInterface class]
+                       tencentOAuthCls:[TencentOAuth class]];
+
+    //微信登陆的时候需要初始化
+
+    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
+    [ShareSDK  connectSinaWeiboWithAppKey:kSinaKey
+                                appSecret:kSinaSecret
+                              redirectUri:@"http://www.baidu.com"
+                              weiboSDKCls:[WeiboSDK class]];
+    
+//    //添加新浪微博应用 注册网址 http://open.weibo.com
+    [ShareSDK connectSinaWeiboWithAppKey:kSinaKey
+                               appSecret:kSinaSecret
+                             redirectUri:@"http://www.baidu.com"];
+    
+    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
+    [ShareSDK connectQZoneWithAppKey:kQQKey
+                           appSecret:kQQSecret
+                   qqApiInterfaceCls:[QQApiInterface class]
+                     tencentOAuthCls:[TencentOAuth class]];
+    
+    [ShareSDK connectWeChatWithAppId:kWXKey   //微信APPID
+                           appSecret:kWXSecret  //微信APPSecret
+                           wechatCls:[WXApi class]];
 
     
     self.proportionX = kScreenWidth/375;
@@ -61,27 +104,33 @@
     
     self.window.rootViewController = [[RootViewController alloc]init];
     
+
     
     //开始监听网络状态
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     return YES;
-    
+
     
 }
 
-- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+- (BOOL)application:(UIApplication *)application
+      handleOpenURL:(NSURL *)url
 {
-    return [UMSocialSnsService handleOpenURL:url];
+    return [ShareSDK handleOpenURL:url
+                        wxDelegate:self];
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
 {
-    BOOL result = [UMSocialSnsService handleOpenURL:url];
-    if (result == FALSE) {
-        //调用其他SDK，例如支付宝SDK等
-    }
-    return result;
+    return [ShareSDK handleOpenURL:url
+                 sourceApplication:sourceApplication
+                        annotation:annotation
+                        wxDelegate:self];
 }
+
 
 
 #pragma mark 程序失去焦点的时候调用（不能跟用户进行交互了）
