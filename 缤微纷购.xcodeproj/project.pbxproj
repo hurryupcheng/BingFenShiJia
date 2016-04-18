@@ -180,7 +180,6 @@
 		59382F481CBF9B6F00442A6F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F471CBF9B6F00442A6F /* libz.tbd */; };
 		59382F4A1CBF9B7E00442A6F /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F491CBF9B7E00442A6F /* libstdc++.tbd */; };
 		59382F4C1CBF9B9300442A6F /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F4B1CBF9B9300442A6F /* JavaScriptCore.framework */; };
-		59382F4E1CBF9B9D00442A6F /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F4D1CBF9B9D00442A6F /* JavaScriptCore.framework */; };
 		59382F501CBF9BAF00442A6F /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F4F1CBF9BAF00442A6F /* ImageIO.framework */; };
 		59382F521CBF9BB900442A6F /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 59382F511CBF9BB900442A6F /* libsqlite3.tbd */; };
 		5938ACBE1CAB7991004D076A /* BFGroupDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACBD1CAB7991004D076A /* BFGroupDetailController.m */; };
@@ -782,7 +781,6 @@
 		59382F471CBF9B6F00442A6F /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		59382F491CBF9B7E00442A6F /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		59382F4B1CBF9B9300442A6F /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		59382F4D1CBF9B9D00442A6F /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/PrivateFrameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		59382F4F1CBF9BAF00442A6F /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		59382F511CBF9BB900442A6F /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		5938ACBC1CAB7991004D076A /* BFGroupDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailController.h; sourceTree = "<group>"; };
@@ -1390,6 +1388,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59382F4C1CBF9B9300442A6F /* JavaScriptCore.framework in Frameworks */,
 				59FDDD061CC139EC00BF8C97 /* AudioToolbox.framework in Frameworks */,
 				59F687561CC0838F00AD8308 /* MessageUI.framework in Frameworks */,
 				59FD130B1CBFEB8D00B2292A /* QuartzCore.framework in Frameworks */,
@@ -1399,11 +1398,9 @@
 				59382F501CBF9BAF00442A6F /* ImageIO.framework in Frameworks */,
 				59F6874A1CC07BF700AD8308 /* ShareSDKCoreService.framework in Frameworks */,
 				59F6873E1CC07BF700AD8308 /* MailConnection.framework in Frameworks */,
-				59382F4C1CBF9B9300442A6F /* JavaScriptCore.framework in Frameworks */,
 				59F687481CC07BF700AD8308 /* MOBFoundation.framework in Frameworks */,
 				59F687421CC07BF700AD8308 /* SMSConnection.framework in Frameworks */,
 				59F6874B1CC07BF700AD8308 /* TencentOpenAPI.framework in Frameworks */,
-				59382F4E1CBF9B9D00442A6F /* JavaScriptCore.framework in Frameworks */,
 				59F6873F1CC07BF700AD8308 /* QQConnection.framework in Frameworks */,
 				59382F4A1CBF9B7E00442A6F /* libstdc++.tbd in Frameworks */,
 				59382F481CBF9B6F00442A6F /* libz.tbd in Frameworks */,
@@ -1514,7 +1511,6 @@
 				59FD130A1CBFEB8D00B2292A /* QuartzCore.framework */,
 				59382F511CBF9BB900442A6F /* libsqlite3.tbd */,
 				59382F4F1CBF9BAF00442A6F /* ImageIO.framework */,
-				59382F4D1CBF9B9D00442A6F /* JavaScriptCore.framework */,
 				59382F4B1CBF9B9300442A6F /* JavaScriptCore.framework */,
 				59F687551CC0838F00AD8308 /* MessageUI.framework */,
 				59382F491CBF9B7E00442A6F /* libstdc++.tbd */,

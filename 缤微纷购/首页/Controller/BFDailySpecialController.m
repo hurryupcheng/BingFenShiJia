@@ -73,7 +73,7 @@
     //添加tableview
     [self tableView];
     //添加navigationbar
-    [self setUpNavigationBar];
+    
     //加载数据
     [self getData];
     //接收通知
@@ -162,16 +162,6 @@
 - (void)click {
     self.tabBarController.selectedIndex = 1;
     [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
-    NSMutableArray *array = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
-    BFLog(@"---%lu", (unsigned long)array.count);
-    self.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
 }
 
 #pragma mark -- tableview代理
