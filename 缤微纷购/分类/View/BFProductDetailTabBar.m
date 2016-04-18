@@ -10,13 +10,15 @@
 
 
 
-@interface BFProductDetailTabBar()
+@interface BFProductDetailTabBar(){
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
+
 
 @property (strong, nonatomic) NSMutableArray<CALayer *> *redLayers;
 
-
-
-
+@property (strong, nonatomic) UIButton *addToCart;
 @end
 
 
@@ -59,6 +61,7 @@
         shoppingCart.badge.hidden = YES;
     }
     UIButton *addToCart = [UIButton buttonWithType:0];
+    self.addToCart = addToCart;
     addToCart.frame = CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32));
     addToCart.tag = BFProductDetailTabBarButtonTypeAddCart;
     addToCart.backgroundColor = BFColor(0xF56B0A);
@@ -71,13 +74,38 @@
 }
 
 - (void)click:(UIButton *)sender {
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickWithType:)]) {
+        
+        leftTime = 1;
+        [self.addToCart setEnabled:NO];
+        [self.shoppingCart setEnabled:NO];
+        
+        if(timer)
+            [timer invalidate];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+        
         [self.delegate clickWithType:sender.tag];
     }
 }
 
 
+- (void)timerAction {
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.addToCart setEnabled:YES];
+        [self.shoppingCart setEnabled:YES];
+        //self.addToCart.backgroundColor = BFColor(0xFD8727);
+    } else
+    {
+        
+        [self.addToCart setEnabled:NO];
+        [self.shoppingCart setEnabled:NO];
+        //[self.addToCart setBackgroundColor:BFColor(0xD5D8D1)];
+    }
 
+}
 
 
 

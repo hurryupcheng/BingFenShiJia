@@ -78,12 +78,33 @@
         /* 设置导航栏上面的内容 */
         // 设置左边的返回按钮
 //        viewController.navigationItem.leftBarButtonItem = [UIBarButtonItem itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
-        viewController.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+       
+
+        
+        
+        viewController.navigationItem.leftBarButtonItem = [self itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+        
+        
+//        [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
         
     }
     
     [super pushViewController:viewController animated:animated];
 }
+
+
+- (UIBarButtonItem *)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage
+{
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    // 设置图片
+    [btn setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage imageNamed:highImage] forState:UIControlStateHighlighted];
+    // 设置尺寸
+    btn.size = btn.currentBackgroundImage.size;
+    return [[UIBarButtonItem alloc] initWithCustomView:btn];
+}
+
 
 //- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion{
 //    if (self.viewControllers.count > 0) { // 这时push进来的控制器viewController，不是第一个子控制器（不是根控制器）

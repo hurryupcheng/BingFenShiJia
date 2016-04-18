@@ -15,8 +15,9 @@
 #import "XQCollectionViewCell.h"
 #import "Header.h"
 #import "XQViewController.h"
+#import "BFCategoryNavigationView.h"
 
-@interface XQViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,XQViewCellDelegate>
+@interface XQViewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,XQViewCellDelegate, BFShopCartAnimationDelegate>
 
 @property (nonatomic,retain)UICollectionView *collectionView;
 @property (nonatomic,retain)UIView *segmented;
@@ -35,9 +36,24 @@
 @property (nonatomic,retain)UILabel *numLabel;//购物车数量
 @property (nonatomic,assign)NSInteger sumNumber;
 
+@property (nonatomic, strong) UIButton *rightBut;
+
+@property (nonatomic, strong) NSMutableArray<CALayer *> *redLayers;
+
+@property (nonatomic, strong) BFCategoryNavigationView *navigationView;
+
+
 @end
 
 @implementation XQViewController
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -52,28 +68,45 @@
 
 - (void)initWithSegmented{
     
-    UIView *butView = [[UIView alloc]initWithFrame:CGRectMake(kScreenWidth-50, 0, 44, 44)];
-    UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 40)];
+    
+    self.navigationView = [[BFCategoryNavigationView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
+    self.navigationView.titleLabel.text = self.titles;
+    [self.view addSubview:self.navigationView];
+    
+    
+    
+    UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260), 22, 40, 40)];
+    //rightBut.backgroundColor = [UIColor blueColor];
+    self.rightBut = rightBut;
     [rightBut setImage:[UIImage imageNamed:@"ff1.png"] forState:UIControlStateNormal];
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationView addSubview:rightBut];
     
-    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(rightBut.frame)-10, 0, 18, 18)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, 18, 18)];
     _numLabel.backgroundColor = [UIColor redColor];
     _numLabel.layer.cornerRadius = 9;
     _numLabel.layer.masksToBounds = YES;
-   
+    
     _numLabel.textAlignment = NSTextAlignmentCenter;
     _numLabel.font = [UIFont systemFontOfSize:13];
     _numLabel.textColor = [UIColor whiteColor];
-    
-    [butView addSubview:rightBut];
     [rightBut addSubview:_numLabel];
     
-    UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:rightBut];
-    self.navigationItem.rightBarButtonItem = right;
+    
+    UIButton *back = [UIButton buttonWithType:0];
+    back.frame = CGRectMake(BF_ScaleWidth(12), 22, 40, 40);
+    [back setImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] forState:UIControlStateNormal];
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationView addSubview:back];
+    
+    //UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:rightBut];
+    //self.navigationItem.rightBarButtonItem = right;
+
+    
+    
     
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
-    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth-10, 30)];
+    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, 30)];
     _segmented.layer.cornerRadius = 6;
     _segmented.layer.masksToBounds = YES;
     _segmented.layer.borderWidth = 1;
@@ -116,6 +149,8 @@
     }
 
 }
+
+
 
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
@@ -162,20 +197,28 @@
     return cell;
 }
 
+#pragma mark -- 返回
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma  mark 直接添加购物车代理方法
-- (void)xqViewDelegate:(UICollectionViewCell *)cell index:(NSInteger)index{
+- (void)xqViewDelegate:(XQCollectionViewCell *)cell index:(NSInteger)index{
     if (self.userInfo == nil) {
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..."];
         LogViewController *log = [LogViewController new];
         [self.navigationController pushViewController:log animated:YES];
     }else{
         [self sss];
+       
+        
     _xqOtherModel = self.dataArray[index];
-    
+    [self animationStart:cell];
     BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_xqOtherModel.ID];
     if (stor == nil) {
         self.sumNumber++;
         self.numLabel.alpha = 1;
+        
         self.numLabel.text = [NSString stringWithFormat:@"%ld",(long)self.sumNumber];
         [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
     }
@@ -203,6 +246,69 @@
     }
 
 }
+
+
+//购物车动画
+- (void)animationStart:(XQCollectionViewCell *)cell{
+    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.modalPresentationCapturesStatusBarAppearance = NO;
+    }
+    
+    
+    //获取动画起点
+    CGPoint start = [cell convertPoint:cell.imageView.center toView:self.view];
+    //获取动画终点
+
+    CGPoint end = [self.navigationView convertPoint:self.rightBut.center toView:self.view];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+   
+    //创建layer
+    CALayer *chLayer = [[CALayer alloc] init];
+    chLayer.contents = (UIImage *)cell.imageView.image.CGImage;
+    [self.redLayers addObject:chLayer];
+    chLayer.frame = CGRectMake(cell.imageView.centerX, cell.imageView.centerY, BF_ScaleHeight(50), BF_ScaleHeight(50));
+    //chLayer.cornerRadius = BF_ScaleHeight(20);
+    chLayer.masksToBounds = YES;
+    chLayer.backgroundColor = [UIColor blueColor].CGColor;
+    [self.view.layer addSublayer:chLayer];
+    
+    
+    BFShopCartAnimation *animation = [[BFShopCartAnimation alloc]init];
+    animation.delegate = self;
+    [animation shopCatrAnimationWithLayer:chLayer startPoint:start endPoint:end changeX:start.x-BF_ScaleWidth(50) changeY:start.y-BF_ScaleHeight(100) endScale:0.20f  duration:1 isRotation:NO];
+}
+
+
+//动画代理动画结束移除layer
+- (void)animationStop {
+
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+        BFLog(@"---%lu", (unsigned long)array.count);
+        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        if (array.count == 0) {
+            self.numLabel.hidden = YES;
+        }else {
+            self.numLabel.hidden = NO;
+            self.numLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+            
+        }
+
+    }else {
+        self.numLabel.hidden = YES;
+    }
+    [self.redLayers[0] removeFromSuperlayer];
+    [self.redLayers removeObjectAtIndex:0];
+}
+
+
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -315,6 +421,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.hidden = YES;
     self.userInfo = [BFUserDefaluts getUserInfo];
     self.sumNumber = 0;
     self.numLabel.alpha = 0;
@@ -323,6 +430,13 @@
     }
     
     self.tabBarController.tabBar.hidden = YES;
+}
+
+
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+   self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)didReceiveMemoryWarning {
