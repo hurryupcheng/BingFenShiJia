@@ -45,16 +45,19 @@
     [self addSubview:shoppingCart];
     
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
-    //[[CXArchiveShopManager sharedInstance]startArchiveShop];
-    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-    if (array.count == 0 || userInfo == nil) {
-        shoppingCart.badge.hidden = YES;
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        //[[CXArchiveShopManager sharedInstance]startArchiveShop];
+        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+        if (array.count == 0) {
+            shoppingCart.badge.hidden = YES;
+        }else {
+            shoppingCart.badge.hidden = NO;
+            shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        }
     }else {
-        shoppingCart.badge.hidden = NO;
-        shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        shoppingCart.badge.hidden = YES;
     }
-    
     UIButton *addToCart = [UIButton buttonWithType:0];
     addToCart.frame = CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32));
     addToCart.tag = BFProductDetailTabBarButtonTypeAddCart;
