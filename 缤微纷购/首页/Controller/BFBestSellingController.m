@@ -204,23 +204,25 @@
 #pragma mark -- BFBestSellingCellDelegate
 - (void)addToShoppingCartWithButton:(UIButton *)button {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    if (userInfo) {
-        BFBestSellingList *list = self.bestSellingArray[button.tag];
-        BFLog(@"-----%@",list.title);
-        BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:list.stock choose:list.size color:list.color];
-        
-        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
-        [[CXArchiveShopManager sharedInstance]startArchiveShop];
-    }else {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-            self.navigationController.navigationBarHidden = NO;
-            LogViewController *logVC= [LogViewController new];
-            [self.navigationController pushViewController:logVC animated:YES];
-        }];
-    }
     
-    
+    BFBestSellingList *list = self.bestSellingArray[button.tag];
+    BFLog(@"-----%@",list.title);
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:list.stock choose:list.size color:list.color];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+    [[CXArchiveShopManager sharedInstance]startArchiveShop];
 
+    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+    
+}
+
+- (void)gotoLogin {
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+        self.navigationController.navigationBarHidden = NO;
+        LogViewController *logVC= [LogViewController new];
+        [self.navigationController pushViewController:logVC animated:YES];
+    }];
 }
 
 @end

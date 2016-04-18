@@ -72,6 +72,15 @@
     [self getDownDate];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = NO;
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+}
+
 #pragma  mark 缤纷商城初始化
 - (void)initWithScrollView{
     

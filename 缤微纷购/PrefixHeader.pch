@@ -36,8 +36,11 @@
 #import "BFSegmentView.h"
 #import "BFTranslateTime.h"
 #import "BFUserInfo.h"
+#import "CXArchiveShopManager.h"
+#import "BFStorage.h"
 //#import "BFThirdPartyLoginUserInfo.h"
 #import "BFSoundEffect.h"
+#import "BFShopCartAnimation.h"
 
 #pragma mark ---宏定义
 

@@ -222,6 +222,7 @@
                }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
                    [BFProgressHUD MBProgressFromView:self.view LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                       [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
 
@@ -235,13 +236,13 @@
            }];
            
            
-//           BFLog(@" ---- %@",[userInfo nickname]);
-//           //打印输出用户uid：
-//           NSLog(@"uid = %@",[userInfo uid]);
-//           //打印输出用户昵称：
-//           NSLog(@"name = %@",[userInfo nickname]);
-//           //打印输出用户头像地址：
-//           NSLog(@"icon = %@",[userInfo profileImage]);
+           BFLog(@" ---- %@",[userInfo nickname]);
+           //打印输出用户uid：
+           NSLog(@"uid = %@",[userInfo uid]);
+           //打印输出用户昵称：
+           NSLog(@"name = %@",[userInfo nickname]);
+           //打印输出用户头像地址：
+           NSLog(@"icon = %@",[userInfo profileImage]);
            
        }else{
            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"登录失败"];
@@ -297,6 +298,8 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
+                [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
+                
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
@@ -336,6 +339,8 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];
 }
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     BOOL ret = NO;

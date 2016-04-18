@@ -8,7 +8,7 @@
 
 #import "BFBestSellingCell.h"
 
-@interface BFBestSellingCell()
+@interface BFBestSellingCell()<BFShopCartAnimationDelegate>
 /**底部view*/
 @property (nonatomic, strong) UIView *bottomView;
 /**商品图片*/
@@ -20,9 +20,18 @@
 /**商品标题*/
 @property (nonatomic, strong) UILabel *productOriginPrice;
 
+@property (strong, nonatomic) NSMutableArray<CALayer *> *redLayers;
+
 @end
 
 @implementation BFBestSellingCell
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
     static NSString *ID = @"BFBestSellingCell";
@@ -35,7 +44,7 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        [self setCell];
+        
         self.backgroundColor = BFColor(0xF4F4F4);
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -45,6 +54,7 @@
 - (void)setModel:(BFBestSellingList *)model {
     _model = model;
     if (model) {
+        
         self.bottomView = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(300), BF_ScaleHeight(85))];
         self.bottomView.backgroundColor = BFColor(0xffffff);
         self.bottomView.layer.borderWidth = 1;
@@ -93,15 +103,49 @@
     }
 }
 
-- (void)setCell {
-    
-}
+
 
 
 - (void)add:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(addToShoppingCartWithButton:)]) {
-        [self.delegate addToShoppingCartWithButton:sender];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (!userInfo) {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLogin)]) {
+            [self.delegate gotoLogin];
+        }
+    }else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(addToShoppingCartWithButton:)]) {
+            [self animationStart];
+            [self.delegate addToShoppingCartWithButton:sender];
+        }
     }
+}
+
+//购物车动画
+- (void)animationStart{
+    //获取动画起点
+    CGPoint start = [self convertPoint:self.productIcon.center toView:self];
+    //获取动画终点
+    CGPoint end = [self convertPoint:self.shoppingCart.center toView:self];
+    //创建layer
+    CALayer *chLayer = [[CALayer alloc] init];
+    chLayer.contents = (UIImage *)self.productIcon.image.CGImage;
+    [self.redLayers addObject:chLayer];
+    chLayer.frame = CGRectMake(self.productIcon.centerX, self.productIcon.centerY, BF_ScaleHeight(40), BF_ScaleHeight(40));
+    chLayer.cornerRadius = CGRectGetWidth(chLayer.frame)/3.f;
+    chLayer.backgroundColor = [UIColor blueColor].CGColor;
+    [self.layer addSublayer:chLayer];
+    
+    
+    BFShopCartAnimation *animation = [[BFShopCartAnimation alloc]init];
+    animation.delegate = self;
+    [animation shopCatrAnimationWithLayer:chLayer startPoint:start endPoint:end changeX:start.x+BF_ScaleWidth(40) changeY:start.y-BF_ScaleHeight(65) endScale:0.3f  duration:1 isRotation:YES];
+}
+
+
+//动画代理动画结束移除layer
+- (void)animationStop {
+    [self.redLayers[0] removeFromSuperlayer];
+    [self.redLayers removeObjectAtIndex:0];
 }
 
 @end

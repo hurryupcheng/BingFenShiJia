@@ -17,21 +17,29 @@
 #import "BFProductDetailHeaderView.h"
 #import "BFDetailCell.h"
 
-@interface FXQViewController ()<BFShareViewDelegate, UITableViewDelegate, UITableViewDataSource, BFProductDetailTabBarDelegate>
+@interface FXQViewController ()<UITableViewDelegate, UITableViewDataSource, BFProductDetailTabBarDelegate, BFShopCartAnimationDelegate>
 /**tableView*/
-@property (nonatomic, strong)UITableView *tableView;
+@property (nonatomic, strong) UITableView *tableView;
 /**自定义tabBar*/
-@property (nonatomic, strong)BFProductDetailTabBar *tabBar;
+@property (nonatomic, strong) BFProductDetailTabBar *tabBar;
 /**自定义头部视图*/
-@property (nonatomic, strong)BFProductDetailHeaderView *headerView;
+@property (nonatomic, strong) BFProductDetailHeaderView *headerView;
 /**BFProductDetialModel*/
-@property (nonatomic, strong)BFProductDetialModel *model;
+@property (nonatomic, strong) BFProductDetialModel *model;
 
+@property (nonatomic, strong) NSMutableArray<CALayer *> *redLayers;
 @end
 
 @implementation FXQViewController
 
 #pragma mark -- 懒加载
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
 
 - (BFProductDetailHeaderView *)headerView {
     if (!_headerView) {
@@ -159,11 +167,68 @@
                 
                 [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
                 [[CXArchiveShopManager sharedInstance]startArchiveShop];
+
+     
+
+
+                
+                [self animationStart];
             }
             BFLog(@"加入购物车");
             break;
         }
     }
+}
+
+
+//购物车动画
+- (void)animationStart{
+    //获取动画起点
+    CGPoint start = [self.headerView convertPoint:self.headerView.cycleScrollView.center toView:self.view];
+    //获取动画终点
+    CGPoint end = [self.tabBar convertPoint:self.tabBar.shoppingCart.center toView:self.view];
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    [imageView sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
+    //创建layer
+    CALayer *chLayer = [[CALayer alloc] init];
+    NSURL *url = [NSURL URLWithString:self.model.img];
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    UIImage *image = [[UIImage alloc] initWithData:data];
+    chLayer.contents = (UIImage *)image.CGImage;
+    [self.redLayers addObject:chLayer];
+    chLayer.frame = CGRectMake(self.headerView.cycleScrollView.centerX, self.headerView.cycleScrollView.centerY, BF_ScaleHeight(100), BF_ScaleHeight(100));
+    //chLayer.cornerRadius = BF_ScaleHeight(20);
+    chLayer.masksToBounds = YES;
+    chLayer.backgroundColor = [UIColor blueColor].CGColor;
+    [self.view.layer addSublayer:chLayer];
+    
+    
+    BFShopCartAnimation *animation = [[BFShopCartAnimation alloc]init];
+    animation.delegate = self;
+    [animation shopCatrAnimationWithLayer:chLayer startPoint:start endPoint:end changeX:start.x-BF_ScaleWidth(50) changeY:start.y-BF_ScaleHeight(100) endScale:0.20f  duration:1 isRotation:NO];
+}
+
+
+//动画代理动画结束移除layer
+- (void)animationStop {
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+    BFLog(@"---%lu", (unsigned long)array.count);
+    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+    if (array.count == 0 || userInfo == nil) {
+        self.tabBar.shoppingCart.badge.hidden = YES;
+    }else {
+        self.tabBar.shoppingCart.badge.hidden = NO;
+        self.tabBar.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        
+    }
+    [self.redLayers[0] removeFromSuperlayer];
+    [self.redLayers removeObjectAtIndex:0];
 }
 
 

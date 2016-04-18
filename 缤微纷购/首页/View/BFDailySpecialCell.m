@@ -10,13 +10,23 @@
 #import "BFTimeView.h"
 
 
-@interface BFDailySpecialCell()
+@interface BFDailySpecialCell()<BFShopCartAnimationDelegate>
 /**上部倒计时视图*/
 @property (nonatomic, strong) BFTimeView *timeView;
 
+@property (nonatomic, strong) NSMutableArray<CALayer *> *redLayers;
 @end
 
 @implementation BFDailySpecialCell
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
+
+
 + (instancetype)cellWithTableView:(UITableView *)tableView {
     static NSString *ID = @"BFDailySpecialCell";
     BFDailySpecialCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
@@ -46,5 +56,9 @@
     [self addSubview:self.productView];
     
 }
+
+
+
+
 
 @end

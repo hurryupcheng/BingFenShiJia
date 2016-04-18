@@ -176,7 +176,8 @@
     if (stor == nil) {
         self.sumNumber++;
         self.numLabel.alpha = 1;
-        self.numLabel.text = [NSString stringWithFormat:@"%d",self.sumNumber];
+        self.numLabel.text = [NSString stringWithFormat:@"%ld",(long)self.sumNumber];
+        [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
     }
     
     BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
@@ -197,7 +198,8 @@
     }else{
         _numLabel.alpha = 1;
         _sumNumber = self.dataArr.count;
-        _numLabel.text = [NSString stringWithFormat:@"%d",self.dataArr.count];
+        
+        _numLabel.text = [NSString stringWithFormat:@"%lu",(unsigned long)self.dataArr.count];
     }
 
 }

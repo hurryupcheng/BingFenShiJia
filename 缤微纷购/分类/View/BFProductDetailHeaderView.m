@@ -10,15 +10,18 @@
 
 
 @interface BFProductDetailHeaderView()
-/**轮播图*/
-@property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
+
 /**规格尺寸*/
 @property (nonatomic, strong) UILabel *size;
 /**特别说明*/
 @property (nonatomic, strong) UILabel *specialInstruction;
+
+
 @end
 
 @implementation BFProductDetailHeaderView
+
+
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {

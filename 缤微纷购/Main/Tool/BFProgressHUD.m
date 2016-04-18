@@ -104,14 +104,22 @@
 
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText{
     
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    hud.mode = MBProgressHUDModeCustomView;
-    hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].windows lastObject] animated:YES];
+
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         hud.labelText = labelText;
+        
+        
+        UIImage *image = [[UIImage imageNamed:@"100"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+        hud.customView = [[UIImageView alloc] initWithImage:image];
+        // Looks a bit nicer if we make it square.
+        hud.square = YES;
+        hud.mode = MBProgressHUDModeCustomView;
+        //hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
+
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:view animated:YES];
+            [MBProgressHUD hideHUDForView:[[UIApplication sharedApplication].windows lastObject] animated:YES];
             
         });
     });

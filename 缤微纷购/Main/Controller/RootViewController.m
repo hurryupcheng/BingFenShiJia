@@ -38,6 +38,18 @@
     self.shoppVC = [[ShoppingViewController alloc]init];
     [self setController:self.shoppVC title:array[1] image:@"icon_02.png" selectImage:@"icon_12.png"];
     
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSArray *shopCartArray = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+        
+        if (userInfo != nil && shopCartArray.count != 0) {
+            
+            self.shoppVC.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu",(unsigned long)shopCartArray.count];
+        }
+    }
+
+    
     self.personalVC = [[PersonalViewController alloc]init];
     [self setController:self.personalVC title:array[2] image:@"icon_03.png" selectImage:@"icon_13.png"];
     [self.personalVC.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:rgb(0, 0, 128, 1.0)}];
@@ -48,6 +60,9 @@
     self.shVC = [[BFLogisticsAndAfterSaleController alloc]init];
     [self setController:self.shVC title:array[4] image:@"icon_05.png" selectImage:@"icon_15.png"];
     // Do any additional setup after loading the view.
+    
+  
+    
 }
 
 - (void)didReceiveMemoryWarning {

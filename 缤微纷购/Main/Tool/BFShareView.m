@@ -111,7 +111,6 @@ static id _publishContent;
 }
 
 - (void)hideShareView {
-    
     [UIView animateWithDuration:1 delay:0.2f usingSpringWithDamping:1.0f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveLinear animations:^{
         self.moments.y = ScreenHeight;
         self.backgroundColor = [UIColor clearColor];

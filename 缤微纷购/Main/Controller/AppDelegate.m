@@ -51,6 +51,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    
+    
     /**
      *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册
      *  在将生成的AppKey传入到此方法中。
@@ -102,6 +104,7 @@
     
     self.window.rootViewController = [[RootViewController alloc]init];
     
+
     
     //开始监听网络状态
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];

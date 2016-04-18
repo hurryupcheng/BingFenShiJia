@@ -55,14 +55,7 @@
     [bottomView addSubview:exitButton];
 }
 
-- (void)exit {
-    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
-        [BFUserDefaluts removeUserInfo];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }];
 
-    BFLog(@"点击退出");
-}
 #pragma mark --- datasource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 4;
@@ -270,6 +263,25 @@
     }
     return 0;
 }
+
+
+
+
+- (void)exit {
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [BFUserDefaluts removeUserInfo];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }];
+    UITabBarController *tab = [self.navigationController viewControllers][1];
+    
+    tab.tabBarItem.badgeValue = nil;
+    
+    
+
+    BFLog(@"点击退出");
+}
+
+
 
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
