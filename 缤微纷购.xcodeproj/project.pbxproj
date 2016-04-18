@@ -10,6 +10,7 @@
 		51088EA51CB65A3200941F51 /* BFHomeCollentionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51088EA41CB65A3200941F51 /* BFHomeCollentionView.m */; };
 		51088EAB1CB68A2900941F51 /* BFPTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51088EAA1CB68A2900941F51 /* BFPTViewController.m */; };
 		5128383E1CBCDCFA00E21EBE /* laji.png in Resources */ = {isa = PBXBuildFile; fileRef = 5128383D1CBCDCFA00E21EBE /* laji.png */; };
+		5128391C1CC4B2FC00E21EBE /* area.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5128391B1CC4B2FC00E21EBE /* area.plist */; };
 		512B99BE1C438AEE00882CE3 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 512B99BD1C438AEE00882CE3 /* HomeModel.m */; };
 		51589EE51C902D78001AB4D7 /* BFClassminView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51589EE41C902D78001AB4D7 /* BFClassminView.m */; };
 		516204D41C72EACA00E9FB0D /* FooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 516204D31C72EACA00E9FB0D /* FooterCollectionReusableView.m */; };
@@ -494,6 +495,7 @@
 		51088EA91CB68A2900941F51 /* BFPTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTViewController.h; sourceTree = "<group>"; };
 		51088EAA1CB68A2900941F51 /* BFPTViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTViewController.m; sourceTree = "<group>"; };
 		5128383D1CBCDCFA00E21EBE /* laji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = laji.png; sourceTree = "<group>"; };
+		5128391B1CC4B2FC00E21EBE /* area.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = area.plist; sourceTree = "<group>"; };
 		512B99BC1C438AEE00882CE3 /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
 		512B99BD1C438AEE00882CE3 /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		51589EE31C902D78001AB4D7 /* BFClassminView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFClassminView.h; sourceTree = "<group>"; };
@@ -1474,6 +1476,7 @@
 				51D122451C3FABB9004DE71E /* 物流售后 */,
 				51D121B71C3A6DA700640A44 /* Main.storyboard */,
 				59FF72FA1CAE17240063F770 /* Info.plist */,
+				5128391B1CC4B2FC00E21EBE /* area.plist */,
 				59FC986A1CB4D1BA0076B311 /* bankAddress.plist */,
 				59FEC7291CB553000081616D /* Province.plist */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
@@ -2935,6 +2938,7 @@
 				59FF75271CAE1A860063F770 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				51D189081C4C76C100847EB9 /* 12.png in Resources */,
 				51D458BB1C96EDAC00B52516 /* jianshe.png in Resources */,
+				5128391C1CC4B2FC00E21EBE /* area.plist in Resources */,
 				59FF74E21CAE1A860063F770 /* MJRefresh.bundle in Resources */,
 				59513B2E1C9FFA650028B008 /* BFSosoTVCell.xib in Resources */,
 				51D10E341C40F10700F630C9 /* icon_03.png in Resources */,

@@ -60,6 +60,7 @@
 @property (nonatomic,retain)NSMutableArray *favourableArr;//优惠卷名字
 @property (nonatomic,retain)NSMutableArray *favourablePrice;//优惠卷金额
 @property (nonatomic,retain)NSMutableArray *favourableTime;//使用期限
+@property (nonatomic,retain)NSMutableArray *favourableID;//id
 @property (nonatomic,retain)UILabel *payTitle;//回调支付方式
 
 @property (nonatomic,retain)BFCouponView *couponView;//弹出优惠卷视图
@@ -70,6 +71,10 @@
 @property (nonatomic,retain)NSMutableArray *addressArray;
 
 @property (nonatomic)BOOL hidden;
+@property (nonatomic,retain)NSString *coupon_id;//优惠卷id
+@property (nonatomic,retain)NSString *addressID;//地址ID
+@property (nonatomic,retain)NSString *itemDate;//产品数据拼接
+@property (nonatomic,retain)NSMutableArray *itemImg;//商品图片
 
 @end
 
@@ -83,6 +88,7 @@
    
     self.isCoupon = NO;
     self.isWordes = NO;
+    self.coupon_id = @"0";
     
     [self initWithFootView];
     [self initWithTableView];
@@ -107,16 +113,55 @@
     }else if([self.payTitle.text isEqualToString:@"请选择"]){
         [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"请选择支付方式"];
     }else{
+        [self postPayoffNews];
+        
+    }
+}
+
+#pragma  mark 提交订单信息
+- (void)postPayoffNews{
+    
+    NSLog(@"%@",self.coupon_id);
+    _userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
+    NSMutableDictionary *data = [NSMutableDictionary dictionary];
+    data[@"uid"] = _userInfo.ID;
+    data[@"token"] = _userInfo.token;
+    data[@"coupon_id"] = self.coupon_id;
+    data[@"pay_score"] = @(self.scores);
+    data[@"postscript"] = _textView.text;
+    data[@"address_id"] = self.addressID;
+    data[@"data"] = self.itemDate;
+    
+    [BFHttpTool POST:url params:data success:^(id responseObject) {
+        NSLog(@"////%@==%@",data,responseObject);
+        NSString *str = responseObject[@"status"];
+        NSString *timeNum = responseObject[@"orderid"];
+        NSString *addtime = responseObject[@"addtime"];
+        if ([str isEqualToString:@"1"]) {
+            
         BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
         pay.pay = self.payTitle.text;
+            pay.timeNum = timeNum;
+            pay.addtime = addtime;
+            pay.img = _itemImg;
         
         for (BFPTDetailModel *model in self.modelArr){
-        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-        [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+            [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
         }
         self.removeBlock();
         [self.navigationController pushViewController:pay animated:YES];
-    }
+            
+        }else{
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常,订单提交失败"];
+        }
+        
+    } failure:^(NSError *error) {
+        BFLog(@"%@", error);
+        
+    }];
+
 }
 
 
@@ -269,11 +314,10 @@
         if (self.addressArray.count == 0) {
             self.nullAdds.alpha = 1;
             self.type.alpha = 0;
-            NSLog(@"222222");
         }else{
             self.nullAdds.alpha = 0;
             self.type.alpha = 1;
-            NSLog(@"444444");
+ 
             _name.text = self.model.consignee;
             _photo.text = self.model.mobile;
             _adds.text = self.model.address;
@@ -294,7 +338,7 @@
         NSMutableArray *title = [NSMutableArray array];
         NSMutableArray *money = [NSMutableArray array];
         NSMutableArray *number = [NSMutableArray array];
-        NSMutableArray *img = [NSMutableArray array];
+        _itemImg = [NSMutableArray array];
         NSMutableArray *guige = [NSMutableArray array];
         NSMutableArray *color = [NSMutableArray array];
         
@@ -305,7 +349,7 @@
             }else{
             [money addObject:model.price];
             }
-            [img addObject:model.img];
+            [_itemImg addObject:model.img];
             NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
             [number addObject:num];
             [guige addObject:model.choose];
@@ -313,7 +357,7 @@
            
         }
         for (int i = 0; i < self.modelArr.count; i++) {
-            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:img[i] title:title[i] money:money[i] guige:guige[i] number:number[i] color:color[i]];
+            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:_itemImg[i] title:title[i] money:money[i] guige:guige[i] number:number[i] color:color[i]];
             order.backgroundColor = [UIColor whiteColor];
             
             [_imageV addSubview:order];
@@ -512,6 +556,7 @@
            
             if (_favourableArr == nil) {
                 self.isCoupon = NO;
+                self.coupon_id = @"0";
             }else{
             self.nums++;
             if (self.nums%2 == 0) {
@@ -519,6 +564,7 @@
             }else{
             self.isCoupon = NO;
             self.couponPrice = 0.00;
+            self.coupon_id = @"0";
             self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
             }
             [self.tableV reloadData];
@@ -539,7 +585,8 @@
             _textView.delegate = self;
             self.tableV.tableFooterView = _wordesBack;
         }else{
-            [self.tableV.tableFooterView removeFromSuperview];
+//            [self.tableV.tableFooterView removeFromSuperview];
+            self.tableV.tableFooterView = nil;
         }
     }
 }
@@ -549,6 +596,7 @@
     self.nums = 1;
     self.isCoupon = NO;
     self.couponPrice = [_favourablePrice[index] doubleValue];
+    self.coupon_id = [NSString stringWithFormat:@"%@",_favourableID[index]];
     self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.couponPrice-self.useScorePrice];
     [self.tableV reloadData];
 }
@@ -585,7 +633,7 @@
  
     _dataArr = [NSMutableArray array];
     NSString *string;
-    NSString *urlStr = @"";
+    self.itemDate = @"";
     for (BFPTDetailModel *model in self.modelArr) {
 
         string = [NSString stringWithFormat:@"id=%@,",model.shopID];
@@ -595,20 +643,21 @@
         }else{
         string = [string stringByAppendingString:[NSString stringWithFormat:@"price=%@;",model.price]];
         }
-        urlStr = [urlStr stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
+//        self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
     }
-    NSLog(@"\\\\\\%@",urlStr);
-    NSString *urlStrs = [NSString stringWithFormat:@"id=627,num=1,price=118.90;"];
+//    NSLog(@"\\\\\\%@",self.itemDate);
+    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
     self.userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [BF_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
     boty[@"uid"] = self.userInfo.ID;
     boty[@"token"] = self.userInfo.token;
-    boty[@"data"] = urlStr;
+    boty[@"data"] = self.itemDate;
     boty[@"sheng"] = self.model.sheng;
-    NSLog(@"======%@",self.model.sheng);
+    self.addressID = self.model.ID;
+    NSLog(@"======%@",self.model.ID);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
-        NSLog(@"...%@  %@",responseObject,boty);
+//        NSLog(@"...%@  %@",responseObject,boty);
         self.freeprice = [responseObject[@"freeprice"] floatValue];
        double score = [responseObject[@"score"] integerValue];
         self.score = score;
@@ -620,12 +669,17 @@
         self.favourableArr = [NSMutableArray array];
         self.favourablePrice = [NSMutableArray array];
         self.favourableTime = [NSMutableArray array];
+        self.favourableID = [NSMutableArray array];
+        
         for (BFPayoffModel *model in data) {
+           
             [_favourableArr addObject:model.name];
             [_favourablePrice addObject:model.money];
             [_favourableTime addObject:model.end_time];
+            [_favourableID addObject:model.cr_id];
         }
         NSLog(@"////%@",_favourablePrice);
+        NSLog(@"====%@",_favourableID);
         [self initWithTableView];
 
         self.lastPrice = self.sum_price+self.freeprice;

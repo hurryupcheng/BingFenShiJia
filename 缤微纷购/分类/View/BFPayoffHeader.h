@@ -13,4 +13,6 @@
 @property (nonatomic,assign)NSInteger height;
 @property (nonatomic,retain)UILabel *number;
 
+- (instancetype)initWithFrame:(CGRect)frame timeNum:(NSString *)time img:(NSMutableArray *)imgArr;
+
 @end

@@ -10,4 +10,7 @@
 
 @interface BFPayoffViewController : UIViewController
 @property (nonatomic,retain)NSString *pay;//支付方式
+@property (nonatomic,retain)NSString *timeNum;
+@property (nonatomic,retain)NSString *addtime;
+@property (nonatomic,retain)NSMutableArray *img;
 @end

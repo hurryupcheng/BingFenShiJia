@@ -10,10 +10,4 @@
 
 @implementation BFPayoffModel
 
-+ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName{
-    if ([propertyName isEqualToString:@""]) {
-        propertyName = @"id";
-    }
-    return propertyName;
-}
 @end

@@ -51,7 +51,7 @@
 #pragma  mark 初始化表视图
 - (void)initWithTableView{
     
-    self.header = [[BFPayoffHeader alloc]init];
+    self.header = [[BFPayoffHeader alloc]initWithFrame:CGRectMake(0, 0, 0, 0) timeNum:self.timeNum img:self.img];
     self.height = self.header.height;
     
     self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50) style:UITableViewStyleGrouped];
