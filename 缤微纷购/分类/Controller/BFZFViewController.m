@@ -34,6 +34,7 @@
 @property (nonatomic,retain)UILabel *type;
 @property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)BFFootViews *footView;
+@property (nonatomic,retain)BForder *order;
 /**地址模型*/
 @property (nonatomic, strong) BFAddressModel *model;
 @property (nonatomic,retain)NSMutableArray *dataArr;
@@ -352,15 +353,23 @@
             [_itemImg addObject:model.img];
             NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
             [number addObject:num];
+            if (model.choose) {
             [guige addObject:model.choose];
+            }
+            if (model.color) {
             [color addObject:model.color];
-           
+            }
         }
         for (int i = 0; i < self.modelArr.count; i++) {
-            BForder *order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:_itemImg[i] title:title[i] money:money[i] guige:guige[i] number:number[i] color:color[i]];
-            order.backgroundColor = [UIColor whiteColor];
+            if (guige.count != 0 || color.count != 0) {
+            _order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:_itemImg[i] title:title[i] money:money[i] guige:guige[i] number:number[i] color:color[i]];
+                
+            }else{
+            _order = [[BForder alloc]initWithFrame:CGRectMake(0,-7+((kScreenWidth/4+10)*i)+(i*5), kScreenWidth, kScreenWidth/4+10) img:_itemImg[i] title:title[i] money:money[i] guige:@"" number:number[i] color:@""];
+            }
+            _order.backgroundColor = [UIColor whiteColor];
             
-            [_imageV addSubview:order];
+            [_imageV addSubview:_order];
         }
     }else if (section == 2){
    

@@ -213,6 +213,7 @@
 			</array>
 			<key>邯郸</key>
 			<array>
+				<string>永年县</string>
 				<string>邯山区</string>
 				<string>丛台区</string>
 				<string>复兴区</string>
@@ -224,7 +225,6 @@
 				<string>涉县</string>
 				<string>磁县</string>
 				<string>肥乡县</string>
-				<string>永年县</string>
 				<string>邱县</string>
 				<string>鸡泽县</string>
 				<string>广平县</string>

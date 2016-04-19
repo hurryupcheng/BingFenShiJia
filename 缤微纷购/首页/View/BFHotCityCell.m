@@ -17,11 +17,6 @@
 #define verticalMargin    (44-buttonHeight)
 #import "BFHotCityCell.h"
 
-@interface BFHotCityCell ()
-@property (nonatomic, strong) UIButton *cityButton;
-
-@end
-
 @implementation BFHotCityCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView {
@@ -61,7 +56,7 @@
         cityButton.frame = CGRectMake(transverseMagin + (i%4) * (buttonWidth+transverseMagin), (i/4) * (buttonHeight+verticalMargin)+marin, buttonWidth, buttonHeight);
         cityButton.tag = i + 1000;
         [cityButton setTitle:hotCity[i] forState:UIControlStateNormal];
-        [cityButton addTarget:self action:@selector(chooseHotCity:) forControlEvents:UIControlEventTouchUpInside];
+//        [cityButton addTarget:self action:@selector(chooseHotCity:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:cityButton];
     }
     
