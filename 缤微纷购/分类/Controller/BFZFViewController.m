@@ -627,8 +627,9 @@
                     self.model = model;
                 [self.addressArray addObject:model];
                 }
-                [self getNewData];
+                
              }
+            [self getNewData];
             } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"%@", error);
@@ -639,7 +640,7 @@
 
 
 - (void)getNewData{
- 
+    NSLog(@"数据请求了多少次");
     _dataArr = [NSMutableArray array];
     NSString *string;
     self.itemDate = @"";

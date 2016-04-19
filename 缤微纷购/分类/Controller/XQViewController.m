@@ -210,7 +210,6 @@
         [self.navigationController pushViewController:log animated:YES];
     }else{
         [self sss];
-       
         
     _xqOtherModel = self.dataArray[index];
     [self animationStart:cell];
