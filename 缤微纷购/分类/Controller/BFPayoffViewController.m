@@ -10,6 +10,7 @@
 #import "Header.h"
 #import "ViewController.h"
 #import "BFPayoffViewController.h"
+#import <AlipaySDK/AlipaySDK.h>
 
 @interface BFPayoffViewController ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -38,14 +39,26 @@
     
     [foot.homeButton addTarget:self action:@selector(goToHome) forControlEvents:UIControlEventTouchUpInside];
     
+    [foot.buyButton addTarget:self action:@selector(gotoPay) forControlEvents:UIControlEventTouchUpInside];
     foot.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:foot];
 }
 
+#pragma mark -- 返回首页
 - (void)goToHome{
     self.tabBarController.selectedIndex = 0;
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
+#pragma mark --去支付
+- (void)gotoPay {
+    if ([self.pay isEqualToString:@"支付宝"]) {
+        
+    } else if ([self.pay isEqualToString:@"微信支付"])  {
+        
+    }
 }
 
 #pragma  mark 初始化表视图
@@ -66,7 +79,7 @@
 #pragma  mark 代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 1) {
-        return 2;
+        return 1;
     }else{
         return 0;
     }
@@ -125,8 +138,8 @@
     cell.textLabel.font = [UIFont systemFontOfSize:CGFloatX(17)];
     cell.detailTextLabel.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
-    NSArray *arr = @[@"配送时间",@"支付方式"];
-    NSArray *array = @[@"2016-01-16发货(工作日配送)",self.pay];
+    NSArray *arr = @[@"支付方式"];
+    NSArray *array = @[self.pay];
     
     if (indexPath.section == 1) {
         cell.textLabel.text = arr[indexPath.row];

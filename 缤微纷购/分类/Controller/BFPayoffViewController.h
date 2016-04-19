@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BFPayoffViewController : UIViewController
-@property (nonatomic,retain)NSString *pay;//支付方式
+@property (nonatomic,retain) NSString *pay;//支付方式
 @end
