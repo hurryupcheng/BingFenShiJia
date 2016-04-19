@@ -82,7 +82,7 @@
 
         
         
-        viewController.navigationItem.leftBarButtonItem = [self itemWithTarget:self action:@selector(back) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+        viewController.navigationItem.leftBarButtonItem = [self itemWithTarget:self action:@selector(back) image:@"back" highImage:@"back"];
         
         
 //        [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"iconfont-htmal5icon37"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];

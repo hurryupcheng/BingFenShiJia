@@ -94,8 +94,8 @@
     
     
     UIButton *back = [UIButton buttonWithType:0];
-    back.frame = CGRectMake(BF_ScaleWidth(12), 22, 40, 40);
-    [back setImage:[UIImage imageNamed:@"iconfont-htmal5icon37.png"] forState:UIControlStateNormal];
+    back.frame = CGRectMake(5, 22, 35, 40);
+    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:back];
     
@@ -258,12 +258,12 @@
     
     
     //获取动画起点
-    CGPoint start = [cell convertPoint:cell.imageView.center toView:self.view];
+    CGPoint start = [cell convertPoint:cell.shopp.center toView:self.view];
     //获取动画终点
 
     CGPoint end = [self.navigationView convertPoint:self.rightBut.center toView:self.view];
     
-    UIImageView *imageView = [[UIImageView alloc] init];
+
     
    
     //创建layer
