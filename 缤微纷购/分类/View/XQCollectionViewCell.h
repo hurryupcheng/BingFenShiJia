@@ -11,12 +11,13 @@
 
 @protocol XQViewCellDelegate <NSObject>
 
-- (void)xqViewDelegate:(UICollectionViewCell *)cell index:(NSInteger )index;
+- (void)xqViewDelegate:(XQCollectionViewCell *)cell index:(NSInteger )index;
 
 @end
 
 @interface XQCollectionViewCell : UICollectionViewCell
 
+@property (nonatomic,retain)UIImageView *imageView;
 @property (nonatomic,retain)UIButton *shopp;
 @property (nonatomic,assign)id<XQViewCellDelegate>butDelegate;
 

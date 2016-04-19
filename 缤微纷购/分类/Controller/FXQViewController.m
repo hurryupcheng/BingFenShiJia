@@ -90,6 +90,23 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSMutableArray *array = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+        if (array == 0) {
+            self.tabBar.shoppingCart.badge.hidden = YES;
+        }else {
+            self.tabBar.shoppingCart.badge.hidden = NO;
+            BFLog(@"---%lu", (unsigned long)array.count);
+            self.tabBar.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        }
+    }else {
+        self.tabBar.shoppingCart.badge.hidden = YES;
+    }
+
+    
 }
 
 #pragma mark --获取数据

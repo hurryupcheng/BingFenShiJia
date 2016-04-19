@@ -12,7 +12,7 @@
 
 @interface XQCollectionViewCell ()
 
-@property (nonatomic,retain)UIImageView *imageView;
+
 @property (nonatomic,retain)UILabel *title;
 @property (nonatomic,retain)UILabel *number;
 @property (nonatomic,retain)UILabel *money;
