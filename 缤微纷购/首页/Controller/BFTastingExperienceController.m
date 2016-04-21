@@ -57,8 +57,10 @@
 
 #pragma mark -- 加载数据
 - (void)getData {
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=seckill_item&id="];
-    [BFHttpTool GET:url params:nil success:^(id responseObject) {
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"id"] = @"2989";
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {
             

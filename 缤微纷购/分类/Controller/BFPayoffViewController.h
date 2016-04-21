@@ -10,4 +10,11 @@
 
 @interface BFPayoffViewController : UIViewController
 @property (nonatomic,retain) NSString *pay;//支付方式
+
+/**订单编号*/
+@property (nonatomic,retain)NSString *orderid;
+@property (nonatomic,retain)NSMutableArray *img;
+@property (nonatomic,retain)NSString *sum;
+/**添加订单时间*/
+@property (nonatomic,retain)NSString *addTime;
 @end

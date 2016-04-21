@@ -139,7 +139,7 @@
 
 - (void)getDate{
 
-    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=cate"];
+    NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=cate"]];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     

@@ -28,7 +28,7 @@ typedef enum {
 
 typedef void(^CompletionBlock)(NSDictionary *resultDic);
 
-@interface AlipaySDK : NSObject
+@interface AlipaySDK : NSObject<UIAlertViewDelegate>
 
 /**
  *  创建支付单例服务
@@ -84,32 +84,6 @@ typedef void(^CompletionBlock)(NSDictionary *resultDic);
  *  @param url  测试环境
  */
 - (void)setUrl:(NSString *)url;
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////h5 拦截支付入口///////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////
-
-/**
- *  url order 获取接口
- *
- *  @param urlStr     拦截的 url string
- *
- *  @return 获取到的url order info
- */
-- (NSString*)fetchOrderInfoFromH5PayUrl:(NSString*)urlStr;
-
-
-/**
- *  url支付接口
- *
- *  @param orderStr       订单信息
- *  @param schemeStr      调用支付的app注册在info.plist中的scheme
- *  @param compltionBlock 支付结果回调Block
- */
-- (void)payUrlOrder:(NSString *)orderStr
-         fromScheme:(NSString *)schemeStr
-           callback:(CompletionBlock)completionBlock;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////

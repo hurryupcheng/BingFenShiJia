@@ -39,6 +39,7 @@
                                 </constraints>
                             </view>
                         </subviews>
+                        <color key="backgroundColor" red="0.99215686274509807" green="0.94117647058823528" blue="0.8901960784313725" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="v9x-tV-25Z" secondAttribute="trailing" id="Eic-Wp-IrD"/>
                             <constraint firstItem="v9x-tV-25Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TmY-vb-9mP"/>
@@ -91,7 +92,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DyO-0w-ad0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027" y="371"/>
+            <point key="canvasLocation" x="924" y="280"/>
         </scene>
     </scenes>
     <resources>

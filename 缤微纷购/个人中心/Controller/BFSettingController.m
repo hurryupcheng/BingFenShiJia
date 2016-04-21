@@ -270,11 +270,10 @@
 - (void)exit {
     [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
         [BFUserDefaluts removeUserInfo];
+        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+        tabBar.tabBarItem.badgeValue = nil;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
-    UITabBarController *tab = [self.navigationController viewControllers][1];
-    
-    tab.tabBarItem.badgeValue = nil;
     
     
 

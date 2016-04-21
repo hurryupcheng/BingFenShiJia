@@ -11,8 +11,10 @@
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
+#import "WXApiObject.h"
+#import "payRequsestHandler.h"
 #import "WeiboSDK.h"
-
+#import <AlipaySDK/AlipaySDK.h>
 
 #import "Header.h"
 #import "RootViewController.h"
@@ -35,7 +37,7 @@
 #define  kSinaSecret      @"090912c73729b5aa7d1405fce0a6c76a"
 
 
-@interface AppDelegate ()<CLLocationManagerDelegate>
+@interface AppDelegate ()<CLLocationManagerDelegate, WXApiDelegate>
 /**定位管理*/
 @property (nonatomic, strong) CLLocationManager * manager;
 /**记录上一次的定位状态*/
@@ -61,7 +63,7 @@
      *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
      */
     
-    
+    [WXApi registerApp:kWXKey withDescription:@"缤纷"];
     
     [ShareSDK registerApp:AppKey];//字符串api20为您的ShareSDK的AppKey
     
@@ -113,23 +115,84 @@
     
 }
 
-- (BOOL)application:(UIApplication *)application
-      handleOpenURL:(NSURL *)url
-{
-    return [ShareSDK handleOpenURL:url
-                        wxDelegate:self];
-}
+//- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+//{
+//    if ([ShareSDK handleOpenURL:url wxDelegate:self]) {
+//        return [ShareSDK handleOpenURL:url wxDelegate:self];
+//    }else {
+//        return [WXApi handleOpenURL:url delegate:self];
+//    }
+//    
+//}
 
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    return [ShareSDK handleOpenURL:url
-                 sourceApplication:sourceApplication
-                        annotation:annotation
-                        wxDelegate:self];
+    //如果极简开发包不可用，会跳转支付宝钱包进行支付，需要将支付宝钱包的支付结果回传给开发包
+    if ([url.host isEqualToString:@"safepay"]) {
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
+            NSLog(@"-----result = %@",resultDic);
+        }];
+    }
+    if ([url.host isEqualToString:@"platformapi"]){//支付宝钱包快登授权返回authCode
+        
+        [[AlipaySDK defaultService] processAuthResult:url standbyCallback:^(NSDictionary *resultDic) {
+            //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
+            NSLog(@"+++++result = %@",resultDic);
+        }];
+    }
+    
+//    if ([ShareSDK handleOpenURL:url
+//              sourceApplication:sourceApplication
+//                     annotation:annotation
+//                     wxDelegate:self]) {
+        return [ShareSDK handleOpenURL:url
+                     sourceApplication:sourceApplication
+                            annotation:annotation
+                            wxDelegate:self];
+//    }else {
+//       return  [WXApi handleOpenURL:url delegate:self];
+//    }
+//    
 }
+
+//微信支付完成后的回调
+-(void) onResp:(BaseResp*)resp
+{
+//    NSString *strMsg = [NSString stringWithFormat:@"---errcode:%d", resp.errCode];
+//    NSString *strTitle;
+//    
+//    if([resp isKindOfClass:[SendMessageToWXResp class]])
+//    {
+//        strTitle = [NSString stringWithFormat:@"发送媒体消息结果"];
+//    }
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+       // strTitle = [NSString stringWithFormat:@"支付结果"];
+        
+        switch (resp.errCode) {
+            case WXSuccess:
+                //strMsg = @"支付结果：成功！";
+                
+                [BFNotificationCenter postNotificationName:@"paySuccess" object:nil];
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                break;
+                
+            default:
+                [BFNotificationCenter postNotificationName:@"payFail" object:nil];
+                //[BFProgressHUD MBProgressOnlyWithLabelText:@"支付失败"];
+                //strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                break;
+        }
+    }
+    //UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    //[alert show];
+}
+
+
+
 
 
 

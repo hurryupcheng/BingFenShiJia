@@ -210,7 +210,6 @@
         [self.navigationController pushViewController:log animated:YES];
     }else{
         [self sss];
-       
         
     _xqOtherModel = self.dataArray[index];
     [self animationStart:cell];
@@ -321,7 +320,7 @@
 
 #pragma  mark 数据请求
 - (void)getNewDate:(NSInteger)num page:(NSInteger)page{
-    NSString *url = [BF_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
     NSMutableDictionary *date = [NSMutableDictionary dictionary];
     date[@"id"] = self.ID;
     date[@"sort"] = @(num);

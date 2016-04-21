@@ -26,15 +26,18 @@
         NSMutableArray *name = [NSMutableArray arrayWithCapacity:0];
         
         NSArray * sub_cates = dic[@"sub_cates"];
-        for (NSDictionary * subDic in sub_cates) {
-            ClassificationSubModel * model = [[ClassificationSubModel alloc]initWithDictionary:subDic];
-            [array addObject:model];
-            [arr addObject:model.ID];
-            [name addObject:model.name];
+        if ([dic[@"sub_cates"] isKindOfClass:[NSArray class]]) {
+            for (NSDictionary * subDic in sub_cates) {
+                ClassificationSubModel * model = [[ClassificationSubModel alloc]initWithDictionary:subDic];
+                [array addObject:model];
+                [arr addObject:model.ID];
+                [name addObject:model.name];
+            }
+            self.sub_catesArr = [array copy];
+            self.idArr = [arr copy];
+            self.nameArr = [name copy];
         }
-        self.sub_catesArr = [array copy];
-        self.idArr = [arr copy];
-        self.nameArr = [name copy];
+        
         
     }
     return self;

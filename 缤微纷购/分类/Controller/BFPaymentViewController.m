@@ -37,7 +37,7 @@
 
 #pragma  mark  表视图代理方法
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -49,7 +49,7 @@
     view.backgroundColor = rgb(220, 220, 220, 1.0);
     
     UILabel *name = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, kScreenWidth, 40)];
-    NSArray *arr = @[@"网上银行支付",@"在线支付",@"账户余额支付"];
+    NSArray *arr = @[@"在线支付"];
     name.text = arr[section];
     name.font = [UIFont systemFontOfSize:CGFloatX(17)];
     name.textColor = [UIColor grayColor];
@@ -59,11 +59,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 2) {
-        return 1;
-    }else{
-        return 3;
-    }
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -73,21 +69,21 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:CGFloatX(17)];
-    if (indexPath.section == 0) {
-        NSArray *name = @[@"浦发银行信用卡",@"交通银行信用卡",@"中国建设银行"];
-        NSArray *img = @[@"pufa.png",@"jiaotong.png",@"jianshe.png"];
-        cell.imageView.image = [UIImage imageNamed:img[indexPath.row]];
-        cell.textLabel.text = name[indexPath.row];
-    }else if (indexPath.section == 1){
+//    if (indexPath.section == 0) {
+//        NSArray *name = @[@"浦发银行信用卡",@"交通银行信用卡",@"中国建设银行"];
+//        NSArray *img = @[@"pufa.png",@"jiaotong.png",@"jianshe.png"];
+//        cell.imageView.image = [UIImage imageNamed:img[indexPath.row]];
+//        cell.textLabel.text = name[indexPath.row];
+//    }else if (indexPath.section == 1){
         NSArray *name = @[@"支付宝",@"微信支付",@"银联在线支付"];
         NSArray *img = @[@"zhifubao.png",@"weixin.png",@"yinlian.png"];
         cell.imageView.image = [UIImage imageNamed:img[indexPath.row]];
         cell.textLabel.text = name[indexPath.row];
-    }else{
-        self.lastPrice = 200.00;
-        cell.imageView.image = [UIImage imageNamed:@"geren.png"];
-        cell.textLabel.text = [NSString stringWithFormat:@"账户余额支付(当前余额%.2f元)",self.lastPrice];
-    }
+//    }else{
+//        self.lastPrice = 200.00;
+//        cell.imageView.image = [UIImage imageNamed:@"geren.png"];
+//        cell.textLabel.text = [NSString stringWithFormat:@"账户余额支付(当前余额%.2f元)",self.lastPrice];
+//    }
     
     return cell;
 }

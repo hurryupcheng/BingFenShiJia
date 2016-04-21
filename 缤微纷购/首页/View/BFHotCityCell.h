@@ -20,4 +20,6 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**自定义cell的高度*/
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, strong) UIButton *cityButton;
 @end

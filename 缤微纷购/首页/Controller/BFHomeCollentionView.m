@@ -443,7 +443,7 @@
 #pragma  mark 获取数据
 - (void)CollectionViewgetDate{
     
-    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=index"];
+    NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {

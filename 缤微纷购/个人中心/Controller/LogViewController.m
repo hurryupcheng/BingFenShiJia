@@ -222,7 +222,9 @@
                }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
                    [BFProgressHUD MBProgressFromView:self.view LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-                       [BFNotificationCenter postNotificationName:@"navigationBarBadge" object:nil];
+                       
+                       [self tabBarBadge:userInfo.ID];
+
                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
 
@@ -298,9 +300,9 @@
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
                 
-                
-                
                 [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
+                
+                [self tabBarBadge:userInfo.ID];
                 NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                 [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                 BFLog(@"responseObject%@",userInfo.user_icon);
@@ -310,6 +312,19 @@
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];
+    }
+}
+
+#pragma mark -- 登录后改变购物车数值
+- (void)tabBarBadge:(NSString *)userID {
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userID ShopItem:nil];
+    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+    BFLog(@"---%lu", (unsigned long)array.count);
+    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+    if (array.count == 0) {
+        tabBar.tabBarItem.badgeValue = nil;
+    }else {
+        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
     }
 }
 

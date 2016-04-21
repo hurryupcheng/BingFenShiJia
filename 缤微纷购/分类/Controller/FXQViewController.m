@@ -111,7 +111,7 @@
 
 #pragma mark --获取数据
 - (void)getData {
-    NSString *url = @"http://bingo.luexue.com/index.php?m=Json&a=item";
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {

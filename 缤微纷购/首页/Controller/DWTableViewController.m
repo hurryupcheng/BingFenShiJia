@@ -20,6 +20,15 @@
 @property (nonatomic, strong) CLLocationManager * manager;
 /**城市*/
 @property (nonatomic, strong) NSString * currentCity;
+
+@property (nonatomic,retain)NSMutableArray *dataArray;
+
+@property (nonatomic,retain)NSDictionary *areaDic;
+@property (nonatomic,retain)NSArray *province;
+@property (nonatomic,retain)NSArray *city;
+@property (nonatomic,retain)NSArray *district;
+
+@property (nonatomic,retain)UIButton *hotBut;
 @end
 
 @implementation DWTableViewController
@@ -37,6 +46,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self getDate:0];
+    
     [self.view addSubview:self.tableView];
     self.title = @"城市列表";
     UIBarButtonItem *back = [UIBarButtonItem itemWithTarget:self action:@selector(backToHome) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
@@ -56,6 +68,7 @@
         [self presentViewController:alertController animated:YES completion:nil];
         return;
     }
+   
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -64,6 +77,54 @@
     [self.tableView reloadData];
     
     
+}
+
+- (void)getDate:(NSInteger)num{
+
+    NSString *path = [[NSBundle mainBundle]pathForResource:@"area" ofType:@"plist"];
+    _areaDic = [[NSDictionary alloc] initWithContentsOfFile:path];
+    
+    NSArray *components = [_areaDic allKeys];
+    NSArray *sortedArray = [components sortedArrayUsingComparator: ^(id obj1, id obj2) {
+        
+        if ([obj1 integerValue] > [obj2 integerValue]) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if ([obj1 integerValue] < [obj2 integerValue]) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+    
+    _dataArray = [NSMutableArray array];
+    for (int i=0; i<[sortedArray count]; i++) {
+        NSString *index = [sortedArray objectAtIndex:i];
+        NSArray *tmp = [[_areaDic objectForKey:index] allKeys];
+        [_dataArray addObject:[tmp objectAtIndex:0]];
+    }
+    
+    _province = [[NSArray alloc] initWithArray:_dataArray];
+    
+    NSString *index = [sortedArray objectAtIndex:num];
+    NSString *selected = [_province objectAtIndex:num];
+    NSDictionary *dic = [NSDictionary dictionaryWithDictionary: [[_areaDic objectForKey:index]objectForKey:selected]];
+    
+    NSArray *cityArray = [dic allKeys];
+    NSDictionary *cityDic = [NSDictionary dictionaryWithDictionary: [dic objectForKey: [cityArray objectAtIndex:0]]];
+    _city = [[NSArray alloc]initWithArray:[cityDic allKeys]];
+    
+    
+    NSString *selectedCity = [_city objectAtIndex:0];
+    _district = [[NSArray alloc]initWithArray:[cityDic objectForKey: selectedCity]];
+    
+    NSLog(@"%@",_dataArray);
+    NSLog(@"%@",index);
+    NSLog(@">>>>>%@",selected);
+    NSLog(@"......%@",cityDic);
+    NSLog(@"====%@",_city);
+    NSLog(@"/......../%@",_district);
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -83,7 +144,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return 20;
+        return _dataArray.count;
     }else {
         return 1;
     }
@@ -100,6 +161,9 @@
     }else if (indexPath.section == 1) {
         BFHotCityCell *cell = [BFHotCityCell cellWithTableView:tableView];
         self.cellHeight = cell.cellHeight;
+        self.hotBut = cell.cityButton;
+//        cell.backgroundColor = [UIColor whiteColor];
+        [self.hotBut addTarget:self action:@selector(hotCity) forControlEvents:UIControlEventTouchUpInside];
          return cell;
     }else {
         static NSString *str = @"reuse";
@@ -107,10 +171,18 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         }
+        cell.textLabel.text = _dataArray[indexPath.row];
+//        NSLog(@"/////%@",_dataArray[indexPath.row]);
          return cell;
     }
    
 }
+- (void)hotCity{
+    NSLog(@"%@",self.hotBut.titleLabel.text);
+//    _cityBlock(self.hotBut.titleLabel.text);
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (void)goBackToHome {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -165,6 +237,13 @@
     }
     [view addSubview:label];
     return view;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%d",indexPath.row);
+    [self getDate:indexPath.row];
+    _dataArray = [NSMutableArray arrayWithArray:_district];
+    [self.tableView reloadData];
 }
 
 
