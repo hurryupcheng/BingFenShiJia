@@ -105,7 +105,9 @@
     UIAlertAction *alerV = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
                 [[CXArchiveShopManager sharedInstance]removeItemKeyOneDataSource:self.userInfo.ID];
-            
+                UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+                tabBar.tabBarItem.badgeValue = nil;
+
                 [self.dateArr removeAllObjects];
                 [self.tabView reloadData];
                 if (self.dateArr.count == 0) {

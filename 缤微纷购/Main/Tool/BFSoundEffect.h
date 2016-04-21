@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface BFSoundEffect : NSObject
-+(void)playSoundEffect:(NSString *)name;
+/**传入音效音频*/
++ (void)playSoundEffect:(NSString *)name;
 @end

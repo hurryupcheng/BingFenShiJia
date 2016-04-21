@@ -24,7 +24,10 @@
 #import "Header.h"
 #import "BFZFViewController.h"
 #import "BFAddressModel.h"
-@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>
+@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 @property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UIImageView *groubeImg;
@@ -122,6 +125,9 @@
 #pragma  mark 提交订单信息
 - (void)postPayoffNews{
     
+    
+    
+    
     NSLog(@"%@",self.coupon_id);
     _userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
@@ -137,32 +143,56 @@
     [BFHttpTool POST:url params:data success:^(id responseObject) {
         NSLog(@"////%@==%@",data,responseObject);
         NSString *str = responseObject[@"status"];
-        NSString *timeNum = responseObject[@"orderid"];
+        NSString *orderid = responseObject[@"orderid"];
         NSString *addtime = responseObject[@"addtime"];
         if ([str isEqualToString:@"1"]) {
+            //生成订单倒计时1800秒
+            leftTime = 1800;
             
-        BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-        pay.pay = self.payTitle.text;
-            pay.timeNum = timeNum;
-            pay.addtime = addtime;
-            pay.img = _itemImg;
-        
-        for (BFPTDetailModel *model in self.modelArr){
-            [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-            [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
-        }
-        self.removeBlock();
-        [self.navigationController pushViewController:pay animated:YES];
+            if(timer)
+                [timer invalidate];
+            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+            
+            
+            BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+            pay.pay = self.payTitle.text;
+                pay.orderid = orderid;
+                pay.addTime = addtime;
+                pay.img = _itemImg;
+                pay.sum = self.footView.money.text;
+            for (BFPTDetailModel *model in self.modelArr){
+                [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+                [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+                
+                NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+                UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+                if (array.count == 0) {
+                    tabBar.tabBarItem.badgeValue = nil;
+                }else {
+                    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+                }
+
+            }
+            self.removeBlock();
+            [self.navigationController pushViewController:pay animated:YES];
             
         }else{
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常,订单提交失败"];
+            
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常,订单提交失败"];
         }
-        
     } failure:^(NSError *error) {
         BFLog(@"%@", error);
         
     }];
 
+}
+
+#pragma mark -- 倒计时1800，到时间取消订单
+- (void)timerAction {
+    leftTime--;
+    if (leftTime == 0) {
+        [BFNotificationCenter postNotificationName:@"cancleOrder" object:nil];
+    }
 }
 
 
@@ -238,7 +268,7 @@
         self.scores = useScore;
     }
 
-    _scoreTitle.text = [NSString stringWithFormat:@"积分抵扣(最多%d元)",self.scores];
+    _scoreTitle.text = [NSString stringWithFormat:@"积分抵扣(最多%ld元)",(long)self.scores];
      _scoreTitle.font = [UIFont systemFontOfSize:CGFloatX(17)];
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_scoreTitle.text];
@@ -351,7 +381,7 @@
             [money addObject:model.price];
             }
             [_itemImg addObject:model.img];
-            NSString *num = [NSString stringWithFormat:@"%d",model.numbers];
+            NSString *num = [NSString stringWithFormat:@"%ld",(long)model.numbers];
             [number addObject:num];
             if (model.choose) {
             [guige addObject:model.choose];
@@ -647,16 +677,16 @@
     for (BFPTDetailModel *model in self.modelArr) {
 
         string = [NSString stringWithFormat:@"id=%@,",model.shopID];
-        string = [string stringByAppendingString:[NSString stringWithFormat:@"num=%d,",model.numbers]];
+        string = [string stringByAppendingString:[NSString stringWithFormat:@"num=%ld,",(long)model.numbers]];
         if (self.isPT == YES) {
         string = [string stringByAppendingString:[NSString stringWithFormat:@"price=%@;",model.team_price]];
         }else{
         string = [string stringByAppendingString:[NSString stringWithFormat:@"price=%@;",model.price]];
         }
-//        self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
+        self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
     }
 //    NSLog(@"\\\\\\%@",self.itemDate);
-    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
+//    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
     self.userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
