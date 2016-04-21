@@ -68,7 +68,7 @@
 
 
 - (void)initWithPageControl{
-    self.pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(kScreenWidth/2-10, CGRectGetHeight(self.scrollView.frame)-30, 20, 20)];
+    self.pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(kScreenWidth/2-30, CGRectGetHeight(self.scrollView.frame)-30, 20, 20)];
     [self addSubview:self.pageC];
 }
 
@@ -78,14 +78,20 @@
     self.pageC.currentPageIndicatorTintColor = [UIColor redColor];
     self.pageC.pageIndicatorTintColor = [UIColor whiteColor];
     [self updateCurViewWithPage:0];
+    [self timer];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 #pragma  mark 单张图片不轮播
 //    if (dataArray.count <= 1) {
 //        self.timer = nil;
 //    }else{
 //    self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 //    }
+}
+- (NSTimer *)timer{
+    if (!_timer) {
+        self.timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    }
+    return _timer;
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
