@@ -249,21 +249,12 @@
 
 //购物车动画
 - (void)animationStart:(XQCollectionViewCell *)cell{
-    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-        self.edgesForExtendedLayout = UIRectEdgeNone;
-        self.extendedLayoutIncludesOpaqueBars = NO;
-        self.modalPresentationCapturesStatusBarAppearance = NO;
-    }
-    
-    
+
     //获取动画起点
     CGPoint start = [cell convertPoint:cell.shopp.center toView:self.view];
     //获取动画终点
 
     CGPoint end = [self.navigationView convertPoint:self.rightBut.center toView:self.view];
-    
-
-    
    
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
