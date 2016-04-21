@@ -3669,6 +3669,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Core",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/QQConnectSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/UI",
+					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Alipay",
 				);
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
@@ -3683,6 +3684,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/SinaWeiboSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/WeChatSDK",
+					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Alipay",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = binweifengou.com;
@@ -3714,6 +3716,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Core",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/QQConnectSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/UI",
+					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Alipay",
 				);
 				GCC_PREFIX_HEADER = "缤微纷购/PrefixHeader.pch";
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
@@ -3728,6 +3731,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Support/PlatformSDK/WeChatSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/SinaWeiboSDK",
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/ShareSDK/Extend/WeChatSDK",
+					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Alipay",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = binweifengou.com;

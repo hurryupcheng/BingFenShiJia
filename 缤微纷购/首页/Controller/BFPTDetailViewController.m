@@ -23,6 +23,8 @@
 @property (nonatomic,retain)NSMutableArray *dataArray;
 @property (nonatomic)BOOL isPT;
 
+@property (nonatomic,retain)BFPTDetailModel *model;
+
 @end
 
 @implementation BFPTDetailViewController
@@ -91,6 +93,9 @@
 
 
 - (void)groupPurchaseButton{
+//    if (_model) {
+//        <#statements#>
+//    }
     BFZFViewController *zf = [[BFZFViewController alloc]init];
     zf.isPT = _isPT;
     zf.modelArr = _dataArray;

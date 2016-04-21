@@ -11,6 +11,8 @@
 @class XQSubModel;
 
 @interface XQModel : NSObject
+/** 产品page **/
+@property (nonatomic,retain)NSString *page_num;
 @property (nonatomic,retain)NSArray <XQSubModel *> *items;
 @end
 

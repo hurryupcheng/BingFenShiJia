@@ -35,6 +35,8 @@
 @property (nonatomic,retain)BFUserInfo *userInfo;
 @property (nonatomic,retain)UILabel *numLabel;//购物车数量
 @property (nonatomic,assign)NSInteger sumNumber;
+@property (nonatomic,assign)NSInteger page;
+@property (nonatomic,assign)NSInteger sort;
 
 @property (nonatomic, strong) UIButton *rightBut;
 
@@ -42,7 +44,7 @@
 
 @property (nonatomic, strong) BFCategoryNavigationView *navigationView;
 
-
+@property (nonatomic,assign)NSInteger sumNum;//加入的数量
 @end
 
 @implementation XQViewController
@@ -60,10 +62,14 @@
     self.view.backgroundColor = rgb(245, 245, 245, 1.0);
 
     self.sorke = 1;
+    self.page = 1;
+    self.sort = 0;
+    self.sumNum = 0;
     self.title = self.titles;
     
     [self initWithSegmented];
-    [self getNewDateNumber:0];
+    [self getUpNewDate];
+    [self getDownDate];
 }
 
 - (void)initWithSegmented{
@@ -210,22 +216,32 @@
         [self.navigationController pushViewController:log animated:YES];
     }else{
         [self sss];
+        _xqOtherModel = self.dataArray[index];
         
-    _xqOtherModel = self.dataArray[index];
-    [self animationStart:cell];
+        if ([_xqOtherModel.stock isEqualToString:@"0"]) {
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
+    }else{
+     self.sumNum++;
     BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_xqOtherModel.ID];
-    if (stor == nil) {
+        
+        if (stor.numbers >= [_xqOtherModel.stock integerValue]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多库存"];
+        }else{
+    [self animationStart:cell];
+     if (stor == nil) {
         self.sumNumber++;
         self.numLabel.alpha = 1;
         
         self.numLabel.text = [NSString stringWithFormat:@"%ld",(long)self.sumNumber];
         [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
-    }
-    
+     }
+
     BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
     
     [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
     [[CXArchiveShopManager sharedInstance]startArchiveShop];
+           }
+        }
     }
 }
 
@@ -319,14 +335,14 @@
 }
 
 #pragma  mark 数据请求
-- (void)getNewDate:(NSInteger)num page:(NSInteger)page{
+- (void)getNewDate{
     NSString *url = [BF_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
     NSMutableDictionary *date = [NSMutableDictionary dictionary];
     date[@"id"] = self.ID;
-    date[@"sort"] = @(num);
-    date[@"p"] = @(page);
+    date[@"sort"] = @(self.sort);
+    date[@"p"] = @(self.page);
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-        [self.dataArray removeAllObjects];
+ 
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
@@ -335,9 +351,12 @@
         }
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];
-        NSLog(@"%@",self.dataArray);
+        [self.collectionView.mj_footer endRefreshing];
+        NSLog(@".>>>>>>>>%u",self.dataArray.count);
     } failure:^(NSError *error) {
+        self.page--;
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
+        [self.collectionView.mj_footer endRefreshingWithNoNoHTTP];
     }];
 }
 
@@ -345,13 +364,17 @@
     self.selectend.selected = NO;
     seg.selected = YES;
     self.selectend = seg;
+    self.page = 1;
     switch (seg.tag) {
         case 0:
-        {   [self getNewDateNumber:1];
+        {
+            self.sort = 1;
+            [self getUpNewDate];
         }
             break;
         case 1:{
-            [self getNewDateNumber:2];
+            self.sort = 2;
+            [self getUpNewDate];
         }
             break;
         case 2:{
@@ -359,7 +382,8 @@
             __block CGAffineTransform temp;
             
             if (self.sorke == YES) {
-                [self getNewDateNumber:4];
+                self.sort = 4;
+                [self getUpNewDate];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                   temp = CGAffineTransformMakeTranslation(0, 0);
                   self.priceimg.transform = CGAffineTransformRotate(temp, 179.001);
@@ -368,7 +392,8 @@
               }];
                 self.sorke = NO;
             }else{
-            [self getNewDateNumber:3];
+            self.sort = 3;
+            [self getUpNewDate];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                 temp = CGAffineTransformMakeTranslation(0, 0);
                 self.priceimg.transform = CGAffineTransformRotate(temp, 0);
@@ -410,12 +435,28 @@
 }
 
 #pragma  mark 刷新数据
-- (void)getNewDateNumber:(NSInteger)num{
+- (void)getUpNewDate{
+    
   self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
 //     [self getDataids:ids number:num];
-      [self getNewDate:num page:0];
+      self.page = 1;
+      [self.dataArray removeAllObjects];
+      [self getNewDate];
   }];
     [self.collectionView.mj_header beginRefreshing];
+}
+
+#pragma  mark 上拉加载
+- (void)getDownDate{
+    self.collectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(downRefresh)];
+}
+
+- (void)downRefresh{
+    self.page++;
+    if (self.page > [self.xqModel.page_num integerValue]) {
+        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+    }
+    [self getNewDate];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

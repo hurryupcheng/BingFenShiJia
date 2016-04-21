@@ -32,7 +32,6 @@
     
     SosoHistoryDe = [NSUserDefaults standardUserDefaults];
     _SosoHistoryArr = [SosoHistoryDe valueForKey:@"HFSosoHistoryData"];
-
     
     UIButton * right = [UIButton buttonWithType:UIButtonTypeCustom];
     right.frame = CGRectMake(0, 0, 40, 20);

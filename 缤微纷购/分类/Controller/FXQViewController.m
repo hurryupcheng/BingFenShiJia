@@ -180,16 +180,19 @@
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
                 return;
             }else if (userInfo != nil) {
+                
+                BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:self.model.ID];
+                if (stor.numbers >= [self.model.first_stock integerValue]) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"超出库存数量"];
+                }else{
+                
                 BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
                 
                 [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
                 [[CXArchiveShopManager sharedInstance]startArchiveShop];
-
-     
-
-
-                
+ 
                 [self animationStart];
+                }
             }
             BFLog(@"加入购物车");
             break;

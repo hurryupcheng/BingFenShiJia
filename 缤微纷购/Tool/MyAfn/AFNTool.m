@@ -171,7 +171,7 @@
                 //            NSLog(@"%@", error);
                 if (fail) {
                     fail();
-                    [OMGToast showText:@"数据异常"];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"数据异常"];
                 }  
             }];
         }
