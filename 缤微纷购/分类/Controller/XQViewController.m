@@ -163,7 +163,7 @@
     flowLayout.itemSize = CGSizeMake(x, x+75);
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-100) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, ScreenHeight-92) collectionViewLayout:flowLayout];
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -421,14 +421,13 @@
 - (void)viewWillAppear:(BOOL)animated{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.hidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
     self.userInfo = [BFUserDefaluts getUserInfo];
     self.sumNumber = 0;
     self.numLabel.alpha = 0;
     if (self.userInfo != nil) {
         [self sss];
     }
-    
-    self.tabBarController.tabBar.hidden = YES;
 }
 
 
