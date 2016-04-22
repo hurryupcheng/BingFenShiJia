@@ -143,6 +143,8 @@
 		5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */; };
 		5900BF7C1CBB5A1200DDA0B8 /* BFForgetPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */; };
 		5900BF7F1CBB5C1400DDA0B8 /* BFForgetPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */; };
+		5906E5D51CC9BF3E002F5E53 /* BFTastingExperienceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */; };
+		5906E5D81CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */; };
 		590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */; };
 		590D3B451C93B4540042D42E /* BFMyClientController.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B441C93B4540042D42E /* BFMyClientController.m */; };
 		5912FA3B1CC36CE7001C50D8 /* mb_error.png in Resources */ = {isa = PBXBuildFile; fileRef = 5912FA371CC36CE7001C50D8 /* mb_error.png */; };
@@ -301,6 +303,8 @@
 		59F7E1FB1CC86A140007F9B5 /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F7E1F31CC86A140007F9B5 /* payRequsestHandler.mm */; };
 		59F7E1FC1CC86A140007F9B5 /* WXUtil.mm in Sources */ = {isa = PBXBuildFile; fileRef = 59F7E1F51CC86A140007F9B5 /* WXUtil.mm */; };
 		59F7E1FD1CC86A140007F9B5 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F7E1F71CC86A140007F9B5 /* libWeChatSDK.a */; };
+		59F7E2001CC8D9820007F9B5 /* BFTastingExperienceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7E1FF1CC8D9820007F9B5 /* BFTastingExperienceModel.m */; };
+		59F7E2031CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7E2021CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m */; };
 		59F7EC8D1C96F9A2006ABB2A /* BFMyCouponsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7EC8C1C96F9A2006ABB2A /* BFMyCouponsModel.m */; };
 		59F82BF91C9AF581006B76E6 /* BFEditAddressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F82BF81C9AF581006B76E6 /* BFEditAddressController.m */; };
 		59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F9F1E61C98F83300CA9986 /* BFOrderProductModel.m */; };
@@ -744,6 +748,10 @@
 		5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordController.m; sourceTree = "<group>"; };
 		5900BF7D1CBB5C1400DDA0B8 /* BFForgetPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFForgetPasswordView.h; sourceTree = "<group>"; };
 		5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordView.m; sourceTree = "<group>"; };
+		5906E5D31CC9BF3E002F5E53 /* BFTastingExperienceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceCell.h; sourceTree = "<group>"; };
+		5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceCell.m; sourceTree = "<group>"; };
+		5906E5D61CC9BFCE002F5E53 /* BFTastingExperienceFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceFooterView.h; sourceTree = "<group>"; };
+		5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceFooterView.m; sourceTree = "<group>"; };
 		590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseTabbar.h; sourceTree = "<group>"; };
 		590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseTabbar.m; sourceTree = "<group>"; };
 		590D3B431C93B4540042D42E /* BFMyClientController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyClientController.h; sourceTree = "<group>"; };
@@ -1093,6 +1101,10 @@
 		59F7E1F71CC86A140007F9B5 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		59F7E1F81CC86A140007F9B5 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		59F7E1F91CC86A140007F9B5 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		59F7E1FE1CC8D9820007F9B5 /* BFTastingExperienceModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceModel.h; sourceTree = "<group>"; };
+		59F7E1FF1CC8D9820007F9B5 /* BFTastingExperienceModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceModel.m; sourceTree = "<group>"; };
+		59F7E2011CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceHeaderView.h; sourceTree = "<group>"; };
+		59F7E2021CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceHeaderView.m; sourceTree = "<group>"; };
 		59F7EC8B1C96F9A2006ABB2A /* BFMyCouponsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCouponsModel.h; sourceTree = "<group>"; };
 		59F7EC8C1C96F9A2006ABB2A /* BFMyCouponsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCouponsModel.m; sourceTree = "<group>"; };
 		59F82BF71C9AF581006B76E6 /* BFEditAddressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFEditAddressController.h; sourceTree = "<group>"; };
@@ -2196,6 +2208,8 @@
 				593788BB1CBE47CC009240C7 /* BFDailySpecialModel.m */,
 				59FCE2041CBC901C00CCBDEA /* BFBestSellingModel.h */,
 				59FCE2051CBC901C00CCBDEA /* BFBestSellingModel.m */,
+				59F7E1FE1CC8D9820007F9B5 /* BFTastingExperienceModel.h */,
+				59F7E1FF1CC8D9820007F9B5 /* BFTastingExperienceModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2238,6 +2252,12 @@
 				593788B81CBE4751009240C7 /* BFTimeView.m */,
 				59F778001CBC016800585B7A /* BFBestSellingCell.h */,
 				59F778011CBC016800585B7A /* BFBestSellingCell.m */,
+				59F7E2011CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.h */,
+				59F7E2021CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m */,
+				5906E5D31CC9BF3E002F5E53 /* BFTastingExperienceCell.h */,
+				5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */,
+				5906E5D61CC9BFCE002F5E53 /* BFTastingExperienceFooterView.h */,
+				5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3545,6 +3565,7 @@
 				59FF74C51CAE1A860063F770 /* View+MASAdditions.m in Sources */,
 				59FF74D21CAE1A860063F770 /* NSObject+MJProperty.m in Sources */,
 				59FF74D01CAE1A860063F770 /* NSObject+MJCoding.m in Sources */,
+				59F7E2001CC8D9820007F9B5 /* BFTastingExperienceModel.m in Sources */,
 				59FC1A9E1C8DDB4A00809732 /* BFMyWalletTopView.m in Sources */,
 				59FFB0C81C906D4100B04F8E /* BFModifyBankCardView.m in Sources */,
 				59FF74DF1CAE1A860063F770 /* MJRefreshGifHeader.m in Sources */,
@@ -3611,6 +3632,7 @@
 				59FF74831CAE1A860063F770 /* UIButton+Extension.m in Sources */,
 				59FA7AA51C9CF663008E3813 /* BFCustomerServiceView.m in Sources */,
 				592F86D31C8FB474006E0CEE /* BFMyWalletBottomView.m in Sources */,
+				59F7E2031CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m in Sources */,
 				59FF75101CAE1A860063F770 /* STIndicatorView.m in Sources */,
 				59F68C391CB662E1009FD130 /* BFBindPhoneNumberController.m in Sources */,
 				59FF75071CAE1A860063F770 /* SMProgressHUDTipView.m in Sources */,
@@ -3662,6 +3684,7 @@
 				59F64E691CC20695002F7537 /* BFBindPhoneNumberView.m in Sources */,
 				59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */,
 				59FF74AC1CAE1A860063F770 /* AFURLResponseSerialization.m in Sources */,
+				5906E5D81CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m in Sources */,
 				59FF46CA1C8AB3620040689A /* BFPersonalCenterTopView.m in Sources */,
 				51D541611C8E5DB6005CB936 /* BFOtherView.m in Sources */,
 				59FF74B11CAE1A860063F770 /* HATransparentView.m in Sources */,
@@ -3706,6 +3729,7 @@
 				593788AA1CBE1698009240C7 /* BFPanicCountdownView.m in Sources */,
 				593788A71CBE10FE009240C7 /* BFPanicTimeView.m in Sources */,
 				51D1220A1C3A757C00640A44 /* ShoppingViewController.m in Sources */,
+				5906E5D51CC9BF3E002F5E53 /* BFTastingExperienceCell.m in Sources */,
 				59FF74961CAE1A860063F770 /* BFPickerView.m in Sources */,
 				59F7EC8D1C96F9A2006ABB2A /* BFMyCouponsModel.m in Sources */,
 				59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */,

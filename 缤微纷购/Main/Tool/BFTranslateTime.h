@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BFTranslateTime : NSObject
+/**把返回的时间总秒数转变成 MM月dd日HH时*/
++ (NSString *)translateTimeIntoMonthDayHour:(NSString *)totalSecond;
 /**把返回的时间总秒数转变成 HH:mm:ss*/
 + (NSString *)translateTimeIntoTimeInterval:(NSString *)totalSecond;
 /**把返回的时间总秒数转变成yyyy-MM-dd HH:mm*/

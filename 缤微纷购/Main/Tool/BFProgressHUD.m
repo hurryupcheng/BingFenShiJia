@@ -28,7 +28,7 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
         hud.labelText = labelText;
-        hud.color = BFColor(0xffffff);
+
         hud.mode = MBProgressHUDModeText;
         sleep(1);
         dispatch_async(dispatch_get_main_queue(), ^{

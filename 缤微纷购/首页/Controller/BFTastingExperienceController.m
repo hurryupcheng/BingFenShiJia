@@ -8,13 +8,22 @@
 
 #import "BFTastingExperienceController.h"
 #import "BFShareView.h"
+#import "BFTastingExperienceModel.h"
+#import "BFTastingExperienceHeaderView.h"
+#import "BFTastingExperienceFooterView.h"
+#import "BFTastingExperienceCell.h"
 
-
-@interface BFTastingExperienceController ()<UITableViewDelegate, UITableViewDataSource>
+@interface BFTastingExperienceController ()<UITableViewDelegate, UITableViewDataSource, BFTastingExperienceFooterViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**数组*/
 @property (nonatomic, strong) NSArray *listArray;
+/**免费试吃数据模型*/
+@property (nonatomic, strong) BFTastingExperienceModel *model;
+/**头部视图*/
+@property (nonatomic, strong) BFTastingExperienceHeaderView *headerView;
+/**底部视图*/
+@property (nonatomic, strong) BFTastingExperienceFooterView *footerView;
 @end
 
 @implementation BFTastingExperienceController
@@ -26,6 +35,21 @@
         _listArray = @[@"图文详情", @"试吃规则", @"试吃体验"];
     }
     return _listArray;
+}
+
+- (BFTastingExperienceFooterView *)footerView {
+    if (!_footerView) {
+        _footerView = [[BFTastingExperienceFooterView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(115))];
+        _footerView.delegate = self;
+    }
+    return _footerView;
+}
+
+- (BFTastingExperienceHeaderView *)headerView {
+    if (!_headerView) {
+        _headerView = [[BFTastingExperienceHeaderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(395))];
+    }
+    return _headerView;
 }
 
 - (UITableView *)tableView {
@@ -63,13 +87,17 @@
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {
-            
+            self.model = [BFTastingExperienceModel parse:responseObject];
+            self.tableView.tableHeaderView = self.headerView;
+            self.tableView.tableFooterView = self.footerView;
+            self.headerView.model = self.model;
+            self.footerView.model = self.model;
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 0;
+            }];
         }
         
-        [UIView animateWithDuration:0.5 animations:^{
-            
-            self.tableView.y = 0;
-        }];
+        
         
     } failure:^(NSError *error) {
         BFLog(@"%@", error);
@@ -89,6 +117,7 @@
     self.navigationItem.rightBarButtonItem = telephoneItem;
 }
 
+#pragma mark -- 分享事件
 - (void)share {
     id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
                                        defaultContent:@"ddsf"
@@ -103,6 +132,11 @@
     [window addSubview:share];
 }
 
+#pragma mark -- 申请按钮
+- (void)gotoApply {
+    BFLog(@"去申请");
+}
+
 
 #pragma mark -- tableview代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -110,15 +144,22 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    }
-    cell.textLabel.text = self.listArray[indexPath.row];
-    
+    BFTastingExperienceCell *cell = [BFTastingExperienceCell cellWithTableView:tableView];
+    cell.titleLabel.text = self.listArray[indexPath.row];
     return cell;
+
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    return BF_ScaleHeight(44);
+
+}
 
 
 @end
