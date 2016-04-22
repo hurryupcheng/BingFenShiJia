@@ -15,6 +15,7 @@
 #import "BFLogisticsModel.h"
 #import "BFBottomCell.h"
 #import "BFCheckLogisticsController.h"
+#import "MBProgressHUD.h"
 
 @interface BFLogisticsAndAfterSaleController ()<UITableViewDelegate, UITableViewDataSource, BFLogisticsHeaderViewDelegate, BFBottomCellDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
@@ -65,7 +66,7 @@
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-ScreenHeight, ScreenWidth, ScreenHeight-113-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        //_tableView.backgroundColor = [UIColor redColor];
+        _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         [self.view addSubview:_tableView];
@@ -76,15 +77,15 @@
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-        _bgImageView.image = [UIImage imageNamed:@"after_sale_service"];
+        _bgImageView.image = [UIImage imageNamed:@"logistics_bg"];
         _bgImageView.userInteractionEnabled = YES;
-        _bgImageView.hidden = YES;
+        //_bgImageView.hidden = YES;
         [self.view addSubview:_bgImageView];
         UIButton *button = [UIButton buttonWithType:0];
-        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(350), BF_ScaleWidth(160), BF_ScaleHeight(50));
+        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(300), BF_ScaleWidth(160), BF_ScaleHeight(50));
         [button setTitle:@"返回首页" forState:UIControlStateNormal];
-        [button setTitleColor:BFColor(0x00008C) forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
+        [button setTitleColor:BFColor(0x0F62BE) forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(20)];
         [button addTarget:self action:@selector(clickToHome) forControlEvents:UIControlEventTouchUpInside];
         [_bgImageView addSubview:button];
     }
@@ -102,15 +103,15 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     //获取数据
-    [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-    } completion:nil];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+//    } completion:nil];
 }
 
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BFColor(0xffffff);
+    self.view.backgroundColor = BFColor(0xF4F4F4);
     self.title = @"物流·售后";
     //
     [self bgImageView];
@@ -134,7 +135,10 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
@@ -143,6 +147,7 @@
                 }else {
                     self.bgImageView.hidden = YES;
                     self.tableView.hidden = NO;
+                    [self.logisticsArray removeAllObjects];
                     NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
                     [self.logisticsArray addObjectsFromArray:array];
                 }

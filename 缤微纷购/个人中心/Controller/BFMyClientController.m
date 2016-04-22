@@ -88,12 +88,14 @@
     self.view.backgroundColor = BFColor(0xEBEBEB);
     self.page = 1;
     self.isFirstTime = YES;
+    //添加navigationbar
+    [self setUpNavigationBar];
+    //添加底部tableView
+    [self tableView];
     //添加分段控制器
     [self segment];
     self.segment.segmented.selectedSegmentIndex = 0;
     [self.segment click];
-    //添加底部tableView
-    [self tableView];
     //上啦刷新
     [self setupUpRefresh];
     //添加页数
@@ -133,7 +135,9 @@
     self.parameter[@"page"] = @(self.page);
     //判断是不是第一次加载，第一次加载就有弹窗
     if (self.isFirstTime) {
-        [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+            [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+        } dispatch_get_main_queue:^{
             [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
             
                 if (responseObject) {

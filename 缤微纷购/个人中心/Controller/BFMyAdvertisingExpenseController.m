@@ -119,8 +119,9 @@
     [super viewDidLoad];
     self.title = @"当月广告费";
     self.view.backgroundColor = BFColor(0xffffff);
-    
     self.headerView.timeLabel.text = [self.dateArray firstObject];
+    //添加navigationbar
+    [self setUpNavigationBar];
     //添加底部tableView
     [self bottomTableView];
     //添加上面tableView

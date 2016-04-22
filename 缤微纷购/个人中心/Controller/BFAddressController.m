@@ -65,7 +65,7 @@
         _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenHeight, ScreenHeight)];
         _bgImageView.image = [UIImage imageNamed:@"address_bg"];
         _bgImageView.userInteractionEnabled = YES;
-        _bgImageView.hidden = YES;
+        //_bgImageView.hidden = YES;
         [self.view addSubview:_bgImageView];
         UIButton *button = [UIButton buttonWithType:0];
         button.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
@@ -119,7 +119,9 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求...." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 [self.addressArray removeAllObjects];

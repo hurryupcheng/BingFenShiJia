@@ -63,7 +63,9 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];

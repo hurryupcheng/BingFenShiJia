@@ -84,8 +84,7 @@
     [BFNotificationCenter addObserver:self selector:@selector(gotoLogin) name:@"gotoLogin" object:nil];
     //改变导航栏
     [BFNotificationCenter addObserver:self selector:@selector(navigationBarChange) name:@"navigationBarChange" object:nil];
-    //登陆后改变导航栏数值
-    [BFNotificationCenter addObserver:self selector:@selector(navigationBarBadge) name:@"navigationBarBadge" object:nil];
+
 
     
 }
@@ -98,32 +97,36 @@
 #pragma mark -- 加载数据
 - (void)getData {
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=special_list"];
-    [BFHttpTool GET:url params:nil success:^(id responseObject) {
-        BFLog(@"%@", responseObject);
-        if (responseObject) {
-            self.model = [BFDailySpecialModel parse:responseObject];
-            self.headerView.model = self.model;
-            if ([self.model.item isKindOfClass:[NSArray class]]) {
-                [self.productArray removeAllObjects];
-                NSArray *array = [BFDailySpecialProductList parse:self.model.item];
-                [self.productArray addObjectsFromArray:array];
-                BFLog(@"===%lu",(unsigned long)self.productArray.count);
-            }
-            BFLog(@"+++%lu",(unsigned long)self.productArray.count);
-            [self.tableView reloadData];
-            [UIView animateWithDuration:0.5 animations:^{
-                if (self.model.ads != nil) {
-                    self.headerView.height = BF_ScaleHeight(200);
-                    self.tableView.tableHeaderView = self.headerView;
-                }else {
-                    self.headerView.height = BF_ScaleHeight(0);
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:nil success:^(id responseObject) {
+            BFLog(@"%@", responseObject);
+            if (responseObject) {
+                self.model = [BFDailySpecialModel parse:responseObject];
+                self.headerView.model = self.model;
+                if ([self.model.item isKindOfClass:[NSArray class]]) {
+                    [self.productArray removeAllObjects];
+                    NSArray *array = [BFDailySpecialProductList parse:self.model.item];
+                    [self.productArray addObjectsFromArray:array];
+                    BFLog(@"===%lu",(unsigned long)self.productArray.count);
                 }
-                
-                self.tableView.y = 0;
-            }];
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@", error);
+                BFLog(@"+++%lu",(unsigned long)self.productArray.count);
+                [self.tableView reloadData];
+                [UIView animateWithDuration:0.5 animations:^{
+                    if (self.model.ads != nil) {
+                        self.headerView.height = BF_ScaleHeight(200);
+                        self.tableView.tableHeaderView = self.headerView;
+                    }else {
+                        self.headerView.height = BF_ScaleHeight(0);
+                    }
+                    
+                    self.tableView.y = 0;
+                }];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@", error);
+        }];
     }];
 }
 

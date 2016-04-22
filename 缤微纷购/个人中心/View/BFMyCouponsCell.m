@@ -41,7 +41,7 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self) {
         self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-        self.backgroundColor = BFColor(0xD6D6D6);
+        self.backgroundColor = [UIColor clearColor];
         [self setCell];
     }
     return self;

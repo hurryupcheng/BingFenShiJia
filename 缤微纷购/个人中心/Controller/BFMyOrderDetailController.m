@@ -27,6 +27,7 @@
 @property (nonatomic, strong) BFProductInfoModel *model;
 /**商品数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
+
 @end
 
 @implementation BFMyOrderDetailController
@@ -37,6 +38,8 @@
     }
     return _productArray;
 }
+
+
 
 - (BFOrderIdView *)headerView {
     if (!_headerView) {
@@ -75,6 +78,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xF4F4F4);
     self.title = @"订单详情";
+
     //添加tableView
     [self tableView];
     //获取数据
@@ -95,16 +99,20 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"orderId"] = self.orderId;
     
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {
+                
                 self.model = [BFProductInfoModel parse:responseObject[@"order"]];
                 self.headerView.model = self.model;
                 self.footerView.model = self.model;
                 NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
                 [self.productArray addObjectsFromArray:array];
                 BFLog(@"%@,,%@",responseObject, parameter);
+                
             }
             
             [self.tableView reloadData];

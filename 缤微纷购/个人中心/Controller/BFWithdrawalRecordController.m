@@ -87,7 +87,9 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"page"] = @(self.page);
     if (self.isFirstTime) {
-        [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+        [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+            [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+        } dispatch_get_main_queue:^{
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"----%@,,%@", responseObject,parameter);
                 if (responseObject) {

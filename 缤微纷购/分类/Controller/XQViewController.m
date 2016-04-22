@@ -286,7 +286,7 @@
     chLayer.contents = (UIImage *)cell.imageView.image.CGImage;
     [self.redLayers addObject:chLayer];
     chLayer.frame = CGRectMake(cell.imageView.centerX, cell.imageView.centerY, BF_ScaleHeight(50), BF_ScaleHeight(50));
-    //chLayer.cornerRadius = BF_ScaleHeight(20);
+    chLayer.cornerRadius = BF_ScaleHeight(20);
     chLayer.masksToBounds = YES;
     chLayer.backgroundColor = [UIColor blueColor].CGColor;
     [self.view.layer addSublayer:chLayer];

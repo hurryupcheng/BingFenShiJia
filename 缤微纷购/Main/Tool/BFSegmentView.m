@@ -32,9 +32,9 @@
 
 - (void)setTitleArray:(NSArray *)titleArray {
     _titleArray = titleArray;
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, ScreenWidth, 0.5)];
-    line.backgroundColor = BFColor(0xA3A3A3);
-    [self addSubview:line];
+//    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 49.5, ScreenWidth, 0.5)];
+//    line.backgroundColor = BFColor(0xA3A3A3);
+//    [self addSubview:line];
     
     //NSArray *segmentedArray = @[@"VIP订单",@"客户订单",@"推荐分成订单"];
     UISegmentedControl *segmented = [[UISegmentedControl alloc] initWithItems:self.titleArray];

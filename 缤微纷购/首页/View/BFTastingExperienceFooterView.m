@@ -8,11 +8,16 @@
 
 #import "BFTastingExperienceFooterView.h"
 
-@interface BFTastingExperienceFooterView()
+@interface BFTastingExperienceFooterView(){
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**已申请人数*/
 @property (nonatomic, strong) UILabel *haveApply;
 /**活到到期日期*/
 @property (nonatomic, strong) UILabel *endDate;
+/**申请按钮*/
+@property (nonatomic, strong) UIButton *applyButton;
 @end
 
 @implementation BFTastingExperienceFooterView
@@ -56,6 +61,7 @@
         
         
         UIButton *applyButton = [UIButton buttonWithType:0];
+        self.applyButton = applyButton;
         applyButton.frame = CGRectMake(BF_ScaleWidth(100), CGRectGetMaxY(line.frame) + BF_ScaleHeight(15), BF_ScaleWidth(120), BF_ScaleHeight(30));
         applyButton.backgroundColor = BFColor(0xFD8627);
         [applyButton setTitle:@"申请" forState:UIControlStateNormal];
@@ -68,8 +74,23 @@
 
 
 - (void)apply {
+    leftTime = 1;
+    [self.applyButton setEnabled:NO];
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     if (self.delegate && [self.delegate respondsToSelector:@selector(gotoApply)]) {
         [self.delegate gotoApply];
+    }
+}
+
+
+- (void)timerAction {
+    leftTime--;
+    if (leftTime <= 0) {
+        [self.applyButton setEnabled:YES];
+    }else {
+        [self.applyButton setEnabled:NO];
     }
 }
 

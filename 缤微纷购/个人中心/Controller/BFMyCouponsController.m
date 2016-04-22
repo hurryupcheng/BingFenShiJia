@@ -21,6 +21,7 @@
 @property (nonatomic, strong) NSMutableArray *couponsArray;
 /**请求参数可变字典*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
+
 @end
 
 @implementation BFMyCouponsController
@@ -41,8 +42,8 @@
 
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
-        _bgImageView = [[UIImageView alloc] initWithFrame:self.view.frame];
-        _bgImageView.image = [UIImage imageNamed:@"bg.jpg"];
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(100), BF_ScaleWidth(160), BF_ScaleHeight(170))];
+        _bgImageView.image = [UIImage imageNamed:@"coupon_bg"];
         [self.view addSubview:_bgImageView];
     }
     return _bgImageView;
@@ -50,8 +51,8 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-116) style:UITableViewStyleGrouped];
-        _tableView.backgroundColor = BFColor(0xD6D6D6);
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-114) style:UITableViewStyleGrouped];
+        _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -63,7 +64,7 @@
 - (BFSegmentView *)segment {
     if (!_segment) {
         _segment = [BFSegmentView segmentView];
-        
+        _segment.backgroundColor = BFColor(0xF2F4F5);
         _segment.delegate = self;
         _segment.titleArray = @[@"未领取",@"未使用",@"已使用"];
         [self.view addSubview:_segment];
@@ -74,10 +75,10 @@
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BFColor(0xD6D6D6);
+    self.view.backgroundColor = BFColor(0xF2F4F5);
     self.title = @"优惠券";
     //添加背景图
-    //[self bgImageView];
+    [self bgImageView];
      //添加tableView
     [self tableView];
     //添加分段控制器
@@ -95,17 +96,25 @@
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
     BFLog(@"%@",self.parameter);
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
             [self.couponsArray removeAllObjects];
-            if (![responseObject[@"coupon_data"] isKindOfClass:[NSNull class]]) {
+            if ([responseObject[@"coupon_data"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyCouponsModel parse:responseObject[@"coupon_data"]];
-                [self.couponsArray addObjectsFromArray:array];
-                BFLog(@"%@",responseObject);
-            }else {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
+                if (array.count != 0) {
+                    self.tableView.hidden = NO;
+                    self.bgImageView.hidden = YES;
+                    [self.couponsArray addObjectsFromArray:array];
+                    BFLog(@"%@",responseObject);
+                }else {
+                    
+                    self.tableView.hidden = YES;
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
+                }
             }
-            BFLog(@"%@",responseObject);
+            
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 50;
@@ -120,6 +129,7 @@
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = 50 - ScreenHeight;
+        self.bgImageView.hidden = NO;
     }];
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:

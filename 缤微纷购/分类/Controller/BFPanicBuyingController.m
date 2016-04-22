@@ -119,29 +119,32 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=seckill_item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        
-        if (responseObject) {
-            self.model = [BFPanicBuyingModel parse:responseObject];
-            self.headerView.model = self.model;
-            self.panicTime.model = self.model;
-            if (self.firstTime == YES) {
-                [UIView animateWithDuration:0.5 animations:^{
-                    self.headerView.height = self.headerView.headerHeight;
-                    self.tableView.tableHeaderView = self.headerView;
-                    self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
-                    self.panicTime.y = 0;
-                    self.tableView.y = 0;
-                    self.firstTime = NO;
-                }];
-            }
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
-            BFLog(@"%@", responseObject);
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@", error);
+            if (responseObject) {
+                self.model = [BFPanicBuyingModel parse:responseObject];
+                self.headerView.model = self.model;
+                self.panicTime.model = self.model;
+                if (self.firstTime == YES) {
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.headerView.height = self.headerView.headerHeight;
+                        self.tableView.tableHeaderView = self.headerView;
+                        self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
+                        self.panicTime.y = 0;
+                        self.tableView.y = 0;
+                        self.firstTime = NO;
+                    }];
+                }
+                
+                BFLog(@"%@", responseObject);
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@", error);
+        }];
     }];
-
 }
 
 #pragma mark -- 自定义tabbar代理

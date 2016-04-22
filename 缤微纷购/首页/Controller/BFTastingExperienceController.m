@@ -84,26 +84,29 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = @"2989";
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@", responseObject);
-        if (responseObject) {
-            self.model = [BFTastingExperienceModel parse:responseObject];
-            self.tableView.tableHeaderView = self.headerView;
-            self.tableView.tableFooterView = self.footerView;
-            self.headerView.model = self.model;
-            self.footerView.model = self.model;
-            [UIView animateWithDuration:0.5 animations:^{
-                self.tableView.y = 0;
-            }];
-        }
-        
-        
-        
-    } failure:^(NSError *error) {
-        BFLog(@"%@", error);
-    }];
-}
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@", responseObject);
+            if (responseObject) {
+                self.model = [BFTastingExperienceModel parse:responseObject];
+                self.tableView.tableHeaderView = self.headerView;
+                self.tableView.tableFooterView = self.footerView;
+                self.headerView.model = self.model;
+                self.footerView.model = self.model;
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = 0;
+                }];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@", error);
+        }];
 
+    }];
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在请求" dispatch_get_main_queue:^{
+//            }];
+}
 
 #pragma mark -- 设置客服按钮
 - (void)setUpNavigationBar {

@@ -647,7 +647,10 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求...." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
                 NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
@@ -725,7 +728,7 @@
         self.lastPrice = self.sum_price+self.freeprice;
         self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
     } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请检查网络"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"请检查网络"];
     }];
 
 }
