@@ -218,7 +218,7 @@
         [self sss];
         _xqOtherModel = self.dataArray[index];
         
-        if ([_xqOtherModel.stock isEqualToString:@"0"]) {
+        if ([_xqOtherModel.stock integerValue] <= 0) {
             [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
     }else{
      self.sumNum++;
@@ -342,7 +342,7 @@
     date[@"sort"] = @(self.sort);
     date[@"p"] = @(self.page);
     [BFHttpTool POST:url params:date success:^(id responseObject) {
- 
+        
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
@@ -352,7 +352,7 @@
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        NSLog(@".>>>>>>>>%u",self.dataArray.count);
+        NSLog(@".>>>>>>>>%lu,,%@",(unsigned long)self.dataArray.count, responseObject);
     } failure:^(NSError *error) {
         self.page--;
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];

@@ -31,22 +31,7 @@ static id _publishContent;
 
 @implementation BFShareView
 
-//+(void)shareWithContent:(id)publishContent/*只需要在分享按钮事件中 构建好分享内容publishContent传过来就好了*/
-//{
-//    _publishContent = publishContent;
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    
-//    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//    blackView.backgroundColor = BFColor(0x000000);
-//    blackView.tag = 440;
-//    [window addSubview:blackView];
-//    
-//    UIView *shareView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//    shareView.backgroundColor = BFColor(0xf6f6f6);
-//    shareView.tag = 441;
-//    [window addSubview:shareView];
-//
-//}
+
 static id _publishContent;
 + (instancetype)shareView:(id)publishContent {
     _publishContent = publishContent;
@@ -184,18 +169,19 @@ static id _publishContent;
     if (shareType == ShareTypeSinaWeibo) {
         [self hideShareView];
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            BFLog(@"---%d",type);
+            
             if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressFromView:self rightLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                [BFProgressHUD MBProgressFromView:self wrongLabelText: @"未检测到客户端 分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                [BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
             }
+            BFLog(@"---%d",state);
         }];
-
+        
     }else {
         [self hideShareView];
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {

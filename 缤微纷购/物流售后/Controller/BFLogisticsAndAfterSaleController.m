@@ -82,7 +82,7 @@
         //_bgImageView.hidden = YES;
         [self.view addSubview:_bgImageView];
         UIButton *button = [UIButton buttonWithType:0];
-        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(300), BF_ScaleWidth(160), BF_ScaleHeight(50));
+        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(350), BF_ScaleWidth(160), BF_ScaleHeight(50));
         [button setTitle:@"返回首页" forState:UIControlStateNormal];
         [button setTitleColor:BFColor(0x0F62BE) forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(20)];

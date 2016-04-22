@@ -240,6 +240,7 @@
 
 #pragma mark --BFGroupDetailTabbarDelegate
 - (void)clickEventWithType:(BFGroupDetailTabbarButtonType)type {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     switch (type) {
         case BFGroupDetailTabbarButtonTypeHome:{
             self.tabBarController.selectedIndex = 0;
@@ -248,12 +249,13 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
-            id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
-                                               defaultContent:@"ddsf"
-                                                        image:nil
-                                                        title:@"这是一个分享测试"
-                                                          url:@"www.baidu.com"
-                                                  description:@"哈哈哈"
+            ItemModel *itemModel = [ItemModel parse:self.model.item];
+            id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
+                                               defaultContent:itemModel.intro
+                                                        image:[ShareSDK imageWithUrl:itemModel.img]
+                                                        title:itemModel.title
+                                                          url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
+                                                  description:itemModel.intro
                                                     mediaType:SSPublishContentMediaTypeNews];
             //调用自定义分享
             BFShareView *share = [BFShareView shareView:publishContent];

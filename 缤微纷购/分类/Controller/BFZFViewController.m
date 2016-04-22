@@ -113,9 +113,9 @@
 - (void)payoff{
     
     if (self.name.text == nil) {
-        [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"请选择地址"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"请选择地址"];
     }else if([self.payTitle.text isEqualToString:@"请选择"]){
-        [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"请选择支付方式"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"请选择支付方式"];
     }else{
         [self postPayoffNews];
         
@@ -178,7 +178,7 @@
             
         }else{
             
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常,订单提交失败"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
         }
     } failure:^(NSError *error) {
         BFLog(@"%@", error);
@@ -664,7 +664,7 @@
              }
             [self getNewData];
             } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
             BFLog(@"%@", error);
         }];
         
@@ -728,7 +728,7 @@
         self.lastPrice = self.sum_price+self.freeprice;
         self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
     } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"请检查网络"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"请检查网络"];
     }];
 
 }

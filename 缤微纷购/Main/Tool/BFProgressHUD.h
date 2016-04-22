@@ -25,8 +25,9 @@
 + (id)MBProgressFromView:(UIView *)view WithLabelText:(NSString *)labelText  dispatch_get_global_queue:(void(^)())globalBlock dispatch_get_main_queue:(void(^)())mainBlock;
 /**进度条进度*/
 + (void)doSomeWorkWithProgress:(UIView *)view;
-
+/**成功返回*/
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText;
-
+/**失败返回*/
++ (id)MBProgressFromView:(UIView *)view rightLabelText:(NSString *)labelText;
 
 @end

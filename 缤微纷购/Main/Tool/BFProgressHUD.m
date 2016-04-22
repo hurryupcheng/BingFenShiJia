@@ -149,6 +149,25 @@
 }
 
 
++ (id)MBProgressFromView:(UIView *)view rightLabelText:(NSString *)labelText{
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+    
+    // Set the custom view mode to show any view.
+    hud.mode = MBProgressHUDModeCustomView;
+    // Set an image view with a checkmark.
+    UIImage *image = [[UIImage imageNamed:@"mb_success"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    hud.customView = [[UIImageView alloc] initWithImage:image];
+    // Looks a bit nicer if we make it square.
+    //hud.square = YES;
+    // Optional label text.
+    hud.label.text = labelText;
+    
+    [hud hideAnimated:YES afterDelay:1.5f];
+    return hud;
+}
+
+
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
@@ -159,7 +178,7 @@
     UIImage *image = [[UIImage imageNamed:@"mb_error"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     hud.customView = [[UIImageView alloc] initWithImage:image];
     // Looks a bit nicer if we make it square.
-    hud.square = YES;
+    //hud.square = YES;
     // Optional label text.
     hud.label.text = labelText;
     
