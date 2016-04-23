@@ -177,7 +177,7 @@ static id _publishContent;
                 [BFProgressHUD MBProgressFromView:self wrongLabelText: @"未检测到客户端 分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
-                [BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
             }
             BFLog(@"---%d",state);
         }];

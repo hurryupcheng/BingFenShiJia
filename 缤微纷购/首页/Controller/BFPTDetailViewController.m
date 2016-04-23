@@ -98,6 +98,7 @@
 //    }
     BFZFViewController *zf = [[BFZFViewController alloc]init];
     zf.isPT = _isPT;
+    zf.ID = self.ID;
     zf.modelArr = _dataArray;
     [self.navigationController pushViewController:zf animated:YES];
 }

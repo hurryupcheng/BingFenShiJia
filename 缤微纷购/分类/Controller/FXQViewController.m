@@ -148,11 +148,12 @@
 
 #pragma mark --分享按钮点击事件
 - (void)share {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     id<ISSContent> publishContent = [ShareSDK content:self.model.intro
-                                       defaultContent:nil
+                                       defaultContent:self.model.intro
                                                 image:[ShareSDK imageWithUrl:self.model.img]
                                                 title:self.model.title
-                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@", self.ID]
+                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
                                           description:self.model.title
                                             mediaType:SSPublishContentMediaTypeNews];
     //调用自定义分享

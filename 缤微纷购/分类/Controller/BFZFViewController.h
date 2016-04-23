@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface BFZFViewController : UIViewController
-
+/**拼团id*/
+@property (nonatomic, strong) NSString *ID;
 @property (nonatomic,retain)NSMutableArray *modelArr;
 @property (nonatomic)BOOL isPT;
 @property (nonatomic,copy)void (^removeBlock)();
