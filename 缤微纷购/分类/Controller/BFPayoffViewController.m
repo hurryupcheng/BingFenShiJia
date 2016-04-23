@@ -40,6 +40,8 @@
 @property (nonatomic,assign)NSInteger height;
 
 @property (nonatomic, strong) BFFootViews *foot;
+
+@property (nonatomic,retain)NSString *price;
 @end
 
 @implementation BFPayoffViewController
@@ -140,8 +142,8 @@
     order.productName = @"缤微纷购水果商城";          //商品标题
     //order.productDescription = product.productDescription;//商品描述
     NSRange range = NSMakeRange(5, self.sum.length-5);
-    NSString *price = [self.sum substringWithRange:range];
-    BFLog(@"--%@",price);
+    _price = [self.sum substringWithRange:range];
+    BFLog(@"--%@",_price);
     order.amount = @"0.01"; //商品价格
     
     order.notifyURL =  @"http://bingo.luexue.com/alipay_notify.php";     //我们服务器的回调地址,支付宝服务器会通过post请求，给我们服务器发送支付信息
@@ -311,6 +313,42 @@
         return nil;
     }
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *foot = [[UIView alloc]init];
+    
+    if (section == 0) {
+        UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-20, 40)];
+        
+        NSRange range = NSMakeRange(5, self.sum.length-5);
+        _price = [self.sum substringWithRange:range];
+        
+        NSString *count = [NSString stringWithFormat:@"%d",[_img count]];
+        lab.text = [NSString stringWithFormat:@"共%@件商品 实付金额: ¥%@",count,_price];
+        lab.font = [UIFont systemFontOfSize:CGFloatX(15)];
+        
+        NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:lab.text];
+
+        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(11+[count length],[_price length]+1)];
+        [attr addAttribute:NSFontAttributeName value:[UIFont fontWithName:nil size:CGFloatX(25)] range:NSMakeRange(12+[count length], [_price length])];
+        
+        lab.attributedText = attr;
+        lab.textAlignment = NSTextAlignmentRight;
+        
+        foot.backgroundColor = [UIColor whiteColor];
+        [foot addSubview:lab];
+    }
+    return foot;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 0) {
+        return 40;
+    }else{
+        return 0;
+    }
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
    static NSString *resue = @"resue";

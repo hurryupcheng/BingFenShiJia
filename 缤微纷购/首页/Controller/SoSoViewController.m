@@ -8,7 +8,7 @@
 #import "ViewController.h"
 #import "Header.h"
 #import "SoSoViewController.h"
-#import "BFSosoTVCell.h"
+//#import "BFSosoTVCell.h"
 
 @interface SoSoViewController ()<UISearchDisplayDelegate, UIGestureRecognizerDelegate, UISearchBarDelegate>
 {
@@ -107,7 +107,9 @@
 //            [but addTarget:self action:@selector(sosoBut) forControlEvents:UIControlEventTouchUpInside];
 //        }
 //    }
-    
+//    UIView *segment = [_search.subviews objectAtIndex:0];
+//    UIImageView *bgImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"12"]];
+//    [segment addSubview:bgImage];
     
     [self.navigationItem setTitleView:_search];
     

@@ -56,8 +56,8 @@
         
         now.font = [UIFont systemFontOfSize:CGFloatX(15)];
         
-        UIView *block = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(_number.frame), kScreenWidth, 0.5)];
-        block.backgroundColor = [UIColor blackColor];
+        UIView *block = [[UIView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(_number.frame), kScreenWidth, 0.5)];
+        block.backgroundColor = [UIColor grayColor];
         
         _scroll = [[UIScrollView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(block.frame)+10, kScreenWidth, (kScreenWidth-70)/6)];
         _scroll.contentSize = CGSizeMake(((kScreenWidth-70)/6+10)*(imgArr.count)+10, 0);
@@ -76,6 +76,10 @@
             [_scroll addSubview:_image];
             
         }
+        
+        UIView *fenge = [[UIView alloc]initWithFrame:CGRectMake(20, CGRectGetMaxY(_scroll.frame)+9, kScreenWidth, 0.5)];
+        fenge.backgroundColor = [UIColor grayColor];
+        
         self.height = CGRectGetMaxY(_scroll.frame)+10;
       
         [self addSubview:img];
@@ -86,6 +90,7 @@
         [_number addSubview:now];
         [self addSubview:block];
         [self addSubview:_scroll];
+        [self addSubview:fenge];
     }
     return self;
 }
