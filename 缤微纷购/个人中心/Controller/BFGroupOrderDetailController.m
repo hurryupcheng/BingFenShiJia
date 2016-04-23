@@ -9,6 +9,7 @@
 #import "BFGroupOrderDetailController.h"
 #import "BFGroupOrderDetailView.h"
 #import "BFGroupOrderDetailModel.h"
+#import "BFPayoffViewController.h"
 
 @interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>
 /**团订单详情自定义view*/
@@ -69,6 +70,13 @@
 - (void)clickToViewWithButtonType:(BFGroupOrderDetailViewButtonType)buttonType {
     switch (buttonType) {
         case BFGroupOrderDetailViewButtonTypePay:{
+            BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+//            pay.pay = self.payTitle.text;
+//            pay.orderid = self.detailView.model.orderid;
+//            pay.addTime = responseObject[@"addtime"];
+//            pay.img = _itemImg;
+//            pay.sum = self.footView.money.text;
+            [self.navigationController pushViewController:pay animated:YES];
             BFLog(@"点击支付");
             break;
         }

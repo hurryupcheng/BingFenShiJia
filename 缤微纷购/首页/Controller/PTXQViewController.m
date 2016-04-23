@@ -120,7 +120,8 @@
 }
 
 - (void)getData{
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Json&a=team_item&id=%@",self.ID]];
+    NSString *string = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_item"];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@&id=%@",string ,self.ID]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
        if (data != nil) {

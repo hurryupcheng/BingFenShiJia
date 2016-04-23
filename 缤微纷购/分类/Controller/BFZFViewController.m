@@ -127,15 +127,14 @@
 
 #pragma  mark 提交订单信息
 - (void)postPayoffNews{
-    NSArray *vcsArray = [self.navigationController viewControllers];
-    for (UIViewController *lastVC in vcsArray) {
-        if (self.isPT) {
-            [self groupOrder];
-            BFLog(@"----------");
-        }else {
-            [self singleProductOrder];
-        }
+
+    if (self.isPT) {
+        [self groupOrder];
+        BFLog(@"----------");
+    }else {
+        [self singleProductOrder];
     }
+    
 }
 
 #pragma mark -- 拼团订单
@@ -145,17 +144,14 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = _userInfo.ID;
     parameter[@"token"] = _userInfo.token;
-    parameter[@"itemid"] = @(self.scores);
+    parameter[@"itemid"] = self.ID;
     parameter[@"teamid"] = @"";
     parameter[@"address_id"] = self.addressID;
 
     
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
         NSLog(@"////%@==%@",parameter,responseObject);
-        NSString *str = responseObject[@"status"];
-        NSString *orderid = responseObject[@"orderid"];
-        NSString *addtime = responseObject[@"addtime"];
-        if ([str isEqualToString:@"1"]) {
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
             //生成订单倒计时1800秒
             leftTime = 1800;
             
@@ -163,11 +159,10 @@
                 [timer invalidate];
             timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
             
-            
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
-            pay.orderid = orderid;
-            pay.addTime = addtime;
+            pay.orderid = responseObject[@"orderid"];
+            pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
             pay.sum = self.footView.money.text;
 
@@ -175,7 +170,7 @@
             
         }else{
             
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
         }
     } failure:^(NSError *error) {
         BFLog(@"%@", error);
@@ -200,10 +195,7 @@
     
     [BFHttpTool POST:url params:data success:^(id responseObject) {
         NSLog(@"////%@==%@",data,responseObject);
-        NSString *str = responseObject[@"status"];
-        NSString *orderid = responseObject[@"orderid"];
-        NSString *addtime = responseObject[@"addtime"];
-        if ([str isEqualToString:@"1"]) {
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
             //生成订单倒计时1800秒
             leftTime = 1800;
             
@@ -213,8 +205,8 @@
         
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
-            pay.orderid = orderid;
-            pay.addTime = addtime;
+            pay.orderid = responseObject[@"orderid"];
+            pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
             pay.sum = self.footView.money.text;
             for (BFPTDetailModel *model in self.modelArr){
@@ -760,7 +752,11 @@
 //    NSLog(@"======%@",self.model.ID);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
 //        NSLog(@"...%@  %@",responseObject,boty);
-        self.freeprice = [responseObject[@"freeprice"] floatValue];
+        if (self.isPT) {
+            self.freeprice = 0.00;
+        }else {
+            self.freeprice = [responseObject[@"freeprice"] floatValue];
+        }
        double score = [responseObject[@"score"] integerValue];
         self.score = score;
     

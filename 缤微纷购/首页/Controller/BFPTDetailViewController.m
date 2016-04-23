@@ -20,8 +20,8 @@
 /**自定义头部视图*/
 @property (nonatomic, strong) UIView* webBrowserView;
 
-@property (nonatomic,retain)NSMutableArray *dataArray;
-@property (nonatomic)BOOL isPT;
+@property (nonatomic, retain) NSMutableArray *dataArray;
+@property (nonatomic, assign) BOOL isPT;
 
 @property (nonatomic,retain)BFPTDetailModel *model;
 
@@ -41,12 +41,10 @@
 
 
 - (void)getData {
-    
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_item"];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    parameters[@"m"] = @"Json";
-    parameters[@"a"] = @"team_item";
     parameters[@"id"] = self.ID;
-    [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
+    [BFHttpTool GET:url params:parameters success:^(id responseObject) {
         BFLog(@"BFPTDetailViewController%@",responseObject);
         _dataArray = [NSMutableArray array];
         BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];

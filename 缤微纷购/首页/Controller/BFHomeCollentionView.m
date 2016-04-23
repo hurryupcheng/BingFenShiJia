@@ -154,22 +154,22 @@
     switch (type) {
         case BFHomeFunctionViewButtonTypeFruitEating:{
             BFLog(@"点击了果食");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
             break;
         }
         case BFHomeFunctionViewButtonTypeLocalSpeciality:{
             BFLog(@"点击了地方特产");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
             break;
         }
         case BFHomeFunctionViewButtonTypeCasualSnacks:{
             BFLog(@"点击了休闲零食");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
             break;
         }
         case BFHomeFunctionViewButtonTypeWineDrinking:{
             BFLog(@"点击了酒水");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
             break;
         }
         case BFHomeFunctionViewButtonTypeDailySpecial:{
@@ -180,7 +180,7 @@
         }
         case BFHomeFunctionViewButtonTypeFirstPublish:{
             BFLog(@"点击了新品首发");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
             break;
         }
         case BFHomeFunctionViewButtonTypeBestSelling:{

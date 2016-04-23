@@ -15,6 +15,7 @@
 #import "BFOrderIdView.h"
 #import "BFOrderDetailBottomView.h"
 #import "BFOrderDetailInfoCell.h"
+#import "FXQViewController.h"
 
 @interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>
 /**tableView*/
@@ -126,19 +127,45 @@
 - (void)animation {
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = BF_ScaleHeight(35);
-    }];
-    [UIView animateWithDuration:0.5 animations:^{
         self.headerView.y = 0;
-    }];
-    [UIView animateWithDuration:0.5 animations:^{
         self.footerView.y = ScreenHeight-BF_ScaleHeight(45)-64;
     }];
+
 }
 
 #pragma mark --BFOrderDetailBottomViewDelegate
 - (void)clickToOperateWithType:(BFOrderDetailBottomViewButtonType)type {
     switch (type) {
         case BFOrderDetailBottomViewButtonTypeCancleOrder:{
+            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"取消订单" message:@"确定取消订单吗" preferredStyle:UIAlertControllerStyleAlert];
+            //添加取消按钮
+            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+                NSLog(@"点击");
+            }];
+            //添加电话按钮
+            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+                    [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+                } dispatch_get_main_queue:^{
+                    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+                    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cancelOrder"];
+                    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+                    parameter[@"uid"] = userInfo.ID;
+                    parameter[@"token"] = userInfo.token;
+                    parameter[@"orderid"] = self.model.orderId;
+                    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                        BFLog(@"--%@", responseObject);
+                    } failure:^(NSError *error) {
+                        BFLog(@"--%@", error);
+                    }];
+                }];
+            }];
+            [alertC addAction:cancleAction];
+            [alertC addAction:phoneAction];
+            [self presentViewController:alertC animated:YES completion:nil];
+            
+            break;
+
             BFLog(@"取消订单");
             break;
         }

@@ -185,6 +185,7 @@
     parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
     parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"----%@,,%@", responseObject, parameter);
         if (responseObject) {
             [self.proxyOrderArray removeAllObjects];
             self.commissionModel =  [BFCommissionModel parse:responseObject];
@@ -218,6 +219,7 @@
     parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
     parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"++++%@,,%@", responseObject, parameter);
         if (responseObject) {
             [self.proxyOrderArray removeAllObjects];
             self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
