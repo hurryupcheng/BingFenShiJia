@@ -42,7 +42,9 @@
 
 - (void)SOSO{
     SoSoViewController *soso = [[SoSoViewController alloc]init];
-    [self.navigationController pushViewController:soso animated:YES];
+    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
+    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentViewController:sosoNav animated:YES completion:nil];
 }
 
 #pragma mark 左边菜单栏

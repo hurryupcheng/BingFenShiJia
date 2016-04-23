@@ -89,8 +89,9 @@
     UITextField *searchField = [_search valueForKey:@"_searchField"];
     
     // Change search bar text color
+//    searchField.delegate = self;
     searchField.textColor = [UIColor whiteColor];
-    
+//    searchField.keyboardType = UIKeyboardTypeWebSearch;
     // Change the search bar placeholder text color
     [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     _search.delegate = self;
@@ -120,8 +121,14 @@
 
 }
 
+//- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+//    [textField resignFirstResponder];
+//    return YES;
+//}
+
+
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    
+    [searchBar resignFirstResponder];
     //edit your code
     self.segment.selectedSegmentIndex = 0;
     [self selectedHot:self.segment];
@@ -147,7 +154,9 @@
 
 
 - (void)sosoBut{
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [_search resignFirstResponder];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+//    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 

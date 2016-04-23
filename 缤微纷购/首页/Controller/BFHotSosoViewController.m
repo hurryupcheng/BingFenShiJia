@@ -93,7 +93,7 @@
                 }
                 else
                 {
-                    [OMGToast showText:@"没有相关搜索结果"];
+                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"没有相关搜索结果"];
                 }
                 
             }
