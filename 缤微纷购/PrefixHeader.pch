@@ -42,7 +42,7 @@
 //#import "BFThirdPartyLoginUserInfo.h"
 #import "BFSoundEffect.h"
 #import "BFShopCartAnimation.h"
-
+#import "UIAlertController+Extension.h"
 #pragma mark ---宏定义
 
 

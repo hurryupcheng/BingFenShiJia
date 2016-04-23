@@ -21,7 +21,7 @@
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
-@property (nonatomic, strong) BFOrderIdView*headerView;
+@property (nonatomic, strong) BFOrderIdView *headerView;
 /**自定义footer视图*/
 @property (nonatomic, strong) BFOrderDetailBottomView *footerView;
 /**BFProductInfoModel模型*/
@@ -152,10 +152,18 @@
                     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
                     parameter[@"uid"] = userInfo.ID;
                     parameter[@"token"] = userInfo.token;
-                    parameter[@"orderid"] = self.model.orderId;
+                    parameter[@"orderId"] = self.model.orderId;
                     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                         BFLog(@"--%@", responseObject);
+                        if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
+                            self.headerView.statusLabel.text = @"已关闭";
+                            self.footerView.hidden = YES;
+                        }else {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
+                        }
                     } failure:^(NSError *error) {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
                         BFLog(@"--%@", error);
                     }];
                 }];

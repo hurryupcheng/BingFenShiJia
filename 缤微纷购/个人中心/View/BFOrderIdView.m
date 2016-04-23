@@ -11,8 +11,7 @@
 @interface BFOrderIdView()
 /**订单编号*/
 @property (nonatomic, strong) UILabel *orderIDLabel;
-/**订单状态*/
-@property (nonatomic, strong) UILabel *statusLabel;
+
 @end
 
 @implementation BFOrderIdView
