@@ -125,12 +125,14 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     ClassCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+
     [cell setClassifcationOther:_currentModel.sub_catesArr[indexPath.row]];
+    
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
+
     XQViewController *xq = [[XQViewController alloc]init];
     xq.ID = _currentModel.idArr[indexPath.row];
     xq.titles = _currentModel.nameArr[indexPath.row];
@@ -147,7 +149,7 @@
         
         if (data != nil) {
             NSArray * dataSourceArr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
+            NSLog(@"======%@",dataSourceArr);
             NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
     
             for (NSDictionary * dic in dataSourceArr) {

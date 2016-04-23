@@ -29,10 +29,13 @@
         if ([dic[@"sub_cates"] isKindOfClass:[NSArray class]]) {
             for (NSDictionary * subDic in sub_cates) {
                 ClassificationSubModel * model = [[ClassificationSubModel alloc]initWithDictionary:subDic];
+                
                 [array addObject:model];
                 [arr addObject:model.ID];
                 [name addObject:model.name];
             }
+//            ours *ou = [[ours alloc]init];
+//            [array addObject:ou];
             self.sub_catesArr = [array copy];
             self.idArr = [arr copy];
             self.nameArr = [name copy];
@@ -60,3 +63,15 @@
 }
 
 @end
+
+//@implementation ours
+//
+//- (instancetype)init{
+//    if ([super init]) {
+////        self.imageUrl = @"qbj.png";
+//        self.name = @"全部";
+//    }
+//    return self;
+//}
+
+//@end

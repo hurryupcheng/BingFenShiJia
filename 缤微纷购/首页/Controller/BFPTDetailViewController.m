@@ -31,6 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.isPT = YES;
     //获取数据
     [self getData];

@@ -210,8 +210,7 @@
             if(timer)
                 [timer invalidate];
             timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-            
-            
+        
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
             pay.orderid = orderid;
@@ -758,7 +757,7 @@
     boty[@"data"] = self.itemDate;
     boty[@"sheng"] = self.model.sheng;
     self.addressID = self.model.ID;
-    NSLog(@"======%@",self.model.ID);
+//    NSLog(@"======%@",self.model.ID);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
 //        NSLog(@"...%@  %@",responseObject,boty);
         self.freeprice = [responseObject[@"freeprice"] floatValue];
@@ -781,8 +780,8 @@
             [_favourableTime addObject:model.end_time];
             [_favourableID addObject:model.cr_id];
         }
-        NSLog(@"////%@",_favourablePrice);
-        NSLog(@"====%@",_favourableID);
+//        NSLog(@"////%@",_favourablePrice);
+//        NSLog(@"====%@",_favourableID);
         [self initWithTableView];
 
         self.lastPrice = self.sum_price+self.freeprice;
