@@ -175,6 +175,8 @@
                 
             }
             
+        }else{
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
         }
         [self.tableV reloadData];
         [self.tableV.mj_header endRefreshing];

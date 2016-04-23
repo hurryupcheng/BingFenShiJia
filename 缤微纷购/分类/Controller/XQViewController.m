@@ -355,7 +355,9 @@
         NSLog(@".>>>>>>>>%lu,,%@",(unsigned long)self.dataArray.count, responseObject);
     } failure:^(NSError *error) {
         self.page--;
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
+        [self.collectionView.mj_header endRefreshing];
+        [self.collectionView.mj_footer endRefreshing];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
         [self.collectionView.mj_footer endRefreshingWithNoNoHTTP];
     }];
 }

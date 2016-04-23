@@ -159,6 +159,8 @@
                 [array addObject:class];
             }
             self.dataSourceArray = [array copy];
+        }else{
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
         }
         if (self.dataSourceArray.count) {
           self.currentModel = self.dataSourceArray[0];
