@@ -218,9 +218,9 @@
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                BFLog(@"%@,,%@", responseObject, parameter);
                if ([responseObject[@"status"] isEqualToString:@"0"]) {
-                   [BFProgressHUD MBProgressFromView:self.view andLabelText:@"登录失败"];
+                   [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"登录失败"];
                }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                   [BFProgressHUD MBProgressFromView:self.view LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
+                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                        
                        [self tabBarBadge:userInfo.ID];
@@ -295,7 +295,7 @@
             BFLog(@"responseObject%@",responseObject);
             BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
             if ([userInfo.msg isEqualToString:@"登录失败"]) {
-                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"账号或者密码错误"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"账号或者密码错误"];
                 return ;
             }
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
@@ -309,7 +309,7 @@
                 [self.navigationController popViewControllerAnimated:YES];
             }];
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];
     }
@@ -356,7 +356,7 @@
 }
 
 
-
+#pragma mark --UITextFieldDelegate
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     BOOL ret = NO;
     if (textField == self.phoneTX) {
@@ -366,6 +366,13 @@
     }
     return ret;
 }
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    if (textField == self.phoneTX) {
+        self.passwordTX.text = @"";
+    }
+}
+
 #pragma mark --viewWillAppear
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

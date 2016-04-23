@@ -72,7 +72,7 @@
     self.page++;
     if (self.page > self.model.page_num) {
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
         return;
     }
     [self getData];
@@ -93,9 +93,17 @@
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"----%@,,%@", responseObject,parameter);
                 if (responseObject) {
-                    self.model = [BFWithdrawalRecordModel parse:responseObject];
-                    NSArray *array = [BFWithdrawalRecordList parse:self.model.withdraw_detail];
-                    [self.recordArray addObjectsFromArray:array];
+                    if ([responseObject[@"withdraw_detail"] isKindOfClass:[NSArray class]]) {
+                        self.model = [BFWithdrawalRecordModel parse:responseObject];
+                        NSArray *array = [BFWithdrawalRecordList parse:self.model.withdraw_detail];
+                        if (array.count != 0) {
+                            [self.recordArray addObjectsFromArray:array];
+                        }else {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                        }
+                    } else {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                    }
                 }
                 [self.tableView reloadData];
                 
@@ -107,6 +115,7 @@
             } failure:^(NSError *error) {
                 self.page--;
                 [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题,请求失败"];
                 BFLog(@"%@", error);
             }];
             
@@ -125,6 +134,7 @@
         } failure:^(NSError *error) {
             self.page--;
             [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题,请求失败"];
             BFLog(@"%@", error);
         }];
 

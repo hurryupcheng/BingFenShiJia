@@ -103,9 +103,10 @@
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     //获取数据
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-//    } completion:nil];
+    self.bgImageView.hidden = NO;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+    } completion:nil];
 }
 
 #pragma mark --viewDidLoad

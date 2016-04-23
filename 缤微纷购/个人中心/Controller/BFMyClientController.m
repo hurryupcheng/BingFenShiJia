@@ -119,7 +119,7 @@
     self.page++;
     if (self.page > self.model.page_count) {
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
         return;
     }
     [self getData];
@@ -141,19 +141,26 @@
             [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
             
                 if (responseObject) {
-                    
                     self.model = [BFMyCustomerModel parse:responseObject];
-                    NSArray *array = [BFCustomerList parse:self.model.sub_list];
-                    [self.customerArray addObjectsFromArray:array];
-                    [self showPage];
+                    if ([self.model.sub_list isKindOfClass:[NSArray class]]) {
+                        NSArray *array = [BFCustomerList parse:self.model.sub_list];
+                        if (array.count != 0) {
+                            [self.customerArray addObjectsFromArray:array];
+                            [self showPage];
+                        } else {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                        }
+                    }else {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                    }
                 }
                 [self.tableView reloadData];
                 self.isFirstTime = NO;
-                //BFLog(@"%@,%@",responseObject,self.parameter);
+                BFLog(@"%@,%@",responseObject,self.parameter);
                 [self animation];
                 [self.tableView.mj_footer endRefreshing];
             } failure:^(NSError *error) {
-                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络异常"];
                 [self.tableView.mj_footer endRefreshing];
                 self.page--;
                 BFLog(@"%@", error);

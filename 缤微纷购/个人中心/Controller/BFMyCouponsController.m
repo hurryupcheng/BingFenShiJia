@@ -100,6 +100,7 @@
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+            BFLog(@"%@",responseObject);
             [self.couponsArray removeAllObjects];
             if ([responseObject[@"coupon_data"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyCouponsModel parse:responseObject[@"coupon_data"]];
@@ -107,7 +108,7 @@
                     self.tableView.hidden = NO;
                     self.bgImageView.hidden = YES;
                     [self.couponsArray addObjectsFromArray:array];
-                    BFLog(@"%@",responseObject);
+                    
                 }else {
                     
                     self.tableView.hidden = YES;

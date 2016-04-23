@@ -112,19 +112,23 @@
 
 /**从最上层窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromWindowWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock{
-   
-    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].windows lastObject] animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        hud.label.text = labelText;
-        sleep(1);
+    
+    // Set the label text.
+    hud.label.text = labelText;
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:[[UIApplication sharedApplication].windows lastObject] animated:YES];
             if (mainBlock) {
                 mainBlock();
             }
+            [hud hideAnimated:YES];
         });
     });
+
     return hud;
 }
 /**从最view窗口弹出带图文的提示框以及有主线程block*/
@@ -132,19 +136,38 @@
     
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        hud.label.text = labelText;
-        //hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
-        sleep(1);
+    
+    // Set the label text.
+    hud.label.text = labelText;
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [MBProgressHUD hideHUDForView:view animated:YES];
-            
             if (mainBlock) {
                 mainBlock();
             }
+            [hud hideAnimated:YES];
         });
     });
+
+    
+    
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
+//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+//        hud.label.text = labelText;
+//        //hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
+//        sleep(1);
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            
+//            [MBProgressHUD hideHUDForView:view animated:YES];
+//            
+//            if (mainBlock) {
+//                mainBlock();
+//            }
+//        });
+//    });
     return hud;
 }
 
@@ -156,7 +179,7 @@
     // Set the custom view mode to show any view.
     hud.mode = MBProgressHUDModeCustomView;
     // Set an image view with a checkmark.
-    UIImage *image = [[UIImage imageNamed:@"mb_success"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+    UIImage *image = [UIImage imageNamed:@"mb_success"];
     hud.customView = [[UIImageView alloc] initWithImage:image];
     // Looks a bit nicer if we make it square.
     //hud.square = YES;

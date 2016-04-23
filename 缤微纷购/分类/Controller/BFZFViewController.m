@@ -5,6 +5,9 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFGroupDetailController.h"
+#import "BFPTDetailViewController.h"
+#import "BFGroupOrderDetailController.h"
 #import "CXArchiveShopManager.h"
 #import "BFCouponView.h"
 #import "BFScoreView.h"
@@ -124,10 +127,65 @@
 
 #pragma  mark 提交订单信息
 - (void)postPayoffNews{
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    for (UIViewController *lastVC in vcsArray) {
+        if (self.isPT) {
+            [self groupOrder];
+            BFLog(@"----------");
+        }else {
+            [self singleProductOrder];
+        }
+    }
+}
+
+#pragma mark -- 拼团订单
+- (void)groupOrder {
+    _userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=do_team_order"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = _userInfo.ID;
+    parameter[@"token"] = _userInfo.token;
+    parameter[@"itemid"] = @(self.scores);
+    parameter[@"teamid"] = @"";
+    parameter[@"address_id"] = self.addressID;
+
     
-    
-    
-    
+    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+        NSLog(@"////%@==%@",parameter,responseObject);
+        NSString *str = responseObject[@"status"];
+        NSString *orderid = responseObject[@"orderid"];
+        NSString *addtime = responseObject[@"addtime"];
+        if ([str isEqualToString:@"1"]) {
+            //生成订单倒计时1800秒
+            leftTime = 1800;
+            
+            if(timer)
+                [timer invalidate];
+            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+            
+            
+            BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+            pay.pay = self.payTitle.text;
+            pay.orderid = orderid;
+            pay.addTime = addtime;
+            pay.img = _itemImg;
+            pay.sum = self.footView.money.text;
+
+            [self.navigationController pushViewController:pay animated:YES];
+            
+        }else{
+            
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
+        }
+    } failure:^(NSError *error) {
+        BFLog(@"%@", error);
+        
+    }];
+
+}
+
+#pragma mark -- 单品订单
+- (void)singleProductOrder {
     NSLog(@"%@",self.coupon_id);
     _userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
@@ -155,10 +213,10 @@
         
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
-                pay.orderid = orderid;
-                pay.addTime = addtime;
-                pay.img = _itemImg;
-                pay.sum = self.footView.money.text;
+            pay.orderid = orderid;
+            pay.addTime = addtime;
+            pay.img = _itemImg;
+            pay.sum = self.footView.money.text;
             for (BFPTDetailModel *model in self.modelArr){
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
                 [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
@@ -170,7 +228,7 @@
                 }else {
                     tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
                 }
-
+                
             }
             self.removeBlock();
             [self.navigationController pushViewController:pay animated:YES];
@@ -185,6 +243,8 @@
     }];
 
 }
+
+
 
 #pragma mark -- 倒计时1800，到时间取消订单
 - (void)timerAction {
