@@ -63,19 +63,29 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.view LabelText:@"正在请求..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
-                NSArray *array = [BFMyGroupPurchaseModel mj_objectArrayWithKeyValuesArray:responseObject[@"team"]];
-                [self.groupArray addObjectsFromArray:array];
-                BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
+                if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
+                    if (array.count != 0) {
+                        [self.groupArray addObjectsFromArray:array];
+                        BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
+                    }else {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                    }
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                }
                 [self.tableView reloadData];
                 [UIView animateWithDuration:0.5 animations:^{
                     self.tableView.y = 0;
                 } completion:nil];
             }
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题..."];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
             BFLog(@"error:%@",error);
         }];
     }];

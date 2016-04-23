@@ -20,6 +20,16 @@
 }
 
 
++ (NSString *)translateTimeIntoMonthDayHour:(NSString *)totalSecond {
+    NSInteger total = [totalSecond integerValue];
+    NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:total];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"MM月dd日HH时"];
+    NSString *timeStr = [formatter stringFromDate:date];
+    //HUALog(@"%@",timeStr);
+    return timeStr;
+}
+
 + (NSString *)translateTimeIntoCurrurents:(NSString *)totalSecond{
     NSInteger total = [totalSecond integerValue];
     NSDate *date = [[NSDate alloc]initWithTimeIntervalSince1970:total];

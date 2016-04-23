@@ -93,24 +93,29 @@
 - (void)getData {
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=hot_buy"];
     self.parameter[@"page"] = @(self.page);
-    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
-        BFLog(@"%@", responseObject);
-        if (responseObject) {
-            self.model = [BFBestSellingModel parse:responseObject];
-            if ([responseObject[@"item"] isKindOfClass:[NSArray class]]) {
-                NSArray *array = [BFBestSellingList parse:self.model.item];
-                [self.bestSellingArray addObjectsFromArray:array];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+            BFLog(@"%@", responseObject);
+            if (responseObject) {
+                self.model = [BFBestSellingModel parse:responseObject];
+                if ([responseObject[@"item"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [BFBestSellingList parse:self.model.item];
+                    [self.bestSellingArray addObjectsFromArray:array];
+                }
+                [self.tableView reloadData];
+                //增加动画效果
+                [self animate];
+                [self.tableView.mj_footer endRefreshing];
             }
-            [self.tableView reloadData];
-            //增加动画效果
-            [self animate];
-            [self.tableView.mj_footer endRefreshing];
-        }
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请检查网络设置"];
-        [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
-        self.page--;
-        BFLog(@"%@", error);
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请检查网络设置"];
+            [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
+            self.page--;
+            BFLog(@"%@", error);
+        }];
+
     }];
 }
 #pragma mark -- 增加动画效果

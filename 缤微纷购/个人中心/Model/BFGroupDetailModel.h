@@ -38,6 +38,8 @@
 @property (nonatomic, strong) NSString *team_num;
 /**拼团倒计时*/
 @property (nonatomic, strong) NSString *team_cycle;
+/**详情*/
+@property (nonatomic, strong) NSString *intro;
 @end
 
 @interface TeamList : NSObject

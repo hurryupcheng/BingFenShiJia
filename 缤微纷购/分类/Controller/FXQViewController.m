@@ -114,25 +114,29 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+            if (responseObject) {
+                self.model = [BFProductDetialModel parse:responseObject];
+                self.headerView.model = self.model;
+
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.headerView.height = self.headerView.headerHeight;
+                    self.tableView.tableHeaderView = self.headerView;
+                    self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
+                    self.tableView.y = 0;
         
-        if (responseObject) {
-            self.model = [BFProductDetialModel parse:responseObject];
-            self.headerView.model = self.model;
+                }];
 
-            [UIView animateWithDuration:0.5 animations:^{
-                self.headerView.height = self.headerView.headerHeight;
-                self.tableView.tableHeaderView = self.headerView;
-                self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
-                self.tableView.y = 0;
-    
+                    BFLog(@"%@", responseObject);
+                }
+            } failure:^(NSError *error) {
+                BFLog(@"%@", error);
             }];
-
-            BFLog(@"%@", responseObject);
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@", error);
-    }];
+        }];
 }
 
 

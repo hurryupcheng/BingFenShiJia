@@ -34,11 +34,11 @@
 /**添加推荐人*/
 @property (nonatomic, strong) BFAddRecommenderView *addView;
 
-@property (nonatomic,retain)UIView *backgroundView;
+//@property (nonatomic,retain)UIView *backgroundView;
 @property (nonatomic,retain)UIImageView *groundView;
-@property (nonatomic,retain)UIButton *picImageBut;
-
-@property (nonatomic,retain)NSArray *arr;
+//@property (nonatomic,retain)UIButton *picImageBut;
+//
+//@property (nonatomic,retain)NSArray *arr;
 
 @property (nonatomic)BOOL denglu;
 

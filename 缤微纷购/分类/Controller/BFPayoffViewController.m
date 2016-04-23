@@ -74,6 +74,7 @@
 - (void)cancleOrder {
     [UIView animateWithDuration:2 animations:^{
         self.foot.buyButton.hidden = YES;
+        self.header.right.image = [UIImage imageNamed:@"pay_fail"];
         self.header.now.text = @"已关闭";
         self.header.name.text = @"由于您在30分钟内未付款";
         self.header.title.text = @"订单已关闭";
