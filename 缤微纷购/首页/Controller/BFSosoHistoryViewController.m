@@ -109,7 +109,7 @@
 //}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{   NSLog(@">>>>>>>>>>>>>>>");
+{ 
     //主动取消选中
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     

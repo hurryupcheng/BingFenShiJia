@@ -47,6 +47,10 @@
 //        self.tableV.backgroundColor = [UIColor greenColor];
         [self.tableV registerClass:[PTTableViewCell class] forCellReuseIdentifier:@"reuse"];
         //        [self setDownDate];
+//        CGRect rect = _tableV.frame;
+//        rect.size.height += 10;
+//        _tableV.frame = rect;
+        
         [self.view addSubview:self.tableV];
         
     }
@@ -68,6 +72,7 @@
     cell.backgroundColor = BFColor(0xD4D4D4);
     cell.selectionStyle = UITableViewCellAccessoryNone;
 //    cell.backgroundColor = [UIColor redColor];
+    
     return cell;
     
 }
@@ -85,7 +90,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *view = [[UIView alloc]init];
 //    view.backgroundColor = [UIColor redColor];
-    LBView *lb = [[LBView alloc]initWithFrame:CGRectMake(0, 0, 0, kScreenWidth/2)];
+    LBView *lb = [[LBView alloc]init];
     NSMutableArray *arr = [NSMutableArray array];
     for (NSString *str in self.ptLBView) {
         [arr addObject:str];
@@ -99,11 +104,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.row == self.dataArray.count-1) {
-        return self.cellHeight+15*self.dataArray.count;
-    }else {
+//    if (indexPath.row == self.dataArray.count) {
+//        return self.cellHeight+15*self.dataArray.count;
+//    }else {
         return self.cellHeight+15;
-    }
+//    }
     
 }
 

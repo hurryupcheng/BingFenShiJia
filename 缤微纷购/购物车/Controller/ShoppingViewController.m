@@ -72,12 +72,12 @@
         [self.view addSubview:self.views];
 
        self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.views.height-115)];
-       self.groubView.backgroundColor = rgb(220, 220, 220, 1.0);
+       self.groubView.backgroundColor = rgb(245, 245, 245, 1.0);
        
-        UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4/2)), 10, CGFloatX(kScreenWidth/4), CGFloatY(kScreenWidth/4))];
-        img.image = [UIImage imageNamed:@"kongs.png"];
+        UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/2/2)), 10, CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
+        img.image = [UIImage imageNamed:@"464.png"];
         
-        UILabel *kong = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame), kScreenWidth, 30)];
+        UILabel *kong = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, kScreenWidth, 30)];
         kong.text = @"您的购物车空空如也～";
         kong.textColor = [UIColor grayColor];
         kong.textAlignment = NSTextAlignmentCenter;
@@ -96,7 +96,7 @@
         [_groubView addSubview:img];
         [_groubView addSubview:kong];
         [_groubView addSubview:button];
-        [_groubView addSubview:image];
+//        [_groubView addSubview:image];
 
 }
 #pragma  mark 删除所有商品

@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFSosoViewController.h"
 #import "BFPTViewController.h"
 #import "BFHomeCollentionView.h"
 
@@ -716,10 +717,12 @@
 - (void)soso{
  
     SoSoViewController *soso = [[SoSoViewController alloc]init];
-//    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
-//    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-//    [self presentViewController:sosoNav animated:YES completion:nil];
-    [self.navigationController pushViewController:soso animated:YES];
+    
+//    BFSosoViewController *soso = [[BFSosoViewController alloc]init];
+    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
+    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    [self presentViewController:sosoNav animated:YES completion:nil];
+//    [self.navigationController pushViewController:soso animated:YES];
 }
 
 
