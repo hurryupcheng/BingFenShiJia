@@ -54,6 +54,7 @@
         //显示图形
         [self initView:model];
     } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
         BFLog(@"BFPTDetailViewController%@",error);
     }];
 }

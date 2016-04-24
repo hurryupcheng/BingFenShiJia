@@ -461,6 +461,8 @@
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];
             self.homeModel = homeModel;
             
+        }else{
+//            [BFProgressHUD MBProgressFromWindowWithLabelText:@"当前网络异常"];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{

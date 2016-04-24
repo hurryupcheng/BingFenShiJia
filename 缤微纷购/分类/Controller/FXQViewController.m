@@ -134,6 +134,7 @@
                     BFLog(@"%@", responseObject);
                 }
             } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
                 BFLog(@"%@", error);
             }];
         }];
