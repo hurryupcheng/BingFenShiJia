@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSString *username;
 /**用户头像*/
 @property (nonatomic, strong) NSString *user_icon;
+/**用户头像（不为空优先使用）*/
+@property (nonatomic, strong) NSString *app_icon;
 /**密码*/
 @property (nonatomic, strong) NSString *password;
 /**token*/

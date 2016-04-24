@@ -81,11 +81,16 @@
             {
                 cell.textLabel.text = @"  头像";
                 UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-BF_ScaleHeight(90), BF_ScaleHeight(10), BF_ScaleHeight(60), BF_ScaleHeight(60))];
-                headImageView.backgroundColor = [UIColor grayColor];
-                //[headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.userInfo.user_icon]] placeholderImage:nil];
-                //self.imageView  = [UIImageView new];
+                headImageView.backgroundColor = BFColor(0xffffff);
+                headImageView.layer.borderWidth = 1;
+                headImageView.layer.borderColor = BFColor(0xffffff).CGColor;
                 self.imageView = headImageView;
-                [headImageView sd_setImageWithURL:[NSURL URLWithString: self.userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                if (self.userInfo.app_icon.length != 0) {
+                    [headImageView sd_setImageWithURL:[NSURL URLWithString: self.userInfo.app_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                }else {
+                    [headImageView sd_setImageWithURL:[NSURL URLWithString: self.userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                }
+                
                 headImageView.layer.cornerRadius = BF_ScaleHeight(30);
                 headImageView.layer.masksToBounds = YES;
                 //headImageView.backgroundColor = [UIColor redColor];
@@ -333,13 +338,13 @@
         BFLog(@"%@", responseObject);
         if (responseObject) {
             if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"头像更换成功"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"头像更换成功"];
                 BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-                userInfo.user_icon = responseObject[@"img"];
-                BFLog(@"%@,,%@",userInfo.user_icon, responseObject[@"img"]);
+                userInfo.app_icon = responseObject[@"img"];
+                BFLog(@"%@,,%@",userInfo.app_icon, responseObject[@"img"]);
                 [BFUserDefaluts modifyUserInfo:userInfo];
             }else {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"头像更换失败"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"头像更换失败"];
                 
             }
             

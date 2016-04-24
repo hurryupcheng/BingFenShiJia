@@ -95,11 +95,16 @@
             if (responseObject) {
                 self.headerView.totalScore = responseObject[@"score"];
                 
-                if (![[BFScoreModel parse:responseObject[@"score_list"]] isKindOfClass:[NSNull class]]) {
+                if ([responseObject[@"score_list"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
-                    [self.scoreArray addObjectsFromArray:array];
+                    if (array.count != 0) {
+                        [self.scoreArray addObjectsFromArray:array];
+                    }else {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+                    }
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
                 }
-                
                 BFLog(@"%@,,%@,,%lu", responseObject,parameter,(unsigned long)self.scoreArray.count);
             }
             [self.tableView reloadData];

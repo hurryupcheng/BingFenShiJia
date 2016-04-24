@@ -58,7 +58,11 @@
         self.myClientLabel.text = userInfo.proxy_num;
         
         
-        [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        if (userInfo.app_icon.length != 0) {
+            [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.app_icon]] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        }else {
+            [self.headButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userInfo.user_icon]] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        }
         
         
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];
@@ -90,7 +94,9 @@
     
     
     self.headButton = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75))];
-    self.headButton.backgroundColor = [UIColor grayColor];
+    self.headButton.backgroundColor = BFColor(0xffffff);
+    self.headButton.layer.borderColor = BFColor(0xffffff).CGColor;
+    self.headButton.layer.borderWidth = 1;
     self.headButton.layer.cornerRadius = BF_ScaleHeight(75)/2;
     self.headButton.layer.masksToBounds = YES;
     [self.headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];

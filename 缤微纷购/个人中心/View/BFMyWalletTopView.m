@@ -78,9 +78,14 @@
         _headButton = [UIImageView new];
         _headButton.layer.cornerRadius = BF_ScaleHeight(75)/2;
         _headButton.layer.masksToBounds = YES;
-        //[_headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
-        //        [_headButton setImage:[UIImage imageNamed:@"touxiang1"] forState:UIControlStateNormal];
-        [self.headButton setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        _headButton.backgroundColor = BFColor(0xffffff);
+        _headButton.layer.borderColor = BFColor(0xffffff).CGColor;
+        _headButton.layer.borderWidth = 1;
+        if (userInfo.app_icon.length != 0) {
+            [self.headButton setImageWithURL:[NSURL URLWithString:userInfo.app_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        }else {
+            [self.headButton setImageWithURL:[NSURL URLWithString:userInfo.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+        }
         [self addSubview:_headButton];
         
         _arrowImageView = [UIImageView new];

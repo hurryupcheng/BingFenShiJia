@@ -26,7 +26,7 @@
 #pragma mark - 汉字
 + (BOOL)validateChineseCharacter:(NSString *)chineseCharacter
 {
-    NSString *nameRegex = @"^[\u4E00-\u9FA5]{10,25}";
+    NSString *nameRegex = @"^[\u4E00-\u9FA5]{5,25}";
     NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
     return [namePredicate evaluateWithObject:chineseCharacter];
     
@@ -35,9 +35,46 @@
 #pragma mark - 银行卡号
 + (BOOL)validateBankCardNumber:(NSString *)bankCardNumber
 {
-    NSString *nameRegex = @"^\\d{16,19}$|^\\d{6}[- ]\\d{10,13}$|^\\d{4}[- ]\\d{4}[- ]\\d{4}[- ]\\d{4,7}$";
-    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
-    return [namePredicate evaluateWithObject:bankCardNumber];
+//    NSString *nameRegex = @"^\\d{16,19}$|^\\d{6}[- ]\\d{10,13}$|^\\d{4}[- ]\\d{4}[- ]\\d{4}[- ]\\d{4,7}$";
+//    NSPredicate *namePredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",nameRegex];
+//    return [namePredicate evaluateWithObject:bankCardNumber];
+    int oddsum = 0;     //奇数求和
+    int evensum = 0;    //偶数求和
+    int allsum = 0;
+    int cardNoLength = (int)[bankCardNumber length];
+    int lastNum = [[bankCardNumber substringFromIndex:cardNoLength-1] intValue];
+    
+    bankCardNumber = [bankCardNumber substringToIndex:cardNoLength - 1];
+    for (int i = cardNoLength -1 ; i>=1;i--) {
+        NSString *tmpString = [bankCardNumber substringWithRange:NSMakeRange(i-1, 1)];
+        int tmpVal = [tmpString intValue];
+        if (cardNoLength % 2 ==1 ) {
+            if((i % 2) == 0){
+                tmpVal *= 2;
+                if(tmpVal>=10)
+                    tmpVal -= 9;
+                evensum += tmpVal;
+            }else{
+                oddsum += tmpVal;
+            }
+        }else{
+            if((i % 2) == 1){
+                tmpVal *= 2;
+                if(tmpVal>=10)
+                    tmpVal -= 9;
+                evensum += tmpVal;
+            }else{
+                oddsum += tmpVal;
+            }
+        }
+    }
+    
+    allsum = oddsum + evensum;
+    allsum += lastNum;
+    if((allsum % 10) == 0)
+        return YES;
+    else
+        return NO;
     
 }
 
