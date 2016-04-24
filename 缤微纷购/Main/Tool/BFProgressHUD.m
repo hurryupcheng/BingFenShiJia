@@ -179,7 +179,7 @@
     // Set the custom view mode to show any view.
     hud.mode = MBProgressHUDModeCustomView;
     // Set an image view with a checkmark.
-    UIImage *image = [UIImage imageNamed:@"mb_success"];
+    UIImage *image = [[UIImage imageNamed:@"mb_success"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     hud.customView = [[UIImageView alloc] initWithImage:image];
     // Looks a bit nicer if we make it square.
     //hud.square = YES;
@@ -189,6 +189,7 @@
     [hud hideAnimated:YES afterDelay:1.5f];
     return hud;
 }
+
 
 
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText{

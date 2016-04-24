@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/4/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFPTViewController.h"
 #import "BFPTDetailViewController.h"
 #import "PTXQViewController.h"
 #import "Height.h"

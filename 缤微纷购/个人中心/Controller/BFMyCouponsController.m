@@ -110,18 +110,18 @@
                     [self.couponsArray addObjectsFromArray:array];
                     
                 }else {
-                    
                     self.tableView.hidden = YES;
-                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有更多数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
                 }
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
             }
-            
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 50;
             } completion:nil];
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"%@",error);
         }];
     }];
@@ -145,8 +145,6 @@
         case 2:
             BFLog(@"点击已使用");
             self.parameter[@"status"] = @"0";
-            break;
-        default:
             break;
     }
     [self getData];
@@ -180,21 +178,21 @@
             
             if ([responseObject[@"msg"] isEqualToString:@"恭喜领取成功，请去购物吧！"]) {
                 
-                [BFProgressHUD MBProgressFromView:self.view LabelText:@"恭喜领取成功，请去购物吧！" dispatch_get_main_queue:^{
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"恭喜领取成功，请去购物吧！"];
                     [self getData];
 //                    self.segment.segmented.selectedSegmentIndex = 1;
 //                    [self.segment click];
-                }];
             }else if ([responseObject[@"msg"] isEqualToString:@"对不起！已经领取光了"]) {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"对不起！已经领取光了"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"对不起！已经领取光了"];
             }else if ([responseObject[@"msg"] isEqualToString:@"您已经领取过该券，请去购物吧"]) {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"您已经领取过该券，请去购物吧"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"您已经领取过该券，请去购物吧"];
             }else {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"领取失败，请稍后再试！"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
             }
             
             BFLog(@"%@",responseObject);
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
             BFLog(@"%@",error);
         }];
     }else {

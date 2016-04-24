@@ -76,6 +76,9 @@
         label.text = array[i];
         label.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];
         [self addSubview:label];
+    }
+    
+    for (NSInteger i = 0; i < array.count+1; i++) {
         
         UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, (cellHeight-0.5)*i, ScreenWidth, 0.5)];
         line.backgroundColor = BFColor(0xC3C0C9);

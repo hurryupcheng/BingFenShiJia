@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/17.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFZFViewController.h"
 #import "BFAddressController.h"
 #import "BFAddressCell.h"
 #import "BFAddAddressController.h"
@@ -21,7 +21,8 @@
 @property (nonatomic, strong) NSMutableArray *addressArray;
 /**提示button*/
 @property (nonatomic, strong) UIButton *remindButton;
-
+/**cell*/
+@property (nonatomic, strong) BFAddressCell *cell;
 @end
 
 @implementation BFAddressController
@@ -90,7 +91,6 @@
     //添加tableView
     [self tableView];
     
-
 }
 #pragma mark -- viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
@@ -138,8 +138,6 @@
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 0;
-            }];
-            [UIView animateWithDuration:0.5 animations:^{
                 self.bgImageView.y = 0;
             }];
         } failure:^(NSError *error) {
@@ -165,17 +163,29 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+
     BFAddressCell *cell = [BFAddressCell cellWithTableView:tableView];
+    self.cell = cell;
     cell.delegate = self;
     cell.model = self.addressArray[indexPath.row];
-    return cell;
-}
-//BFAddressCellDelegate
-- (void)chooseToUseTheAddress:(BFAddressCell *)cell {
     NSArray *vcsArray = [self.navigationController viewControllers];
     NSInteger vcCount = vcsArray.count;
     UIViewController *lastVC = vcsArray[vcCount-2];
-    if (![lastVC isKindOfClass:[BFPersonInformationController class]]) {
+    BFLog(@"-----%@",vcsArray);
+    if ([lastVC isKindOfClass:[BFZFViewController class]]) {
+        cell.selectButton.hidden = NO;
+    }else {
+        cell.selectButton.hidden = YES;
+    }
+    return cell;
+}
+//BFAddressCellDelegate
+- (void)chooseToUseTheAddress:(BFAddressCell *)cell button:(UIButton *)button{
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    NSInteger vcCount = vcsArray.count;
+    UIViewController *lastVC = vcsArray[vcCount-2];
+    if ([lastVC isKindOfClass:[BFZFViewController class]]) {
         _block(cell.model);
         [self.navigationController popViewControllerAnimated:YES];
     }else {

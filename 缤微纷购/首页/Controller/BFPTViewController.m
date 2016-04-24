@@ -30,6 +30,7 @@
 @implementation BFPTViewController
 
 - (void)viewDidLoad{
+    self.title = @"hahaha";
     self.view.backgroundColor = [UIColor whiteColor];
     [self setDownDate];
 }

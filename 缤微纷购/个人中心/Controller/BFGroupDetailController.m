@@ -5,6 +5,7 @@
 //  Created by 程召华 on 16/3/30.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFPTViewController.h"
 #import "BFMyGroupPurchaseController.h"
 #import "PTStepViewController.h"
 #import "BFGroupDetailController.h"
@@ -240,7 +241,7 @@
 
 #pragma mark --BFGroupDetailTabbarDelegate
 - (void)clickEventWithType:(BFGroupDetailTabbarButtonType)type {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    
     switch (type) {
         case BFGroupDetailTabbarButtonTypeHome:{
             self.tabBarController.selectedIndex = 0;
@@ -249,19 +250,8 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeShare:{
-            ItemModel *itemModel = [ItemModel parse:self.model.item];
-            id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
-                                               defaultContent:itemModel.intro
-                                                        image:[ShareSDK imageWithUrl:itemModel.img]
-                                                        title:itemModel.title
-                                                          url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
-                                                  description:itemModel.intro
-                                                    mediaType:SSPublishContentMediaTypeNews];
-            //调用自定义分享
-            BFShareView *share = [BFShareView shareView:publishContent];
-            UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-            [window addSubview:share];
- 
+            //分享好友来参团
+            [self gotoShare];
             BFLog(@"分享");
             break;
         }
@@ -282,13 +272,39 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypeFail:{
+            BFPTViewController *ptVC = [[BFPTViewController alloc] init];
+            [self.navigationController pushViewController:ptVC animated:YES];
             BFLog(@"组团失败，继续组团");
             break;
         }
         case BFGroupDetailTabbarButtonTypeLack:{
+            //分享好友来参团
+            [self gotoShare];
             BFLog(@"还缺少几人");
             break;
         }
     }
 }
+
+#pragma mark -- 去分享
+- (void)gotoShare {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    ItemModel *itemModel = [ItemModel parse:self.model.item];
+    id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
+                                       defaultContent:itemModel.intro
+                                                image:[ShareSDK imageWithUrl:itemModel.img]
+                                                title:itemModel.title
+                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
+                                          description:itemModel.intro
+                                            mediaType:SSPublishContentMediaTypeNews];
+    //调用自定义分享
+    BFShareView *share = [BFShareView shareView:publishContent];
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    [window addSubview:share];
+
+}
+
+
+
+
 @end

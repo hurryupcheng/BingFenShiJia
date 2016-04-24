@@ -29,6 +29,7 @@
 #import "WXApiObject.h"
 #import "payRequsestHandler.h"
 #import "WXApi.h"
+#import "WxProduct.h"
 
 
 @interface BFPayoffViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -50,7 +51,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-    
     [self initWithTableView];
     [self initWithFoot];
     //倒计时通知，关闭订单
@@ -82,21 +82,21 @@
         self.header.now.textColor = BFColor(0xFF212F);
         self.header.title.textColor = BFColor(0xFF212F);
     }];
-    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"订单超过有效时间,已自动取消"];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单超过有效时间,已自动取消"];
     //[self.tableV reloadData];
 }
 
 
 - (void)paySuccess {
    self.foot.buyButton.hidden = YES;
-    [BFProgressHUD MBProgressOnlyWithLabelText:@"订单支付成功"];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
     self.header.name.text = @"我们以后到你的付款";
     self.header.title.text = @"将尽快发货";
     self.header.now.text = @"待发货";
 }
 
 - (void)payFail {
-    [BFProgressHUD MBProgressOnlyWithLabelText:@"订单支付失败"];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
     self.foot.buyButton.hidden = NO;
 }
 
@@ -140,12 +140,10 @@
     //商户的账号
     order.seller = SellerID;
     order.tradeNO = self.orderid;       //订单ID（由商家自行制定）
-    order.productName = @"缤微纷购水果商城";          //商品标题
+    order.productName = @"缤纷世家新鲜水果";          //商品标题
     //order.productDescription = product.productDescription;//商品描述
-    NSRange range = NSMakeRange(5, self.sum.length-5);
-    _price = [self.sum substringWithRange:range];
-    BFLog(@"--%@",_price);
-    order.amount = @"0.01"; //商品价格
+
+    order.amount = self.totalPrice; //商品价格
     
     order.notifyURL =  @"http://bingo.luexue.com/alipay_notify.php";     //我们服务器的回调地址,支付宝服务器会通过post请求，给我们服务器发送支付信息
     
@@ -175,19 +173,19 @@
         NSLog(@"%@",orderString);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
-                [BFProgressHUD MBProgressOnlyWithLabelText:@"订单支付成功"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
                 self.foot.buyButton.hidden = YES;
                 self.header.now.text = @"待发货";
                 self.header.name.text = @"我们以后到你的付款";
                 self.header.title.text = @"将尽快发货";
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"6001"]) {
-                [BFProgressHUD MBProgressOnlyWithLabelText:@"订单支付失败"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
                 self.foot.buyButton.hidden = NO;
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"4000"]) {
-                [BFProgressHUD MBProgressOnlyWithLabelText:@"订单支付失败"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
                 self.foot.buyButton.hidden = NO;
-            } else if ([resultDic[@"resultStatus"] isEqualToString:@"4000"]) {
-                [BFProgressHUD MBProgressOnlyWithLabelText:@"网络链接超时,请重新支付"];
+            } else if ([resultDic[@"resultStatus"] isEqualToString:@"6002"]) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络链接超时,请重新支付"];
                 self.foot.buyButton.hidden = NO;
             }
             NSLog(@"reslut = %@",resultDic);
@@ -197,7 +195,7 @@
     }
 }
 
-#pragma mark --支付宝支付
+#pragma mark --微信支付
 - (void)payForWechat
 {
     //创建支付签名对象
@@ -206,9 +204,13 @@
     [req init:APP_ID mch_id:MCH_ID];
     //设置密钥
     [req setKey:PARTNER_ID];
+    WxProduct *product = [[WxProduct alloc] init];
+    product.price = [NSString stringWithFormat:@"%.0f", [self.totalPrice floatValue] *100];
+    product.orderId = self.orderid;
+    product.subject = @"缤纷世家新鲜水果";
+    product.body = @"缤纷世家新鲜水果很好吃";
     
-    NSMutableDictionary *dict = [req sendPay_demo];
-    
+    NSMutableDictionary *dict = [req sendPay_demo:product];
     if(dict != nil){
         self.foot.buyButton.hidden = YES;
         NSMutableString *retcode = [dict objectForKey:@"retcode"];
@@ -247,6 +249,9 @@
     
     [alter show];
 }
+
+
+
 
 #pragma  mark 初始化表视图
 - (void)initWithTableView{
@@ -321,17 +326,15 @@
     if (section == 0) {
         UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth-20, 40)];
         
-        NSRange range = NSMakeRange(5, self.sum.length-5);
-        _price = [self.sum substringWithRange:range];
         
-        NSString *count = [NSString stringWithFormat:@"%d",[_img count]];
-        lab.text = [NSString stringWithFormat:@"共%@件商品 实付金额: ¥%@",count,_price];
+        NSString *count = [NSString stringWithFormat:@"%lu",(unsigned long)[_img count]];
+        lab.text = [NSString stringWithFormat:@"共%@件商品 实付金额: ¥%@",count,self.totalPrice];
         lab.font = [UIFont systemFontOfSize:CGFloatX(15)];
         
         NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:lab.text];
 
-        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(11+[count length],[_price length]+1)];
-        [attr addAttribute:NSFontAttributeName value:[UIFont fontWithName:nil size:CGFloatX(25)] range:NSMakeRange(12+[count length], [_price length])];
+        [attr addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:NSMakeRange(11+[count length],[self.totalPrice length]+1)];
+        [attr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:CGFloatX(25)] range:NSMakeRange(12+[count length], [self.totalPrice length])];
         
         lab.attributedText = attr;
         lab.textAlignment = NSTextAlignmentRight;

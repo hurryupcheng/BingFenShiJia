@@ -14,7 +14,8 @@
 /**订单编号*/
 @property (nonatomic,retain)NSString *orderid;
 @property (nonatomic,retain)NSMutableArray *img;
-@property (nonatomic,retain)NSString *sum;
+/**商品总价*/
+@property (nonatomic,retain) NSString *totalPrice;
 /**添加订单时间*/
 @property (nonatomic,retain)NSString *addTime;
 @end

@@ -3,7 +3,6 @@
 #import <Foundation/Foundation.h>
 #import "WXUtil.h"
 #import "ApiXml.h"
-#import "WxProduct.h"
 /*
  // 签名实例
  // 更新时间：2015年3月3日
@@ -42,12 +41,12 @@
 // 账号帐户资料
 //更改商户把相关参数后可测试
 
-#define APP_ID          @"wxfdfc235382c84b7d"//改了               //APPID
-#define APP_SECRET      @"d911c360a8a5ad90a9b5ca1250e35e97" //改了 //appsecret
+#define APP_ID          @"wxfdfc235382c84b7d"               //APPID
+#define APP_SECRET      @"d911c360a8a5ad90a9b5ca1250e35e97" //appsecret
 //商户号，填写商户对应参数
-#define MCH_ID          @"1331427601"//改了
+#define MCH_ID          @"1331427601"
 //商户API密钥，填写相应参数
-#define PARTNER_ID      @"J4nvzS9CmbabnPJMn2dQZYeKK6TafAsL" //改了
+#define PARTNER_ID      @"J4nvzS9CmbabnPJMn2dQZYeKK6TafAsL"
 //支付结果回调页面
 #define NOTIFY_URL      @"http://wxpay.weixin.qq.com/pub_v2/pay/notify.v2.php"
 //获取服务器端支付数据地址（商户自定义）
@@ -65,8 +64,6 @@
     NSString *appid,*mchid,*spkey;
 }
 //初始化函数
--(void) init:(NSString *)app_id mch_id:(NSString *)mch_id privateKey:(NSString *)key;
-
 -(BOOL) init:(NSString *)app_id mch_id:(NSString *)mch_id;
 -(NSString *) getDebugifo;
 -(long) getLasterrCode;
@@ -79,6 +76,6 @@
 //提交预支付
 -(NSString *)sendPrepay:(NSMutableDictionary *)prePayParams;
 //签名实例测试
-- ( NSMutableDictionary *)sendPay_demo:(WxProduct *)product;
+- ( NSMutableDictionary *)sendPay_demo;
 
 @end

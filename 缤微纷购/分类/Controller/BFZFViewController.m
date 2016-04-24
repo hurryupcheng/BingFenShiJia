@@ -164,7 +164,8 @@
             pay.orderid = responseObject[@"orderid"];
             pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
-            pay.sum = self.footView.money.text;
+            NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
+            pay.totalPrice = [self.footView.money.text substringWithRange:range];
 
             [self.navigationController pushViewController:pay animated:YES];
             
@@ -208,7 +209,8 @@
             pay.orderid = responseObject[@"orderid"];
             pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
-            pay.sum = self.footView.money.text;
+            NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
+            pay.totalPrice = [self.footView.money.text substringWithRange:range];
             for (BFPTDetailModel *model in self.modelArr){
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
                 [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];

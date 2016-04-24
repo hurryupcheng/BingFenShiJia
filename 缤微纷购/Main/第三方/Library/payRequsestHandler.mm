@@ -6,15 +6,7 @@
  */
 @implementation payRequsestHandler
 
-
 //初始化函数
--(void) init:(NSString *)app_id mch_id:(NSString *)mch_id privateKey:(NSString *)key{
-    
-    [self init:app_id mch_id:mch_id];
-    [self setKey:key];
-    
-}
-
 -(BOOL) init:(NSString *)app_id mch_id:(NSString *)mch_id;
 {
     //初始构造函数
@@ -154,13 +146,13 @@
 // 更新时间：2015年3月3日
 // 负责人：李启波（marcyli）
 //============================================================
-- ( NSMutableDictionary *)sendPay_demo:(WxProduct *)product
+- ( NSMutableDictionary *)sendPay_demo
 {
 
     //订单标题，展示给用户
-    //NSString *order_name    = @"微信支付测试";
+    NSString *order_name    = @"缤纷世家新鲜水果";
     //订单金额,单位（分）
-    //NSString *order_price   = @"1";//1分钱测试
+    NSString *order_price   = @"1";//1分钱测试
 
 
     //================================
@@ -168,7 +160,7 @@
     //================================
     srand( (unsigned)time(0) );
     NSString *noncestr  = [NSString stringWithFormat:@"%d", rand()];
-    //NSString *orderno   = [NSString stringWithFormat:@"%ld",time(0)];
+    NSString *orderno   = [NSString stringWithFormat:@"%ld",time(0)];
     NSMutableDictionary *packageParams = [NSMutableDictionary dictionary];
     
     [packageParams setObject: appid             forKey:@"appid"];       //开放平台appid
@@ -176,11 +168,11 @@
     [packageParams setObject: @"APP-001"        forKey:@"device_info"]; //支付设备号或门店号
     [packageParams setObject: noncestr          forKey:@"nonce_str"];   //随机串
     [packageParams setObject: @"APP"            forKey:@"trade_type"];  //支付类型，固定为APP
-    [packageParams setObject: product.subject        forKey:@"body"];        //订单描述，展示给用户
+    [packageParams setObject: order_name        forKey:@"body"];        //订单描述，展示给用户
     [packageParams setObject: NOTIFY_URL        forKey:@"notify_url"];  //支付结果异步通知
-    [packageParams setObject: product.orderId           forKey:@"out_trade_no"];//商户订单号
+    [packageParams setObject: orderno           forKey:@"out_trade_no"];//商户订单号
     [packageParams setObject: @"196.168.1.1"    forKey:@"spbill_create_ip"];//发器支付的机器ip
-    [packageParams setObject: product.price      forKey:@"total_fee"];       //订单金额，单位为分
+    [packageParams setObject: order_price       forKey:@"total_fee"];       //订单金额，单位为分
     
     //获取prepayId（预支付交易会话标识）
     NSString *prePayid;

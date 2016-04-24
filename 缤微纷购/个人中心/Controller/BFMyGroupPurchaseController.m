@@ -118,18 +118,11 @@
     switch (type) {
         case BFCustomerServiceViewButtonTypeTelephone:{
             BFLog(@"点击电话客服");
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-            //添加取消按钮
-            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                NSLog(@"点击");
-            }];
-            //添加电话按钮
-            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"020-38875719" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:nil controllerMessage:nil preferredStyle:UIAlertControllerStyleActionSheet actionTitle:@"020-38875719" style:UIAlertActionStyleDefault handler:^{
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://020-38875719"]]];
             }];
-            [alertC addAction:cancleAction];
-            [alertC addAction:phoneAction];
             [self presentViewController:alertC animated:YES completion:nil];
+
             
             break;
         }

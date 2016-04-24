@@ -44,32 +44,33 @@
     _model = model;
     if ([model.refund_status isEqualToString:@"0"]) {
         if ([model.status isEqualToString:@"1"]) {
+            self.hidden = NO;
             self.pay.hidden = NO;
             self.cancleOrder.hidden = NO;
             self.checkLogistics.hidden = YES;
             self.confirmReceipt.hidden = YES;
         }else if ([model.status isEqualToString:@"2"]){
+            self.hidden = NO;
             self.pay.hidden = YES;
             self.cancleOrder.hidden = YES;
             self.checkLogistics.hidden = YES;
             self.confirmReceipt.hidden = NO;
         }else if ([model.status isEqualToString:@"3"]) {
+            self.hidden = NO;
             self.pay.hidden = YES;
             self.cancleOrder.hidden = YES;
             self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleHeight(140), BF_ScaleHeight(30));
             self.checkLogistics.hidden = NO;
             self.confirmReceipt.hidden = NO;
         }else if ([model.status isEqualToString:@"4"]) {
+            self.hidden = NO;
             self.pay.hidden = YES;
             self.cancleOrder.hidden = YES;
             self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(10), BF_ScaleHeight(160), BF_ScaleHeight(30));
             self.checkLogistics.hidden = NO;
             self.confirmReceipt.hidden = YES;
         } else {
-            self.pay.hidden = YES;
-            self.cancleOrder.hidden = YES;
-            self.checkLogistics.hidden = YES;
-            self.confirmReceipt.hidden = YES;
+            self.hidden = YES;
         }
     }
     

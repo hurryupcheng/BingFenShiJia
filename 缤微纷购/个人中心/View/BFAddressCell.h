@@ -12,7 +12,7 @@
 @class BFAddressCell;
 @protocol BFAddressCellDelegate <NSObject>
 
-- (void)chooseToUseTheAddress:(BFAddressCell *)cell;
+- (void)chooseToUseTheAddress:(BFAddressCell *)cell button:(UIButton *)button;
 
 @end
 
@@ -24,4 +24,6 @@
 @property (nonatomic, strong) BFAddressModel *model;
 /**代理*/
 @property (nonatomic, weak) id<BFAddressCellDelegate>delegate;
+/**选择地址按钮*/
+@property (nonatomic, strong) UIButton *selectButton;
 @end

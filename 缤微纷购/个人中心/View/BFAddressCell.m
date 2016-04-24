@@ -9,8 +9,7 @@
 #import "BFAddressCell.h"
 
 @interface BFAddressCell()
-/**选择地址按钮*/
-@property (nonatomic, strong) UIButton *selectButton;
+
 /**名字*/
 @property (nonatomic, strong) UILabel *nameLabel;
 /**地址类型*/
@@ -171,8 +170,8 @@ UIButton *_button = nil;
     
     _button = sender;
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseToUseTheAddress:)]) {
-        [self.delegate chooseToUseTheAddress:self];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseToUseTheAddress:button:)]) {
+        [self.delegate chooseToUseTheAddress:self button:sender];
     }
 }
 

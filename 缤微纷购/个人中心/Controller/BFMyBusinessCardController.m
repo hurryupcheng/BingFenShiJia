@@ -17,7 +17,8 @@
 @property (nonatomic, strong) UIImageView *qrCode;
 /**缤微纷购图标*/
 @property (nonatomic, strong) UIImageView *icon;
-
+/**缤微纷购图标*/
+@property (nonatomic, strong) UIImageView *headIcon;
 @end
 
 @implementation BFMyBusinessCardController
@@ -39,11 +40,23 @@
     if (!_icon) {
         _icon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(140), BF_ScaleHeight(250), BF_ScaleWidth(40), BF_ScaleWidth(40))];
         _icon.image = [UIImage imageNamed:@"icon"];
+        _icon.layer.cornerRadius = BF_ScaleWidth(5);
         [self.bgImageView addSubview:_icon];
     }
     return _icon;
 }
 
+
+- (UIImageView *)headIcon {
+    if (!_headIcon) {
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        _headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(125), BF_ScaleHeight(80), BF_ScaleWidth(70), BF_ScaleWidth(70))];
+        [_headIcon sd_setImageWithURL:[NSURL URLWithString:userInfo.user_icon]];
+        _headIcon.layer.cornerRadius = BF_ScaleWidth(35);
+        [self.bgImageView addSubview:_headIcon];
+    }
+    return _headIcon;
+}
 
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
@@ -67,6 +80,8 @@
     [self qrCode];
     //缤纷图标
     [self icon];
+    //用户头像
+    [self headIcon];
 }
 
 

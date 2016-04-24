@@ -137,43 +137,11 @@
 - (void)clickToOperateWithType:(BFOrderDetailBottomViewButtonType)type {
     switch (type) {
         case BFOrderDetailBottomViewButtonTypeCancleOrder:{
-            UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"取消订单" message:@"确定取消订单吗" preferredStyle:UIAlertControllerStyleAlert];
-            //添加取消按钮
-            UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-                NSLog(@"点击");
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"取消订单" controllerMessage:@"确定取消订单吗" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"确定" style:UIAlertActionStyleDefault handler:^{
+                //取消订单请求
+                [self cancleOrder];
             }];
-            //添加电话按钮
-            UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-                    [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-                } dispatch_get_main_queue:^{
-                    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-                    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cancelOrder"];
-                    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-                    parameter[@"uid"] = userInfo.ID;
-                    parameter[@"token"] = userInfo.token;
-                    parameter[@"orderId"] = self.model.orderId;
-                    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-                        BFLog(@"--%@", responseObject);
-                        if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
-                            [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
-                            self.headerView.statusLabel.text = @"已关闭";
-                            self.footerView.hidden = YES;
-                        }else {
-                            [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
-                        }
-                    } failure:^(NSError *error) {
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-                        BFLog(@"--%@", error);
-                    }];
-                }];
-            }];
-            [alertC addAction:cancleAction];
-            [alertC addAction:phoneAction];
             [self presentViewController:alertC animated:YES completion:nil];
-            
-            break;
-
             BFLog(@"取消订单");
             break;
         }
@@ -194,6 +162,36 @@
         default:
             break;
     }
+}
+
+#pragma mark -- 取消订单请求
+- (void)cancleOrder{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cancelOrder"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
+        parameter[@"orderId"] = self.model.orderId;
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"--%@", responseObject);
+            if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
+                self.headerView.statusLabel.text = @"已关闭";
+                self.footerView.hidden = YES;
+                //发送通知修改上级页面
+                [BFNotificationCenter postNotificationName:@"changeOrderArray" object:nil];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
+            }
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"--%@", error);
+        }];
+    }];
+
 }
 
 
@@ -232,6 +230,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 1) {
+        FXQViewController *fxqVC = [[FXQViewController alloc] init];
+        BFOrderProductModel *model = self.productArray[indexPath.row];
+        
+    }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
