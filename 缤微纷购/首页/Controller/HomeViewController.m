@@ -84,11 +84,26 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
 //    [self CollectionViewgetDate];
-    [self initwithSegment];
+    
     
     [self initVC];
     //[self getAddress];
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    
+    [self initwithSegment];
+    //BFLog(@"asdadasd");
+    self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
+    self.tabBarController.tabBar.hidden = NO;
+    self.navigationController.navigationBarHidden = NO;
+    
 }
 
 - (void)initVC{
@@ -103,12 +118,23 @@
     [self.view bringSubviewToFront:self.homeVC.view];
 }
 
+- (void)changeCurrentCity:(NSNotification *)notification {
+    self.currentCity = notification.userInfo[@"city"];
+    
+}
+
+
 - (void)currentCity:(NSNotification *)notification {
     
     self.currentCity = notification.userInfo[@"city"];
-    [[NSUserDefaults standardUserDefaults] setObject:self.currentCity forKey:@"city"];
+    
     //[self.tableV reloadData];
 }
+
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
 /*
 - (void)updateViewCtrl{
     
@@ -147,6 +173,8 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-sousuo-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(soso)];
     
+    
+    
     UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity];
     BFLog(@"dianjile %@,,,",self.currentCity);
     UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
@@ -156,6 +184,11 @@
 
 - (void)clickToChangeCity {
     DWTableViewController *dwVC = [[DWTableViewController alloc]init];
+    dwVC.cityBlock = ^(NSString *city) {
+        self.currentCity = city;
+        [self.tableV reloadData];
+        BFLog(@"=====%@", city);
+    };
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
@@ -741,16 +774,7 @@
     return _itemsArray;
 }
 */
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-   
-//    [self initwithSegment];
-    BFLog(@"asdadasd");
-    self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
-    self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBarHidden = NO;
-   
-}
+
 
 
 - (void)getAddress{

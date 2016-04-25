@@ -56,7 +56,7 @@
         cityButton.frame = CGRectMake(transverseMagin + (i%4) * (buttonWidth+transverseMagin), (i/4) * (buttonHeight+verticalMargin)+marin, buttonWidth, buttonHeight);
         cityButton.tag = i + 1000;
         [cityButton setTitle:hotCity[i] forState:UIControlStateNormal];
-//        [cityButton addTarget:self action:@selector(chooseHotCity:) forControlEvents:UIControlEventTouchUpInside];
+        [cityButton addTarget:self action:@selector(chooseHotCity:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:cityButton];
     }
     
@@ -67,7 +67,11 @@
 
 
 - (void)chooseHotCity:(UIButton *)sender {
-    BFLog(@"选择了城市");
+    BFLog(@"-=-=-%@", sender.titleLabel.text);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseHotCity:)]) {
+        [self.delegate chooseHotCity:sender.titleLabel.text];
+        
+    }
 }
 
 
@@ -76,9 +80,7 @@
 
 
 
-- (void)awakeFromNib {
-    // Initialization code
-}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

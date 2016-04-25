@@ -37,6 +37,7 @@
 #import "BFSegmentView.h"
 #import "BFTranslateTime.h"
 #import "BFUserInfo.h"
+#import "BFCityInfo.h"
 #import "CXArchiveShopManager.h"
 #import "BFStorage.h"
 //#import "BFThirdPartyLoginUserInfo.h"

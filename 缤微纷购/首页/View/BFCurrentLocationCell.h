@@ -9,17 +9,15 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-@protocol ChooseCurrentCityDelegate <NSObject>
 
-- (void)goBackToHome;
-
-@end
 
 
 /**设置定位代理*/
 @protocol SettingLocationDelegate <NSObject>
 
 - (void)goToSettingInterface;
+
+- (void)goBackToHomeWithCity:(NSString *)city;
 
 @end
 
@@ -29,7 +27,7 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**设置定位的代理*/
 @property (nonatomic, assign) id<SettingLocationDelegate>delegate;
-/**设置定位的代理*/
-@property (nonatomic, assign) id<ChooseCurrentCityDelegate>cityDelegate;
+
+
 @property (nonatomic, assign) CLAuthorizationStatus status;
 @end

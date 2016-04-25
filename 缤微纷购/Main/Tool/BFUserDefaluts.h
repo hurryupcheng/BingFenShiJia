@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "BFUserInfo.h"
 #import "BFBankModel.h"
+#import "BFCityInfo.h"
 
 @interface BFUserDefaluts : NSObject
 /**获取user信息*/
@@ -21,6 +22,11 @@
 + (BFBankModel *)getBankInfo;
 /**修改支行信息*/
 + (void)modifyBankInfo:(BFBankModel *)bankInfo;
+/**获取城市信息*/
++ (BFCityInfo *)getCityInfo;
+/**修改城市信息*/
++ (void)modifyCityInfo:(BFCityInfo *)CityInfo;
+
 /**获取第三方登录信息*/
 //+ (BFThirdPartyLoginUserInfo *)getThirdPartyLoginUserInfo;
 ///**修改第三方登录信息*/

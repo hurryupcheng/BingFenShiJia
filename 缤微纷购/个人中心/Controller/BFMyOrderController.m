@@ -174,7 +174,7 @@
             break;
         case 1:
             BFLog(@"点击已付款");
-            self.parameter[@"status"] = @"0";
+            self.parameter[@"status"] = @"2";
             self.parameter[@"refund_status"] = nil;
             [self addLoadingHUD];
             break;
