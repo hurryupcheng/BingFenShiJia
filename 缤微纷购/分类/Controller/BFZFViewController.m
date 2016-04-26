@@ -748,6 +748,7 @@
         string = [string stringByAppendingString:[NSString stringWithFormat:@"price=%@;",model.price]];
         }
         self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
+        NSLog(@"========%d=========%@",model.numbers,model.price);
     }
 //    NSLog(@"\\\\\\%@",self.itemDate);
 //    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
@@ -761,7 +762,7 @@
     self.addressID = self.model.ID;
 //    NSLog(@"======%@",self.model.ID);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
-//        NSLog(@"...%@  %@",responseObject,boty);
+        NSLog(@"...%@  %@",responseObject,boty);
         if (self.isPT) {
             self.freeprice = 0.00;
         }else {

@@ -436,7 +436,7 @@
            self.dataArray = [shoppModel.dateArr copy];
 
        }else{
-       [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
+       [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
        }
        [self initWithLoveView];
 //       [self.tabView reloadData];

@@ -132,11 +132,11 @@
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if (status == -1)
         {
-            [OMGToast showText:@"未知错误 请检测网络"];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"未知错误 请检测网络"];
         }
         else if (status == 0)
         {
-            [OMGToast showText:@"网络异常 请检测网络"];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
         }
         else
         {

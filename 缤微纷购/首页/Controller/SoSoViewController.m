@@ -98,15 +98,15 @@
     _search.placeholder = @"搜索";
     // Get the instance of the UITextField of the search bar
     
-    UITextField *searchField = [_search valueForKey:@"_searchField"];
+//    UITextField *searchField = [_search valueForKey:@"_searchField"];
 
     // Change search bar text color
 //    searchField.delegate = self;
-    searchField.textColor = [UIColor whiteColor];//
+//    searchField.textColor = [UIColor whiteColor];//
 //    searchField.keyboardType = UIKeyboardTypeWebSearch;
     // Change the search bar placeholder text color
-    [searchField setValue:[UIColor whiteColor]forKeyPath:@"_placeholderLabel.textColor"];
-
+//    [searchField setValue:[UIColor whiteColor]forKeyPath:@"_placeholderLabel.textColor"];
+    
     _search.clearsContextBeforeDrawing = YES;
     
 //    [[_search.subviews objectAtIndex:0]removeFromSuperview];
@@ -144,7 +144,7 @@
     //edit your code
     self.segment.selectedSegmentIndex = 0;
     [self selectedHot:self.segment];
-    NSLog(@"%@", searchBar.text);
+   
     NSString * keyWord = [searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     if (_SosoHistoryArr.count > 0) {

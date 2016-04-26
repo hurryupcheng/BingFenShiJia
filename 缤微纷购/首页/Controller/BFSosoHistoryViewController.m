@@ -23,15 +23,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    NSLog( @"%@", NSHomeDirectory());
+   
+//    NSLog( @"%@", NSHomeDirectory());
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SosoHistoryEvent:) name:@"HFSosoEvent" object:nil];
     
     HFSosoHistoryDe = [NSUserDefaults standardUserDefaults];
     
     _SosoHistoryArr = [HFSosoHistoryDe valueForKey:@"HFSosoHistoryData"];
-    
+   
 }
 - (void)dealloc
 {
@@ -70,9 +70,10 @@
 
 // 清楚历史纪录
 - (void)clearBut{
-    [HFSosoHistoryDe setValue:nil forKey:@"HFSosoHistoryData"];
+//    [HFSosoHistoryDe setValue:nil forKey:@"HFSosoHistoryData"];
+    [HFSosoHistoryDe removeObjectForKey:@"HFSosoHistoryData"];
      _SosoHistoryArr = [HFSosoHistoryDe valueForKey:@"HFSosoHistoryData"];
-
+   
     [self.tableView reloadData];
 }
 
@@ -112,7 +113,7 @@
 { 
     //主动取消选中
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    NSLog(@"---------------");
     NSString * keyWord = [_SosoHistoryArr[indexPath.row] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"HFSosoEvent" object:keyWord];
 }
