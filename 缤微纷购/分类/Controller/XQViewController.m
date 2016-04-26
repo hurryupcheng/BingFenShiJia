@@ -45,6 +45,8 @@
 @property (nonatomic, strong) BFCategoryNavigationView *navigationView;
 
 @property (nonatomic,assign)NSInteger sumNum;//加入的数量
+
+@property (nonatomic)BOOL isEnding;
 @end
 
 @implementation XQViewController
@@ -341,6 +343,7 @@
     date[@"id"] = self.ID;
     date[@"sort"] = @(self.sort);
     date[@"p"] = @(self.page);
+    
     [BFHttpTool POST:url params:date success:^(id responseObject) {
         
         self.xqModel = [XQModel parse:responseObject];
@@ -352,13 +355,16 @@
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
+        self.isEnding = NO;
         NSLog(@".>>>>>>>>%lu,,%@",(unsigned long)self.dataArray.count, responseObject);
+        
     } failure:^(NSError *error) {
         self.page--;
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
         [self.collectionView.mj_footer endRefreshingWithNoNoHTTP];
+        
     }];
 }
 

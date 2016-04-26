@@ -37,7 +37,7 @@
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(SOSO)];
     
-    [self getDate];
+    
 }
 
 - (void)SOSO{
@@ -160,7 +160,7 @@
             }
             self.dataSourceArray = [array copy];
         }else{
-        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
         }
         if (self.dataSourceArray.count) {
           self.currentModel = self.dataSourceArray[0];
@@ -175,7 +175,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
+    [self getDate];
   self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = NO;
 }

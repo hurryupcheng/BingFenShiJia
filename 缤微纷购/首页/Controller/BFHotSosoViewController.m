@@ -75,7 +75,7 @@
 
     [AFNTool postJSONWithUrl:url parameters:nil success:^(id responseObject) {
 
-        NSLog(@"%@", responseObject);
+//        NSLog(@"%@", responseObject);
 
         NSDictionary * dic = responseObject;
 
