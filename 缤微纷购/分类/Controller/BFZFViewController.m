@@ -147,8 +147,11 @@
     parameter[@"itemid"] = self.ID;
     parameter[@"teamid"] = @"";
     parameter[@"address_id"] = self.addressID;
-
-    
+    if ([self.payTitle.text isEqualToString:@"支付宝"]) {
+        parameter[@"pay_type"] = @"2";
+    }else {
+        parameter[@"pay_type"] = @"1";
+    }
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
         NSLog(@"////%@==%@",parameter,responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
@@ -193,6 +196,11 @@
     data[@"postscript"] = _textView.text;
     data[@"address_id"] = self.addressID;
     data[@"data"] = self.itemDate;
+    if ([self.payTitle.text isEqualToString:@"支付宝"]) {
+        data[@"pay_type"] = @"2";
+    }else {
+        data[@"pay_type"] = @"1";
+    }
     
     [BFHttpTool POST:url params:data success:^(id responseObject) {
         NSLog(@"////%@==%@",data,responseObject);

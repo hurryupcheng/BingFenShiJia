@@ -95,8 +95,8 @@
 
 /**当前城市按钮选择*/
 - (void)changeCity:(UIButton *)sender {
-    if (self.cityDelegate && [self.cityDelegate respondsToSelector:@selector(goBackToHome)]) {
-        [self.cityDelegate goBackToHome];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goBackToHomeWithCity:)]) {
+        [self.delegate goBackToHomeWithCity:sender.titleLabel.text];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"returncurrentCity" object:self userInfo:@{@"city":sender.titleLabel.text}];
 }
@@ -109,14 +109,6 @@
     }
 }
 
-- (void)awakeFromNib {
-    // Initialization code
-}
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 
 @end

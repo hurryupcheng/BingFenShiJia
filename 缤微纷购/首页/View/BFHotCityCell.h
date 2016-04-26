@@ -10,7 +10,7 @@
 
 @protocol ChooseHotCityDelegate <NSObject>
 
-
+- (void)chooseHotCity:(NSString *)city;
 
 @end
 
@@ -22,4 +22,6 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, strong) UIButton *cityButton;
+/**代理*/
+@property (nonatomic, weak) id<ChooseHotCityDelegate>delegate;
 @end

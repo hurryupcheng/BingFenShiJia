@@ -42,6 +42,21 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"UserInfo"];
 }
 
+
+/**获取城市信息*/
++ (BFCityInfo *)getCityInfo {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"];
+    BFCityInfo *cityInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    return cityInfo;
+
+}
+/**修改城市信息*/
++ (void)modifyCityInfo:(BFCityInfo *)CityInfo {
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:CityInfo];
+    [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"currentCity"];
+}
+
+
 + (BFBankModel *)getBankInfo {
     NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"bankInfo"];
     BFBankModel *bankInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];

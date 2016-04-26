@@ -53,7 +53,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    
+
     
     /**
      *  设置ShareSDK的appKey，如果尚未在ShareSDK官网注册过App，请移步到http://mob.com/login 登录后台进行应用注册
@@ -300,10 +300,11 @@
     //调用方法，使用位置反编码对象获取位置信息
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *place = [placemarks lastObject];
-        self.city = place.locality;
-        BFLog(@"chengshi%@",place.locality);
-        [[NSUserDefaults standardUserDefaults] setObject:place.locality forKey:@"currentCity"];
-
+        NSString *city = [place.locality stringByReplacingOccurrencesOfString:@"市" withString:@""];
+        self.city = city;
+        BFLog(@"chengshi%@",city);
+        
+        [BFNotificationCenter postNotificationName:@"changeCurrentCity" object:self userInfo:@{@"city" : city}];
     }];
     
     

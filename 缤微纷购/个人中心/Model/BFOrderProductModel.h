@@ -21,5 +21,6 @@
 @property (nonatomic, strong) NSString *color;
 /**尺寸*/
 @property (nonatomic, strong) NSString *size;
-
+/**商品ID*/
+@property (nonatomic, strong) NSString *ID;
 @end

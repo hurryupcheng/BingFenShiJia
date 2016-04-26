@@ -291,6 +291,7 @@
 		59F6BD301CC5F7C40046479E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6BD2F1CC5F7C40046479E /* Foundation.framework */; };
 		59F6BD321CC5F7CE0046479E /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6BD311CC5F7CE0046479E /* CFNetwork.framework */; };
 		59F6BD341CC5F7D70046479E /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59F6BD331CC5F7D70046479E /* CoreMotion.framework */; };
+		59F6FAF61CCDBC1E00A44484 /* BFCityInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6FAF51CCDBC1E00A44484 /* BFCityInfo.m */; };
 		59F777F91CBBE9EC00585B7A /* BFHomeFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F777F81CBBE9EC00585B7A /* BFHomeFunctionView.m */; };
 		59F777FC1CBBEA5700585B7A /* BFHomeFunctionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F777FB1CBBEA5700585B7A /* BFHomeFunctionButton.m */; };
 		59F777FF1CBBFD2E00585B7A /* BFBestSellingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F777FE1CBBFD2E00585B7A /* BFBestSellingController.m */; };
@@ -1080,6 +1081,8 @@
 		59F6BD2F1CC5F7C40046479E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		59F6BD311CC5F7CE0046479E /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		59F6BD331CC5F7D70046479E /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		59F6FAF41CCDBC1E00A44484 /* BFCityInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCityInfo.h; sourceTree = "<group>"; };
+		59F6FAF51CCDBC1E00A44484 /* BFCityInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCityInfo.m; sourceTree = "<group>"; };
 		59F777F71CBBE9EC00585B7A /* BFHomeFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHomeFunctionView.h; sourceTree = "<group>"; };
 		59F777F81CBBE9EC00585B7A /* BFHomeFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHomeFunctionView.m; sourceTree = "<group>"; };
 		59F777FA1CBBEA5700585B7A /* BFHomeFunctionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHomeFunctionButton.h; sourceTree = "<group>"; };
@@ -2221,6 +2224,8 @@
 				59FCE2051CBC901C00CCBDEA /* BFBestSellingModel.m */,
 				59F7E1FE1CC8D9820007F9B5 /* BFTastingExperienceModel.h */,
 				59F7E1FF1CC8D9820007F9B5 /* BFTastingExperienceModel.m */,
+				59F6FAF41CCDBC1E00A44484 /* BFCityInfo.h */,
+				59F6FAF51CCDBC1E00A44484 /* BFCityInfo.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -3569,6 +3574,7 @@
 				593788A41CBE0E0D009240C7 /* BFPanicBuyingHeaderView.m in Sources */,
 				59F9FB2D1CA388D600042501 /* BFCommissionModel.m in Sources */,
 				59FF74FA1CAE1A860063F770 /* SDWebImagePrefetcher.m in Sources */,
+				59F6FAF61CCDBC1E00A44484 /* BFCityInfo.m in Sources */,
 				59F6466D1CC4B2F60077E488 /* BFNavigaitonShopCartIButton.m in Sources */,
 				599AFB841CC62BE2003CD828 /* APViewController.m in Sources */,
 				51D458AD1C96E48C00B52516 /* BFPaymentViewController.m in Sources */,

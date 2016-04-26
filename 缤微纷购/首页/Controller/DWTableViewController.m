@@ -11,7 +11,7 @@
 #import "BFCurrentLocationCell.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate, SettingLocationDelegate, ChooseCurrentCityDelegate>
+@interface DWTableViewController ()<UITableViewDelegate, UITableViewDataSource,CLLocationManagerDelegate, SettingLocationDelegate, ChooseHotCityDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**热门城市cell高度*/
@@ -28,18 +28,16 @@
 @property (nonatomic,retain)NSArray *city;
 @property (nonatomic,retain)NSArray *district;
 
-@property (nonatomic,retain)UIButton *hotBut;
 @end
 
 @implementation DWTableViewController
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        [_tableView registerClass:[BFHotCityCell class] forCellReuseIdentifier:@"HotCity"];
-        [_tableView registerClass:[BFCurrentLocationCell class] forCellReuseIdentifier:@"currentCity"];
+        [self.view addSubview:_tableView];
     }
     return _tableView;
 }
@@ -47,18 +45,27 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self getDate:0];
-    
-    [self.view addSubview:self.tableView];
     self.title = @"城市列表";
-    UIBarButtonItem *back = [UIBarButtonItem itemWithTarget:self action:@selector(backToHome) image:@"iconfont-htmal5icon37" highImage:@"iconfont-htmal5icon37"];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:BF_ScaleFont(18)],NSForegroundColorAttributeName:BFColor(0x0E61C0)}];
+    //添加tableView
+    [self tableView];
+    //添加返回按钮
+    UIBarButtonItem *back = [UIBarButtonItem itemWithTarget:self action:@selector(backToHome) image:@"back" highImage:@"back"];
     self.navigationItem.leftBarButtonItem = back;
     //如果定位状态改变，接受通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoReload) name:@"reloadData" object:nil];
+    
+    
+}
+
+
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
 }
 
 - (void)backToHome {
-    BFLog(@"asdasdasd");
+    BFLog(@"---------%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"]);
+    
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"] == nil) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请选择所在城市" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
@@ -134,17 +141,13 @@
 
 #pragma mark - Table view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return _dataArray.count;
+        return 20;
     }else {
         return 1;
     }
@@ -154,16 +157,13 @@
     if (indexPath.section == 0) {
         BFCurrentLocationCell *cell = [BFCurrentLocationCell cellWithTableView:tableView];
         cell.status = [CLLocationManager authorizationStatus];
-        //BFLog(@"到这里来了%d",[CLLocationManager authorizationStatus]);
         cell.delegate = self;
-        cell.cityDelegate = self;
+
         return cell;
     }else if (indexPath.section == 1) {
         BFHotCityCell *cell = [BFHotCityCell cellWithTableView:tableView];
         self.cellHeight = cell.cellHeight;
-        self.hotBut = cell.cityButton;
-//        cell.backgroundColor = [UIColor whiteColor];
-        [self.hotBut addTarget:self action:@selector(hotCity) forControlEvents:UIControlEventTouchUpInside];
+        cell.delegate = self;
          return cell;
     }else {
         static NSString *str = @"reuse";
@@ -171,24 +171,37 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         }
-        cell.textLabel.text = _dataArray[indexPath.row];
-//        NSLog(@"/////%@",_dataArray[indexPath.row]);
+        cell.textLabel.text = @"测试";
          return cell;
     }
    
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 44;
+}
+
 - (void)hotCity{
-    NSLog(@"%@",self.hotBut.titleLabel.text);
-//    _cityBlock(self.hotBut.titleLabel.text);
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
-- (void)goBackToHome {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-#pragma mark --- 
+#pragma mark -- 跳转传值城市
+- (void)goBackToHomeWithCity:(NSString *)city {
+    _cityBlock(city);
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -- 最热城市传值
+- (void)chooseHotCity:(NSString *)city {
+    _cityBlock(city);
+    [self dismissViewControllerAnimated:YES completion:nil];
+
+}
+
+
+#pragma mark --- 去设置
 - (void)goToSettingInterface {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"定位服务未开启" message:@"请在系统设置中开启定位服务" preferredStyle:UIAlertControllerStyleAlert];
     //添加取消按钮
@@ -240,57 +253,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%d",indexPath.row);
+    NSLog(@"%ld",(long)indexPath.row);
     [self getDate:indexPath.row];
     _dataArray = [NSMutableArray arrayWithArray:_district];
     [self.tableView reloadData];
 }
 
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 @end

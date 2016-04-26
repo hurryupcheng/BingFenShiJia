@@ -233,7 +233,8 @@
     if (indexPath.section == 1) {
         FXQViewController *fxqVC = [[FXQViewController alloc] init];
         BFOrderProductModel *model = self.productArray[indexPath.row];
-        
+        fxqVC.ID = model.ID;
+        [self.navigationController pushViewController:fxqVC animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
