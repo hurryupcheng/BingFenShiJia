@@ -719,10 +719,10 @@
     SoSoViewController *soso = [[SoSoViewController alloc]init];
     
 //    BFSosoViewController *soso = [[BFSosoViewController alloc]init];
-    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
-    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
-    [self presentViewController:sosoNav animated:YES completion:nil];
-//    [self.navigationController pushViewController:soso animated:YES];
+//    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
+//    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+//    [self presentViewController:sosoNav animated:YES completion:nil];
+    [self.navigationController pushViewController:soso animated:YES];
 }
 
 

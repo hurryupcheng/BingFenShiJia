@@ -16,7 +16,7 @@
     if ([super initWithFrame:frame]) {
         
        UIImageView *imge = [[UIImageView alloc]initWithFrame:CGRectMake(5, 5, kScreenWidth/4, kScreenWidth/4)];
-        [imge sd_setImageWithURL:[NSURL URLWithString:img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        [imge sd_setImageWithURL:[NSURL URLWithString:img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         
        UILabel *titles = [[UILabel alloc]init];
        titles.text = title;

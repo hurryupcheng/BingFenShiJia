@@ -112,7 +112,7 @@
 
 - (void)reloadDataWith:(BFStorage *)model{
     self.stock = model.stock;
-    [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+    [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     self.titleLabel.text = model.title;
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(17)]);
     [self.titleLabel sizeToFit];

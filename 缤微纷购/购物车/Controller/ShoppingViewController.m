@@ -255,7 +255,7 @@
         
         [_imgButton addTarget:self action:@selector(imgButton:) forControlEvents:UIControlEventTouchUpInside];
         
-        [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.shoppModel.imgArr[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.shoppModel.imgArr[i]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         
         [_scroll addSubview:_imgButton];
     }
