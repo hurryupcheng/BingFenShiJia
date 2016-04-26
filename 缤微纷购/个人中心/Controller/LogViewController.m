@@ -247,7 +247,7 @@
            NSLog(@"icon = %@",[userInfo profileImage]);
            
        }else{
-           [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"登录失败"];
+           [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"登录失败"];
            NSLog(@"授权失败!error code == %ld, error code == %@", (long)[error errorCode], [error errorDescription]);
        }
    }];
@@ -275,15 +275,15 @@
     
     if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
 
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"手机号或密码不能为空"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"手机号或密码不能为空"];
         
     } else if ( ![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
 
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入有效的手机号码"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"请输入有效的手机号码"];
     
     }else if (self.passwordTX.text.length < 6 || self.passwordTX.text.length >20){
 
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"请输入6~20位长度密码"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"请输入6~20位长度密码"];
 
     }else {
         

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface BFPTDetailViewController : UIViewController
-@property (nonatomic,retain)NSString *ID;
+/**拼团id*/
+@property (nonatomic, retain) NSString *ID;
 @end

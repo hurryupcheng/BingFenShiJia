@@ -143,7 +143,7 @@
     order.productName = @"缤纷世家新鲜水果";          //商品标题
     //order.productDescription = product.productDescription;//商品描述
 
-    order.amount = self.totalPrice; //商品价格
+    order.amount = @"0.01"; //商品价格
     
     order.notifyURL =  @"http://bingo.luexue.com/alipay_notify.php";     //我们服务器的回调地址,支付宝服务器会通过post请求，给我们服务器发送支付信息
     

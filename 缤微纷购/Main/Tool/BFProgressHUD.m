@@ -60,13 +60,14 @@
 + (id)MBProgressFromWindowWithLabelText:(NSString *)labelText {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication].windows lastObject] animated:YES];
     
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        hud.label.text = labelText;
-        sleep(1);
+    hud.label.text = labelText;
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            [MBProgressHUD hideHUDForView:[[UIApplication sharedApplication].windows lastObject] animated:YES];
-            
+            [hud hideAnimated:YES];
         });
     });
     return hud;
@@ -74,12 +75,16 @@
 /**从view层窗口弹出带图文的提示框*/
 + (id)MBProgressFromView:(UIView *)view andLabelText:(NSString *)labelText {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        hud.label.text = labelText;
-        
-        sleep(1);
+    
+    // Set the label text.
+    hud.label.text = labelText;
+    // You can also adjust other label properties if needed.
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
-            [MBProgressHUD hideHUDForView:view animated:YES];
+            [hud hideAnimated:YES];
         });
     });
     return hud;

@@ -31,8 +31,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = BFColor(0xffffff);
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    //
     self.isPT = YES;
+    self.title = @"拼团详情";
     //获取数据
     [self getData];
     

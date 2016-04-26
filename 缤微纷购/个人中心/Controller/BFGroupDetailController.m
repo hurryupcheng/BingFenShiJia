@@ -5,6 +5,9 @@
 //  Created by 程召华 on 16/3/30.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFZFViewController.h"
+#import "BFPayoffViewController.h"
+#import "BFPTDetailViewController.h"
 #import "BFPTViewController.h"
 #import "BFMyGroupPurchaseController.h"
 #import "PTStepViewController.h"
@@ -86,6 +89,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"团详情";
+    
     self.view.backgroundColor = BFColor(0xffffff);
     //添加tableView
     [self tableView];
@@ -99,7 +103,15 @@
     [BFNotificationCenter addObserver:self selector:@selector(goToHome) name:@"homeButtonClick" object:nil];
     //接收footerView的我的团按钮的点击事件
     [BFNotificationCenter addObserver:self selector:@selector(goToGroupDetail) name:@"myGroupClick" object:nil];
+    //点击商品跳转
+    [BFNotificationCenter addObserver:self selector:@selector(clickToDetail) name:@"clickToDetail" object:nil];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor = BFColor(0xffffff);
+}
+
 
 //移除通知
 - (void)dealloc {
@@ -127,6 +139,14 @@
             [self.navigationController popToViewController:lastVC animated:YES];
         }
     }
+}
+
+#pragma mark -- 点击商品跳转
+- (void)clickToDetail {
+    BFPTDetailViewController *detailVC = [[BFPTDetailViewController alloc] init];
+    ItemModel *itemModel = [ItemModel parse:self.model.item];
+    detailVC.ID = itemModel.ID;
+    [self.navigationController pushViewController:detailVC animated:YES];
 }
 
 #pragma mark -- 获取数据
@@ -260,20 +280,37 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypePayToJoin:{
+            
             BFLog(@"立即支付参团");
             break;
         }
         case BFGroupDetailTabbarButtonTypeJoin:{
+            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+            BFZFViewController *zfVC = [[BFZFViewController alloc] init];
+            ItemModel *itemModel = [ItemModel parse:self.model.item];
+            zfVC.ID = itemModel.ID;
+            zfVC.isPT = YES;
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:itemModel.title img:itemModel.img money:itemModel.team_price number:1 shopId:itemModel.ID stock:nil choose:nil color:nil];
+            [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+            [[CXArchiveShopManager sharedInstance]startArchiveShop];
+
+            NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+            zfVC.modelArr = [array mutableCopy];
+            [self.navigationController pushViewController:zfVC animated:YES];
             BFLog(@"我也要参团");
             break;
         }
         case BFGroupDetailTabbarButtonTypeSuccess:{
+            BFPTViewController *ptVC = [[BFPTViewController alloc] init];
+            [self.navigationController pushViewController:ptVC animated:YES];
             BFLog(@"组团成功，继续组团");
             break;
         }
         case BFGroupDetailTabbarButtonTypeFail:{
-            BFPTViewController *ptVC = [[BFPTViewController alloc] init];
-            [self.navigationController pushViewController:ptVC animated:YES];
+            BFPTDetailViewController *detailVC = [[BFPTDetailViewController alloc] init];
+            ItemModel *itemModel = [ItemModel parse:self.model.item];
+            detailVC.ID = itemModel.ID;
+            [self.navigationController pushViewController:detailVC animated:YES];
             BFLog(@"组团失败，继续组团");
             break;
         }

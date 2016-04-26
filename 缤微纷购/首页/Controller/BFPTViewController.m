@@ -30,8 +30,9 @@
 @implementation BFPTViewController
 
 - (void)viewDidLoad{
-    self.title = @"hahaha";
+    self.title = @"缤纷拼团";
     self.view.backgroundColor = [UIColor whiteColor];
+
     [self setDownDate];
 }
 
@@ -58,6 +59,12 @@
     return _tableV;
 }
 
+
+- (void)back {
+    
+}
+
+
 #pragma  mark UITableView代理方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
@@ -77,6 +84,8 @@
     return cell;
     
 }
+
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
