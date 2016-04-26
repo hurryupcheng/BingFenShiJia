@@ -46,4 +46,6 @@
 @property (nonatomic, strong) NSArray<BFOrderProductModel *> *item_detail;
 /**退货状态*/
 @property (nonatomic, strong) NSString *show_refund_btn;
+/**支付类型，1微信，2，支付宝*/
+@property (nonatomic, strong) NSString *pay_type;
 @end

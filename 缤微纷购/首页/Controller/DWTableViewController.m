@@ -7,6 +7,7 @@
 //
 #import "Header.h"
 #import "DWTableViewController.h"
+#import "BFCityTableViewController.h"
 #import "BFHotCityCell.h"
 #import "BFCurrentLocationCell.h"
 #import <CoreLocation/CoreLocation.h>
@@ -20,18 +21,16 @@
 @property (nonatomic, strong) CLLocationManager * manager;
 /**城市*/
 @property (nonatomic, strong) NSString * currentCity;
+/**省份数组*/
+@property (nonatomic, strong) NSArray *provinceArray;
 
-@property (nonatomic,retain)NSMutableArray *dataArray;
 
-@property (nonatomic,retain)NSDictionary *areaDic;
-@property (nonatomic,retain)NSArray *province;
-@property (nonatomic,retain)NSArray *city;
-@property (nonatomic,retain)NSArray *district;
 
 @end
 
 @implementation DWTableViewController
 
+#pragma mark -- 懒加载
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
@@ -42,6 +41,17 @@
     return _tableView;
 }
 
+- (NSArray *)provinceArray {
+    if (!_provinceArray) {
+         NSString *path = [[NSBundle mainBundle]pathForResource:@"location" ofType:@"plist"];
+        _provinceArray = [NSArray arrayWithContentsOfFile:path];
+
+    }
+    return _provinceArray;
+}
+
+
+#pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -54,19 +64,21 @@
     self.navigationItem.leftBarButtonItem = back;
     //如果定位状态改变，接受通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoReload) name:@"reloadData" object:nil];
-    
-    
+   
 }
 
 
+#pragma mark -- 移除通知
 - (void)dealloc {
     [BFNotificationCenter removeObserver:self];
 }
 
+#pragma mark -- 返回按钮
 - (void)backToHome {
-    BFLog(@"---------%@", [[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"]);
-    
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"] == nil) {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCity"];
+    NSString *city = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    BFLog(@"---====%@",city);
+    if (city.length == 0) {
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请选择所在城市" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"知道了" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
             
@@ -79,65 +91,16 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark -- 定位状态改变，刷新页面
 - (void)gotoReload {
-   
     [self.tableView reloadData];
-    
-    
 }
 
-- (void)getDate:(NSInteger)num{
 
-    NSString *path = [[NSBundle mainBundle]pathForResource:@"area" ofType:@"plist"];
-    _areaDic = [[NSDictionary alloc] initWithContentsOfFile:path];
-    
-    NSArray *components = [_areaDic allKeys];
-    NSArray *sortedArray = [components sortedArrayUsingComparator: ^(id obj1, id obj2) {
-        
-        if ([obj1 integerValue] > [obj2 integerValue]) {
-            return (NSComparisonResult)NSOrderedDescending;
-        }
-        
-        if ([obj1 integerValue] < [obj2 integerValue]) {
-            return (NSComparisonResult)NSOrderedAscending;
-        }
-        return (NSComparisonResult)NSOrderedSame;
-    }];
-    
-    _dataArray = [NSMutableArray array];
-    for (int i=0; i<[sortedArray count]; i++) {
-        NSString *index = [sortedArray objectAtIndex:i];
-        NSArray *tmp = [[_areaDic objectForKey:index] allKeys];
-        [_dataArray addObject:[tmp objectAtIndex:0]];
-    }
-    
-    _province = [[NSArray alloc] initWithArray:_dataArray];
-    
-    NSString *index = [sortedArray objectAtIndex:num];
-    NSString *selected = [_province objectAtIndex:num];
-    NSDictionary *dic = [NSDictionary dictionaryWithDictionary: [[_areaDic objectForKey:index]objectForKey:selected]];
-    
-    NSArray *cityArray = [dic allKeys];
-    NSDictionary *cityDic = [NSDictionary dictionaryWithDictionary: [dic objectForKey: [cityArray objectAtIndex:0]]];
-    _city = [[NSArray alloc]initWithArray:[cityDic allKeys]];
-    
-    
-    NSString *selectedCity = [_city objectAtIndex:0];
-    _district = [[NSArray alloc]initWithArray:[cityDic objectForKey: selectedCity]];
-    
-    NSLog(@"%@",_dataArray);
-    NSLog(@"%@",index);
-    NSLog(@">>>>>%@",selected);
-    NSLog(@"......%@",cityDic);
-    NSLog(@"====%@",_city);
-    NSLog(@"/......../%@",_district);
-   
-}
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    BFLog(@"viewWillAppear");
-}
+
+
+
 
 #pragma mark - Table view data source
 
@@ -147,7 +110,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (section == 2) {
-        return 20;
+        return self.provinceArray.count;
     }else {
         return 1;
     }
@@ -158,7 +121,7 @@
         BFCurrentLocationCell *cell = [BFCurrentLocationCell cellWithTableView:tableView];
         cell.status = [CLLocationManager authorizationStatus];
         cell.delegate = self;
-
+        
         return cell;
     }else if (indexPath.section == 1) {
         BFHotCityCell *cell = [BFHotCityCell cellWithTableView:tableView];
@@ -171,20 +134,45 @@
         if (cell == nil) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:str];
         }
-        cell.textLabel.text = @"测试";
+        NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
+        cell.textLabel.text = provinceDictionary[@"province"];
+        NSArray *array = provinceDictionary[@"city"];
+        if (array.count != 0) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        }
          return cell;
     }
    
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    BFCityTableViewController *cityVC = [[BFCityTableViewController alloc] init];
+    NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
+    NSArray *array = provinceDictionary[@"city"];
+    cityVC.cityArray = array;
+    if (array.count != 0) {
+        cityVC.provinceDictionary = provinceDictionary;
+        [self.navigationController pushViewController:cityVC animated:YES];
+    }else {
+        NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
+        BFLog(@"=-=-=-%@", provinceDictionary[@"province"]);
+        _cityBlock(provinceDictionary[@"province"]);
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
 }
 
-- (void)hotCity{
 
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 
 #pragma mark -- 跳转传值城市
@@ -252,12 +240,7 @@
     return view;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%ld",(long)indexPath.row);
-    [self getDate:indexPath.row];
-    _dataArray = [NSMutableArray arrayWithArray:_district];
-    [self.tableView reloadData];
-}
+
 
 
 

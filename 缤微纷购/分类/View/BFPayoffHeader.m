@@ -69,6 +69,7 @@
             _image.layer.borderColor = BFColor(0xF0F0F0).CGColor;
             _image.layer.borderWidth = 1;
             _image.layer.cornerRadius = 5;
+            _image.layer.masksToBounds = YES;
             
 //            _image.backgroundColor = [UIColor redColor];
             [_image setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];

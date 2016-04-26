@@ -27,7 +27,8 @@
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**设置定位的代理*/
 @property (nonatomic, assign) id<SettingLocationDelegate>delegate;
-
+/**城市定位*/
+@property (nonatomic, strong) UIButton *currentCityButtuon;
 
 @property (nonatomic, assign) CLAuthorizationStatus status;
 @end

@@ -205,7 +205,7 @@
     //设置密钥
     [req setKey:PARTNER_ID];
     WxProduct *product = [[WxProduct alloc] init];
-    product.price = [NSString stringWithFormat:@"%.0f", [self.totalPrice floatValue] *100];
+    product.price = @"1";
     product.orderId = self.orderid;
     product.subject = @"缤纷世家新鲜水果";
     product.body = @"缤纷世家新鲜水果很好吃";
