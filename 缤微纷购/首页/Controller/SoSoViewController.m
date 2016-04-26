@@ -24,12 +24,12 @@
 @implementation SoSoViewController
 
 - (void)viewWillAppear:(BOOL)animated{
-    
+      [self initWithSearchBar];
     //    self.navigationController.navigationBar.barTintColor = [UIColor grayColor];
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.tabBarController.tabBar.hidden = YES;
-    
+  
     SosoHistoryDe = [NSUserDefaults standardUserDefaults];
     _SosoHistoryArr = [SosoHistoryDe valueForKey:@"HFSosoHistoryData"];
     
@@ -40,8 +40,15 @@
     [right setTitleColor:[UIColor colorWithRed:78/255.0 green:79/255.0 blue:80/255.0 alpha:1] forState:UIControlStateNormal];
     [right addTarget:self action:@selector(sosoBut) forControlEvents:UIControlEventTouchUpInside];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(sosoBut)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:right];
+}
+
+- (void)back{
+    [_search resignFirstResponder];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)viewDidLoad {
@@ -49,7 +56,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
 
     [self initWithSenment];
-    [self initWithSearchBar];
+//    [self initWithSearchBar];
     [self initVC];
     self.view.userInteractionEnabled = YES;
     
@@ -81,20 +88,25 @@
 #pragma -mark  SearchBar
 - (void)initWithSearchBar{
 
-    self.search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 10, 40)];
-    _search.barStyle = UIBarStyleBlack;
+//    self.search = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 10, 40)];
+    
 //    [self.search setBarTintColor:[UIColor grayColor]];
+    _search = [[UISearchBar alloc]init];
+    self.navigationItem.titleView = _search;
+    _search.delegate = self;
+    _search.barStyle = UIBarStyleBlack;
     _search.placeholder = @"搜索";
     // Get the instance of the UITextField of the search bar
-    UITextField *searchField = [_search valueForKey:@"_searchField"];
     
+    UITextField *searchField = [_search valueForKey:@"_searchField"];
+
     // Change search bar text color
 //    searchField.delegate = self;
-    searchField.textColor = [UIColor whiteColor];
+    searchField.textColor = [UIColor whiteColor];//
 //    searchField.keyboardType = UIKeyboardTypeWebSearch;
     // Change the search bar placeholder text color
-    [searchField setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
-    _search.delegate = self;
+    [searchField setValue:[UIColor whiteColor]forKeyPath:@"_placeholderLabel.textColor"];
+
     _search.clearsContextBeforeDrawing = YES;
     
 //    [[_search.subviews objectAtIndex:0]removeFromSuperview];
@@ -112,7 +124,7 @@
 //    UIImageView *bgImage = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"12"]];
 //    [segment addSubview:bgImage];
     
-    [self.navigationItem setTitleView:_search];
+//    [self.navigationItem setTitleView:_search];
     
 //    UISearchDisplayController *display = [[UISearchDisplayController alloc]initWithSearchBar:_search contentsController:self];
 //    
@@ -154,9 +166,10 @@
 
 
 - (void)sosoBut{
+   
     [_search resignFirstResponder];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//    [self.navigationController popToRootViewControllerAnimated:YES];
+//    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 

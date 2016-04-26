@@ -159,7 +159,7 @@
         _LikeImage.userInteractionEnabled = YES;
         NSDictionary * dic = _LikeSearArr[j];
 //        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
-        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
        
         [_LikeImage addTarget:self action:@selector(tapitem:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -234,7 +234,7 @@
         _LikeImage.layer.borderWidth = 1;
         _LikeImage.tag = j;
         NSDictionary * dic = _SearchWordArr[j];
-        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         
         [_LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
         

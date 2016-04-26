@@ -93,9 +93,7 @@
 
 
 - (void)groupPurchaseButton{
-//    if (_model) {
-//        <#statements#>
-//    }
+
     BFZFViewController *zf = [[BFZFViewController alloc]init];
     zf.isPT = _isPT;
     zf.ID = self.ID;
