@@ -289,13 +289,9 @@
             BFZFViewController *zfVC = [[BFZFViewController alloc] init];
             ItemModel *itemModel = [ItemModel parse:self.model.item];
             zfVC.ID = itemModel.ID;
-            zfVC.isPT = YES;
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:itemModel.title img:itemModel.img money:itemModel.team_price number:1 shopId:itemModel.ID stock:nil choose:nil color:nil];
-            [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
-            [[CXArchiveShopManager sharedInstance]startArchiveShop];
-
-            NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-            zfVC.modelArr = [array mutableCopy];
+            NSMutableArray *mutableArray = [NSMutableArray array];
+            [mutableArray addObject:itemModel];
+            zfVC.modelArr = mutableArray;
             [self.navigationController pushViewController:zfVC animated:YES];
             BFLog(@"我也要参团");
             break;
