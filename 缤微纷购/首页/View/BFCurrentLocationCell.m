@@ -15,8 +15,7 @@
 @interface BFCurrentLocationCell ()<CLLocationManagerDelegate>
 /**定位管理*/
 @property (nonatomic, strong) CLLocationManager * manager;
-/**城市定位*/
-@property (nonatomic, strong) UIButton *currentCityButtuon;
+
 /**城市定位*/
 @property (nonatomic, strong) UIButton *openPositionButton;
 @end
@@ -82,8 +81,10 @@
         self.openPositionButton.hidden = NO;
         //BFLog(@"位置服务未经您允许，点击开启");
     }else {
-        NSString *city = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"];
-        BFLog(@"%@,,,%@",city,[[NSUserDefaults standardUserDefaults] objectForKey:@"currentCity"]);
+        
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"changeCurrentCity"];
+        NSString *city = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        BFLog(@"++%@",city);
         [self.currentCityButtuon setTitle:city forState:UIControlStateNormal];
         self.openPositionButton.hidden = YES;
         self.currentCityButtuon.hidden = NO;
@@ -98,7 +99,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(goBackToHomeWithCity:)]) {
         [self.delegate goBackToHomeWithCity:sender.titleLabel.text];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"returncurrentCity" object:self userInfo:@{@"city":sender.titleLabel.text}];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"returncurrentCity" object:self userInfo:@{@"city":sender.titleLabel.text}];
 }
 
 

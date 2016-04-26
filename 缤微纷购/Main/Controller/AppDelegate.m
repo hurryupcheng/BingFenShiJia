@@ -22,7 +22,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "DWTableViewController.h"
 #import "BFNavigationController.h"
-
+#import "DWTableViewController.h"
 #define AppKey   @"11ae973b82132"
 
 #define  kWXKey         @"wxfdfc235382c84b7d"
@@ -52,7 +52,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    
 
     
     /**
@@ -99,12 +99,30 @@
     self.proportionX = kScreenWidth/375;
     self.proportionY = kScreenHeight/667;
     
+    
+    
+    
+    
+    
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
+    
+//    //获取当前的版本号
+//    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
+//    //获取上一次的版本号
+//    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastVersion"];
+//    if ([currentVersion isEqualToString:lastVersion]) {
+        //没有更新版本
+        RootViewController *root = [[RootViewController alloc]init];
+        self.window.rootViewController = root;
+//    }else {
+//
+//        RootViewController *root = [[RootViewController alloc]init];
+//        self.window.rootViewController = root;
+//        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"LastVersion"];
+//    }
+    
     [self.window makeKeyAndVisible];
-    
-    
-    self.window.rootViewController = [[RootViewController alloc]init];
     
 
     
@@ -265,7 +283,7 @@
         [self.manager requestAlwaysAuthorization];
         
         //主动请求前台授权
-        //                [self.mgr requestWhenInUseAuthorization];
+        //[self.mgr requestWhenInUseAuthorization];
     }else {
         [self.manager startUpdatingLocation];
     }
@@ -275,6 +293,7 @@
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     
     if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
+
         //开启定位
         [self.manager startUpdatingLocation];
         [self.manager requestAlwaysAuthorization];
@@ -304,7 +323,10 @@
         self.city = city;
         BFLog(@"chengshi%@",city);
         
-        [BFNotificationCenter postNotificationName:@"changeCurrentCity" object:self userInfo:@{@"city" : city}];
+        if (city != nil) {
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:city];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"changeCurrentCity"];
+        }
     }];
     
     

@@ -113,7 +113,7 @@
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"版本信息";
-                cell.detailTextLabel.text = @"6.6.6";
+                cell.detailTextLabel.text = [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
                 break;
             case 1:
                 cell.textLabel.text = @"亲，给缤纷好评吧";

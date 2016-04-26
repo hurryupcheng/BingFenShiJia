@@ -81,18 +81,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     [self initwithSegment];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
     self.view.backgroundColor = [UIColor whiteColor];
     
     
     [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
+
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    
+//    
+//    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
 //    [self CollectionViewgetDate];
     
     
     [self initVC];
-    //[self getAddress];
-}
+
+    
+  }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -120,22 +128,22 @@
     [self.view bringSubviewToFront:self.homeVC.view];
 }
 
-- (void)changeCurrentCity:(NSNotification *)notification {
-    self.currentCity = notification.userInfo[@"city"];
-    
-}
+//- (void)changeCurrentCity:(NSNotification *)notification {
+//    self.currentCity = notification.userInfo[@"city"];
+//    
+//}
+//
+//
+//- (void)currentCity:(NSNotification *)notification {
+//    
+//    self.currentCity = notification.userInfo[@"city"];
+//    
+//    //[self.tableV reloadData];
+//}
 
-
-- (void)currentCity:(NSNotification *)notification {
-    
-    self.currentCity = notification.userInfo[@"city"];
-    
-    //[self.tableV reloadData];
-}
-
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
+//- (void)dealloc {
+//    [BFNotificationCenter removeObserver:self];
+//}
 
 /*
 - (void)updateViewCtrl{
@@ -147,6 +155,7 @@
 */
 - (void)initwithSegment{
  
+    
     self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), 25)];
     
     self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), 25)];
@@ -174,9 +183,29 @@
     self.navigationItem.titleView = self.butView;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-sousuo-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(soso)];
+
+    
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCity"];
+    NSString *city = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    
+    UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity.length != 0 ? self.currentCity : city];
+
+    if (self.currentCity.length != 0) {
+        NSData *newData = [NSKeyedArchiver archivedDataWithRootObject:self.currentCity];
+        [[NSUserDefaults standardUserDefaults] setObject:newData forKey:@"CurrentCity"];
+    }
+    
+    
+    BFLog(@"dianjile %@,,,",self.currentCity);
+    UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
+    self.navigationItem.leftBarButtonItems = @[leftSpace,location];
     
 }
 
+
+
+#pragma mark -- 定位按钮点击
 - (void)clickToChangeCity {
     DWTableViewController *dwVC = [[DWTableViewController alloc]init];
     dwVC.cityBlock = ^(NSString *city) {

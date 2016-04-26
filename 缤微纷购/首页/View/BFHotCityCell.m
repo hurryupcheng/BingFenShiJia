@@ -31,7 +31,7 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        self.backgroundColor = BFColor(0xF0F1F2);
+        self.backgroundColor = BFColor(0xffffff);
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
         [self setCell];
@@ -48,10 +48,10 @@
         UIButton *cityButton = [UIButton buttonWithType:0];
         self.cityButton = cityButton;
         cityButton.layer.borderWidth = 1;
-        cityButton.layer.borderColor = BFColor(0x202F6F).CGColor;
+        cityButton.layer.borderColor = BFColor(0x122D92).CGColor;
         cityButton.layer.cornerRadius = 2;
         cityButton.layer.masksToBounds = YES;
-        [cityButton setTitleColor:BFColor(0x202F6F) forState:UIControlStateNormal];
+        [cityButton setTitleColor:BFColor(0x122D92) forState:UIControlStateNormal];
         cityButton.titleLabel.font =[UIFont systemFontOfSize:BF_ScaleFont(10)];
         cityButton.frame = CGRectMake(transverseMagin + (i%4) * (buttonWidth+transverseMagin), (i/4) * (buttonHeight+verticalMargin)+marin, buttonWidth, buttonHeight);
         cityButton.tag = i + 1000;

@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/14.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFPayoffViewController.h"
 #import "BFMyOrderDetailController.h"
 #import "BFProductInfoModel.h"
 #import "BFProductDetailCell.h"
@@ -145,9 +145,26 @@
             BFLog(@"取消订单");
             break;
         }
-        case BFOrderDetailBottomViewButtonTypePay:
+        case BFOrderDetailBottomViewButtonTypePay:{
             BFLog(@"支付");
+            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+            if ([self.model.pay_type isEqualToString:@"1"]) {
+                payVC.pay = @"微信支付";
+            }else if ([self.model.pay_type isEqualToString:@"2"]) {
+                payVC.pay = @"支付宝";
+            }
+            payVC.totalPrice = self.model.order_sumPrice;
+            payVC.orderid = self.model.orderId;
+            payVC.addTime = self.model.add_time;
+            NSMutableArray *mutableArray = [NSMutableArray array];
+            for (BFOrderProductModel *model in self.productArray) {
+                [mutableArray addObject:model.img];
+            }
+            payVC.img = mutableArray;
+            //BFLog(@"%@",payVC.img);
+            [self.navigationController pushViewController:payVC animated:YES];
             break;
+        }
         case BFOrderDetailBottomViewButtonTypeCheckLogistics:{
             BFCheckLogisticsController *checkLogisticsVC = [[BFCheckLogisticsController alloc] init];
             checkLogisticsVC.freecode = self.model.freecode;

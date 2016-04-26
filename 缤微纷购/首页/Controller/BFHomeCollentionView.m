@@ -71,6 +71,7 @@
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
     [self getDownDate];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

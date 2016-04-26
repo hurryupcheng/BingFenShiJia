@@ -248,6 +248,8 @@
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
 		59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */; };
+		59F63A8E1CCF58AA006A7C86 /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F63A8D1CCF58AA006A7C86 /* location.plist */; };
+		59F63A941CCF5C3B006A7C86 /* BFCityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F63A931CCF5C3B006A7C86 /* BFCityTableViewController.m */; };
 		59F6466A1CC47D950077E488 /* BFShopCartAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F646691CC47D950077E488 /* BFShopCartAnimation.m */; };
 		59F6466D1CC4B2F60077E488 /* BFNavigaitonShopCartIButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F6466C1CC4B2F60077E488 /* BFNavigaitonShopCartIButton.m */; };
 		59F64E661CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F64E651CC1CD89002F7537 /* BFThirdPartyLoginUserInfo.m */; };
@@ -1015,6 +1017,9 @@
 		59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedModel.m; sourceTree = "<group>"; };
 		59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailModel.h; sourceTree = "<group>"; };
 		59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailModel.m; sourceTree = "<group>"; };
+		59F63A8D1CCF58AA006A7C86 /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
+		59F63A921CCF5C3B006A7C86 /* BFCityTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCityTableViewController.h; sourceTree = "<group>"; };
+		59F63A931CCF5C3B006A7C86 /* BFCityTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCityTableViewController.m; sourceTree = "<group>"; };
 		59F646681CC47D950077E488 /* BFShopCartAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFShopCartAnimation.h; sourceTree = "<group>"; };
 		59F646691CC47D950077E488 /* BFShopCartAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFShopCartAnimation.m; sourceTree = "<group>"; };
 		59F6466B1CC4B2F60077E488 /* BFNavigaitonShopCartIButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFNavigaitonShopCartIButton.h; sourceTree = "<group>"; };
@@ -1749,6 +1754,7 @@
 				59FF72FA1CAE17240063F770 /* Info.plist */,
 				5128391B1CC4B2FC00E21EBE /* area.plist */,
 				59FC986A1CB4D1BA0076B311 /* bankAddress.plist */,
+				59F63A8D1CCF58AA006A7C86 /* location.plist */,
 				59FEC7291CB553000081616D /* Province.plist */,
 				59FDDD071CC13A1000BF8C97 /* composer_close.wav */,
 				59FDDD081CC13A1000BF8C97 /* composer_open.wav */,
@@ -2199,6 +2205,8 @@
 				51088EAA1CB68A2900941F51 /* BFPTViewController.m */,
 				518DB30F1C50D94E00816643 /* DWTableViewController.h */,
 				518DB3101C50D94F00816643 /* DWTableViewController.m */,
+				59F63A921CCF5C3B006A7C86 /* BFCityTableViewController.h */,
+				59F63A931CCF5C3B006A7C86 /* BFCityTableViewController.m */,
 				51D582751C53175A00686A2E /* SoSoViewController.h */,
 				51D582761C53175A00686A2E /* SoSoViewController.m */,
 				51A3B3621C842EE800F5FE67 /* PTXQViewController.h */,
@@ -3435,6 +3443,7 @@
 				51D24D811C9961C900F2D90E /* a1.png in Resources */,
 				51D4D9561C44A8F200453CD1 /* iicon06.png in Resources */,
 				51D10E321C40F10700F630C9 /* icon_01.png in Resources */,
+				59F63A8E1CCF58AA006A7C86 /* location.plist in Resources */,
 				51D2B0851C7830F8002D35FB /* beijin1.jpg in Resources */,
 				59F6874E1CC07BF700AD8308 /* WeiboSDK.bundle in Resources */,
 				51D4D9581C44A8F200453CD1 /* iicon08.png in Resources */,
@@ -3697,6 +3706,7 @@
 				51D541621C8E5DB6005CB936 /* BFShoppModel.m in Sources */,
 				59F777FF1CBBFD2E00585B7A /* BFBestSellingController.m in Sources */,
 				59FF748D1CAE1A860063F770 /* BFBankButton.m in Sources */,
+				59F63A941CCF5C3B006A7C86 /* BFCityTableViewController.m in Sources */,
 				59FB582E1CAA78B400CCAEB4 /* BFGroupOrderDetailController.m in Sources */,
 				5912A0661CCCA6AA0054C46C /* payRequsestHandler.mm in Sources */,
 				59F9F1E71C98F83300CA9986 /* BFOrderProductModel.m in Sources */,
