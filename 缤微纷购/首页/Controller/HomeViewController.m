@@ -83,6 +83,19 @@
     [super viewDidLoad];
 
     [self initwithSegment];
+<<<<<<< HEAD
+=======
+
+
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
+//    self.view.backgroundColor = [UIColor whiteColor];
+//    
+//    
+//    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
+//    [self CollectionViewgetDate];
+    
+    
+>>>>>>> 4ed4b16cec3721fdd1556138320b923300acd39a
     [self initVC];
 
 
@@ -91,10 +104,24 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity];
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCity"];
+    NSString *city = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    
+    BFLog(@"========%@",city);
+    
+    UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity.length != 0 ? self.currentCity : city];
+    
+    if (self.currentCity.length != 0) {
+        NSData *newData = [NSKeyedArchiver archivedDataWithRootObject:self.currentCity];
+        [[NSUserDefaults standardUserDefaults] setObject:newData forKey:@"CurrentCity"];
+        self.currentCity = @"";
+    }
+    
+    
     BFLog(@"dianjile %@,,,",self.currentCity);
     UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
     self.navigationItem.leftBarButtonItems = @[leftSpace,location];
+
     //BFLog(@"asdadasd");
     self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
     self.tabBarController.tabBar.hidden = NO;
@@ -171,21 +198,6 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-sousuo-3.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(soso)];
 
     
-    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentCity"];
-    NSString *city = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-    
-    
-    UIBarButtonItem *location = [UIBarButtonItem itemWithTarget:self action:@selector(clickToChangeCity) image:@"4.pic_hd" highImage:@"4.pic_hd" text:self.currentCity.length != 0 ? self.currentCity : city];
-
-    if (self.currentCity.length != 0) {
-        NSData *newData = [NSKeyedArchiver archivedDataWithRootObject:self.currentCity];
-        [[NSUserDefaults standardUserDefaults] setObject:newData forKey:@"CurrentCity"];
-    }
-    
-    
-    BFLog(@"dianjile %@,,,",self.currentCity);
-    UIBarButtonItem *leftSpace = [UIBarButtonItem leftSpace:BF_ScaleFont(-10)];
-    self.navigationItem.leftBarButtonItems = @[leftSpace,location];
     
 }
 

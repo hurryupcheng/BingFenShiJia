@@ -212,7 +212,7 @@
 		59513B7D1C9FFCE20028B008 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B631C9FFCE20028B008 /* Reachability.m */; };
 		59513B7E1C9FFCE20028B008 /* UIViewController+HUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B651C9FFCE20028B008 /* UIViewController+HUD.m */; };
 		59513B7F1C9FFCE20028B008 /* OMGToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 59513B681C9FFCE20028B008 /* OMGToast.m */; };
-		59513B881C9FFD8D0028B008 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B801C9FFD8D0028B008 /* back.png */; };
+		59513B881C9FFD8D0028B008 /* back_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B801C9FFD8D0028B008 /* back_blue.png */; };
 		59513B891C9FFD8D0028B008 /* buy.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B811C9FFD8D0028B008 /* buy.png */; };
 		59513B8A1C9FFD8D0028B008 /* dizhi.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B821C9FFD8D0028B008 /* dizhi.png */; };
 		59513B8B1C9FFD8D0028B008 /* guanbi.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B831C9FFD8D0028B008 /* guanbi.png */; };
@@ -880,7 +880,7 @@
 		59513B651C9FFCE20028B008 /* UIViewController+HUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+HUD.m"; sourceTree = "<group>"; };
 		59513B671C9FFCE20028B008 /* OMGToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OMGToast.h; sourceTree = "<group>"; };
 		59513B681C9FFCE20028B008 /* OMGToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OMGToast.m; sourceTree = "<group>"; };
-		59513B801C9FFD8D0028B008 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		59513B801C9FFD8D0028B008 /* back_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back_blue.png; sourceTree = "<group>"; };
 		59513B811C9FFD8D0028B008 /* buy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = buy.png; sourceTree = "<group>"; };
 		59513B821C9FFD8D0028B008 /* dizhi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dizhi.png; sourceTree = "<group>"; };
 		59513B831C9FFD8D0028B008 /* guanbi.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guanbi.png; sourceTree = "<group>"; };
@@ -1634,7 +1634,7 @@
 			isa = PBXGroup;
 			children = (
 				51E933DD1CAB9E35004E9EA4 /* iconfont-xiajianhao.png */,
-				59513B801C9FFD8D0028B008 /* back.png */,
+				59513B801C9FFD8D0028B008 /* back_blue.png */,
 				59513B811C9FFD8D0028B008 /* buy.png */,
 				59513B821C9FFD8D0028B008 /* dizhi.png */,
 				59513B831C9FFD8D0028B008 /* guanbi.png */,
@@ -3443,7 +3443,7 @@
 				59F6874E1CC07BF700AD8308 /* WeiboSDK.bundle in Resources */,
 				51D4D9581C44A8F200453CD1 /* iicon08.png in Resources */,
 				518930441C7C32C500C5AB08 /* ban.png in Resources */,
-				59513B881C9FFD8D0028B008 /* back.png in Resources */,
+				59513B881C9FFD8D0028B008 /* back_blue.png in Resources */,
 				51D579691C9802AF00385BD2 /* dm.png in Resources */,
 				51D5B63E1C758CDD000897BB /* iconfont-setting.png in Resources */,
 				51D24D861C9961C900F2D90E /* c2.png in Resources */,

@@ -99,6 +99,7 @@
 
 - (void)tap {
     BFLog(@"点击了产品");
+    [BFNotificationCenter postNotificationName:@"clickToDetail" object:nil];
 }
 
 

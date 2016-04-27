@@ -27,7 +27,13 @@
 
 - (void)setDetailModel:(BFPTDetailModel *)detailModel {
     _detailModel = detailModel;
-    self.cycleScrollView.imageURLStringsGroup = @[detailModel.img,detailModel.img];
+    
+    NSArray *carouseArray = [BFCarouselList parse:detailModel.imgs];
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    for (BFCarouselList *list in carouseArray) {
+        [mutableArray addObject:list.url];
+    }
+    self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
 
     self.titleLabel.text = detailModel.title;
     

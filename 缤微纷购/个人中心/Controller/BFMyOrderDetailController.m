@@ -110,8 +110,11 @@
                 self.model = [BFProductInfoModel parse:responseObject[@"order"]];
                 self.headerView.model = self.model;
                 self.footerView.model = self.model;
-                NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
-                [self.productArray addObjectsFromArray:array];
+                if ([[BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+                    [self.productArray addObjectsFromArray:array];
+
+                }
                 BFLog(@"%@,,%@",responseObject, parameter);
                 
             }

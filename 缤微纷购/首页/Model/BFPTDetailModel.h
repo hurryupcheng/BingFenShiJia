@@ -45,8 +45,6 @@
 @property (nonatomic, strong) NSArray <BFCarouselList *>*imgs;
 @end
 
-
-
 @interface BFCarouselList : NSObject
 /**图片地址*/
 @property (nonatomic, strong) NSString *url;
