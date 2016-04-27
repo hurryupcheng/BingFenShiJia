@@ -83,19 +83,6 @@
     [super viewDidLoad];
 
     [self initwithSegment];
-<<<<<<< HEAD
-=======
-
-
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
-//    self.view.backgroundColor = [UIColor whiteColor];
-//    
-//    
-//    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
-//    [self CollectionViewgetDate];
-    
-    
->>>>>>> 4ed4b16cec3721fdd1556138320b923300acd39a
     [self initVC];
 
 
