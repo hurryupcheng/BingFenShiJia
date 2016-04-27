@@ -31,20 +31,11 @@
                                 <rect key="frame" x="34" y="388" width="415" height="150"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v9x-tV-25Z">
-                                <rect key="frame" x="0.0" y="64" width="514" height="149"/>
-                                <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="149" id="Tze-vX-MiS"/>
-                                </constraints>
-                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="750.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
+                                <rect key="frame" x="0.0" y="133" width="519" height="166"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.070588235294117646" green="0.17647058823529413" blue="0.5725490196078431" alpha="1" colorSpace="calibratedRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="v9x-tV-25Z" secondAttribute="trailing" id="Eic-Wp-IrD"/>
-                            <constraint firstItem="v9x-tV-25Z" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="TmY-vb-9mP"/>
-                            <constraint firstItem="v9x-tV-25Z" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="gYa-GD-aJg"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="0r0-g3-5lN"/>
                     <navigationItem key="navigationItem" id="Bfy-Yg-PG4">
@@ -96,6 +87,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="750.jpg" width="750" height="375"/>
         <image name="shoppingCart" width="201" height="200"/>
     </resources>
 </document>

@@ -27,18 +27,18 @@
 
 @implementation BFAddressController
 
-- (UIButton *)remindButton {
-    if (!_remindButton) {
-        _remindButton = [UIButton buttonWithType:0];
-        _remindButton.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
-        _remindButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        [_remindButton setTitle:@"还未添加地址，点击添加" forState:UIControlStateNormal];
-        [_remindButton setTitleColor:BFColor(0x4582f2) forState:UIControlStateNormal];
-        [_remindButton addTarget:self action:@selector(clickToAddAddress) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_remindButton];
-    }
-    return _remindButton;
-}
+//- (UIButton *)remindButton {
+//    if (!_remindButton) {
+//        _remindButton = [UIButton buttonWithType:0];
+//        _remindButton.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
+//        _remindButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+//        [_remindButton setTitle:@"还未添加地址，点击添加" forState:UIControlStateNormal];
+//        [_remindButton setTitleColor:BFColor(0x4582f2) forState:UIControlStateNormal];
+//        [_remindButton addTarget:self action:@selector(clickToAddAddress) forControlEvents:UIControlEventTouchUpInside];
+//        [self.view addSubview:_remindButton];
+//    }
+//    return _remindButton;
+//}
 
 
 - (NSMutableArray *)addressArray {
@@ -86,6 +86,8 @@
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"收货地址";
+    //添加背景
+    [self bgImageView];
     //添加导航栏
     [self setNavigationBar];
     //添加tableView
@@ -123,14 +125,20 @@
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"---%@", responseObject);
             if (responseObject) {
                 [self.addressArray removeAllObjects];
-                NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
-                [self.addressArray addObjectsFromArray:array];
-                if (self.addressArray.count == 0) {
+                if ([responseObject[@"msg"] isEqualToString:@"空"]) {
                     self.bgImageView.hidden = NO;
                 }else {
-                    self.bgImageView.hidden = YES;
+                    NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
+                    [self.addressArray addObjectsFromArray:array];
+                    if (self.addressArray.count == 0) {
+                        self.bgImageView.hidden = NO;
+                    }else {
+                        self.bgImageView.hidden = YES;
+                    }
+
                 }
             }else {
                 self.bgImageView.hidden = NO;

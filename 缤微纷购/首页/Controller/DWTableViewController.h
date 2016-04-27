@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DWTableViewController : UIViewController
+//回调选择的城市
 @property (nonatomic, copy)void (^cityBlock)(NSString *city);
 
 

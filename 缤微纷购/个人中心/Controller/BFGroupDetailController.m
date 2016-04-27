@@ -5,6 +5,7 @@
 //  Created by 程召华 on 16/3/30.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "BFPTDetailModel.h"
 #import "BFZFViewController.h"
 #import "BFPayoffViewController.h"
 #import "BFPTDetailViewController.h"
@@ -166,8 +167,10 @@
             
             if (responseObject) {
                 self.model = [BFGroupDetailModel parse:responseObject];
-                NSArray *array = [TeamList parse:self.model.thisteam];
-                [self.teamArray addObjectsFromArray:array];
+                if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [TeamList parse:self.model.thisteam];
+                    [self.teamArray addObjectsFromArray:array];
+                }
                 //给头部视图模型赋值
                 self.headerView.model = self.model;
                 //给底部视图模型赋值
@@ -276,23 +279,59 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypePay:{
+            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+            if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
+                payVC.pay = @"微信支付";
+            }else {
+                payVC.pay = @"支付宝";
+            }
+            payVC.totalPrice = self.model.user_self.order_sumPrice;
+            payVC.orderid = self.model.user_self.orderid;
+            payVC.addTime = self.model.user_self.addtime;
+            payVC.img = [@[self.model.item.img] mutableCopy];
+            //BFLog(@"%@",payVC.img);
+            [self.navigationController pushViewController:payVC animated:YES];
+            
             BFLog(@"立即支付");
             break;
         }
         case BFGroupDetailTabbarButtonTypePayToJoin:{
-            
+            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+            if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
+                payVC.pay = @"微信支付";
+            }else {
+                payVC.pay = @"支付宝";
+            }
+            payVC.totalPrice = self.model.user_self.order_sumPrice;
+            payVC.orderid = self.model.user_self.orderid;
+            payVC.addTime = self.model.user_self.addtime;
+            payVC.img = [@[self.model.item.img] mutableCopy];
+            //BFLog(@"%@",payVC.img);
+            [self.navigationController pushViewController:payVC animated:YES];
             BFLog(@"立即支付参团");
             break;
         }
         case BFGroupDetailTabbarButtonTypeJoin:{
-            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
             BFZFViewController *zfVC = [[BFZFViewController alloc] init];
             ItemModel *itemModel = [ItemModel parse:self.model.item];
             zfVC.ID = itemModel.ID;
+            zfVC.isPT = YES;
+            BFPTDetailModel *model = [[BFPTDetailModel alloc] init];
+            model.img = itemModel.img;
+            model.shopID = itemModel.ID;
+            model.title = itemModel.title;
+            model.team_price = itemModel.team_price;
+            model.team_num = itemModel.team_num;
+            model.team_cycle = itemModel.team_cycle;
+            model.intro = itemModel.intro;
+            model.numbers = 1;
+            model.choose = @"";
+            model.color = @"";
             NSMutableArray *mutableArray = [NSMutableArray array];
-            [mutableArray addObject:itemModel];
+            [mutableArray addObject:model];
             zfVC.modelArr = mutableArray;
             [self.navigationController pushViewController:zfVC animated:YES];
+
             BFLog(@"我也要参团");
             break;
         }

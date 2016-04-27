@@ -43,10 +43,10 @@
         currentCityButtuon.frame = CGRectMake(10, (44-buttonHeight)/2, buttonWidth, buttonHeight);
         
         currentCityButtuon.layer.borderWidth = 1;
-        currentCityButtuon.layer.borderColor = BFColor(0x202F6F).CGColor;
+        currentCityButtuon.layer.borderColor = BFColor(0x122D92).CGColor;
         currentCityButtuon.layer.cornerRadius = 2;
         currentCityButtuon.layer.masksToBounds = YES;
-        [currentCityButtuon setTitleColor:BFColor(0x202F6F) forState:UIControlStateNormal];
+        [currentCityButtuon setTitleColor:BFColor(0x122D92) forState:UIControlStateNormal];
         currentCityButtuon.titleLabel.font =[UIFont systemFontOfSize:BF_ScaleFont(10)];
         [currentCityButtuon addTarget:self action:@selector(changeCity:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:currentCityButtuon];

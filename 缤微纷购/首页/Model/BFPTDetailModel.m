@@ -11,7 +11,7 @@
 @implementation BFPTDetailModel
 + (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName{
     //判断某个属性 所对应的key
-    if ([propertyName isEqualToString:@"ID"]) {
+    if ([propertyName isEqualToString:@"shopID"]) {
         propertyName = @"id";
     }
     return propertyName;

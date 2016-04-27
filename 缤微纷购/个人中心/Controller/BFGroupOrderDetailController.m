@@ -14,6 +14,8 @@
 @interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>
 /**团订单详情自定义view*/
 @property (nonatomic, strong) BFGroupOrderDetailView *detailView;
+/**model*/
+@property (nonatomic, strong) BFGroupOrderDetailModel *model;
 @end
 
 @implementation BFGroupOrderDetailController
@@ -53,9 +55,10 @@
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            BFLog(@"%@",responseObject);
+            BFLog(@"%@,,%@",responseObject, parameter);
             if (responseObject) {
-                self.detailView.model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
+                self.model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
+                self.detailView.model = self.model;
                 [UIView animateWithDuration:0.5 animations:^{
                     self.detailView.y = 0;
                 }];
@@ -70,13 +73,18 @@
 - (void)clickToViewWithButtonType:(BFGroupOrderDetailViewButtonType)buttonType {
     switch (buttonType) {
         case BFGroupOrderDetailViewButtonTypePay:{
-            BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-//            pay.pay = self.payTitle.text;
-//            pay.orderid = self.detailView.model.orderid;
-//            pay.addTime = responseObject[@"addtime"];
-//            pay.img = _itemImg;
-//            pay.sum = self.footView.money.text;
-            [self.navigationController pushViewController:pay animated:YES];
+            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+            if ([self.model.pay_type isEqualToString:@"1"]) {
+                payVC.pay = @"微信支付";
+            }else {
+                payVC.pay = @"支付宝";
+            }
+            payVC.totalPrice = self.model.order_sumPrice;
+            payVC.orderid = self.model.orderid;
+            payVC.addTime = self.model.add_time;
+            payVC.img = [@[self.model.img] mutableCopy];
+            //BFLog(@"%@",payVC.img);
+            [self.navigationController pushViewController:payVC animated:YES];
             BFLog(@"点击支付");
             break;
         }

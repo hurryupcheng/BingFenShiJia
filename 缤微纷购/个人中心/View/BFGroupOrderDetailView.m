@@ -69,26 +69,72 @@
     if (model) {
         self.orderID.text = model.orderid;
         
-        if ([model.status isEqualToString:@"1"]) {
-            self.orderStatus.text = @"未付款";
-            self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
-            self.payButton.hidden = NO;
-        }else if ([model.status isEqualToString:@"2"]) {
-            self.orderStatus.text = @"待发货";
-            self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_pay"];
-            self.payButton.hidden = YES;
-        }else if ([model.status isEqualToString:@"3"]) {
-            self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_distribution"];
-            self.orderStatus.text = @"已发货";
-            self.payButton.hidden = YES;
-        }else if ([model.status isEqualToString:@"4"]) {
-            self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_signed"];
-            self.orderStatus.text = @"已完成";
-            self.payButton.hidden = YES;
-        }else {
-            self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
-            self.payButton.hidden = YES;
-            self.orderStatus.text = @"已关闭";
+        switch ([model.refund_status integerValue]) {
+            case 0:
+                if ([model.status isEqualToString:@"1"]) {
+                    self.orderStatus.text = @"未付款";
+                    self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                    self.payButton.hidden = NO;
+                }else if ([model.status isEqualToString:@"2"]) {
+                    self.orderStatus.text = @"待发货";
+                    self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_pay"];
+                    self.payButton.hidden = YES;
+                }else if ([model.status isEqualToString:@"3"]) {
+                    self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_distribution"];
+                    self.orderStatus.text = @"已发货";
+                    self.payButton.hidden = YES;
+                }else if ([model.status isEqualToString:@"4"]) {
+                    self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_signed"];
+                    self.orderStatus.text = @"已完成";
+                    self.payButton.hidden = YES;
+                }else {
+                    self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                    self.payButton.hidden = YES;
+                    self.orderStatus.text = @"已关闭";
+                }
+
+                break;
+            case 1:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"待退款";
+                break;
+            case 2:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"已同意退款";
+                break;
+            case 3:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"不同意退款";
+                break;
+            case 4:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"申请退货中";
+                break;
+            case 5:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"不同意退货";
+                break;
+            case 6:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"同意退货";
+                break;
+            case 7:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"等待卖家收货";
+                break;
+            case 8:
+                self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
+                self.payButton.hidden = YES;
+                self.orderStatus.text = @"已退款";
+                break;
+                
         }
         
         self.totalPrice.text = model.order_sumPrice;

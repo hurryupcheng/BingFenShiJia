@@ -147,6 +147,7 @@
     parameter[@"itemid"] = self.ID;
     parameter[@"teamid"] = @"";
     parameter[@"address_id"] = self.addressID;
+    
     if ([self.payTitle.text isEqualToString:@"支付宝"]) {
         parameter[@"pay_type"] = @"2";
     }else {
@@ -155,12 +156,7 @@
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
         NSLog(@"////%@==%@",parameter,responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
-            //生成订单倒计时1800秒
-            leftTime = 1800;
-            
-            if(timer)
-                [timer invalidate];
-            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+           
             
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
@@ -763,11 +759,9 @@
 //    NSLog(@"======%@",self.model.ID);
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
         NSLog(@"...%@  %@",responseObject,boty);
-        if (self.isPT) {
-            self.freeprice = 0.00;
-        }else {
-            self.freeprice = [responseObject[@"freeprice"] floatValue];
-        }
+
+       self.freeprice = [responseObject[@"freeprice"] floatValue];
+        
        double score = [responseObject[@"score"] integerValue];
         self.score = score;
     

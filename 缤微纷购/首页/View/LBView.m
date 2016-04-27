@@ -77,7 +77,11 @@
     self.pageC.numberOfPages = dataArray.count;
     self.pageC.currentPageIndicatorTintColor = [UIColor redColor];
     self.pageC.pageIndicatorTintColor = [UIColor whiteColor];
+    if (dataArray.count == 0) {
+        return;
+    }else{
     [self updateCurViewWithPage:0];
+    }
     [self timer];
     
 #pragma  mark 单张图片不轮播

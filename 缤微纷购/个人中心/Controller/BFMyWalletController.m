@@ -109,20 +109,25 @@
     parameter[@"uid"] = self.userInfo.ID;
     parameter[@"token"] = self.userInfo.token;
     
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"responseObject%@",responseObject);
-        if (responseObject) {
-            self.model = [BFMyWalletModel parse:responseObject];
-            self.topView.model = self.model;
-            self.bottomView.model = self.model;
-
-        }
-        [UIView animateWithDuration:0.5 animations:^{
-            self.topView.y = 0;
-            self.bottomView.y = ScreenHeight*0.42;
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"responseObject%@",responseObject);
+            if (responseObject) {
+                self.model = [BFMyWalletModel parse:responseObject];
+                self.topView.model = self.model;
+                self.bottomView.model = self.model;
+                
+            }
+            [UIView animateWithDuration:0.5 animations:^{
+                self.topView.y = 0;
+                self.bottomView.y = ScreenHeight*0.42;
+            }];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"error%@",error);
         }];
-    } failure:^(NSError *error) {
-        BFLog(@"error%@",error);
     }];
 }
 
