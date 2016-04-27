@@ -88,14 +88,10 @@
     
 #warning 契合度最高的话 最好时修改 LBView   直接传model进去
     NSMutableArray * arr = [NSMutableArray arrayWithCapacity:0];
-    if (_homeModel.bannerDataArray.count != 0) {
-        for (HomeOtherModel * model in _homeModel.bannerDataArray) {
+   
+   for (HomeOtherModel * model in _homeModel.bannerDataArray) {
             [arr addObject:model.content];
-        }
-    }else{
-        return;
-    }
-    
+   }
     self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];

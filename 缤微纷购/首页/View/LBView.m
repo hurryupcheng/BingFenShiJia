@@ -49,9 +49,9 @@
         
 //        imageView.contentMode = UIViewContentModeScaleAspectFill;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(taps:)];
+    
         imageView.userInteractionEnabled = YES;
         [imageView addGestureRecognizer:tap];
-        
         [self.scrollView addSubview:imageView];
     }
     
@@ -60,10 +60,13 @@
 }
 
 - (void)taps:(UITapGestureRecognizer *)tap{
+    if (_dataArray.count == 0) {
+        return;
+    }else{
     if (self.delegateLB != nil && [self.delegateLB respondsToSelector:@selector(LBViewDelegate:didSelected:)]) {
         [self.delegateLB LBViewDelegate:self didSelected:self.curpage];
     }
-
+    }
 }
 
 
@@ -77,7 +80,11 @@
     self.pageC.numberOfPages = dataArray.count;
     self.pageC.currentPageIndicatorTintColor = [UIColor redColor];
     self.pageC.pageIndicatorTintColor = [UIColor whiteColor];
+    if (dataArray.count == 0) {
+        return;
+    }else{
     [self updateCurViewWithPage:0];
+    }
     [self timer];
     
 #pragma  mark 单张图片不轮播
@@ -144,10 +151,14 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat x = self.scrollView.contentOffset.x;
+    if (_dataArray.count == 0) {
+        return;
+    }else{
     if (x >= kScreenWidth *2) {
         [self updateCurViewWithPage:_curpage + 1];
     }else if (x <= 0){
         [self updateCurViewWithPage:_curpage - 1];
+    }
     }
 }
 

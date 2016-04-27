@@ -44,11 +44,23 @@
     
     //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleDone target:self action:@selector(sosoBut)];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:right];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SosoEvent) name:@"BFSosoBack" object:nil];
+}
+#pragma  mark 观察点击历史搜索
+- (void)SosoEvent{
+    self.segment.selectedSegmentIndex = 0;
+    [self.view bringSubviewToFront:self.HotSosoVc.view];
 }
 
 - (void)back{
     [_search resignFirstResponder];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (void)viewDidLoad {
@@ -60,16 +72,16 @@
     [self initVC];
     self.view.userInteractionEnabled = YES;
     
-    UITapGestureRecognizer *taps = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sosoViewTapped:)];
-    taps.delegate = self;
-    taps.numberOfTouchesRequired = 1;
-    [self.view addGestureRecognizer:taps];
+//    UITapGestureRecognizer *taps = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(sosoViewTapped:)];
+//    taps.delegate = self;
+//    taps.numberOfTouchesRequired = 1;
+//    [self.view addGestureRecognizer:taps];
 }
 
-- (void)sosoViewTapped:(UITapGestureRecognizer *)tap
-{
-    [_search resignFirstResponder];
-}
+//- (void)sosoViewTapped:(UITapGestureRecognizer *)tap
+//{
+//    [_search resignFirstResponder];
+//}
 
 #pragma -mark 初始化UISegmentedControl
 - (void)initWithSenment{
@@ -224,7 +236,6 @@
 //    }
 //    return _dateArr;
 //}
-
 
 
 @end

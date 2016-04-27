@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-#import "BFSosoViewController.h"
+
 #import "BFPTViewController.h"
 #import "BFHomeCollentionView.h"
 
@@ -83,23 +83,9 @@
     [super viewDidLoad];
 
     [self initwithSegment];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
-    self.view.backgroundColor = [UIColor whiteColor];
-    
-    
-    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
-
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentCity:) name:@"returncurrentCity" object:nil];
-//    self.view.backgroundColor = [UIColor whiteColor];
-//    
-//    
-//    [BFNotificationCenter addObserver:self selector:@selector(changeCurrentCity:) name:@"changeCurrentCity" object:self];
-//    [self CollectionViewgetDate];
-    
-    
     [self initVC];
 
-    
+
   }
 
 - (void)viewWillAppear:(BOOL)animated{
