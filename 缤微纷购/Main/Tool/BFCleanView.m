@@ -36,28 +36,39 @@
     self.clean.width = 0;
     self.clean.height = 0;
     self.clean.image = [UIImage imageNamed:@"clean"];
+    CGAffineTransform endAngle = CGAffineTransformMakeRotation(M_PI );
+    self.clean.transform = endAngle;
     [self addSubview:self.clean];
 }
 
 - (void)showView {
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.backgroundColor = [UIColor clearColor];
-    [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+    [UIView animateWithDuration:1 delay:0.5f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        self.clean.transform = CGAffineTransformRotate(self.clean.transform, M_PI);
         self.clean.width = BF_ScaleWidth(100);
         self.clean.height = BF_ScaleWidth(100);
         self.clean.centerX = self.centerX;
         self.clean.centerY = self.centerY;
         self.backgroundColor = windowColor;
     } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:1.f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            self.clean.width = 0;
-            self.clean.height = 0;
+        [UIView animateWithDuration:0.1 animations:^{
+            self.clean.width = BF_ScaleWidth(120);
+            self.clean.height = BF_ScaleWidth(120);
             self.clean.centerX = self.centerX;
             self.clean.centerY = self.centerY;
-            self.backgroundColor = [UIColor clearColor];
         } completion:^(BOOL finished) {
-            [self removeFromSuperview];
+            [BFSoundEffect playSoundEffect:@"composer_close.wav"];
+            [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                self.clean.width = 0;
+                self.clean.height = 0;
+                self.clean.centerX = self.centerX;
+                self.clean.centerY = self.centerY;
+                self.backgroundColor = [UIColor clearColor];
+            } completion:^(BOOL finished) {
+                [self removeFromSuperview];
+            }];
         }];
-
     }];
 }
 
