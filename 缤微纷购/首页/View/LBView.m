@@ -14,7 +14,6 @@
 @interface LBView ()<UIScrollViewDelegate>
 
 @property (nonatomic,retain)UIScrollView *scrollView;
-@property (nonatomic,retain)UIPageControl *pageC;
 @property (nonatomic,assign)NSInteger curpage;
 @property (nonatomic,retain)NSMutableArray *curArray;
 @property (nonatomic,retain)NSTimer *timer;
@@ -71,7 +70,7 @@
 
 
 - (void)initWithPageControl{
-    self.pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(kScreenWidth/2-30, CGRectGetHeight(self.scrollView.frame)-30, 20, 20)];
+    self.pageC = [[UIPageControl alloc]initWithFrame:CGRectMake(kScreenWidth/2-10, CGRectGetHeight(self.scrollView.frame)-30, 20, 20)];
     [self addSubview:self.pageC];
 }
 
