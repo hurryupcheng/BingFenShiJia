@@ -85,6 +85,7 @@
     
     
     UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260), 22, 40, 40)];
+
     //rightBut.backgroundColor = [UIColor blueColor];
     self.rightBut = rightBut;
     [rightBut setImage:[UIImage imageNamed:@"ff1.png"] forState:UIControlStateNormal];
@@ -107,13 +108,7 @@
     [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:back];
-    
-    //UIBarButtonItem *right = [[UIBarButtonItem alloc]initWithCustomView:rightBut];
-    //self.navigationItem.rightBarButtonItem = right;
-
-    
-    
-    
+ 
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
     self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, 30)];
     _segmented.layer.cornerRadius = 6;

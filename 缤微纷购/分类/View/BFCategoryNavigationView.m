@@ -34,10 +34,7 @@
     self.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(18)];
     self.titleLabel.textAlignment = NSTextAlignmentCenter;
     [bottomView addSubview:self.titleLabel];
-    
-    
-    
-    
+   
 }
 
 @end

@@ -47,6 +47,8 @@
 @property (nonatomic,assign)BOOL isEdits; //是否全选
 @property (nonatomic,retain)NSMutableArray *selectGoods;// 已选中
 @property (nonatomic,retain)BFUserInfo *userInfo;
+@property (nonatomic,retain)UIView *backV;
+@property (nonatomic) BOOL footItem;
 
 @end
 
@@ -66,8 +68,11 @@
     
 //    [self getNewDate];
        [self getDate];
-        self.views.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
-    
+    if (self.footItem == YES) {
+        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
+    }else{
+        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
+    }
         self.views.backgroundColor = [UIColor whiteColor];
     
         [self.view addSubview:self.views];
@@ -160,6 +165,8 @@
 }
 
 - (void)initWithTableView{
+    _backV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    [self.view addSubview:_backV];
     
     self.tabView = [[UITableView alloc]init];
     
@@ -182,8 +189,8 @@
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];
   
-    [self.view addSubview:self.tabView];
-    [self.view addSubview:_foot];
+    [self.backV addSubview:self.tabView];
+    [self.backV addSubview:_foot];
 
 }
 
@@ -403,6 +410,7 @@
             [self.tabView reloadData];
             if (self.dateArr.count == 0) {
                 [self.tabView removeFromSuperview];
+                self.footItem = NO;
                 tabBar.tabBarItem.badgeValue = nil;
                 [self data];
             }
@@ -450,20 +458,22 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    
+    [self.backV removeFromSuperview];
     self.userInfo = [BFUserDefaluts getUserInfo];
     if (self.userInfo == nil) {
+        self.footItem = NO;
         [self data];
     }else{
     [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     
-    if (self.dateArr.count == 0 || self.userInfo == nil) {
-//        [self.tabView removeFromSuperview];
+    if (self.dateArr.count == 0) {
+        self.footItem = NO;
         [self data];
        
     }else{
-        
-//        [self getNewDate];
+        self.footItem = YES;
         [self getDate];
         [_groubView removeFromSuperview];
         [self initWithTableView];
@@ -486,12 +496,13 @@
     return _scroll;
 }
 
-- (UIView *)views{
-    if (!_views) {
-        _views = [[UIView alloc]init];
-    }
-    return _views;
-}
+//- (UIView *)views{
+//    if (!_views) {
+//        _views = [[UIView alloc]init];
+//        NSLog(@"33333333");
+//    }
+//    return _views;
+//}
 
 - (NSMutableArray *)dateArr{
     if (!_dateArr) {
