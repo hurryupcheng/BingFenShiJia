@@ -42,10 +42,11 @@
 }
 
 - (void)showView {
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:1 delay:0.5f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.clean.transform = CGAffineTransformRotate(self.clean.transform, M_PI);
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
         self.clean.width = BF_ScaleWidth(100);
         self.clean.height = BF_ScaleWidth(100);
         self.clean.centerX = self.centerX;
