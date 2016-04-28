@@ -27,6 +27,8 @@
 
 @property (nonatomic, retain) BFPTDetailModel *model;
 
+@property (nonatomic, retain) NSString *endTime;
+
 @end
 
 @implementation BFPTDetailViewController
@@ -83,6 +85,7 @@
             BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
             model.numbers = 1;
             model.shopID = self.ID;
+            self.endTime = model.team_timeend;
             [_dataArray addObject:model];
             //显示图形
             [self initView:model];
@@ -133,11 +136,25 @@
 #pragma mark --团购按钮点击
 - (void)groupPurchaseButton{
 
+    NSDate *nowTime = [NSDate date];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger inter = [zone secondsFromGMTForDate:nowTime];
+    NSDate *localeDate = [nowTime dateByAddingTimeInterval:inter];
+
+    NSString *nowTimes = [NSString stringWithFormat:@"%ld",(long)[localeDate timeIntervalSince1970]];
+   
+    NSLog(@"===%@===%@",nowTimes,self.endTime);
+    
+    if ([nowTimes doubleValue] < [self.endTime doubleValue]) {
+
     BFZFViewController *zf = [[BFZFViewController alloc]init];
     zf.isPT = _isPT;
     zf.ID = self.ID;
     zf.modelArr = _dataArray;
     [self.navigationController pushViewController:zf animated:YES];
+    }else{
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"团购已结束"];
+    }
 }
 
 #pragma mark -- 拼团玩法查看详情

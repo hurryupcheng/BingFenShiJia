@@ -31,7 +31,7 @@
     
     [self.minBut setBackgroundImage:[[UIImage imageNamed:@"jian.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     
-    self.textF = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.minBut.frame), 0, CGFloatX(35), CGFloatX(35))];
+    self.textF = [[UITextField alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.minBut.frame), 0, CGFloatX(40), CGFloatX(35))];
     
     self.textF.textAlignment = NSTextAlignmentCenter;
     self.textF.textColor = [UIColor blackColor];

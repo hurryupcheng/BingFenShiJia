@@ -76,7 +76,7 @@
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
         button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
-        
+        button.titleLabel.textAlignment = NSTextAlignmentCenter;
         [button addTarget:self action:@selector(buttontag:) forControlEvents:UIControlEventTouchUpInside];
         
         [self.scrollV addSubview:button];

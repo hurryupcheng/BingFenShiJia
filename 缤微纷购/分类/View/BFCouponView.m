@@ -32,7 +32,8 @@
             
             NSDateFormatter *date = [[NSDateFormatter alloc]init];
             [date setDateFormat:@"yyyy-MM-dd"];
-            NSDate *times = [date dateFromString:@"2014-03-04"];
+            NSDate *times = [NSDate dateWithTimeIntervalSince1970:[end[i] doubleValue]];
+            
             NSLog(@"%@",times);
             NSString *strs = [date stringFromDate:times];
             time.text = [NSString stringWithFormat:@"有效期至: %@",strs];
