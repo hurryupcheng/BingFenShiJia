@@ -204,24 +204,16 @@ NSInteger addCount = 0;
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     
     BFBestSellingList *list = self.bestSellingArray[button.tag];
-    //BFLog(@"-----%@",list.title);
-    NSInteger leftCount = [list.stock integerValue];
-    BFLog(@"%ld----%ld", (long)leftCount, (long)addCount);
-        if (leftCount <= addCount) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"商品库存不足"];
-    }else {
-        BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:list.stock choose:list.size color:list.color];
-        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
-        [[CXArchiveShopManager sharedInstance]startArchiveShop];
-        
-        
-        
-        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
-        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
-        addCount++;
-        BFLog(@"----%ld", (long)addCount);
-    }
+
+    BFStorage *storage = [[BFStorage alloc]initWithTitle:list.title img:list.img money:list.price number:1 shopId:list.ID stock:list.stock choose:list.size color:list.color];
+    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+    [[CXArchiveShopManager sharedInstance]startArchiveShop];
+
+    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+
+
 }
 
 - (void)gotoLogin {

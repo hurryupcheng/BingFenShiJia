@@ -90,6 +90,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = YES;
+    self.view.userInteractionEnabled = YES;
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     if (userInfo) {
@@ -108,6 +111,44 @@
 
     
 }
+
+-(void)hideKeyboard:(NSNotification *)noti{
+    
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        self.tableView.contentOffset = CGPointMake(0, 0);
+    } completion:nil];
+    //为了显示动画
+    [self.view layoutIfNeeded];
+    
+}
+-(void)showKeyboard:(NSNotification *)noti{
+    //NSLog(@"userInfo %@",noti.userInfo);
+    //键盘弹起时的动画效果
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        self.tableView.contentOffset = CGPointMake(0, 200);
+    } completion:nil];
+    [self.view layoutIfNeeded];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    //self.navigationController.navigationBar.translucent = NO;
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+
+
+
+
+
 
 #pragma mark --获取数据
 - (void)getData {
