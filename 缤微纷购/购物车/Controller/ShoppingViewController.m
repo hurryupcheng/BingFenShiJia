@@ -68,10 +68,11 @@
     
 //    [self getNewDate];
        [self getDate];
-        self.views.backgroundColor = [UIColor whiteColor];
+    
     if (self.footItem == NO) {
-       
-        self.views.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
+        
+        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
+        self.views.backgroundColor = [UIColor whiteColor];
     }
         [self.view addSubview:self.views];
     

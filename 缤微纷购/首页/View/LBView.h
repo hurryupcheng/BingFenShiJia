@@ -17,6 +17,7 @@
 
 @interface LBView : UIView
 
+@property (nonatomic,retain)UIPageControl *pageC;
 @property (nonatomic,retain)NSArray *dataArray;
 @property (nonatomic,assign) BOOL isServiceLoadingImage; //是否从网上加载图片
 @property (nonatomic,assign)id<LBViewDelegate>delegateLB;

@@ -98,6 +98,7 @@
     }
   
     self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
+    _lbView.pageC.frame = CGRectMake(kScreenWidth/2-10, CGRectGetHeight(self.lbView.frame)-30, 20, 20);
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
