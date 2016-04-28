@@ -183,6 +183,7 @@
 		5938ACC71CABB07E004D076A /* BFGroupDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */; };
 		5938ACCA1CABD0F8004D076A /* BFGroupDetailStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC91CABD0F8004D076A /* BFGroupDetailStatusView.m */; };
 		5942F2D71CD229E1004D64D4 /* BFCleanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5942F2D61CD229E1004D64D4 /* BFCleanView.m */; };
+		5942F2DA1CD23C6F004D64D4 /* BFHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5942F2D91CD23C6F004D64D4 /* BFHomeModel.m */; };
 		594E3AA21CA627BF004C3635 /* BFBottomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594E3AA11CA627BF004C3635 /* BFBottomHeaderView.m */; };
 		594EE0DE1C8C162F00A243AE /* BFMyIntegralCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0DC1C8C162F00A243AE /* BFMyIntegralCell.m */; };
 		594EE0E21C8C1F2600A243AE /* BFMyCouponsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */; };
@@ -824,6 +825,8 @@
 		5938ACC91CABD0F8004D076A /* BFGroupDetailStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailStatusView.m; sourceTree = "<group>"; };
 		5942F2D51CD229E1004D64D4 /* BFCleanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCleanView.h; sourceTree = "<group>"; };
 		5942F2D61CD229E1004D64D4 /* BFCleanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCleanView.m; sourceTree = "<group>"; };
+		5942F2D81CD23C6F004D64D4 /* BFHomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHomeModel.h; sourceTree = "<group>"; };
+		5942F2D91CD23C6F004D64D4 /* BFHomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHomeModel.m; sourceTree = "<group>"; };
 		594E3AA01CA627BF004C3635 /* BFBottomHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBottomHeaderView.h; sourceTree = "<group>"; };
 		594E3AA11CA627BF004C3635 /* BFBottomHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBottomHeaderView.m; sourceTree = "<group>"; };
 		594EE0DB1C8C162F00A243AE /* BFMyIntegralCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyIntegralCell.h; sourceTree = "<group>"; };
@@ -2188,6 +2191,8 @@
 		51D121F21C3A746A00640A44 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5942F2D81CD23C6F004D64D4 /* BFHomeModel.h */,
+				5942F2D91CD23C6F004D64D4 /* BFHomeModel.m */,
 				512B99BC1C438AEE00882CE3 /* HomeModel.h */,
 				512B99BD1C438AEE00882CE3 /* HomeModel.m */,
 				51D2FE871C7EEE6500155588 /* PTModel.h */,
@@ -3729,6 +3734,7 @@
 				59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */,
 				59FF74EB1CAE1A860063F770 /* TAPageControl.m in Sources */,
 				5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */,
+				5942F2DA1CD23C6F004D64D4 /* BFHomeModel.m in Sources */,
 				51A996951C9ABB2A00B4783C /* BFAddressModel.m in Sources */,
 				59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */,
 				59FF74A61CAE1A860063F770 /* AFHTTPRequestOperationManager.m in Sources */,

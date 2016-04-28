@@ -35,10 +35,37 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         //添加控件
-        [self setView];
+        //[self setView];
     }
     return self;
 }
+
+- (void)setModel:(BFHomeModel *)model {
+    _model = model;
+    if (model) {
+        
+        NSArray *array = [BFHomeFunctionButtonList parse:model.abs_b];
+        NSUInteger btnCount = array.count;
+        CGFloat btnW =  BF_ScaleWidth(75);
+        CGFloat btnH = self.height / 2;
+        for (NSInteger i = 0; i < btnCount; i++) {
+            BFHomeFunctionButton *btn = [[BFHomeFunctionButton alloc] init];
+            btn.y = i / 4 * btnH;
+            btn.width = btnW;
+            btn.x = i % 4 * btnW + BF_ScaleWidth(10);
+            btn.height = btnH;
+            BFHomeFunctionButtonList *list = [BFHomeFunctionButtonList parse:array[i]];
+            btn.functionTitleLabel.text = list.title;
+            btn.backgroundColor = [UIColor redColor];
+            [btn.functionImageView sd_setImageWithURL:[NSURL URLWithString:list.img] placeholderImage:[UIImage imageNamed:@"100"]];
+            [self addSubview:btn];
+            
+            
+        }
+        
+    }
+}
+
 
 - (void)setView {
     self.fruitEating = [self setUpButtonWithImage:@"iicon01" type:BFHomeFunctionViewButtonTypeFruitEating title:@"果食"];

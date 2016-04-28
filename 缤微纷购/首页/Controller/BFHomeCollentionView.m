@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/4/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFHomeModel.h"
 #import "BFPTViewController.h"
 #import "BFPTDetailViewController.h"
 #import "PTXQViewController.h"
@@ -55,7 +55,8 @@
 
 /***/
 @property (nonatomic, strong) BFHomeFunctionView *functionView;
-
+/**首页模型类*/
+@property (nonatomic, strong) BFHomeModel *model;
 @end
 
 @implementation BFHomeCollentionView
@@ -460,6 +461,8 @@
             [self.dataArray removeAllObjects];
             BFLog(@"%@",responseObject);
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
+            self.model = [BFHomeModel parse:responseObject];
+            self.functionView.model = self.model;
             self.homeModel = homeModel;
             [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];
