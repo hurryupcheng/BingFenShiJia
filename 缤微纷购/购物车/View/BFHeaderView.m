@@ -14,7 +14,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if ([super initWithFrame:frame]) {
         CGFloat x = frame.size.height-25;
-        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(5, 7, CGFloatY(25), CGFloatY(25))];
+        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(10, 7, CGFloatY(25), CGFloatY(25))];
         self.allSeled.layer.cornerRadius = CGFloatY(25/2);
         self.allSeled.layer.masksToBounds = YES;
         [self.allSeled setBackgroundImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];

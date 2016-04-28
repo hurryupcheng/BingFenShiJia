@@ -163,7 +163,7 @@
                 self.tableView.y = BF_ScaleHeight(30);
             } completion:nil];
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@",error);
         }];
 

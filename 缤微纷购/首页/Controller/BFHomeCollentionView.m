@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/4/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+
 #import "BFPTViewController.h"
 #import "BFPTDetailViewController.h"
 #import "PTXQViewController.h"
@@ -275,7 +276,9 @@
     
 }
 - (void)footImageView:(UIButton *)but{
-    
+    if (but.tag == self.homeModel.footDataArray.count-1) {
+        self.tabBarController.selectedIndex = 3;
+    }else{
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
     for (HomeOtherModel *model in self.homeModel.footDataArray) {
@@ -283,6 +286,7 @@
         [IDArr addObject:model.url];
     }
     [self setIndex:but.tag arr:arr IDArr:IDArr];
+    }
 }
 
 - (void)upImageView:(UIButton *)but{
