@@ -13,7 +13,7 @@
 #import "BFPTDetailModel.h"
 #import "BFShareView.h"
 
-@interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate>
+@interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate, BFPTDetailHeaderViewDelegate>
 /**webView*/
 @property (nonatomic, strong) UIWebView *webView;
 /**自定义头部视图*/
@@ -103,11 +103,11 @@
 #pragma Mark --创建view
 - (void)initView:(BFPTDetailModel *)model{
     self.header = [[BFPTDetailHeaderView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 0)];
+    self.header.delegate = self;
     self.header.step.delegate = self;
     self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
-    [self.header.alonePurchaseButton addTarget:self action:@selector(alonePurchaseButton) forControlEvents:UIControlEventTouchUpInside];
-    [self.header.groupPurchaseButton addTarget:self action:@selector(groupPurchaseButton) forControlEvents:UIControlEventTouchUpInside];
+    
     
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-64)];
@@ -127,14 +127,14 @@
 }
 
 #pragma mark -- 单独购买按钮点击
-- (void)alonePurchaseButton{
+- (void)gotoAlonePurchase{
     FXQViewController *fxq = [[FXQViewController alloc]init];
     fxq.ID = self.ID;
     [self.navigationController pushViewController:fxq animated:YES];
 }
 
 #pragma mark --团购按钮点击
-- (void)groupPurchaseButton{
+- (void)gotoGroupPurchaseButton{
 
     NSDate *nowTime = [NSDate date];
     NSTimeZone *zone = [NSTimeZone systemTimeZone];

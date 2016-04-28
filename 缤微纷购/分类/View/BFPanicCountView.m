@@ -46,7 +46,7 @@
         self.countTX.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         self.countTX.textAlignment = NSTextAlignmentCenter;
         self.countTX.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        [self.countTX addTarget:self action:@selector(change:) forControlEvents:UIControlEventEditingChanged];
+        //[self.countTX addTarget:self action:@selector(change:) forControlEvents:UIControlEventEditingChanged];
         [self addSubview:self.countTX];
         
     }
@@ -83,33 +83,36 @@
     
     
 }
-- (void)change:(UITextField *)textField {
-    if (![HZQRegexTestter validateIntegerNumber:self.countTX.text]) {
-        [BFProgressHUD MBProgressOnlyWithLabelText:@"请输入正确的数量"];
-        if ([self.model.first_stock integerValue] > 0) {
-            self.countTX.text = @"1";
-        }else {
-            self.countTX.text = @"0";
-        }
-    }
-}
+//- (void)change:(UITextField *)textField {
+//    if (![HZQRegexTestter validateIntegerNumber:self.countTX.text]) {
+//        [BFProgressHUD MBProgressOnlyWithLabelText:@"请输入正确的数量"];
+//        if ([self.model.first_stock integerValue] > 0) {
+//            self.countTX.text = @"1";
+//        }else {
+//            self.countTX.text = @"0";
+//        }
+//    }
+//}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSInteger new = [self.countTX.text integerValue];
     
-    if ([self.model.first_stock integerValue] > 0) {
-        if (new > [self.model.first_stock integerValue]) {
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
-            self.countTX.text = self.model.first_stock;
-        }else if (new < 1) {
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
-            self.countTX.text = @"1";
-        }
+    if (![HZQRegexTestter validateIntegerNumber:self.countTX.text]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"请输入正确的数量"];
+        self.countTX.text = @"1";
     }else {
-        self.countTX.text = @"0";
+        if ([self.model.first_stock integerValue] > 0) {
+            if (new > [self.model.first_stock integerValue]) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
+                self.countTX.text = self.model.first_stock;
+            }else if (new < 1) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
+                self.countTX.text = @"1";
+            }
+        }else {
+            self.countTX.text = @"0";
+        }
     }
-    
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

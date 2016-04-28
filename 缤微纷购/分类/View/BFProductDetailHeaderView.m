@@ -33,11 +33,11 @@
 - (void)setModel:(BFProductDetialModel *)model{
     _model = model;
     if (model) {
-        self.cycleScrollView = [[SDCycleScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleWidth(320))];
+        self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleWidth(320)) delegate:nil placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
         self.cycleScrollView.pageDotColor = BFColor(0xffffff);
         self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
-        self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
+        self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
         self.cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
         NSArray *array = [BFProductDetailCarouselList parse:model.imgs];
         NSMutableArray *mutableArray = [NSMutableArray array];

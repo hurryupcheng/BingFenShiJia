@@ -228,7 +228,7 @@
                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
 
-                       [self.navigationController popToRootViewControllerAnimated:YES];
+                       [self.navigationController popViewControllerAnimated:YES];
                    }];
 
                }

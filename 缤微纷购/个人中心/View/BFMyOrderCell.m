@@ -56,7 +56,7 @@
          self.orderFreightLabel.text = [NSString stringWithFormat:@"运费：¥%@",model.freeprice];
     }
     self.orderStatusLabel.text = [NSString stringWithFormat:@"订单状态：%@",model.status_w];
-    [self.goodsImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+    [self.goodsImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
 }
 
 
@@ -85,7 +85,7 @@
     
 
     self.goodsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(5, BF_ScaleHeight(5), BF_ScaleHeight(76), BF_ScaleHeight(76))];
-    self.goodsImageView.image = [UIImage imageNamed:@"goodsImage"];
+    self.goodsImageView.image = [UIImage imageNamed:@"100.jpg"];
     [detailView addSubview:self.goodsImageView];
     
     self.orderNumberLabel = [UILabel labelWithFrame:CGRectMake(CGRectGetMaxX(self.goodsImageView.frame)+BF_ScaleWidth(8), BF_ScaleHeight(5), BF_ScaleWidth(200), BF_ScaleHeight(19)) font:BF_ScaleFont(11) textColor:BFColor(0x5B5C5D) text:@"订单编号：2016010611593111644"];

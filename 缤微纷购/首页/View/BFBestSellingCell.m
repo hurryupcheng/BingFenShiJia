@@ -113,10 +113,22 @@
             [self.delegate gotoLogin];
         }
     }else {
-        if (self.delegate && [self.delegate respondsToSelector:@selector(addToShoppingCartWithButton:)]) {
-            [self animationStart];
-            [self.delegate addToShoppingCartWithButton:sender];
+        BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:self.model.ID];
+        stor.numbers++;
+        BFLog(@"-----%ld,%ld",stor.numbers,[self.model.stock integerValue]);
+        
+        
+        if ([self.model.stock integerValue] <= 0 ) {
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
+        }else if(stor.numbers > [self.model.stock integerValue] ){
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"商品库存不足"];
+        }else {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(addToShoppingCartWithButton:)]) {
+                [self animationStart];
+                [self.delegate addToShoppingCartWithButton:sender];
+            }
         }
+        
     }
 }
 

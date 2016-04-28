@@ -201,8 +201,7 @@
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
                 self.headerView.statusLabel.text = @"已关闭";
                 self.footerView.hidden = YES;
-                //发送通知修改上级页面
-                [BFNotificationCenter postNotificationName:@"changeOrderArray" object:nil];
+                _block(YES);
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
             }

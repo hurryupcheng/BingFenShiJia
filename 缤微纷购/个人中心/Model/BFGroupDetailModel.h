@@ -7,12 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-@class ItemModel, TeamList;
+@class ItemModel, TeamList, UserSelf;
 @interface BFGroupDetailModel : NSObject
 /**产品模型*/
 @property (nonatomic, strong) ItemModel *item;
 /**参团人数*/
 @property (nonatomic, strong) NSArray<TeamList *> *thisteam;
+/**用户本身数据*/
+@property (nonatomic, strong) UserSelf *user_self;
 /**状态 1组团成功 2组团失败 0 根据xinxi判断*/
 @property (nonatomic, strong) NSString *status;
 /**差几人*/
@@ -21,7 +23,7 @@
 @property (nonatomic, strong) NSString *xinxi;
 /**活动结束时间*/
 @property (nonatomic, strong) NSString *endtime;
-/**活动结束时间*/
+/**活动开始时间*/
 @property (nonatomic, strong) NSString *nowtime;
 @end
 
@@ -51,4 +53,31 @@
 @property (nonatomic, strong) NSString *addtime;
 /**参团顺序。1.团长，2.沙发，3其他*/
 @property (nonatomic, strong) NSString *join;
+/**团员的uid*/
+@property (nonatomic, strong) NSString *userid;
+/**团员支付方式1.微信。2.支付宝*/
+@property (nonatomic, strong) NSString *pay_type;
+/**注册类型*/
+@property (nonatomic, strong) NSString *reg_type;
+@end
+
+@interface UserSelf :NSObject
+/**用户头像*/
+@property (nonatomic, strong) NSString *user_icon;
+/**用户昵称*/
+@property (nonatomic, strong) NSString *nickname;
+/**参团时间*/
+@property (nonatomic, strong) NSString *addtime;
+/**参团顺序。1.团长，2.沙发，3其他*/
+@property (nonatomic, strong) NSString *join;
+/**团员的uid*/
+@property (nonatomic, strong) NSString *userid;
+/**团员支付方式1.微信。2.支付宝*/
+@property (nonatomic, strong) NSString *pay_type;
+/**注册类型*/
+@property (nonatomic, strong) NSString *reg_type;
+/**订单号*/
+@property (nonatomic, strong) NSString *orderid;
+/**订单总价格*/
+@property (nonatomic, strong) NSString *order_sumPrice;
 @end

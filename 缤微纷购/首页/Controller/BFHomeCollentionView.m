@@ -89,10 +89,14 @@
     
 #warning 契合度最高的话 最好时修改 LBView   直接传model进去
     NSMutableArray * arr = [NSMutableArray arrayWithCapacity:0];
-   
-   for (HomeOtherModel * model in _homeModel.bannerDataArray) {
+    if (_homeModel.bannerDataArray.count != 0) {
+        for (HomeOtherModel * model in _homeModel.bannerDataArray) {
             [arr addObject:model.content];
-   }
+        }
+    }else{
+        return;
+    }
+  
     self.lbView.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
@@ -110,8 +114,7 @@
     self.viewBut.backgroundColor = [UIColor whiteColor];
     self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
     [self.headerView addSubview:self.viewBut];
-    
-    
+   
     [self.viewBut addSubview:self.functionView];
     
     
@@ -447,28 +450,46 @@
 #pragma  mark 获取数据
 - (void)CollectionViewgetDate{
     
-    NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-        
-        if (data != nil) {
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
+    [BFHttpTool GET:url params:nil success:^(id responseObject) {
+        BFLog(@"%@", responseObject);
+        if (responseObject) {
             [self.dataArray removeAllObjects];
-            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            
-            HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];
+            BFLog(@"%@",responseObject);
+            HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
             self.homeModel = homeModel;
-            
-        }else{
-//            [BFProgressHUD MBProgressFromWindowWithLabelText:@"当前网络异常"];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
             [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];
-        });
-        
+        }
+    } failure:^(NSError *error) {
+        [self.collentionView.mj_header endRefreshing];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        BFLog(@"%@", error);
     }];
+    
+    
+//    NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"]];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+//    
+//    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
+//        
+//        if (data != nil) {
+//            [self.dataArray removeAllObjects];
+//            NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+//            BFLog(@"%@",dic);
+//            HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:dic];
+//            self.homeModel = homeModel;
+//            
+//        }else{
+////            [BFProgressHUD MBProgressFromWindowWithLabelText:@"当前网络异常"];
+//        }
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.collentionView reloadData];
+//            [self.collentionView.mj_header endRefreshing];
+//        });
+//        
+//    }];
     
 }
 
@@ -489,7 +510,9 @@
 
 - (LBView *)lbView{
     if (!_lbView) {
+      
         _lbView = [[LBView alloc]init];
+        
     }
     return _lbView;
 }

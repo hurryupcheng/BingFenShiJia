@@ -24,3 +24,8 @@
 @implementation TeamList
 
 @end
+
+@implementation UserSelf
+
+
+@end

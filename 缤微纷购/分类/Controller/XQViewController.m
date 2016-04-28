@@ -223,27 +223,27 @@
         
         if ([_xqOtherModel.stock integerValue] <= 0) {
             [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
-    }else{
-     self.sumNum++;
-    BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_xqOtherModel.ID];
-        
-        if (stor.numbers >= [_xqOtherModel.stock integerValue]) {
-        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多库存"];
         }else{
-    [self animationStart:cell];
-     if (stor == nil) {
-        self.sumNumber++;
-        self.numLabel.alpha = 1;
+            self.sumNum++;
+            BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_xqOtherModel.ID];
         
-        self.numLabel.text = [NSString stringWithFormat:@"%ld",(long)self.sumNumber];
-        [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
-     }
+            if (stor.numbers >= [_xqOtherModel.stock integerValue]) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多库存"];
+        }else{
+            [self animationStart:cell];
+            if (stor == nil) {
+                self.sumNumber++;
+                self.numLabel.alpha = 1;
+        
+                self.numLabel.text = [NSString stringWithFormat:@"%ld",(long)self.sumNumber];
+                [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
+            }
 
-    BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
     
-    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
-    [[CXArchiveShopManager sharedInstance]startArchiveShop];
-           }
+            [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
+            [[CXArchiveShopManager sharedInstance]startArchiveShop];
+            }
         }
     }
 }

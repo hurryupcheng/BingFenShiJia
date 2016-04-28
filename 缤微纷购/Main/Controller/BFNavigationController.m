@@ -40,13 +40,13 @@
     // 设置普通状态
     // key：NS****AttributeName
     NSMutableDictionary *textAttrs = [NSMutableDictionary dictionary];
-    textAttrs[NSForegroundColorAttributeName] = BFColor(0x1A2E90);
+    textAttrs[NSForegroundColorAttributeName] = BFColor(0x0977ca);
     textAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:13];
     [item setTitleTextAttributes:textAttrs forState:UIControlStateNormal];
     
     // 设置不可用状态
     NSMutableDictionary *disableTextAttrs = [NSMutableDictionary dictionary];
-    disableTextAttrs[NSForegroundColorAttributeName] = BFColor(0x1A2E90);
+    disableTextAttrs[NSForegroundColorAttributeName] = BFColor(0x0977ca);
     disableTextAttrs[NSFontAttributeName] = [UIFont systemFontOfSize:13];
     [item setTitleTextAttributes:disableTextAttrs forState:UIControlStateHighlighted];
     

@@ -46,7 +46,7 @@
 - (void)setModel:(BFOrderProductModel *)model {
     _model = model;
     
-    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     
     
     self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(180), 0);
@@ -70,7 +70,7 @@
 - (void)setCell {
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(15), BF_ScaleHeight(5), BF_ScaleHeight(90), BF_ScaleWidth(90))];
-    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+    self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     self.productIcon.layer.cornerRadius = 5;
     self.productIcon.layer.masksToBounds = YES;
     //self.productIcon.backgroundColor = [UIColor redColor];

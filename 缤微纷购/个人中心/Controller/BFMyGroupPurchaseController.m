@@ -38,7 +38,6 @@
         _tableView.backgroundColor = BFColor(0xF4F4F4);
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_tableView];
-        
     }
     return _tableView;
 }
@@ -72,7 +71,7 @@
                     NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
                     if (array.count != 0) {
                         [self.groupArray addObjectsFromArray:array];
-                        BFLog(@"我的订单%@,,%@",responseObject, self.groupArray);
+                        BFLog(@"我的订单%@,",responseObject);
                     }else {
                         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
                     }

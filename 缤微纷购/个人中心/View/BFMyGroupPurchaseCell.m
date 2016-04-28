@@ -46,7 +46,7 @@
 - (void)setModel:(BFMyGroupPurchaseModel *)model{
     _model = model;
     if (model) {
-        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+        [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         self.titleLabel.text = model.title;
         self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@",model.team_num, model.team_price];
         
@@ -84,7 +84,7 @@
         [self.backgroudView addSubview:self.line];
         
         self.productImageView = [[UIImageView alloc] init];
-        self.productImageView.image = [UIImage imageNamed:@"goodsImage"];
+        self.productImageView.image = [UIImage imageNamed:@"100.jpg"];
         self.productImageView.layer.borderWidth = 1;
         self.productImageView.layer.backgroundColor = BFColor(0x858585).CGColor;
         [self.backgroudView addSubview:self.productImageView];

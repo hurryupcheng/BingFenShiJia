@@ -76,8 +76,8 @@
     
     
 
-    
-    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate date]init]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime integerValue]] options:0];
+    NSInteger nowTime = [self.model.nowtime integerValue];
+    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:nowTime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime integerValue]] options:0];
     
     NSString *betweenTime;
 
