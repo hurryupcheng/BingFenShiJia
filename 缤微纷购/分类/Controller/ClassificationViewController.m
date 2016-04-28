@@ -50,20 +50,20 @@
 #pragma mark 左边菜单栏
 - (void)initWithLeftView{
     
-    self.scrollV = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, fen_x, self.view.bounds.size.height-50)];
+    self.scrollV = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, fen_x, self.view.bounds.size.height)];
     self.scrollV.contentSize = CGSizeMake(0, self.dataSourceArray.count*40);
     self.scrollV.showsHorizontalScrollIndicator = NO;
     self.scrollV.showsVerticalScrollIndicator = NO;
-    self.scrollV.backgroundColor = rgb(211, 211, 211, 1.0);
+    self.scrollV.backgroundColor = BFColor(0xF2F4F5);
     [self.view addSubview:self.scrollV];
     
     for (int i = 0; i < self.dataSourceArray.count; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         button.frame = CGRectMake(0, 40*i, fen_x+1, 40);
-        button.backgroundColor = rgb(211, 211, 211, 1.0);
+        button.backgroundColor = BFColor(0xF2F4F5);
         button.tag = i;
-        button.layer.borderColor = rgb(190, 190, 190, 1.0).CGColor;
-        button.layer.borderWidth = 0.5;
+        button.layer.borderColor = BFColor(0xD1D3D4).CGColor;
+        button.layer.borderWidth = 0.25;
         if (i == 0) {
             button.selected = YES;
             self.selectedButton = button;
@@ -73,8 +73,8 @@
         
         [button setTitle:model.name forState:UIControlStateNormal];
         [button setBackgroundImage:[UIImage imageNamed:@"12.png"] forState:UIControlStateSelected];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+        [button setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
+        [button setTitleColor:BFColor(0x0977ca) forState:UIControlStateSelected];
         button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
         
         [button addTarget:self action:@selector(buttontag:) forControlEvents:UIControlEventTouchUpInside];

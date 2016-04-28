@@ -397,9 +397,13 @@
             [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:storage.shopID];
             
             [self.dateArr removeObjectAtIndex:cell.tag];
+            UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+            tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)self.dateArr.count];
+
             [self.tabView reloadData];
             if (self.dateArr.count == 0) {
                 [self.tabView removeFromSuperview];
+                tabBar.tabBarItem.badgeValue = nil;
                 [self data];
             }
         }

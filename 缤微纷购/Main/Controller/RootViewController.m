@@ -29,7 +29,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.tabBar.translucent = NO;
+    self.tabBar.translucent = NO;
     NSArray *array = @[@"首页",@"购物车",@"个人中心",@"分类",@"物流·售后"];
     self.homeVC = [[HomeViewController alloc]init];
    
@@ -78,7 +78,7 @@
     //VC.navigationController.navigationBar.translucent = NO;
     VC.tabBarItem.image = [[UIImage imageNamed:image]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     VC.tabBarItem.selectedImage = [[UIImage imageNamed:selectimage] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.tabBar.tintColor = [UIColor redColor];
+    self.tabBar.tintColor = BFColor(0x0977ca);
     
     [self addChildViewController:navigation];
 
