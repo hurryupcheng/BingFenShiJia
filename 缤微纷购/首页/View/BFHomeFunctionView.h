@@ -31,7 +31,7 @@ typedef enum {
 
 @protocol BFHomeFunctionViewDelegate <NSObject>
 
-- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type;
+- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type list:(BFHomeFunctionButtonList *)list;
 
 @end
 

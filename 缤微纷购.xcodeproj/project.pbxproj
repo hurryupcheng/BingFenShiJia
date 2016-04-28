@@ -292,6 +292,7 @@
 		59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7A9F71C8F1596007DAF42 /* BFAddRecommenderView.m */; };
 		59F7BC741CBE871600DB8136 /* BFDailySpecialHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7BC731CBE871600DB8136 /* BFDailySpecialHeaderView.m */; };
 		59F7BC771CBE8D5600DB8136 /* BFDailySpecialProductView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7BC761CBE8D5600DB8136 /* BFDailySpecialProductView.m */; };
+		59F7CEAC1CD2680D00FAEDAD /* BFAboutController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7CEAB1CD2680D00FAEDAD /* BFAboutController.m */; };
 		59F7D26D1C8E986600E3F854 /* BFUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26C1C8E986600E3F854 /* BFUserInfo.m */; };
 		59F7D2701C8E9B1D00E3F854 /* BFRegistModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7D26F1C8E9B1D00E3F854 /* BFRegistModel.m */; };
 		59F7E0BE1CA02C9C008D7D21 /* BFOrderDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F7E0BD1CA02C9C008D7D21 /* BFOrderDetailBottomView.m */; };
@@ -1085,6 +1086,8 @@
 		59F7BC731CBE871600DB8136 /* BFDailySpecialHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDailySpecialHeaderView.m; sourceTree = "<group>"; };
 		59F7BC751CBE8D5600DB8136 /* BFDailySpecialProductView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFDailySpecialProductView.h; sourceTree = "<group>"; };
 		59F7BC761CBE8D5600DB8136 /* BFDailySpecialProductView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDailySpecialProductView.m; sourceTree = "<group>"; };
+		59F7CEAA1CD2680D00FAEDAD /* BFAboutController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAboutController.h; sourceTree = "<group>"; };
+		59F7CEAB1CD2680D00FAEDAD /* BFAboutController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAboutController.m; sourceTree = "<group>"; };
 		59F7D26B1C8E986600E3F854 /* BFUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFUserInfo.h; sourceTree = "<group>"; };
 		59F7D26C1C8E986600E3F854 /* BFUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFUserInfo.m; sourceTree = "<group>"; };
 		59F7D26E1C8E9B1D00E3F854 /* BFRegistModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRegistModel.h; sourceTree = "<group>"; };
@@ -1896,6 +1899,8 @@
 				51D1220C1C3A75B400640A44 /* PersonalViewController.m */,
 				59FFCEC71C89EA6600ADF8F0 /* BFSettingController.h */,
 				59FFCEC81C89EA6600ADF8F0 /* BFSettingController.m */,
+				59F7CEAA1CD2680D00FAEDAD /* BFAboutController.h */,
+				59F7CEAB1CD2680D00FAEDAD /* BFAboutController.m */,
 				597CE6A21CA92547005B6C28 /* BFModifyPasswordController.h */,
 				597CE6A31CA92547005B6C28 /* BFModifyPasswordController.m */,
 				51811AF31C7451AC004E29A8 /* LogViewController.h */,
@@ -3714,6 +3719,7 @@
 				59FF74851CAE1A860063F770 /* UITextField+Extension.m in Sources */,
 				59FF750B1CAE1A860063F770 /* STColor.m in Sources */,
 				59FF748B1CAE1A860063F770 /* ViewController.m in Sources */,
+				59F7CEAC1CD2680D00FAEDAD /* BFAboutController.m in Sources */,
 				590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */,
 				59FF74911CAE1A860063F770 /* BFFuctionButton.m in Sources */,
 				59F7A9F81C8F1596007DAF42 /* BFAddRecommenderView.m in Sources */,

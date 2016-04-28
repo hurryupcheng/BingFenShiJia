@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-@class BFHomeFunctionButtonList, BFHomeBannerList;
+@class BFHomeFunctionButtonList, BFHomeBannerList, BFSettingList;
 @interface BFHomeModel : NSObject
 /**8个功能按钮*/
 @property (nonatomic, strong) NSArray<BFHomeFunctionButtonList *> *abs_b;
@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSString *ads_pic;
 /**轮播图*/
 @property (nonatomic, strong) NSArray<BFHomeBannerList *> *ads_banner;
+/**设置页面，关于缤纷的点击跳转*/
+@property (nonatomic, strong) NSArray<BFSettingList *> *about_link;
 @end
 
 @interface BFHomeFunctionButtonList : NSObject
@@ -36,3 +38,12 @@
 /**id_type*/
 @property (nonatomic, strong) NSString *id_type;
 @end
+
+@interface BFSettingList : NSObject
+/**url*/
+@property (nonatomic, strong) NSString *ID;
+/**网址链接*/
+@property (nonatomic, strong) NSString *url;
+
+@end
+
