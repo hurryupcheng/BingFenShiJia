@@ -128,6 +128,11 @@
     [self.view bringSubviewToFront:self.homeVC.view];
 }
 
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    self.tabBarController.tabBar.translucent = YES;
+//}
+
 //- (void)changeCurrentCity:(NSNotification *)notification {
 //    self.currentCity = notification.userInfo[@"city"];
 //    

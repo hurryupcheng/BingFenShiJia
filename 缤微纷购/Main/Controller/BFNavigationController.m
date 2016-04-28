@@ -7,6 +7,7 @@
 //
 
 #import "BFNavigationController.h"
+#import "RootViewController.h"
 
 @interface BFNavigationController ()<UINavigationControllerDelegate,UIGestureRecognizerDelegate>
 
@@ -73,7 +74,7 @@
 {
     if (self.viewControllers.count > 0) { // 这时push进来的控制器viewController，不是第一个子控制器（不是根控制器）
         /* 自动显示和隐藏tabbar */
-//        viewController.hidesBottomBarWhenPushed = YES;
+        viewController.hidesBottomBarWhenPushed = YES;
         
         /* 设置导航栏上面的内容 */
         // 设置左边的返回按钮
@@ -91,6 +92,15 @@
     
     [super pushViewController:viewController animated:animated];
 }
+
+//- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+//    UITabBarController *tabBarVC = (UITabBarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+//    for (UIView *tabBarButton in tabBarVC.tabBar.subviews) {
+//        if (![tabBarButton isKindOfClass:[RootViewController class]]) {
+//            [tabBarButton removeFromSuperview];
+//        }
+//    }
+//}
 
 
 - (UIBarButtonItem *)itemWithTarget:(id)target action:(SEL)action image:(NSString *)image highImage:(NSString *)highImage

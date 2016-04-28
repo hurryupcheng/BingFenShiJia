@@ -182,6 +182,7 @@
 		5938ACC41CAB8145004D076A /* BFGroupDetailTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC31CAB8145004D076A /* BFGroupDetailTabbar.m */; };
 		5938ACC71CABB07E004D076A /* BFGroupDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */; };
 		5938ACCA1CABD0F8004D076A /* BFGroupDetailStatusView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5938ACC91CABD0F8004D076A /* BFGroupDetailStatusView.m */; };
+		5942F2D71CD229E1004D64D4 /* BFCleanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5942F2D61CD229E1004D64D4 /* BFCleanView.m */; };
 		594E3AA21CA627BF004C3635 /* BFBottomHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 594E3AA11CA627BF004C3635 /* BFBottomHeaderView.m */; };
 		594EE0DE1C8C162F00A243AE /* BFMyIntegralCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0DC1C8C162F00A243AE /* BFMyIntegralCell.m */; };
 		594EE0E21C8C1F2600A243AE /* BFMyCouponsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 594EE0E11C8C1F2600A243AE /* BFMyCouponsController.m */; };
@@ -821,6 +822,8 @@
 		5938ACC51CABB07E004D076A /* BFGroupDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailModel.h; sourceTree = "<group>"; };
 		5938ACC61CABB07E004D076A /* BFGroupDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailModel.m; sourceTree = "<group>"; };
 		5938ACC91CABD0F8004D076A /* BFGroupDetailStatusView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailStatusView.m; sourceTree = "<group>"; };
+		5942F2D51CD229E1004D64D4 /* BFCleanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCleanView.h; sourceTree = "<group>"; };
+		5942F2D61CD229E1004D64D4 /* BFCleanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCleanView.m; sourceTree = "<group>"; };
 		594E3AA01CA627BF004C3635 /* BFBottomHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFBottomHeaderView.h; sourceTree = "<group>"; };
 		594E3AA11CA627BF004C3635 /* BFBottomHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFBottomHeaderView.m; sourceTree = "<group>"; };
 		594EE0DB1C8C162F00A243AE /* BFMyIntegralCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyIntegralCell.h; sourceTree = "<group>"; };
@@ -2756,6 +2759,8 @@
 				59FF73361CAE1A860063F770 /* BFSegmentView.m */,
 				59FF73371CAE1A860063F770 /* BFShareView.h */,
 				59FF73381CAE1A860063F770 /* BFShareView.m */,
+				5942F2D51CD229E1004D64D4 /* BFCleanView.h */,
+				5942F2D61CD229E1004D64D4 /* BFCleanView.m */,
 				59F9F8DA1CC13C7C0010A9B5 /* BFSoundEffect.h */,
 				59F9F8DB1CC13C7C0010A9B5 /* BFSoundEffect.m */,
 				59FD130C1CBFEC3B00B2292A /* ShareCustom.h */,
@@ -3534,6 +3539,7 @@
 				59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */,
 				59FF74DE1CAE1A860063F770 /* MJRefreshBackStateFooter.m in Sources */,
 				59FF74CB1CAE1A860063F770 /* MJFoundation.m in Sources */,
+				5942F2D71CD229E1004D64D4 /* BFCleanView.m in Sources */,
 				59513B201C9F8B3D0028B008 /* BFBottomCell.m in Sources */,
 				593788A41CBE0E0D009240C7 /* BFPanicBuyingHeaderView.m in Sources */,
 				59F9FB2D1CA388D600042501 /* BFCommissionModel.m in Sources */,

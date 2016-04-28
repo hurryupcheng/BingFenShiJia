@@ -15,6 +15,7 @@
 #import "LogViewController.h"
 #import "BFCustomerServiceView.h"
 
+
 @interface BFBestSellingController ()<UITableViewDelegate, UITableViewDataSource, BFBestSellingCellDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;

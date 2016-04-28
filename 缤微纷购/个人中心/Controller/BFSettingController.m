@@ -13,7 +13,7 @@
 #import "BFPersonInformationController.h"
 #import "BFModifyPasswordController.h"
 #import "ShareCustom.h"
-
+#import "BFCleanView.h"
 
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate>
@@ -174,10 +174,18 @@
                 BFLog(@"修改密码");
                 break;
             }
-            case 1:
+            case 1:{
                 BFLog(@"清空图片缓存");
+                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                BFCleanView *cleanView = [BFCleanView cleanView];
+                [window addSubview:cleanView];
+                
+                CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                [[SDImageCache sharedImageCache] clearDisk];
+                BFLog(@"缓存--%@", clearCacheName);
                 break;
-            case 2:{
+            }case 2:{
                 BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
                 [self.navigationController pushViewController:personInformationVC animated:YES];
                 BFLog(@"个人信息");
