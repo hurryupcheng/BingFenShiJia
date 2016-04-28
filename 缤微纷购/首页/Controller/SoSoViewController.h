@@ -14,4 +14,5 @@
 
 @property (nonatomic, strong) BFHotSosoViewController * HotSosoVc;
 @property (nonatomic, strong) BFSosoHistoryViewController * SosoHistoryVc;
+
 @end

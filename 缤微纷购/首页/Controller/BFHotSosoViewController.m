@@ -49,7 +49,11 @@
     _HotSosoHistoryArr = [HotSosoHistoryDe valueForKey:@"HFSosoHistoryData"];
     
     [self downLoadData:nil];
-    
+
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SosoEvent:) name:@"HFSosoEvent" object:nil];
 }
 
@@ -61,7 +65,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 #pragma -mark 数据请求

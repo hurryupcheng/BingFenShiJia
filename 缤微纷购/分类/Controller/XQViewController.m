@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/8.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+
 #import "LogViewController.h"
 #import "CXArchiveShopManager.h"
 #import "BFStorage.h"
@@ -345,7 +346,7 @@
     date[@"p"] = @(self.page);
     
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-        
+    
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
@@ -368,20 +369,34 @@
     }];
 }
 
+- (void)times:(UIButton *)seg{
+    
+    [self performSelector:@selector(segs:) withObject:seg afterDelay:1];
+}
+
+- (void)segs:(UIButton *)but{
+    but.userInteractionEnabled = YES;
+}
+
 - (void)segmented:(UIButton *)seg{
     self.selectend.selected = NO;
     seg.selected = YES;
     self.selectend = seg;
     self.page = 1;
+    
     switch (seg.tag) {
         case 0:
         {
             self.sort = 1;
+            seg.userInteractionEnabled = NO;
+            [self times:seg];
             [self getUpNewDate];
         }
             break;
         case 1:{
             self.sort = 2;
+            seg.userInteractionEnabled = NO;
+            [self times:seg];
             [self getUpNewDate];
         }
             break;
@@ -391,6 +406,8 @@
             
             if (self.sorke == YES) {
                 self.sort = 4;
+                seg.userInteractionEnabled = NO;
+                [self times:seg];
                 [self getUpNewDate];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                   temp = CGAffineTransformMakeTranslation(0, 0);
@@ -401,6 +418,8 @@
                 self.sorke = NO;
             }else{
             self.sort = 3;
+                seg.userInteractionEnabled = NO;
+                [self times:seg];
             [self getUpNewDate];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
                 temp = CGAffineTransformMakeTranslation(0, 0);
