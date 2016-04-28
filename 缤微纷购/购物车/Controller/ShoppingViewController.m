@@ -68,15 +68,13 @@
     
 //    [self getNewDate];
        [self getDate];
-    if (self.footItem == YES) {
-        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, 0)];
-    }else{
-        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
-    }
         self.views.backgroundColor = [UIColor whiteColor];
-    
+    if (self.footItem == NO) {
+       
+        self.views.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
+    }
         [self.view addSubview:self.views];
-
+    
        self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.views.height-115)];
        self.groubView.backgroundColor = rgb(245, 245, 245, 1.0);
        
@@ -458,7 +456,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-    
+
     [self.backV removeFromSuperview];
     self.userInfo = [BFUserDefaluts getUserInfo];
     if (self.userInfo == nil) {
@@ -471,7 +469,6 @@
     if (self.dateArr.count == 0) {
         self.footItem = NO;
         [self data];
-       
     }else{
         self.footItem = YES;
         [self getDate];
@@ -496,13 +493,13 @@
     return _scroll;
 }
 
-//- (UIView *)views{
-//    if (!_views) {
-//        _views = [[UIView alloc]init];
-//        NSLog(@"33333333");
-//    }
-//    return _views;
-//}
+- (UIView *)views{
+    if (!_views) {
+    self.views = [[UIView alloc]init];
+  
+    }
+    return _views;
+}
 
 - (NSMutableArray *)dateArr{
     if (!_dateArr) {
