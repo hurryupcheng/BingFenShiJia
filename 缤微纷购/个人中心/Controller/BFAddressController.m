@@ -50,7 +50,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-66)];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-64)];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xffffff);
@@ -87,7 +87,7 @@
     self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"收货地址";
     //添加背景
-    [self bgImageView];
+    //[self bgImageView];
     //添加导航栏
     [self setNavigationBar];
     //添加tableView
@@ -128,9 +128,7 @@
             BFLog(@"---%@", responseObject);
             if (responseObject) {
                 [self.addressArray removeAllObjects];
-                if ([responseObject[@"msg"] isEqualToString:@"空"]) {
-                    self.bgImageView.hidden = NO;
-                }else {
+               
                     NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
                     [self.addressArray addObjectsFromArray:array];
                     if (self.addressArray.count == 0) {
@@ -139,7 +137,7 @@
                         self.bgImageView.hidden = YES;
                     }
 
-                }
+                
             }else {
                 self.bgImageView.hidden = NO;
             }

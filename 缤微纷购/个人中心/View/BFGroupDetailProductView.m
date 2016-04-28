@@ -45,7 +45,7 @@
         }
         
         ItemModel *itemModel = [ItemModel parse:model.item];
-        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:itemModel.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:itemModel.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         
         
         self.productTitle.text = itemModel.title;
@@ -70,7 +70,7 @@
     [self addSubview:self.cover];
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(90), BF_ScaleHeight(90))];
-    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+    self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     [self addSubview:self.productIcon];
     
     

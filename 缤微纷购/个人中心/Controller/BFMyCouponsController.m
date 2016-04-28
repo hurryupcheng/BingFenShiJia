@@ -179,9 +179,11 @@
             if ([responseObject[@"msg"] isEqualToString:@"恭喜领取成功，请去购物吧！"]) {
                 
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"恭喜领取成功，请去购物吧！"];
-                    [self getData];
-//                    self.segment.segmented.selectedSegmentIndex = 1;
-//                    [self.segment click];
+                    [self.couponsArray removeObjectAtIndex:indexPath.row];
+                    //[self.couponsArray removeObject:model];
+
+                    [self.tableView reloadData];
+
             }else if ([responseObject[@"msg"] isEqualToString:@"对不起！已经领取光了"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"对不起！已经领取光了"];
             }else if ([responseObject[@"msg"] isEqualToString:@"您已经领取过该券，请去购物吧"]) {

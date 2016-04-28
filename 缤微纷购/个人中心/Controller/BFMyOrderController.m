@@ -90,35 +90,9 @@
     //进入页面点击分段控制器第一个
     self.segment.segmented.selectedSegmentIndex = 0;
     [self.segment click];
-    //接受通知
-    [BFNotificationCenter addObserver:self selector:@selector(changeOrderArray) name:@"changeOrderArray" object:nil];
-
-}
-
-//移除通知
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
-
-#pragma mark -- 接受通知重新请求
-- (void)changeOrderArray {
-    [self getData];
 }
 
 
-
-#pragma mark -- 加载数据添加HUD层
-- (void)addLoadingHUD {
-    
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
-        [self getData];
-        [UIView animateWithDuration:0.5 animations:^{
-            self.tableView.y = 50;
-        } completion:nil];
-    }];
-}
 
 #pragma mark -- 获取数据
 - (void)getData {
@@ -126,33 +100,38 @@
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
-    
-    [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
-        [self.oderArray removeAllObjects];
-        if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
-            
-            
-            NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
-            if (array.count != 0 ) {
-                self.tableView.hidden = NO;
-                self.bgImageView.hidden = YES;
-                [self.oderArray addObjectsFromArray:array];
-            }else {
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+
+        [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+            [self.oderArray removeAllObjects];
+            if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
+                
+                
+                NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
+                if (array.count != 0 ) {
+                    self.tableView.hidden = NO;
+                    self.bgImageView.hidden = YES;
+                    [self.oderArray addObjectsFromArray:array];
+                }else {
+                    self.tableView.hidden = YES;
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                }
+            }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
                 self.tableView.hidden = YES;
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
             }
-        }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
-            self.tableView.hidden = YES;
-            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
-        }
-        BFLog(@"我的订单%@",responseObject);
-        [self.tableView reloadData];
-
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
-        BFLog(@"error%@",error);
+            BFLog(@"我的订单%@",responseObject);
+            [self.tableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.tableView.y = 50;
+            } completion:nil];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
+            BFLog(@"error%@",error);
+        }];
     }];
-
 }
 
 
@@ -170,19 +149,19 @@
             BFLog(@"点击未付款");
             self.parameter[@"status"] = @"1";
             self.parameter[@"refund_status"] = nil;
-            [self addLoadingHUD];
+            [self getData];
             break;
         case 1:
             BFLog(@"点击已付款");
             self.parameter[@"status"] = @"2";
             self.parameter[@"refund_status"] = nil;
-            [self addLoadingHUD];
+            [self getData];
             break;
         case 2:
             BFLog(@"点击我的售后");
             self.parameter[@"status"] = nil;
             self.parameter[@"refund_status"] = @"1";
-            [self addLoadingHUD];
+            [self getData];
             break;
         default:
             break;
@@ -251,6 +230,12 @@
     BFMyOrderModel *model = self.oderArray[indexPath.row];
     BFMyOrderDetailController *detailVC = [BFMyOrderDetailController new];
     detailVC.orderId = model.orderId;
+    detailVC.block = ^(BOOL isCancle) {
+        if (isCancle) {
+            [self.oderArray removeObjectAtIndex:indexPath.row];
+            [self.tableView reloadData];
+        }
+    };
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 

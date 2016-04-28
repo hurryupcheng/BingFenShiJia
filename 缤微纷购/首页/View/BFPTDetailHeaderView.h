@@ -9,12 +9,23 @@
 #import "BFPurchaseButton.h"
 #import <UIKit/UIKit.h>
 #import "BFPTDetailModel.h"
+
+
+@protocol BFPTDetailHeaderViewDelegate <NSObject>
+/**个人*/
+- (void)gotoAlonePurchase;
+/**拼团*/
+- (void)gotoGroupPurchaseButton;
+@end
+
 @interface BFPTDetailHeaderView : UIView
+/**代理*/
+@property (nonatomic, weak) id<BFPTDetailHeaderViewDelegate>delegate;
+
 @property (nonatomic, assign) CGFloat headerHeight;
+
 @property (nonatomic, strong) BFPTDetailModel *detailModel;
 
-@property (nonatomic, strong) BFPurchaseButton *groupPurchaseButton;
-@property (nonatomic, strong) BFPurchaseButton *alonePurchaseButton;
 @property (nonatomic, strong) BFPTStep *step;
 
 @end

@@ -8,10 +8,19 @@
 #import "BFPTDetailHeaderView.h"
 
 @interface BFPTDetailHeaderView ()
+/**轮播图*/
 @property (nonatomic, strong) SDCycleScrollView *cycleScrollView;
+/**团购按钮*/
+@property (nonatomic, strong) BFPurchaseButton *groupPurchaseButton;
+/**个人购买按钮*/
+@property (nonatomic, strong) BFPurchaseButton *alonePurchaseButton;
+/**标题*/
 @property (nonatomic, strong) UILabel *titleLabel;
+/**详情*/
 @property (nonatomic, strong) UILabel *detailLabel;
+/**玩法*/
 @property (nonatomic, strong) UILabel *playLabel;
+
 @property (nonatomic, strong) UIView *view;
 
 @end
@@ -76,7 +85,7 @@
 
 - (void)setView {
     self.backgroundColor = BFColor(0xD4D4D4);
-    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(140)) delegate:nil placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(150)) delegate:nil placeholderImage:[UIImage imageNamed:@"750.jpg"]];
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
@@ -152,10 +161,16 @@
 
 
 - (void)groupPurchase:(BFPurchaseButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGroupPurchaseButton)]) {
+        [self.delegate gotoGroupPurchaseButton];
+    }
     BFLog(@"团购购买");
 }
 
 - (void)alonePurchase:(BFPurchaseButton *)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoAlonePurchase)]) {
+        [self.delegate gotoAlonePurchase];
+    }
     BFLog(@"个人购买");
 }
 @end

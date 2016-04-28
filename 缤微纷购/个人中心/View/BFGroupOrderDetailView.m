@@ -152,7 +152,7 @@
         
         self.distributionMode.text = model.userfree;
         
-        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+        [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         
         self.productTitle.text = model.title;
         
@@ -283,7 +283,7 @@
     
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(15), BF_ScaleHeight(60), BF_ScaleHeight(60))];
-    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+    self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     [productView addSubview:self.productIcon];
     
     self.productTitle = [self setUpLabelWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame) + BF_ScaleWidth(15), self.productIcon.y, BF_ScaleWidth(220), 0) text:@"【万人预售】精选阳西套袋荔枝毛重10斤装顺丰包邮,"];
