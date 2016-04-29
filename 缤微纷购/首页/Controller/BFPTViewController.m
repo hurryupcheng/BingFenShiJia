@@ -7,7 +7,7 @@
 //
 #import "Height.h"
 #import "UIImageView+WebCache.h"
-
+#import "AFNTool.h"
 #import "PTModel.h"
 #import "BFPTDetailViewController.h"
 #import "LBView.h"
@@ -38,7 +38,7 @@
 
 - (UITableView *)tableV{
     if (!_tableV) {
-        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, -30, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, -30, kScreenWidth, kScreenHeight-40) style:UITableViewStyleGrouped];
         
         self.tableV.separatorStyle = UITableViewCellSeparatorStyleNone;
         self.tableV.showsHorizontalScrollIndicator = NO;
@@ -48,20 +48,11 @@
         self.tableV.dataSource = self;
 //        self.tableV.backgroundColor = [UIColor greenColor];
         [self.tableV registerClass:[PTTableViewCell class] forCellReuseIdentifier:@"reuse"];
-        //        [self setDownDate];
-//        CGRect rect = _tableV.frame;
-//        rect.size.height += 10;
-//        _tableV.frame = rect;
         
         [self.view addSubview:self.tableV];
         
     }
     return _tableV;
-}
-
-
-- (void)back {
-    
 }
 
 
@@ -85,15 +76,12 @@
     
 }
 
-
-
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     if (self.ptLBView == nil) {
         return 0;
     }else{
-        return kScreenWidth/2;
+        return kScreenWidth/2+10;
     }
 }
 
@@ -115,9 +103,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
 //    if (indexPath.row == self.dataArray.count) {
-//        return self.cellHeight+15*self.dataArray.count;
+//        return self.cellHeight+20*self.dataArray.count;
 //    }else {
-        return self.cellHeight+15;
+        return self.cellHeight+20;
 //    }
     
 }
@@ -134,19 +122,13 @@
 #pragma  mark 拼团解析
 - (void)tableViewgetDate{
     
-    //    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    //    parameters[@"m"] = @"Json";
-    //    parameters[@"a"] = @"team_buy";
-    //
-    //    [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
-    //        NSArray *array = [BFDataTool getPTArrayWithDic:responseObject];
-    //        [self.dataArray addObjectsFromArray:array];
-    //        [self initWithTabView];
-    //        [self.tableV reloadData];
-    //
-    //    } failure:^(NSError *error) {
-    //
-    //    }];
+    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=team_buy";
+    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
+        
+    } fail:^{
+        
+    }];
+    
     
     NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_buy"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

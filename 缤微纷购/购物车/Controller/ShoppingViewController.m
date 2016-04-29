@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "AFNTool.h"
 #import "LogViewController.h"
 #import "PrefixHeader.pch"
 #import "BFStorage.h"
@@ -116,6 +116,7 @@
                 [self.dateArr removeAllObjects];
                 [self.tabView reloadData];
                 if (self.dateArr.count == 0) {
+                    self.footItem = NO;
                     [self.tabView removeFromSuperview];
                     [self data];
                 }
@@ -184,7 +185,7 @@
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
-    self.header.backgroundColor = rgb(220, 220, 220, 1.0);
+    self.header.backgroundColor = BFColor(0xF3F4F5);
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];
   
@@ -256,7 +257,7 @@
     for (int i = 0; i < self.dataArray.count; i++) {
         self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake(((kScreenWidth-90)/3*i)+(i*10), 0, (kScreenWidth-90)/3, (kScreenWidth-90)/3)];
         _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
-        _imgButton.layer.borderWidth = 1;
+        _imgButton.layer.borderWidth = 0.5;
         _imgButton.tag = i;
         _imgButton.userInteractionEnabled = YES;
         
@@ -435,25 +436,19 @@
 }
 
 - (void)getDate{
-
-    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=cart"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-   [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-      
-       if (data != nil) {
-           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-         
-           BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:dic];
-           self.shoppModel = shoppModel;
-           self.dataArray = [shoppModel.dateArr copy];
-
-       }else{
-       [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-       }
-       [self initWithLoveView];
-//       [self.tabView reloadData];
-       [self.tabView.mj_header endRefreshing];
-   }];
+    
+    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=cart";
+    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
+        BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:responseObject];
+        self.shoppModel = shoppModel;
+        self.dataArray = [shoppModel.dateArr copy];
+        
+        [self initWithLoveView];
+        [self.tabView.mj_header endRefreshing];
+    } fail:^{
+        
+    }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{

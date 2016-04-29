@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/4/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "AFNTool.h"
 #import "BFHomeModel.h"
 #import "BFPTViewController.h"
 #import "BFPTDetailViewController.h"
@@ -301,9 +302,9 @@
     
 }
 - (void)footImageView:(UIButton *)but{
-    if (but.tag == self.homeModel.footDataArray.count-1) {
-        self.tabBarController.selectedIndex = 3;
-    }else{
+//    if (but.tag == self.homeModel.footDataArray.count-1) {
+//        self.tabBarController.selectedIndex = 3;
+//    }else{
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
     for (HomeOtherModel *model in self.homeModel.footDataArray) {
@@ -311,7 +312,7 @@
         [IDArr addObject:model.url];
     }
     [self setIndex:but.tag arr:arr IDArr:IDArr];
-    }
+//    }
 }
 
 - (void)upImageView:(UIButton *)but{
@@ -399,14 +400,13 @@
 #pragma  mark  分区头高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     
-    self.titleArr = @[@"果实",@"地方特产",@"休闲零食",@"酒水",@"今日特价",@"新品首发",@"热销排行",@"试吃体验"];
-    
     if (section == 0) {
-        if (self.titleArr.count <= 4) {
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+10);
-        }else{
-            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+10);
-        }
+//        if (self.titleArr.count <= 4) {
+//            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)+10);
+//        }else{
+//            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+10);
+//        }
+    return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+BF_ScaleHeight(160));
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
     }
@@ -479,6 +479,7 @@
 - (void)CollectionViewgetDate{
     
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
+    
     [BFHttpTool GET:url params:nil success:^(id responseObject) {
         BFLog(@"%@", responseObject);
         if (responseObject) {

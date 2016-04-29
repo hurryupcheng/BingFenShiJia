@@ -319,8 +319,6 @@
         tabBar.tabBarItem.badgeValue = nil;
         [self.navigationController popToRootViewControllerAnimated:YES];
     }];
-    
-    
 
     BFLog(@"点击退出");
 }

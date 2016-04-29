@@ -98,7 +98,6 @@
     self.coupon_id = @"0";
     
     [self initWithFootView];
-    [self initWithTableView];
     [self getData];
 //    [self getNewData];
 }
@@ -514,8 +513,14 @@
     if (indexPath.section == 0){
         switch (indexPath.row) {
             case 0:{
+                
                 cell.textLabel.text = @"支付方式*";
+                
+                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+                [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4, 1)];
+                cell.textLabel.attributedText = attr;
                 [cell addSubview:_payTitle];
+                
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
                 break;
@@ -549,7 +554,7 @@
             
     }else if (indexPath.section == 1){
      
-            NSArray *array = @[@"商品总价",@"运费",@"积分抵扣",@"优惠卷抵扣"];
+            NSArray *array = @[@"商品总价",@"运费",@"积分抵扣",@"优惠卷抵扣*"];
             cell.textLabel.text = array[indexPath.row];
         
         switch (indexPath.row) {
@@ -566,10 +571,15 @@
                 [self getPrice:self.useScorePrice height:cell.height];
                 _everMoney.textColor = [UIColor grayColor];
                 break;
-            }case 3:
+            }case 3:{
                 [self getPrice:self.couponPrice height:cell.height];
+                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+                [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 1)];
+                cell.textLabel.attributedText = attr;
+                
                 _everMoney.textColor = [UIColor grayColor];
                 break;
+        }
             default:
                 break;
         }

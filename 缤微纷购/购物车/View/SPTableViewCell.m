@@ -37,8 +37,8 @@
         
         self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, CGFloatX(80), CGFloatX(80))];
 //        self.imageV.backgroundColor = [UIColor greenColor];
-//        self.imageV.layer.borderWidth = 1;
-//        self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
+        self.imageV.layer.borderWidth = 0.5;
+        self.imageV.layer.borderColor = [UIColor grayColor].CGColor;
         
         self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, 0)];
         self.titleLabel.font = [UIFont systemFontOfSize:CGFloatY(15)];
