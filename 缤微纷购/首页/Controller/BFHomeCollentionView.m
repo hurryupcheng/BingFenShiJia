@@ -28,6 +28,7 @@
 #import "BFBestSellingController.h"
 #import "BFPanicBuyingController.h"
 #import "BFTastingExperienceController.h"
+#import "BFHomeWebViewController.h"
 
 @interface BFHomeCollentionView ()<UICollectionViewDataSource,UICollectionViewDelegate,LBViewDelegate,UICollectionViewDelegateFlowLayout, BFHomeFunctionViewDelegate>
 
@@ -79,11 +80,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.navigationController.navigationBar.translucent = NO;
+    //self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = rgb(69, 130, 242, 1.0);
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    self.navigationController.navigationBar.barTintColor = BFColor(0xffffff);
 }
 
 #pragma  mark 缤纷商城初始化
@@ -160,10 +163,7 @@
         FXQViewController  *fx = [[FXQViewController alloc]init];
         fx.ID = list.cid;
         [self.navigationController pushViewController:fx animated:YES];
-        
-        //        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
-        //        panicBuyingVC.ID = IDArr[index];
-        //        [self.navigationController pushViewController:panicBuyingVC animated:YES];
+
     }else if ([list.typeId isEqualToString:@"2"]){
         BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
         pt.ID = list.cid;
@@ -172,9 +172,17 @@
         XQViewController *xq = [[XQViewController alloc]init];
         xq.ID = list.cid;
         [self.navigationController pushViewController:xq animated:YES];
-    }else{
-        return;
+    }else if ([list.typeId isEqualToString:@"4"]){
+        BFHomeWebViewController *homeWebVC = [[BFHomeWebViewController alloc]init];
+        homeWebVC.titleString = list.title;
+        homeWebVC.url = list.url;
+        [self.navigationController pushViewController:homeWebVC animated:YES];
+    }else if ([list.typeId isEqualToString:@"5"]){
+        BFPanicBuyingController *xq = [[BFPanicBuyingController alloc]init];
+        xq.ID = list.cid;
+        [self.navigationController pushViewController:xq animated:YES];
     }
+
 
     
     
@@ -355,8 +363,6 @@
         XQViewController *xq = [[XQViewController alloc]init];
         xq.ID = IDArr[index];
         [self.navigationController pushViewController:xq animated:YES];
-    }else{
-        return;
     }
 }
 

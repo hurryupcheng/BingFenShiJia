@@ -193,33 +193,37 @@
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
-        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"uid"] = userInfo.ID;
-        parameter[@"token"] = userInfo.token;
-        parameter[@"orderId"] = self.model.orderId;
-        parameter[@"status"] = self.model.status;
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"--%@----%@", responseObject, parameter);
-            if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
-                self.headerView.statusLabel.text = @"已完成";
-                self.model.status = @"4";
-                self.footerView.model = self.model;
-                //self.footerView.hidden = YES;
-                _block(YES);
-            }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
-            }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
-            }else {
-                
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-            BFLog(@"--%@", error);
-        }];
+        if (![self.model.status isEqualToString:@"3"]) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货"];
+        }else {
+            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+            NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];
+            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+            parameter[@"uid"] = userInfo.ID;
+            parameter[@"token"] = userInfo.token;
+            parameter[@"orderId"] = self.model.orderId;
+            parameter[@"status"] = self.model.status;
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"--%@----%@", responseObject, parameter);
+                if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                    self.headerView.statusLabel.text = @"已完成";
+                    self.model.status = @"4";
+                    self.footerView.model = self.model;
+                    //self.footerView.hidden = YES;
+                    _block(YES);
+                }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
+                }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
+                }else {
+                    
+                }
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+                BFLog(@"--%@", error);
+            }];
+        }
     }];
 
 }

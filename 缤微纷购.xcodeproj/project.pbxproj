@@ -347,6 +347,7 @@
 		59FDDD0A1CC13A1000BF8C97 /* composer_close.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD071CC13A1000BF8C97 /* composer_close.wav */; };
 		59FDDD0B1CC13A1000BF8C97 /* composer_open.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD081CC13A1000BF8C97 /* composer_open.wav */; };
 		59FDDD0C1CC13A1000BF8C97 /* composer_select.wav in Resources */ = {isa = PBXBuildFile; fileRef = 59FDDD091CC13A1000BF8C97 /* composer_select.wav */; };
+		59FDFCD91CD35E8A0043F07B /* BFHomeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FDFCD81CD35E8A0043F07B /* BFHomeWebViewController.m */; };
 		59FE13B71CBD4D1A00ACAF54 /* BFDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */; };
 		59FE13BA1CBD4FED00ACAF54 /* BFProductDetailWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE13B91CBD4FED00ACAF54 /* BFProductDetailWebViewController.m */; };
 		59FEC72A1CB553000081616D /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FEC7291CB553000081616D /* Province.plist */; };
@@ -1188,6 +1189,8 @@
 		59FDDD071CC13A1000BF8C97 /* composer_close.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_close.wav; sourceTree = "<group>"; };
 		59FDDD081CC13A1000BF8C97 /* composer_open.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_open.wav; sourceTree = "<group>"; };
 		59FDDD091CC13A1000BF8C97 /* composer_select.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = composer_select.wav; sourceTree = "<group>"; };
+		59FDFCD71CD35E8A0043F07B /* BFHomeWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFHomeWebViewController.h; sourceTree = "<group>"; };
+		59FDFCD81CD35E8A0043F07B /* BFHomeWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFHomeWebViewController.m; sourceTree = "<group>"; };
 		59FE13B51CBD4D1A00ACAF54 /* BFDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFDetailCell.h; sourceTree = "<group>"; };
 		59FE13B61CBD4D1A00ACAF54 /* BFDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFDetailCell.m; sourceTree = "<group>"; };
 		59FE13B81CBD4FED00ACAF54 /* BFProductDetailWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFProductDetailWebViewController.h; sourceTree = "<group>"; };
@@ -2171,6 +2174,8 @@
 				51D122031C3A751400640A44 /* HomeViewController.m */,
 				51088EA31CB65A3200941F51 /* BFHomeCollentionView.h */,
 				51088EA41CB65A3200941F51 /* BFHomeCollentionView.m */,
+				59FDFCD71CD35E8A0043F07B /* BFHomeWebViewController.h */,
+				59FDFCD81CD35E8A0043F07B /* BFHomeWebViewController.m */,
 				593788B11CBE3CB8009240C7 /* BFDailySpecialController.h */,
 				593788B21CBE3CB8009240C7 /* BFDailySpecialController.m */,
 				59F777FD1CBBFD2E00585B7A /* BFBestSellingController.h */,
@@ -3551,6 +3556,7 @@
 				59FF74CB1CAE1A860063F770 /* MJFoundation.m in Sources */,
 				5942F2D71CD229E1004D64D4 /* BFCleanView.m in Sources */,
 				59513B201C9F8B3D0028B008 /* BFBottomCell.m in Sources */,
+				59FDFCD91CD35E8A0043F07B /* BFHomeWebViewController.m in Sources */,
 				593788A41CBE0E0D009240C7 /* BFPanicBuyingHeaderView.m in Sources */,
 				59F9FB2D1CA388D600042501 /* BFCommissionModel.m in Sources */,
 				59FF74FA1CAE1A860063F770 /* SDWebImagePrefetcher.m in Sources */,

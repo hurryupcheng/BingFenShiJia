@@ -160,15 +160,23 @@
     }else {
         if ([self.model.seckill_type isEqualToString:@"0"]) {
             
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购还未开始,请耐心等待"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"抢购还未开始,请耐心等待"];
         }else if ([self.model.seckill_type isEqualToString:@"2"]) {
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"抢购已经结束,请等待下一波"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"抢购已经结束,请等待下一波"];
         }else {
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.detailView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
-            [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
-            [[CXArchiveShopManager sharedInstance]startArchiveShop];
-            self.tabBarController.selectedIndex = 1;
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            if (self.model.first_stock.length != 0) {
+                if ([self.model.first_stock integerValue] <= 0) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"商品售罄"];
+                }else {
+                    BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.detailView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
+                    [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
+                    [[CXArchiveShopManager sharedInstance]startArchiveShop];
+                    self.tabBarController.selectedIndex = 1;
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"商品售罄"];
+            }
 
         }
 

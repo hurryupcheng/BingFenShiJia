@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSString *title;
 /**图片*/
 @property (nonatomic, strong) NSString *img;
+/**url*/
+@property (nonatomic, strong) NSString *url;
 @end
 
 @interface BFHomeBannerList : NSObject

@@ -50,7 +50,16 @@
         stock.textAlignment = NSTextAlignmentCenter;
         stock.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
         stock.textColor = BFColor(0x232323);
-        stock.text = model.first_stock;
+        if (model.first_stock.length != 0) {
+            if ([model.first_stock integerValue] <= 0) {
+                stock.text = @"0";
+            }else {
+                stock.text = model.first_stock;
+            }
+        }else {
+            stock.text = @"0";
+
+        }
         [self addSubview:stock];
         
 
