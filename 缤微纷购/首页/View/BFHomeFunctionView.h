@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BFHomeModel.h"
+
 typedef enum {
     /**果食*/
     BFHomeFunctionViewButtonTypeFruitEating,
@@ -29,7 +31,7 @@ typedef enum {
 
 @protocol BFHomeFunctionViewDelegate <NSObject>
 
-- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type;
+- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type list:(BFHomeFunctionButtonList *)list;
 
 @end
 
@@ -37,4 +39,6 @@ typedef enum {
 @interface BFHomeFunctionView : UIView
 /**代理*/
 @property (nonatomic, weak) id<BFHomeFunctionViewDelegate>delegate;
+/**首页模型类*/
+@property (nonatomic, strong) BFHomeModel *model;
 @end

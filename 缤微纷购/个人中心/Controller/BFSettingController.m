@@ -14,14 +14,28 @@
 #import "BFModifyPasswordController.h"
 #import "ShareCustom.h"
 #import "BFCleanView.h"
-
+#import "BFHomeModel.h"
+#import "BFAboutController.h"
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
+/**首页模型*/
+@property (nonatomic, strong) BFHomeModel *model;
+
+@property (nonatomic, strong) NSMutableArray *mutableArray;
 @end
 
 @implementation BFSettingController
+
+#pragma mark --懒加载
+
+- (NSMutableArray *)mutableArray {
+    if (!_mutableArray) {
+        _mutableArray = [NSMutableArray array];
+    }
+    return _mutableArray;
+}
 
 - (UITableView *)tableView {
     if (!_tableView) {
@@ -38,9 +52,32 @@
     self.navigationController.navigationBar.translucent = NO;
     self.title = @"设置";
     [self.view addSubview:self.tableView];
+    //请求数据
+    [self getData];
     //设置底部按钮视图
     [self setBottomView];
+    
 }
+
+#pragma mark --请求数据
+- (void)getData {
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
+    [BFHttpTool GET:url params:nil success:^(id responseObject) {
+        if (responseObject) {
+            BFLog(@"%@",responseObject);
+            self.model = [BFHomeModel parse:responseObject];
+            if ([responseObject[@"about_link"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFSettingList parse:self.model.about_link];
+                [self.mutableArray addObjectsFromArray:array];
+            }
+        }
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        BFLog(@"%@", error);
+    }];
+
+}
+
 
 #pragma mark -- 退出按钮视图
 - (void)setBottomView {
@@ -208,6 +245,13 @@
             [window addSubview:share];
 
         }
+    }else {
+        BFSettingList *list = self.mutableArray[indexPath.row];
+        BFAboutController *aboutVC = [[BFAboutController alloc] init];
+        aboutVC.ID = list.ID;
+        aboutVC.url = list.url;
+        [self.navigationController pushViewController:aboutVC animated:YES];
+        
     }
 }
 

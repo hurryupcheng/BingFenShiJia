@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/4/7.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFHomeModel.h"
 #import "BFPTViewController.h"
 #import "BFPTDetailViewController.h"
 #import "PTXQViewController.h"
@@ -55,7 +55,8 @@
 
 /***/
 @property (nonatomic, strong) BFHomeFunctionView *functionView;
-
+/**首页模型类*/
+@property (nonatomic, strong) BFHomeModel *model;
 @end
 
 @implementation BFHomeCollentionView
@@ -152,53 +153,76 @@
 
 }
 #pragma  mark --BFHomeFunctionViewDelegate
-- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type {
-    
-    switch (type) {
-        case BFHomeFunctionViewButtonTypeFruitEating:{
-            BFLog(@"点击了果食");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeLocalSpeciality:{
-            BFLog(@"点击了地方特产");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeCasualSnacks:{
-            BFLog(@"点击了休闲零食");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeWineDrinking:{
-            BFLog(@"点击了酒水");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeDailySpecial:{
-            BFLog(@"点击了今日特价");
-            BFDailySpecialController *dailySpecialVC = [[BFDailySpecialController alloc] init];
-            [self.navigationController pushViewController:dailySpecialVC animated:YES];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeFirstPublish:{
-            BFLog(@"点击了新品首发");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeBestSelling:{
-            BFLog(@"点击了热销排行");
-            BFBestSellingController *bestSellingVC = [[BFBestSellingController alloc] init];
-            [self.navigationController pushViewController:bestSellingVC animated:YES];
-            break;
-        }
-        case BFHomeFunctionViewButtonTypeTastingExperience:{
-            BFLog(@"点击了试吃体验");
-            BFTastingExperienceController *tastingExperienceVC = [[BFTastingExperienceController alloc] init];
-            [self.navigationController pushViewController:tastingExperienceVC animated:YES];
-            break;
-        }
+- (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type list:(BFHomeFunctionButtonList *)list{
+    BFLog(@"%d",type);
+    if ([list.typeId isEqualToString:@"1"]) {
+        FXQViewController  *fx = [[FXQViewController alloc]init];
+        fx.ID = list.cid;
+        [self.navigationController pushViewController:fx animated:YES];
+        
+        //        BFPanicBuyingController *panicBuyingVC = [[BFPanicBuyingController alloc] init];
+        //        panicBuyingVC.ID = IDArr[index];
+        //        [self.navigationController pushViewController:panicBuyingVC animated:YES];
+    }else if ([list.typeId isEqualToString:@"2"]){
+        BFPTDetailViewController *pt = [[BFPTDetailViewController alloc]init];
+        pt.ID = list.cid;
+        [self.navigationController pushViewController:pt animated:YES];
+    }else if ([list.typeId isEqualToString:@"3"]){
+        XQViewController *xq = [[XQViewController alloc]init];
+        xq.ID = list.cid;
+        [self.navigationController pushViewController:xq animated:YES];
+    }else{
+        return;
     }
+
+    
+    
+    
+//    switch (type) {
+//        case BFHomeFunctionViewButtonTypeFruitEating:{
+//            BFLog(@"点击了果食");
+//            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeLocalSpeciality:{
+//            BFLog(@"点击了地方特产");
+//            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeCasualSnacks:{
+//            BFLog(@"点击了休闲零食");
+//            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeWineDrinking:{
+//            BFLog(@"点击了酒水");
+//            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeDailySpecial:{
+//            BFLog(@"点击了今日特价");
+//            BFDailySpecialController *dailySpecialVC = [[BFDailySpecialController alloc] init];
+//            [self.navigationController pushViewController:dailySpecialVC animated:YES];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeFirstPublish:{
+//            BFLog(@"点击了新品首发");
+//            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"活动暂未开启,敬请期待"];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeBestSelling:{
+//            BFLog(@"点击了热销排行");
+//            BFBestSellingController *bestSellingVC = [[BFBestSellingController alloc] init];
+//            [self.navigationController pushViewController:bestSellingVC animated:YES];
+//            break;
+//        }
+//        case BFHomeFunctionViewButtonTypeTastingExperience:{
+//            BFLog(@"点击了试吃体验");
+//            BFTastingExperienceController *tastingExperienceVC = [[BFTastingExperienceController alloc] init];
+//            [self.navigationController pushViewController:tastingExperienceVC animated:YES];
+//            break;
+//        }
+//    }
 }
 
 
@@ -461,6 +485,8 @@
             [self.dataArray removeAllObjects];
             BFLog(@"%@",responseObject);
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
+            self.model = [BFHomeModel parse:responseObject];
+            self.functionView.model = self.model;
             self.homeModel = homeModel;
             [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];
