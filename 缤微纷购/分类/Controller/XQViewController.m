@@ -366,10 +366,11 @@
 
 - (void)times:(UIButton *)seg{
     
-    [self performSelector:@selector(segs:) withObject:seg afterDelay:1];
+    [self performSelector:@selector(segs:) withObject:seg afterDelay:0.5];
 }
 
 - (void)segs:(UIButton *)but{
+    self.segmented.userInteractionEnabled = YES;
     but.userInteractionEnabled = YES;
 }
 
@@ -384,6 +385,7 @@
         {
             self.sort = 1;
             seg.userInteractionEnabled = NO;
+            self.segmented.userInteractionEnabled = NO;
             [self times:seg];
             [self getUpNewDate];
         }
@@ -391,6 +393,7 @@
         case 1:{
             self.sort = 2;
             seg.userInteractionEnabled = NO;
+            self.segmented.userInteractionEnabled = NO;
             [self times:seg];
             [self getUpNewDate];
         }
@@ -402,6 +405,7 @@
             if (self.sorke == YES) {
                 self.sort = 4;
                 seg.userInteractionEnabled = NO;
+                self.segmented.userInteractionEnabled = NO;
                 [self times:seg];
                 [self getUpNewDate];
               [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{
@@ -414,6 +418,7 @@
             }else{
             self.sort = 3;
                 seg.userInteractionEnabled = NO;
+                self.segmented.userInteractionEnabled = NO;
                 [self times:seg];
             [self getUpNewDate];
             [UIView animateWithDuration:0.4 delay:0 options:0 animations:^{

@@ -116,6 +116,7 @@
                 [self.dateArr removeAllObjects];
                 [self.tabView reloadData];
                 if (self.dateArr.count == 0) {
+                    self.footItem = NO;
                     [self.tabView removeFromSuperview];
                     [self data];
                 }
@@ -184,7 +185,7 @@
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
-    self.header.backgroundColor = rgb(220, 220, 220, 1.0);
+    self.header.backgroundColor = BFColor(0xF3F4F5);
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];
   
@@ -256,7 +257,7 @@
     for (int i = 0; i < self.dataArray.count; i++) {
         self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake(((kScreenWidth-90)/3*i)+(i*10), 0, (kScreenWidth-90)/3, (kScreenWidth-90)/3)];
         _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
-        _imgButton.layer.borderWidth = 1;
+        _imgButton.layer.borderWidth = 0.5;
         _imgButton.tag = i;
         _imgButton.userInteractionEnabled = YES;
         

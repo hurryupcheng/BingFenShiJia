@@ -29,6 +29,7 @@
         title.text = @"商品信息";
         title.textAlignment = NSTextAlignmentCenter;
         title.font = [UIFont systemFontOfSize:CGFloatX(17)];
+        title.textColor = BFColor(0x818284);
     
         [self addSubview:self.allSeled];
         [self addSubview:label];

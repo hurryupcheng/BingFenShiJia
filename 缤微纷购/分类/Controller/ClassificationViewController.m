@@ -34,6 +34,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"分类";
+    [self getDate];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemSearch target:self action:@selector(SOSO)];
     
@@ -175,7 +176,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self getDate];
   self.navigationController.navigationBarHidden = NO;
     self.tabBarController.tabBar.hidden = NO;
 }
