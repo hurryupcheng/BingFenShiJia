@@ -13,6 +13,13 @@
 @property (nonatomic, strong) UILabel *productTotalPrice;
 /**底部放buttonView*/
 @property (nonatomic, strong) UIView *buttonView;
+/**售后按钮*/
+@property (nonatomic, strong) UIButton *applyAfterSale;
+/**物流查询*/
+@property (nonatomic, strong) UIButton *checkLogistics;
+/**确认收货*/
+@property (nonatomic, strong) UIButton *confirmReceipt;
+
 @end
 
 
@@ -44,6 +51,17 @@
     [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(8)] range:NSMakeRange(self.productTotalPrice.text.length-model.order_sumPrice.length-1, 1)];
     [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(13)] range:NSMakeRange(self.productTotalPrice.text.length-model.order_sumPrice.length, model.order_sumPrice.length)];
     self.productTotalPrice.attributedText = attributedString;
+    
+    if ([model.status isEqualToString:@"3"]) {
+        self.checkLogistics.hidden = NO;
+        self.confirmReceipt.hidden = NO;
+        self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(185), BF_ScaleHeight(5), BF_ScaleWidth(55), BF_ScaleHeight(20));
+        self.confirmReceipt.frame = CGRectMake(BF_ScaleWidth(245), BF_ScaleHeight(5), BF_ScaleWidth(55), BF_ScaleHeight(20));
+    } else if ([model.status isEqualToString:@"4"]) {
+        self.checkLogistics.hidden = NO;
+        self.confirmReceipt.hidden = YES;
+        self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(245), BF_ScaleHeight(5), BF_ScaleWidth(55), BF_ScaleHeight(20));
+    }
 }
 
 - (void)setCell {
@@ -67,12 +85,18 @@
     [self addSubview:buttonView];
     
     UIButton *applyAfterSale = [self setUpButtonWithType:BFLogisticsCellButtonTypeApplyAfterSale color:BFColor(0xffffff) title:nil];
+    self.applyAfterSale = applyAfterSale;
+    self.applyAfterSale.hidden = YES;
     [buttonView addSubview:applyAfterSale];
     
     UIButton *checkLogistics = [self setUpButtonWithType:BFLogisticsCellButtonTypeCheckLogistics color:BFColor(0x3086CF) title:@"物流查询"];
+    self.checkLogistics = checkLogistics;
+    self.checkLogistics.hidden = YES;
     [buttonView addSubview:checkLogistics];
     
     UIButton *confirmReceipt = [self setUpButtonWithType:BFLogisticsCellButtonTypeConfirmReceipt color:BFColor(0xFA7B00) title:@"确认收货"];
+    self.confirmReceipt = confirmReceipt;
+    self.confirmReceipt.hidden = YES;
     [buttonView addSubview:confirmReceipt];
     
     
@@ -84,17 +108,17 @@
 }
 
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    NSInteger count = self.buttonView.subviews.count;
-    for (NSInteger i = 0; i < count; i++) {
-        UIButton *button = self.buttonView.subviews[i];
-        button.x = BF_ScaleWidth(125)+BF_ScaleWidth(60)*i;
-        button.y = BF_ScaleHeight(5);
-        button.width = BF_ScaleWidth(55);
-        button.height = BF_ScaleHeight(20);
-    }
-}
+//- (void)layoutSubviews {
+//    [super layoutSubviews];
+//    NSInteger count = self.buttonView.subviews.count;
+//    for (NSInteger i = 0; i < count; i++) {
+//        UIButton *button = self.buttonView.subviews[i];
+//        button.x = BF_ScaleWidth(125)+BF_ScaleWidth(60)*i;
+//        button.y = BF_ScaleHeight(5);
+//        button.width = BF_ScaleWidth(55);
+//        button.height = BF_ScaleHeight(20);
+//    }
+//}
 
 - (UIButton *)setUpButtonWithType:(BFLogisticsCellButtonType)type color:(UIColor *)color title:(NSString *)title{
     UIButton *button = [UIButton buttonWithType:0];
@@ -110,8 +134,8 @@
 }
 
 - (void)clickToJump:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToOperateWithModel:Type:)]) {
-        [self.delegate clickToOperateWithModel:self.model Type:sender.tag];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToOperateWithCell:model:Type:)]) {
+        [self.delegate clickToOperateWithCell:self model:self.model Type:sender.tag];
     }
 }
 

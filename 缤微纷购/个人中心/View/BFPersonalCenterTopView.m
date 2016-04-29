@@ -66,10 +66,10 @@
         
         
         self.IDLabel.text = [NSString stringWithFormat:@"ID:%@",userInfo.ID];
-        if (userInfo.p_username != nil) {
+        if (userInfo.parent_proxy != nil && ![userInfo.parent_proxy isEqualToString:@"0"]) {
             self.referenceButton.hidden = YES;
             self.referenceLabel.hidden = NO;
-            self.referenceLabel.text = [NSString stringWithFormat:@"推荐人:%@",userInfo.p_username];
+            self.referenceLabel.text = [NSString stringWithFormat:@"推荐人:%@",userInfo.p_username.length != 0 ? userInfo.p_username : [NSString stringWithFormat:@"bingo_%@", userInfo.parent_proxy]];
         }else {
             self.referenceButton.hidden = NO;
             self.referenceLabel.hidden = YES;

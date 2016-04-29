@@ -102,11 +102,20 @@
             }
             case 1:
                 cell.textLabel.text = @"  推荐人";
-                cell.detailTextLabel.text = self.userInfo.p_username;
+                if (self.userInfo.parent_proxy != nil && ![self.userInfo.parent_proxy isEqualToString:@"0"]) {
+                    cell.detailTextLabel.text = self.userInfo.p_username.length != 0 ? self.userInfo.p_username : [NSString stringWithFormat:@"bingo_%@", self.userInfo.parent_proxy];
+                }
+                
                 break;
             case 2:
                 cell.textLabel.text = @"  昵称";
-                cell.detailTextLabel.text = self.userInfo.nickname;
+                if (self.userInfo.nickname != nil) {
+                    cell.detailTextLabel.text = self.userInfo.nickname;
+                }else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"bingo_%@", self.userInfo.ID];
+                }
+                
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
         }
     } else if (indexPath.section == 1) {

@@ -18,6 +18,7 @@
 
 #define AppScheme   @"bwPay"
 
+#import "BFZFViewController.h"
 #import "BFPayoffHeader.h"
 #import "BFFootViews.h"
 #import "Header.h"
@@ -36,6 +37,8 @@
 
 @property (nonatomic,retain)UITableView *tableV;
 
+@property (nonatomic, strong) UIView *navigationView;
+
 @property (nonatomic,retain)BFPayoffHeader *header;//头视图
 
 @property (nonatomic,assign)NSInteger height;
@@ -47,11 +50,22 @@
 
 @implementation BFPayoffViewController
 
+//- (UIView *)navigationView {
+//    if (!_navigationView) {
+//            }
+//    return _navigationView;
+//}
+
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
+    
     [self initWithTableView];
+    
+    [self setUpNavigationView];
+    
     [self initWithFoot];
     //倒计时通知，关闭订单
     [BFNotificationCenter addObserver:self selector:@selector(cancleOrder) name:@"cancleOrder" object:nil];
@@ -64,13 +78,58 @@
     
     NSLog(@"%@",self.header.number.text);
     
+}
+
+- (void)setUpNavigationView {
+    _navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
+    [self.view addSubview:_navigationView];
+    self.navigationView.hidden = YES;
+    //_navigationView.backgroundColor = [UIColor blueColor];
+    UIView *view = [[UIView  alloc] initWithFrame:CGRectMake(5, 22, 35, 40)];
+    [_navigationView addSubview:view];
+    UIButton *back = [UIButton buttonWithType:0];
+    //back.backgroundColor = [UIColor redColor];
+    back.frame =CGRectMake(5, 22, 35, 40);
+    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [_navigationView addSubview:back];
+
+    
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    BFLog(@"=======%@",vcsArray);
+    UIViewController *lastVC = vcsArray[vcsArray.count-2];
+    
+        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+            self.navigationView.hidden = NO;
+        }else {
+            self.navigationView.hidden = YES;
+        }
+    
+
+    
     
 }
 
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    self.navigationController.navigationBar.translucent = NO;
+//}
+//
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+#pragma mark --销毁通知
 - (void)dealloc {
     [BFNotificationCenter removeObserver:self];
 }
 
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark --通知到时间关闭订单
 - (void)cancleOrder {
     [UIView animateWithDuration:2 animations:^{
         self.foot.buyButton.hidden = YES;
@@ -86,7 +145,7 @@
     //[self.tableV reloadData];
 }
 
-
+#pragma mark --微信支付成功通知
 - (void)paySuccess {
    self.foot.buyButton.hidden = YES;
     [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
@@ -95,6 +154,7 @@
     self.header.now.text = @"待发货";
 }
 
+#pragma mark --微信支付失败通知
 - (void)payFail {
     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
     self.foot.buyButton.hidden = NO;
@@ -207,6 +267,7 @@
     [req setKey:PARTNER_ID];
     WxProduct *product = [[WxProduct alloc] init];
     product.price = [NSString stringWithFormat:@"%.0f", [self.totalPrice floatValue] *100];
+    product.price = @"1";
     product.orderId = self.orderid;
     product.subject = @"缤纷世家新鲜水果";
     product.body = @"缤纷世家新鲜水果很好吃";
@@ -261,7 +322,7 @@
     self.height = self.header.height;
     
     self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50) style:UITableViewStyleGrouped];
-    
+    self.tableV.bounces = NO;
     self.tableV.backgroundColor = BFColor(0xFDF0E3);
     self.tableV.dataSource = self;
     self.tableV.delegate = self;

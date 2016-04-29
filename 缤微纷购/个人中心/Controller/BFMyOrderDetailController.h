@@ -12,5 +12,5 @@
 /**订单编号*/
 @property (nonatomic, strong) NSString *orderId;
 /**回调*/
-@property (nonatomic, copy) void (^block)(BOOL isCancle);
+@property (nonatomic, copy) void (^block)(BOOL isOperated);
 @end

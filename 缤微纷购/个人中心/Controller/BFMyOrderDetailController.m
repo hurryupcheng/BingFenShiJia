@@ -52,8 +52,9 @@
 
 - (BFOrderDetailBottomView *)footerView {
     if (!_footerView) {
-        _footerView = [[BFOrderDetailBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(45))];
+        _footerView = [[BFOrderDetailBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, BF_ScaleHeight(50))];
         _footerView.delegate = self;
+        //_footerView.backgroundColor = BFColor(0x4da800);
         [self.view addSubview:_footerView];
     }
     return _footerView;
@@ -62,7 +63,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35)-ScreenHeight, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(35)-ScreenHeight, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(35)) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
@@ -77,7 +78,7 @@
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BFColor(0xF4F4F4);
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"订单详情";
 
     //添加tableView
@@ -131,7 +132,7 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = BF_ScaleHeight(35);
         self.headerView.y = 0;
-        self.footerView.y = ScreenHeight-BF_ScaleHeight(45)-64;
+        self.footerView.y = ScreenHeight-BF_ScaleHeight(50)-64;
     }];
 
 }
@@ -175,14 +176,55 @@
             BFLog(@"查看物流");
             break;
         }
-        case BFOrderDetailBottomViewButtonTypeConfirmReceipt:
+        case BFOrderDetailBottomViewButtonTypeConfirmReceipt:{
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"确定收货吗" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"确定" style:UIAlertActionStyleDefault handler:^{
+                //取消订单请求
+                [self confirmOrder];
+            }];
+            [self presentViewController:alertC animated:YES completion:nil];
             BFLog(@"确认收货");
             break;
-            
-        default:
-            break;
+        }
     }
 }
+
+#pragma mark -- 确认收货
+- (void)confirmOrder {
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
+        parameter[@"orderId"] = self.model.orderId;
+        parameter[@"status"] = self.model.status;
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"--%@----%@", responseObject, parameter);
+            if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                self.headerView.statusLabel.text = @"已完成";
+                self.model.status = @"4";
+                self.footerView.model = self.model;
+                //self.footerView.hidden = YES;
+                _block(YES);
+            }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
+            }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
+            }else {
+                
+            }
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"--%@", error);
+        }];
+    }];
+
+}
+
+
 
 #pragma mark -- 取消订单请求
 - (void)cancleOrder{
@@ -200,7 +242,10 @@
             if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
                 self.headerView.statusLabel.text = @"已关闭";
-                self.footerView.hidden = YES;
+                //self.footerView.hidden = YES;
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.footerView.y = ScreenHeight;
+                }];
                 _block(YES);
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
@@ -252,7 +297,7 @@
     if (indexPath.section == 1) {
         FXQViewController *fxqVC = [[FXQViewController alloc] init];
         BFOrderProductModel *model = self.productArray[indexPath.row];
-        fxqVC.ID = model.ID;
+        fxqVC.ID = model.itemid;
         [self.navigationController pushViewController:fxqVC animated:YES];
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -276,7 +321,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if (section == 2) {
-        return 40;
+        return BF_ScaleHeight(50);
     }
     return 0.1;
 }

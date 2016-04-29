@@ -28,7 +28,7 @@
 
 - (void)setModel:(BFProductInfoModel *)model {
     _model = model;
-    self.orderIDLabel.text = [NSString stringWithFormat:@"订单编号：%@", model.orderId];
+    self.orderIDLabel.text = [NSString stringWithFormat:@"订单编号:%@", model.orderId];
     
     if ([model.status isEqualToString:@"1"]) {
         self.statusLabel.text = @"未付款";

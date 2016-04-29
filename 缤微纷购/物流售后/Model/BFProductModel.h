@@ -21,4 +21,6 @@
 @property (nonatomic, strong) NSString *color;
 /**商品id*/
 @property (nonatomic, strong) NSString *itemId;
+/***/
+@property (nonatomic, strong) NSString *ID;
 @end

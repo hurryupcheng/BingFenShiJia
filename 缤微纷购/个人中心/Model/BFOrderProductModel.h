@@ -23,4 +23,6 @@
 @property (nonatomic, strong) NSString *size;
 /**商品ID*/
 @property (nonatomic, strong) NSString *ID;
+/**产品*/
+@property (nonatomic, strong) NSString *itemid;
 @end

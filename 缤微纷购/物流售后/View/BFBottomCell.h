@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "BFLogisticsModel.h"
 
-
+@class BFBottomCell;
 typedef enum {
     BFLogisticsCellButtonTypeApplyAfterSale,//申请售后
     BFLogisticsCellButtonTypeCheckLogistics,//物流查询
@@ -19,7 +19,7 @@ typedef enum {
 
 @protocol BFBottomCellDelegate <NSObject>
 
-- (void)clickToOperateWithModel:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type;
+- (void)clickToOperateWithCell:(BFBottomCell *)cell model:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type;
 
 @end
 

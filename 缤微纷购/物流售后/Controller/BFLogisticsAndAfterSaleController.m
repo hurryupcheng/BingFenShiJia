@@ -16,6 +16,7 @@
 #import "BFBottomCell.h"
 #import "BFCheckLogisticsController.h"
 #import "MBProgressHUD.h"
+#import "FXQViewController.h"
 
 @interface BFLogisticsAndAfterSaleController ()<UITableViewDelegate, UITableViewDataSource, BFLogisticsHeaderViewDelegate, BFBottomCellDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
@@ -97,17 +98,17 @@
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     //获取数据
-    [self getData];
+    //[self getData];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    //获取数据
-    self.bgImageView.hidden = NO;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-    } completion:nil];
-}
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [super viewWillDisappear:animated];
+//    //获取数据
+//    self.bgImageView.hidden = NO;
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+//    } completion:nil];
+//}
 
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
@@ -124,6 +125,9 @@
     //[self setNavigationBar];
     //客服电话按钮
     [self setUpCustomerService];
+    //获取数据
+    [self getData];
+    
     
     
 }
@@ -143,6 +147,7 @@
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂无数据"];
                     self.bgImageView.hidden = NO;
                     self.tableView.hidden = YES;
                 }else {
@@ -279,8 +284,18 @@
 
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BFProductModel *model = self.productArray[indexPath.row-1];
+    FXQViewController *fxVC =[[FXQViewController alloc] init];
+    fxVC.ID = model.itemId;
+    [self.navigationController pushViewController:fxVC animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+
+
 #pragma mark -- BFLogisticsCell代理
-- (void)clickToOperateWithModel:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type {
+- (void)clickToOperateWithCell:(BFBottomCell *)cell model:(BFLogisticsModel *)model Type:(BFLogisticsCellButtonType)type{
     switch (type) {
         case BFLogisticsCellButtonTypeApplyAfterSale:
             BFLog(@"申请售后");
@@ -292,12 +307,53 @@
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
-        case BFLogisticsCellButtonTypeConfirmReceipt:
+        case BFLogisticsCellButtonTypeConfirmReceipt:{
+            [self confirmOrder:model And:cell];
             BFLog(@"确认收货");
             break;
+        }
 
     }
 }
+
+
+
+#pragma mark -- 确认收货
+- (void)confirmOrder:(BFLogisticsModel *)model And:(BFBottomCell *)cell{
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
+        parameter[@"orderId"] = model.orderId;
+        parameter[@"status"] = model.status;
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"--%@----%@", responseObject, parameter);
+            if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+//                self.headerView.statusLabel.text = @"已完成";
+                model.status = @"4";
+                cell.model = model;
+//                self.footerView.model = self.model;
+                //self.footerView.hidden = YES;
+            }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
+            }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
+            }else {
+                
+            }
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"--%@", error);
+        }];
+    }];
+    
+}
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

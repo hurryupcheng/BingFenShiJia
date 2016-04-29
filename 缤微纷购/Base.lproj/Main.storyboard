@@ -31,8 +31,9 @@
                                 <rect key="frame" x="34" y="388" width="415" height="150"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="750.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
-                                <rect key="frame" x="0.0" y="133" width="519" height="166"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="750.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
+                                <rect key="frame" x="0.0" y="133" width="528" height="339"/>
+                                <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
@@ -47,7 +48,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1748" y="351"/>
+            <point key="canvasLocation" x="1654" y="316"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="TaD-bK-NBU">

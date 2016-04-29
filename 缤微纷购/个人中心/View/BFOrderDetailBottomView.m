@@ -66,9 +66,12 @@
             self.hidden = NO;
             self.pay.hidden = YES;
             self.cancleOrder.hidden = YES;
-            self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(10), BF_ScaleHeight(160), BF_ScaleHeight(30));
+            [UIView animateWithDuration:0.5 animations:^{
+                self.checkLogistics.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(10), BF_ScaleHeight(160), BF_ScaleHeight(30));
+                self.confirmReceipt.frame = CGRectMake(BF_ScaleWidth(240), BF_ScaleHeight(25), BF_ScaleHeight(0), BF_ScaleHeight(0));
+            }];
             self.checkLogistics.hidden = NO;
-            self.confirmReceipt.hidden = YES;
+            //self.confirmReceipt.hidden = YES;
         } else {
             self.hidden = YES;
         }

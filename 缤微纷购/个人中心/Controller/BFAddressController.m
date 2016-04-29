@@ -153,7 +153,7 @@
 
     }];
 }
-
+//添加地址
 - (void)clickToAddAddress {
     [UIView animateWithDuration:0.5 animations:^{
         self.bgImageView.y = -ScreenHeight;

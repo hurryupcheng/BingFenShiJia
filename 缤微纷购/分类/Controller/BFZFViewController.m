@@ -231,8 +231,10 @@
             self.removeBlock();
             [self.navigationController pushViewController:pay animated:YES];
             
-        }else{
+        }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
             
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
+        }else {
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
         }
     } failure:^(NSError *error) {

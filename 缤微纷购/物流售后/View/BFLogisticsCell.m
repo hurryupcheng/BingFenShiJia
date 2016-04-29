@@ -31,7 +31,7 @@
     BFLogisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (!cell) {
         cell = [[BFLogisticsCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ID];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -46,7 +46,7 @@
 
 - (void)setModel:(BFProductModel *)model {
     _model = model;
-    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"goodsImage"]];
+    [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0);
     self.productTitle.text = model.title;
     [self.productTitle sizeToFit];
@@ -65,7 +65,7 @@
     [self addSubview:line];
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(12.5), BF_ScaleHeight(12.5), BF_ScaleWidth(70), BF_ScaleHeight(70))];
-    self.productIcon.image = [UIImage imageNamed:@"goodsImage"];
+    self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     self.productIcon.layer.borderWidth = 1;
     self.productIcon.layer.borderColor = BFColor(0xBDBEC0).CGColor;
     self.productIcon.layer.cornerRadius = 10;

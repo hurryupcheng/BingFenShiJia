@@ -11,6 +11,7 @@
 @interface BFProductInfoModel : NSObject
 /**id*/
 @property (nonatomic, strong) NSString *ID;
+
 /**订单号*/
 @property (nonatomic, strong) NSString *orderId;
 /**添加订单时间*/

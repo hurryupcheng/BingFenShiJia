@@ -37,24 +37,33 @@
 - (void)setDetailModel:(BFPTDetailModel *)detailModel {
     _detailModel = detailModel;
     
-    NSArray *carouseArray = [BFCarouselList parse:detailModel.imgs];
-    NSMutableArray *mutableArray = [NSMutableArray array];
-    for (BFCarouselList *list in carouseArray) {
-        [mutableArray addObject:list.url];
+    if ([detailModel.imgs isKindOfClass:[NSArray class]]) {
+        BFLog(@"----");
+        NSArray *carouseArray = [BFCarouselList parse:detailModel.imgs];
+        NSMutableArray *mutableArray = [NSMutableArray array];
+        for (BFCarouselList *list in carouseArray) {
+            [mutableArray addObject:list.url];
+        }
+        self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
     }
-    self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
+    
+    
 
     self.titleLabel.text = detailModel.title;
     
     self.detailLabel.frame = CGRectMake(BF_ScaleWidth(10), CGRectGetMaxY(self.titleLabel.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(20), 0);
-    self.detailLabel.text = detailModel.intro;
-    [self setLineSpace:BF_ScaleHeight(5) headIndent:BF_ScaleHeight(4) text:self.detailLabel.text  label:self.detailLabel];
-    [self.detailLabel sizeToFit];
+    if (detailModel.info) {
+        self.detailLabel.text = detailModel.intro;
+        [self setLineSpace:BF_ScaleHeight(5) headIndent:BF_ScaleHeight(4) text:self.detailLabel.text  label:self.detailLabel];
+        [self.detailLabel sizeToFit];
+    }
     
     self.playLabel.frame = CGRectMake(BF_ScaleWidth(10), CGRectGetMaxY(self.detailLabel.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(20), 0);
-    self.playLabel.text = [NSString stringWithFormat:@"支付开团并邀请%@人开团，人数不足自动退款，详见下方拼团玩法",detailModel.team_num];
-    [self setLineSpace:BF_ScaleHeight(6) headIndent:0 text:self.playLabel.text label:self.playLabel];
-    [self.playLabel sizeToFit];
+    if (detailModel.team_num) {
+        self.playLabel.text = [NSString stringWithFormat:@"支付开团并邀请%@人开团，人数不足自动退款，详见下方拼团玩法",detailModel.team_num];
+        [self setLineSpace:BF_ScaleHeight(6) headIndent:0 text:self.playLabel.text label:self.playLabel];
+        [self.playLabel sizeToFit];
+    }
     
     self.groupPurchaseButton.frame = CGRectMake(BF_ScaleWidth(10), CGRectGetMaxY(self.playLabel.frame)+BF_ScaleHeight(5), (ScreenWidth-BF_ScaleWidth(25))/2, BF_ScaleHeight(60));
     self.groupPurchaseButton.topLabel.text = [NSString stringWithFormat:@"%@ / 件",detailModel.team_price];
@@ -89,7 +98,7 @@
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
-    self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
+    self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
     self.cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     //cycleScrollView.imageURLStringsGroup = imagesURLStrings;
     [self addSubview:self.cycleScrollView];

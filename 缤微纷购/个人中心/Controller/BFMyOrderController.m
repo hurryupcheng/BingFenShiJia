@@ -69,7 +69,7 @@
     if (!_segment) {
         _segment = [BFSegmentView segmentView];
         _segment.delegate = self;
-        _segment.titleArray = @[@"未付款",@"已付款",@"我的售后"];
+        _segment.titleArray = @[@"未付款",@"已付款",@"已完成"];
         [self.view addSubview:_segment];
     }
     return _segment;
@@ -148,19 +148,19 @@
         case 0:
             BFLog(@"点击未付款");
             self.parameter[@"status"] = @"1";
-            self.parameter[@"refund_status"] = nil;
+            //self.parameter[@"refund_status"] = nil;
             [self getData];
             break;
         case 1:
             BFLog(@"点击已付款");
             self.parameter[@"status"] = @"2";
-            self.parameter[@"refund_status"] = nil;
+            //self.parameter[@"refund_status"] = nil;
             [self getData];
             break;
         case 2:
-            BFLog(@"点击我的售后");
-            self.parameter[@"status"] = nil;
-            self.parameter[@"refund_status"] = @"1";
+            BFLog(@"点击已完成");
+            self.parameter[@"status"] = @"3";
+            //self.parameter[@"refund_status"] = @"1";
             [self getData];
             break;
         default:
@@ -204,7 +204,7 @@
         }
         case BFCustomerServiceViewButtonTypeWechat:
             BFLog(@"点击微信客服");
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂不支持，尽请期待"];
             break;
             
     }
@@ -230,8 +230,8 @@
     BFMyOrderModel *model = self.oderArray[indexPath.row];
     BFMyOrderDetailController *detailVC = [BFMyOrderDetailController new];
     detailVC.orderId = model.orderId;
-    detailVC.block = ^(BOOL isCancle) {
-        if (isCancle) {
+    detailVC.block = ^(BOOL isOperated) {
+        if (isOperated) {
             [self.oderArray removeObjectAtIndex:indexPath.row];
             [self.tableView reloadData];
         }

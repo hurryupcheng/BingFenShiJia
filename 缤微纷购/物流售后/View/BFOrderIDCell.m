@@ -41,8 +41,8 @@
     self.orderID.text = [NSString stringWithFormat:@"订单编号:%@",model.orderId];
     if ([model.status isEqualToString:@"3"]) {
         self.statusLabel.text = @"已发货";
-    }else {
-        self.statusLabel.text = @"已收货";
+    }else if ([model.status isEqualToString:@"4"]){
+        self.statusLabel.text = @"已完成";
     }
 }
 
