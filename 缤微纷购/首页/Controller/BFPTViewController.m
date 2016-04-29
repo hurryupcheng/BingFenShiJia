@@ -7,7 +7,7 @@
 //
 #import "Height.h"
 #import "UIImageView+WebCache.h"
-
+#import "AFNTool.h"
 #import "PTModel.h"
 #import "BFPTDetailViewController.h"
 #import "LBView.h"
@@ -122,19 +122,13 @@
 #pragma  mark 拼团解析
 - (void)tableViewgetDate{
     
-    //    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
-    //    parameters[@"m"] = @"Json";
-    //    parameters[@"a"] = @"team_buy";
-    //
-    //    [BFHttpTool GET:BF_URL params:parameters success:^(id responseObject) {
-    //        NSArray *array = [BFDataTool getPTArrayWithDic:responseObject];
-    //        [self.dataArray addObjectsFromArray:array];
-    //        [self initWithTabView];
-    //        [self.tableV reloadData];
-    //
-    //    } failure:^(NSError *error) {
-    //
-    //    }];
+    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=team_buy";
+    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
+        
+    } fail:^{
+        
+    }];
+    
     
     NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_buy"]];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

@@ -10,21 +10,4 @@
 
 @implementation PTModel
 
-//+ (NSDictionary *)mj_objectClassInArray {
-//    return @{@"item":[PTListModel class]};
-//}
-//
-//@end
-//
-//
-//@implementation PTListModel
-//
-//+ (NSString *)mj_replacedKeyFromPropertyName121:(NSString *)propertyName{
-//    //判断某个属性 所对应的key
-//    if ([propertyName isEqualToString:@"ID"]) {
-//        propertyName = @"id";
-//    }
-//    return propertyName;
-//}
-
 @end

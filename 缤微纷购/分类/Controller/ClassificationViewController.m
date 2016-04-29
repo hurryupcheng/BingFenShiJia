@@ -5,6 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#import "AFNTool.h"
 #import "SoSoViewController.h"
 #import "Classification.h"
 #import "ViewController.h"
@@ -144,34 +145,28 @@
 
 - (void)getDate{
 
-    NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=cate"]];
+    NSString *url = @"http://bingo.luexue.com/index.php?m=Json&a=cate";
+    [AFNTool postJSONWithUrl:url parameters:nil success:^(id responseObject) {
+        NSLog(@"=====%@",responseObject);
+        NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-    
-    [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-        
-        if (data != nil) {
-            NSArray * dataSourceArr = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-            NSLog(@"======%@",dataSourceArr);
-            NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
-    
-            for (NSDictionary * dic in dataSourceArr) {
-               Classification *class = [[Classification alloc]initWithDictionary:dic];
-                [array addObject:class];
+        for (NSDictionary * dic in responseObject) {
+            Classification *class = [[Classification alloc]initWithDictionary:dic];
+             [array addObject:class];
             }
-            self.dataSourceArray = [array copy];
-        }else{
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-        }
+
+        self.dataSourceArray = [array copy];
+        
         if (self.dataSourceArray.count) {
-          self.currentModel = self.dataSourceArray[0];
+            self.currentModel = self.dataSourceArray[0];
         }
         [self initWithLeftView];
         [self initWithCollectionView];
         [self.collectionView reloadData];
-       
+        
+    } fail:^{
+        
     }];
-
 }
 
 - (void)viewWillAppear:(BOOL)animated{

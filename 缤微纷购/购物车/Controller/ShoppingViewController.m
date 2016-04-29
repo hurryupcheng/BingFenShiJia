@@ -5,7 +5,7 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "AFNTool.h"
 #import "LogViewController.h"
 #import "PrefixHeader.pch"
 #import "BFStorage.h"
@@ -436,25 +436,19 @@
 }
 
 - (void)getDate{
-
-    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Json&a=cart"];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
-   [NSURLConnection sendAsynchronousRequest:request queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
-      
-       if (data != nil) {
-           NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-         
-           BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:dic];
-           self.shoppModel = shoppModel;
-           self.dataArray = [shoppModel.dateArr copy];
-
-       }else{
-       [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-       }
-       [self initWithLoveView];
-//       [self.tabView reloadData];
-       [self.tabView.mj_header endRefreshing];
-   }];
+    
+    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=cart";
+    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
+        BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:responseObject];
+        self.shoppModel = shoppModel;
+        self.dataArray = [shoppModel.dateArr copy];
+        
+        [self initWithLoveView];
+        [self.tabView.mj_header endRefreshing];
+    } fail:^{
+        
+    }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
