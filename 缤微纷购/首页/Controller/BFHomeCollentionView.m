@@ -301,9 +301,9 @@
     
 }
 - (void)footImageView:(UIButton *)but{
-    if (but.tag == self.homeModel.footDataArray.count-1) {
-        self.tabBarController.selectedIndex = 3;
-    }else{
+//    if (but.tag == self.homeModel.footDataArray.count-1) {
+//        self.tabBarController.selectedIndex = 3;
+//    }else{
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     NSMutableArray *IDArr = [NSMutableArray arrayWithCapacity:0];
     for (HomeOtherModel *model in self.homeModel.footDataArray) {
@@ -311,7 +311,7 @@
         [IDArr addObject:model.url];
     }
     [self setIndex:but.tag arr:arr IDArr:IDArr];
-    }
+//    }
 }
 
 - (void)upImageView:(UIButton *)but{

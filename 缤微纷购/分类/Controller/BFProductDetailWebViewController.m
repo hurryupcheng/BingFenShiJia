@@ -24,7 +24,7 @@
 }
 
 - (void)setUpWebView {
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-15)];
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64)];
     self.webView.delegate = self;
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.info]];
     [self.webView loadRequest:request];
