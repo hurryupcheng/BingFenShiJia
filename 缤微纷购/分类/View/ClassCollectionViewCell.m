@@ -24,7 +24,7 @@
     
     if ([super initWithFrame:frame]) {
         _imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, x, x)];
-        _imageView.backgroundColor = [UIColor greenColor];
+//        _imageView.backgroundColor = [UIColor greenColor];
         
         _titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.imageView.frame), x, 30)];
         _titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
@@ -38,9 +38,18 @@
     return self;
 }
 
-- (void)setClassifcationOther:(ClassificationSubModel *)classifcation{
+- (void)setClassifcationOther:(ClassificationSubModel *)classifcation index:(NSInteger)index{
+    if (index == 0) {
     self.titleLabel.text = classifcation.name;
+    self.imageView.frame = CGRectMake(0, 0, x, x);
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:classifcation.imageUrl] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
+//    self.titleLabel.frame = CGRectMake(0, CGRectGetMaxY(self.imageView.frame), x, 30);
+    }else{
+        self.titleLabel.text = @"全部";
+        self.imageView.frame = CGRectMake(15, 15, x-30, x-30);
+        self.imageView.image = [UIImage imageNamed:@"qbj.png"];
+    }
+    
 }
 
 

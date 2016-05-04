@@ -334,14 +334,19 @@
 
 #pragma  mark 数据请求
 - (void)getNewDate{
-    NSString *url = [BF_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item_cate"];
     NSMutableDictionary *date = [NSMutableDictionary dictionary];
-    date[@"id"] = self.ID;
+  
     date[@"sort"] = @(self.sort);
     date[@"p"] = @(self.page);
+    if (self.allItem == YES) {
+        date[@"cate_id"] = self.ID;
+    }else{
+        date[@"id"] = self.ID;
+    }
     
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-    
+        NSLog(@"%@===%@",date,responseObject);
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {

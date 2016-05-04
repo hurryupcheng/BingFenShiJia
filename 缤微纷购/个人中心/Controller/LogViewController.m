@@ -87,7 +87,7 @@
 
 
 
-#pragma mark --创建view
+#pragma mark --创建view®
 - (void)initWithView{
 
     self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];

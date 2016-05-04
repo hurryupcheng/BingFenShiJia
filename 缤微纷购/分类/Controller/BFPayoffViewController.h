@@ -18,4 +18,6 @@
 @property (nonatomic,retain) NSString *totalPrice;
 /**添加订单时间*/
 @property (nonatomic,retain)NSString *addTime;
+/**签名*/
+@property (nonatomic,retain)NSString *sign;
 @end

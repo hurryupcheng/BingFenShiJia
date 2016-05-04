@@ -10,6 +10,6 @@
 
 @interface ClassCollectionViewCell : UICollectionViewCell
 
-- (void)setClassifcationOther:(ClassificationSubModel *)classifcation;
+- (void)setClassifcationOther:(ClassificationSubModel *)classifcation index:(NSInteger)index;
 
 @end

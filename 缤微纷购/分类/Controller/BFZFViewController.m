@@ -212,6 +212,7 @@
             pay.orderid = responseObject[@"orderid"];
             pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
+            pay.sign = responseObject[@"sign"];
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
             pay.totalPrice = [self.footView.money.text substringWithRange:range];
             for (BFPTDetailModel *model in self.modelArr){
