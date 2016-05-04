@@ -305,10 +305,18 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
+
+- (UITableView *)tableV{
+    if (!_tableV) {
+        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
+//        [self.view addSubview:self.tableV];
+    }
+    return _tableV;
+}
 #pragma  mark 表视图初始化
 - (void)initWithTableView{
  
-    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
+//    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
 
     self.tableV.delegate = self;
     self.tableV.dataSource = self;
