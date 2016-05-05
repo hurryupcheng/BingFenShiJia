@@ -46,9 +46,10 @@
     scroll.showsHorizontalScrollIndicator = NO;
     scroll.pagingEnabled = YES;
     scroll.userInteractionEnabled = YES;
+//    scroll.backgroundColor = [UIColor redColor];
     
     for (int i = 0; i < self.dataArray.count; i++) {
-        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, kScreenWidth/4, kScreenWidth/4)];
+        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake((kScreenWidth/4*i)+(i*10), 0, (scroll.width-30)/3, (scroll.width-30)/3)];
         _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
         _imgButton.layer.borderWidth = 1;
         _imgButton.tag = i;

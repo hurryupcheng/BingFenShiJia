@@ -14,7 +14,7 @@ typedef void (^selectBlock)(BOOL select);
 //  数量改变的回调
 typedef void(^numChange)();
 
-@interface SPTableViewCell : UITableViewCell
+@interface SPTableViewCell : UITableViewCell<UITextFieldDelegate>
 
 @property (nonatomic,retain)UILabel *numberLabel;
 @property (nonatomic,assign)BOOL isSelected;

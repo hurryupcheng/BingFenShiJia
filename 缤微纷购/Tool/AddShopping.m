@@ -36,7 +36,7 @@
     self.textF.textAlignment = NSTextAlignmentCenter;
     self.textF.textColor = [UIColor blackColor];
     self.textF.text = @"1";
-    self.textF.userInteractionEnabled = NO;
+//    self.textF.userInteractionEnabled = NO;
     
     self.maxBut = [UIButton buttonWithType:UIButtonTypeCustom];
     self.maxBut.frame = CGRectMake(CGRectGetMaxX(self.textF.frame), 0, CGFloatX(35), CGFloatX(35));

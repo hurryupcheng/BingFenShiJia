@@ -161,9 +161,9 @@
 - (void)initwithSegment{
  
     
-    self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), 25)];
+    self.butView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(160), CGFloatX(25))];
     
-    self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), 25)];
+    self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), CGFloatX(25))];
     _button.backgroundColor = [UIColor whiteColor];
     _button.layer.cornerRadius = 12;
     _button.layer.masksToBounds = YES;
@@ -174,7 +174,7 @@
     [_button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), 25)];
+    self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), CGFloatX(25))];
     _but.backgroundColor = rgb(43, 97, 196, 1.0);
     _but.layer.cornerRadius = 12;
     _but.layer.masksToBounds = YES;

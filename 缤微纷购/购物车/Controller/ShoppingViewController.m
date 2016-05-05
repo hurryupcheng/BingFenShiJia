@@ -395,6 +395,9 @@
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
     
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 - (BFEmptyView *)empty{
@@ -435,6 +438,61 @@
     }
     return _selectGoods;
 }
+
+//-(void)hideKeyboard:(NSNotification *)noti{
+//    
+//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+//    //键盘弹起的时间
+//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+//    CGRect bottomViewFrame = _tabView.frame;
+//    bottomViewFrame.origin.y = self.view.frame.size.height-bottomViewFrame.size.height-50;
+//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+//        _tabView.frame = bottomViewFrame;
+//    } completion:nil];
+//    //为了显示动画
+//    [self.view layoutIfNeeded];
+//    
+//}
+//-(void)showKeyboard:(NSNotification *)noti{
+//    //NSLog(@"userInfo %@",noti.userInfo);
+//    //键盘出现后的位置
+//    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+//    //键盘弹起时的动画效果
+//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+//    //键盘弹起的时间
+//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+//    CGRect bottomViewFrame = _tabView.frame;
+//    bottomViewFrame.origin.y = endframe.origin.y - bottomViewFrame.size.height-50;
+//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+//        _tabView.frame = bottomViewFrame;
+//    } completion:nil];
+//    [self.view layoutIfNeeded];
+//}
+//
+//-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+//    
+//    if ([text isEqualToString:@"\n"]) {
+//        
+//        [textView resignFirstResponder];
+//        
+//        return NO;
+//        
+//    }
+//    
+//    return YES;
+//    
+//}
+//
+//-(void)viewWillDisappear:(BOOL)animated{
+//    [super viewWillDisappear:animated];
+//    
+//    self.navigationController.navigationBar.translucent = NO;
+//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//    self.tabBarController.tabBar.hidden = YES;
+//    
+//}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

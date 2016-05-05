@@ -213,6 +213,7 @@
            }
            parameter[@"nickname"] = [userInfo nickname];
            parameter[@"openid"] = [userInfo uid];
+//           parameter[@"unionid"] = [userInfo ];
            parameter[@"ico"] = [userInfo profileImage];
            
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {

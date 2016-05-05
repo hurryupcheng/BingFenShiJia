@@ -27,7 +27,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(10, self.contentView.frame.size.height/2+CGFloatY(25/2), CGFloatY(25), CGFloatY(25))];
+        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(15, self.contentView.frame.size.height/2+CGFloatY(25/2), CGFloatY(25), CGFloatY(25))];
         self.needV.layer.cornerRadius = CGFloatY(25/2);
         self.needV.layer.masksToBounds = YES;
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
@@ -58,7 +58,9 @@
         [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
         
         self.add = [[AddShopping alloc]init];
-        self.add.textF.userInteractionEnabled = NO;
+        self.add.textF.returnKeyType = UIReturnKeyDone;
+        self.add.textF.delegate = self;
+//        self.add.textF.userInteractionEnabled = NO;
 //        self.add.backgroundColor = [UIColor yellowColor];
         
         [self.add.maxBut addTarget:self action:@selector(maxButton) forControlEvents:UIControlEventTouchUpInside];
@@ -123,7 +125,7 @@
 
     self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
     
-    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
+    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)-10, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
 //    self.add.backgroundColor = [UIColor redColor];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.price];
     self.hetLabel.text = [NSString stringWithFormat:@"%@  %@",model.color,model.choose];
@@ -131,6 +133,30 @@
     self.needV.selected = self.isSelected;
     self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
    
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+    [textField resignFirstResponder];
+    return YES;
+}
+// 判断输入的是否是数字
+- (BOOL)validateNumberByRegExp:(NSString *)string {
+    BOOL isValid = YES;
+    NSUInteger len = string.length;
+    
+    if (len > 0) {
+        NSString *numberRegex = @"^[0-9]*$";
+        NSPredicate *numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
+        isValid = [numberPredicate evaluateWithObject:string];
+    }
+    return isValid;
+}
+
+#pragma mark - UITextFieldDelegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    return [self validateNumberByRegExp:string];
 }
 
 - (void)awakeFromNib {
