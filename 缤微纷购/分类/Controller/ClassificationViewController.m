@@ -90,7 +90,7 @@
   
     [self initWithLeftView];
     CGFloat x = ((kScreenWidth-fen_x)-5-5-5-5)/3;
-    
+   
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumInteritemSpacing = 5;
     flowLayout.minimumLineSpacing = 5;
