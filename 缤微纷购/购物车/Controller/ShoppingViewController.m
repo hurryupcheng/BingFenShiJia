@@ -5,15 +5,12 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-#import "AFNTool.h"
+#import "BFEmptyView.h"
 #import "LogViewController.h"
 #import "PrefixHeader.pch"
-#import "BFStorage.h"
 #import "ViewController.h"
 #import "BFZFViewController.h"
 #import "FXQViewController.h"
-#import "UIImageView+WebCache.h"
-#import "BFShoppModel.h"
 #import "BFHeaderView.h"
 #import "BFOtherView.h"
 #import "BFFootViews.h"
@@ -22,33 +19,27 @@
 #import "ShoppingViewController.h"
 #import "CXArchiveShopManager.h"
 
-@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate>
 @property (nonatomic,retain)SPTableViewCell *sp;
 @property (nonatomic,retain)BFOtherView *other;
 @property (nonatomic,retain)BFHeaderView *header;
 @property (nonatomic,retain)BFFootViews *foot;
 @property (nonatomic,retain)UIImageView *imageV;
-@property (nonatomic,retain)UIScrollView *scrollView;
 @property (nonatomic,retain)UITableView *tabView;
 @property (nonatomic,retain)UIButton *rightBut;
 @property (nonatomic,retain)UIView *otherView;
 @property (nonatomic,retain)NSMutableArray *dateArr;
-@property (nonatomic,retain)NSMutableArray *dataArray;
-@property (nonatomic,retain)BFShoppModel *shoppModel;
-@property (nonatomic,retain)UIButton *imgButton;
-@property (nonatomic,retain)NSMutableArray *imgArray;
-@property (nonatomic,retain)UIView *views;
-@property (nonatomic,retain)BFStorage *stor;
-//@property (nonatomic,retain)NSMutableArray *dataArr;
 
-@property (nonatomic,retain)UIScrollView *scroll;
-@property (nonatomic,retain)UIView *groubView;
+@property (nonatomic,retain)UIButton *imgButton;
+@property (nonatomic,retain)BFStorage *stor;
+
 @property (nonatomic,assign)NSInteger cellHeight;
 @property (nonatomic,assign)BOOL isEdits; //是否全选
 @property (nonatomic,retain)NSMutableArray *selectGoods;// 已选中
 @property (nonatomic,retain)BFUserInfo *userInfo;
 @property (nonatomic,retain)UIView *backV;
 @property (nonatomic) BOOL footItem;
+@property (nonatomic,retain)BFEmptyView *empty;
 
 @end
 
@@ -61,49 +52,29 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"laji.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(removeAll)];
 
      self.title = @"购物车";
- 
 }
 
 - (void)data{
-    
-//    [self getNewDate];
-       [self getDate];
+
+    self.empty.backgroundColor = rgb(245, 245, 245, 1.0);
+    [_empty.button addTarget:self action:@selector(gotoHomeController) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_empty];
     
     if (self.footItem == NO) {
-        
-        self.views = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
-        self.views.backgroundColor = [UIColor whiteColor];
+        _other.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
     }
-        [self.view addSubview:self.views];
-    
-       self.groubView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.views.height-115)];
-       self.groubView.backgroundColor = rgb(245, 245, 245, 1.0);
-       
-        UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/2/2)), 10, CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
-        img.image = [UIImage imageNamed:@"464.png"];
-        
-        UILabel *kong = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, kScreenWidth, 30)];
-        kong.text = @"您的购物车空空如也～";
-        kong.textColor = [UIColor grayColor];
-        kong.textAlignment = NSTextAlignmentCenter;
-        kong.font = [UIFont systemFontOfSize:CGFloatX(20)];
-        
-        UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(kong.frame)+10, kScreenWidth, 30)];
-        [button setTitle:@"去首页逛逛" forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(20)];
-        [button setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [button addTarget:self action:@selector(gotoHomeController) forControlEvents:UIControlEventTouchUpInside];
-        
-        UIImageView *image = [[UIImageView alloc]initWithFrame:CGRectMake((kScreenWidth/2-CGFloatX(kScreenWidth/4)), CGRectGetMaxY(button.frame), CGFloatX(kScreenWidth/2), CGFloatY(kScreenWidth/2))];
-        image.image = [UIImage imageNamed:@"buys.png"];
-//        image.backgroundColor = [UIColor redColor];
-        [self.view addSubview:_groubView];
-        [_groubView addSubview:img];
-        [_groubView addSubview:kong];
-        [_groubView addSubview:button];
-//        [_groubView addSubview:image];
-
+    [self.view addSubview:_other];
 }
+
+#pragma  mark other代理方法
+- (void)BFOtherViewDelegate:(BFOtherView *)otherView ID:(NSString *)itemID{
+
+    FXQViewController *fx = [[FXQViewController alloc]init];
+    fx.ID = itemID;
+    [self.navigationController pushViewController:fx animated:YES];
+}
+
+
 #pragma  mark 删除所有商品
 - (void)removeAll{
     UIAlertController *aler = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定清除购物车吗" preferredStyle:UIAlertControllerStyleAlert];
@@ -119,6 +90,7 @@
                     self.footItem = NO;
                     [self.tabView removeFromSuperview];
                     [self data];
+                    [self other];
                 }
         
     }];
@@ -227,57 +199,11 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
     if (section == 1) {
-        return self.views;
+       
+        return self.other;
     }else{
         return nil;
     }
-}
-
-- (void)initWithLoveView{
-    [self.tabView reloadData];
-    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(10, 15, kScreenWidth/3-20, 1)];
-    lab.backgroundColor = [UIColor grayColor];
-    
-    UILabel *labe = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(lab.frame)+10, 0, kScreenWidth/3, 30)];
-    labe.text = @"热门推荐";
-    labe.textAlignment = NSTextAlignmentCenter;
-    labe.textColor = [UIColor grayColor];
-    labe.font = [UIFont systemFontOfSize:CGFloatX(17)];
-    
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(labe.frame)+5, 15, kScreenWidth/3-20, 1)];
-    label.backgroundColor = [UIColor grayColor];
-    
-    self.scroll.frame = CGRectMake(30, CGRectGetMaxY(labe.frame)+10, kScreenWidth-60, (kScreenWidth-90)/3);
-
-    _scroll.contentSize = CGSizeMake(_scroll.width*(self.dataArray.count/3), 0);
-    _scroll.shouldGroupAccessibilityChildren = NO;
-    _scroll.showsHorizontalScrollIndicator = NO;
-    _scroll.pagingEnabled = YES;
-  
-    for (int i = 0; i < self.dataArray.count; i++) {
-        self.imgButton = [[UIButton alloc]initWithFrame:CGRectMake(((kScreenWidth-90)/3*i)+(i*10), 0, (kScreenWidth-90)/3, (kScreenWidth-90)/3)];
-        _imgButton.layer.borderColor = [UIColor grayColor].CGColor;
-        _imgButton.layer.borderWidth = 0.5;
-        _imgButton.tag = i;
-        _imgButton.userInteractionEnabled = YES;
-        
-        [_imgButton addTarget:self action:@selector(imgButton:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [_imgButton setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:self.shoppModel.imgArr[i]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-        
-        [_scroll addSubview:_imgButton];
-    }
-    
-    [self.views addSubview:_scroll];
-    [self.views addSubview:lab];
-    [self.views addSubview:labe];
-    [self.views addSubview:label];
-}
-
-- (void)imgButton:(UIButton *)but{
-    FXQViewController *fx = [[FXQViewController alloc]init];
-    fx.ID = self.shoppModel.IDArr[but.tag];
-    [self.navigationController pushViewController:fx animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -413,6 +339,7 @@
                 self.footItem = NO;
                 tabBar.tabBarItem.badgeValue = nil;
                 [self data];
+
             }
         }
     }
@@ -435,22 +362,6 @@
     [self.navigationController pushViewController:bfzf animated:YES];
 }
 
-- (void)getDate{
-    
-    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=cart";
-    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
-        BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:responseObject];
-        self.shoppModel = shoppModel;
-        self.dataArray = [shoppModel.dateArr copy];
-        
-        [self initWithLoveView];
-        [self.tabView.mj_header endRefreshing];
-    } fail:^{
-        
-    }];
-    
-}
-
 - (void)viewWillAppear:(BOOL)animated{
 
     [self.backV removeFromSuperview];
@@ -458,6 +369,8 @@
     if (self.userInfo == nil) {
         self.footItem = NO;
         [self data];
+        [self other];
+
     }else{
     [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
@@ -465,14 +378,16 @@
     if (self.dateArr.count == 0) {
         self.footItem = NO;
         [self data];
+        [self other];
     }else{
         self.footItem = YES;
-        [self getDate];
-        [_groubView removeFromSuperview];
+        [_empty removeFromSuperview];
         [self initWithTableView];
         [self.tabView reloadData];
+        [self other];
     }
     }
+    
     self.tabBarController.tabBar.hidden = NO;
     self.navigationController.navigationBarHidden = NO;
     [self.selectGoods removeAllObjects];
@@ -482,20 +397,30 @@
     
 }
 
-- (UIScrollView *)scroll{
-    if (!_scroll) {
-        _scroll = [[UIScrollView alloc]init];
+- (BFEmptyView *)empty{
+    if (!_empty) {
+        if (self.footItem == NO){
+            self.empty = [[BFEmptyView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.other.height-115)];
+        }
     }
-    return _scroll;
+    return _empty;
 }
 
-- (UIView *)views{
-    if (!_views) {
-    self.views = [[UIView alloc]init];
-  
+- (BFOtherView *)other{
+    if (!_other) {
+        if (self.footItem == NO) {
+            _other = [[BFOtherView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
+            self.other.backgroundColor = [UIColor whiteColor];
+            [self.view addSubview:_other];
+        }else{
+            _other = [[BFOtherView alloc]init];
+
+        }
+        self.other.otherDelegate = self;
     }
-    return _views;
+    return _other;
 }
+
 
 - (NSMutableArray *)dateArr{
     if (!_dateArr) {
@@ -504,25 +429,11 @@
     return _dateArr;
 }
 
-- (NSMutableArray *)dataArray{
-    if (!_dataArray) {
-        _dataArray = [NSMutableArray array];
-    }
-    return _dataArray;
-}
-
 - (NSMutableArray *)selectGoods{
     if (!_selectGoods) {
         _selectGoods = [NSMutableArray array];
     }
     return _selectGoods;
-}
-
-- (void)getNewDate{
-  self.tabView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-      [self getDate];
-  }];
-    [self.tabView.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {
