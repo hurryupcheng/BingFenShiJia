@@ -13,7 +13,7 @@
 #import "ViewController.h"
 
 
-@interface BFHotSosoViewController ()
+@interface BFHotSosoViewController ()<UITabBarDelegate,UITableViewDataSource>
 {
     UIView * hotView;
     UIView * searchView;
@@ -30,18 +30,14 @@
 @property (nonatomic, strong) NSMutableArray * HotSosoHistoryArr;
 @property (nonatomic, retain) UIButton *LikeImage;
 
+@property (nonatomic,retain)UITableView *tableV;
+
 @end
 
 @implementation BFHotSosoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
@@ -229,35 +225,40 @@
     lab.text = @"搜索结果";
     [searchView addSubview:lab];
     
-    for (int j = 0; j < _SearchWordArr.count; j++) {
-        self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
-        
-        _LikeImage.layer.cornerRadius = 10;
-        _LikeImage.layer.masksToBounds = YES;
-        _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
-        _LikeImage.layer.borderWidth = 1;
-        _LikeImage.tag = j;
-        NSDictionary * dic = _SearchWordArr[j];
-        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-        
-        [_LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [searchView addSubview:_LikeImage];
-    }
-
-    CGFloat SearHeights;
-    if (_SearchWordArr.count%2 == 0) {
-        SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2);
-    }
-    else
-    {
-        SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2)+1;
-    }
+//    for (int j = 0; j < _SearchWordArr.count; j++) {
+//        self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
+//        
+//        _LikeImage.layer.cornerRadius = 10;
+//        _LikeImage.layer.masksToBounds = YES;
+//        _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
+//        _LikeImage.layer.borderWidth = 1;
+//        _LikeImage.tag = j;
+//        NSDictionary * dic = _SearchWordArr[j];
+//        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
+//        
+//        [_LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
+//        
+//        [searchView addSubview:_LikeImage];
+//    }
+//
+//    CGFloat SearHeights;
+//    if (_SearchWordArr.count%2 == 0) {
+//        SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2);
+//    }
+//    else
+//    {
+//        SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2)+1;
+//    }
     
 //    searchView.frame = CGRectMake(0, 0, kScreenWidth, 15+lab.frame.size.height+SearHeights+10);
-    searchView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
+//    searchView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
     
-    return searchView;
+    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10)];
+    
+    self.tableV.delegate = self;
+    self.tableV.dataSource = self;
+    
+    return self.tableV;
 }
 
 - (void)tapitems:(UIButton *)img{

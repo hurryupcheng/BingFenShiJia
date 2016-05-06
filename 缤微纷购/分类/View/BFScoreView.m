@@ -93,12 +93,6 @@
 
  #pragma mark - UITextFieldDelegate
  - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-   
-//     if (self.price.text.length <= self.num.length) {
-//         return YES;
-//     }else{
-//         return NO;
-//     }
      
     return [self validateNumberByRegExp:string];
 }

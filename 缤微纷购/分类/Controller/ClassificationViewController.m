@@ -90,7 +90,7 @@
   
     [self initWithLeftView];
     CGFloat x = ((kScreenWidth-fen_x)-5-5-5-5)/3;
-    
+   
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];
     flowLayout.minimumInteritemSpacing = 5;
     flowLayout.minimumLineSpacing = 5;
@@ -129,17 +129,26 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     ClassCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
-
-    [cell setClassifcationOther:_currentModel.sub_catesArr[indexPath.row]];
-    
+    if (indexPath.row == _currentModel.sub_catesArr.count-1) {
+    [cell setClassifcationOther:_currentModel.sub_catesArr[indexPath.row] index:1];
+    }else{
+    [cell setClassifcationOther:_currentModel.sub_catesArr[indexPath.row] index:0];
+    }
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
     XQViewController *xq = [[XQViewController alloc]init];
+    if (indexPath.row == _currentModel.sub_catesArr.count-1) {
+        xq.titles = _currentModel.name;
+        xq.ID = _currentModel.ID;
+        xq.allItem = YES;
+    }else{
+    xq.allItem = NO;
     xq.ID = _currentModel.idArr[indexPath.row];
     xq.titles = _currentModel.nameArr[indexPath.row];
+    }
     [self.navigationController pushViewController:xq animated:YES];
 }
 

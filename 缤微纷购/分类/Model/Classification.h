@@ -31,11 +31,3 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dic;
 @end
 
-//@interface ours : NSObject
-//
-//@property (nonatomic,retain)NSString *imageUrl;
-//@property (nonatomic,retain)NSString *name;
-//
-//@end
-
-

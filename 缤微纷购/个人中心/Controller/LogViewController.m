@@ -87,7 +87,7 @@
 
 
 
-#pragma mark --创建view
+#pragma mark --创建view®
 - (void)initWithView{
 
     self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(150), ScreenWidth-BF_ScaleWidth(120), BF_ScaleHeight(35)) image:@"technician" placeholder:@"手机号"];
@@ -206,15 +206,18 @@
            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
            if (shareType == ShareTypeQQSpace) {
                parameter[@"type"] = @"1";
+               parameter[@"openid"] = [userInfo uid];
            }else if (shareType == ShareTypeSinaWeibo) {
                parameter[@"type"] = @"2";
+               parameter[@"openid"] = [userInfo uid];
            }else if (shareType == ShareTypeWeixiSession) {
                parameter[@"type"] = @"0";
+               parameter[@"openid"] = [userInfo sourceData][@"unionid"];
            }
            parameter[@"nickname"] = [userInfo nickname];
-           parameter[@"openid"] = [userInfo uid];
+           //parameter[@"openid"] = [userInfo uid];
            parameter[@"ico"] = [userInfo profileImage];
-           parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
+           //parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
            
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                BFLog(@"%@,,%@", responseObject, parameter);

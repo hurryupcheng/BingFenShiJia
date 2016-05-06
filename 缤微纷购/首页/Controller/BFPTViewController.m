@@ -151,6 +151,7 @@
             }else {
                 self.ptLBView = nil;
             }
+            if (![arr isKindOfClass:[NSNull class]]) {
             
             for (NSDictionary *dics in arr) {
                 _pt = [[PTModel alloc]init];
@@ -164,6 +165,7 @@
                 
                 [self.dataArray addObject:_pt];
                 
+            }
             }
             
         }else{

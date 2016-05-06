@@ -12,5 +12,6 @@
 
 @property (nonatomic,retain)NSString *ID;
 @property (nonatomic,retain)NSString *titles;
-
+@property (nonatomic) BOOL allItem;
+@property (nonatomic,retain)NSString *allID;
 @end

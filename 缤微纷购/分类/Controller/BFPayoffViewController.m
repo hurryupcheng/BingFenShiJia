@@ -222,6 +222,7 @@
     
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
     id<DataSigner> signer = CreateRSADataSigner(PartnerPrivKey);
+//    id<DataSigner> signer = CreateRSADataSigner(self.sign);
     NSString *signedString = [signer signString:orderSpec];
     BFLog(@"signedString = %@",signedString);
     

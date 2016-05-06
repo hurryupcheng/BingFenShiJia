@@ -212,6 +212,7 @@
             pay.orderid = responseObject[@"orderid"];
             pay.addTime = responseObject[@"addtime"];
             pay.img = _itemImg;
+            pay.sign = responseObject[@"sign"];
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
             pay.totalPrice = [self.footView.money.text substringWithRange:range];
             for (BFPTDetailModel *model in self.modelArr){
@@ -304,10 +305,18 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
+
+- (UITableView *)tableV{
+    if (!_tableV) {
+        self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
+//        [self.view addSubview:self.tableV];
+    }
+    return _tableV;
+}
 #pragma  mark 表视图初始化
 - (void)initWithTableView{
  
-    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
+//    self.tableV = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-self.footView.height-64) style:UITableViewStyleGrouped];
 
     self.tableV.delegate = self;
     self.tableV.dataSource = self;
@@ -362,11 +371,24 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 2;
+        return 3;
     }else if(section == 1){
         return 4;
     }else if(section == 2){
         return 1;
+    }else{
+        return 0;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    if (section == 0) {
+        if (self.isCoupon == YES) {
+            return (CGFloatX(90)*_favourableArr.count)+(10*(_favourableArr.count+1));
+        }else{
+            return 0;
+        }
+
     }else{
         return 0;
     }
@@ -377,15 +399,25 @@
         return self.groubeImg.height+30;
     }else if(section == 1){
         return (kScreenWidth/4+10)*(self.modelArr.count)+(self.modelArr.count*5);
-    }else if(section == 2){
-        if (self.isCoupon == YES) {
-         return (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count);
-        }else{
-            return 0;
-        }
     }else{
         return 0;
     }
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *back = [[UIView alloc]init];
+    if (section == 0) {
+        if (self.isCoupon == YES) {
+            
+            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
+            _couponHeight = _couponView.height;
+            _couponView.couponDelegate = self;
+            
+            [back addSubview:_couponView];
+        }
+
+    }
+    return back;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -459,18 +491,7 @@
             
             [_imageV addSubview:_order];
         }
-    }else if (section == 2){
-   
-        if (self.isCoupon == YES) {
-            
-            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
-            _couponHeight = _couponView.height;
-            _couponView.couponDelegate = self;
-            
-           [_imageV addSubview:_couponView];
-        }
     }
-
     return _imageV;
 }
 
@@ -495,7 +516,7 @@
         [self getNewData];
         BFLog(@".....%@",self.model);
     };
-    
+    [self.tableV reloadData];
     [self.navigationController pushViewController:addVC animated:YES];
     
 }
@@ -548,13 +569,18 @@
                 }
             }
                 break;
+            case 2:{
+            cell.textLabel.text = @"优惠券抵扣";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            }
+                break;
             default:
                 break;
         }
             
     }else if (indexPath.section == 1){
      
-            NSArray *array = @[@"商品总价",@"运费",@"积分抵扣",@"优惠卷抵扣*"];
+            NSArray *array = @[@"商品总价",@"运费",@"积分抵扣",@"优惠券抵扣"];
             cell.textLabel.text = array[indexPath.row];
         
         switch (indexPath.row) {
@@ -573,9 +599,9 @@
                 break;
             }case 3:{
                 [self getPrice:self.couponPrice height:cell.height];
-                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
-                [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 1)];
-                cell.textLabel.attributedText = attr;
+//                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+//                [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 1)];
+//                cell.textLabel.attributedText = attr;
                 
                 _everMoney.textColor = [UIColor grayColor];
                 break;
@@ -653,31 +679,32 @@
                 self.payTitle.text = str;
                 CGFloat width = [Height widthString:str font:[UIFont systemFontOfSize:16]];
                 _payTitle.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-CGFloatX(width)-CGFloatX(30), 0, CGFloatX(width), 44);
+                [self.tableV reloadData];
             };
             NSString *strs = [self.footView.money.text substringFromIndex:5];
             payment.price = [strs doubleValue];
            
             [self.navigationController pushViewController:payment animated:YES];
         }
-    }else if (indexPath.section == 1){
-        if (indexPath.row == 3) {
-           
+        
+        if (indexPath.row == 2) {
             if (_favourableArr == nil) {
                 self.isCoupon = NO;
                 self.coupon_id = @"0";
             }else{
-            self.nums++;
-            if (self.nums%2 == 0) {
-                self.isCoupon = YES;
-            }else{
-            self.isCoupon = NO;
-            self.couponPrice = 0.00;
-            self.coupon_id = @"0";
-            self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
-            }
-            [self.tableV reloadData];
-            }
+                self.nums++;
+                if (self.nums%2 == 0) {
+                    self.isCoupon = YES;
+                }else{
+                    self.isCoupon = NO;
+                    self.couponPrice = 0.00;
+                    self.coupon_id = @"0";
+                    self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+                }
+                [self.tableV reloadData];
         }
+    }
+        
     }else if (indexPath.section == 2){
         self.wordesNum++;
         if (self.wordesNum%2 == 0) {

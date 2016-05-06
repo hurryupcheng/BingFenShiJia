@@ -40,6 +40,7 @@
         
         _logV = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
         _logV.image = [UIImage imageNamed:@"f_1.png"];
+        
 //        _logV.layer.borderWidth = 2;
 //        _logV.layer.borderColor = [UIColor redColor].CGColor;
 //        _logV.layer.cornerRadius = 15;
@@ -124,11 +125,11 @@
 
 }
 
-//- (void)setFrame:(CGRect)frame{
-//    frame.origin.y += 10;
-//    frame.size.height -= 10;
-//    [super setFrame:frame];
-//}
+- (void)setFrame:(CGRect)frame{
+    frame.origin.y += 10;
+    frame.size.height -= 10;
+    [super setFrame:frame];
+}
 
 - (void)awakeFromNib {
     // Initialization code
