@@ -33,7 +33,7 @@
 /**prepayid*/
 @property (nonatomic, strong) NSString *prepayid;
 /**timestamp*/
-@property (nonatomic, assign) NSInteger timestamp;
+@property (nonatomic, assign) NSUInteger timestamp;
 /**sign*/
 @property (nonatomic, strong) NSString *sign;
 @end

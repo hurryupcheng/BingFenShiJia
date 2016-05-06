@@ -315,12 +315,12 @@
 }
 
 //客户端提示信息
-- (void)alert:(NSString *)title msg:(NSString *)msg
-{
-    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    
-    [alter show];
-}
+//- (void)alert:(NSString *)title msg:(NSString *)msg
+//{
+//    UIAlertView *alter = [[UIAlertView alloc] initWithTitle:title message:msg delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+//    
+//    [alter show];
+//}
 
 
 

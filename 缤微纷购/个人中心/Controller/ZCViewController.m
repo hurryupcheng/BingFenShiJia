@@ -57,7 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor clearColor];
-    self.navigationController.navigationBar.translucent = YES;
+    
     self.title = @"注册";
     
     UIImage *image = [UIImage imageNamed:@"101"];
@@ -109,8 +109,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-    self.tabBarController.tabBar.hidden = YES;
+    self.navigationController.navigationBar.translucent = YES;
+    //self.tabBarController.tabBar.hidden = YES;
     
 }
 

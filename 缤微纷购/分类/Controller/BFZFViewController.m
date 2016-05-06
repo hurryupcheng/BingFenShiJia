@@ -168,7 +168,9 @@
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
             pay.totalPrice = [self.footView.money.text substringWithRange:range];
 
-            [self.navigationController pushViewController:pay animated:YES];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
+               [self.navigationController pushViewController:pay animated:YES];
+            }];
             
         }else{
             
@@ -183,67 +185,71 @@
 
 #pragma mark -- 单品订单
 - (void)singleProductOrder {
-    NSLog(@"%@",self.coupon_id);
-    _userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
-    NSMutableDictionary *data = [NSMutableDictionary dictionary];
-    data[@"uid"] = _userInfo.ID;
-    data[@"token"] = _userInfo.token;
-    data[@"coupon_id"] = self.coupon_id;
-    data[@"pay_score"] = @(self.scores);
-    data[@"postscript"] = _textView.text;
-    data[@"address_id"] = self.addressID;
-    data[@"data"] = self.itemDate;
-    if ([self.payTitle.text isEqualToString:@"支付宝"]) {
-        data[@"pay_type"] = @"2";
-    }else {
-        data[@"pay_type"] = @"1";
-    }
-    
-    [BFHttpTool POST:url params:data success:^(id responseObject) {
-        NSLog(@"////%@==%@",data,responseObject);
-        if ([responseObject[@"status"] isEqualToString:@"1"]) {
-            //生成订单倒计时1800秒
-            leftTime = 1800;
-            
-            if(timer)
-                [timer invalidate];
-            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-            BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-            BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-            pay.pay = self.payTitle.text;
-            pay.orderModel = orderModel;
-            pay.orderid = orderModel.orderid;
-            pay.addTime = orderModel.addtime;
-            pay.img = _itemImg;
-            
-            NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
-            pay.totalPrice = [self.footView.money.text substringWithRange:range];
-            for (BFPTDetailModel *model in self.modelArr){
-                [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-                [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
-                
-                NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-                UITabBarController *tabBar = [self.tabBarController viewControllers][1];
-                if (array.count == 0) {
-                    tabBar.tabBarItem.badgeValue = nil;
-                }else {
-                    tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
-                }
-                
-            }
-            self.removeBlock();
-            [self.navigationController pushViewController:pay animated:YES];
-            
-        }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
-            
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
+        NSLog(@"%@",self.coupon_id);
+        _userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
+        NSMutableDictionary *data = [NSMutableDictionary dictionary];
+        data[@"uid"] = _userInfo.ID;
+        data[@"token"] = _userInfo.token;
+        data[@"coupon_id"] = self.coupon_id;
+        data[@"pay_score"] = @(self.scores);
+        data[@"postscript"] = _textView.text;
+        data[@"address_id"] = self.addressID;
+        data[@"data"] = self.itemDate;
+        if ([self.payTitle.text isEqualToString:@"支付宝"]) {
+            data[@"pay_type"] = @"2";
         }else {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
+            data[@"pay_type"] = @"1";
         }
-    } failure:^(NSError *error) {
-        BFLog(@"%@", error);
         
+        [BFHttpTool POST:url params:data success:^(id responseObject) {
+            NSLog(@"////%@==%@",data,responseObject);
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                //生成订单倒计时1800秒
+    //            leftTime = 1800;
+    //            
+    //            if(timer)
+    //                [timer invalidate];
+    //            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+                pay.pay = self.payTitle.text;
+                pay.orderModel = orderModel;
+                pay.orderid = orderModel.orderid;
+                pay.addTime = orderModel.addtime;
+                pay.img = _itemImg;
+                
+                NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
+                pay.totalPrice = [self.footView.money.text substringWithRange:range];
+                for (BFPTDetailModel *model in self.modelArr){
+                    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+                    [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+                    
+                    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+                    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+                    if (array.count == 0) {
+                        tabBar.tabBarItem.badgeValue = nil;
+                    }else {
+                        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+                    }
+                    
+                }
+                self.removeBlock();
+                
+                [self.navigationController pushViewController:pay animated:YES];
+            
+                
+            }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
+                
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@", error);
+            
+        }];
     }];
 
 }
@@ -251,12 +257,12 @@
 
 
 #pragma mark -- 倒计时1800，到时间取消订单
-- (void)timerAction {
-    leftTime--;
-    if (leftTime == 0) {
-        [BFNotificationCenter postNotificationName:@"cancleOrder" object:nil];
-    }
-}
+//- (void)timerAction {
+//    leftTime--;
+//    if (leftTime == 0) {
+//        [BFNotificationCenter postNotificationName:@"cancleOrder" object:nil];
+//    }
+//}
 
 
 - (void)addsView{
