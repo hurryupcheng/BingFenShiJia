@@ -214,6 +214,7 @@
            parameter[@"nickname"] = [userInfo nickname];
            parameter[@"openid"] = [userInfo uid];
            parameter[@"ico"] = [userInfo profileImage];
+           parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
            
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                BFLog(@"%@,,%@", responseObject, parameter);
@@ -236,7 +237,7 @@
            } failure:^(NSError *error) {
                BFLog(@"%@", error);
            }];
-           
+           BFLog(@"%@", [userInfo sourceData][@"unionid"]);
            
            BFLog(@" ---- %@",[userInfo nickname]);
            //打印输出用户uid：
