@@ -181,11 +181,16 @@
     UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(BF_ScaleWidth(310)-51, CGRectGetMaxY(category.frame)+(CellHeight-31)/2, 51, 31)];
     self.switchButton = switchButton;
     [switchButton setOn:NO];
+    switchButton.onTintColor = BFColor(0x0977ca);
+    switchButton.tintColor = BFColor(0xBABABA);
+    //switchButton.layer.borderColor = BFColor(0xBABABA).CGColor;
+    //switchButton.layer.borderWidth = 1;
+    //switchButton.layer.cornerRadius = 15.5;
     [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [bottomView addSubview:switchButton];
     
     UIButton *saveButton = [UIButton buttonWithType:0];
-    saveButton.frame = CGRectMake(BF_ScaleWidth(80), CGRectGetMaxY(bottomView.frame)+BF_ScaleHeight(20), BF_ScaleWidth(160), BF_ScaleHeight(30));
+    saveButton.frame = CGRectMake(BF_ScaleWidth(170), CGRectGetMaxY(bottomView.frame)+BF_ScaleHeight(20), BF_ScaleWidth(130), BF_ScaleHeight(30));
     [saveButton setTitle:@"保存" forState:UIControlStateNormal];
     saveButton.backgroundColor = BFColor(0xFA8728);
     saveButton.layer.cornerRadius = BF_ScaleHeight(15);
@@ -193,10 +198,13 @@
     [self addSubview:saveButton];
     
     UIButton *deleteButton = [UIButton buttonWithType:0];
-    deleteButton.frame = CGRectMake(BF_ScaleWidth(80), CGRectGetMaxY(saveButton.frame)+BF_ScaleHeight(20), BF_ScaleWidth(160), BF_ScaleHeight(30));
+    deleteButton.frame = CGRectMake(BF_ScaleWidth(20), CGRectGetMaxY(bottomView.frame)+BF_ScaleHeight(20), BF_ScaleWidth(130), BF_ScaleHeight(30));
     [deleteButton setTitle:@"删除地址" forState:UIControlStateNormal];
-    deleteButton.backgroundColor = BFColor(0xFA8728);
+    [deleteButton setTitleColor:BFColor(0x646566) forState:UIControlStateNormal];
+    deleteButton.backgroundColor = BFColor(0xffffff);
     deleteButton.layer.cornerRadius = BF_ScaleHeight(15);
+    deleteButton.layer.borderColor = BFColor(0x646566).CGColor;
+    deleteButton.layer.borderWidth = 1;
     [deleteButton addTarget:self action:@selector(clickToDeleteAddress:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:deleteButton];
 }

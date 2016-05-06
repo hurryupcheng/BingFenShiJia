@@ -122,12 +122,12 @@
 #pragma  mark 拼团解析
 - (void)tableViewgetDate{
     
-    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=team_buy";
-    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
-        
-    } fail:^{
-        
-    }];
+//    NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=team_buy";
+//    [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
+//        
+//    } fail:^{
+//        
+//    }];
     
     
     NSURL *url = [NSURL URLWithString:[NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_buy"]];

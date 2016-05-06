@@ -12,7 +12,7 @@
 //安全校验码（MD5）密钥，以数字和字母组成的32位字符
 #define MD5_KEY @""
 //商户私钥，自助生成
-#define PartnerPrivKey @"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAJw+8QlbW6nYVO9NaEyxbTvD/ySRezvbBlckQz0oXIXyKqC7n2dkAtx3oxGQuumQ0N2iXOrUbsgTRAjIRQS6XYvCuovV+wNCwxF5YBYr8Pry9fSkbAMeCZpbR2PaeHKV8PpFDPsCo+5JFg5ckqROvV3HzNccKXn6DvzRMNjipLM3AgMBAAECgYBV1sqLrnJUhHJdKjTD9bIiZJJ236pJfxIjq9t47QSv3hSHS6zOm4Zq4xtmmhHmIdZt/TZ5GQ5nwxXckVJBv7WGKCo0IYaLRhGF90vSwf6Ec4HXRRfjCcit0Aghs1x8CC8HUyB49Uw4DBFx6MKO7sAYYv88oDL+Kx5Jj6cwjnMUEQJBAM759evQ9ARwvHSidQmLBIPd+3zsv3ZALRUyADwJvfd0Z2la8W0QV+luvwXOFHvbNCgglCFphlwbDHBXf/YKUQ8CQQDBQO2n0nFjIdVtuvZ22bKz50GbXqRgc/V8BXbgbzUjDe/AN12pwsn/iuJBA76bLrsEmpE1hlmTTHZZAiEpfytZAkBLlZLOLD+Ag57+xPkSpBbhBSa7B0YgK+2KyPi29CPQg0zkd5ak6owALjZKK2jlljZk1QjjbsLnTeVr/Tg4pKnXAkAM0XyyBABnXeglNiCA86Gp0y4D2zw19ZsT1dzzuAyjPZpoeoOo7fWuEI0/WLs82dWn0YTOMxIf9hNnhf+jG/9JAkAV+AGrJjXLrHF7eC4IArAhSvuDFB1JN8KAo4DMAY5y5D0G/z4nUewKds0ZTjg8bC9DgaH3W+lUH9Wy4T9SAPoO"
+
 //支付宝公钥
 #define AlipayPubKey @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCcPvEJW1up2FTvTWhMsW07w/8kkXs72wZXJEM9KFyF8iqgu59nZALcd6MRkLrpkNDdolzq1G7IE0QIyEUEul2LwrqL1fsDQsMReWAWK/D68vX0pGwDHgmaW0dj2nhylfD6RQz7AqPuSRYOXJKkTr1dx8zXHCl5+g780TDY4qSzNwIDAQAB"
 
@@ -31,6 +31,7 @@
 #import "payRequsestHandler.h"
 #import "WXApi.h"
 #import "WxProduct.h"
+#import "BFURLEncodeAndDecode.h"
 
 
 @interface BFPayoffViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -199,9 +200,9 @@
     order.partner = PartnerID;
     //商户的账号
     order.seller = SellerID;
-    order.tradeNO = self.orderid;       //订单ID（由商家自行制定）
-    order.productName = @"缤纷世家新鲜水果";          //商品标题
-    //order.productDescription = product.productDescription;//商品描述
+    order.tradeNO = self.orderModel.orderid;       //订单ID（由商家自行制定）
+    order.productName = @"测试";          //商品标题
+    order.productDescription = @"测试";//商品描述
 
     order.amount = @"0.01"; //商品价格
     
@@ -210,8 +211,8 @@
     order.service = @"mobile.securitypay.pay";    //支付宝服务器的地址
     order.paymentType = @"1";                     // 商品支付填“1”
     order.inputCharset = @"utf-8";                // utf-8 （%1A%2f  NSUTF8encodeXXXX 边个格式
-    order.itBPay = @"30m";                        // 30分钟内支付
-    order.showUrl = @"m.alipay.com";              // 没有支付宝钱包时跳出的页面
+//    order.itBPay = @"30m";                        // 30分钟内支付
+//    order.showUrl = @"m.alipay.com";              // 没有支付宝钱包时跳出的页面
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
     NSString *appScheme = AppScheme;
@@ -220,17 +221,17 @@
     NSString *orderSpec = [order description];
     BFLog(@"orderSpec = %@",orderSpec);
     
+    
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
-    id<DataSigner> signer = CreateRSADataSigner(PartnerPrivKey);
-//    id<DataSigner> signer = CreateRSADataSigner(self.sign);
-    NSString *signedString = [signer signString:orderSpec];
-    BFLog(@"signedString = %@",signedString);
+
+    NSString *signedString = [BFURLEncodeAndDecode encodeToPercentEscapeString:self.orderModel.re_sign.sign];
     
     //将签名成功字符串格式化为订单字符串,请严格按照该格式
     NSString *orderString = nil;
     if (signedString != nil) {
         orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
                        orderSpec, signedString, @"RSA"];
+        
         
         NSLog(@"orderString=%@",orderString);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
@@ -260,49 +261,57 @@
 #pragma mark --微信支付
 - (void)payForWechat
 {
-    //创建支付签名对象
-    payRequsestHandler *req = [[payRequsestHandler alloc] init];
-    //初始化支付签名对象
-    [req init:APP_ID mch_id:MCH_ID];
-    //设置密钥
-    [req setKey:PARTNER_ID];
-    WxProduct *product = [[WxProduct alloc] init];
-    product.price = [NSString stringWithFormat:@"%.0f", [self.totalPrice floatValue] *100];
-    product.price = @"1";
-    product.orderId = self.orderid;
-    product.subject = @"缤纷世家新鲜水果";
-    product.body = @"缤纷世家新鲜水果很好吃";
-    
-    NSMutableDictionary *dict = [req sendPay_demo:product];
-    if(dict != nil){
-        self.foot.buyButton.hidden = YES;
-        NSMutableString *retcode = [dict objectForKey:@"retcode"];
-        if (retcode.intValue == 0){
-            NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
-            
-            //调起微信支付
-            PayReq* req             = [[PayReq alloc] init];
-            req.openID              = [dict objectForKey:@"appid"];
-            req.partnerId           = [dict objectForKey:@"partnerid"];
-            req.prepayId            = [dict objectForKey:@"prepayid"];
-            req.nonceStr            = [dict objectForKey:@"noncestr"];
-            req.timeStamp           = stamp.intValue;
-            req.package             = [dict objectForKey:@"package"];
-            req.sign                = [dict objectForKey:@"sign"];
-            [WXApi sendReq:req];
-            //日志输出
-            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",req.openID,req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
-        }else{
-            
-            if (retcode.intValue == -2) {
-                BFLog(@"hahah");
-            }
-            
-            [self alert:@"---提示信息" msg:[dict objectForKey:@"retmsg"]];
-        }
-    }else{
-        [self alert:@"提示信息" msg:@"服务器返回错误，未获取到json对象"];
-    }
+    PayReq *request = [[PayReq alloc] init];
+    request.partnerId = self.orderModel.re_sign.partnerid;
+    request.prepayId = self.orderModel.re_sign.prepayid;
+    request.package = @"Sign=WXPay";
+    request.nonceStr = self.orderModel.re_sign.noncestr;
+    request.timeStamp = self.orderModel.re_sign.timestamp;
+    request.sign= self.orderModel.re_sign.sign;
+    [WXApi sendReq:request];
+//    //创建支付签名对象
+//    payRequsestHandler *req = [[payRequsestHandler alloc] init];
+//    //初始化支付签名对象
+//    [req init:APP_ID mch_id:MCH_ID];
+//    //设置密钥
+//    [req setKey:PARTNER_ID];
+//    WxProduct *product = [[WxProduct alloc] init];
+//    //product.price = [NSString stringWithFormat:@"%.0f", [self.totalPrice floatValue] *100];
+//    product.price = @"1";
+//    product.orderId = self.orderid;
+//    product.subject = @"测试";
+//    product.body = @"测试";
+//    
+//    NSMutableDictionary *dict = [req sendPay_demo:product];
+//    if(dict != nil){
+//        self.foot.buyButton.hidden = YES;
+//        NSMutableString *retcode = [dict objectForKey:@"retcode"];
+//        if (retcode.intValue == 0){
+//            NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
+//            
+//            //调起微信支付
+//            PayReq* req             = [[PayReq alloc] init];
+//            req.openID              = [dict objectForKey:@"appid"];
+//            req.partnerId           = [dict objectForKey:@"partnerid"];
+//            req.prepayId            = self.orderModel.re_sign.prepayid;
+//            req.nonceStr            = [dict objectForKey:@"noncestr"];
+//            req.timeStamp           = stamp.intValue;
+//            req.package             = [dict objectForKey:@"package"];
+//            req.sign                = self.orderModel.re_sign.sign;
+//            [WXApi sendReq:req];
+//            //日志输出
+//            NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",req.openID,req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
+//        }else{
+//            
+//            if (retcode.intValue == -2) {
+//                BFLog(@"hahah");
+//            }
+//            
+//            [self alert:@"---提示信息" msg:[dict objectForKey:@"retmsg"]];
+//        }
+//    }else{
+//        [self alert:@"提示信息" msg:@"服务器返回错误，未获取到json对象"];
+//    }
 }
 
 //客户端提示信息

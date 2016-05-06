@@ -5,6 +5,8 @@
 //  Created by 郑洋 on 16/3/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+
+#import "BFGenerateOrderModel.h"
 #import "BFGroupDetailController.h"
 #import "BFPTDetailViewController.h"
 #import "BFGroupOrderDetailController.h"
@@ -27,6 +29,7 @@
 #import "Header.h"
 #import "BFZFViewController.h"
 #import "BFAddressModel.h"
+
 @interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>{
     __block int         leftTime;
     __block NSTimer     *timer;
@@ -156,11 +159,11 @@
         NSLog(@"////%@==%@",parameter,responseObject);
         if ([responseObject[@"status"] isEqualToString:@"1"]) {
            
+            BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
             
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
-            pay.orderid = responseObject[@"orderid"];
-            pay.addTime = responseObject[@"addtime"];
+            pay.orderModel = orderModel;
             pay.img = _itemImg;
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
             pay.totalPrice = [self.footView.money.text substringWithRange:range];
@@ -206,13 +209,14 @@
             if(timer)
                 [timer invalidate];
             timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-        
+            BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
-            pay.orderid = responseObject[@"orderid"];
-            pay.addTime = responseObject[@"addtime"];
+            pay.orderModel = orderModel;
+            pay.orderid = orderModel.orderid;
+            pay.addTime = orderModel.addtime;
             pay.img = _itemImg;
-            pay.sign = responseObject[@"sign"];
+            
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
             pay.totalPrice = [self.footView.money.text substringWithRange:range];
             for (BFPTDetailModel *model in self.modelArr){
@@ -501,6 +505,9 @@
     self.model = nil;
     BFAddressController *addVC = [BFAddressController new];
     addVC.block = ^(BFAddressModel *model) {
+        if (model != nil) {
+            self.nullAdds.hidden = YES;
+        }
         self.model = model;
         [self.addressArray addObject:model];
         _name.text = model.consignee;
@@ -783,7 +790,7 @@
         string = [string stringByAppendingString:[NSString stringWithFormat:@"price=%@;",model.price]];
         }
         self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
-        NSLog(@"========%d=========%@",model.numbers,model.price);
+        NSLog(@"========%ld=========%@",(long)model.numbers,model.price);
     }
 //    NSLog(@"\\\\\\%@",self.itemDate);
 //    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];

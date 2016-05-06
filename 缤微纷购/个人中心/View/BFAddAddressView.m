@@ -155,6 +155,8 @@
     
     UISwitch *switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(BF_ScaleWidth(310)-51, CGRectGetMaxY(category.frame)+(CellHeight-31)/2, 51, 31)];
     [switchButton setOn:NO];
+    switchButton.onTintColor = BFColor(0x0977ca);
+    switchButton.tintColor = BFColor(0xBABABA);
     [switchButton addTarget:self action:@selector(switchAction:) forControlEvents:UIControlEventValueChanged];
     [bottomView addSubview:switchButton];
     

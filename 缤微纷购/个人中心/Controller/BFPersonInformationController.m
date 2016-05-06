@@ -121,6 +121,9 @@
     } else if (indexPath.section == 1) {
         cell.textLabel.text = @"  广告主";
         UISwitch *switchButton = [[UISwitch alloc] init];
+        switchButton.userInteractionEnabled = NO;
+        switchButton.onTintColor = BFColor(0x0977ca);
+        switchButton.tintColor = BFColor(0xBABABA);
         cell.accessoryView = switchButton;
     } else if (indexPath.section == 2) {
         switch (indexPath.row) {
@@ -259,6 +262,7 @@
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(60))];
         //footerView.backgroundColor = [UIColor redColor];
         UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(15), BF_ScaleWidth(140), BF_ScaleHeight(40)) title:@"退出登录" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+        exitButton.layer.cornerRadius = BF_ScaleHeight(20);
         exitButton.backgroundColor = BFColor(0xFD8727);
         [exitButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
         [footerView addSubview:exitButton];

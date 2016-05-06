@@ -154,7 +154,7 @@
 
 - (void)getDate{
 
-    NSString *url = @"http://bingo.luexue.com/index.php?m=Json&a=cate";
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cate"];
     [AFNTool postJSONWithUrl:url parameters:nil success:^(id responseObject) {
         NSLog(@"=====%@",responseObject);
         NSMutableArray * array = [NSMutableArray arrayWithCapacity:0];
