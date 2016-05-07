@@ -120,7 +120,6 @@
 		51D5796B1C98061D00385BD2 /* dm02.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D5796A1C98061D00385BD2 /* dm02.png */; };
 		51D582771C53175A00686A2E /* SoSoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D582761C53175A00686A2E /* SoSoViewController.m */; };
 		51D5827A1C53316500686A2E /* HotTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D582791C53316500686A2E /* HotTableViewCell.m */; };
-		51D5B63E1C758CDD000897BB /* iconfont-setting.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D5B63D1C758CDD000897BB /* iconfont-setting.png */; };
 		51D5B6441C75B4F2000897BB /* MyorderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D5B6431C75B4F2000897BB /* MyorderTableViewCell.m */; };
 		51D5DC941C59CE4B00453E02 /* BFMyWalletController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D5DC931C59CE4B00453E02 /* BFMyWalletController.m */; };
 		51D6365B1C83EA7700D08A2D /* f_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 51D6365A1C83EA7700D08A2D /* f_01.png */; };
@@ -719,7 +718,6 @@
 		51D582761C53175A00686A2E /* SoSoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoSoViewController.m; sourceTree = "<group>"; };
 		51D582781C53316500686A2E /* HotTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HotTableViewCell.h; sourceTree = "<group>"; };
 		51D582791C53316500686A2E /* HotTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HotTableViewCell.m; sourceTree = "<group>"; };
-		51D5B63D1C758CDD000897BB /* iconfont-setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-setting.png"; sourceTree = "<group>"; };
 		51D5B6421C75B4F2000897BB /* MyorderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyorderTableViewCell.h; sourceTree = "<group>"; };
 		51D5B6431C75B4F2000897BB /* MyorderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyorderTableViewCell.m; sourceTree = "<group>"; };
 		51D5DC921C59CE4B00453E02 /* BFMyWalletController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyWalletController.h; sourceTree = "<group>"; };
@@ -1683,7 +1681,6 @@
 				51D2B0821C783073002D35FB /* bg.jpg */,
 				51D2B0801C782FC2002D35FB /* touxiang1.png */,
 				51D175CD1C76F76B00B73E5B /* 100.jpg */,
-				51D5B63D1C758CDD000897BB /* iconfont-setting.png */,
 				51D189131C4CE2F100847EB9 /* iconfont-jiahao.png */,
 				51D189111C4CE2E700847EB9 /* iconfont-jianhao.png */,
 				51D1890B1C4CB7F300847EB9 /* iconfont-htmal5icon37.png */,
@@ -3452,7 +3449,6 @@
 				518930441C7C32C500C5AB08 /* ban.png in Resources */,
 				59513B881C9FFD8D0028B008 /* back_blue.png in Resources */,
 				51D579691C9802AF00385BD2 /* dm.png in Resources */,
-				51D5B63E1C758CDD000897BB /* iconfont-setting.png in Resources */,
 				51D24D861C9961C900F2D90E /* c2.png in Resources */,
 				59513B8C1C9FFD8D0028B008 /* iconfont-fenxiang-6.png in Resources */,
 				51D458BD1C96EDAC00B52516 /* pufa.png in Resources */,

@@ -254,10 +254,7 @@
     CGPoint start = [self.headerView convertPoint:self.headerView.cycleScrollView.center toView:self.view];
     //获取动画终点
     CGPoint end = [self.tabBar convertPoint:self.tabBar.shoppingCart.center toView:self.view];
-    
-    UIImageView *imageView = [[UIImageView alloc] init];
-    
-    [imageView sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
+
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
     NSURL *url = [NSURL URLWithString:self.model.img];
@@ -267,7 +264,7 @@
     [self.redLayers addObject:chLayer];
     chLayer.frame = CGRectMake(self.headerView.cycleScrollView.centerX, self.headerView.cycleScrollView.centerY, BF_ScaleHeight(100), BF_ScaleHeight(100));
     //chLayer.cornerRadius = BF_ScaleHeight(20);
-    chLayer.masksToBounds = YES;
+    //chLayer.masksToBounds = YES;
     chLayer.backgroundColor = [UIColor blueColor].CGColor;
     [self.view.layer addSublayer:chLayer];
     

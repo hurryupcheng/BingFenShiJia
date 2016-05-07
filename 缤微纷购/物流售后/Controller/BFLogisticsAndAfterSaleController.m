@@ -97,8 +97,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
-    //获取数据
-    //[self getData];
+    if (![BFUserDefaluts getUserInfo]) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"未登录,请先登录"];
+    }else {
+        //获取数据
+        [self getData];
+    }
 }
 
 //- (void)viewWillDisappear:(BOOL)animated {
@@ -126,7 +130,7 @@
     //客服电话按钮
     [self setUpCustomerService];
     //获取数据
-    [self getData];
+    //[self getData];
     
     
     
@@ -186,9 +190,9 @@
 - (void)setUpCustomerService {
     UIButton *customerServiceButton = [UIButton buttonWithType:0];
     self.customerServiceButton = customerServiceButton;
-    customerServiceButton.frame = CGRectMake(ScreenWidth, BF_ScaleHeight(390), BF_ScaleWidth(40), BF_ScaleWidth(40));
+    customerServiceButton.frame = CGRectMake(BF_ScaleWidth(270), BF_ScaleHeight(350), BF_ScaleWidth(40), BF_ScaleWidth(40));
     [customerServiceButton setImage:[UIImage imageNamed:@"customer_service"] forState:UIControlStateNormal];
-    customerServiceButton.hidden = YES;
+    //customerServiceButton.hidden = YES;
     //customerServiceButton.backgroundColor = [UIColor redColor];
     [customerServiceButton addTarget:self action:@selector(clickToJumpToCustomerServiceInterface) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:customerServiceButton];
@@ -391,36 +395,36 @@
 
 
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
-    self.customerServiceButton.hidden = NO;
-    [UIView animateWithDuration:0.3 animations:^{
-        self.customerServiceButton.x = BF_ScaleWidth(270);
-    } completion:nil];
-}
-
-
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.customerServiceButton.x = ScreenWidth;
-    } completion:^(BOOL finished) {
-        self.customerServiceButton.hidden = YES;
-    }];
-    
-}
-
--(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [UIView animateWithDuration:0.3 animations:^{
-        
-        self.customerServiceButton.x = ScreenWidth;
-    } completion:^(BOOL finished) {
-        self.customerServiceButton.hidden = YES;
-    }];
-
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    
+//    self.customerServiceButton.hidden = NO;
+//    [UIView animateWithDuration:0.3 animations:^{
+//        self.customerServiceButton.x = BF_ScaleWidth(270);
+//    } completion:nil];
+//}
+//
+//
+//
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    
+//    [UIView animateWithDuration:0.3 animations:^{
+//        
+//        self.customerServiceButton.x = ScreenWidth;
+//    } completion:^(BOOL finished) {
+//        self.customerServiceButton.hidden = YES;
+//    }];
+//    
+//}
+//
+//-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    [UIView animateWithDuration:0.3 animations:^{
+//        
+//        self.customerServiceButton.x = ScreenWidth;
+//    } completion:^(BOOL finished) {
+//        self.customerServiceButton.hidden = YES;
+//    }];
+//
+//}
 
 
 

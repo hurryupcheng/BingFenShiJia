@@ -119,18 +119,12 @@
 
 #pragma mark -- 设置按钮代理点击
 - (void)goToSettingInterface {
-    if (self.userInfo == nil) {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-            self.navigationController.navigationBarHidden = NO;
-            LogViewController *logVC= [LogViewController new];
-            [self.navigationController pushViewController:logVC animated:YES];
-        }];
-    }else {
-        self.navigationController.navigationBarHidden = NO;
-        BFSettingController *settingVC = [BFSettingController new];
-        [self.navigationController pushViewController:settingVC animated:YES];
-        BFLog(@"点击了设置按钮");
-    }
+
+    self.navigationController.navigationBarHidden = NO;
+    BFSettingController *settingVC = [BFSettingController new];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    BFLog(@"点击了设置按钮");
+    
 }
 
 #pragma mark -- 头像按钮代理点击

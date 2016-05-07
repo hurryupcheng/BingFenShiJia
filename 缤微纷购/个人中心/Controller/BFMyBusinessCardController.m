@@ -149,8 +149,8 @@
     self.navigationController.navigationBar.translucent = NO;
 }
 
-- (BOOL)prefersStatusBarHidden{
-    return YES;
-}
+//- (BOOL)prefersStatusBarHidden{
+//    return YES;
+//}
 
 @end

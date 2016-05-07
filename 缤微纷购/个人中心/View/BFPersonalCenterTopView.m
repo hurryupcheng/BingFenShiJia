@@ -108,9 +108,19 @@
     arrowImageView.image = [UIImage imageNamed:@"select_right"];
     [self addSubview:arrowImageView];
     
-    UIButton *settingButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(285), BF_ScaleHeight(30), BF_ScaleWidth(25), BF_ScaleWidth(25)) title:nil image:@"iconfont-setting" font:0 titleColor:nil];
-    [settingButton addTarget:self action:@selector(setting) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:settingButton];
+//    UIButton *settingButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(245), BF_ScaleHeight(30), BF_ScaleWidth(35), BF_ScaleWidth(35)) title:nil image:@"iconfont-setting" font:0 titleColor:nil];
+//    [settingButton addTarget:self action:@selector(setting) forControlEvents:UIControlEventTouchUpInside];
+//    [self addSubview:settingButton];
+    
+    UIImageView *settingImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(285), BF_ScaleHeight(30), BF_ScaleWidth(20), BF_ScaleWidth(20))];
+    settingImageView.userInteractionEnabled = YES;
+    settingImageView.image = [UIImage imageNamed:@"iconfont-setting"];
+    [self addSubview:settingImageView];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(setting)];
+    [settingImageView addGestureRecognizer:tap];
+    
+    
     
     //未登录前的页面
     self.buttonView = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(100), CGRectGetMaxY(self.headButton.frame)+BF_ScaleHeight(20), BF_ScaleWidth(120), BF_ScaleHeight(40))];
