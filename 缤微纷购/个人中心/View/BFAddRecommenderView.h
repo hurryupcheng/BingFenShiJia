@@ -11,6 +11,7 @@
 @protocol AddRecommenderViewDelegate <NSObject>
 
 - (void)sureToAddRecommenderWithView:(BFAddRecommenderView *)view;
+
 - (void)hideView;
 @end
 

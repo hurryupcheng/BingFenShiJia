@@ -30,8 +30,8 @@
 
 //#define  kQQKey         @"1104539912"
 //#define  kQQSecret      @"eFVgRits2fqf36Jf"
-#define  kQQKey         @"1105335960"
-#define  kQQSecret      @"KEYgTufBAzAgLcyXhb0"
+#define  kQQKey         @"1105308793"
+#define  kQQSecret      @"lfmhEFjf5xPNtEPR"
 
 #define  kSinaKey         @"1177928191"
 #define  kSinaSecret      @"090912c73729b5aa7d1405fce0a6c76a"

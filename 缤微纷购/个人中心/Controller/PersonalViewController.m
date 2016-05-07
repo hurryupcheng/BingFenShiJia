@@ -40,7 +40,7 @@
 //
 //@property (nonatomic,retain)NSArray *arr;
 
-@property (nonatomic)BOOL denglu;
+//@property (nonatomic, assign) BOOL denglu;
 
 @end
 
@@ -95,6 +95,8 @@
     [self.topView changeStatus];
     //[self.addView addRecommender];
     self.userInfo = [BFUserDefaluts getUserInfo];
+    BFUserInfo *haha = [BFUserDefaluts getUserInfo];
+    BFLog(@"---------积分%@", haha.score);
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
     

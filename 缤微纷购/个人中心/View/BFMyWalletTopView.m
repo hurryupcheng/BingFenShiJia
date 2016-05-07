@@ -47,7 +47,7 @@
     [super layoutSubviews];
     self.headButton.frame = CGRectMake((ScreenWidth-BF_ScaleHeight(75))/2, ScreenHeight*0.10, BF_ScaleHeight(75), BF_ScaleHeight(75));
     self.arrowImageView.frame = CGRectMake(CGRectGetMaxX(self.headButton.frame)+BF_ScaleWidth(10), CGRectGetMinY(self.headButton.frame), BF_ScaleWidth(10), self.headButton.height);
-    self.nickName.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+BF_ScaleHeight(10), ScreenWidth, ButtonViewHeight);
+    self.nickName.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+BF_ScaleHeight(10), ScreenWidth, (ScreenHeight*0.04));
     self.threeButtonView.frame = CGRectMake(0, CGRectGetMaxY(self.headButton.frame)+0.09*ScreenHeight, ScreenWidth, ButtonViewHeight);
     NSUInteger count = self.threeButtonView.subviews.count;
     for (NSUInteger i = 0; i < count; i++) {

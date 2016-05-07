@@ -121,7 +121,11 @@
                     self.clickedView.hidden = NO;
                     BFLog(@"responseObject%@,,%@",responseObject,userInfo.token);
                     BFRecommenderModel *recommenderModel = [BFRecommenderModel parse:responseObject];
-                    self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",recommenderModel.username];
+                    if (recommenderModel.username.length == 0) {
+                        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：bingo_%@",recommenderModel.ID];
+                    }else {
+                        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",recommenderModel.username];
+                    }
                     self.memberID.text = [NSString stringWithFormat:@"会员号：%@",recommenderModel.ID];
 
                 }else {
@@ -163,6 +167,7 @@
         if ([responseObject[@"msg"] isEqualToString:@"添加成功"]) {
             [BFProgressHUD MBProgressFromView:self andLabelText:@"添加成功"];
             userInfo.p_username = [NSString stringWithFormat:@"%@",[self.nickNameLabel.text stringByReplacingOccurrencesOfString:@"昵称：" withString:@""]];
+            userInfo.parent_proxy = self.IDTextField.text;
             [BFUserDefaluts modifyUserInfo:userInfo];
             if (self.delegate && [self.delegate respondsToSelector:@selector(hideView)]) {
                 [self.delegate hideView];

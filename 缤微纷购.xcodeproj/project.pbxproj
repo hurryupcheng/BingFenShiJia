@@ -240,6 +240,7 @@
 		599AFB8F1CC62BE2003CD828 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 599AFB801CC62BE2003CD828 /* RSADataVerifier.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */; };
+		59F46C521CDD99F000F35151 /* BFAvailablePoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F46C511CDD99F000F35151 /* BFAvailablePoints.m */; };
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
 		59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */; };
@@ -1006,6 +1007,8 @@
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerModel.h; sourceTree = "<group>"; };
 		59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerModel.m; sourceTree = "<group>"; };
+		59F46C501CDD99F000F35151 /* BFAvailablePoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAvailablePoints.h; sourceTree = "<group>"; };
+		59F46C511CDD99F000F35151 /* BFAvailablePoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAvailablePoints.m; sourceTree = "<group>"; };
 		59F55B3E1CA513FB007351A9 /* BFRecommendDividedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedCell.h; sourceTree = "<group>"; };
 		59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedCell.m; sourceTree = "<group>"; };
 		59F55B411CA517AC007351A9 /* BFRecommendDividedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedModel.h; sourceTree = "<group>"; };
@@ -2811,6 +2814,8 @@
 				59F646691CC47D950077E488 /* BFShopCartAnimation.m */,
 				596442BD1CDC92910066A125 /* BFURLEncodeAndDecode.h */,
 				596442BE1CDC92910066A125 /* BFURLEncodeAndDecode.m */,
+				59F46C501CDD99F000F35151 /* BFAvailablePoints.h */,
+				59F46C511CDD99F000F35151 /* BFAvailablePoints.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -3629,6 +3634,7 @@
 				59FF74981CAE1A860063F770 /* BFPTStep.m in Sources */,
 				599847491CA274470085FE48 /* BFUpYearAndMonthCell.m in Sources */,
 				59FF46CD1C8AD34F0040689A /* BFFunctionButtonView.m in Sources */,
+				59F46C521CDD99F000F35151 /* BFAvailablePoints.m in Sources */,
 				59FF55171CA2E25600EF191F /* BFCustomerOrderCell.m in Sources */,
 				59FCE2121CBCD37700CCBDEA /* BFShoppingCartButton.m in Sources */,
 				599AFB891CC62BE2003CD828 /* DataSigner.m in Sources */,

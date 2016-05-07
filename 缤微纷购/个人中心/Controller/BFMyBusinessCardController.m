@@ -126,27 +126,31 @@
 
 
 #pragma mark -- 添加返回按钮
-- (void)setUpBackButton {
-    UIButton *back = [UIButton buttonWithType:0];
-    back.frame = CGRectMake(5, 22, 35, 40);
-    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:back];
-
-}
-
-- (void)back {
-    [self.navigationController popViewControllerAnimated:YES];
-}
+//- (void)setUpBackButton {
+//    UIButton *back = [UIButton buttonWithType:0];
+//    back.frame = CGRectMake(5, 22, 35, 40);
+//    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+//    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+//    [self.view addSubview:back];
+//
+//}
+//
+//- (void)back {
+//    [self.navigationController popViewControllerAnimated:YES];
+//}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.translucent = YES;
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     self.navigationController.navigationBar.translucent = NO;
+}
+
+- (BOOL)prefersStatusBarHidden{
+    return YES;
 }
 
 @end

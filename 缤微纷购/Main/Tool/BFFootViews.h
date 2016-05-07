@@ -14,6 +14,8 @@
 @property (nonatomic,retain)UIButton *buyButton;
 @property (nonatomic,retain)UIButton *homeButton;
 
+@property (nonatomic, strong) UIButton *orderButton;
+
 - (instancetype)initWithFrame:(CGRect)frame money:(NSString *)money home:(NSString *)home name:(NSString *)name;
 
 @end

@@ -17,9 +17,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UIImage *image = [UIImage imageNamed:@"101"];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:image];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIWebView *web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    //创建webview
+    [self setUpWebView];
+    //创建返回按钮
+    [self setUpBackButton];
+    
+    
+}
+
+
+- (void)setUpWebView {
+    UIWebView *web = [[UIWebView alloc]initWithFrame:self.view.frame];
     
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Teambuy&a=help"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -30,9 +43,36 @@
     [self.view addSubview:web];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (void)setUpBackButton {
+    UIButton *back = [UIButton buttonWithType:0];
+    back.frame = CGRectMake(5, 22, 35, 40);
+    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:back];
+
+}
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
+#pragma mark --viewWillAppear
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
+#pragma mark --viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBar.hidden = NO;
+}
+
+
+- (BOOL)prefersStatusBarHidden{
+    return YES;
 }
 
 @end

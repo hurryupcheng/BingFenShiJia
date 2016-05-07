@@ -58,27 +58,27 @@
 @property (nonatomic, strong) BFUserInfo *userInfo;
 
 @property (nonatomic, strong) BFBankModel *bankInfo;
-/**保存城市数组*/
-@property (nonatomic, strong) NSString *cityPath;
-/**保存支行数组*/
-@property (nonatomic, strong) NSString *branchPath;
+///**保存城市数组*/
+//@property (nonatomic, strong) NSString *cityPath;
+///**保存支行数组*/
+//@property (nonatomic, strong) NSString *branchPath;
 @end
 
 @implementation BFModifyBankCardView
 
-- (NSString *)cityPath {
-    if (!_cityPath) {
-        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"cityPath.plist"];
-    }
-    return _cityPath;
-}
-
-- (NSString *)branchPath {
-    if (!_branchPath) {
-        _branchPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"branchPath.plist"];
-    }
-    return _branchPath;
-}
+//- (NSString *)cityPath {
+//    if (!_cityPath) {
+//        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"cityPath.plist"];
+//    }
+//    return _cityPath;
+//}
+//
+//- (NSString *)branchPath {
+//    if (!_branchPath) {
+//        _branchPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"branchPath.plist"];
+//    }
+//    return _branchPath;
+//}
 
 - (BFBankModel *)bankInfo {
     if (!_bankInfo) {
@@ -122,21 +122,50 @@
     self.provinceArray = [[NSArray alloc] initWithContentsOfFile:provincePath];
     
     
-    
-    NSArray *cityArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.cityPath];
-    if (!self.cityArray) {
-        self.cityArray = cityArray;
+    //进入页面获取城市数组
+    if (self.userInfo.sheng.length != 0) {
+        BFLog(@"-----省份=%@", self.userInfo.sheng);
+        NSMutableArray *mutableArray = [NSMutableArray array];
+        for (NSString *object in self.provinceArray) {
+            if ([object isEqualToString:self.userInfo.sheng]) {
+                NSArray *array = [[[self.pickerDic objectForKey:self.userInfo.sheng] objectAtIndex:0] allKeys] ;
+                [mutableArray addObjectsFromArray:array];
+            }
+        }
+        [mutableArray insertObject:@"--请选择--" atIndex:0];
+
+        self.cityArray = [mutableArray copy];
     }
-    
-    NSArray *branchArray = [NSKeyedUnarchiver unarchiveObjectWithFile:self.branchPath];
-    if (!self.branchArray) {
-        self.branchArray = branchArray;
-
-    }
-    
-
-
-    
+   
+    //进入页面获取支行数组
+    if (self.userInfo.card_address.length != 0) {
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=branch"];
+        self.parameter[@"uid"] = self.userInfo.ID;
+        self.parameter[@"token"] = self.userInfo.token;
+        self.parameter[@"bank"] = self.userInfo.bank_name;
+        self.parameter[@"sheng"] = self.userInfo.sheng;
+        self.parameter[@"shi"] = self.userInfo.shi;
+        [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
+            BFLog(@"%@,%@",responseObject, self.parameter);
+            if ([responseObject[@"status"] isEqualToString:@"0"]) {
+                return ;
+            }else {
+                self.branchArray = nil;
+                self.model = [BFBankModel parse:responseObject];
+                NSArray *array = [BFBranchList parse:self.model.bank];
+                NSMutableArray *mutableArray = [NSMutableArray array];
+                for (BFBranchList *list in array) {
+                    [mutableArray addObject:list.name];
+                }
+                [mutableArray insertObject:@"--请选择--" atIndex:0];
+                self.branchArray = [mutableArray copy];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+    }else {
+        self.branchArray = @[@"--请选择--", @"其他"];
+    }  
 }
 
 
@@ -316,7 +345,7 @@
     self.pickerView.delegate = self;
 
     self.pickerView.dataArray = self.cityArray;
-    [NSKeyedArchiver archiveRootObject:self.cityArray toFile:self.cityPath];
+    //[NSKeyedArchiver archiveRootObject:self.cityArray toFile:self.cityPath];
     __block typeof(self) weakSelf = self;
     self.pickerView.block = ^(NSString *string) {
         weakSelf.branchButton.buttonTitle.text = @"--请选择--";
@@ -399,8 +428,6 @@
         }else {
             self.branchArray = nil;
             self.model = [BFBankModel parse:responseObject];
-            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.model];
-            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"bankInfo"];
             NSArray *array = [BFBranchList parse:self.model.bank];
             NSMutableArray *mutableArray = [NSMutableArray array];
             for (BFBranchList *list in array) {
@@ -408,7 +435,6 @@
             }
             [mutableArray insertObject:@"--请选择--" atIndex:0];
             self.branchArray = [mutableArray copy];
-            [NSKeyedArchiver archiveRootObject:self.branchArray toFile:self.branchPath];
         }
 
         

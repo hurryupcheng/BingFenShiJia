@@ -54,7 +54,7 @@
     [super layoutSubviews];
     self.line.frame = CGRectMake(0, BF_ScaleHeight(104.5), ScreenWidth, 0.5);
     
-    self.selectButton.frame = CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(42.5), BF_ScaleWidth(20), BF_ScaleHeight(20));
+    self.selectButton.frame = CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(37.5), BF_ScaleWidth(30), BF_ScaleHeight(30));
     
     
     self.nameLabel.frame = CGRectMake(CGRectGetMaxX(self.selectButton.frame)+BF_ScaleWidth(8), BF_ScaleHeight(15), BF_ScaleWidth(80), BF_ScaleHeight(20)) ;
@@ -103,6 +103,7 @@
     self.selectButton = [UIButton buttonWithType:0];
     [self.selectButton setImage:[UIImage imageNamed:@"address"] forState:UIControlStateNormal];
     [self.selectButton setImage:[UIImage imageNamed:@"address_select"] forState:UIControlStateSelected];
+    //self.selectButton.backgroundColor = BFColor(0x4da800);
     [self.selectButton addTarget:self action:@selector(clickToChooseAddress:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.selectButton];
     

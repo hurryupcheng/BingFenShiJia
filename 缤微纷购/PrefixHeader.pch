@@ -45,6 +45,7 @@
 #import "BFSoundEffect.h"
 #import "BFShopCartAnimation.h"
 #import "UIAlertController+Extension.h"
+#import "BFAvailablePoints.h"
 #pragma mark ---宏定义
 
 

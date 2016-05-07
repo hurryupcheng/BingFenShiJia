@@ -236,7 +236,7 @@
                     
                 }
                 self.removeBlock();
-                
+                [BFAvailablePoints updateAvailablePoints];
                 [self.navigationController pushViewController:pay animated:YES];
             
                 

@@ -38,7 +38,7 @@
     
     
     NSArray *array = [TeamList parse:model.thisteam];
-    NSUInteger number = model.havenum;
+    NSInteger number = [model.item.team_num integerValue];
     //行数
     NSInteger hang = number%5 != 0 ? number/5 + 1 : number/5;
     //btn大小

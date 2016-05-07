@@ -48,6 +48,7 @@
     [super viewDidLoad];
     self.title = @"个人信息";
     [self.view addSubview:self.tableView];
+    self.navigationController.navigationBar.translucent = NO;
 }
 
 #pragma mark -- datasource

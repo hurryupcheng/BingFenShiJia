@@ -18,6 +18,7 @@
 
 #define AppScheme   @"bwPay"
 
+#import "BFMyOrderController.h"
 #import "BFZFViewController.h"
 #import "BFPayoffHeader.h"
 #import "BFFootViews.h"
@@ -51,11 +52,7 @@
 
 @implementation BFPayoffViewController
 
-//- (UIView *)navigationView {
-//    if (!_navigationView) {
-//            }
-//    return _navigationView;
-//}
+
 
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
@@ -69,7 +66,7 @@
     
     [self initWithFoot];
     //倒计时通知，关闭订单
-    [BFNotificationCenter addObserver:self selector:@selector(cancleOrder) name:@"cancleOrder" object:nil];
+    //[BFNotificationCenter addObserver:self selector:@selector(cancleOrder) name:@"cancleOrder" object:nil];
     
     //微信支付成功
     [BFNotificationCenter addObserver:self selector:@selector(paySuccess) name:@"paySuccess" object:nil];
@@ -96,6 +93,7 @@
     [_navigationView addSubview:back];
 
     
+    //判断如果是从购物车页面进来没有返回按钮
     NSArray *vcsArray = [self.navigationController viewControllers];
     BFLog(@"=======%@",vcsArray);
     UIViewController *lastVC = vcsArray[vcsArray.count-2];
@@ -130,25 +128,25 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark --通知到时间关闭订单
-- (void)cancleOrder {
-    [UIView animateWithDuration:2 animations:^{
-        self.foot.buyButton.hidden = YES;
-        self.header.right.image = [UIImage imageNamed:@"pay_fail"];
-        self.header.now.text = @"已关闭";
-        self.header.name.text = @"由于您在30分钟内未付款";
-        self.header.title.text = @"订单已关闭";
-        self.header.name.textColor = BFColor(0xFF212F);
-        self.header.now.textColor = BFColor(0xFF212F);
-        self.header.title.textColor = BFColor(0xFF212F);
-    }];
-    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单超过有效时间,已自动取消"];
-    //[self.tableV reloadData];
-}
+//#pragma mark --通知到时间关闭订单
+//- (void)cancleOrder {
+//    [UIView animateWithDuration:2 animations:^{
+//        self.foot.buyButton.hidden = YES;
+//        self.header.right.image = [UIImage imageNamed:@"pay_fail"];
+//        self.header.now.text = @"已关闭";
+//        self.header.name.text = @"由于您在30分钟内未付款";
+//        self.header.title.text = @"订单已关闭";
+//        self.header.name.textColor = BFColor(0xFF212F);
+//        self.header.now.textColor = BFColor(0xFF212F);
+//        self.header.title.textColor = BFColor(0xFF212F);
+//    }];
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单超过有效时间,已自动取消"];
+//    //[self.tableV reloadData];
+//}
 
 #pragma mark --微信支付成功通知
 - (void)paySuccess {
-   self.foot.buyButton.hidden = YES;
+    self.foot.buyButton.hidden = YES;
     [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
     self.header.name.text = @"我们以后到你的付款";
     self.header.title.text = @"将尽快发货";
@@ -159,6 +157,7 @@
 - (void)payFail {
     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
     self.foot.buyButton.hidden = NO;
+
 }
 
 #pragma  mark 初始化底部视图
@@ -168,6 +167,9 @@
     [foot.homeButton addTarget:self action:@selector(goToHome) forControlEvents:UIControlEventTouchUpInside];
     
     [foot.buyButton addTarget:self action:@selector(gotoPay) forControlEvents:UIControlEventTouchUpInside];
+    
+//    [foot.orderButton addTarget:self action:@selector(gotoOrder) forControlEvents:UIControlEventTouchUpInside];
+    
     foot.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:foot];
@@ -179,6 +181,11 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
+#pragma mark -- 支付成功跳转到订单页面
+- (void)gotoOrder {
+    BFMyOrderController *orderVC = [[BFMyOrderController alloc] init];
+    [self.navigationController pushViewController:orderVC animated:YES];
+}
 
 #pragma mark --去支付
 - (void)gotoPay {
@@ -249,7 +256,6 @@
                 self.foot.buyButton.hidden = NO;
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"6002"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络链接超时,请重新支付"];
-                self.foot.buyButton.hidden = NO;
             }
             NSLog(@"reslut = %@",resultDic);
         }];
