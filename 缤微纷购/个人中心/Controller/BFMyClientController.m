@@ -297,6 +297,9 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -305,28 +308,28 @@
 
 
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [UIView animateWithDuration:0.2 animations:^{
-        self.pageLabel.alpha = 0;
-    }];
-}
-
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [UIView animateWithDuration:0.2 animations:^{
-        self.pageLabel.alpha = 0.6;
-    }];
-}
-
-
-//减速停止了时执行，手触摸时执行执行
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
-{
-    [UIView animateWithDuration:0.2 animations:^{
-        self.pageLabel.alpha = 0;
-    }];
-
-}
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.pageLabel.alpha = 0;
+//    }];
+//}
+//
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.pageLabel.alpha = 0.6;
+//    }];
+//}
+//
+//
+////减速停止了时执行，手触摸时执行执行
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView;
+//{
+//    [UIView animateWithDuration:0.2 animations:^{
+//        self.pageLabel.alpha = 0;
+//    }];
+//
+//}
 
 
 

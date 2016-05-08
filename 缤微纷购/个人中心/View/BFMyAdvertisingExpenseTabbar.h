@@ -10,10 +10,19 @@
 #import "BFCommissionModel.h"
 #import "BFRecommendDividedModel.h"
 
+@protocol BFMyAdvertisingExpenseTabbarDelegate <NSObject>
+
+- (void)howToWithdrawCash;
+
+@end
+
+
 @interface BFMyAdvertisingExpenseTabbar : UIView
 
 /**客户订单模型*/
 @property (nonatomic, strong) BFCommissionModel *commissionModel;
 /**推荐分成订单模型*/
 @property (nonatomic, strong) BFRecommendDividedModel *recommendDividedModel;
+/**代理*/
+@property (nonatomic, weak) id<BFMyAdvertisingExpenseTabbarDelegate>delegate;
 @end

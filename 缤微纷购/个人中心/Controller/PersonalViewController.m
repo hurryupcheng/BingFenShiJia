@@ -23,6 +23,7 @@
 #import "BFMyAdvertisingExpenseController.h"
 #import "BFAddRecommenderView.h"
 #import "BFMyClientController.h"
+#import "BFCurrentMonthCommissionController.h"
 
 @interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate, AddRecommenderViewDelegate>
 /**个人中心有阴影的界面*/
@@ -186,8 +187,8 @@
             break;
         }
         case BFPersonalCenterTopButtonTypeAdvertisingExpense:{
-            BFMyAdvertisingExpenseController *myAdvertisingExpense = [BFMyAdvertisingExpenseController new];
-            [self.navigationController pushViewController:myAdvertisingExpense animated:YES];
+            BFCurrentMonthCommissionController *currentVC = [BFCurrentMonthCommissionController new];
+            [self.navigationController pushViewController:currentVC animated:YES];
             BFLog(@"点击了广告费按钮");
             break;
         }

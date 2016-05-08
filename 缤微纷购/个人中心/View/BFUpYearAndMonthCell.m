@@ -33,18 +33,6 @@
     self.yearAndMonth = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(44))];
     self.yearAndMonth.textAlignment = NSTextAlignmentCenter;
     self.yearAndMonth.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
-//    NSDate *currentDate = [NSDate date];//获取当前时间，日期
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"YYYY/MM"];
-//    NSString *dateString = [dateFormatter stringFromDate:currentDate];
-//    NSLog(@"dateString:%@",dateString);
-//    
-//    NSString *year = [dateString substringWithRange:NSMakeRange(0, 4)];
-//    NSString *month = [dateString substringWithRange:NSMakeRange(5, 2)];
-//    self.yearAndMonth.text = [NSString stringWithFormat:@"%@年%@月", year, month];
-    
-    
-    
     [self addSubview:self.yearAndMonth];
     
 }

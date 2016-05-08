@@ -134,16 +134,26 @@
         }
     } else if (indexPath.section == 1) {
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"修改密码";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
-            case 1:
+            case 1:{
                 cell.textLabel.text = @"清空图片缓存";
+                CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+               //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                if (size >= 1) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
+                }else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f KB", size * 1024];
+                }
+                
                 break;
-            case 2:
+            }case 2:
                 cell.textLabel.text = @"个人信息";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
         }
     } else if (indexPath.section == 2) {
@@ -232,6 +242,7 @@
                 CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
                 NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
                 [[SDImageCache sharedImageCache] clearDisk];
+                [self.tableView reloadData];
                 BFLog(@"缓存--%@", clearCacheName);
                 break;
             }case 2:{

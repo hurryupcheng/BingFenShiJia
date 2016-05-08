@@ -49,7 +49,7 @@
 {
     _model = model;
     if (model) {
-        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.user_icon] placeholderImage:[UIImage imageNamed:@"touxiang1"]];
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.user_icon] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@", model.nickname];
         self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@", [BFTranslateTime translateTimeIntoAccurateChineseTime:model.addtime]];
         self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@", model.jiner];
@@ -63,32 +63,34 @@
     self.bgView.layer.shadowOffset = CGSizeMake(0, 0);
     self.bgView.layer.borderColor = BFColor(0xD4D4D4).CGColor;
     self.bgView.layer.borderWidth = 1;
-    self.bgView.layer.cornerRadius = 5;
+    //self.bgView.layer.cornerRadius = 5;
     self.bgView.backgroundColor = BFColor(0xffffff);
     [self.contentView addSubview:self.bgView];
     
     
     self.headImageView = [UIImageView new];
-    self.headImageView.image = [UIImage imageNamed:@"touxiang"];
+    self.headImageView.image = [UIImage imageNamed:@"100.jpg"];
+    self.headImageView.layer.borderWidth = 1;
+    self.headImageView.layer.borderColor = BFColor(0xA2A2A2).CGColor;
     [self.bgView addSubview:self.headImageView];
     
     
     self.nickNameLabel = [UILabel new];
-    self.nickNameLabel.textColor = BFColor(0x595A5C);
+    self.nickNameLabel.textColor = BFColor(0xA2A2A2);
     self.nickNameLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     self.nickNameLabel.text = @"昵称：哈哈";
     //_nickNameLabel.backgroundColor = [UIColor redColor];
     [self.bgView addSubview:self.nickNameLabel];
     
     self.recommendTimeLabel = [UILabel new];
-    self.recommendTimeLabel.textColor = BFColor(0x595A5C);
+    self.recommendTimeLabel.textColor = BFColor(0xA2A2A2);
     self.recommendTimeLabel.text = @"推荐时间：asdasd";
     //_recommendTimeLabel.backgroundColor = [UIColor blueColor];
     self.recommendTimeLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
     [self.bgView addSubview:self.recommendTimeLabel];
     
     self.divideMoneyLabel = [UILabel new];
-    self.divideMoneyLabel.textColor = BFColor(0x595A5C);
+    self.divideMoneyLabel.textColor = BFColor(0xA2A2A2);
     self.divideMoneyLabel.text = @"分成金额：0.3";
     //_divideMoneyLabel.backgroundColor = [UIColor greenColor];
     self.divideMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(12)];
@@ -99,7 +101,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.bgView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(5), ScreenWidth-BF_ScaleWidth(10), BF_ScaleHeight(100));
-    self.headImageView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(5), BF_ScaleWidth(80), BF_ScaleHeight(80));
+    self.headImageView.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(15), BF_ScaleWidth(70), BF_ScaleHeight(70));
     self.nickNameLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(225), BF_ScaleHeight(80)/3);
     
     self.recommendTimeLabel.frame = CGRectMake(CGRectGetMaxX(self.headImageView.frame)+BF_ScaleHeight(10), CGRectGetMaxY(self.nickNameLabel.frame), BF_ScaleWidth(225), BF_ScaleHeight(80)/3);

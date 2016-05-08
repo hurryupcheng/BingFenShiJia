@@ -2,17 +2,14 @@
   "images" : [
     {
       "resizing" : {
-        "mode" : "9-part",
+        "mode" : "3-part-horizontal",
         "center" : {
           "mode" : "tile",
-          "width" : 6,
-          "height" : 9
+          "width" : 1
         },
         "cap-insets" : {
-          "bottom" : 5,
-          "top" : 6,
-          "right" : 157,
-          "left" : 29
+          "right" : 20,
+          "left" : 6
         }
       },
       "idiom" : "universal",
@@ -20,7 +17,19 @@
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "3-part-horizontal",
+        "center" : {
+          "mode" : "stretch",
+          "width" : 1
+        },
+        "cap-insets" : {
+          "right" : 40,
+          "left" : 10
+        }
+      },
       "idiom" : "universal",
+      "filename" : "pickerView_select-1.png",
       "scale" : "2x"
     },
     {

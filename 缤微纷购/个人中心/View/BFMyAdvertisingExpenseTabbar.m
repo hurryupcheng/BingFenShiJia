@@ -30,22 +30,22 @@
     return self;
 }
 
-- (void)setCommissionModel:(BFCommissionModel *)commissionModel {
-    _commissionModel = commissionModel;
-    if (commissionModel) {
-        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",commissionModel.proxy_order_money];
-    }
-}
+//- (void)setCommissionModel:(BFCommissionModel *)commissionModel {
+//    _commissionModel = commissionModel;
+//    if (commissionModel) {
+//        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",commissionModel.proxy_order_money];
+//    }
+//}
 
 - (void)setUpTabbar{
 
     
-    self.commissionLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), 46) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.60"];
+    self.commissionLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(240), 46) font:BF_ScaleFont(16) textColor:BFColor(0x000000) text:@"本月总佣金：¥0.00"];
     [self addSubview:self.commissionLabel];
     
-    UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(250), BF_ScaleHeight(5), BF_ScaleWidth(60), 46-BF_ScaleHeight(10)) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
+    UIButton *raiseCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(230), 8, BF_ScaleWidth(80), 30) title:@"如何体现" image:nil font:BF_ScaleFont(12) titleColor:BFColor(0xffffff)];
     raiseCashButton.layer.cornerRadius = 3;
-    raiseCashButton.backgroundColor = BFColor(0x102D97);
+    raiseCashButton.backgroundColor = BFColor(0x0977ca);
     [raiseCashButton addTarget:self action:@selector(howToGetCash) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:raiseCashButton];
 }
@@ -56,7 +56,9 @@
 
 
 - (void)howToGetCash {
-    BFLog(@"如何提现");
+    if (self.delegate && [self.delegate respondsToSelector:@selector(howToWithdrawCash)]) {
+        [self.delegate howToWithdrawCash];
+    }
 }
 
 @end
