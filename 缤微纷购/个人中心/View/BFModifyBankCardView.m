@@ -387,8 +387,8 @@
         __block typeof(self) weakSelf = self;
         self.pickerView.block = ^(NSString *string) {
             sender.buttonTitle.text = string;
-            BFBankModel *model = [BFUserDefaluts getBankInfo];
-            NSArray *array = [BFBranchList parse:model.bank];
+            //BFBankModel *model = [BFUserDefaluts getBankInfo];
+            NSArray *array = [BFBranchList parse:weakSelf.model.bank];
             for (BFBranchList *list in array) {
                 if ([list.name isEqualToString:string]) {
                     bankInfo.bank_branch = list.ID;
