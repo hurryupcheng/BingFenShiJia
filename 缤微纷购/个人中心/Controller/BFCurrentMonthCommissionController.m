@@ -73,7 +73,7 @@
     //添加分段控制器
     [self segment];
     //进入页面点击分段控制器第一个
-    self.segment.segmented.selectedSegmentIndex = 2;
+    self.segment.segmented.selectedSegmentIndex = 1;
     [self.segment click];
     
     [BFNotificationCenter addObserver:self selector:@selector(gotoModifyBankInfo) name:@"gotoModify" object:nil];
@@ -89,6 +89,7 @@
 
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    
     switch (segmentedControl.selectedSegmentIndex) {
         case 0: {
             [self.customerVC.view removeFromSuperview];
@@ -112,6 +113,7 @@
             break;
         }
     }
+    [self.view bringSubviewToFront:self.segment];
 }
 
 

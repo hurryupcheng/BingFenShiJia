@@ -1,5 +1,5 @@
 //
-//  BFCustomerOrderCell.h
+//  BFCustomerIntroduceCell.h
 //  缤微纷购
 //
 //  Created by 程召华 on 16/5/9.
@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "BFCustmorOrderModel.h"
 
-@interface BFCustomerOrderCell : UITableViewCell
+@interface BFCustomerIntroduceCell : UITableViewCell
 /**实例方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 /**客户订单模型*/
-@property (nonatomic, strong) BFCustomerOrderList *model;
+@property (nonatomic, strong) BFCustmorOrderModel *model;
 @end

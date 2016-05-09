@@ -33,7 +33,10 @@
 
 - (void)setModel:(BFRecommendDividedModel *)model {
     _model = model;
+    self.totalMoneyLabel.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(300), 0);
+    _totalMoneyLabel.numberOfLines = 0;
     self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月推荐分成总佣金：¥%@已确认",model.proxy_order_money_confirm];
+    [self.totalMoneyLabel sizeToFit];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {

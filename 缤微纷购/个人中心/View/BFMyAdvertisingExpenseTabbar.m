@@ -30,12 +30,30 @@
     return self;
 }
 
-//- (void)setCommissionModel:(BFCommissionModel *)commissionModel {
-//    _commissionModel = commissionModel;
-//    if (commissionModel) {
-//        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",commissionModel.proxy_order_money];
-//    }
-//}
+- (void)setRecommendDividedModel:(BFRecommendDividedModel *)recommendDividedModel {
+    _recommendDividedModel = recommendDividedModel;
+    if (recommendDividedModel) {
+        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",recommendDividedModel.proxy_order_money_confirm];
+    }
+}
+
+
+
+- (void)setCustmorOrderModel:(BFCustmorOrderModel *)custmorOrderModel {
+    _custmorOrderModel = custmorOrderModel;
+    if (custmorOrderModel) {
+        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",custmorOrderModel.proxy_order_money];
+    }
+}
+
+
+- (void)setVipOrderModel:(BFVIPOrderModel *)vipOrderModel {
+    _vipOrderModel = vipOrderModel;
+    if (vipOrderModel) {
+        self.commissionLabel.text = [NSString stringWithFormat:@"本月总佣金：¥%@",vipOrderModel.proxy_order_money];
+
+    }
+}
 
 - (void)setUpTabbar{
 

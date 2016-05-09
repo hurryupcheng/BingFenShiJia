@@ -20,7 +20,6 @@
 #import "BFMyIntegralController.h"
 #import "BFMyGroupPurchaseController.h"
 #import "BFMyCouponsController.h"
-#import "BFMyAdvertisingExpenseController.h"
 #import "BFAddRecommenderView.h"
 #import "BFMyClientController.h"
 #import "BFCurrentMonthCommissionController.h"
