@@ -45,16 +45,21 @@
 - (void)setModel:(BFWithdrawalRecordList *)model {
     _model = model;
     if (model) {
-        self.withdrawalsTime.text = [NSString stringWithFormat:@"提现时间：%@", [BFTranslateTime translateTimeIntoAccurateTime:model.addtime]];
+        self.withdrawalsTime.text = [NSString stringWithFormat:@"提现时间:%@", [BFTranslateTime translateTimeIntoAccurateTime:model.addtime]];
         
-
-        self.withdrawalsAmount.text = [NSString stringWithFormat:@"提现金额：¥%@", model.jiner];
+        self.withdrawalsAmount.frame = CGRectMake(BF_ScaleWidth(15), CGRectGetMaxY(self.withdrawalsTime.frame)+BF_ScaleHeight(5), BF_ScaleWidth(250), 0);
+        self.withdrawalsAmount.numberOfLines = 0;
+        self.withdrawalsAmount.text = [NSString stringWithFormat:@"提现金额:¥%@", model.jiner];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.withdrawalsAmount.text];
         [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xC1C1C1) range:NSMakeRange(5,model.jiner.length+1)];
         self.withdrawalsAmount.attributedText = attributedString;
+        [self.withdrawalsAmount sizeToFit];
+        
+        
+        
         
         self.receivedAmount.frame = CGRectMake(CGRectGetMaxX(self.withdrawalsAmount.frame)+BF_ScaleWidth(5), self.withdrawalsAmount.y, BF_ScaleWidth(250), 0);
-        self.receivedAmount.text = [NSString stringWithFormat:@"实收金额：¥%@", model.actual_amount];
+        self.receivedAmount.text = [NSString stringWithFormat:@"实收金额:¥%@", model.actual_amount];
         [self.receivedAmount sizeToFit];
     }
 }
@@ -70,7 +75,8 @@
     self.withdrawalsAmount.numberOfLines = 0;
     self.withdrawalsAmount.text = @"提现金额：¥130.00";
     self.withdrawalsAmount.textColor = BFColor(0x272727);
-    //self.withdrawalsAmount.backgroundColor = [UIColor redColor];
+    //
+    self.withdrawalsAmount.backgroundColor = [UIColor redColor];
     self.withdrawalsAmount.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
     [self.bottomView addSubview:self.withdrawalsAmount];
     [self.withdrawalsAmount sizeToFit];

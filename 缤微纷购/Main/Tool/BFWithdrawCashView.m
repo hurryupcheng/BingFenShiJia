@@ -45,6 +45,8 @@
 #pragma mark -- 创建页面
 - (void)setUpView {
     
+    
+    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     UILabel *firstLabel = [self setUpLabelWithFrame:CGRectMake(0, BF_ScaleHeight(120), ScreenWidth, LabalH) text:@"亲~提现时间为次月的15~20号,"];
     [self addSubview:firstLabel];
@@ -100,8 +102,8 @@
 - (void)showView {
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.5 animations:^{
-        self.backgroundColor = BFColor(0x000000);
-        self.alpha = 0.8;
+        self.backgroundColor =  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+        //self.alpha = 0.8;
     }];
 }
 

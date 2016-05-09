@@ -345,7 +345,6 @@
 		59FCE21B1CBCE6E900CCBDEA /* HJCAjustNumButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCE2191CBCE6E900CCBDEA /* HJCAjustNumButton.m */; };
 		59FCEE181CC5237000614B0D /* BFCategoryNavigationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FCEE171CC5237000614B0D /* BFCategoryNavigationView.m */; };
 		59FD130B1CBFEB8D00B2292A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 59FD130A1CBFEB8D00B2292A /* QuartzCore.framework */; };
-		59FD130E1CBFEC3B00B2292A /* ShareCustom.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD130D1CBFEC3B00B2292A /* ShareCustom.m */; };
 		59FD23D21CE03326002B4BB7 /* BFCustomerOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD23D11CE03326002B4BB7 /* BFCustomerOrderCell.m */; };
 		59FD23D51CE0333F002B4BB7 /* BFCustomerIntroduceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD23D41CE0333F002B4BB7 /* BFCustomerIntroduceCell.m */; };
 		59FD23D81CE03C3E002B4BB7 /* BFCustmorOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FD23D71CE03C3E002B4BB7 /* BFCustmorOrderModel.m */; };
@@ -366,7 +365,6 @@
 		59FE68F81CDEEBC200931DE7 /* BFRecommendOrderCommissionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FE68F71CDEEBC200931DE7 /* BFRecommendOrderCommissionController.m */; };
 		59FEC72A1CB553000081616D /* Province.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59FEC7291CB553000081616D /* Province.plist */; };
 		59FF0D231C8D1F7D00D3C2A9 /* BFInstructionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */; };
-		59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */; };
 		59FF467A1C8A74AF0040689A /* BFPersonInformationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46791C8A74AF0040689A /* BFPersonInformationController.m */; };
 		59FF46C41C8A8B990040689A /* BFMyOrderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46C31C8A8B990040689A /* BFMyOrderCell.m */; };
 		59FF46C71C8AAEA00040689A /* BFMyIntegralController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59FF46C61C8AAEA00040689A /* BFMyIntegralController.m */; };
@@ -1201,8 +1199,6 @@
 		59FCEE161CC5237000614B0D /* BFCategoryNavigationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCategoryNavigationView.h; sourceTree = "<group>"; };
 		59FCEE171CC5237000614B0D /* BFCategoryNavigationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCategoryNavigationView.m; sourceTree = "<group>"; };
 		59FD130A1CBFEB8D00B2292A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		59FD130C1CBFEC3B00B2292A /* ShareCustom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareCustom.h; sourceTree = "<group>"; };
-		59FD130D1CBFEC3B00B2292A /* ShareCustom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareCustom.m; sourceTree = "<group>"; };
 		59FD23D01CE03326002B4BB7 /* BFCustomerOrderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCustomerOrderCell.h; sourceTree = "<group>"; };
 		59FD23D11CE03326002B4BB7 /* BFCustomerOrderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFCustomerOrderCell.m; sourceTree = "<group>"; };
 		59FD23D31CE0333F002B4BB7 /* BFCustomerIntroduceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFCustomerIntroduceCell.h; sourceTree = "<group>"; };
@@ -1238,8 +1234,6 @@
 		59FEC7291CB553000081616D /* Province.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Province.plist; sourceTree = "<group>"; };
 		59FF0D211C8D1F7D00D3C2A9 /* BFInstructionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFInstructionCell.h; sourceTree = "<group>"; };
 		59FF0D221C8D1F7D00D3C2A9 /* BFInstructionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFInstructionCell.m; sourceTree = "<group>"; };
-		59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAdvertisingExpenseInformationCell.h; sourceTree = "<group>"; };
-		59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAdvertisingExpenseInformationCell.m; sourceTree = "<group>"; };
 		59FF46781C8A74AF0040689A /* BFPersonInformationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPersonInformationController.h; sourceTree = "<group>"; };
 		59FF46791C8A74AF0040689A /* BFPersonInformationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPersonInformationController.m; sourceTree = "<group>"; };
 		59FF46BF1C8A86800040689A /* BFMyOrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyOrderController.h; sourceTree = "<group>"; };
@@ -2096,8 +2090,6 @@
 				594EE0DC1C8C162F00A243AE /* BFMyIntegralCell.m */,
 				594EE0E31C8C201200A243AE /* BFMyCouponsCell.h */,
 				594EE0E41C8C201200A243AE /* BFMyCouponsCell.m */,
-				59FF0D241C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.h */,
-				59FF0D251C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m */,
 				59FD23DC1CE04FE4002B4BB7 /* BFVipOrderIntroduceCell.h */,
 				59FD23DD1CE04FE4002B4BB7 /* BFVipOrderIntroduceCell.m */,
 				59FD23DF1CE04FF5002B4BB7 /* BFVipOrderCell.h */,
@@ -2836,8 +2828,6 @@
 				5942F2D61CD229E1004D64D4 /* BFCleanView.m */,
 				59F9F8DA1CC13C7C0010A9B5 /* BFSoundEffect.h */,
 				59F9F8DB1CC13C7C0010A9B5 /* BFSoundEffect.m */,
-				59FD130C1CBFEC3B00B2292A /* ShareCustom.h */,
-				59FD130D1CBFEC3B00B2292A /* ShareCustom.m */,
 				59FF73391CAE1A860063F770 /* BFStorage.h */,
 				59FF733A1CAE1A860063F770 /* BFStorage.m */,
 				59FF733B1CAE1A860063F770 /* BFTranslateTime.h */,
@@ -3601,7 +3591,6 @@
 				59FF74D11CAE1A860063F770 /* NSObject+MJKeyValue.m in Sources */,
 				59FD9EE81C924C6A0087FCFF /* BFGoGroupShoppingView.m in Sources */,
 				59FF74F01CAE1A860063F770 /* SDPhotoBrowser.m in Sources */,
-				59FF0D261C8D46F500D3C2A9 /* BFAdvertisingExpenseInformationCell.m in Sources */,
 				59FF955E1CB3B68C0042AD41 /* BFGroupDetailBottomView.m in Sources */,
 				59FD23DE1CE04FE4002B4BB7 /* BFVipOrderIntroduceCell.m in Sources */,
 				59FF74F51CAE1A860063F770 /* SDWebImageCompat.m in Sources */,
@@ -3929,7 +3918,6 @@
 				51D4AA881C85372800943ABD /* PTStep.m in Sources */,
 				59FB58311CAA80A800CCAEB4 /* BFGroupOrderDetailView.m in Sources */,
 				59FFCEC91C89EA6600ADF8F0 /* BFSettingController.m in Sources */,
-				59FD130E1CBFEC3B00B2292A /* ShareCustom.m in Sources */,
 				59FF74821CAE1A860063F770 /* UIBarButtonItem+Extension.m in Sources */,
 				51D582771C53175A00686A2E /* SoSoViewController.m in Sources */,
 				59FF74B01CAE1A860063F770 /* EMMallSectionView.m in Sources */,

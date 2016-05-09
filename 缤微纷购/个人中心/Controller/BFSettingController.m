@@ -12,7 +12,6 @@
 #import "BFCustomerServiceView.h"
 #import "BFPersonInformationController.h"
 #import "BFModifyPasswordController.h"
-#import "ShareCustom.h"
 #import "BFCleanView.h"
 #import "BFHomeModel.h"
 #import "BFAboutController.h"

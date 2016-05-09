@@ -85,9 +85,7 @@
     
     
     UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260), 22, 40, 40)];
-
-    //
-    rightBut.backgroundColor = [UIColor blueColor];
+    //rightBut.backgroundColor = [UIColor blueColor];
     self.rightBut = rightBut;
     [rightBut setImage:[UIImage imageNamed:@"ff1.png"] forState:UIControlStateNormal];
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];

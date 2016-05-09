@@ -116,46 +116,66 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //获取数据
     self.headerView.timeLabel.text = [self.dateArray firstObject];
-    [self getRecommendDividedData:nil];
+    [self.recommendArray removeAllObjects];
+    [self.bottomTableView reloadData];
+    //获取数据
+    [self getRecommendDividedData];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.bottomTableView.y = 204-ScreenHeight;
+        //self.upTableView.y = 44;
+        self.myTabbar.y = ScreenHeight -114;
+        self.headerView.y = -44;
+        
+    }];
 }
 
 #pragma mark --获取推荐分成订单数据
-- (void)getRecommendDividedData:(NSString *)date {
+- (void)getRecommendDividedData {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_recom"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
-    parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"++++%@,,%@", responseObject, parameter);
-        if (responseObject) {
-            [self.recommendArray removeAllObjects];
-            self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
-            if ([responseObject[@"recom_data"] isKindOfClass:[NSArray class]]) {
-                NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
-                //BFLog(@"-----%@", array);
-                [self.recommendArray addObjectsFromArray:array];
-            }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"++++%@,,%@", responseObject, parameter);
+            if (responseObject) {
+                //[self.recommendArray removeAllObjects];
+                self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
+                if ([responseObject[@"recom_data"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
+                    //BFLog(@"-----%@", array);
+                    [self.recommendArray addObjectsFromArray:array];
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                }
+                self.myTabbar.recommendDividedModel = self.recommendDividedmodel;
             }
-            self.myTabbar.recommendDividedModel = self.recommendDividedmodel;
-        }
-        [self.bottomTableView reloadData];
-        if (!self.headerView.clickButton.selected) {
-            [self.headerView click];
-        }
-        [UIView animateWithDuration:0.5 animations:^{
-            self.bottomTableView.y = 44;
-            self.myTabbar.y = ScreenHeight -160;
-            self.headerView.y = 0;
-        }];
+            
+            double delayInSeconds = 0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.bottomTableView reloadData];
+                if (!self.headerView.clickButton.selected) {
+                    [self.headerView click];
+                }
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.bottomTableView.y = 44;
+                    self.myTabbar.y = ScreenHeight -160;
+                    self.headerView.y = 0;
+                }];
+            });
 
-    } failure:^(NSError *error) {
-        BFLog(@"--%@", error);
+        } failure:^(NSError *error) {
+            BFLog(@"--%@", error);
+        }];
     }];
 }
 
@@ -175,7 +195,7 @@
     BFLog(@"-------%d",button.selected);
     if (button.selected) {
         [UIView animateWithDuration:0.5 animations:^{
-            self.bottomTableView.y = 44;
+            //self.bottomTableView.y = 44;
             self.upTableView.y = ScreenHeight-114;
             self.myTabbar.y = ScreenHeight -160;
             self.headerView.y = 0;
@@ -226,13 +246,58 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.upTableView) {
-        [self.headerView click];
+        
+        [self.recommendArray removeAllObjects];
+        [self.bottomTableView reloadData];
         self.headerView.timeLabel.text = self.dateArray[indexPath.row];
         [self getRecommendDividedData:self.dateArray[indexPath.row]];
 
     }
     
 }
+
+
+#pragma mark --获取推荐分成订单数据
+- (void)getRecommendDividedData:(NSString *)date {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_recom"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"++++%@,,%@", responseObject, parameter);
+        if (responseObject) {
+            //[self.recommendArray removeAllObjects];
+            self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
+            if ([responseObject[@"recom_data"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
+                //BFLog(@"-----%@", array);
+                [self.recommendArray addObjectsFromArray:array];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+            }
+            self.myTabbar.recommendDividedModel = self.recommendDividedmodel;
+        }
+        
+    
+        double delayInSeconds = 0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.headerView click];
+            [self.bottomTableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.bottomTableView.y = 44;
+                self.myTabbar.y = ScreenHeight -160;
+                self.headerView.y = 0;
+            }];
+        });
+        
+    } failure:^(NSError *error) {
+        BFLog(@"--%@", error);
+    }];
+}
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

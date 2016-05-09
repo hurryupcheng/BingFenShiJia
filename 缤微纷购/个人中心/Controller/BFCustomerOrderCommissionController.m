@@ -113,51 +113,74 @@
     //底部固定视图
     [self myTabbar];
     //获取数据
-    [self getCustomerOrderData:nil];
+    [self getCustomerOrderData];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.headerView.timeLabel.text = [self.dateArray firstObject];
+    [self.customerArray removeAllObjects];
+    [self.bottomTableView reloadData];
     //获取数据
-    [self getCustomerOrderData:nil];
+    [self getCustomerOrderData];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.bottomTableView.y = 204-ScreenHeight;
+        //self.upTableView.y = 44;
+        self.myTabbar.y = ScreenHeight -114;
+        self.headerView.y = -44;
+        
+    }];
+}
+
+
 #pragma mark --获取推荐分成订单数据
-- (void)getCustomerOrderData:(NSString *)date {
+- (void)getCustomerOrderData {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
-    parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
-    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-        BFLog(@"++++%@,,%@", responseObject, parameter);
-        if (responseObject) {
-            [self.customerArray removeAllObjects];
-            self.model =  [BFCustmorOrderModel parse:responseObject];
-            if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
-                NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
-                //BFLog(@"-----%@", array);
-                [self.customerArray addObjectsFromArray:array];
-            }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
-            }
-            self.myTabbar.custmorOrderModel = self.model;
-        }
-        [self.bottomTableView reloadData];
-        if (!self.headerView.clickButton.selected) {
-            [self.headerView click];
-        }
-        [UIView animateWithDuration:0.5 animations:^{
-            self.bottomTableView.y = 44;
-            self.myTabbar.y = ScreenHeight -160;
-            self.headerView.y = 0;
-        }];
+    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+    } dispatch_get_main_queue:^{
         
-    } failure:^(NSError *error) {
-        BFLog(@"--%@", error);
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"++++%@,,%@", responseObject, parameter);
+            if (responseObject) {
+                self.model =  [BFCustmorOrderModel parse:responseObject];
+                if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
+                    //BFLog(@"-----%@", array);
+                    [self.customerArray addObjectsFromArray:array];
+                }else {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                }
+                self.myTabbar.custmorOrderModel = self.model;
+            }
+            
+            double delayInSeconds = 0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.bottomTableView reloadData];
+                if (!self.headerView.clickButton.selected) {
+                    [self.headerView click];
+                }
+                
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.bottomTableView.y = 44;
+                    self.myTabbar.y = ScreenHeight -160;
+                    self.headerView.y = 0;
+                }];
+            });
+            
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"--%@", error);
+        }];
     }];
 }
 
@@ -176,7 +199,7 @@
     BFLog(@"-------%d",button.selected);
     if (button.selected) {
         [UIView animateWithDuration:0.5 animations:^{
-            self.bottomTableView.y = 44;
+            //self.bottomTableView.y = 44;
             self.upTableView.y = ScreenHeight-114;
             self.myTabbar.y = ScreenHeight -160;
             self.headerView.y = 0;
@@ -197,7 +220,7 @@
 }
 
 
-#pragma mark -- tableView方法
+
 #pragma mark -- tableView方法
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if (tableView == self.upTableView) {
@@ -228,13 +251,57 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (tableView == self.upTableView) {
-        [self.headerView click];
+        //[self.headerView click];
+        [self.customerArray removeAllObjects];
+        [self.bottomTableView reloadData];
         self.headerView.timeLabel.text = self.dateArray[indexPath.row];
         [self getCustomerOrderData:self.dateArray[indexPath.row]];
         
     }
     
 }
+
+- (void)getCustomerOrderData:(NSString *)date {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
+    parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
+    
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"++++%@,,%@", responseObject, parameter);
+        if (responseObject) {
+            self.model =  [BFCustmorOrderModel parse:responseObject];
+            if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
+                //BFLog(@"-----%@", array);
+                [self.customerArray addObjectsFromArray:array];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+            }
+            self.myTabbar.custmorOrderModel = self.model;
+        }
+        double delayInSeconds = 0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.headerView click];
+            [self.bottomTableView reloadData];
+            [UIView animateWithDuration:0.5 animations:^{
+                self.bottomTableView.y = 44;
+                self.myTabbar.y = ScreenHeight -160;
+                self.headerView.y = 0;
+            }];
+        });
+        
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        BFLog(@"--%@", error);
+    }];
+    
+}
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {

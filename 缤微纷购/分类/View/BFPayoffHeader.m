@@ -72,7 +72,7 @@
             _image.layer.masksToBounds = YES;
             
 //            _image.backgroundColor = [UIColor redColor];
-            [_image setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+            [_image setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
             
             [_scroll addSubview:_image];
             

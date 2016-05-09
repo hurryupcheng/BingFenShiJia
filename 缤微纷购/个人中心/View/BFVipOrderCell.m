@@ -59,7 +59,7 @@
         [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xFA8931) range:NSMakeRange(5,model.order_sumPrice.length+1)];
         self.orderAmount.attributedText = attributedString;
         
-        if ([model.freetype isEqualToString:@"0"]) {
+        if ([model.freeprice doubleValue] <= 0.00) {
             self.expressCharge.text = @"运费：包邮";
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.expressCharge.text];
             [attributedString addAttribute:NSForegroundColorAttributeName value:BFColor(0xFA8931) range:NSMakeRange(3,2)];

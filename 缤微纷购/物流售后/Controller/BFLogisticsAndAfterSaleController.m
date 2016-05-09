@@ -155,6 +155,7 @@
                     self.bgImageView.hidden = NO;
                     self.tableView.hidden = YES;
                 }else {
+                    
                     self.bgImageView.hidden = YES;
                     self.tableView.hidden = NO;
                     [self.logisticsArray removeAllObjects];
@@ -254,12 +255,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
  
-        [self.productArray removeAllObjects];
-        BFLogisticsModel *model = self.logisticsArray[section];
-        NSArray *array = [BFProductModel parse:model.item];
-        [self.productArray addObjectsFromArray:array];
-        //BFLog(@"%lu,,%lu",(unsigned long)self.productArray.count,self.logisticsArray.count);
-        return self.productArray.count+2;
+    [self.productArray removeAllObjects];
+    BFLogisticsModel *model = self.logisticsArray[section];
+    NSArray *array = [BFProductModel parse:model.item];
+    for (BFProductModel *productModel in array) {
+        productModel.OrderID = model.orderId;
+    }
+    
+    [self.productArray addObjectsFromArray:array];
+    //BFLog(@"%lu,,%lu",(unsigned long)self.productArray.count,self.logisticsArray.count);
+    return self.productArray.count+2;
     
 }
 
@@ -282,6 +287,7 @@
     }else {
         BFLogisticsCell *cell = [BFLogisticsCell cellWithTableView:tableView];
         cell.model = self.productArray[indexPath.row-1];
+        
         return cell;
     }
 
@@ -290,6 +296,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BFProductModel *model = self.productArray[indexPath.row-1];
+    BFLog(@"-----------------%@", model.OrderID);
     FXQViewController *fxVC =[[FXQViewController alloc] init];
     fxVC.ID = model.itemId;
     [self.navigationController pushViewController:fxVC animated:YES];

@@ -46,11 +46,12 @@
 
 - (void)setModel:(BFProductModel *)model {
     _model = model;
+    //BFLog(@"++++%@",model.OrderID);
     [self.productIcon sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     self.productTitle.frame = CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0);
     self.productTitle.text = model.title;
     [self.productTitle sizeToFit];
-    BFLog(@"self.productTitle%f",self.productTitle.height);
+   // BFLog(@"self.productTitle%f",self.productTitle.height);
     self.productSize.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(8), BF_ScaleWidth(60), BF_ScaleHeight(12));
     self.productSize.text = model.size;
     self.productColor.frame = CGRectMake(CGRectGetMaxX(self.productSize.frame), self.productSize.y, BF_ScaleWidth(160), self.productSize.height);

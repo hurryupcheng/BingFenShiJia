@@ -21,10 +21,12 @@
 
 @interface BFCustomerOrderList : NSObject
 
-/**商品图片*/
-@property (nonatomic, strong) NSString *img;
+/**头像*/
+@property (nonatomic, strong) NSString *user_icon;
 /**我的佣金*/
 @property (nonatomic, strong) NSString *jiner;
 /**下单时间*/
 @property (nonatomic, strong) NSString *add_time;
+/**昵称*/
+@property (nonatomic, strong) NSString *nickname;
 @end

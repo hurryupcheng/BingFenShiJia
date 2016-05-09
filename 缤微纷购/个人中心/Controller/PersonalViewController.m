@@ -46,14 +46,14 @@
 
 @implementation PersonalViewController
 
-- (BFAddRecommenderView *)addView {
-    if (!_addView) {
-        _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-        _addView.delegate = self;
-        [self.view addSubview:_addView];
-    }
-    return _addView;
-}
+//- (BFAddRecommenderView *)addView {
+//    if (!_addView) {
+//        _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//        _addView.delegate = self;
+//        [self.view addSubview:_addView];
+//    }
+//    return _addView;
+//}
 
 
 
@@ -165,8 +165,13 @@
 
 #pragma mark -- 添加推荐人按钮代理点击
 - (void)gotoAddRecommender {
+    
+    _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    _addView.delegate = self;
     [self.addView showView];
-   
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    [window addSubview:_addView];
+
 }
 
 #pragma mark -- 点击确定添加推荐人

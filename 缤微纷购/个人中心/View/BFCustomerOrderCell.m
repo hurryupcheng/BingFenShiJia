@@ -49,8 +49,8 @@
 - (void)setModel:(BFCustomerOrderList *)model {
     _model = model;
     if (model) {
-        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-        //self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@", model.nickname];
+        [self.headImageView sd_setImageWithURL:[NSURL URLWithString:model.user_icon] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
+        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@", model.nickname];
         self.recommendTimeLabel.text = [NSString stringWithFormat:@"推荐时间：%@", [BFTranslateTime translateTimeIntoAccurateChineseTime:model.add_time]];
         self.divideMoneyLabel.text = [NSString stringWithFormat:@"分成金额：%@", model.jiner];
     }

@@ -270,7 +270,7 @@
     PayReq *request = [[PayReq alloc] init];
     request.partnerId = self.orderModel.re_sign.partnerid;
     request.prepayId = self.orderModel.re_sign.prepayid;
-    request.package = @"Sign=WXPay";
+    request.package = self.orderModel.re_sign.package;
     request.nonceStr = self.orderModel.re_sign.noncestr;
     request.timeStamp = self.orderModel.re_sign.timestamp;
     request.sign= self.orderModel.re_sign.sign;

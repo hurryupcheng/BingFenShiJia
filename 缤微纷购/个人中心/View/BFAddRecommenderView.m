@@ -79,7 +79,7 @@
     self.memberID = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(line.frame) + BF_ScaleHeight(25), BF_ScaleWidth(150), BF_ScaleHeight(14)) font:BF_ScaleFont(13) textColor:BFColor(0xffffff) text:@"会员号："];
     [self.clickedView addSubview:self.memberID];
     
-    self.nickNameLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(self.memberID.frame) + BF_ScaleHeight(10), BF_ScaleWidth(150), BF_ScaleHeight(14)) font:BF_ScaleFont(13) textColor:BFColor(0xffffff) text:@"昵称："];
+    self.nickNameLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(55), CGRectGetMaxY(self.memberID.frame) + BF_ScaleHeight(10), BF_ScaleWidth(260), BF_ScaleHeight(14)) font:BF_ScaleFont(13) textColor:BFColor(0xffffff) text:@"昵称："];
     [self.clickedView addSubview:self.nickNameLabel];
     
     
@@ -121,10 +121,10 @@
                     self.clickedView.hidden = NO;
                     BFLog(@"responseObject%@,,%@",responseObject,userInfo.token);
                     BFRecommenderModel *recommenderModel = [BFRecommenderModel parse:responseObject];
-                    if (recommenderModel.username.length == 0) {
+                    if (recommenderModel.nickname.length == 0) {
                         self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：bingo_%@",recommenderModel.ID];
                     }else {
-                        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",recommenderModel.username];
+                        self.nickNameLabel.text = [NSString stringWithFormat:@"昵称：%@",recommenderModel.nickname];
                     }
                     self.memberID.text = [NSString stringWithFormat:@"会员号：%@",recommenderModel.ID];
 

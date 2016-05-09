@@ -163,6 +163,7 @@
             
             BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
             pay.pay = self.payTitle.text;
+            pay.orderid = orderModel.orderid;
             pay.orderModel = orderModel;
             pay.img = _itemImg;
             NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
@@ -177,6 +178,7 @@
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
         }
     } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
         BFLog(@"%@", error);
         
     }];

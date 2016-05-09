@@ -126,6 +126,11 @@
         switchButton.onTintColor = BFColor(0x0977ca);
         switchButton.tintColor = BFColor(0xBABABA);
         cell.accessoryView = switchButton;
+        if ([self.userInfo.is_vip isEqualToString:@"1"]) {
+            switchButton.on = YES;
+        }else {
+            switchButton.on = NO;
+        }
     } else if (indexPath.section == 2) {
         switch (indexPath.row) {
             case 0:
