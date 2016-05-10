@@ -110,8 +110,7 @@
         self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
         [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
         [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-        if(registTimer)
-            [registTimer invalidate];
+    
         registTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(registerAction) userInfo:nil repeats:YES];
         
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
@@ -159,12 +158,11 @@
             if ([responseObject[@"msg"] isEqualToString:@"已注册"]) {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号已注册"];
             }else {
-                leftTime = 60;
+                leftTime = 120;
                 [self.sendVerificationCodeButton setEnabled:NO];
                 [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
                 [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
-                if(timer)
-                    [timer invalidate];
+    
                 timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送中..."];
                 
@@ -184,6 +182,7 @@
 
 
 - (void)registerAction {
+//    BFLog(@"zhuce");
     registTime--;
     if(registTime<=0)
     {
@@ -191,6 +190,9 @@
         self.registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
         [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
         [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
+        //倒计时完取消倒计时
+        [registTimer invalidate];
+        registTimer = nil;
     } else
     {
         [self.registerButton setEnabled:NO];
@@ -203,6 +205,7 @@
 
 - (void)timerAction
 {
+
     leftTime--;
     if(leftTime<=0)
     {
@@ -210,8 +213,9 @@
         [self.sendVerificationCodeButton setEnabled:YES];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateDisabled];
-        
-        
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
     }
     else
     {

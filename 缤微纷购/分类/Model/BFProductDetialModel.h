@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSString *starttime;
 /**结束时间*/
 @property (nonatomic, strong) NSString *endtime;
+/**系统当前时间*/
+@property (nonatomic, assign) NSInteger nowtime;
 /**颜色*/
 @property (nonatomic, strong) NSString *first_color;
 /**尺寸*/

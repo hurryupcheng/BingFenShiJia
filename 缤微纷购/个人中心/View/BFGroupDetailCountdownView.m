@@ -34,7 +34,7 @@
     _model = model;
     if (model) {
         
-        
+        [self.helpLabel removeFromSuperview];
         self.helpLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(15))];
         self.helpLabel.text = @"对于诸位大侠的相助，团长感激涕零";
         //self.helpLabel.backgroundColor = [UIColor redColor];
@@ -43,18 +43,20 @@
         self.helpLabel.textColor = BFColor(0x5D5D5D);
         [self addSubview:self.helpLabel];
         
+        [self.lackLabel removeFromSuperview];
         self.lackLabel = [[UILabel alloc] init];
-        self.lackLabel.text = @"还差3人，盼你如南方人盼暖气~";
+        //self.lackLabel.text = @"还差3人，盼你如南方人盼暖气~";
         //self.lackLabel.backgroundColor = [UIColor blueColor];
         self.lackLabel.textAlignment = NSTextAlignmentCenter;
         self.lackLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         self.lackLabel.textColor = BFColor(0x5D5D5D);
         [self addSubview:self.lackLabel];
+        BFLog(@"---%@", self.lackLabel.window);
         
         
         if ([model.status isEqualToString:@"0"]) {
             self.lackLabel.frame = CGRectMake(0, CGRectGetMaxY(self.helpLabel.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(15));
-            NSString *lack = [NSString stringWithFormat:@"%lu", (model.havenum - model.thisteam.count)];
+            NSString *lack = [NSString stringWithFormat:@"%lu", model.havenum];
             self.lackLabel.text = [NSString stringWithFormat:@"还差 %@ 人，盼你如南方人盼暖气~", lack];
             
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.lackLabel.text];
@@ -73,6 +75,7 @@
         self.countdown.model = model;
         [self addSubview:self.countdown];
         
+        [self.statusLabel removeFromSuperview];
         self.statusLabel = [[UILabel alloc] init];
         //self.statusLabel.backgroundColor = [UIColor blueColor];
         self.statusLabel.textAlignment = NSTextAlignmentCenter;

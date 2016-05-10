@@ -12,6 +12,7 @@
 #import "BFPTDetailHeaderView.h"
 #import "BFPTDetailModel.h"
 #import "BFShareView.h"
+#import "LogViewController.h"
 
 @interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate, BFPTDetailHeaderViewDelegate>
 /**webView*/
@@ -140,7 +141,7 @@
 
 #pragma mark --团购按钮点击
 - (void)gotoGroupPurchaseButton{
-
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSDate *nowTime = [NSDate date];
     NSTimeZone *zone = [NSTimeZone systemTimeZone];
     NSInteger inter = [zone secondsFromGMTForDate:nowTime];
@@ -150,16 +151,27 @@
    
     NSLog(@"===%@===%@",nowTimes,self.endTime);
     
-    if ([nowTimes doubleValue] < [self.endTime doubleValue]) {
-
-    BFZFViewController *zf = [[BFZFViewController alloc]init];
-    zf.isPT = _isPT;
-    zf.ID = self.ID;
-    zf.modelArr = _dataArray;
-    [self.navigationController pushViewController:zf animated:YES];
-    }else{
-        [BFProgressHUD MBProgressOnlyWithLabelText:@"团购已结束"];
+    if (userInfo) {
+        if ([nowTimes doubleValue] < [self.endTime doubleValue]) {
+            
+            BFZFViewController *zf = [[BFZFViewController alloc]init];
+            zf.isPT = _isPT;
+            zf.ID = self.ID;
+            zf.modelArr = _dataArray;
+            [self.navigationController pushViewController:zf animated:YES];
+        }else{
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"团购已结束"];
+        }
+    }else {
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+            
+            LogViewController *logVC= [LogViewController new];
+            [self.navigationController pushViewController:logVC animated:YES];
+            self.navigationController.navigationBarHidden = NO;
+        }];
     }
+    
+    
 }
 
 #pragma mark -- 拼团玩法查看详情

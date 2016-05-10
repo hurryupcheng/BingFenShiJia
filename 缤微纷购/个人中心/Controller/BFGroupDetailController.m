@@ -109,6 +109,8 @@
     [BFNotificationCenter addObserver:self selector:@selector(goToGroupDetail) name:@"myGroupClick" object:nil];
     //点击商品跳转
     [BFNotificationCenter addObserver:self selector:@selector(clickToDetail) name:@"clickToDetail" object:nil];
+    //从本页面进入支付页面，支付成功接受通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,11 +119,53 @@
 }
 
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+}
+
+
 //移除通知
 - (void)dealloc {
     [BFNotificationCenter removeObserver:self];
 }
 
+#pragma mark -- 支付成功改变状态
+- (void)changeOrderStatus {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=team"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"itemid"] = self.itemid;
+    parameter[@"teamid"] = self.teamid;
+    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+        
+        if (responseObject) {
+            [self.teamArray removeAllObjects];
+            self.model = [BFGroupDetailModel parse:responseObject];
+            if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [TeamList parse:self.model.thisteam];
+                [self.teamArray addObjectsFromArray:array];
+            }
+            //给头部视图模型赋值
+            self.headerView.model = self.model;
+            //给底部视图模型赋值
+            self.footerView.model = self.model;
+            //返回的高度赋值
+            [self animation];
+            
+            
+            //给状态栏赋值
+            self.tabbar.model = self.model;
+            BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
+            [self.tableView reloadData];
+            
+        }
+    } failure:^(NSError *error) {
+        BFLog(@"%@",error);
+    }];
+}
 
 #pragma mark -- 拼团玩法的通知事件
 - (void)clickToLookDetail {
@@ -197,6 +241,7 @@
 #pragma mark --添加动画效果
 - (void)animation {
     [UIView animateWithDuration:0.5 animations:^{
+        
         self.headerView.height = self.headerView.headerViewH;
         self.tableView.tableHeaderView = self.headerView;
         self.tableView.tableFooterView = self.footerView;

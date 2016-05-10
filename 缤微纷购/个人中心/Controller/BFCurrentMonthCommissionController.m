@@ -66,7 +66,7 @@
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BFColor(0x4da800);
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"当月广告费";
     //添加navigationbar
     [self setUpNavigationBar];
@@ -87,6 +87,8 @@
 
 }
 
+
+
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
@@ -98,7 +100,10 @@
                 [self.view addSubview:self.vipVC.view];
                 BFLog(@"点击第一个");
             }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"很遗憾,您还不是VIP！"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"很遗憾,您还不是VIP！"];
+                [self.customerVC.view removeFromSuperview];
+                [self.recommendVC.view removeFromSuperview];
+                //[self.view addSubview:self.vipVC.view];
             }
             break;
         }

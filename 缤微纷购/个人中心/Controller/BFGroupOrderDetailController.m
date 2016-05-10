@@ -42,7 +42,44 @@
     [self detailView];
     //添加数据
     [self getData];
+    //从本页面进入支付页面，支付成功接受通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
 }
+
+#pragma mark -- 销毁通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
+#pragma mark -- 支付成功百变状态
+- (void)changeOrderStatus {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=torderstatus"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"itemid"] = self.itemid;
+    parameter[@"teamid"] = self.teamid;
+    
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@,,%@",responseObject, parameter);
+            if (responseObject) {
+                self.model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
+                self.detailView.model = self.model;
+//                [UIView animateWithDuration:0.5 animations:^{
+//                    self.detailView.y = 0;
+//                }];
+            }
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+//    }];
+}
+
+
 
 #pragma mark --获取数据
 - (void)getData {

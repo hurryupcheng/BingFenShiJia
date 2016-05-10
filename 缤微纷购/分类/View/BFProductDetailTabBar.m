@@ -17,8 +17,10 @@
 
 
 @property (strong, nonatomic) NSMutableArray<CALayer *> *redLayers;
-
+/**添加到购物车*/
 @property (strong, nonatomic) UIButton *addToCart;
+/**商品下架*/
+@property (strong, nonatomic) UILabel *unShelve;
 @end
 
 
@@ -60,9 +62,11 @@
     }else {
         shoppingCart.badge.hidden = YES;
     }
+    
     UIButton *addToCart = [UIButton buttonWithType:0];
     self.addToCart = addToCart;
     addToCart.frame = CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32));
+    addToCart.hidden = NO;
     addToCart.tag = BFProductDetailTabBarButtonTypeAddCart;
     addToCart.backgroundColor = BFColor(0xF56B0A);
     [addToCart setTitle:@"加入购物车" forState:UIControlStateNormal];
@@ -70,7 +74,55 @@
     [addToCart setTitleColor:BFColor(0xffffff) forState:UIControlStateNormal];
     [addToCart addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:addToCart];
+    
+    self.unShelve = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32))];
+    //self.unShelve.hidden = YES;
+    self.unShelve.alpha = 0;
+    self.unShelve.text = @"商品已经下架";
+    self.unShelve.backgroundColor = BFColor(0xD6D6D6);
+    self.unShelve.layer.cornerRadius = BF_ScaleHeight(9);
+    self.unShelve.layer.masksToBounds = YES;
+    self.unShelve.textAlignment = NSTextAlignmentCenter;
+    self.unShelve.textColor = BFColor(0xffffff);
+    [self addSubview:self.unShelve];
   
+}
+
+- (void)setModel:(BFProductDetialModel *)model {
+    _model = model;
+    if (model) {
+        if (model.nowtime < [model.endtime integerValue] && [model.first_stock integerValue] > 0) {
+            [self refreshTime];
+            [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        }else {
+            self.addToCart.hidden = YES;
+            self.unShelve.hidden = NO;
+            self.unShelve.alpha = 1;
+        }
+        
+    }
+}
+
+
+- (void)refreshTime {
+    NSCalendar *todayCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+        NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:self.model.nowtime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime intValue]] options:0];
+    BFLog(@"----%ld", (long)betweenDate.second);
+    if (betweenDate.second <= 0) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.addToCart.alpha = 0;
+            self.unShelve.alpha = 1;
+            
+            //取消定时器
+            [timer invalidate];
+            timer = nil;
+            
+        }];
+    }else {
+        self.addToCart.alpha = 1;
+        self.unShelve.alpha = 0;
+    }
+
 }
 
 - (void)click:(UIButton *)sender {
