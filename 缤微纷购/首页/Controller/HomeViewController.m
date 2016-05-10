@@ -5,7 +5,8 @@
 //  Created by 郑洋 on 16/1/4.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+//#import "SoSoViewController.h"
+#import "BFSosoViewController.h"
 #import "BFPTViewController.h"
 #import "BFHomeCollentionView.h"
 
@@ -13,7 +14,6 @@
 #import "Height.h"
 #import "PTModel.h"
 #import "PTTableViewCell.h"
-#import "SoSoViewController.h"
 #import "DWTableViewController.h"
 #import "FXQViewController.h"
 #import "ViewController.h"
@@ -278,8 +278,8 @@
 #pragma  mark 搜索按钮点击事件
 - (void)soso{
  
-    SoSoViewController *soso = [[SoSoViewController alloc]init];
-    
+//    SoSoViewController *soso = [[SoSoViewController alloc]init];
+    BFSosoViewController *soso = [[BFSosoViewController alloc]init];
 //    BFSosoViewController *soso = [[BFSosoViewController alloc]init];
 //    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
 //    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];

@@ -19,7 +19,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIWebView *web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    UIWebView *web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64)];
     
     NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Teambuy&a=help"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];

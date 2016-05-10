@@ -136,7 +136,17 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-
+    if (self.sumBlock) {
+        self.sumBlock();
+    }
+    if ([self.add.textF.text integerValue] <= 1) {
+        self.add.textF.text = @"1";
+        self.add.minBut.enabled = NO;
+        
+    }else if ([self.add.textF.text integerValue] >= [self.stock integerValue]){
+        self.add.textF.text = self.stock;
+    }
+    
     [textField resignFirstResponder];
     return YES;
 }

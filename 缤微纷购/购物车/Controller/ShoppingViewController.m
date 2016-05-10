@@ -89,6 +89,7 @@
                 if (self.dateArr.count == 0) {
                     self.footItem = NO;
                     [self.tabView removeFromSuperview];
+                    [self.foot removeFromSuperview];
                     [self data];
                     [self other];
                 }
@@ -138,8 +139,10 @@
 
 - (void)initWithTableView{
     _backV = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-    [self.view addSubview:_backV];
-    
+    if (self.footItem == YES) {
+       [self.view addSubview:_backV];
+    }
+
     self.tabView = [[UITableView alloc]init];
     
     self.tabView.dataSource = self;
@@ -250,6 +253,29 @@
     };
     
     __block SPTableViewCell *weakCell = cell;
+    cell.sumBlock = ^(){
+        BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
+
+        NSInteger number = [weakCell.add.textF.text integerValue];
+        if (number <= 1 || weakCell.add.textF.text == nil) {
+            number = 1;
+        }else if (number >= [model.stock integerValue]){
+            number = [model.stock integerValue];
+        }
+        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES num:[NSString stringWithFormat:@"%d",number]];
+        
+        model.numbers = number;
+        
+        [self.dateArr replaceObjectAtIndex:indexPath.row withObject:model];
+        if ([self.selectGoods containsObject:model]) {
+            [self.selectGoods removeObject:model];
+            [self.selectGoods addObject:model];
+            
+        }
+        [self countPrice];
+    };
+    
     cell.numAddBlock = ^(){
         NSInteger count = [weakCell.add.textF.text integerValue];
         count++;
@@ -266,6 +292,7 @@
         if ([self.selectGoods containsObject:model]) {
             [self.selectGoods removeObject:model];
             [self.selectGoods addObject:model];
+           
             [self countPrice];
         }
     };
@@ -336,6 +363,7 @@
             [self.tabView reloadData];
             if (self.dateArr.count == 0) {
                 [self.tabView removeFromSuperview];
+                [self.foot removeFromSuperview];
                 self.footItem = NO;
                 tabBar.tabBarItem.badgeValue = nil;
                 [self data];
@@ -413,13 +441,14 @@
     if (!_other) {
         if (self.footItem == NO) {
             _other = [[BFOtherView alloc]initWithFrame:CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50)];
-            self.other.backgroundColor = [UIColor whiteColor];
+            
             [self.view addSubview:_other];
         }else{
             _other = [[BFOtherView alloc]init];
-
+            
         }
         self.other.otherDelegate = self;
+        self.other.backgroundColor = [UIColor whiteColor];
     }
     return _other;
 }

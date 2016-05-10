@@ -70,6 +70,7 @@
 - (void)getDate{
     
     NSString *urls = @"http://bingo.luexue.com/index.php?m=Json&a=cart";
+    
     [AFNTool postJSONWithUrl:urls parameters:nil success:^(id responseObject) {
         BFShoppModel *shoppModel = [[BFShoppModel alloc]initWithsetDateDictionary:responseObject];
         self.shoppModel = shoppModel;

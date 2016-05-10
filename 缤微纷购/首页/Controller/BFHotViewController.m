@@ -9,17 +9,16 @@
 #import "FXQViewController.h"
 #import "OMGToast.h"
 #import "AFNTool.h"
-#import "BFHotSosoViewController.h"
+#import "BFHotViewController.h"
 #import "Header.h"
 #import "ViewController.h"
 
-
-@interface BFHotSosoViewController ()<UITabBarDelegate,UITableViewDataSource>
+@interface BFHotViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     UIView * hotView;
     UIView * searchView;
     NSUserDefaults * HotSosoHistoryDe;
-
+    
 }
 /**热门搜索*/
 @property (nonatomic, strong) NSMutableArray * HotSearArr;
@@ -31,26 +30,39 @@
 @property (nonatomic, strong) NSMutableArray * HotSosoHistoryArr;
 @property (nonatomic, retain) UIButton *LikeImage;
 
+@property (nonatomic,retain)UITableView *tableView;
 @end
 
-@implementation BFHotSosoViewController
+@implementation BFHotViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.tableView registerClass:[BFResultTableViewCell class] forCellReuseIdentifier:@"reuse"];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     HotSosoHistoryDe = [NSUserDefaults standardUserDefaults];
     _HotSosoHistoryArr = [HotSosoHistoryDe valueForKey:@"HFSosoHistoryData"];
-    
+    [self hotViewS];
     [self downLoadData:nil];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SosoEvent:) name:@"HFSosoEvent" object:nil];
+}
+
+- (void)initWithTable{
+    
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.rowHeight = 200;
+//    self.tableView.backgroundColor = [UIColor greenColor];
+    
+   [self.tableView registerClass:[BFResultTableViewCell class] forCellReuseIdentifier:@"reuse"];
+ 
+    [self.view addSubview:self.tableView];
 }
 
 - (void)SosoEvent:(NSNotification *)not
@@ -72,19 +84,16 @@
     }
     
     NSString * url = [HFSEARCH stringByAppendingString:KeyWord];
-
+    
     [AFNTool postJSONWithUrl:url parameters:nil success:^(id responseObject) {
-
-//        NSLog(@"%@", responseObject);
-
         NSDictionary * dic = responseObject;
-
+        
         _HotSearArr = [NSMutableArray array];
         _LikeSearArr = [NSMutableArray array];
         _SearchWordArr = [NSMutableArray array];
-
+        
         if (dic) {
-
+            
             _HotSearArr = dic[@"hot_item"];
             _LikeSearArr = dic[@"like_item"];
             if (![KeyWord isEqualToString:@"%E6%B0%B4%E6%9E%9C"]) {
@@ -95,29 +104,30 @@
                 {
                     [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"没有相关搜索结果"];
                 }
+                NSLog(@"=====%d",_SearchWordArr.count);
                 [self initWithView];
                 
             }
             
         }
-
+        
         [self.tableView reloadData];
-
+        
     } fail:^{
-
+        
     }];
 }
 
 #pragma -makr 热门搜索
 - (UIView *)hotViewS{
-
+    
     hotView = [[UIView alloc] init];
     hotView.userInteractionEnabled = YES;
-
+    
     CGFloat x = kScreenWidth/4-13;
     UILabel *hot = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 30)];
     hot.text = @"热门搜索词";
-
+    
     CGFloat heights;
     if (_HotSearArr.count%4 == 0) {
         heights = _HotSearArr.count/4*30;
@@ -128,11 +138,11 @@
     }
     
     UIView *buttonView = [[UIView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(hot.frame), kScreenWidth, heights+10)];
-
-//    NSArray *arr = @[@"测试",@"测试数据",@"测试",@"测试数据",@"测试数据",@"测试数据",@"测试数",@"测试数据",@"测试数据"];
+    
+    //    NSArray *arr = @[@"测试",@"测试数据",@"测试",@"测试数据",@"测试数据",@"测试数据",@"测试数",@"测试数据",@"测试数据"];
     for (int i = 0; i < _HotSearArr.count; i++) {
         UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((i%4+1)*10+(i%4)* x,(i/4+1)*10+(i/4)*30, x, 30)];
-
+        
         button.tag = i;
         button.layer.cornerRadius = 8;
         button.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
@@ -142,16 +152,16 @@
         [button setTitle:dic[@"title"] forState:UIControlStateNormal];
         [button setTitleColor:[UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1] forState:UIControlStateNormal];
         [button addTarget:self action:@selector(hotSearchEvent:) forControlEvents:UIControlEventTouchUpInside];
-
+        
         [buttonView addSubview:button];
     }
-
+    
     UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(buttonView.frame)+15, kScreenWidth-30, 30)];
     lab.text = @"猜你喜欢";
-
+    
     for (int j = 0; j < _LikeSearArr.count; j++) {
         self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
-
+        
         _LikeImage.layer.cornerRadius = 10;
         _LikeImage.layer.masksToBounds = YES;
         _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
@@ -159,14 +169,14 @@
         _LikeImage.tag = j;
         _LikeImage.userInteractionEnabled = YES;
         NSDictionary * dic = _LikeSearArr[j];
-//        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
+        //        [LikeImage sd_setImageWithURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100"]];
         [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-       
+        
         [_LikeImage addTarget:self action:@selector(tapitem:) forControlEvents:UIControlEventTouchUpInside];
         
         [hotView addSubview:_LikeImage];
     }
-
+    
     CGFloat LikeHeights;
     if (_LikeSearArr.count%2 == 0) {
         LikeHeights = (_LikeSearArr.count/2) * ((kScreenWidth-30)/2);
@@ -176,22 +186,22 @@
         LikeHeights = (_LikeSearArr.count/2) * ((kScreenWidth-30)/2)+1;
     }
     
-//    hotView.frame = CGRectMake(0, 0, kScreenWidth, hot.frame.size.height+buttonView.frame.size.height+lab.frame.size.height+15+LikeHeights+40);
+    //    hotView.frame = CGRectMake(0, 0, kScreenWidth, hot.frame.size.height+buttonView.frame.size.height+lab.frame.size.height+15+LikeHeights+40);
     hotView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
     
     [hotView addSubview:buttonView];
     [hotView addSubview:hot];
     [hotView addSubview:lab];
-
+    
     return hotView;
 }
 
 - (void)tapitem:(UIButton *)img{
- 
+    
     NSDictionary *dic = _LikeSearArr[img.tag];
     FXQViewController *fx = [[FXQViewController alloc]init];
     fx.ID = dic[@"id"];
- 
+    
     [self.navigationController pushViewController:fx animated:YES];
 }
 
@@ -221,14 +231,14 @@
 //- (UIView *)SearchViewS
 //{
 //    searchView = [[UIView alloc] init];
-//    
+//
 //    UILabel *lab = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, kScreenWidth-30, 30)];
 //    lab.text = @"搜索结果";
 //    [searchView addSubview:lab];
 
 //    for (int j = 0; j < _SearchWordArr.count; j++) {
 //        self.LikeImage = [[UIButton alloc]initWithFrame:CGRectMake((j%2+1)*10+(j%2)*((kScreenWidth-30)/2),CGRectGetMaxY(lab.frame)+(j/2+1)*10+(j/2)*((kScreenWidth-30)/2), (kScreenWidth-30)/2, (kScreenWidth-30)/2)];
-//        
+//
 //        _LikeImage.layer.cornerRadius = 10;
 //        _LikeImage.layer.masksToBounds = YES;
 //        _LikeImage.layer.borderColor = [UIColor colorWithRed:75/255.0 green:145/255.0 blue:211/255.0 alpha:1].CGColor;
@@ -236,9 +246,9 @@
 //        _LikeImage.tag = j;
 //        NSDictionary * dic = _SearchWordArr[j];
 //        [_LikeImage setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:dic[@"img"]] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
-//        
+//
 //        [_LikeImage addTarget:self action:@selector(tapitems:) forControlEvents:UIControlEventTouchUpInside];
-//        
+//
 //        [searchView addSubview:_LikeImage];
 //    }
 //
@@ -250,10 +260,10 @@
 //    {
 //        SearHeights = (_SearchWordArr.count/2) * ((kScreenWidth-30)/2)+1;
 //    }
-    
+
 //    searchView.frame = CGRectMake(0, 0, kScreenWidth, 15+lab.frame.size.height+SearHeights+10);
 //    searchView.frame = CGRectMake(0, 0, kScreenWidth, CGRectGetMaxY(_LikeImage.frame)+10);
-    
+
 //    return self;
 //}
 
@@ -269,24 +279,25 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     return _SearchWordArr.count;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     BFResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
-   
+    
     return cell;
 }
 
 - (void)initWithView{
     if (_SearchWordArr.count >= 1) {
-        [self tableView];
+        [self initWithTable];
     }
     else
     {
         UIView * views = [self hotViewS];
-        
+        views.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
         [self.view addSubview:views];
     }
 }

@@ -189,7 +189,7 @@
 - (void)initVC
 {
 //    [self selectedHot:self.segment];
-    self.HotSosoVc = [[BFHotSosoViewController alloc] init];
+    self.HotSosoVc = [[BFHotViewController alloc] init];
     self.SosoHistoryVc = [[BFSosoHistoryViewController alloc] init];
     
     [self addChildViewController:self.HotSosoVc];

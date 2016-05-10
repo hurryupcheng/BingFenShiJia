@@ -33,7 +33,7 @@
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="750.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
                                 <rect key="frame" x="0.0" y="133" width="519" height="166"/>
-                                <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.38039215686274508" green="0.63529411764705879" blue="0.87450980392156863" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="tintColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
                             </imageView>
                         </subviews>

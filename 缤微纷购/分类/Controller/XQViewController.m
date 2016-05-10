@@ -215,7 +215,7 @@
     }else{
         [self sss];
         _xqOtherModel = self.dataArray[index];
-        
+        NSLog(@"index = %@",_xqOtherModel.ID);
         if ([_xqOtherModel.stock integerValue] <= 0) {
             [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
         }else{

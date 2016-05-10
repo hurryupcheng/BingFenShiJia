@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "BFHotViewController.h"
 #import "BFHotSosoViewController.h"
 #import "BFSosoHistoryViewController.h"
 @interface SoSoViewController : UIViewController
 
-@property (nonatomic, strong) BFHotSosoViewController * HotSosoVc;
+@property (nonatomic,retain)BFHotViewController *HotSosoVc;
+//@property (nonatomic, strong) BFHotSosoViewController * HotSosoVc;
 @property (nonatomic, strong) BFSosoHistoryViewController * SosoHistoryVc;
 
 @end

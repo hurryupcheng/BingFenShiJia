@@ -33,6 +33,8 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(CXArchiveShopManager)
 -(void)startArchiveShop;
 //数据存入 -> 根据商品id添加(购物车添加)
 -(void)shoppingCartChangeNumberWithShopID:(NSString *)shopID ctrl:(BOOL)ctrl;
+//
+- (void)shoppingCartChangeNumberWithShopID:(NSString *)shopID ctrl:(BOOL)ctrl num:(NSString *)num;
 //数据查询
 -(BFStorage *)screachDataSourceWithItem:(NSString *)shopID;
 -(NSArray *)screachDataSourceWithMyShop;
