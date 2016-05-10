@@ -12,9 +12,9 @@
 typedef enum {
     BFOrderDetailBottomViewButtonTypePay,//付款、
     BFOrderDetailBottomViewButtonTypeCancleOrder, //取消订单、
-    BFOrderDetailBottomViewButtonTypeApplyRebund,//申请退款、
-    BFOrderDetailBottomViewButtonTypeApplyReturnGoods,//申请退货退款、
-    BFOrderDetailBottomViewButtonTypeCancleReturn,//取消退货退款申请，
+    //BFOrderDetailBottomViewButtonTypeApplyRebund,//申请退款、
+    //BFOrderDetailBottomViewButtonTypeApplyReturnGoods,//申请退货退款、
+    //BFOrderDetailBottomViewButtonTypeCancleReturn,//取消退货退款申请，
     BFOrderDetailBottomViewButtonTypeConfirmReceipt,//确认收货、
     BFOrderDetailBottomViewButtonTypeCheckLogistics//查看物流详情、
 }BFOrderDetailBottomViewButtonType;
@@ -32,4 +32,6 @@ typedef enum {
 @property (nonatomic, strong) BFProductInfoModel *model;
 /**代理*/
 @property (nonatomic, weak) id<BFOrderDetailBottomViewDelegate>delegate;
+/**付款*/
+@property (nonatomic, strong) UIButton *pay;
 @end

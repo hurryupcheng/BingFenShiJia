@@ -34,7 +34,7 @@
         self.buyButton.layer.cornerRadius = 15;
         self.buyButton.layer.masksToBounds = YES;
         [self.buyButton setTitle:name forState:UIControlStateNormal];
-        self.buyButton.backgroundColor = [UIColor orangeColor];
+        self.buyButton.backgroundColor = BFColor(0xFD8627);
         self.buyButton.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
         
 //        self.orderButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-(kScreenWidth/3)-20, 10, kScreenWidth/3, frame.size.height-20)];

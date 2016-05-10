@@ -49,8 +49,7 @@
 @property (nonatomic, strong) UILabel *productCount;
 /**商品单价*/
 @property (nonatomic, strong) UILabel *productPrice;
-/**支付按钮  status=1是显示*/
-@property (nonatomic, strong) UIButton *payButton;
+
 @end
 
 

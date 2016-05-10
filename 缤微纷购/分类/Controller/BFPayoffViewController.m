@@ -151,6 +151,18 @@
     self.header.name.text = @"我们以后到你的付款";
     self.header.title.text = @"将尽快发货";
     self.header.now.text = @"待发货";
+    //判断如果是从购物车页面进来不用发送通知
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    BFLog(@"=======%@",vcsArray);
+    UIViewController *lastVC = vcsArray[vcsArray.count-2];
+    
+    if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+        //发通知
+        [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+    }else {
+        //self.navigationView.hidden = YES;
+    }
+
 }
 
 #pragma mark --微信支付失败通知
@@ -168,7 +180,6 @@
     
     [foot.buyButton addTarget:self action:@selector(gotoPay) forControlEvents:UIControlEventTouchUpInside];
     
-//    [foot.orderButton addTarget:self action:@selector(gotoOrder) forControlEvents:UIControlEventTouchUpInside];
     
     foot.backgroundColor = [UIColor whiteColor];
     
@@ -181,11 +192,7 @@
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark -- 支付成功跳转到订单页面
-- (void)gotoOrder {
-    BFMyOrderController *orderVC = [[BFMyOrderController alloc] init];
-    [self.navigationController pushViewController:orderVC animated:YES];
-}
+
 
 #pragma mark --去支付
 - (void)gotoPay {
@@ -248,6 +255,17 @@
                 self.header.now.text = @"待发货";
                 self.header.name.text = @"我们以后到你的付款";
                 self.header.title.text = @"将尽快发货";
+                //判断如果是从购物车页面进来不用发送通知
+                NSArray *vcsArray = [self.navigationController viewControllers];
+                BFLog(@"=======%@",vcsArray);
+                UIViewController *lastVC = vcsArray[vcsArray.count-2];
+                
+                if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+                    //发通知
+                    [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+                }else {
+                    //self.navigationView.hidden = YES;
+                }
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"6001"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
                 self.foot.buyButton.hidden = NO;

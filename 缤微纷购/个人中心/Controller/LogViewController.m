@@ -224,7 +224,7 @@
                if ([responseObject[@"status"] isEqualToString:@"0"]) {
                    [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"登录失败"];
                }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
+                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^{
                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                        
                        [self tabBarBadge:userInfo.ID];

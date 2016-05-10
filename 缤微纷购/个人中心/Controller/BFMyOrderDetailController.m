@@ -17,7 +17,10 @@
 #import "BFOrderDetailInfoCell.h"
 #import "FXQViewController.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
@@ -85,15 +88,20 @@
     [self tableView];
     //获取数据
     [self getData];
-    
+    //从本页面进入支付页面，支付成功接受通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
   
 }
 
-
+#pragma mark --销毁通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
 
 
 #pragma mark --获取数据
 - (void)getData {
+    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=checkOrder"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -150,6 +158,7 @@
             break;
         }
         case BFOrderDetailBottomViewButtonTypePay:{
+            //去支付
             [self gotoPay];
             
             break;
@@ -174,15 +183,14 @@
 }
 #pragma mark -- 去支付
 - (void)gotoPay {
+    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
     NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
     paramerer[@"uid"] = userInfo.ID;
     paramerer[@"token"] = userInfo.token;
     paramerer[@"orderId"] = self.model.orderId;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
         [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
             if (responseObject) {
                 BFLog(@"---%@,,%@",responseObject, paramerer);
@@ -203,18 +211,76 @@
                     [mutableArray addObject:model.img];
                 }
                 payVC.img = mutableArray;
-                //BFLog(@"%@",payVC.img);
-                [self.navigationController pushViewController:payVC animated:YES];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
+                    [self.navigationController pushViewController:payVC animated:YES];
+                }];
             }
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"%@", error);
         }];
-    }];
+//    }];
+    //点击按钮倒计时
+    leftTime = 5;
+    [self.footerView.pay setEnabled:NO];
+    [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+}
 
+#pragma mark -- 倒计时方法
+- (void)timerAction {
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.footerView.pay setEnabled:YES];
+        self.footerView.pay.backgroundColor = BFColor(0xFD8627);
+    } else
+    {
+        
+        [self.footerView.pay setEnabled:NO];
+        [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
+    }
 }
 
 
+
+#pragma mark -- 支付成功改变状态
+- (void)changeOrderStatus {
+    _block(YES);
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=checkOrder"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"orderId"] = self.orderId;
+    
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//    } dispatch_get_main_queue:^{
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            
+            if (responseObject) {
+                
+                self.model = [BFProductInfoModel parse:responseObject[@"order"]];
+                self.headerView.model = self.model;
+                self.footerView.model = self.model;
+                if ([[BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]] isKindOfClass:[NSArray class]]) {
+                    NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+                    [self.productArray addObjectsFromArray:array];
+                    
+                }
+                BFLog(@"%@,,%@",responseObject, parameter);
+            }
+            [self.tableView reloadData];
+            [self animation];
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+        }];
+//    }];
+
+}
 
 
 #pragma mark -- 确认收货

@@ -11,8 +11,7 @@
 @interface BFOrderDetailBottomView()
 /**查看物流*/
 @property (nonatomic, strong) UIButton *checkLogistics;
-/**付款*/
-@property (nonatomic, strong) UIButton *pay;
+
 /**取消订单*/
 @property (nonatomic, strong) UIButton *cancleOrder;
 /**申请退款*/

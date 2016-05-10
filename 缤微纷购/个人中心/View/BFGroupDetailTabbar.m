@@ -15,10 +15,7 @@
 @property (nonatomic, strong) UIButton *homeButton;
 /** 分享 */
 @property (nonatomic, strong) UIButton *shareButton;
-/** 立即支付*/
-@property (nonatomic, strong) UIButton *payButton;
-/** (团长分享)立即支付参团 */
-@property (nonatomic, strong) UIButton *payToJoinButton;
+
 /** (团长分享)我要参团 */
 @property (nonatomic, strong) UIButton *joinButton;
 /** 组团成功，我要开新团*/

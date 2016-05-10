@@ -11,7 +11,10 @@
 #import "BFGroupOrderDetailModel.h"
 #import "BFPayoffViewController.h"
 
-@interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>
+@interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**团订单详情自定义view*/
 @property (nonatomic, strong) BFGroupOrderDetailView *detailView;
 /**model*/
@@ -73,18 +76,7 @@
 - (void)clickToViewWithButtonType:(BFGroupOrderDetailViewButtonType)buttonType {
     switch (buttonType) {
         case BFGroupOrderDetailViewButtonTypePay:{
-            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-            if ([self.model.pay_type isEqualToString:@"1"]) {
-                payVC.pay = @"微信支付";
-            }else {
-                payVC.pay = @"支付宝";
-            }
-            payVC.totalPrice = self.model.order_sumPrice;
-            payVC.orderid = self.model.orderid;
-            payVC.addTime = self.model.add_time;
-            payVC.img = [@[self.model.img] mutableCopy];
-            //BFLog(@"%@",payVC.img);
-            [self.navigationController pushViewController:payVC animated:YES];
+            [self gotoPay];
             BFLog(@"点击支付");
             break;
         }
@@ -96,6 +88,65 @@
             BFLog(@"点击查看团详情");
             break;
         }
+    }
+}
+
+#pragma mark --跳转到支付页面
+- (void)gotoPay {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+    paramerer[@"uid"] = userInfo.ID;
+    paramerer[@"token"] = userInfo.token;
+    paramerer[@"orderId"] = self.model.orderid;
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+        [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+            if (responseObject) {
+                BFLog(@"---%@,,%@",responseObject, paramerer);
+                BFLog(@"支付");
+                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+                if ([self.model.pay_type isEqualToString:@"1"]) {
+                    payVC.pay = @"微信支付";
+                }else if ([self.model.pay_type isEqualToString:@"2"]) {
+                    payVC.pay = @"支付宝";
+                }
+                payVC.orderModel = orderModel;
+                payVC.totalPrice = self.model.order_sumPrice;
+                payVC.orderid = self.model.orderid;
+                payVC.addTime = self.model.add_time;
+                payVC.img = [@[self.model.img] mutableCopy];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+                    [self.navigationController pushViewController:payVC animated:YES];
+                }];
+            }
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"%@", error);
+        }];
+//    }];
+    //倒计时
+    leftTime = 5;
+    [self.detailView.payButton setEnabled:NO];
+    [self.detailView.payButton setBackgroundColor:BFColor(0xD5D8D1)];
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+}
+
+
+#pragma mark -- 倒计时方法
+- (void)timerAction {
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.detailView.payButton setEnabled:YES];
+        self.detailView.payButton.backgroundColor = BFColor(0xD4001B);
+    } else
+    {
+        [self.detailView.payButton setEnabled:NO];
+        self.detailView.payButton.backgroundColor = BFColor(0xD5D8D1);
+        
     }
 }
 

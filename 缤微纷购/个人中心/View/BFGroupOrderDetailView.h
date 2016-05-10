@@ -27,4 +27,6 @@ typedef enum {
 @property (nonatomic, strong) BFGroupOrderDetailModel *model;
 /**代理*/
 @property (nonatomic, weak) id<BFGroupOrderDetailViewDelegate>delegate;
+/**支付按钮  status=1是显示*/
+@property (nonatomic, strong) UIButton *payButton;
 @end

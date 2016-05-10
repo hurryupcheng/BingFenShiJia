@@ -160,12 +160,14 @@
 }
 
 - (void)setLineSpace:(CGFloat)lineSpace  headIndent:(CGFloat)headIndent text:(NSString *)text label:(UILabel *)lable{
-    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:text];
-    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [detailParagraphStyle setLineSpacing:lineSpace];//调整行间距
-    [detailParagraphStyle setFirstLineHeadIndent:headIndent];
-    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [text length])];
-    lable.attributedText = detailAttributedString;
+    if (text.length != 0) {
+        NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:text];
+        NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [detailParagraphStyle setLineSpacing:lineSpace];//调整行间距
+        [detailParagraphStyle setFirstLineHeadIndent:headIndent];
+        [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [text length])];
+        lable.attributedText = detailAttributedString;
+    }
 }
 
 

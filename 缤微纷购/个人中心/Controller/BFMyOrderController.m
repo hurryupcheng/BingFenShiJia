@@ -90,6 +90,7 @@
     //进入页面点击分段控制器第一个
     self.segment.segmented.selectedSegmentIndex = 0;
     [self.segment click];
+
 }
 
 
