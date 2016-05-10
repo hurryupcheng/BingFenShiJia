@@ -1,26 +1,24 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 9,
-          "height" : 8
-        },
-        "cap-insets" : {
-          "bottom" : 6,
-          "top" : 6,
-          "right" : 150,
-          "left" : 33
-        }
-      },
       "idiom" : "iphone",
       "filename" : "pickerView.png",
       "scale" : "1x"
     },
     {
+      "resizing" : {
+        "mode" : "3-part-horizontal",
+        "center" : {
+          "mode" : "stretch",
+          "width" : 1
+        },
+        "cap-insets" : {
+          "right" : 31,
+          "left" : 10
+        }
+      },
       "idiom" : "iphone",
+      "filename" : "pickerView-1.png",
       "scale" : "2x"
     },
     {

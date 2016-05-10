@@ -254,10 +254,7 @@
     CGPoint start = [self.headerView convertPoint:self.headerView.cycleScrollView.center toView:self.view];
     //获取动画终点
     CGPoint end = [self.tabBar convertPoint:self.tabBar.shoppingCart.center toView:self.view];
-    
-    UIImageView *imageView = [[UIImageView alloc] init];
-    
-    [imageView sd_setImageWithURL:[NSURL URLWithString:self.model.img]];
+
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
     NSURL *url = [NSURL URLWithString:self.model.img];
@@ -267,7 +264,7 @@
     [self.redLayers addObject:chLayer];
     chLayer.frame = CGRectMake(self.headerView.cycleScrollView.centerX, self.headerView.cycleScrollView.centerY, BF_ScaleHeight(100), BF_ScaleHeight(100));
     //chLayer.cornerRadius = BF_ScaleHeight(20);
-    chLayer.masksToBounds = YES;
+    //chLayer.masksToBounds = YES;
     chLayer.backgroundColor = [UIColor blueColor].CGColor;
     [self.view.layer addSublayer:chLayer];
     
@@ -294,6 +291,14 @@
         self.tabBar.shoppingCart.badge.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
         
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.tabBar.shoppingCart.shoppingCart.frame = CGRectMake(-BF_ScaleWidth(20), BF_ScaleHeight(0), BF_ScaleWidth(160), BF_ScaleHeight(50));
+        
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.tabBar.shoppingCart.shoppingCart.frame = CGRectMake(0, BF_ScaleHeight(8), BF_ScaleWidth(120), BF_ScaleHeight(34));
+        }];
+    }];
     [self.redLayers[0] removeFromSuperlayer];
     [self.redLayers removeObjectAtIndex:0];
 }

@@ -12,10 +12,10 @@
 #import "BFCustomerServiceView.h"
 #import "BFPersonInformationController.h"
 #import "BFModifyPasswordController.h"
-#import "ShareCustom.h"
 #import "BFCleanView.h"
 #import "BFHomeModel.h"
 #import "BFAboutController.h"
+#import "LogViewController.h"
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate>
 /**tableView*/
@@ -133,16 +133,26 @@
         }
     } else if (indexPath.section == 1) {
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         switch (indexPath.row) {
             case 0:
                 cell.textLabel.text = @"修改密码";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
-            case 1:
+            case 1:{
                 cell.textLabel.text = @"清空图片缓存";
+                CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+               //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                if (size >= 1) {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
+                }else {
+                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f KB", size * 1024];
+                }
+                
                 break;
-            case 2:
+            }case 2:
                 cell.textLabel.text = @"个人信息";
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 break;
         }
     } else if (indexPath.section == 2) {
@@ -196,19 +206,30 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     if (indexPath.section == 0) {
-      
-
+        //打电话
         UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
         BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
         customerServiceView.delegate = self;
         [window addSubview:customerServiceView];
+        
     }else if (indexPath.section == 1) {
         switch (indexPath.row) {
             case 0:{
-                BFModifyPasswordController *modifyPasswordVC = [BFModifyPasswordController new];
-                [self.navigationController pushViewController:modifyPasswordVC animated:YES];
-                BFLog(@"修改密码");
+                if (userInfo == nil) {
+                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                        self.navigationController.navigationBarHidden = NO;
+                        LogViewController *logVC= [LogViewController new];
+                        [self.navigationController pushViewController:logVC animated:YES];
+                        
+                    }];
+                }else {
+                    BFModifyPasswordController *modifyPasswordVC = [BFModifyPasswordController new];
+                    [self.navigationController pushViewController:modifyPasswordVC animated:YES];
+                    BFLog(@"修改密码");
+                   
+                }
                 break;
             }
             case 1:{
@@ -220,12 +241,21 @@
                 CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
                 NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
                 [[SDImageCache sharedImageCache] clearDisk];
+                [self.tableView reloadData];
                 BFLog(@"缓存--%@", clearCacheName);
                 break;
             }case 2:{
-                BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
-                [self.navigationController pushViewController:personInformationVC animated:YES];
-                BFLog(@"个人信息");
+                if (userInfo == nil) {
+                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                        self.navigationController.navigationBarHidden = NO;
+                        LogViewController *logVC= [LogViewController new];
+                        [self.navigationController pushViewController:logVC animated:YES];
+                    }];
+                }else {
+                    BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
+                    [self.navigationController pushViewController:personInformationVC animated:YES];
+                    BFLog(@"个人信息");
+                }
                 break;
             }
         }

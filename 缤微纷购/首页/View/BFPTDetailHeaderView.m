@@ -94,7 +94,7 @@
 
 - (void)setView {
     self.backgroundColor = BFColor(0xD4D4D4);
-    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, ScreenWidth) delegate:nil placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(200)) delegate:nil placeholderImage:[UIImage imageNamed:@"750.jpg"]];
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
@@ -160,12 +160,14 @@
 }
 
 - (void)setLineSpace:(CGFloat)lineSpace  headIndent:(CGFloat)headIndent text:(NSString *)text label:(UILabel *)lable{
-    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:text];
-    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [detailParagraphStyle setLineSpacing:lineSpace];//调整行间距
-    [detailParagraphStyle setFirstLineHeadIndent:headIndent];
-    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [text length])];
-    lable.attributedText = detailAttributedString;
+    if (text.length != 0) {
+        NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:text];
+        NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [detailParagraphStyle setLineSpacing:lineSpace];//调整行间距
+        [detailParagraphStyle setFirstLineHeadIndent:headIndent];
+        [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [text length])];
+        lable.attributedText = detailAttributedString;
+    }
 }
 
 

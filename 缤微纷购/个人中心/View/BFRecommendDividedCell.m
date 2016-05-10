@@ -33,7 +33,10 @@
 
 - (void)setModel:(BFRecommendDividedModel *)model {
     _model = model;
+    self.totalMoneyLabel.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(300), 0);
+    _totalMoneyLabel.numberOfLines = 0;
     self.totalMoneyLabel.text = [NSString stringWithFormat:@"本月推荐分成总佣金：¥%@已确认",model.proxy_order_money_confirm];
+    [self.totalMoneyLabel sizeToFit];
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -53,9 +56,9 @@
         
         _totalMoneyLabel = [UILabel new];
         self.totalMoneyLabel.frame = CGRectMake(BF_ScaleWidth(5), BF_ScaleHeight(10), BF_ScaleWidth(300), 0);
-        _totalMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+        _totalMoneyLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
         _totalMoneyLabel.numberOfLines = 0;
-        _totalMoneyLabel.text = [NSString stringWithFormat:@"本月推荐分成总佣金：¥0.60已确认"];
+        _totalMoneyLabel.text = [NSString stringWithFormat:@"本月推荐分成总佣金：¥0.00已确认"];
         
         //_totalMoneyLabel.backgroundColor = [UIColor redColor];
         [self.bgView addSubview:_totalMoneyLabel];
@@ -65,8 +68,8 @@
         
         _instructionLabel = [UILabel new];
         self.instructionLabel.frame = CGRectMake(BF_ScaleWidth(5), CGRectGetMaxY(self.totalMoneyLabel.frame)+BF_ScaleHeight(4.5), BF_ScaleWidth(300), 0);
-        _instructionLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-        _instructionLabel.text = @"说明：请在个人中心填写银行账号，以便商家打款。（此处仅显示最新20条订单信息）";
+        _instructionLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+        _instructionLabel.text = @"说明：请在个人中心填写银行账号,以便商家打款。(此处仅显示最新20条订单信息)";
         _instructionLabel.numberOfLines = 0;
         [self setLineSpace:BF_ScaleHeight(4.5) headIndent:0 text:_instructionLabel.text label:_instructionLabel];
         //_instructionLabel.backgroundColor = [UIColor greenColor];

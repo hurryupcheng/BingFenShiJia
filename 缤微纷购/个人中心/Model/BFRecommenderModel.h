@@ -12,7 +12,7 @@
 /**id*/
 @property (nonatomic, strong) NSString *ID;
 /**推荐人昵称*/
-@property (nonatomic, strong) NSString *username;
+@property (nonatomic, strong) NSString *nickname;
 /**状态*/
 @property (nonatomic, strong) NSString *status;
 @end

@@ -24,7 +24,7 @@
 /**活动结束时间*/
 @property (nonatomic, strong) NSString *endtime;
 /**活动开始时间*/
-@property (nonatomic, strong) NSString *nowtime;
+@property (nonatomic, assign) NSInteger nowtime;
 @end
 
 @interface ItemModel : NSObject

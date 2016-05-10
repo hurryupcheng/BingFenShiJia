@@ -39,19 +39,18 @@
     _timeLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
     _timeLabel.textAlignment = NSTextAlignmentCenter;
     // _timeLabel.backgroundColor = BFColor(0xffffff);
+    _timeLabel.textColor = BFColor(0x000000);
     _timeLabel.layer.cornerRadius = 5;
     _timeLabel.layer.borderWidth = 1;
     _timeLabel.layer.shadowOffset = CGSizeMake(0, 0);
     _timeLabel.layer.shadowColor = BFColor(0x000000).CGColor;
     _timeLabel.layer.shadowOpacity = 0.3;
     _timeLabel.layer.borderColor = BFColor(0xD4D4D4).CGColor;
-    _timeLabel.textColor = BFColor(0x000000);
-    //_timeLabel.text = @"2016年01月";
     [self addSubview:_timeLabel];
     
     
     self.arrawImageView = [UIImageView new];
-    self.arrawImageView.frame = CGRectMake(ScreenWidth-25, 0, 15, 44);
+    self.arrawImageView.frame = CGRectMake(ScreenWidth-40, 0, 15, 44);
     self.arrawImageView.image = [UIImage imageNamed:@"arrow_select"];
     self.arrawImageView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:self.arrawImageView];

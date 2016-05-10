@@ -206,22 +206,25 @@
            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
            if (shareType == ShareTypeQQSpace) {
                parameter[@"type"] = @"1";
+               parameter[@"openid"] = [userInfo uid];
            }else if (shareType == ShareTypeSinaWeibo) {
                parameter[@"type"] = @"2";
+               parameter[@"openid"] = [userInfo uid];
            }else if (shareType == ShareTypeWeixiSession) {
                parameter[@"type"] = @"0";
+               parameter[@"openid"] = [userInfo sourceData][@"unionid"];
            }
            parameter[@"nickname"] = [userInfo nickname];
-           parameter[@"openid"] = [userInfo uid];
-//           parameter[@"unionid"] = [userInfo ];
+           //parameter[@"openid"] = [userInfo uid];
            parameter[@"ico"] = [userInfo profileImage];
+           //parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
            
            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                BFLog(@"%@,,%@", responseObject, parameter);
                if ([responseObject[@"status"] isEqualToString:@"0"]) {
                    [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"登录失败"];
                }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转" dispatch_get_main_queue:^{
+                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^{
                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                        
                        [self tabBarBadge:userInfo.ID];
@@ -237,7 +240,7 @@
            } failure:^(NSError *error) {
                BFLog(@"%@", error);
            }];
-           
+           BFLog(@"%@", [userInfo sourceData][@"unionid"]);
            
            BFLog(@" ---- %@",[userInfo nickname]);
            //打印输出用户uid：

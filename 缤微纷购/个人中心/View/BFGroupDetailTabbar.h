@@ -38,4 +38,8 @@ typedef enum {
 @property (nonatomic, weak) id<BFGroupDetailTabbarDelegate>delegate;
 /**BFGroupDetailModel*/
 @property (nonatomic, strong) BFGroupDetailModel *model;
+/** 立即支付*/
+@property (nonatomic, strong) UIButton *payButton;
+/** (团长分享)立即支付参团 */
+@property (nonatomic, strong) UIButton *payToJoinButton;
 @end

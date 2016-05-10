@@ -33,6 +33,11 @@
 
 @implementation BFPTDetailViewController
 
+
+
+
+
+#pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xffffff);

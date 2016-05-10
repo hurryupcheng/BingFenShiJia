@@ -20,9 +20,9 @@
 #import "BFMyIntegralController.h"
 #import "BFMyGroupPurchaseController.h"
 #import "BFMyCouponsController.h"
-#import "BFMyAdvertisingExpenseController.h"
 #import "BFAddRecommenderView.h"
 #import "BFMyClientController.h"
+#import "BFCurrentMonthCommissionController.h"
 
 @interface PersonalViewController ()<FunctionButtonDelegate, BFPersonalCenterTopViewDelegate, AddRecommenderViewDelegate>
 /**个人中心有阴影的界面*/
@@ -40,20 +40,20 @@
 //
 //@property (nonatomic,retain)NSArray *arr;
 
-@property (nonatomic)BOOL denglu;
+//@property (nonatomic, assign) BOOL denglu;
 
 @end
 
 @implementation PersonalViewController
 
-- (BFAddRecommenderView *)addView {
-    if (!_addView) {
-        _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-        _addView.delegate = self;
-        [self.view addSubview:_addView];
-    }
-    return _addView;
-}
+//- (BFAddRecommenderView *)addView {
+//    if (!_addView) {
+//        _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//        _addView.delegate = self;
+//        [self.view addSubview:_addView];
+//    }
+//    return _addView;
+//}
 
 
 
@@ -95,6 +95,8 @@
     [self.topView changeStatus];
     //[self.addView addRecommender];
     self.userInfo = [BFUserDefaluts getUserInfo];
+    BFUserInfo *haha = [BFUserDefaluts getUserInfo];
+    BFLog(@"---------积分%@", haha.score);
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
     
@@ -117,18 +119,12 @@
 
 #pragma mark -- 设置按钮代理点击
 - (void)goToSettingInterface {
-    if (self.userInfo == nil) {
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-            self.navigationController.navigationBarHidden = NO;
-            LogViewController *logVC= [LogViewController new];
-            [self.navigationController pushViewController:logVC animated:YES];
-        }];
-    }else {
-        self.navigationController.navigationBarHidden = NO;
-        BFSettingController *settingVC = [BFSettingController new];
-        [self.navigationController pushViewController:settingVC animated:YES];
-        BFLog(@"点击了设置按钮");
-    }
+
+    self.navigationController.navigationBarHidden = NO;
+    BFSettingController *settingVC = [BFSettingController new];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    BFLog(@"点击了设置按钮");
+    
 }
 
 #pragma mark -- 头像按钮代理点击
@@ -169,8 +165,13 @@
 
 #pragma mark -- 添加推荐人按钮代理点击
 - (void)gotoAddRecommender {
+    
+    _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    _addView.delegate = self;
     [self.addView showView];
-   
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    [window addSubview:_addView];
+
 }
 
 #pragma mark -- 点击确定添加推荐人
@@ -190,8 +191,8 @@
             break;
         }
         case BFPersonalCenterTopButtonTypeAdvertisingExpense:{
-            BFMyAdvertisingExpenseController *myAdvertisingExpense = [BFMyAdvertisingExpenseController new];
-            [self.navigationController pushViewController:myAdvertisingExpense animated:YES];
+            BFCurrentMonthCommissionController *currentVC = [BFCurrentMonthCommissionController new];
+            [self.navigationController pushViewController:currentVC animated:YES];
             BFLog(@"点击了广告费按钮");
             break;
         }

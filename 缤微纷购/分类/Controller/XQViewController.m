@@ -85,14 +85,13 @@
     
     
     UIButton *rightBut = [[UIButton alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260), 22, 40, 40)];
-
     //rightBut.backgroundColor = [UIColor blueColor];
     self.rightBut = rightBut;
     [rightBut setImage:[UIImage imageNamed:@"ff1.png"] forState:UIControlStateNormal];
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:rightBut];
     
-    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(30, 0, 18, 18)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(288), 23, 18, 18)];
     _numLabel.backgroundColor = [UIColor redColor];
     _numLabel.layer.cornerRadius = 9;
     _numLabel.layer.masksToBounds = YES;
@@ -100,7 +99,7 @@
     _numLabel.textAlignment = NSTextAlignmentCenter;
     _numLabel.font = [UIFont systemFontOfSize:13];
     _numLabel.textColor = [UIColor whiteColor];
-    [rightBut addSubview:_numLabel];
+    [self.navigationView addSubview:_numLabel];
     
     
     UIButton *back = [UIButton buttonWithType:0];
@@ -263,22 +262,13 @@
 
 //购物车动画
 - (void)animationStart:(XQCollectionViewCell *)cell{
-//    if( ([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
-//        self.edgesForExtendedLayout = UIRectEdgeNone;
-//        self.extendedLayoutIncludesOpaqueBars = NO;
-//        self.modalPresentationCapturesStatusBarAppearance = NO;
-//    }
-    
-    
+
     //获取动画起点
     CGPoint start = [cell convertPoint:cell.shopp.center toView:self.view];
     //获取动画终点
 
     CGPoint end = [self.navigationView convertPoint:self.rightBut.center toView:self.view];
     
-
-    
-   
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
     chLayer.contents = (UIImage *)cell.imageView.image.CGImage;
@@ -317,6 +307,14 @@
     }else {
         self.numLabel.hidden = YES;
     }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.rightBut.frame = CGRectMake(BF_ScaleWidth(250), 17, 60, 50);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.rightBut.frame = CGRectMake(BF_ScaleWidth(260), 22, 40, 40);
+        }];
+    }];
+
     [self.redLayers[0] removeFromSuperlayer];
     [self.redLayers removeObjectAtIndex:0];
 }

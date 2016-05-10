@@ -34,8 +34,20 @@
         self.buyButton.layer.cornerRadius = 15;
         self.buyButton.layer.masksToBounds = YES;
         [self.buyButton setTitle:name forState:UIControlStateNormal];
-        self.buyButton.backgroundColor = [UIColor orangeColor];
+        self.buyButton.backgroundColor = BFColor(0xFD8627);
         self.buyButton.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
+        
+//        self.orderButton = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.frame)-(kScreenWidth/3)-20, 10, kScreenWidth/3, frame.size.height-20)];
+//        self.orderButton.hidden = YES;
+//        [self.orderButton setTitle:@"查看订单" forState:UIControlStateNormal];
+//        self.orderButton.layer.cornerRadius = 15;
+//        self.orderButton.layer.borderColor = [UIColor orangeColor].CGColor;
+//        self.orderButton.layer.borderWidth = 1;
+//        self.orderButton.layer.masksToBounds = YES;
+//        [self.orderButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];;
+//        self.orderButton.backgroundColor = [UIColor whiteColor];
+//        self.orderButton.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
+//        [self addSubview:self.orderButton];
         
         if (money == nil) {
             [self addSubview:self.homeButton];

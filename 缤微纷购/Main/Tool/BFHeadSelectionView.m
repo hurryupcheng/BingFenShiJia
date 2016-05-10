@@ -50,10 +50,10 @@
     [self.bgImageView  addGestureRecognizer:tap];
     [self addSubview:self.bgImageView];
     
-    self.camera = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(75), -BF_ScaleWidth(55), BF_ScaleWidth(55), BF_ScaleWidth(55)) image:@"camera" type:BFHeadSelectionViewButtonTypeCamera];
+    self.camera = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(65), -BF_ScaleWidth(55), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"camera" type:BFHeadSelectionViewButtonTypeCamera];
     
     
-    self.album = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), -BF_ScaleWidth(55), BF_ScaleWidth(55), BF_ScaleWidth(55)) image:@"album" type:BFHeadSelectionViewButtonTypeAlbum];
+    self.album = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), -BF_ScaleWidth(55), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"album" type:BFHeadSelectionViewButtonTypeAlbum];
     
     
     self.cancle = [UIButton buttonWithType:0];

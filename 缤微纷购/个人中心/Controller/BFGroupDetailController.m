@@ -23,7 +23,10 @@
 #import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
 
-@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>{
+    __block int         leftTime;
+    __block NSTimer     *timer;
+}
 /**自定义tabbar*/
 @property (nonatomic, strong) BFGroupDetailTabbar *tabbar;
 /**tableView*/
@@ -279,35 +282,12 @@
             break;
         }
         case BFGroupDetailTabbarButtonTypePay:{
-            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-            if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
-                payVC.pay = @"微信支付";
-            }else {
-                payVC.pay = @"支付宝";
-            }
-            payVC.totalPrice = self.model.user_self.order_sumPrice;
-            payVC.orderid = self.model.user_self.orderid;
-            payVC.addTime = self.model.user_self.addtime;
-            payVC.img = [@[self.model.item.img] mutableCopy];
-            //BFLog(@"%@",payVC.img);
-            [self.navigationController pushViewController:payVC animated:YES];
-            
+            [self gotoPay];
             BFLog(@"立即支付");
             break;
         }
         case BFGroupDetailTabbarButtonTypePayToJoin:{
-            BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-            if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
-                payVC.pay = @"微信支付";
-            }else {
-                payVC.pay = @"支付宝";
-            }
-            payVC.totalPrice = self.model.user_self.order_sumPrice;
-            payVC.orderid = self.model.user_self.orderid;
-            payVC.addTime = self.model.user_self.addtime;
-            payVC.img = [@[self.model.item.img] mutableCopy];
-            //BFLog(@"%@",payVC.img);
-            [self.navigationController pushViewController:payVC animated:YES];
+            [self gotoPay];
             BFLog(@"立即支付参团");
             break;
         }
@@ -357,6 +337,74 @@
         }
     }
 }
+
+#pragma mark --跳转到支付页面
+- (void)gotoPay {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+    paramerer[@"uid"] = userInfo.ID;
+    paramerer[@"token"] = userInfo.token;
+    paramerer[@"orderId"] = self.model.user_self.orderid;
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+        [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+            if (responseObject) {
+                BFLog(@"---%@,,%@",responseObject, paramerer);
+                BFLog(@"支付");
+                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+                if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
+                    payVC.pay = @"微信支付";
+                }else if ([self.model.user_self.pay_type isEqualToString:@"2"]) {
+                    payVC.pay = @"支付宝";
+                }
+                payVC.orderModel = orderModel;
+                payVC.totalPrice = self.model.user_self.order_sumPrice;
+                payVC.orderid = self.model.user_self.orderid;
+                payVC.addTime = self.model.user_self.addtime;
+                payVC.img = [@[self.model.item.img] mutableCopy];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
+                    [self.navigationController pushViewController:payVC animated:YES];
+                }];
+            }
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            BFLog(@"%@", error);
+        }];
+//    }];
+    //倒计时
+    leftTime = 5;
+    [self.tabbar.payButton setEnabled:NO];
+    [self.tabbar.payToJoinButton setEnabled:NO];
+    [self.tabbar.payButton setBackgroundColor:BFColor(0xD5D8D1)];
+    [self.tabbar.payToJoinButton setBackgroundColor:BFColor(0xD5D8D1)];
+    if(timer)
+        [timer invalidate];
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+}
+
+#pragma mark -- 倒计时方法
+- (void)timerAction {
+    leftTime--;
+    if(leftTime<=0)
+    {
+        [self.tabbar.payButton setEnabled:YES];
+        [self.tabbar.payToJoinButton setEnabled:YES];
+        self.tabbar.payButton.backgroundColor = BFColor(0xD4041E);
+        self.tabbar.payToJoinButton.backgroundColor = BFColor(0xD4041E);
+    } else
+    {
+        [self.tabbar.payButton setEnabled:NO];
+        [self.tabbar.payToJoinButton setEnabled:NO];
+        self.tabbar.payButton.backgroundColor = BFColor(0xD5D8D1);
+        self.tabbar.payToJoinButton.backgroundColor = BFColor(0xD5D8D1);
+
+    }
+}
+
+
+
+
 
 #pragma mark -- 去分享
 - (void)gotoShare {

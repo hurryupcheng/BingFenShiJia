@@ -18,6 +18,8 @@
 /**秒*/
 @property (nonatomic, strong) UILabel *second;
 
+@property (nonatomic, assign) NSInteger nowTime;
+
 @property (nonatomic, strong) NSArray *timeArray;
 
 @end
@@ -60,27 +62,28 @@
     [self addSubview:end];
 }
 
+int now = 0;
 - (void)refreshTime
 {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond |NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal | NSCalendarUnitQuarter |NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekOfYear | NSCalendarUnitYearForWeekOfYear fromDate:[NSDate date]];
+//    NSCalendar *calendar = [NSCalendar currentCalendar];
+//    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond |NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal | NSCalendarUnitQuarter |NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekOfYear | NSCalendarUnitYearForWeekOfYear fromDate:[NSDate date]];
     
     NSCalendar *todayCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *todayDateComponents = [[NSDateComponents alloc] init];
-    todayDateComponents.year = dateComponents.year;
-    todayDateComponents.month = dateComponents.month;
-    todayDateComponents.day = dateComponents.day;
-    todayDateComponents.hour = [_timeArray[0] integerValue];
-    todayDateComponents.minute = [_timeArray[1] integerValue];
-    todayDateComponents.second = [_timeArray[2] integerValue];
+//    NSDateComponents *todayDateComponents = [[NSDateComponents alloc] init];
+//    todayDateComponents.year = dateComponents.year;
+//    todayDateComponents.month = dateComponents.month;
+//    todayDateComponents.day = dateComponents.day;
+//    todayDateComponents.hour = [_timeArray[0] integerValue];
+//    todayDateComponents.minute = [_timeArray[1] integerValue];
+//    todayDateComponents.second = [_timeArray[2] integerValue];
     
     
 
-    NSInteger nowTime = [self.model.nowtime integerValue];
-    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:nowTime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime integerValue]] options:0];
+    //now = [self.model.nowtime intValue];
+    NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:self.model.nowtime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime intValue]] options:0];
     
     NSString *betweenTime;
-
+    //BFLog(@"------%ld----%ld", (long)self.model.nowtime++,(long)betweenDate.second);
     if (betweenDate.second <= 0){
         self.hour.text = @"0时";
         self.minute.text = @"0分";
@@ -96,12 +99,22 @@
     NSString *timeString;
     
     // 秒
+//    if (time % 60 < 10 ) {
+//        timeString = [NSString stringWithFormat:@"0%ld秒",time];
+//    }else {
+//        timeString = [NSString stringWithFormat:@"%ld秒",time];
+//    }
     timeString = [NSString stringWithFormat:@"%ld秒",time%60];
     self.second.text = timeString;
     // 分
     time /= 60;
     if (time >=0)
     {
+//        if (time % 60 < 10 ) {
+//            timeString = [NSString stringWithFormat:@"0%ld分",time];
+//        }else {
+//            timeString = [NSString stringWithFormat:@"%ld分",time];
+//        }
         timeString = [NSString stringWithFormat:@"%ld分\n",time%60];
         self.minute.text = timeString;
     }
@@ -109,6 +122,11 @@
     time /= 60;
     if (time >= 0)
     {
+//        if (time % 60 < 10 ) {
+//            timeString = [NSString stringWithFormat:@"0%ld时",time];
+//        }else {
+//            timeString = [NSString stringWithFormat:@"%ld时",time];
+//        }
         timeString = [NSString stringWithFormat:@"%ld时\n",time];
         self.hour.text = timeString;
     }

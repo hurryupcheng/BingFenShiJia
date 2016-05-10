@@ -52,10 +52,10 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.allowsSelection = YES;
     
-    UIButton * clearButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 30)];
+    UIButton * clearButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     [clearButton setTitle:@"清空搜索记录" forState:UIControlStateNormal];
-    clearButton.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
-    [clearButton setTitleColor:[UIColor colorWithRed:206/255.0 green:206/255.0 blue:206/255.0 alpha:1] forState:UIControlStateNormal];
+    clearButton.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(20)];
+    [clearButton setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
     [clearButton setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [clearButton addTarget:self action:@selector(clearBut) forControlEvents:UIControlEventTouchUpInside];
     

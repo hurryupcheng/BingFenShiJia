@@ -171,10 +171,10 @@ static id _publishContent;
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             
             if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressFromView:self rightLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressFromView:self wrongLabelText: @"未检测到客户端 分享失败"];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
                 //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
@@ -196,7 +196,7 @@ static id _publishContent;
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
                 //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
             }
         }];
 

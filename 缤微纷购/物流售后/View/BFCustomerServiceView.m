@@ -51,10 +51,10 @@
     [self addSubview:self.bgImageView];
     
     
-    self.telephoneService = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(75), BF_ScaleHeight(450)-ScreenHeight, BF_ScaleWidth(55), BF_ScaleWidth(55)) image:@"service_telephone" type:BFCustomerServiceViewButtonTypeTelephone];
+    self.telephoneService = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(65), BF_ScaleHeight(440)-ScreenHeight, BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"service_telephone" type:BFCustomerServiceViewButtonTypeTelephone];
     
     
-    self.wechatService = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), BF_ScaleHeight(450)-ScreenHeight, BF_ScaleWidth(55), BF_ScaleWidth(55)) image:@"service_wechat" type:BFCustomerServiceViewButtonTypeWechat];
+    self.wechatService = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), BF_ScaleHeight(440)-ScreenHeight, BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"service_wechat" type:BFCustomerServiceViewButtonTypeWechat];
     
     
     self.cancle = [UIButton buttonWithType:0];

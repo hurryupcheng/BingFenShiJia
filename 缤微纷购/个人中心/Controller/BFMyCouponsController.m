@@ -9,8 +9,9 @@
 #import "BFMyCouponsController.h"
 #import "BFMyCouponsCell.h"
 #import "BFMyCouponsModel.h"
+#import "BFCustomerServiceView.h"
 
-@interface BFMyCouponsController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate>
+@interface BFMyCouponsController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**背景图*/
@@ -79,6 +80,8 @@
     self.title = @"优惠券";
     //添加背景图
     [self bgImageView];
+    //添加navigationbar
+    [self setUpNavigationBar];
      //添加tableView
     [self tableView];
     //添加分段控制器
@@ -88,6 +91,50 @@
     [self.segment click];
 
 }
+
+
+#pragma mark -- 设置客服按钮
+- (void)setUpNavigationBar {
+    UIButton *telephone = [UIButton buttonWithType:0];
+    //telephone.backgroundColor = [UIColor redColor];
+    telephone.width = 30;
+    telephone.height = 30;
+    [telephone addTarget:self action:@selector(telephone) forControlEvents:UIControlEventTouchUpInside];
+    [telephone setImage:[UIImage imageNamed:@"telephone"] forState:UIControlStateNormal];
+    UIBarButtonItem *telephoneItem = [[UIBarButtonItem alloc] initWithCustomView:telephone];
+    self.navigationItem.rightBarButtonItem = telephoneItem;
+}
+
+- (void)telephone {
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
+    customerServiceView.delegate = self;
+    [window addSubview:customerServiceView];
+}
+
+
+#pragma mark --BFCustomerServiceViewDelegate
+- (void)clickToChooseCustomerServiceWithType:(BFCustomerServiceViewButtonType)type {
+    switch (type) {
+        case BFCustomerServiceViewButtonTypeTelephone:{
+            BFLog(@"点击电话客服");
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:nil controllerMessage:nil preferredStyle:UIAlertControllerStyleActionSheet actionTitle:@"020-38875719" style:UIAlertActionStyleDefault handler:^{
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://020-38875719"]]];
+            }];
+            [self presentViewController:alertC animated:YES completion:nil];
+            
+            
+            break;
+        }
+        case BFCustomerServiceViewButtonTypeWechat:
+            BFLog(@"点击微信客服");
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"暂不支持，尽请期待"];
+            break;
+            
+    }
+}
+
+
 
 #pragma mark -- 获取数据
 - (void)getData {
@@ -188,6 +235,8 @@
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"对不起！已经领取光了"];
             }else if ([responseObject[@"msg"] isEqualToString:@"您已经领取过该券，请去购物吧"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"您已经领取过该券，请去购物吧"];
+            }else if ([responseObject[@"msg"] isEqualToString:@"回馈老客户，广告主专用的哦！"]) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"回馈老客户，广告主专用的哦！"];
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
             }

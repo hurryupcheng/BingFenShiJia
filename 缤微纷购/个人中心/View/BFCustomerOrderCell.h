@@ -2,16 +2,16 @@
 //  BFCustomerOrderCell.h
 //  缤微纷购
 //
-//  Created by 程召华 on 16/3/23.
+//  Created by 程召华 on 16/5/9.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "BFCommissionModel.h"
+#import "BFCustmorOrderModel.h"
 
 @interface BFCustomerOrderCell : UITableViewCell
-/**创建自定义cell*/
+/**实例方法*/
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-/**ProxyOrderList模型*/
-@property (nonatomic, strong) ProxyOrderList *model;
+/**客户订单模型*/
+@property (nonatomic, strong) BFCustomerOrderList *model;
 @end
