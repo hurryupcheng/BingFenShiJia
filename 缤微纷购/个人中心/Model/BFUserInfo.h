@@ -61,4 +61,6 @@
 @property (nonatomic, strong) NSString *shi;
 /**是否是广告主 1.是广告主*/
 @property (nonatomic, strong) NSString *is_vip;
+/**广告主等级*/
+@property (nonatomic, strong) NSString *vip_name;
 @end

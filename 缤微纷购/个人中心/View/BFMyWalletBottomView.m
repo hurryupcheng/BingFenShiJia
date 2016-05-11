@@ -5,18 +5,25 @@
 //  Created by 程召华 on 16/3/9.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+
+#define LabelViewH         BF_ScaleHeight(40)
+#define LabelViewMargin    BF_ScaleWidth(6)
 #import "HZQRegexTestter.h"
 #import "BFMyWalletBottomView.h"
 #import "BFAgreeButton.h"
 
-@interface BFMyWalletBottomView()<UITextFieldDelegate>
+@interface BFMyWalletBottomView()<UITextFieldDelegate>{
+    __block NSInteger leftTime;
+    __block NSTimer *timer;
+}
 
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
 @property (nonatomic, strong) UIView *getCashView;
 /**实付金额*/
 @property (nonatomic, strong) UILabel *paidCashLabel;
-
+/**确认提现*/
+@property (nonatomic, strong) UIButton *getCashButton;
 
 @end
 
@@ -35,7 +42,7 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
 
-        self.backgroundColor = BFColor(0xE7E7E7);
+        self.backgroundColor = BFColor(0xF2F4F5);
         //提现协议底部图
         UIView *protocalView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(300), BF_ScaleHeight(140))];
 
@@ -64,13 +71,13 @@
         [protocalView addSubview:self.agreeButton];
         
         //提现金额底部视图
-        self.getCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(protocalView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
+        self.getCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(protocalView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), LabelViewH)];
         
         //提现金额label
-        UILabel *getCashLabel = [self setUpLabelWithSuperView:self.getCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(60), self.getCashView.height) tetx:@"提现金额："];
+        UILabel *getCashLabel = [self setUpLabelWithSuperView:self.getCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(60), LabelViewH) tetx:@"提现金额："];
         
         //提现金额输入框
-        self.getCashTX = [UITextField textFieldWithFrame:CGRectMake(CGRectGetMaxX(getCashLabel.frame), BF_ScaleHeight(5), BF_ScaleWidth(150), BF_ScaleHeight(20)) image:nil placeholder:nil];
+        self.getCashTX = [UITextField textFieldWithFrame:CGRectMake(CGRectGetMaxX(getCashLabel.frame), BF_ScaleHeight(8), BF_ScaleWidth(150), BF_ScaleHeight(24)) image:nil placeholder:nil];
         self.getCashTX.delegate = self;
         self.getCashTX.returnKeyType = UIReturnKeyDone;
         self.getCashTX.layer.cornerRadius = 3;
@@ -80,37 +87,38 @@
         [self.getCashView addSubview:self.getCashTX];
         
         //实付金额底部视图
-        UIView *paidCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(self.getCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
+        UIView *paidCashView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(self.getCashView.frame)+ LabelViewMargin, BF_ScaleWidth(300), LabelViewH)];
         
         //实付金额label
-        self.paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(260), paidCashView.height) tetx:@"实付金额："];
+        self.paidCashLabel = [self setUpLabelWithSuperView:paidCashView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(260), LabelViewH) tetx:@"实付金额："];
         
         //收款人底部视图
-        UIView *recieverView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(paidCashView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), BF_ScaleHeight(30))];
+        UIView *recieverView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(paidCashView.frame)+ LabelViewMargin, BF_ScaleWidth(300), LabelViewH)];
         
         //收款人label
-        self.recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), paidCashView.height) tetx:@"收款人：叶文敏"];
+        self.recieverLabel = [self setUpLabelWithSuperView:recieverView Frame:CGRectMake(BF_ScaleWidth(15), 0, BF_ScaleWidth(200), LabelViewH) tetx:@"收款人：叶文敏"];
         
         //确认提现底部视图
-        UIView *sureView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(6), BF_ScaleWidth(300), self.height-(CGRectGetMaxY(recieverView.frame)+ BF_ScaleHeight(7)))];
+        UIView *sureView = [self setUpViewWithFrame:CGRectMake(BF_ScaleWidth(10),CGRectGetMaxY(recieverView.frame)+ LabelViewMargin, BF_ScaleWidth(300), BF_ScaleHeight(40))];
         
-        UIView *line = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleHeight(30), sureView.width, 1)];
-        [sureView addSubview:line];
+        //UIView *line = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleHeight(40), sureView.width, 1)];
+        //[sureView addSubview:line];
         
-        UILabel *modifyBankLabel = [self setUpLabelWithSuperView:sureView Frame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(200), BF_ScaleHeight(30)) tetx:@"我要修改银行信息"];
+        UILabel *modifyBankLabel = [self setUpLabelWithSuperView:sureView Frame:CGRectMake(BF_ScaleWidth(10), 0, BF_ScaleWidth(200), LabelViewH) tetx:@"我要修改银行信息"];
         modifyBankLabel.textColor = BFColor(0xFC1516);
         
         UIButton *modifyBankButton = [UIButton buttonWithType:0];
-        modifyBankButton.frame = CGRectMake(0, 0, sureView.width, BF_ScaleHeight(30));
+        modifyBankButton.frame = CGRectMake(0, 0, sureView.width, LabelViewH);
         [modifyBankButton addTarget:self action:@selector(modifyBankInfo) forControlEvents:UIControlEventTouchUpInside];
         [sureView addSubview:modifyBankButton];
         
         
-        UIButton *getCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(20), CGRectGetMaxY(line.frame)+BF_ScaleWidth(5), BF_ScaleWidth(260), sureView.height-BF_ScaleHeight(40)) title:@"确认提现" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+        UIButton *getCashButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(10), CGRectGetMaxY(sureView.frame)+LabelViewMargin, BF_ScaleWidth(300), BF_ScaleHeight(50)) title:@"确认提现" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+        self.getCashButton = getCashButton;
         getCashButton.backgroundColor = BFColor(0xFD8727);
         getCashButton.layer.cornerRadius = 5;
         [getCashButton addTarget:self action:@selector(sureToGetCash) forControlEvents:UIControlEventTouchUpInside];
-        [sureView addSubview:getCashButton];
+        [self addSubview:getCashButton];
     }
     return self;
 }
@@ -129,6 +137,10 @@
                 }else {
                     self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
                     [self endEditing:YES];
+                    leftTime = 5;
+                    [self.getCashButton setEnabled:NO];
+                    [self.getCashButton setBackgroundColor:BFColor(0xD5D8D1)];
+                    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction) userInfo:nil repeats:YES];
                     if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
                         [self.delegate gotoGetCashWithView:self];
                     }
@@ -137,13 +149,24 @@
             }else {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
             }
-
-            
         }
-        
     }
-    
 }
+
+- (void)timeAction {
+    BFLog(@"----------");
+    leftTime--;
+    if (leftTime <= 0) {
+        [self.getCashButton setEnabled:YES];
+        [self.getCashButton setBackgroundColor:BFColor(0xFD8727)];
+        [timer invalidate];
+        timer = nil;
+    }else {
+        [self.getCashButton setEnabled:NO];
+        [self.getCashButton setBackgroundColor:BFColor(0xD5D8D1)];
+    }
+}
+
 
 //修改银行信息
 - (void)modifyBankInfo {

@@ -44,8 +44,6 @@
     [self.modifyPasswordView.modifyPasswordButton setEnabled:NO];
     [self.modifyPasswordView.modifyPasswordButton setBackgroundColor:BFColor(0xD5D8D1)];
     
-    if(timer)
-        [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 
     
@@ -62,7 +60,9 @@
         if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
             [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"密码修改失败"];
         }else {
-            [BFProgressHUD MBProgressFromView:self.view LabelText:@"密码修改成功,正在跳转" dispatch_get_main_queue:^{
+            userInfo.password = [MyMD5 md5:modifyPasswordView.setting.text];
+            [BFUserDefaluts modifyUserInfo:userInfo];
+            [BFProgressHUD MBProgressFromView:self.view LabelText:@"密码修改成功,正在跳转..." dispatch_get_main_queue:^{
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
@@ -78,6 +78,8 @@
     {
         [self.modifyPasswordView.modifyPasswordButton setEnabled:YES];
         self.modifyPasswordView.modifyPasswordButton.backgroundColor = BFColor(0xFD8727);
+        [timer invalidate];
+        timer = nil;
     } else
     {
         

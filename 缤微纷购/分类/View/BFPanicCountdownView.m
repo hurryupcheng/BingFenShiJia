@@ -8,7 +8,9 @@
 #define ViewH   BF_ScaleHeight(20)
 #import "BFPanicCountdownView.h"
 
-@interface BFPanicCountdownView()
+@interface BFPanicCountdownView(){
+    __block NSTimer     *timer;
+}
 /**时*/
 @property (nonatomic, strong) UILabel *timeLabel;
 /**时*/
@@ -73,24 +75,16 @@
         self.second = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(secondSemicolon.frame), BF_ScaleHeight(10), BF_ScaleWidth(30), ViewH)];
         
         [self refreshTime];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
     }
 }
 
 
 - (void)refreshTime
 {
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDateComponents *dateComponents = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond |NSCalendarUnitWeekday | NSCalendarUnitWeekdayOrdinal | NSCalendarUnitQuarter |NSCalendarUnitWeekOfMonth | NSCalendarUnitWeekOfYear | NSCalendarUnitYearForWeekOfYear fromDate:[NSDate date]];
+
     
     NSCalendar *todayCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    NSDateComponents *todayDateComponents = [[NSDateComponents alloc] init];
-    todayDateComponents.year = dateComponents.year;
-    todayDateComponents.month = dateComponents.month;
-    todayDateComponents.day = dateComponents.day;
-    todayDateComponents.hour = [_timeArray[0] integerValue];
-    todayDateComponents.minute = [_timeArray[1] integerValue];
-    todayDateComponents.second = [_timeArray[2] integerValue];
     
 
     NSInteger time;
@@ -105,6 +99,7 @@
         self.minute.text = @"00";
         self.second.text = @"00";
         self.timeLabel.text = @"已经结束";
+        
     }
     
     
@@ -121,7 +116,8 @@
     NSString *betweenTime;
     
     if (betweenDate.second < 0){
-        
+        [timer invalidate];
+        timer = nil;
     }else {
         betweenTime = [self hourMinuteSecond:betweenDate.second];
     }

@@ -197,10 +197,10 @@
                 BFLog(@"支付");
                 BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
                 BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-                if ([self.model.pay_type isEqualToString:@"1"]) {
-                    payVC.pay = @"微信支付";
-                }else if ([self.model.pay_type isEqualToString:@"2"]) {
+                if ([self.model.pay_type isEqualToString:@"2"]) {
                     payVC.pay = @"支付宝";
+                }else {
+                    payVC.pay = @"微信支付";
                 }
                 payVC.orderModel = orderModel;
                 payVC.totalPrice = self.model.order_sumPrice;
@@ -224,18 +224,20 @@
     leftTime = 5;
     [self.footerView.pay setEnabled:NO];
     [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
-    if(timer)
-        [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
 #pragma mark -- 倒计时方法
 - (void)timerAction {
+   
     leftTime--;
     if(leftTime<=0)
     {
         [self.footerView.pay setEnabled:YES];
         self.footerView.pay.backgroundColor = BFColor(0xFD8627);
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
     } else
     {
         
@@ -260,7 +262,6 @@
 //        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
 //    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            
             if (responseObject) {
                 
                 self.model = [BFProductInfoModel parse:responseObject[@"order"]];
@@ -268,8 +269,8 @@
                 self.footerView.model = self.model;
                 if ([[BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFOrderProductModel parse:responseObject[@"order"][@"item_detail"]];
+                    [self.productArray removeAllObjects];
                     [self.productArray addObjectsFromArray:array];
-                    
                 }
                 BFLog(@"%@,,%@",responseObject, parameter);
             }

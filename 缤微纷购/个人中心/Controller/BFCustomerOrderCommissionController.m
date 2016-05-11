@@ -32,7 +32,8 @@
 @property (nonatomic, strong) BFCustmorOrderModel *model;
 /**推荐分成订单可变数组*/
 @property (nonatomic, strong) NSMutableArray *customerArray;
-
+/**分页*/
+@property (nonatomic, assign) NSInteger page;
 @end
 
 @implementation BFCustomerOrderCommissionController
@@ -102,6 +103,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xffffff);
+    self.page = 1;
     //BFLog(@"%@", NSStringFromCGRect(self.view.frame));
     self.headerView.timeLabel.text = [self.dateArray firstObject];
     //添加底部tableView
@@ -113,7 +115,9 @@
     //底部固定视图
     [self myTabbar];
     //获取数据
-    [self getCustomerOrderData];
+    //[self getCustomerOrderData];
+    //上啦刷新
+    [self setupUpRefresh];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -136,6 +140,71 @@
     }];
 }
 
+#pragma mark --上啦刷新
+- (void)setupUpRefresh {
+    self.bottomTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+}
+
+- (void)loadMoreData {
+    self.page++;
+    if (self.model.page_num <= 5) {
+        if (self.page > self.model.page_num) {
+            //self.page--;
+            [self.bottomTableView.mj_footer endRefreshing];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+            return;
+        }else {
+            [self getUpRefreshData:self.headerView.timeLabel.text];
+        }
+    }else {
+        if (self.page > 5) {
+            //self.page--;
+            [self.bottomTableView.mj_footer endRefreshing];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+            return;
+        }else {
+            [self getUpRefreshData:self.headerView.timeLabel.text];
+        }
+    }
+}
+
+- (void)getUpRefreshData:(NSString *)date {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
+    parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
+    parameter[@"page"] = @(self.page);
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"++++%@,,%@", responseObject, parameter);
+        if (responseObject) {
+            self.model =  [BFCustmorOrderModel parse:responseObject];
+            if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
+                //BFLog(@"-----%@", array);
+                [self.customerArray addObjectsFromArray:array];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+            }
+            //self.myTabbar.custmorOrderModel = self.model;
+        }
+        double delayInSeconds = 0;
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+            [self.bottomTableView reloadData];
+            [self.bottomTableView.mj_footer endRefreshing];
+        });
+        
+    } failure:^(NSError *error) {
+        self.page--;
+        [self.bottomTableView.mj_footer endRefreshing];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        BFLog(@"--%@", error);
+    }];
+
+}
 
 #pragma mark --获取推荐分成订单数据
 - (void)getCustomerOrderData {
@@ -144,6 +213,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
+    parameter[@"page"] = @(self.page);
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
@@ -254,6 +324,7 @@
         //[self.headerView click];
         [self.customerArray removeAllObjects];
         [self.bottomTableView reloadData];
+        self.page = 1;
         self.headerView.timeLabel.text = self.dateArray[indexPath.row];
         [self getCustomerOrderData:self.dateArray[indexPath.row]];
         
@@ -262,6 +333,7 @@
 }
 
 - (void)getCustomerOrderData:(NSString *)date {
+    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=month_commission"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -269,7 +341,7 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
     parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
-    
+    parameter[@"page"] = @(self.page);
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"++++%@,,%@", responseObject, parameter);
         if (responseObject) {
@@ -288,6 +360,7 @@
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self.headerView click];
             [self.bottomTableView reloadData];
+            
             [UIView animateWithDuration:0.5 animations:^{
                 self.bottomTableView.y = 44;
                 self.myTabbar.y = ScreenHeight -160;
@@ -296,6 +369,7 @@
         });
         
     } failure:^(NSError *error) {
+
         [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
         BFLog(@"--%@", error);
     }];

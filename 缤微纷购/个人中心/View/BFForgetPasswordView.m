@@ -158,6 +158,8 @@
         self.sureButton.layer.borderColor = BFColor(0xFD8727).CGColor;
         [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
         [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
+        [sureTimer invalidate];
+        sureTimer = nil;
     } else
     {
         [self.sureButton setEnabled:NO];
@@ -184,7 +186,7 @@
             if ([responseObject[@"msg"] isEqualToString:@"用户不存在"]) {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号不是注册用户"];
             }else {
-                verificationTime = 60;
+                verificationTime = 120;
                 [self.sendVerificationCodeButton setEnabled:NO];
                 [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateNormal];
                 [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateDisabled];
@@ -211,7 +213,8 @@
         [self.sendVerificationCodeButton setEnabled:YES];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateDisabled];
-        
+        [verificationTimer invalidate];
+        verificationTimer = nil;
         
     }
     else

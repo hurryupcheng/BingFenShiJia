@@ -398,10 +398,10 @@
                 BFLog(@"支付");
                 BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
                 BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-                if ([self.model.user_self.pay_type isEqualToString:@"1"]) {
-                    payVC.pay = @"微信支付";
-                }else if ([self.model.user_self.pay_type isEqualToString:@"2"]) {
+                if ([self.model.user_self.pay_type isEqualToString:@"2"]) {
                     payVC.pay = @"支付宝";
+                }else {
+                    payVC.pay = @"微信支付";
                 }
                 payVC.orderModel = orderModel;
                 payVC.totalPrice = self.model.user_self.order_sumPrice;
@@ -423,13 +423,12 @@
     [self.tabbar.payToJoinButton setEnabled:NO];
     [self.tabbar.payButton setBackgroundColor:BFColor(0xD5D8D1)];
     [self.tabbar.payToJoinButton setBackgroundColor:BFColor(0xD5D8D1)];
-    if(timer)
-        [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
 #pragma mark -- 倒计时方法
 - (void)timerAction {
+    BFLog(@"--------");
     leftTime--;
     if(leftTime<=0)
     {
@@ -437,6 +436,9 @@
         [self.tabbar.payToJoinButton setEnabled:YES];
         self.tabbar.payButton.backgroundColor = BFColor(0xD4041E);
         self.tabbar.payToJoinButton.backgroundColor = BFColor(0xD4041E);
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
     } else
     {
         [self.tabbar.payButton setEnabled:NO];

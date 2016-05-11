@@ -33,8 +33,8 @@
 #define  kQQKey         @"1105308793"
 #define  kQQSecret      @"lfmhEFjf5xPNtEPR"
 
-#define  kSinaKey         @"1177928191"
-#define  kSinaSecret      @"090912c73729b5aa7d1405fce0a6c76a"
+#define  kSinaKey         @"1607069453"
+#define  kSinaSecret      @"de2d3357b9c8fda287db3a723ab75964"
 
 
 @interface AppDelegate ()<CLLocationManagerDelegate, WXApiDelegate>

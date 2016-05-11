@@ -24,10 +24,22 @@
 @property (nonatomic, strong) BFUserInfo *userInfo;
 /**我的钱包模型*/
 @property (nonatomic, strong) BFMyWalletModel *model;
+/**scrollview*/
+@property (nonatomic, strong) UIScrollView *scrollView;
+
 @end
 
 @implementation BFMyWalletController
 #pragma mark --懒加载
+- (UIScrollView *)scrollView {
+    if (!_scrollView) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight)];
+        _scrollView.contentSize = CGSizeMake(0, BF_ScaleHeight(400)+0.42*ScreenHeight);
+        [self.view addSubview:_scrollView];
+    }
+    return _scrollView;
+}
+
 
 - (BFUserInfo *)userInfo {
     if (!_userInfo) {
@@ -39,10 +51,10 @@
 /**定义*/
 - (BFMyWalletBottomView *)bottomView {
     if (!_bottomView) {
-        _bottomView = [[BFMyWalletBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight*0.58)];
+        _bottomView = [[BFMyWalletBottomView alloc] initWithFrame:CGRectMake(0, ScreenHeight*0.42, ScreenWidth, BF_ScaleHeight(400))];
         _bottomView.delegate = self;
         //_bottomView.backgroundColor = BFColor(0xF4F4F6);
-        [self.view addSubview:_bottomView];
+        //[self.view addSubview:_bottomView];
     }
     return _bottomView;
 }
@@ -50,9 +62,9 @@
 /**定义*/
 - (BFMyWalletTopView *)topView {
     if (!_topView) {
-        _topView = [[BFMyWalletTopView alloc] initWithFrame:CGRectMake(0, ScreenHeight*0.42-ScreenHeight, ScreenWidth, ScreenHeight*0.42)];
+        _topView = [[BFMyWalletTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
         _topView.delegate = self;
-        [self.view addSubview:_topView];
+        //[self.view addSubview:_topView];
     }
     return _topView;
 }
@@ -61,7 +73,7 @@
 /**bgImageView*/
 - (UIImageView *)bgImageView {
     if (!_bgImageView) {
-        _bgImageView = [[UIImageView alloc] initWithFrame:self.view.frame]
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)]
         ;
         _bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
         _bgImageView.userInteractionEnabled = YES;
@@ -73,21 +85,19 @@
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //self.navigationController.navigationBar.translucent = YES;
-    //self.userInfo = [BFUserDefaluts getUserInfo];
-    
-    UIImage *image = [UIImage imageNamed:@"101"];
-    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:image];
+
     //添加背景图片
     [self bgImageView];
+    //添加scrollView
+    [self.bgImageView addSubview:_scrollView];
     //获取数据
     [self getData];
     //添加上面视图
-    [self topView];
+    [self.scrollView addSubview:self.topView];
     //添加下面视图
-    [self bottomView];
-    //
+    [self.scrollView addSubview:self.bottomView];
+    //添加返回按钮
+    [self setUpBackButton];
     [BFNotificationCenter addObserver:self selector:@selector(modifyNickName) name:@"modifyNickName" object:nil];
     
 }
@@ -95,6 +105,23 @@
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     self.topView.nickName.text = [NSString stringWithFormat:@"%@", userInfo.nickname];
 }
+
+
+
+- (void)setUpBackButton {
+    UIButton *back = [UIButton buttonWithType:0];
+    back.frame = CGRectMake(5, 22, 35, 40);
+    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:back];
+    
+}
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+
 
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
@@ -121,8 +148,7 @@
                 
             }
             [UIView animateWithDuration:0.5 animations:^{
-                self.topView.y = 0;
-                self.bottomView.y = ScreenHeight*0.42;
+                self.scrollView.y = 0;
             }];
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
@@ -196,7 +222,7 @@
     [super viewWillAppear:animated];
 
     self.view.userInteractionEnabled = YES;
-    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.hidden = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
@@ -209,7 +235,7 @@
     CGRect bottomViewFrame = _bottomView.frame;
     bottomViewFrame.origin.y = self.view.frame.size.height-bottomViewFrame.size.height;
     [UIView animateWithDuration:duration delay:0 options:option animations:^{
-        _bottomView.frame = bottomViewFrame;
+        _scrollView.y = 0;
     } completion:nil];
     //为了显示动画
     [self.view layoutIfNeeded];
@@ -226,20 +252,22 @@
     CGRect bottomViewFrame = _bottomView.frame;
     bottomViewFrame.origin.y = endframe.origin.y - bottomViewFrame.size.height;
     [UIView animateWithDuration:duration delay:0 options:option animations:^{
-         _bottomView.frame = bottomViewFrame;
+         _scrollView.y = -0.3*ScreenHeight;
     } completion:nil];
     [self.view layoutIfNeeded];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.hidden = NO;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     self.tabBarController.tabBar.hidden = YES;
 
 }
 
-
+//- (BOOL)prefersStatusBarHidden{
+//    return YES;
+//}
 
 @end

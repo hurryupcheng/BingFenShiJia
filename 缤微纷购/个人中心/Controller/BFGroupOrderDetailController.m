@@ -143,10 +143,10 @@
                 BFLog(@"支付");
                 BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
                 BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-                if ([self.model.pay_type isEqualToString:@"1"]) {
-                    payVC.pay = @"微信支付";
-                }else if ([self.model.pay_type isEqualToString:@"2"]) {
+                if ([self.model.pay_type isEqualToString:@"2"]) {
                     payVC.pay = @"支付宝";
+                }else {
+                    payVC.pay = @"微信支付";
                 }
                 payVC.orderModel = orderModel;
                 payVC.totalPrice = self.model.order_sumPrice;
@@ -166,19 +166,22 @@
     leftTime = 5;
     [self.detailView.payButton setEnabled:NO];
     [self.detailView.payButton setBackgroundColor:BFColor(0xD5D8D1)];
-    if(timer)
-        [timer invalidate];
+
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
 
 #pragma mark -- 倒计时方法
 - (void)timerAction {
+    BFLog(@"----------");
     leftTime--;
     if(leftTime<=0)
     {
         [self.detailView.payButton setEnabled:YES];
         self.detailView.payButton.backgroundColor = BFColor(0xD4001B);
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
     } else
     {
         [self.detailView.payButton setEnabled:NO];

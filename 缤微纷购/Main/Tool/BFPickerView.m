@@ -8,7 +8,7 @@
 #define navigationViewHeight 44.0f
 #define pickViewViewHeight  BF_ScaleHeight(250)
 #define buttonWidth 60.0f
-#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8]
+#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
 
 #import "BFPickerView.h"
 #import "BFModifyBankCardView.h"

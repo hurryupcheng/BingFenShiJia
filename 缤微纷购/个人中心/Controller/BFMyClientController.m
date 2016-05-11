@@ -121,9 +121,9 @@
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
         return;
+    }else {
+        [self getData];
     }
-    [self getData];
-    
 }
 
 #pragma mark -- getData

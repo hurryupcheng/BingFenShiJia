@@ -14,7 +14,7 @@
 
 #define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
 #define navigationViewHeight 44.0f
-#define pickViewViewHeight 250.0f
+#define pickViewViewHeight BF_ScaleHeight(250)
 #define buttonWidth 60.0f
 
 @interface AddressPickView ()
@@ -33,11 +33,11 @@
 @implementation AddressPickView
 + (instancetype)shareInstance
 {
-    static AddressPickView *shareInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        shareInstance = [[AddressPickView alloc] init];
-    });
+//    static AddressPickView *shareInstance = nil;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+        AddressPickView *shareInstance = [[AddressPickView alloc] init];
+//    });
     
     [shareInstance showBottomView];
     return shareInstance;
@@ -85,7 +85,7 @@
     [self addSubview:_bottomView];
     //导航视图
     _navigationView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, navigationViewHeight)];
-    _navigationView.backgroundColor = BFColor(0xffffff);
+    _navigationView.backgroundColor = BFColor(0xECEDF0);
     [_bottomView addSubview:_navigationView];
     //这里添加空手势不然点击navigationView也会隐藏,
     UITapGestureRecognizer *tapNavigationView = [[UITapGestureRecognizer alloc]initWithTarget:self action:nil];
@@ -103,7 +103,8 @@
 
     }
     _pickView = [[UIPickerView alloc]initWithFrame:CGRectMake(0, navigationViewHeight, kScreenWidth, pickViewViewHeight)];
-    _pickView.backgroundColor = [UIColor whiteColor];
+    _pickView.backgroundColor = BFColor(0xC7CAD0);
+    _pickView.alpha = 0.8;
     _pickView.dataSource = self;
     _pickView.delegate =self;
     

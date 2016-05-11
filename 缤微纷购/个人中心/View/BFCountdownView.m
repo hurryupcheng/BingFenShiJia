@@ -65,7 +65,6 @@
     [self addSubview:end];
 }
 
-int now = 0;
 - (void)refreshTime
 {
 //    NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -86,12 +85,13 @@ int now = 0;
     NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:self.model.nowtime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime intValue]] options:0];
     
     NSString *betweenTime;
-    //BFLog(@"------%ld----%ld", (long)self.model.nowtime++,(long)betweenDate.second);
+    //BFLog(@"------%f----%ld", [[NSDate date]timeIntervalSince1970],(long)betweenDate.second);
     if (betweenDate.second <= 0){
         self.hour.text = @"0时";
         self.minute.text = @"0分";
         self.second.text = @"0秒";
         [timer invalidate];
+        timer = nil;
     }else {
         betweenTime = [self hourMinuteSecond:betweenDate.second];
     }
