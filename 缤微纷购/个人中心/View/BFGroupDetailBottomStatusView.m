@@ -34,7 +34,7 @@
             self.status.text = @"团购失败";
         }else if([model.status isEqualToString:@"0"]){
             self.backgroundColor = BFColor(0xCACACA);
-            self.status.text = [NSString stringWithFormat:@"还差 %ld 人，让小伙伴们都来组团吧!", (long)(model.havenum-model.thisteam.count)];
+            self.status.text = [NSString stringWithFormat:@"还差 %ld 人，让小伙伴们都来组团吧!", (long)model.havenum];
         }
     }
 }

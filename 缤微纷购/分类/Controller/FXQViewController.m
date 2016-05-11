@@ -163,7 +163,7 @@
             if (responseObject) {
                 self.model = [BFProductDetialModel parse:responseObject];
                 self.headerView.model = self.model;
-
+                self.tabBar.model = self.model;
                 [UIView animateWithDuration:0.5 animations:^{
                     self.headerView.height = self.headerView.headerHeight;
                     self.tableView.tableHeaderView = self.headerView;

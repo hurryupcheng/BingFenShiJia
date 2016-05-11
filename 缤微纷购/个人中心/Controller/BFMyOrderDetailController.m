@@ -274,7 +274,7 @@
                 BFLog(@"%@,,%@",responseObject, parameter);
             }
             [self.tableView reloadData];
-            [self animation];
+            //[self animation];
         } failure:^(NSError *error) {
             BFLog(@"%@",error);
         }];

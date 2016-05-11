@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BFShoppingCartButton.h"
+#import "BFProductDetialModel.h"
 typedef enum {
     /**购物车按钮*/
     BFProductDetailTabBarButtonTypeGoCart,
@@ -26,4 +27,6 @@ typedef enum {
 @property (nonatomic, strong) BFShoppingCartButton *shoppingCart;
 /**代理*/
 @property (nonatomic, weak) id<BFProductDetailTabBarDelegate>delegate;
+/**BFProductDetialModel*/
+@property (nonatomic, strong) BFProductDetialModel *model;
 @end

@@ -272,8 +272,6 @@
     [self.loginButton setEnabled:NO];
     [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
     
-    if(timer)
-        [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     
     
@@ -340,14 +338,16 @@
 }
 
 - (void)timerAction {
+    //BFLog(@"-------------");
     leftTime--;
-    if(leftTime<=0)
+    if(leftTime <= 0)
     {
         [self.loginButton setEnabled:YES];
         self.loginButton.backgroundColor = BFColor(0xFD8727);
-    } else
-    {
-        
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
+    } else {
         [self.loginButton setEnabled:NO];
         [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
     }

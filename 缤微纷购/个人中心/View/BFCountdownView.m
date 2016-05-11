@@ -8,7 +8,10 @@
 #define LabelH   BF_ScaleHeight(23)
 #import "BFCountdownView.h"
 
-@interface BFCountdownView()
+@interface BFCountdownView(){
+    __block NSTimer     *timer;
+}
+
 /**剩余*/
 //@property (nonatomic, strong) UILabel *left;
 /**时*/
@@ -38,7 +41,7 @@
     if (model) {
         
         [self refreshTime];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
     }
 }
 
@@ -88,6 +91,7 @@ int now = 0;
         self.hour.text = @"0时";
         self.minute.text = @"0分";
         self.second.text = @"0秒";
+        [timer invalidate];
     }else {
         betweenTime = [self hourMinuteSecond:betweenDate.second];
     }

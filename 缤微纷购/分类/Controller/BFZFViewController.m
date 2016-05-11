@@ -1,4 +1,4 @@
-//
+ //
 //  BFZFViewController.m
 //  缤微纷购
 //
@@ -139,8 +139,7 @@
     leftTime = 5;
     [self.footView.buyButton setEnabled:NO];
     [self.footView.buyButton setBackgroundColor:BFColor(0xD5D8D1)];
-    if(timer)
-        [timer invalidate];
+    
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
@@ -151,6 +150,9 @@
     {
         [self.footView.buyButton setEnabled:YES];
         self.footView.buyButton.backgroundColor = BFColor(0xFD8627);
+        //倒计时完取消倒计时
+        [timer invalidate];
+        timer = nil;
     } else
     {
         
@@ -759,6 +761,7 @@
             if (_favourableArr == nil) {
                 self.isCoupon = NO;
                 self.coupon_id = @"0";
+                
             }else{
                 self.nums++;
                 if (self.nums%2 == 0) {
@@ -886,7 +889,7 @@
             [_favourableArr addObject:model.name];
             [_favourablePrice addObject:model.money];
             [_favourableTime addObject:model.end_time];
-            [_favourableID addObject:model.cr_id];
+            [_favourableID addObject:model.ID];
         }
 //        NSLog(@"////%@",_favourablePrice);
 //        NSLog(@"====%@",_favourableID);
