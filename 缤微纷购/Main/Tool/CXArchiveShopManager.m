@@ -117,6 +117,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(CXArchiveShopManager);
     
     [self updateDataSource];
 }
+- (void)shoppingCartChangeNumberWithShopID:(NSString *)shopID ctrl:(BOOL)ctrl num:(NSString *)num{
+    if ([self storeChangeShopunmber:shopID ctrl:ctrl Num:[num integerValue]]) {
+        [self updateDataSource];
+        
+    }else{
+        BFLog(@"----数据归档出错--- 修改商品数量时为获取到商品信息对象!!!");
+    }
+
+}
+
+-(BOOL)storeChangeShopunmber:(NSString *)shopID ctrl:(BOOL)ctrl Num:(NSInteger)index{
+    
+    BFStorage * storage = [self screachDataSourceWithItem:shopID];
+    if (storage) {
+        
+        if (ctrl) {
+            storage.numbers = index;
+        }
+        [self changeStroage:storage];
+        return YES;
+    }
+    return NO;
+}
+
+
 -(void)shoppingCartChangeNumberWithShopID:(NSString *)shopID ctrl:(BOOL)ctrl{
    
     if ([self storeChangeShopMunmber:shopID ctrl:ctrl Num:1]) {
@@ -126,6 +151,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(CXArchiveShopManager);
         BFLog(@"----数据归档出错--- 修改商品数量时为获取到商品信息对象!!!");
     }
 }
+
 -(BOOL)storeChangeShopMunmber:(NSString *)shopID ctrl:(BOOL)ctrl Num:(NSInteger)index{
 
     BFStorage * storage = [self screachDataSourceWithItem:shopID];

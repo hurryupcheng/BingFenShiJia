@@ -564,7 +564,7 @@
 #pragma  mark 回调地址
 - (void)headerDid{
     NSLog(@"地址点击");
-    self.model = nil;
+//    self.model = nil;
     BFAddressController *addVC = [BFAddressController new];
     addVC.block = ^(BFAddressModel *model) {
         if (model != nil) {
@@ -583,8 +583,9 @@
         _type.text = @"其他";
         }
         [self getNewData];
-        BFLog(@".....%@",self.model);
+        BFLog(@".....%@",model.consignee);
     };
+   
     [self.tableV reloadData];
     [self.navigationController pushViewController:addVC animated:YES];
     

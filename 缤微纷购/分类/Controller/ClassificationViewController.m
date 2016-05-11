@@ -6,7 +6,7 @@
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
 #import "AFNTool.h"
-#import "SoSoViewController.h"
+#import "BFSosoViewController.h"
 #import "Classification.h"
 #import "ViewController.h"
 #import "XQViewController.h"
@@ -43,9 +43,8 @@
 }
 
 - (void)SOSO{
-    SoSoViewController *soso = [[SoSoViewController alloc]init];
-//    UINavigationController * sosoNav = [[UINavigationController alloc] initWithRootViewController:soso];
-//    [sosoNav setModalTransitionStyle:UIModalTransitionStyleCrossDissolve];
+    BFSosoViewController *soso = [[BFSosoViewController alloc]init];
+
     [self.navigationController pushViewController:soso animated:YES];
 }
 

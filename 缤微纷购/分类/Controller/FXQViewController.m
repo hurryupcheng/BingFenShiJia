@@ -156,7 +156,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];NSLog(@"%@&id=%@",url,self.ID);
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             

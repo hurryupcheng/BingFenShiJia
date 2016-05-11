@@ -21,6 +21,7 @@ typedef void(^numChange)();
 @property (nonatomic,copy)selectBlock selBlock;
 @property (nonatomic,copy)numChange numAddBlock;
 @property (nonatomic,copy)numChange numCutBlock;
+@property (nonatomic,copy)numChange sumBlock;
 @property (nonatomic,retain)AddShopping *add;
 @property (nonatomic,retain)UIButton *close;
 
