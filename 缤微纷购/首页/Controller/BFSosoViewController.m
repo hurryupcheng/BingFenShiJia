@@ -25,7 +25,21 @@
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(popView)];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SosoEvent) name:@"BFSosoBack" object:nil];
 }
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
+
+#pragma  mark 观察点击历史搜索
+- (void)SosoEvent{
+    self.segment.selectedSegmentIndex = 0;
+    [self.view bringSubviewToFront:self.hot.view];
+}
+
 
 - (void)popView{
     [_search resignFirstResponder];
@@ -114,16 +128,11 @@
     }
 }
 
-//- (BFHotView *)hotView{
-//    if (!_hotView) {
-//        _hotView = [[BFHotView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
-//        [self.hot.view addSubview:_hotView];
-//    }
-//    return _hotView;
-//}
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
+    self.segment.selectedSegmentIndex = 0;
+    [self.view bringSubviewToFront:self.hot.view];
     NSString *keyWord = [searchBar.text stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [[NSNotificationCenter defaultCenter]postNotificationName:@"BFsoso" object:keyWord];
 }

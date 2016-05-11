@@ -48,11 +48,11 @@
         
         _cellHeigh = CGRectGetMaxY(_price.frame)+10;
         
-        [self.contentView addSubview:_img];
-        [self.contentView addSubview:_title];
-        [self.contentView addSubview:_stock];
-        [self.contentView addSubview:_price];
-        [self.contentView addSubview:_buy];
+        [self addSubview:_img];
+        [self addSubview:_title];
+        [self addSubview:_stock];
+        [self addSubview:_price];
+        [self addSubview:_buy];
     }
     return self;
 }

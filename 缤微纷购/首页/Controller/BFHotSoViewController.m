@@ -6,6 +6,9 @@
 //  Created by 郑洋 on 16/5/9.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
+#define SEARCH_HISTORY [[NSUserDefaults standardUserDefaults] arrayForKey:@"BFHistory"]
+
+#import "BFURLEncodeAndDecode.h"
 #import "LogViewController.h"
 #import "FXQViewController.h"
 #import "PrefixHeader.pch"
@@ -27,11 +30,9 @@
 @property (nonatomic,retain)UITableView *tableView;
 @property (nonatomic,retain)UIScrollView *scrollV;
 @property (nonatomic,retain)NSMutableArray *dataArray;
-@property (nonatomic,retain)NSMutableArray *otherModelArr;
 @property (nonatomic)BOOL result;
 @property (nonatomic,assign)NSInteger height;
-@property (nonatomic,retain)NSUserDefaults *userDefas;
-@property (nonatomic,retain)NSMutableArray *usesArr;
+@property (nonatomic,assign)NSInteger sumNumber;
 
 @end
 
@@ -45,6 +46,7 @@
     }
     return _hotView;
 }
+
 #pragma mark 热门搜索点击代理方法
 - (void)selectedBut:(NSString *)text{
     
@@ -71,25 +73,10 @@
     return _scrollV;
 }
 
-//- (UITableView *)tableView{
-//    if (!_tableView) {
-//        _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-108)];
-//        
-//        self.tableView.showsHorizontalScrollIndicator = NO;
-//        self.tableView.showsVerticalScrollIndicator = NO;
-//        self.tableView.delegate = self;
-//        self.tableView.dataSource = self;
-//        self.tableView.tableFooterView = [UIView new];
-//        
-//        [self.tableView registerClass:[BFResultTableViewCell class] forCellReuseIdentifier:@"reuse"];
-//        [self.view addSubview:_tableView];
-//    }
-//    return _tableView;
-//}
 
 - (void)initWithTableView{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-108)];
-//    NSLog(@"3333333333333");
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-108) style:UITableViewStyleGrouped];
+
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.delegate = self;
@@ -114,22 +101,11 @@
     self.result = YES;
     [self getData:nil];
 
-    _userDefas = [NSUserDefaults standardUserDefaults];
-    _usesArr = [_userDefas valueForKey:@"BFHistory"];
-    
-//    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(viewTapped:)];
-//    tap1.cancelsTouchesInView = NO;
-//    [self.view addGestureRecognizer:tap1];
 }
-//#pragma  mark 回收键盘
-//-(void)viewTapped:(UITapGestureRecognizer*)tap1
-//{
-//    [self.view endEditing:YES];
-//    
-//}
 
 - (void)viewWillAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(evend:) name:@"BFsoso" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(evend:) name:@"BFSosoBack" object:nil];
     self.userInfo = [BFUserDefaluts getUserInfo];
     
 }
@@ -142,7 +118,6 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    NSLog(@"////////////%d",self.dataArray.count);
     return self.dataArray.count;
 }
 
@@ -150,12 +125,25 @@
         return _height;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UILabel *label = [[UILabel alloc]init];
+    label.text = @"  搜索结果";
+    label.font = [UIFont systemFontOfSize:CGFloatX(18)];
+//    label.backgroundColor = [UIColor redColor];
+    
+    return label;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 30;
+}
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
- 
+  
     BFResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
 //    NSLog(@"<<<<<<<%d<<<%@",self.dataArray.count,self.dataArray);
     [cell setmodel:self.dataArray[indexPath.row]];
+    _otherModel = self.dataArray[indexPath.row];
+    NSLog(@"%d==>>>>>%@",self.dataArray.count,_otherModel.shopID);
     _height = cell.cellHeigh;
     cell.delegate = self;
     cell.buy.tag = indexPath.row;
@@ -179,34 +167,32 @@
         LogViewController *log = [LogViewController new];
         [self.navigationController pushViewController:log animated:YES];
     }else{
+
         _otherModel = self.dataArray[index];
-         NSLog(@"%@  index = %@",_otherModel.shopID,self.dataArray[index]);
+        NSLog(@"index = %@",_otherModel.shopID);
         if ([_otherModel.stock integerValue] <= 0) {
             [BFProgressHUD MBProgressOnlyWithLabelText:@"商品已经售罄"];
         }else{
-            NSLog(@"id = %@",_otherModel.shopID);
-            
             BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:_otherModel.shopID];
             
             if (stor.numbers >= [_otherModel.stock integerValue]) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多库存"];
             }else{
-//                if (stor == nil) {
-//                    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
-//                }
-                [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-                self.dataArray = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
+
+                if (stor == nil) {
+                    self.sumNumber++;
+    
+                    [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
+                }
                 
                 BFStorage *storage = [[BFStorage alloc]initWithTitle:_otherModel.title img:_otherModel.img money:_otherModel.price number:1 shopId:_otherModel.shopID stock:_otherModel.stock choose:_otherModel.choose color:_otherModel.color];
-            
+                
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
                 [[CXArchiveShopManager sharedInstance]startArchiveShop];
-                
             }
         }
     }
 }
-
 
 - (void)getData:(NSString *)data{
 
@@ -231,9 +217,9 @@
  
         if (![dataArr isKindOfClass:[NSNull class]]) {
             [self.dataArray removeAllObjects];
+            _otherModel = [[BFSosoSubOtherModel alloc]init];
             NSArray *other = [BFSosoSubOtherModel parse:dataArr];
             [self.dataArray addObjectsFromArray:other];
-            self.otherModelArr = [NSMutableArray array];
            
             for (NSDictionary *dic2 in dataArr) {
                 [_otherModel.shopIDarray addObject:dic2[@"id"]];
@@ -251,32 +237,34 @@
             }
         }
     } failure:^(NSError *error) {
-        
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
     }];
 }
 
 - (void)write:(NSString *)str{
-
-    NSLog(@">>>>>>>>>>>%@",[str stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]);
- 
+    NSLog(@"搜索记录===%@",str);
+    /*********************************/
+    NSMutableArray *searchArray = [[NSMutableArray alloc]initWithArray:SEARCH_HISTORY];
+    if (searchArray == nil) {
+        searchArray = [[NSMutableArray alloc]init];
+    } else{
+        if ([searchArray containsObject:str]) {
+            [searchArray removeObject:str];
+        }
+    };
+    [searchArray insertObject:str atIndex:0];
+    [[NSUserDefaults standardUserDefaults] setObject:searchArray forKey:@"BFHistory"];
     
-    NSUserDefaults *userDefaultes = [NSUserDefaults standardUserDefaults];
-    //读取数组NSArray类型的数据
-    NSArray *myArray = [userDefaultes arrayForKey:@"BFHistory"];
-    // NSArray --> NSMutableArray
-    NSMutableArray *searTXT = [myArray mutableCopy];
-    [searTXT addObject:str];
-    if(searTXT.count > 5)
-    {
-        [searTXT removeObjectAtIndex:0];
-    }
-    //将上述数据全部存储到NSUserDefaults中
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setObject:searTXT forKey:@"BFHistory"];
+    /********************************/
+    
+    //通知刷新历史纪录
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"newHistory" object:str];  
 }
 
-
-
+- (void)dealloc
+{    NSLog(@"========通知销毁=====");
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

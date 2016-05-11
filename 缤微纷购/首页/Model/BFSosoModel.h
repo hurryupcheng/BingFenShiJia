@@ -48,5 +48,7 @@
 
 @property (nonatomic,retain)NSMutableArray *shopIDarray;
 
+//- (instancetype)initWithDictionary:(NSDictionary *)dic;
+
 @end
 

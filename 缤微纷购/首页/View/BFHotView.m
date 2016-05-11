@@ -21,6 +21,7 @@
     if ([super initWithFrame:frame]) {
         UILabel *hot = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth, CGFloatX(30))];
         hot.text = @"热门搜索词";
+        hot.font = [UIFont systemFontOfSize:CGFloatX(18)];
         [self addSubview:hot];
   
         CGFloat x = (kScreenWidth-50)/4;
@@ -41,6 +42,7 @@
         
         UILabel *love = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(self.button.frame)+10, kScreenWidth, CGFloatX(30))];
         love.text = @"猜你喜欢";
+        love.font = [UIFont systemFontOfSize:CGFloatX(18)];
         [self addSubview:love];
         
         CGFloat x1 = (kScreenWidth-40)/3;

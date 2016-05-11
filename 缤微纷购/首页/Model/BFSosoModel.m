@@ -54,7 +54,21 @@
     }
     return propertyName;
 }
-
+/*
+- (instancetype)initWithDictionary:(NSDictionary *)dic{
+    if ([super init]) {
+        NSLog(@"%@",dic);
+        self.shopID = dic[@"id"];
+        self.title = dic[@"title"];
+        self.img = dic[@"img"];
+        self.stock = dic[@"stock"];
+        self.price = dic[@"price"];
+        self.choose = dic[@"size"];
+        self.color = dic[@"color"];
+    }
+    return self;
+}
+*/
 - (NSMutableArray *)shopIDarray{
     if (!_shopIDarray) {
         _shopIDarray = [NSMutableArray array];
