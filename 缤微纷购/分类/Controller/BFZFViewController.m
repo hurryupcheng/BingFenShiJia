@@ -450,7 +450,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 0) {
         if (self.isCoupon == YES) {
-            return (CGFloatX(90)*_favourableArr.count)+(10*(_favourableArr.count+1));
+            return (CGFloatX(90)*_favourableArr.count)+(10*(_favourableArr.count+1))+8;
         }else{
             return 0;
         }
