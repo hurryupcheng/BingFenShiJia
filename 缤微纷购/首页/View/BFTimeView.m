@@ -9,7 +9,9 @@
 #define MarginH  BF_ScaleHeight(5)
 #import "BFTimeView.h"
 
-@interface BFTimeView()
+@interface BFTimeView(){
+    __block NSTimer *timer;
+}
 /**说明*/
 @property (nonatomic, strong) UILabel *timeLabel;
 /**时*/
@@ -62,7 +64,7 @@
         self.second = [self setUpTimeLabelWithFrame:CGRectMake(CGRectGetMaxX(secondSemicolon.frame), BF_ScaleHeight(5), BF_ScaleWidth(25), ViewH)];
         
         [self refreshTime];
-        [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
     }
 }
 
@@ -111,7 +113,8 @@
     NSString *betweenTime;
     
     if (betweenDate.second < 0){
-        
+        [timer invalidate];
+        timer = nil;
     }else {
         betweenTime = [self hourMinuteSecond:betweenDate.second];
     }

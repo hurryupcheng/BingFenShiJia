@@ -56,7 +56,7 @@
 - (void)click:(UIButton *)sender {
     [self.view endEditing:YES];
     //点击后2秒内，按钮不可用
-    leftTime = 2;
+    leftTime = 5;
     [self.saveButton setEnabled:NO];
     [self.saveButton setBackgroundColor:BFColor(0xD5D8D1)];
     
@@ -105,6 +105,8 @@
     {
         [self.saveButton setEnabled:YES];
         self.saveButton.backgroundColor = BFColor(0xFC940A);
+        [timer invalidate];
+        timer = nil;
     } else {
         
         [self.saveButton setEnabled:NO];

@@ -15,6 +15,8 @@
 @property (nonatomic, strong) NSString *proxy_order_money_need_confirm;
 /**总佣金*/
 @property (nonatomic, strong) NSString *proxy_order_money;
+/**总页数*/
+@property (nonatomic, assign) NSInteger page_num;
 /**客户订单数组*/
 @property (nonatomic, strong) NSArray<BFCustomerOrderList *> *proxy_order;
 @end

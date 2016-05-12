@@ -878,19 +878,24 @@
         double price = [responseObject[@"sum_item_price"] doubleValue];
         self.sum_price = price;
         
-        NSArray *data = [BFPayoffModel parse:responseObject[@"coupon_data"]];
-        self.favourableArr = [NSMutableArray array];
-        self.favourablePrice = [NSMutableArray array];
-        self.favourableTime = [NSMutableArray array];
-        self.favourableID = [NSMutableArray array];
-        
-        for (BFPayoffModel *model in data) {
-           
-            [_favourableArr addObject:model.name];
-            [_favourablePrice addObject:model.money];
-            [_favourableTime addObject:model.end_time];
-            [_favourableID addObject:model.ID];
+        if ([responseObject[@"coupon_data"] isKindOfClass:[NSArray class]]) {
+            NSArray *data = [BFPayoffModel parse:responseObject[@"coupon_data"]];
+            self.favourableArr = [NSMutableArray array];
+            self.favourablePrice = [NSMutableArray array];
+            self.favourableTime = [NSMutableArray array];
+            self.favourableID = [NSMutableArray array];
+            
+            for (BFPayoffModel *model in data) {
+                
+                [_favourableArr addObject:model.name];
+                [_favourablePrice addObject:model.money];
+                [_favourableTime addObject:model.end_time];
+                [_favourableID addObject:model.ID];
+            }
         }
+        
+        
+        
 //        NSLog(@"////%@",_favourablePrice);
 //        NSLog(@"====%@",_favourableID);
         [self initWithTableView];

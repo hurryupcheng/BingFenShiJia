@@ -11,8 +11,9 @@
 
 
 @interface BFProductDetailTabBar(){
-    __block int         leftTime;
+    __block NSInteger         leftTime;
     __block NSTimer     *timer;
+    __block NSTimer     *unShelveTimer;
 }
 
 
@@ -78,8 +79,8 @@
     self.unShelve = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32))];
     //self.unShelve.hidden = YES;
     self.unShelve.alpha = 0;
-    self.unShelve.text = @"商品已经下架";
-    self.unShelve.backgroundColor = BFColor(0xD6D6D6);
+    self.unShelve.text = @"商品已下架";
+    self.unShelve.backgroundColor = BFColor(0x1F1F1F);
     self.unShelve.layer.cornerRadius = BF_ScaleHeight(9);
     self.unShelve.layer.masksToBounds = YES;
     self.unShelve.textAlignment = NSTextAlignmentCenter;
@@ -92,8 +93,9 @@
     _model = model;
     if (model) {
         if (model.nowtime < [model.endtime integerValue] && [model.first_stock integerValue] > 0) {
-            [self refreshTime];
-            [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+            //leftTime = [model.endtime integerValue] - model.nowtime;
+//            [self refreshTime];
+           unShelveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
         }else {
             self.addToCart.hidden = YES;
             self.unShelve.hidden = NO;
@@ -107,17 +109,15 @@
 - (void)refreshTime {
     NSCalendar *todayCalender = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
         NSDateComponents *betweenDate = [todayCalender components:NSCalendarUnitSecond fromDate:[[NSDate alloc]initWithTimeIntervalSince1970:self.model.nowtime++]  toDate:[[NSDate alloc]initWithTimeIntervalSince1970:[self.model.endtime intValue]] options:0];
-    BFLog(@"----%ld", (long)betweenDate.second);
+    //BFLog(@"----%ld", (long)betweenDate.second);
     if (betweenDate.second <= 0) {
         [UIView animateWithDuration:0.5 animations:^{
             self.addToCart.alpha = 0;
             self.unShelve.alpha = 1;
-            
-            //取消定时器
-            [timer invalidate];
-            timer = nil;
-            
         }];
+        //取消定时器
+        [unShelveTimer invalidate];
+        unShelveTimer = nil;
     }else {
         self.addToCart.alpha = 1;
         self.unShelve.alpha = 0;
@@ -133,8 +133,6 @@
         [self.addToCart setEnabled:NO];
         [self.shoppingCart setEnabled:NO];
         
-        if(timer)
-            [timer invalidate];
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
         
         [self.delegate clickWithType:sender.tag];
@@ -148,6 +146,9 @@
     {
         [self.addToCart setEnabled:YES];
         [self.shoppingCart setEnabled:YES];
+        //关闭定时
+        [timer invalidate];
+        timer = nil;
         //self.addToCart.backgroundColor = BFColor(0xFD8727);
     } else
     {

@@ -12,9 +12,11 @@
 #import "AddressPickView.h"
 #import "HZQRegexTestter.h"
 #import "BFEditAddressView.h"
+#import "BFPickerView.h"
 
 
 @interface BFEditAddressView()<UITextFieldDelegate>
+@property (nonatomic, strong) BFPickerView *pickerView;
 /**收货人*/
 @property (nonatomic, strong) UITextField *consignee;
 /**详细地址*/
@@ -22,7 +24,7 @@
 /**联系方式*/
 @property (nonatomic, strong) UITextField *phone;
 /**地址类型*/
-@property (nonatomic, strong) UITextField *category;
+@property (nonatomic, strong) UILabel *category;
 /**分区*/
 @property (nonatomic, strong) UILabel *selectArea;
 /**开关按钮*/
@@ -167,14 +169,22 @@
     //phone.backgroundColor = [UIColor greenColor];
     [bottomView addSubview:phone];
     
-    UITextField *category = [[UITextField alloc] initWithFrame:CGRectMake(BF_ScaleWidth(100), CGRectGetMaxY(phone.frame), BF_ScaleWidth(210), CellHeight)];
-    self.category = category;
-    category.delegate = self;
-    category.returnKeyType = UIReturnKeyDone;
+//    UITextField *category = [[UITextField alloc] initWithFrame:CGRectMake(BF_ScaleWidth(100), CGRectGetMaxY(phone.frame), BF_ScaleWidth(210), CellHeight)];
+//    self.category = category;
+//    category.delegate = self;
+//    category.returnKeyType = UIReturnKeyDone;
+//    category.textAlignment = NSTextAlignmentRight;
+//    category.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+//    category.placeholder = @"家/公司/其他";
+//    //category.backgroundColor = [UIColor redColor];
+//    [bottomView addSubview:category];
+    UILabel *category = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(100), CGRectGetMaxY(phone.frame), BF_ScaleWidth(210), CellHeight)];
     category.textAlignment = NSTextAlignmentRight;
     category.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
-    category.placeholder = @"家/公司/其他";
-    //category.backgroundColor = [UIColor redColor];
+    category.userInteractionEnabled = YES;
+    self.category = category;
+    UITapGestureRecognizer *tapCategory = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(clickToChooseCategory)];
+    [category addGestureRecognizer:tapCategory];
     [bottomView addSubview:category];
     
     
@@ -207,6 +217,17 @@
     deleteButton.layer.borderWidth = 1;
     [deleteButton addTarget:self action:@selector(clickToDeleteAddress:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:deleteButton];
+}
+
+- (void)clickToChooseCategory {
+    [self endEditing:YES];
+    self.pickerView = [BFPickerView pickerView];
+    self.pickerView.dataArray = @[@"家", @"公司", @"其他"];
+    [self addSubview:self.pickerView];
+    __block typeof(self) weakSelf = self;
+    self.pickerView.block = ^(NSString *category){
+        weakSelf.category.text = category;
+    };
 }
 
 

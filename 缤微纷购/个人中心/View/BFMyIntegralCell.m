@@ -53,7 +53,7 @@
 }
 
 - (void)setCell {
-    self.integralLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(50), BF_ScaleHeight(20)) font:BF_ScaleFont(13) textColor:nil text:@"+1"];
+    self.integralLabel = [UILabel labelWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(70), BF_ScaleHeight(20)) font:BF_ScaleFont(13) textColor:nil text:@"+1"];
     
     //self.integralLabel.backgroundColor = [UIColor greenColor];
     [self addSubview:self.integralLabel];

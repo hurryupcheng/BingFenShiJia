@@ -127,9 +127,7 @@
                 sendLeftTime = 120;
                 [self.sendVerificationCodeButton setEnabled:NO];
                 //[self.sendVerificationCodeButton setBackgroundColor:BFColor(0xD5D8D1)];
-                
-                if(sendTimer)
-                    [sendTimer invalidate];
+
                 sendTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timer) userInfo:nil repeats:YES];
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送成功,请查收"];
                 [UIView animateWithDuration:0.5 animations:^{
@@ -158,6 +156,8 @@
         [self.sendVerificationCodeButton setEnabled:YES];
         //[self.sendVerificationCodeButton setBackgroundColor:BFColor(0xFC940A)];
         [self.sendVerificationCodeButton setTitle:@"验证码" forState:UIControlStateNormal];
+        [sendTimer invalidate];
+        sendTimer = nil;
     } else {
         
         [self.sendVerificationCodeButton setEnabled:NO];
@@ -175,8 +175,6 @@
     [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
     self.sureButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
     
-    if(timer)
-        [timer invalidate];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     
     
@@ -222,6 +220,8 @@
         [self.sureButton setEnabled:YES];
         [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
         self.sureButton.layer.borderColor = BFColor(0xFD8727).CGColor;
+        [timer invalidate];
+        timer = nil;
     } else {
         
         [self.sureButton setEnabled:NO];

@@ -18,7 +18,10 @@
 #import "BFBankModel.h"
 #import "HZQRegexTestter.h"
 
-@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>
+@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>{
+    __block NSInteger leftTime;
+    __block NSTimer *timer;
+}
 @property (nonatomic, strong) BFPickerView *pickerView;
 /**银行button*/
 @property (nonatomic, strong) BFBankButton *bankButton;
@@ -278,11 +281,11 @@
     // self.bankButton.backgroundColor = [UIColor redColor];
     button.tag = type;
     
-    CGFloat top = BF_ScaleHeight(10); // 顶端盖高度
-    CGFloat bottom = BF_ScaleHeight(20) ; // 底端盖高度
-    CGFloat left = BF_ScaleWidth(10); // 左端盖宽度
-    CGFloat right = BF_ScaleWidth(10); // 右端盖宽度
-    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+//    CGFloat top = BF_ScaleHeight(10); // 顶端盖高度
+//    CGFloat bottom = BF_ScaleHeight(20) ; // 底端盖高度
+//    CGFloat left = BF_ScaleWidth(10); // 左端盖宽度
+//    CGFloat right = BF_ScaleWidth(10); // 右端盖宽度
+//    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     // 指定为拉伸模式，伸缩后重新赋值
     UIImage *image = [UIImage imageNamed:@"pickerView"];
     UIImage *selectImage = [UIImage imageNamed:@"pickerView_select"];
@@ -458,6 +461,12 @@
 //确定按钮
 - (void)click:(UIButton *)sender {
     [self endEditing:YES];
+    leftTime = 5;
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction) userInfo:nil repeats:YES];
+    [self.sureButton setEnabled:NO];
+    [self.sureButton setBackgroundColor:BFColor(0xD5D8D1)];
+    
+    
     
     BFBankModel *bankInfo = [BFUserDefaluts getBankInfo];
 
@@ -526,6 +535,24 @@
     }];
 
 }
+
+
+- (void)timeAction {
+    BFLog(@"-----------");
+    leftTime--;
+    if (leftTime <= 0) {
+        [self.sureButton setEnabled:YES];
+        [self.sureButton setBackgroundColor:BFColor(0xFC940A)];
+        //取消倒计时
+        [timer invalidate];
+        timer = nil;
+    }else {
+        [self.sureButton setEnabled:NO];
+        [self.sureButton setBackgroundColor:BFColor(0xD5D8D1)];
+    }
+}
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self.branchTF resignFirstResponder];

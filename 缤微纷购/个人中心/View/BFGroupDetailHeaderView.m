@@ -26,21 +26,21 @@
 
 @implementation BFGroupDetailHeaderView
 
-- (BFGroupDetailStatusView *)statusView {
-    if (!_statusView) {
-        _statusView = [[BFGroupDetailStatusView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, BF_ScaleHeight(70))];
-        [self addSubview:_statusView];
-    }
-    return _statusView;
-}
+//- (BFGroupDetailStatusView *)statusView {
+//    if (!_statusView) {
+//        _statusView = [[BFGroupDetailStatusView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, BF_ScaleHeight(70))];
+//        [self addSubview:_statusView];
+//    }
+//    return _statusView;
+//}
 
-- (BFGroupDetailProductView *)productView {
-    if (!_productView) {
-        _productView = [[BFGroupDetailProductView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.statusView.frame), ScreenWidth, BF_ScaleHeight(110))];
-        [self addSubview:_productView];
-    }
-    return _productView;
-}
+//- (BFGroupDetailProductView *)productView {
+//    if (!_productView) {
+//        _productView = [[BFGroupDetailProductView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.statusView.frame), ScreenWidth, BF_ScaleHeight(110))];
+//        [self addSubview:_productView];
+//    }
+//    return _productView;
+//}
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -57,11 +57,12 @@
         
         self.productView.model = model;
         
-        self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5))];
+        //self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5))];
+        self.headPortrait.frame = CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5));
         self.headPortrait.model = model;
-        [self addSubview:self.headPortrait];
+        //[self addSubview:self.headPortrait];
         
-        self.countdownView = [[BFGroupDetailCountdownView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(75))];
+        self.countdownView.frame = CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(75));
         self.countdownView.model = model;
         self.countdownView.height = self.countdownView.countdownViewH;
         [self addSubview:self.countdownView];
@@ -73,7 +74,17 @@
 }
 
 - (void)setView {
-
+    _statusView = [[BFGroupDetailStatusView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, BF_ScaleHeight(70))];
+    [self addSubview:_statusView];
+    
+    _productView = [[BFGroupDetailProductView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.statusView.frame), ScreenWidth, BF_ScaleHeight(110))];
+    [self addSubview:_productView];
+    
+    self.headPortrait = [[BFHeadPortraitView alloc] init];
+    [self addSubview:self.headPortrait];
+    
+    self.countdownView = [[BFGroupDetailCountdownView alloc] init];
+    [self addSubview:self.countdownView];
     
 }
 

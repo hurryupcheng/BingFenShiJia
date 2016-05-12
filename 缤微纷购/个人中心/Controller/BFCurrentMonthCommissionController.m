@@ -78,7 +78,11 @@
     
     [BFNotificationCenter addObserver:self selector:@selector(gotoModifyBankInfo) name:@"gotoModify" object:nil];
 }
+
 - (void)gotoModifyBankInfo{
+    [self.vipVC removeFromParentViewController];
+    [self.customerVC removeFromParentViewController];
+    [self.recommendVC removeFromParentViewController];
     BFModifyBankCardController *modifyVC = [[BFModifyBankCardController alloc] init];
     modifyVC.block = ^(BFUserInfo *userInfo) {
         
@@ -87,10 +91,18 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    //self.segment.segmented.selectedSegmentIndex = 1;
+    [self.segment click];
+}
 
 
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    [self addChildViewController:self.vipVC];
+    [self addChildViewController:self.customerVC];
+    [self addChildViewController:self.recommendVC];
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     switch (segmentedControl.selectedSegmentIndex) {
         case 0: {
