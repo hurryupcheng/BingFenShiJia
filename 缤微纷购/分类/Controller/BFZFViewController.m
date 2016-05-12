@@ -171,7 +171,6 @@
     parameter[@"uid"] = _userInfo.ID;
     parameter[@"token"] = _userInfo.token;
     parameter[@"itemid"] = self.ID;
-    parameter[@"teamid"] = @"";
     parameter[@"coupon_id"] = self.coupon_id;
     parameter[@"pay_score"] = @(self.useScorePrice);
     parameter[@"postscript"] = _textView.text;
@@ -792,6 +791,7 @@
             _textView.returnKeyType = UIReturnKeyDefault;
             [_wordesBack addSubview:_textView];
             _textView.delegate = self;
+            _textView.returnKeyType = UIReturnKeyDone;
             self.tableV.tableFooterView = _wordesBack;
         }else{
 //            [self.tableV.tableFooterView removeFromSuperview];
@@ -986,6 +986,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 @end

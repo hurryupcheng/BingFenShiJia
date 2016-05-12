@@ -227,6 +227,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
 }
+
 -(void)hideKeyboard:(NSNotification *)noti{
     
     UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
@@ -241,6 +242,7 @@
     [self.view layoutIfNeeded];
     
 }
+
 -(void)showKeyboard:(NSNotification *)noti{
     //NSLog(@"userInfo %@",noti.userInfo);
     //键盘出现后的位置
@@ -265,6 +267,8 @@
     self.tabBarController.tabBar.hidden = YES;
 
 }
+
+
 
 //- (BOOL)prefersStatusBarHidden{
 //    return YES;

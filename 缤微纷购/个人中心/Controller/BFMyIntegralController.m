@@ -94,6 +94,8 @@
             BFLog(@"%@",responseObject);
             if (responseObject) {
                 self.headerView.totalScore = responseObject[@"score"];
+                userInfo.score = responseObject[@"score"];
+                [BFUserDefaluts modifyUserInfo:userInfo];
                 
                 if ([responseObject[@"score_list"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
