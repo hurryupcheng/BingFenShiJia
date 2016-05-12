@@ -15,7 +15,7 @@
 #import "BFShareView.h"
 #import <ShareSDK/ShareSDK.h>
 #import <QuartzCore/QuartzCore.h>
-static id _publishContent;
+
 @interface BFShareView ()
 /**微信朋友圈分享按钮*/
 @property (nonatomic, strong) UIButton *moments;
@@ -27,20 +27,24 @@ static id _publishContent;
 @property (nonatomic, strong) UIButton *sinaBlog;
 /**微信好友分享按钮*/
 @property (nonatomic, strong) UIButton *wechatFriends;
+
 @end
 
 @implementation BFShareView
 
 
 static id _publishContent;
-+ (instancetype)shareView:(id)publishContent {
-    _publishContent = publishContent;
-    //UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+
++ (instancetype)shareView {
+//    _publishContent = publishContent;
+
     BFShareView *share = [[BFShareView alloc] init];
     [share showShareView];
-    //[share addSubview:window];
+
     return share;
 }
+
+
 
 - (id)init {
     if (self = [super init]) {
@@ -141,67 +145,95 @@ static id _publishContent;
 
 - (void)clickToShare:(UIButton *)sender {
     
+    if (self.delegate && [self.delegate respondsToSelector:@selector(shareView:type:)])  {
+        [self hideShareView];
+        [self.delegate shareView:self type:sender.tag];
+    }
+    
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     
-    int shareType = 0;
-    id publishContent = _publishContent;
-    switch (sender.tag) {
-        case BFShareButtonTypeMoments:
-            shareType = ShareTypeWeixiTimeline;
-            break;
-        case BFShareButtonTypeWechatFriends:
-            shareType = ShareTypeWeixiSession;
-            break;
-        case BFShareButtonTypeQQZone:
-            shareType = ShareTypeQQSpace;
-            break;
-        case BFShareButtonTypeQQFriends:
-            shareType = ShareTypeQQ;
-            break;
-        case BFShareButtonTypeSinaBlog:
-            shareType = ShareTypeSinaWeibo;
-            break;
-            
-        default:
-            break;
-    }
-    
-    if (shareType == ShareTypeSinaWeibo) {
-        [self hideShareView];
-        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            
-            if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-            }else if (state == SSResponseStateCancel) {
-                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
-            }
-            BFLog(@"---%d",state);
-        }];
-        
-    }else {
-        [self hideShareView];
-        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            BFLog(@"---%d",type);
-            if (state == SSResponseStateSuccess) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-            }else if (state == SSResponseStateCancel) {
-                //[self hideShareView];
-                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
-            }
-        }];
-
-    }
-    
+//    int shareType = 0;
+//    id publishContent = _publishContent;
+//    switch (sender.tag) {
+//        case BFShareButtonTypeMoments:
+//            shareType = ShareTypeWeixiTimeline;
+//            break;
+//        case BFShareButtonTypeWechatFriends:
+//            shareType = ShareTypeWeixiSession;
+//            break;
+//        case BFShareButtonTypeQQZone:
+//            shareType = ShareTypeQQSpace;
+//            break;
+//        case BFShareButtonTypeQQFriends:
+//            shareType = ShareTypeQQ;
+//            break;
+//        case BFShareButtonTypeSinaBlog:
+//            shareType = ShareTypeSinaWeibo;
+//            break;
+//            
+//        default:
+//            break;
+//    }
+//    
+//
+//    
+//    
+//    if (shareType == ShareTypeSinaWeibo) {
+//        [self hideShareView];
+//        //无编辑页面分享
+////        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+////            if (state == SSResponseStateSuccess) {
+////                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+////                
+////            }else if (state == SSResponseStateFail) {
+////                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+////                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+////                if ([error errorCode] == 20012) {
+////                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+////                }
+////            }else if (state == SSResponseStateCancel) {
+////                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+////            }
+////            BFLog(@"---%d",state);
+////        }];
+//        //有编辑页面
+//        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            
+//            if (state == SSResponseStateSuccess) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//                if ([error errorCode] == 20012) {
+//                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+//                }
+//            }else if (state == SSResponseStateCancel) {
+//                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+//            }
+//            BFLog(@"---%d",state);
+//        }];
+//        
+//    }else {
+//        [self hideShareView];
+//        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            BFLog(@"---%d",type);
+//            if (state == SSResponseStateSuccess) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//            }else if (state == SSResponseStateCancel) {
+//                //[self hideShareView];
+//                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+//            }
+//        }];
+//
+//    }
+//    
     
 //    if (self.delegate && [self.delegate respondsToSelector:@selector(bfShareView:type:)]) {
 //        [self.delegate bfShareView:self type:sender.tag];

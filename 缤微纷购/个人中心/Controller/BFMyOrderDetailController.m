@@ -203,7 +203,10 @@
                     payVC.pay = @"微信支付";
                 }
                 payVC.orderModel = orderModel;
-                payVC.totalPrice = self.model.order_sumPrice;
+                float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
+                
+                payVC.totalPrice = [NSString stringWithFormat:@"¥ %.2f", payMoney];
+                
                 payVC.orderid = self.model.orderId;
                 payVC.addTime = self.model.add_time;
                 NSMutableArray *mutableArray = [NSMutableArray array];

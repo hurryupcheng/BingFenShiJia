@@ -29,6 +29,8 @@
 @property (nonatomic,retain)NSString *title;
 /** 产品价格 **/
 @property (nonatomic,retain)NSString *price;
+/** 最新价格 **/
+@property (nonatomic,retain)NSString *thisprice;
 /** 产品库存 **/
 @property (nonatomic,retain)NSString *stock;
 /** 产品颜色 **/

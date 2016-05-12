@@ -17,7 +17,7 @@
 #import "BFProductDetailHeaderView.h"
 #import "BFDetailCell.h"
 
-@interface FXQViewController ()<UITableViewDelegate, UITableViewDataSource, BFProductDetailTabBarDelegate, BFShopCartAnimationDelegate>
+@interface FXQViewController ()<UITableViewDelegate, UITableViewDataSource, BFProductDetailTabBarDelegate, BFShopCartAnimationDelegate, BFShareViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义tabBar*/
@@ -156,7 +156,8 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];NSLog(@"%@&id=%@",url,self.ID);
+        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+        NSLog(@"%@&id=%@",url,self.ID);
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
@@ -190,20 +191,97 @@
 
 #pragma mark --分享按钮点击事件
 - (void)share {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    id<ISSContent> publishContent = [ShareSDK content:self.model.intro
-                                       defaultContent:self.model.intro
-                                                image:[ShareSDK imageWithUrl:self.model.img]
-                                                title:self.model.title
-                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
-                                          description:self.model.title
-                                            mediaType:SSPublishContentMediaTypeNews];
+
     //调用自定义分享
-    BFShareView *share = [BFShareView shareView:publishContent];
+    BFShareView *share = [BFShareView shareView];
+    share.delegate = self;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:share];
 
 }
+
+#pragma mark -- 分享页面代理方法
+
+- (void)shareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    
+    switch (type) {
+        case BFShareButtonTypeQQZone:{
+            [self shareWithType:ShareTypeQQSpace];
+            break;
+        }
+        case BFShareButtonTypeQQFriends:{
+            [self shareWithType:ShareTypeQQ];
+            break;
+        }
+        case BFShareButtonTypeWechatFriends:{
+            [self shareWithType:ShareTypeWeixiSession];
+            break;
+        }
+        case BFShareButtonTypeMoments:{
+            [self shareWithType:ShareTypeWeixiTimeline];
+            break;
+        }
+        case BFShareButtonTypeSinaBlog:{
+            [self shareWithType:ShareTypeSinaWeibo];
+            break;
+        }
+    }
+}
+
+
+- (void)shareWithType:(ShareType)shareType {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (shareType == ShareTypeSinaWeibo) {
+        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@",self.model.title, self.ID, userInfo.ID]
+                                           defaultContent:self.model.intro
+                                                    image:[ShareSDK imageWithUrl:self.model.img]
+                                                    title:self.model.title
+                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
+                                              description:self.model.title
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+                if ([error errorCode] == 20012) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+                }
+            }else if (state == SSResponseStateCancel) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText: @"分享失败"];
+            }
+            BFLog(@"---%d",state);
+        }];
+
+    }else {
+        id<ISSContent> publishContent = [ShareSDK content:self.model.intro
+                                           defaultContent:self.model.intro
+                                                    image:[ShareSDK imageWithUrl:self.model.img]
+                                                    title:self.model.title
+                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
+                                              description:self.model.title
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
+            }
+        }];
+
+    }
+}
+
 
 #pragma mark --BFProductDetailTabBarDelegate
 - (void)clickWithType:(BFProductDetailTabBarButtonType)type {
@@ -233,7 +311,7 @@
                     [BFProgressHUD MBProgressOnlyWithLabelText:@"超出库存数量"];
                 }else{
                 
-                BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
+                BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.first_price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
                 
                 [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:storage];
                 [[CXArchiveShopManager sharedInstance]startArchiveShop];

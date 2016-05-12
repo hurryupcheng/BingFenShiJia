@@ -172,6 +172,9 @@
     parameter[@"token"] = _userInfo.token;
     parameter[@"itemid"] = self.ID;
     parameter[@"teamid"] = @"";
+    parameter[@"coupon_id"] = self.coupon_id;
+    parameter[@"pay_score"] = @(self.useScorePrice);
+    parameter[@"postscript"] = _textView.text;
     parameter[@"address_id"] = self.addressID;
     
     if ([self.payTitle.text isEqualToString:@"支付宝"]) {
@@ -243,7 +246,7 @@
     data[@"uid"] = _userInfo.ID;
     data[@"token"] = _userInfo.token;
     data[@"coupon_id"] = self.coupon_id;
-    data[@"pay_score"] = @(self.scores);
+    data[@"pay_score"] = @(self.useScorePrice);
     data[@"postscript"] = _textView.text;
     data[@"address_id"] = self.addressID;
     data[@"data"] = self.itemDate;
@@ -856,8 +859,7 @@
         self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
         NSLog(@"========%ld=========%@",(long)model.numbers,model.price);
     }
-//    NSLog(@"\\\\\\%@",self.itemDate);
-//    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
+
     self.userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
@@ -866,7 +868,7 @@
     boty[@"data"] = self.itemDate;
     boty[@"sheng"] = self.model.sheng;
     self.addressID = self.model.ID;
-//    NSLog(@"======%@",self.model.ID);
+
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
         NSLog(@"...%@  %@",responseObject,boty);
 

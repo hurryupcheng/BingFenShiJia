@@ -73,8 +73,8 @@
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:xqModel.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     self.title.text = xqModel.title;
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥ %@",xqModel.price]];
-    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Bold" size:CGFloatY(22)] range:NSMakeRange(2, [xqModel.price length])];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥ %@",xqModel.thisprice]];
+    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-Bold" size:CGFloatY(22)] range:NSMakeRange(2, [xqModel.thisprice length])];
     self.money.attributedText = str;
     
     self.number.text = xqModel.size;

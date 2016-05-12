@@ -14,7 +14,7 @@
 #import "BFShareView.h"
 #import "LogViewController.h"
 
-@interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate, BFPTDetailHeaderViewDelegate>
+@interface BFPTDetailViewController ()<BFPTStepDelegate,UIWebViewDelegate, BFPTDetailHeaderViewDelegate, BFShareViewDelegate>
 /**webView*/
 @property (nonatomic, strong) UIWebView *webView;
 /**自定义头部视图*/
@@ -69,12 +69,96 @@
                                           description:self.model.title
                                             mediaType:SSPublishContentMediaTypeNews];
     //调用自定义分享
-    BFShareView *share = [BFShareView shareView:publishContent];
+    BFShareView *share = [BFShareView shareView];
+    share.delegate = self;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:share];
     
 }
 
+
+#pragma mark -- 分享页面代理方法
+
+- (void)shareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    
+    switch (type) {
+        case BFShareButtonTypeQQZone:{
+            [self shareWithType:ShareTypeQQSpace];
+            break;
+        }
+        case BFShareButtonTypeQQFriends:{
+            [self shareWithType:ShareTypeQQ];
+            break;
+        }
+        case BFShareButtonTypeWechatFriends:{
+            [self shareWithType:ShareTypeWeixiSession];
+            break;
+        }
+        case BFShareButtonTypeMoments:{
+            [self shareWithType:ShareTypeWeixiTimeline];
+            break;
+        }
+        case BFShareButtonTypeSinaBlog:{
+            [self shareWithType:ShareTypeSinaWeibo];
+            break;
+        }
+    }
+}
+
+
+- (void)shareWithType:(ShareType)shareType {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    BFLog(@"---%@,,%@,,%@,,%@",self.model.title, self.model.intro, self.model.img, self.model);
+    if (shareType == ShareTypeSinaWeibo) {
+        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@",self.model.title, self.ID, userInfo.ID]
+                                           defaultContent:self.model.intro
+                                                    image:[ShareSDK imageWithUrl:self.model.img]
+                                                    title:self.model.title
+                                                      url:nil
+                                              description:self.model.title
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+                if ([error errorCode] == 20012) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+                }
+            }else if (state == SSResponseStateCancel) {
+                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+            }
+            BFLog(@"---%d",state);
+        }];
+        
+    }else {
+        id<ISSContent> publishContent = [ShareSDK content:self.model.intro
+                                           defaultContent:self.model.intro
+                                                    image:[ShareSDK imageWithUrl:self.model.img]
+                                                    title:self.model.title
+                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
+                                              description:self.model.title
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                //[self hideShareView];
+                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+        
+    }
+}
 
 
 #pragma mark -- 获取数据
@@ -89,6 +173,7 @@
             BFLog(@"BFPTDetailViewController%@",responseObject);
             _dataArray = [NSMutableArray array];
             BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
+            self.model = model;
             model.numbers = 1;
             model.shopID = self.ID;
             self.endTime = model.team_timeend;

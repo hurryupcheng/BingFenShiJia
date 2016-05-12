@@ -11,7 +11,8 @@
 @interface BFProductInfoModel : NSObject
 /**id*/
 @property (nonatomic, strong) NSString *ID;
-
+/**留言*/
+@property (nonatomic, strong) NSString *note;
 /**订单号*/
 @property (nonatomic, strong) NSString *orderId;
 /**添加订单时间*/
@@ -19,7 +20,7 @@
 /**优惠券抵扣*/
 @property (nonatomic, strong) NSString *coupon_money;
 /**积分抵扣*/
-@property (nonatomic, strong) NSString *user_score;
+@property (nonatomic, strong) NSString *score;
 /**单价*/
 @property (nonatomic, strong) NSString *goods_sumPrice;
 /**总价*/
