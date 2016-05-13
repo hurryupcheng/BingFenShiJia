@@ -122,6 +122,7 @@
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ %.2f",price];
 }
 
+#pragma  mark 全选按钮方法
 - (void)selectAllBtnClick:(UIButton*)button{
 //  点击全选时，把之前已选择的全部删除
     [self.selectGoods removeAllObjects];
@@ -136,6 +137,7 @@
         [self.selectGoods removeAllObjects];
         self.foot.buyButton.enabled = NO;
     }
+
     [self.tabView reloadData];
     [self countPrice];
 }
@@ -162,7 +164,7 @@
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
-    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, CGFloatX(40))];
     self.header.backgroundColor = BFColor(0xF3F4F5);
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];

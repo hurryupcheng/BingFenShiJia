@@ -165,7 +165,7 @@
     
     self.button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, BF_ScaleFont(80), CGFloatX(25))];
     _button.backgroundColor = [UIColor whiteColor];
-    _button.layer.cornerRadius = 10;
+    _button.layer.cornerRadius = CGFloatX(10);
     _button.layer.masksToBounds = YES;
     _button.selected = YES;
     _button.tag = 100;
@@ -176,7 +176,7 @@
     
     self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), CGFloatX(25))];
     _but.backgroundColor = rgb(43, 97, 196, 1.0);
-    _but.layer.cornerRadius = 10;
+    _but.layer.cornerRadius = CGFloatX(10);
     _but.layer.masksToBounds = YES;
     [_but setTitle:@"缤纷拼团" forState:UIControlStateNormal];
     _but.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];

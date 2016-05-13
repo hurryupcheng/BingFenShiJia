@@ -109,15 +109,15 @@
     [self.navigationView addSubview:back];
  
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
-    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, 30)];
-    _segmented.layer.cornerRadius = 6;
+    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, CGFloatX(30))];
+    _segmented.layer.cornerRadius = CGFloatX(6);
     _segmented.layer.masksToBounds = YES;
     _segmented.layer.borderWidth = 1;
     _segmented.layer.borderColor = rgb(0, 0, 205, 1.0).CGColor;
     
     [self.view addSubview:_segmented];
     for (int i = 0; i < 3; i++) {
-        self.segmentBut = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, 30)];
+        self.segmentBut = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, CGFloatX(30))];
         
         self.segmentBut.tag = i;
         [self.segmentBut setTitle:arr[i] forState:UIControlStateNormal];

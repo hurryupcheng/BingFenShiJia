@@ -14,21 +14,22 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if ([super initWithFrame:frame]) {
 //        CGFloat x = frame.size.height-30;
-        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(15), 7, CGFloatY(30), CGFloatY(30))];
+        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(15), CGFloatX(5), CGFloatY(30), CGFloatY(30))];
         self.allSeled.layer.cornerRadius = CGFloatY(15);
         self.allSeled.layer.masksToBounds = YES;
+//        self.allSeled.backgroundColor = [UIColor greenColor];
         [self.allSeled setBackgroundImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.allSeled setBackgroundImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
         
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.allSeled.frame)+5, 7, 40, CGFloatX(30))];
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.allSeled.frame)+5, CGFloatX(5), 40, CGFloatX(30))];
         label.text = @"全选";
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:CGFloatX(17)];
+        label.font = [UIFont systemFontOfSize:CGFloatX(18)];
         
-        UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth/2-((kScreenWidth/3)/2), 7, kScreenWidth/3, CGFloatX(30))];
+        UILabel *title = [[UILabel alloc]initWithFrame:CGRectMake(kScreenWidth/2-((kScreenWidth/3)/2), CGFloatX(5), kScreenWidth/3, CGFloatX(30))];
         title.text = @"商品信息";
         title.textAlignment = NSTextAlignmentCenter;
-        title.font = [UIFont systemFontOfSize:CGFloatX(17)];
+        title.font = [UIFont systemFontOfSize:CGFloatX(18)];
         title.textColor = BFColor(0x818284);
     
         [self addSubview:self.allSeled];
