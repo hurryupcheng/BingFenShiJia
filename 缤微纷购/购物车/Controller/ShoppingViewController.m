@@ -234,10 +234,11 @@
     cell.isSelected = self.isEdits;
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
-    }
-    
-    cell.selBlock = ^(BOOL isSelected){
         
+    }
+
+    cell.selBlock = ^(BOOL isSelected){
+       
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
             self.foot.buyButton.enabled = YES;
