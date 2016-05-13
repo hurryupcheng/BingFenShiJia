@@ -27,8 +27,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(15, self.contentView.frame.size.height/2+CGFloatY(25/2), CGFloatY(25), CGFloatY(25))];
-        self.needV.layer.cornerRadius = CGFloatY(25/2);
+        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(15), self.contentView.frame.size.height/2+CGFloatY(15), CGFloatY(30), CGFloatY(30))];
+        self.needV.layer.cornerRadius = CGFloatY(15);
         self.needV.layer.masksToBounds = YES;
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];

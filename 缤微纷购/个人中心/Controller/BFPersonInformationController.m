@@ -120,7 +120,9 @@
                 break;
         }
     } else if (indexPath.section == 1) {
+        if (self.userInfo.vip_name) {
         cell.textLabel.text = [NSString stringWithFormat:@"  %@", self.userInfo.vip_name];
+        }
         UISwitch *switchButton = [[UISwitch alloc] init];
         switchButton.userInteractionEnabled = NO;
         switchButton.onTintColor = BFColor(0x0977ca);

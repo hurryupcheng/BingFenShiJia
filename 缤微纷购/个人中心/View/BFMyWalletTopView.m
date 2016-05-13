@@ -104,10 +104,12 @@
         [self addSubview:self.threeButtonView];
         
         _balanceButton = [self setUpButtonWithType:BFMyWalletTopButtonTypeBalance titleText:@"余额"];
+        _balanceButton.userInteractionEnabled = NO;
 
         _recordButton = [self setUpButtonWithType:BFMyWalletTopButtonTypeRecord titleText:@"提现记录"];
         
         _frozenButton = [self setUpButtonWithType:BFMyWalletTopButtonTypeFrozen titleText:@"冻结金额"];
+        _frozenButton.userInteractionEnabled = NO;
         self.seperateLineOne = [[UIView alloc] init];
         self.seperateLineOne.backgroundColor = BFColor(0xB4B4B1);
         [self addSubview:self.seperateLineOne];

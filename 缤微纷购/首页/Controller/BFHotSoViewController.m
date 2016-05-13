@@ -142,8 +142,8 @@
     BFResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
 //    NSLog(@"<<<<<<<%d<<<%@",self.dataArray.count,self.dataArray);
     [cell setmodel:self.dataArray[indexPath.row]];
-    _otherModel = self.dataArray[indexPath.row];
-    NSLog(@"%d==>>>>>%@",self.dataArray.count,_otherModel.shopID);
+//    _otherModel = self.dataArray[indexPath.row];
+//    NSLog(@"%d==>>>>>%@",self.dataArray.count,_otherModel.shopID);
     _height = cell.cellHeigh;
     cell.delegate = self;
     cell.buy.tag = indexPath.row;

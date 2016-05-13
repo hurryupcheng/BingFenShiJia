@@ -58,7 +58,7 @@
 }
 
 - (void)setmodel:(BFSosoSubOtherModel *)model{
-    NSLog(@"img = %@,title = %@",model.shopID,model.title);
+//    NSLog(@"img = %@,title = %@",model.shopID,model.title);
     
     [_img sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     _title.text = model.title;
