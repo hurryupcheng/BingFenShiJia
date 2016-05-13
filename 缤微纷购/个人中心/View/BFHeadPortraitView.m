@@ -121,19 +121,23 @@
         for (NSInteger i = 1; i <= array.count; i++) {
             TeamList *list = array[i-1];
             
-            [(UIImageView *)[view viewWithTag:i] sd_setImageWithURL:[NSURL URLWithString:list.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
-            
-            if ([list.join isEqualToString:@"1"]) {
-                UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
-                icon.hidden = NO;
-                icon.image = [UIImage imageNamed:@"group_detail_captain"];
-            }else if ([list.join isEqualToString:@"2"]) {
-                UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
-                icon.hidden = NO;
-                icon.image = [UIImage imageNamed:@"group_detail_sofa"];
-            }else {
-                
+            //判断付款后才有头像又头衔
+            if ([list.status isEqualToString:@"2"] || [list.status isEqualToString:@"3"] || [list.status isEqualToString:@"4"]) {
+                [(UIImageView *)[view viewWithTag:i] sd_setImageWithURL:[NSURL URLWithString:list.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
+                if ([list.join isEqualToString:@"1"]) {
+                    UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+                    icon.hidden = NO;
+                    icon.image = [UIImage imageNamed:@"group_detail_captain"];
+                }else if ([list.join isEqualToString:@"2"]) {
+                    UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+                    icon.hidden = NO;
+                    icon.image = [UIImage imageNamed:@"group_detail_sofa"];
+                }else {
+                    
+                }
             }
+
+            
                    
         }
         view.frame = CGRectMake(0,H*BF_ScaleWidth(60), viewW, BF_ScaleWidth(60));

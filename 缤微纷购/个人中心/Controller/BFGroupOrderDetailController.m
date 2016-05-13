@@ -163,7 +163,7 @@
         }];
 //    }];
     //倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.detailView.payButton setEnabled:NO];
     [self.detailView.payButton setBackgroundColor:BFColor(0xD5D8D1)];
 

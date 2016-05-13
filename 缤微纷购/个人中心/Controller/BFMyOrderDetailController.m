@@ -205,7 +205,7 @@
                 payVC.orderModel = orderModel;
                 float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
                 
-                payVC.totalPrice = [NSString stringWithFormat:@"¥ %.2f", payMoney];
+                payVC.totalPrice = [NSString stringWithFormat:@"%.2f", payMoney];
                 
                 payVC.orderid = self.model.orderId;
                 payVC.addTime = self.model.add_time;
@@ -224,7 +224,7 @@
         }];
 //    }];
     //点击按钮倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.footerView.pay setEnabled:NO];
     [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];

@@ -91,7 +91,7 @@
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:rightBut];
     
-    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(288), 23, 18, 18)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260)+22, 23, 18, 18)];
     _numLabel.backgroundColor = [UIColor redColor];
     _numLabel.layer.cornerRadius = 9;
     _numLabel.layer.masksToBounds = YES;

@@ -147,6 +147,11 @@
             if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [TeamList parse:self.model.thisteam];
                 [self.teamArray addObjectsFromArray:array];
+                for (TeamList *list in self.teamArray) {
+                    if ([list.status isEqualToString:@"1"]) {
+                        [self.teamArray removeObject:list];
+                    }
+                }
             }
             //给头部视图模型赋值
             self.headerView.model = self.model;
@@ -217,6 +222,11 @@
                 if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [TeamList parse:self.model.thisteam];
                     [self.teamArray addObjectsFromArray:array];
+                    for (TeamList *list in self.teamArray) {
+                        if ([list.status isEqualToString:@"1"]) {
+                            [self.teamArray removeObject:list];
+                        }
+                    }
                 }
                 //给头部视图模型赋值
                 self.headerView.model = self.model;
@@ -224,8 +234,6 @@
                 self.footerView.model = self.model;
                 //返回的高度赋值
                 [self animation];
-                
-                
                 //给状态栏赋值
                 self.tabbar.model = self.model;
                 BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
@@ -256,7 +264,7 @@
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     return self.teamArray.count;
 }
 
@@ -418,7 +426,7 @@
         }];
 //    }];
     //倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.tabbar.payButton setEnabled:NO];
     [self.tabbar.payToJoinButton setEnabled:NO];
     [self.tabbar.payButton setBackgroundColor:BFColor(0xD5D8D1)];
@@ -507,13 +515,13 @@
                                                 mediaType:SSPublishContentMediaTypeNews];
         [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
                 if ([error errorCode] == 20012) {
-                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享内容过长,请少于140个字节"];
                 }
             }else if (state == SSResponseStateCancel) {
                 //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
@@ -533,11 +541,11 @@
             BFLog(@"---%d",type);
             if (state == SSResponseStateSuccess) {
                 //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
                 //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
                 //[self hideShareView];

@@ -14,6 +14,14 @@ typedef void (^selectBlock)(BOOL select);
 //  数量改变的回调
 typedef void(^numChange)();
 
+@class SPTableViewCell;
+@protocol SPTableViewCellDelegate <NSObject>
+
+- (void)cell:(SPTableViewCell *)cell TextFiled:(UITextField *)textField indexPath:(NSInteger)indexPath;
+
+@end
+
+
 @interface SPTableViewCell : UITableViewCell<UITextFieldDelegate>
 
 @property (nonatomic,retain)UILabel *numberLabel;
@@ -28,4 +36,7 @@ typedef void(^numChange)();
 @property (nonatomic,assign)NSInteger cellHeight;
 
 - (void)reloadDataWith:(BFStorage *)model;
+/**代理*/
+@property (nonatomic, weak) id<SPTableViewCellDelegate>delegate;
+
 @end

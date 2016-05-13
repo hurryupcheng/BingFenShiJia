@@ -19,7 +19,7 @@
 #import "ShoppingViewController.h"
 #import "CXArchiveShopManager.h"
 
-@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate>
+@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate, SPTableViewCellDelegate>
 @property (nonatomic,retain)SPTableViewCell *sp;
 @property (nonatomic,retain)BFOtherView *other;
 @property (nonatomic,retain)BFHeaderView *header;
@@ -40,7 +40,8 @@
 @property (nonatomic,retain)UIView *backV;
 @property (nonatomic) BOOL footItem;
 @property (nonatomic,retain)BFEmptyView *empty;
-
+/**代理的textfield的frame*/
+@property (nonatomic, assign) CGRect textFieldFrame;
 @end
 
 @implementation ShoppingViewController
@@ -52,6 +53,9 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"laji.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(removeAll)];
 
      self.title = @"购物车";
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)data{
@@ -166,7 +170,7 @@
   
     [self.backV addSubview:self.tabView];
     [self.backV addSubview:_foot];
-
+    [self.backV addSubview:self.header];
 }
 
 #pragma  mark tabView代理方法
@@ -229,6 +233,7 @@
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.isSelected = self.isEdits;
+    cell.delegate = self;
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
     }
@@ -260,10 +265,11 @@
         if (number <= 1 || weakCell.add.textF.text == nil) {
             number = 1;
         }else if (number >= [model.stock integerValue]){
+            
             number = [model.stock integerValue];
         }
         [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES num:[NSString stringWithFormat:@"%d",number]];
+        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES num:[NSString stringWithFormat:@"%ld",(long)number]];
         
         model.numbers = number;
         
@@ -423,8 +429,7 @@
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
     
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+
     
 }
 
@@ -468,60 +473,68 @@
     return _selectGoods;
 }
 
-//-(void)hideKeyboard:(NSNotification *)noti{
-//    
-//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-//    //键盘弹起的时间
-//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-//    CGRect bottomViewFrame = _tabView.frame;
-//    bottomViewFrame.origin.y = self.view.frame.size.height-bottomViewFrame.size.height-50;
-//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-//        _tabView.frame = bottomViewFrame;
-//    } completion:nil];
-//    //为了显示动画
-//    [self.view layoutIfNeeded];
-//    
-//}
-//-(void)showKeyboard:(NSNotification *)noti{
-//    //NSLog(@"userInfo %@",noti.userInfo);
-//    //键盘出现后的位置
-//    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
-//    //键盘弹起时的动画效果
-//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-//    //键盘弹起的时间
-//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-//    CGRect bottomViewFrame = _tabView.frame;
-//    bottomViewFrame.origin.y = endframe.origin.y - bottomViewFrame.size.height-50;
-//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-//        _tabView.frame = bottomViewFrame;
-//    } completion:nil];
-//    [self.view layoutIfNeeded];
-//}
-//
-//-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-//    
-//    if ([text isEqualToString:@"\n"]) {
-//        
-//        [textView resignFirstResponder];
-//        
-//        return NO;
-//        
-//    }
-//    
-//    return YES;
-//    
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    
-//    self.navigationController.navigationBar.translucent = NO;
-//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-//    self.tabBarController.tabBar.hidden = YES;
-//    
-//}
+-(void)hideKeyboard:(NSNotification *)noti{
+    
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = _tabView.frame;
+    bottomViewFrame.origin.y = 0;
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tabView.frame = bottomViewFrame;
+    } completion:nil];
+    //为了显示动画
+    [self.view layoutIfNeeded];
+    
+}
 
+
+
+-(void)showKeyboard:(NSNotification *)noti{
+    //NSLog(@"userInfo %@",noti.userInfo);
+    //键盘出现后的位置
+    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    //键盘弹起时的动画效果
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = self.tabView.frame;
+    bottomViewFrame.origin.y = -40;
+//    if (bottomViewFrame.size.height - self.textFieldFrame.origin.y < endframe.size.height) {
+//        bottomViewFrame.origin.y = bottomViewFrame.size.height - self.textFieldFrame.origin.y - endframe.size.height;
+//    }else {
+//        bottomViewFrame.origin.y = 0;
+//    }
+    
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tabView.frame = bottomViewFrame;
+
+    } completion:nil];
+    [self.view layoutIfNeeded];
+}
+
+- (void)cell:(SPTableViewCell *)cell TextFiled:(UITextField *)textField indexPath:(NSInteger)indexPath {
+    CGRect frame = [textField  convertRect:textField.frame toView:self.tabView];
+    
+    self.textFieldFrame = frame;
+}
+
+
+
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    self.navigationController.navigationBar.translucent = NO;
+
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

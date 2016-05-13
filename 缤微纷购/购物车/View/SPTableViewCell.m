@@ -88,8 +88,8 @@
 - (void)maxButton{
     self.add.minBut.enabled = YES;
     
-    if ([self.add.textF.text integerValue] >= [self.stock integerValue]) {
-        
+    if ([self.add.textF.text integerValue] > [self.stock integerValue]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.maxBut.enabled = NO;
     }else{
         if (self.numAddBlock) {
@@ -105,7 +105,8 @@
     if (self.numCutBlock) {
         self.numCutBlock();
     }
-    if ([self.add.textF.text integerValue] <= 1) {
+    if ([self.add.textF.text integerValue] < 1) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = @"1";
         self.add.minBut.enabled = NO;
         
@@ -129,9 +130,11 @@
 //    self.add.backgroundColor = [UIColor redColor];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.price];
     self.hetLabel.text = [NSString stringWithFormat:@"%@  %@",model.color,model.choose];
-    self.add.textF.text = [NSString stringWithFormat:@"%d",model.numbers];
+    self.add.textF.text = [NSString stringWithFormat:@"%ld",(long)model.numbers];
     self.needV.selected = self.isSelected;
     self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
+    
+    BFLog(@"--------%ld,,,,,%f", self.cellHeight,self.add.y);
    
 }
 
@@ -139,11 +142,13 @@
     if (self.sumBlock) {
         self.sumBlock();
     }
-    if ([self.add.textF.text integerValue] <= 1) {
+    if ([self.add.textF.text integerValue] < 1) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = @"1";
         self.add.minBut.enabled = NO;
         
-    }else if ([self.add.textF.text integerValue] >= [self.stock integerValue]){
+    }else if ([self.add.textF.text integerValue] > [self.stock integerValue]){
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = self.stock;
     }
     
@@ -162,6 +167,17 @@
     }
     return isValid;
 }
+
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    BFLog(@"--------%ld", (long)textField.tag);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(cell:TextFiled:indexPath:)]) {
+        [self.delegate cell:self TextFiled:textField indexPath:textField.tag];
+    }
+}
+
+
+
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
