@@ -219,30 +219,32 @@
     telephone.height = 30;
     [telephone addTarget:self action:@selector(telephone) forControlEvents:UIControlEventTouchUpInside];
     [telephone setImage:[UIImage imageNamed:@"telephone"] forState:UIControlStateNormal];
+    [telephone setImage:[UIImage imageNamed:@"telephone"] forState:UIControlStateHighlighted];
     UIBarButtonItem *telephoneItem = [[UIBarButtonItem alloc] initWithCustomView:telephone];
     self.navigationItem.rightBarButtonItem = telephoneItem;
     
-    UIButton *back = [UIButton buttonWithType:0];
-//    back.width = 20;
-//    back.height = 40;
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    // 设置图片
+    [btn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage imageNamed:@"back"] forState:UIControlStateHighlighted];
+    // 设置尺寸
+    btn.size = btn.currentBackgroundImage.size;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
+
     
-    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
-    back.size = back.currentBackgroundImage.size;
-    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
-    
-    
-    
-    self.navigationItem.leftBarButtonItems = @[backItem];
+    //self.navigationItem.leftBarButtonItems = @[backItem];
 
 }
 
+#pragma mark --返回按钮点击事件
 - (void)back {
     self.tabBarController.selectedIndex = 2;
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
 
+#pragma mark --客服图标点击事件
 - (void)telephone {
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];

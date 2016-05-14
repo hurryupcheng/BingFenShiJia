@@ -167,7 +167,7 @@
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
-    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, CGFloatX(40))];
+    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     self.header.backgroundColor = BFColor(0xF3F4F5);
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];

@@ -89,7 +89,6 @@
 #pragma mark --viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.tabBarController.tabBar.hidden = YES;
     self.view.userInteractionEnabled = YES;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
@@ -141,7 +140,7 @@
     //self.navigationController.navigationBar.translucent = NO;
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    self.tabBarController.tabBar.hidden = YES;
+    
     
 }
 
