@@ -60,7 +60,7 @@
 
 @property (nonatomic, strong) BFUserInfo *userInfo;
 
-@property (nonatomic, strong) BFBankModel *bankInfo;
+//@property (nonatomic, strong) BFBankModel *bankInfo;
 ///**保存城市数组*/
 //@property (nonatomic, strong) NSString *cityPath;
 ///**保存支行数组*/
@@ -83,12 +83,12 @@
 //    return _branchPath;
 //}
 
-- (BFBankModel *)bankInfo {
-    if (!_bankInfo) {
-        _bankInfo = [BFUserDefaluts getBankInfo];
-    }
-    return _bankInfo;
-}
+//- (BFBankModel *)bankInfo {
+//    if (!_bankInfo) {
+//        _bankInfo = [BFUserDefaluts getBankInfo];
+//    }
+//    return _bankInfo;
+//}
 
 - (BFUserInfo *)userInfo {
     if (!_userInfo) {
@@ -281,11 +281,6 @@
     // self.bankButton.backgroundColor = [UIColor redColor];
     button.tag = type;
     
-//    CGFloat top = BF_ScaleHeight(10); // 顶端盖高度
-//    CGFloat bottom = BF_ScaleHeight(20) ; // 底端盖高度
-//    CGFloat left = BF_ScaleWidth(10); // 左端盖宽度
-//    CGFloat right = BF_ScaleWidth(10); // 右端盖宽度
-//    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     // 指定为拉伸模式，伸缩后重新赋值
     UIImage *image = [UIImage imageNamed:@"pickerView"];
     UIImage *selectImage = [UIImage imageNamed:@"pickerView_select"];
@@ -429,6 +424,7 @@
 
 //获取支行信息
 - (void)getBranchInfo {
+    BFBankModel *bankInfo = [BFUserDefaluts getBankInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=branch"];
     self.parameter[@"uid"] = self.userInfo.ID;
     self.parameter[@"token"] = self.userInfo.token;
@@ -442,6 +438,9 @@
         }else {
             self.branchArray = nil;
             self.model = [BFBankModel parse:responseObject];
+            bankInfo.bank_id = self.model.bank_id;
+            bankInfo.shi_id = self.model.shi_id;
+            [BFUserDefaluts modifyBankInfo:bankInfo];
             NSArray *array = [BFBranchList parse:self.model.bank];
             NSMutableArray *mutableArray = [NSMutableArray array];
             for (BFBranchList *list in array) {
@@ -484,7 +483,6 @@
     }else {
         parameter[@"card_address"] = self.branchButton.buttonTitle.text;
     }
-//    parameter[@"card_address"] = [self.branchButton.buttonTitle.text isEqualToString:@"其他"] ? self.branchTF.text : self.branchButton.buttonTitle.text;
     parameter[@"bank_id"] = bankInfo.bank_id;
     parameter[@"bank_city"] = bankInfo.shi_id;
     parameter[@"bank_branch"] = bankInfo.bank_branch;
@@ -514,7 +512,7 @@
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
         BFLog(@"%@,%@",responseObject,parameter);
         if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
-            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"银行信息修改失败"];
+            [BFProgressHUD MBProgressFromView:self wrongLabelText:@"银行信息修改失败"];
         }else {
             [BFProgressHUD MBProgressFromView:self LabelText:@"银行信息修改成功,正在跳转..." dispatch_get_main_queue:^{
                 if (self.delegate && [self.delegate respondsToSelector:@selector(modifyBankInfomation)]) {
