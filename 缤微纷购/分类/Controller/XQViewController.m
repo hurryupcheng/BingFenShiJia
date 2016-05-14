@@ -297,7 +297,7 @@
         BFLog(@"---%lu", (unsigned long)array.count);
         UITabBarController *tabBar = [self.tabBarController viewControllers][1];
         tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
-        if (array.count == 0) {
+        if (array.count == 0 || userInfo == nil) {
             self.numLabel.hidden = YES;
         }else {
             self.numLabel.hidden = NO;

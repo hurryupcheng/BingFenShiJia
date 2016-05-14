@@ -33,6 +33,7 @@
 #import "WXApi.h"
 #import "WxProduct.h"
 #import "BFURLEncodeAndDecode.h"
+#import "PersonalViewController.h"
 
 
 @interface BFPayoffViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -59,25 +60,53 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationController.navigationBarHidden = YES;
-    
+    //添加tableView
     [self initWithTableView];
-    
+    //添加导航栏
     [self setUpNavigationView];
-    
+    //添加footView
     [self initWithFoot];
-    //倒计时通知，关闭订单
-    //[BFNotificationCenter addObserver:self selector:@selector(cancleOrder) name:@"cancleOrder" object:nil];
-    
     //微信支付成功
     [BFNotificationCenter addObserver:self selector:@selector(paySuccess) name:@"paySuccess" object:nil];
-    
     //微信支付失败
     [BFNotificationCenter addObserver:self selector:@selector(payFail) name:@"payFail" object:nil];
+    //从订单页面进入支付页面，支付成功接受通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
+    //从本页面支付支付，支付成功发送通知
+    [BFNotificationCenter addObserver:self selector:@selector(gotoMyOrder) name:@"gotoMyOrder" object:nil];
     
-    NSLog(@"%@",self.header.number.text);
     
 }
 
+#pragma mark --viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+#pragma mark --销毁通知
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
+
+
+#pragma mark --从订单页面进入支付页面，支付成功接受通知
+- (void)changeOrderStatus {
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    for (UIViewController *vc in vcsArray) {
+        if ([vc isKindOfClass:[BFMyOrderController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
+}
+
+#pragma mark --从本页面支付支付，支付成功发送通知
+- (void)gotoMyOrder {
+    BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
+    [self.navigationController pushViewController:myOrder animated:YES];
+}
+
+#pragma mark -- 设置导航栏
 - (void)setUpNavigationView {
     _navigationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 64)];
     [self.view addSubview:_navigationView];
@@ -91,63 +120,33 @@
     [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [_navigationView addSubview:back];
-
-    
     //判断如果是从购物车页面进来没有返回按钮
     NSArray *vcsArray = [self.navigationController viewControllers];
     BFLog(@"=======%@",vcsArray);
     UIViewController *lastVC = vcsArray[vcsArray.count-2];
-    
-        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
-            self.navigationView.hidden = NO;
-        }else {
-            self.navigationView.hidden = YES;
-        }
-    
+    if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+        self.navigationView.hidden = NO;
+    }else {
+        self.navigationView.hidden = YES;
+    }
 
-    
-    
 }
 
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    self.navigationController.navigationBar.translucent = NO;
-//}
-//
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBarHidden = NO;
-}
-
-#pragma mark --销毁通知
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
-
+#pragma mark --自定义导航栏的返回按钮点击事件
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//#pragma mark --通知到时间关闭订单
-//- (void)cancleOrder {
-//    [UIView animateWithDuration:2 animations:^{
-//        self.foot.buyButton.hidden = YES;
-//        self.header.right.image = [UIImage imageNamed:@"pay_fail"];
-//        self.header.now.text = @"已关闭";
-//        self.header.name.text = @"由于您在30分钟内未付款";
-//        self.header.title.text = @"订单已关闭";
-//        self.header.name.textColor = BFColor(0xFF212F);
-//        self.header.now.textColor = BFColor(0xFF212F);
-//        self.header.title.textColor = BFColor(0xFF212F);
-//    }];
-//    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单超过有效时间,已自动取消"];
-//    //[self.tableV reloadData];
-//}
 
 #pragma mark --微信支付成功通知
 - (void)paySuccess {
     self.foot.buyButton.hidden = YES;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+    double delayInSeconds = 2;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+    });
+    
     self.header.name.text = @"我们以后到你的付款";
     self.header.title.text = @"将尽快发货";
     self.header.now.text = @"待发货";
@@ -160,7 +159,8 @@
         //发通知
         [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
     }else {
-        //self.navigationView.hidden = YES;
+        BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
+        [self.navigationController pushViewController:myOrder animated:YES];
     }
 
 }
@@ -179,8 +179,7 @@
     [foot.homeButton addTarget:self action:@selector(goToHome) forControlEvents:UIControlEventTouchUpInside];
     
     [foot.buyButton addTarget:self action:@selector(gotoPay) forControlEvents:UIControlEventTouchUpInside];
-    
-    
+
     foot.backgroundColor = [UIColor whiteColor];
     
     [self.view addSubview:foot];
@@ -250,7 +249,11 @@
         NSLog(@"orderString=%@",orderString);
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             if ([resultDic[@"resultStatus"] isEqualToString:@"9000"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+                double delayInSeconds = 2;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+                });
                 self.foot.buyButton.hidden = YES;
                 self.header.now.text = @"待发货";
                 self.header.name.text = @"我们以后到你的付款";
@@ -263,8 +266,9 @@
                 if (![lastVC isKindOfClass:[BFZFViewController class]]) {
                     //发通知
                     [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+                    
                 }else {
-                    //self.navigationView.hidden = YES;
+                    [BFNotificationCenter postNotificationName:@"gotoMyOrder" object:nil];
                 }
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"6001"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];

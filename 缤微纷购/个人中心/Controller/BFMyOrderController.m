@@ -11,6 +11,10 @@
 #import "BFMyOrderModel.h"
 #import "BFMyOrderDetailController.h"
 #import "BFCustomerServiceView.h"
+#import "BFPayoffViewController.h"
+#import "BFNavigationController.h"
+#import "BFCategoryNavigationView.h"
+#import "PersonalViewController.h"
 
 @interface BFMyOrderController ()<UITableViewDelegate, UITableViewDataSource, BFSegmentViewDelegate, BFCustomerServiceViewDelegate>
 /**tableView*/
@@ -23,6 +27,8 @@
 @property (nonatomic, strong) NSMutableDictionary *parameter;
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
+
+
 
 @end
 
@@ -90,10 +96,45 @@
     //进入页面点击分段控制器第一个
     self.segment.segmented.selectedSegmentIndex = 0;
     [self.segment click];
-
+    //从本页面进入支付页面，支付成功接受通知
+    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
+    
+    //判断
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    UIViewController *lastVC = vcsArray[vcsArray.count-2];
+    BFLog(@"----%@", vcsArray);
+    if ([lastVC isKindOfClass:[BFPayoffViewController class]]) {
+        
+        //[lastVC removeFromParentViewController];
+        self.segment.segmented.selectedSegmentIndex = 1;
+        [self.segment click];
+    }else {
+        self.segment.segmented.selectedSegmentIndex = 0;
+        [self.segment click];
+    }
+      
 }
 
 
+
+#pragma mark -- viewWillAppear
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
+}
+
+
+
+- (void)changeOrderStatus {
+    self.segment.segmented.selectedSegmentIndex = 1;
+    [self.segment click];
+}
+
+
+
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
+}
 
 #pragma mark -- 获取数据
 - (void)getData {
@@ -123,7 +164,7 @@
                 self.tableView.hidden = YES;
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
             }
-            BFLog(@"我的订单%@",responseObject);
+            //BFLog(@"我的订单%@",responseObject);
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 50;
@@ -180,6 +221,26 @@
     [telephone setImage:[UIImage imageNamed:@"telephone"] forState:UIControlStateNormal];
     UIBarButtonItem *telephoneItem = [[UIBarButtonItem alloc] initWithCustomView:telephone];
     self.navigationItem.rightBarButtonItem = telephoneItem;
+    
+    UIButton *back = [UIButton buttonWithType:0];
+//    back.width = 20;
+//    back.height = 40;
+    
+    [back setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
+    back.size = back.currentBackgroundImage.size;
+    [back addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:back];
+    
+    
+    
+    self.navigationItem.leftBarButtonItems = @[backItem];
+
+}
+
+- (void)back {
+    self.tabBarController.selectedIndex = 2;
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    
 }
 
 - (void)telephone {
@@ -234,6 +295,9 @@
     detailVC.block = ^(BOOL isOperated) {
         if (isOperated) {
             [self.oderArray removeObjectAtIndex:indexPath.row];
+            if (self.oderArray.count == 0) {
+                self.bgImageView.hidden = NO;
+            }
             [self.tableView reloadData];
         }
     };
@@ -244,9 +308,5 @@
     return BF_ScaleWidth(130);
 }
 
-#pragma mark -- viewWillAppear
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = NO;
-}
+
 @end

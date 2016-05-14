@@ -62,13 +62,15 @@
     _search = [[UISearchBar alloc]init];
     self.navigationItem.titleView = _search;
     _search.delegate = self;
+    _search.barTintColor = BFColor(0xffffff);
     _search.barStyle = UIBarStyleBlack;
     _search.placeholder = @"搜索";
     _search.clearsContextBeforeDrawing = YES;
-    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
 
 }
+
+
 
 - (void)back{
     [_search resignFirstResponder];

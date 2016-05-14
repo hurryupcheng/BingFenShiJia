@@ -169,14 +169,6 @@
 }
 
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-    BFLog(@"--------%ld", (long)textField.tag);
-    if (self.delegate && [self.delegate respondsToSelector:@selector(cell:TextFiled:indexPath:)]) {
-        [self.delegate cell:self TextFiled:textField indexPath:textField.tag];
-    }
-}
-
-
 
 
 #pragma mark - UITextFieldDelegate

@@ -147,9 +147,11 @@
             if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [TeamList parse:self.model.thisteam];
                 [self.teamArray addObjectsFromArray:array];
-                for (TeamList *list in self.teamArray) {
-                    if ([list.status isEqualToString:@"1"]) {
-                        [self.teamArray removeObject:list];
+                if (self.teamArray.count > 1) {
+                    for (TeamList *list in self.teamArray) {
+                        if ([list.status isEqualToString:@"1"]) {
+                            [self.teamArray removeObject:list];
+                        }
                     }
                 }
             }
@@ -222,9 +224,11 @@
                 if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [TeamList parse:self.model.thisteam];
                     [self.teamArray addObjectsFromArray:array];
-                    for (TeamList *list in self.teamArray) {
-                        if ([list.status isEqualToString:@"1"]) {
-                            [self.teamArray removeObject:list];
+                    if (self.teamArray.count > 1) {
+                        for (TeamList *list in self.teamArray) {
+                            if ([list.status isEqualToString:@"1"]) {
+                                [self.teamArray removeObject:list];
+                            }
                         }
                     }
                 }

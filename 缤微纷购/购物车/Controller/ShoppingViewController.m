@@ -19,7 +19,7 @@
 #import "ShoppingViewController.h"
 #import "CXArchiveShopManager.h"
 
-@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate, SPTableViewCellDelegate>
+@interface ShoppingViewController ()<UITableViewDataSource,UITableViewDelegate,BFOtherViewDelegate>
 @property (nonatomic,retain)SPTableViewCell *sp;
 @property (nonatomic,retain)BFOtherView *other;
 @property (nonatomic,retain)BFHeaderView *header;
@@ -40,8 +40,7 @@
 @property (nonatomic,retain)UIView *backV;
 @property (nonatomic) BOOL footItem;
 @property (nonatomic,retain)BFEmptyView *empty;
-/**代理的textfield的frame*/
-@property (nonatomic, assign) CGRect textFieldFrame;
+
 @end
 
 @implementation ShoppingViewController
@@ -238,7 +237,6 @@
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.isSelected = self.isEdits;
-    cell.delegate = self;
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
         
@@ -428,15 +426,12 @@
     }
     }
     
-    self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBarHidden = NO;
+    
     [self.selectGoods removeAllObjects];
     self.isEdits = NO;
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
-    
-
-    
+ 
 }
 
 - (BFEmptyView *)empty{
@@ -506,11 +501,6 @@
     NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
     CGRect bottomViewFrame = self.tabView.frame;
     bottomViewFrame.origin.y = -40;
-//    if (bottomViewFrame.size.height - self.textFieldFrame.origin.y < endframe.size.height) {
-//        bottomViewFrame.origin.y = bottomViewFrame.size.height - self.textFieldFrame.origin.y - endframe.size.height;
-//    }else {
-//        bottomViewFrame.origin.y = 0;
-//    }
     
     [UIView animateWithDuration:duration delay:0 options:option animations:^{
         _tabView.frame = bottomViewFrame;
@@ -519,23 +509,8 @@
     [self.view layoutIfNeeded];
 }
 
-- (void)cell:(SPTableViewCell *)cell TextFiled:(UITextField *)textField indexPath:(NSInteger)indexPath {
-    CGRect frame = [textField  convertRect:textField.frame toView:self.tabView];
-    
-    self.textFieldFrame = frame;
-}
 
 
-
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-    self.navigationController.navigationBar.translucent = NO;
-
-    self.tabBarController.tabBar.hidden = YES;
-    
-}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
