@@ -20,7 +20,7 @@
 #import "BFResultTableViewCell.h"
 #import "BFHotSoViewController.h"
 
-@interface BFHotSoViewController ()<UITableViewDataSource,UITableViewDelegate,BFHotViewButDelegate,BFResultDelegate>
+@interface BFHotSoViewController ()<UITableViewDataSource,UITableViewDelegate,BFHotViewButDelegate,BFResultDelegate, BFShopCartAnimationDelegate>
 
 @property (nonatomic,retain)BFUserInfo *userInfo;
 @property (nonatomic,retain)BFHotView *hotView;
@@ -34,9 +34,24 @@
 @property (nonatomic,assign)NSInteger height;
 @property (nonatomic,assign)NSInteger sumNumber;
 
+@property (nonatomic, strong) UIButton *shopCartButton;
+
+@property (nonatomic, strong) UILabel *badgeLable;
+
+@property (nonatomic, strong) NSMutableArray<CALayer *> *redLayers;
+
 @end
 
 @implementation BFHotSoViewController
+
+- (NSMutableArray<CALayer *> *)redLayers {
+    if (!_redLayers) {
+        _redLayers = [NSMutableArray array];
+    }
+    return _redLayers;
+}
+
+
 
 - (BFHotView *)hotView{
     if (!_hotView) {
@@ -75,8 +90,8 @@
 
 
 - (void)initWithTableView{
-    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-108) style:UITableViewStyleGrouped];
-
+    _tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-108) style:UITableViewStylePlain];
+    self.tableView.backgroundColor = BFColor(0xffffff);
     self.tableView.showsHorizontalScrollIndicator = NO;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.delegate = self;
@@ -86,7 +101,37 @@
     [self.tableView registerClass:[BFResultTableViewCell class] forCellReuseIdentifier:@"reuse"];
     
     [self.view addSubview:_tableView];
+    
+    
+    self.shopCartButton = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), ScreenHeight-108-BF_ScaleHeight(80), BF_ScaleWidth(60), BF_ScaleHeight(60))];
+    //self.shopCartButton.backgroundColor = [UIColor redColor];
+    self.shopCartButton.alpha = 0.3;
+    [self.shopCartButton setImage:[UIImage imageNamed:@"cart_shopping"] forState:UIControlStateNormal];
+    [self.shopCartButton addTarget:self action:@selector(gotoShoppingCart) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.shopCartButton];
+    
+    self.badgeLable = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(60), ScreenHeight-108-BF_ScaleHeight(75), BF_ScaleHeight(20), BF_ScaleHeight(20))];
+    self.badgeLable.backgroundColor = [UIColor redColor];
+    self.badgeLable.layer.cornerRadius = BF_ScaleHeight(10);
+    self.badgeLable.layer.masksToBounds = YES;
+    self.badgeLable.alpha = 0;
+    self.badgeLable.textAlignment = NSTextAlignmentCenter;
+    self.badgeLable.font = [UIFont systemFontOfSize:13];
+    self.badgeLable.textColor = [UIColor whiteColor];
+    [self.view addSubview:self.badgeLable];
+    
 }
+
+#pragma mark --
+
+
+
+#pragma mark -- 去购物车
+- (void)gotoShoppingCart {
+    //self.shopCartButton.alpha = 1;
+    self.tabBarController.selectedIndex = 1;
+}
+
 
 - (NSMutableArray *)dataArray{
     if (!_dataArray) {
@@ -129,7 +174,7 @@
     UILabel *label = [[UILabel alloc]init];
     label.text = @"  搜索结果";
     label.font = [UIFont systemFontOfSize:CGFloatX(18)];
-//    label.backgroundColor = [UIColor redColor];
+    label.backgroundColor = BFColor(0xEDEDED);
     
     return label;
 }
@@ -142,13 +187,11 @@
     BFResultTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
 //    NSLog(@"<<<<<<<%d<<<%@",self.dataArray.count,self.dataArray);
     [cell setmodel:self.dataArray[indexPath.row]];
-    _otherModel = self.dataArray[indexPath.row];
-    NSLog(@"%d==>>>>>%@",self.dataArray.count,_otherModel.shopID);
+//    _otherModel = self.dataArray[indexPath.row];
+//    NSLog(@"%d==>>>>>%@",self.dataArray.count,_otherModel.shopID);
     _height = cell.cellHeigh;
     cell.delegate = self;
     cell.buy.tag = indexPath.row;
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
 
@@ -158,10 +201,11 @@
     _otherModel = self.dataArray[indexPath.row];
     fx.ID = _otherModel.shopID;
     [self.navigationController pushViewController:fx animated:YES];
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 #pragma  mark 加入购物车代理方法
-- (void)resultDelegate:(NSInteger)index{
+- (void)delegateWithCell:(BFResultTableViewCell *)cell index:(NSInteger)index{
     if (self.userInfo == nil) {
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录,正在跳转..."];
         LogViewController *log = [LogViewController new];
@@ -178,7 +222,7 @@
             if (stor.numbers >= [_otherModel.stock integerValue]) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多库存"];
             }else{
-
+                [self animationStart:cell];
                 if (stor == nil) {
                     self.sumNumber++;
     
@@ -193,6 +237,71 @@
         }
     }
 }
+
+//购物车动画
+- (void)animationStart:(BFResultTableViewCell *)cell{
+    
+    //获取动画起点
+    CGPoint start = [cell convertPoint:cell.buy.center toView:self.view];
+    //获取动画终点
+    
+    CGPoint end = [self.view convertPoint:self.shopCartButton.center toView:self.view];
+    
+    //创建layer
+    CALayer *chLayer = [[CALayer alloc] init];
+    chLayer.contents = (UIImage *)cell.img.image.CGImage;
+    [self.redLayers addObject:chLayer];
+    chLayer.frame = CGRectMake(cell.img.centerX, cell.img.centerY, BF_ScaleHeight(50), BF_ScaleHeight(50));
+    //chLayer.cornerRadius = BF_ScaleHeight(20);
+    chLayer.masksToBounds = YES;
+    chLayer.backgroundColor = [UIColor blueColor].CGColor;
+    [self.view.layer addSublayer:chLayer];
+    
+    BFShopCartAnimation *animation = [[BFShopCartAnimation alloc]init];
+    animation.delegate = self;
+    [animation shopCatrAnimationWithLayer:chLayer startPoint:start endPoint:end changeX:start.x - BF_ScaleWidth(150) changeY:start.y - BF_ScaleHeight(50) endScale:0.30f  duration:1 isRotation:YES];
+    
+}
+
+
+//动画代理动画结束移除layer
+- (void)animationStop {
+    
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo) {
+        [[CXArchiveShopManager sharedInstance]initWithUserID:userInfo.ID ShopItem:nil];
+        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+        BFLog(@"---%lu", (unsigned long)array.count);
+        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+        if (array.count == 0 || userInfo == nil) {
+//            self.badgeLable.hidden = YES;
+        }else {
+//            self.numLabel.hidden = NO;
+            self.badgeLable.text = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+            
+        }
+        
+    }else {
+//        self.numLabel.hidden = YES;
+    }
+    [UIView animateWithDuration:0.3 animations:^{
+        self.shopCartButton.alpha = 1;
+        self.badgeLable.alpha = 1;
+        self.shopCartButton.frame = CGRectMake(BF_ScaleWidth(10), ScreenHeight-108-BF_ScaleHeight(90), BF_ScaleWidth(80), BF_ScaleHeight(80));
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            self.shopCartButton.alpha = 0.3;
+            self.badgeLable.alpha = 0;
+            self.shopCartButton.frame = CGRectMake(BF_ScaleWidth(20), ScreenHeight-108-BF_ScaleHeight(80), BF_ScaleWidth(60), BF_ScaleHeight(60));
+        }];
+    }];
+    
+    [self.redLayers[0] removeFromSuperlayer];
+    [self.redLayers removeObjectAtIndex:0];
+}
+
+
 
 - (void)getData:(NSString *)data{
 

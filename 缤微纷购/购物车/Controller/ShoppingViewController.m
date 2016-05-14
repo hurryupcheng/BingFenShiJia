@@ -52,6 +52,9 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"laji.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(removeAll)];
 
      self.title = @"购物车";
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)data{
@@ -79,6 +82,8 @@
 - (void)removeAll{
     UIAlertController *aler = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定清除购物车吗" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *alerV = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+             if (self.userInfo) {
+
                 [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
                 [[CXArchiveShopManager sharedInstance]removeItemKeyOneDataSource:self.userInfo.ID];
                 UITabBarController *tabBar = [self.tabBarController viewControllers][1];
@@ -93,6 +98,7 @@
                     [self data];
                     [self other];
                 }
+             }
         
     }];
     UIAlertAction *alers = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
@@ -119,6 +125,7 @@
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ %.2f",price];
 }
 
+#pragma  mark 全选按钮方法
 - (void)selectAllBtnClick:(UIButton*)button{
 //  点击全选时，把之前已选择的全部删除
     [self.selectGoods removeAllObjects];
@@ -133,6 +140,7 @@
         [self.selectGoods removeAllObjects];
         self.foot.buyButton.enabled = NO;
     }
+
     [self.tabView reloadData];
     [self countPrice];
 }
@@ -159,14 +167,14 @@
     
     self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
     
-    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 50)];
+    self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     self.header.backgroundColor = BFColor(0xF3F4F5);
     self.header.userInteractionEnabled = YES;
     [self.header.allSeled addTarget:self action:@selector(selectAllBtnClick:) forControlEvents:UIControlEventTouchUpInside];
   
     [self.backV addSubview:self.tabView];
     [self.backV addSubview:_foot];
-
+    [self.backV addSubview:self.header];
 }
 
 #pragma  mark tabView代理方法
@@ -231,10 +239,11 @@
     cell.isSelected = self.isEdits;
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
-    }
-    
-    cell.selBlock = ^(BOOL isSelected){
         
+    }
+
+    cell.selBlock = ^(BOOL isSelected){
+       
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
             self.foot.buyButton.enabled = YES;
@@ -260,10 +269,11 @@
         if (number <= 1 || weakCell.add.textF.text == nil) {
             number = 1;
         }else if (number >= [model.stock integerValue]){
+            
             number = [model.stock integerValue];
         }
         [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES num:[NSString stringWithFormat:@"%d",number]];
+        [[CXArchiveShopManager sharedInstance]shoppingCartChangeNumberWithShopID:model.shopID ctrl:YES num:[NSString stringWithFormat:@"%ld",(long)number]];
         
         model.numbers = number;
         
@@ -416,16 +426,12 @@
     }
     }
     
-    self.tabBarController.tabBar.hidden = NO;
-    self.navigationController.navigationBarHidden = NO;
+    
     [self.selectGoods removeAllObjects];
     self.isEdits = NO;
     self.header.allSeled.selected = NO;
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
-    
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
-    
+ 
 }
 
 - (BFEmptyView *)empty{
@@ -468,60 +474,48 @@
     return _selectGoods;
 }
 
-//-(void)hideKeyboard:(NSNotification *)noti{
-//    
-//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-//    //键盘弹起的时间
-//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-//    CGRect bottomViewFrame = _tabView.frame;
-//    bottomViewFrame.origin.y = self.view.frame.size.height-bottomViewFrame.size.height-50;
-//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-//        _tabView.frame = bottomViewFrame;
-//    } completion:nil];
-//    //为了显示动画
-//    [self.view layoutIfNeeded];
-//    
-//}
-//-(void)showKeyboard:(NSNotification *)noti{
-//    //NSLog(@"userInfo %@",noti.userInfo);
-//    //键盘出现后的位置
-//    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
-//    //键盘弹起时的动画效果
-//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-//    //键盘弹起的时间
-//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-//    CGRect bottomViewFrame = _tabView.frame;
-//    bottomViewFrame.origin.y = endframe.origin.y - bottomViewFrame.size.height-50;
-//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-//        _tabView.frame = bottomViewFrame;
-//    } completion:nil];
-//    [self.view layoutIfNeeded];
-//}
-//
-//-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-//    
-//    if ([text isEqualToString:@"\n"]) {
-//        
-//        [textView resignFirstResponder];
-//        
-//        return NO;
-//        
-//    }
-//    
-//    return YES;
-//    
-//}
-//
-//-(void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    
-//    self.navigationController.navigationBar.translucent = NO;
-//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-//    self.tabBarController.tabBar.hidden = YES;
-//    
-//}
+-(void)hideKeyboard:(NSNotification *)noti{
+    
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = _tabView.frame;
+    bottomViewFrame.origin.y = 0;
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tabView.frame = bottomViewFrame;
+    } completion:nil];
+    //为了显示动画
+    [self.view layoutIfNeeded];
+    
+}
 
+
+
+-(void)showKeyboard:(NSNotification *)noti{
+    //NSLog(@"userInfo %@",noti.userInfo);
+    //键盘出现后的位置
+    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+    //键盘弹起时的动画效果
+    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+    //键盘弹起的时间
+    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+    CGRect bottomViewFrame = self.tabView.frame;
+    bottomViewFrame.origin.y = -40;
+    
+    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+        _tabView.frame = bottomViewFrame;
+
+    } completion:nil];
+    [self.view layoutIfNeeded];
+}
+
+
+
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

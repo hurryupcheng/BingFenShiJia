@@ -85,7 +85,7 @@
     self.select.selected = NO;
     but.selected = YES;
     self.select = but;
-    
+    BFLog(@"button.tag = %ld", (long)but.tag);
     if (self.butDelegate != nil && [self.butDelegate respondsToSelector:@selector(xqViewDelegate:index:)]) {
  
         [self.butDelegate xqViewDelegate:self index:but.tag];

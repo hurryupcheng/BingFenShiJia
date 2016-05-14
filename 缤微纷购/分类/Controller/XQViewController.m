@@ -91,7 +91,7 @@
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:rightBut];
     
-    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(288), 23, 18, 18)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260)+22, 23, 18, 18)];
     _numLabel.backgroundColor = [UIColor redColor];
     _numLabel.layer.cornerRadius = 9;
     _numLabel.layer.masksToBounds = YES;
@@ -109,15 +109,15 @@
     [self.navigationView addSubview:back];
  
     NSArray *arr = @[@"新品",@"热卖",@"价格"];
-    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, 30)];
-    _segmented.layer.cornerRadius = 6;
+    self.segmented = [[UIView alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.navigationView.frame)+5 , kScreenWidth-10, CGFloatX(30))];
+    _segmented.layer.cornerRadius = CGFloatX(6);
     _segmented.layer.masksToBounds = YES;
     _segmented.layer.borderWidth = 1;
     _segmented.layer.borderColor = rgb(0, 0, 205, 1.0).CGColor;
     
     [self.view addSubview:_segmented];
     for (int i = 0; i < 3; i++) {
-        self.segmentBut = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, 30)];
+        self.segmentBut = [[UIButton alloc]initWithFrame:CGRectMake((_segmented.width)/3*i, 0, (_segmented.width)/3, CGFloatX(30))];
         
         self.segmentBut.tag = i;
         [self.segmentBut setTitle:arr[i] forState:UIControlStateNormal];
@@ -233,7 +233,8 @@
                 [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
             }
 
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.thisprice number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.thisprice
+                                                          number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
     
             [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
             [[CXArchiveShopManager sharedInstance]startArchiveShop];
@@ -296,7 +297,7 @@
         BFLog(@"---%lu", (unsigned long)array.count);
         UITabBarController *tabBar = [self.tabBarController viewControllers][1];
         tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
-        if (array.count == 0) {
+        if (array.count == 0 || userInfo == nil) {
             self.numLabel.hidden = YES;
         }else {
             self.numLabel.hidden = NO;

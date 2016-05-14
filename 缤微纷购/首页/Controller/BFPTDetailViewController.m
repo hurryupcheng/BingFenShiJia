@@ -119,10 +119,10 @@
                                                 mediaType:SSPublishContentMediaTypeNews];
         [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
             if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
                 if ([error errorCode] == 20012) {
                     [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
@@ -145,11 +145,11 @@
             BFLog(@"---%d",type);
             if (state == SSResponseStateSuccess) {
                 //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
                 
             }else if (state == SSResponseStateFail) {
                 //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
                 NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
             }else if (state == SSResponseStateCancel) {
                 //[self hideShareView];

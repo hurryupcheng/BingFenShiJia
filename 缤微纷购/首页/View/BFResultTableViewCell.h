@@ -11,12 +11,12 @@
 
 @protocol BFResultDelegate <NSObject>
 
-- (void)resultDelegate:(NSInteger)index;
+- (void)delegateWithCell:(BFResultTableViewCell *)cell index:(NSInteger)index;
 
 @end
 
 @interface BFResultTableViewCell : UITableViewCell
-
+@property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)UIButton *buy;
 @property (nonatomic,assign)NSInteger cellHeigh;
 @property (nonatomic,assign)id<BFResultDelegate>delegate;

@@ -136,7 +136,7 @@
         [self singleProductOrder];
     }
     //点击按钮倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.footView.buyButton setEnabled:NO];
     [self.footView.buyButton setBackgroundColor:BFColor(0xD5D8D1)];
     
@@ -171,7 +171,6 @@
     parameter[@"uid"] = _userInfo.ID;
     parameter[@"token"] = _userInfo.token;
     parameter[@"itemid"] = self.ID;
-    parameter[@"teamid"] = @"";
     parameter[@"coupon_id"] = self.coupon_id;
     parameter[@"pay_score"] = @(self.useScorePrice);
     parameter[@"postscript"] = _textView.text;
@@ -193,16 +192,7 @@
             paramerer[@"orderId"] = responseObject[@"orderid"];
             [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
                 BFLog(@"++++++++++%@", responseObject);
-//                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-//                BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-//                pay.pay = self.payTitle.text;
-//                pay.orderModel = orderModel;
-//                pay.orderid = orderModel.orderid;
-//                pay.addTime = orderModel.addtime;
-//                pay.img = _itemImg;
-//                NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
-//                pay.totalPrice = [self.footView.money.text substringWithRange:range];
-//                [self.navigationController pushViewController:pay animated:YES];
+
                 
                 BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
                 BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
@@ -217,7 +207,7 @@
                     [self.navigationController pushViewController:pay animated:YES];
                 }];
                 //订单生成修改积分数量
-                [BFAvailablePoints updateAvailablePoints];
+                //[BFAvailablePoints updateAvailablePoints];
                 
                 
             } failure:^(NSError *error) {
@@ -298,7 +288,7 @@
             }
             self.removeBlock();
             //订单生成修改积分数量
-            [BFAvailablePoints updateAvailablePoints];
+            //[BFAvailablePoints updateAvailablePoints];
             
             
         }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
@@ -396,7 +386,7 @@
     self.swit = [[UISwitch alloc]init];
     
     _scoreTitle = [[UILabel alloc]init];
-    NSInteger useScore = self.score/100;
+    NSInteger useScore = self.score;
 //    NSInteger useScore = 100000/100;
     if (useScore > _sum_price/2) {
         self.scores = _sum_price/2;
@@ -453,7 +443,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 0) {
         if (self.isCoupon == YES) {
-            return (CGFloatX(90)*_favourableArr.count)+(10*(_favourableArr.count+1));
+            return (CGFloatX(90)*_favourableArr.count)+(10*(_favourableArr.count+1))+8;
         }else{
             return 0;
         }
@@ -792,6 +782,7 @@
             _textView.returnKeyType = UIReturnKeyDefault;
             [_wordesBack addSubview:_textView];
             _textView.delegate = self;
+            _textView.returnKeyType = UIReturnKeyDone;
             self.tableV.tableFooterView = _wordesBack;
         }else{
 //            [self.tableV.tableFooterView removeFromSuperview];
@@ -874,8 +865,10 @@
 
        self.freeprice = [responseObject[@"freeprice"] floatValue];
         
-       double score = [responseObject[@"score"] integerValue];
-        self.score = score;
+        if (responseObject[@"score"]) {
+            double score = [responseObject[@"score"] integerValue];
+            self.score = score;
+        }
     
         double price = [responseObject[@"sum_item_price"] doubleValue];
         self.sum_price = price;
@@ -916,7 +909,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.tabBarController.tabBar.hidden = YES;
+    //self.tabBarController.tabBar.hidden = YES;
 }
 
 
@@ -968,10 +961,9 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    self.navigationController.navigationBar.translucent = NO;
+
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    self.tabBarController.tabBar.hidden = YES;
     
 }
 
@@ -986,6 +978,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 @end

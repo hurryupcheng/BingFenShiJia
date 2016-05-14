@@ -12,7 +12,6 @@
 
 @interface BFResultTableViewCell ()
 
-@property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)UILabel *title;
 @property (nonatomic,retain)UILabel *stock;
 @property (nonatomic,retain)UILabel *price;
@@ -58,7 +57,7 @@
 }
 
 - (void)setmodel:(BFSosoSubOtherModel *)model{
-    NSLog(@"img = %@,title = %@",model.shopID,model.title);
+//    NSLog(@"img = %@,title = %@",model.shopID,model.title);
     
     [_img sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     _title.text = model.title;
@@ -72,8 +71,8 @@
     but.selected = YES;
     self.selectedBut = but;
     
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(resultDelegate:)]) {
-        [self.delegate resultDelegate:but.tag];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(delegateWithCell:index:)]) {
+        [self.delegate delegateWithCell:self index:but.tag];
     }
 }
 

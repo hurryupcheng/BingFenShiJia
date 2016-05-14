@@ -27,8 +27,8 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(15, self.contentView.frame.size.height/2+CGFloatY(25/2), CGFloatY(25), CGFloatY(25))];
-        self.needV.layer.cornerRadius = CGFloatY(25/2);
+        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(15), self.contentView.frame.size.height/2+CGFloatY(15), CGFloatY(30), CGFloatY(30))];
+        self.needV.layer.cornerRadius = CGFloatY(15);
         self.needV.layer.masksToBounds = YES;
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
@@ -88,8 +88,8 @@
 - (void)maxButton{
     self.add.minBut.enabled = YES;
     
-    if ([self.add.textF.text integerValue] >= [self.stock integerValue]) {
-        
+    if ([self.add.textF.text integerValue] > [self.stock integerValue]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.maxBut.enabled = NO;
     }else{
         if (self.numAddBlock) {
@@ -105,7 +105,8 @@
     if (self.numCutBlock) {
         self.numCutBlock();
     }
-    if ([self.add.textF.text integerValue] <= 1) {
+    if ([self.add.textF.text integerValue] < 1) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = @"1";
         self.add.minBut.enabled = NO;
         
@@ -129,9 +130,11 @@
 //    self.add.backgroundColor = [UIColor redColor];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥ %@",model.price];
     self.hetLabel.text = [NSString stringWithFormat:@"%@  %@",model.color,model.choose];
-    self.add.textF.text = [NSString stringWithFormat:@"%d",model.numbers];
+    self.add.textF.text = [NSString stringWithFormat:@"%ld",(long)model.numbers];
     self.needV.selected = self.isSelected;
     self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
+    
+    BFLog(@"--------%ld,,,,,%f", self.cellHeight,self.add.y);
    
 }
 
@@ -139,11 +142,13 @@
     if (self.sumBlock) {
         self.sumBlock();
     }
-    if ([self.add.textF.text integerValue] <= 1) {
+    if ([self.add.textF.text integerValue] < 1) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = @"1";
         self.add.minBut.enabled = NO;
         
-    }else if ([self.add.textF.text integerValue] >= [self.stock integerValue]){
+    }else if ([self.add.textF.text integerValue] > [self.stock integerValue]){
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.textF.text = self.stock;
     }
     
@@ -162,6 +167,9 @@
     }
     return isValid;
 }
+
+
+
 
 #pragma mark - UITextFieldDelegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{

@@ -59,6 +59,8 @@
 @property (nonatomic, strong) NSString *pay_type;
 /**注册类型*/
 @property (nonatomic, strong) NSString *reg_type;
+/**判断付款状态1.未付款2.付款*/
+@property (nonatomic, strong) NSString *status;
 @end
 
 @interface UserSelf :NSObject

@@ -99,6 +99,8 @@
     BFLog(@"---------积分%@", haha.score);
     self.navigationController.navigationBarHidden = YES;
     self.tabBarController.tabBar.hidden = NO;
+    //订单生成修改积分数量
+    [BFAvailablePoints updateAvailablePoints];
     
 }
 
