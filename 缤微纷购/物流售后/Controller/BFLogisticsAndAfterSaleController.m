@@ -105,14 +105,14 @@
     }
 }
 
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [super viewWillDisappear:animated];
-//    //获取数据
-//    self.bgImageView.hidden = NO;
-//    [UIView animateWithDuration:0.5 animations:^{
-//        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-//    } completion:nil];
-//}
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    //获取数据
+    self.bgImageView.hidden = NO;
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+    } completion:nil];
+}
 
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
@@ -132,9 +132,8 @@
     //获取数据
     //[self getData];
     
-    
-    
 }
+
 
 #pragma mark --获取数据
 - (void)getData {
@@ -167,7 +166,7 @@
                 self.bgImageView.hidden = NO;
                 self.tableView.hidden = YES;
             }
-            BFLog(@"---%@,,",responseObject);
+           // BFLog(@"---%@,,",responseObject);
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = BF_ScaleHeight(30);
@@ -295,10 +294,13 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFProductModel *model = self.productArray[indexPath.row-1];
-    BFLog(@"-----------------%@", model.OrderID);
+    
+    BFLogisticsModel *model = self.logisticsArray[indexPath.section];
+    NSArray *array = [BFProductModel parse:model.item];
+    BFProductModel *producrtmodel = array[indexPath.row-1];
+    BFLog(@"-----------------%@", producrtmodel.itemId);
     FXQViewController *fxVC =[[FXQViewController alloc] init];
-    fxVC.ID = model.itemId;
+    fxVC.ID = producrtmodel.itemId;
     [self.navigationController pushViewController:fxVC animated:YES];
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -319,7 +321,7 @@
             break;
         }
         case BFLogisticsCellButtonTypeConfirmReceipt:{
-            [self confirmOrder:model And:cell];
+            [self confirmOrderWithModel:model AndCell:cell];
             BFLog(@"确认收货");
             break;
         }
@@ -330,7 +332,7 @@
 
 
 #pragma mark -- 确认收货
-- (void)confirmOrder:(BFLogisticsModel *)model And:(BFBottomCell *)cell{
+- (void)confirmOrderWithModel:(BFLogisticsModel *)model AndCell:(BFBottomCell *)cell{
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
@@ -349,11 +351,10 @@
                 BFLog(@"--%@----%@", responseObject, parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
                     [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
-    //                self.headerView.statusLabel.text = @"已完成";
+                    //收货成功改变状态
                     model.status = @"4";
                     cell.model = model;
-    //                self.footerView.model = self.model;
-                    //self.footerView.hidden = YES;
+                    [self.tableView reloadData];
                 }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
                 }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){

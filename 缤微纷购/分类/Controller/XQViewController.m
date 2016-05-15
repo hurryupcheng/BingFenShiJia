@@ -166,7 +166,7 @@
     flowLayout.itemSize = CGSizeMake(x, x+75);
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-100) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-64-CGFloatX(30)) collectionViewLayout:flowLayout];
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;

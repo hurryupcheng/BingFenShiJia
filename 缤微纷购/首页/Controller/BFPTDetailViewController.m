@@ -28,7 +28,7 @@
 
 @property (nonatomic, retain) BFPTDetailModel *model;
 
-@property (nonatomic, retain) NSString *endTime;
+
 
 @end
 
@@ -60,14 +60,6 @@
 
 #pragma mark --分享按钮点击事件
 - (void)share {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    id<ISSContent> publishContent = [ShareSDK content:self.model.intro
-                                       defaultContent:self.model.intro
-                                                image:[ShareSDK imageWithUrl:self.model.img]
-                                                title:self.model.title
-                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@", self.ID, userInfo.ID]
-                                          description:self.model.title
-                                            mediaType:SSPublishContentMediaTypeNews];
     //调用自定义分享
     BFShareView *share = [BFShareView shareView];
     share.delegate = self;
@@ -108,7 +100,6 @@
 
 - (void)shareWithType:(ShareType)shareType {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    BFLog(@"---%@,,%@,,%@,,%@",self.model.title, self.model.intro, self.model.img, self.model);
     if (shareType == ShareTypeSinaWeibo) {
         id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Item&a=index&id=%@&uid=%@",self.model.title, self.ID, userInfo.ID]
                                            defaultContent:self.model.intro
@@ -170,13 +161,12 @@
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameters success:^(id responseObject) {
-            BFLog(@"BFPTDetailViewController%@",responseObject);
+            BFLog(@"BFPTDetailViewController%@,,,,%@",responseObject, parameters);
             _dataArray = [NSMutableArray array];
             BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
             self.model = model;
             model.numbers = 1;
             model.shopID = self.ID;
-            self.endTime = model.team_timeend;
             [_dataArray addObject:model];
             //显示图形
             [self initView:model];
@@ -198,8 +188,6 @@
     self.header.step.delegate = self;
     self.header.detailModel = model;
     self.header.height = self.header.headerHeight;
-    
-    
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-64)];
     self.webBrowserView = self.webView.scrollView.subviews[0];
@@ -233,17 +221,18 @@
     NSDate *localeDate = [nowTime dateByAddingTimeInterval:inter];
 
     NSString *nowTimes = [NSString stringWithFormat:@"%ld",(long)[localeDate timeIntervalSince1970]];
-   
-    NSLog(@"===%@===%@",nowTimes,self.endTime);
     
     if (userInfo) {
-        if ([nowTimes doubleValue] < [self.endTime doubleValue]) {
-            
-            BFZFViewController *zf = [[BFZFViewController alloc]init];
-            zf.isPT = _isPT;
-            zf.ID = self.ID;
-            zf.modelArr = _dataArray;
-            [self.navigationController pushViewController:zf animated:YES];
+        if ([nowTimes doubleValue] < [self.model.team_timeend doubleValue]) {
+//            if ([self.model.team_stock integerValue] <= 0) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText:@"团购商品已售罄,敬请期待"];
+//            }else {
+                BFZFViewController *zf = [[BFZFViewController alloc]init];
+                zf.isPT = _isPT;
+                zf.ID = self.ID;
+                zf.modelArr = _dataArray;
+                [self.navigationController pushViewController:zf animated:YES];
+//            }
         }else{
             [BFProgressHUD MBProgressOnlyWithLabelText:@"团购已结束"];
         }

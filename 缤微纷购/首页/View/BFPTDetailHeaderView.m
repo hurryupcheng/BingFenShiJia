@@ -98,7 +98,7 @@
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
-    self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleAspectFit;
+    self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
     self.cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
     //cycleScrollView.imageURLStringsGroup = imagesURLStrings;
     [self addSubview:self.cycleScrollView];

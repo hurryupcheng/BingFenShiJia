@@ -35,8 +35,11 @@
 @property (nonatomic, strong) NSString *team_timeend;
 /**team_cycle*/
 @property (nonatomic, strong) NSString *team_cycle;
+/**剩余库存*/
+@property (nonatomic, strong) NSString *team_stock;
 /**webview参数*/
 @property (nonatomic, strong) NSString *info;
+
 @property (nonatomic, assign) NSInteger numbers;
 @property (nonatomic, retain) NSString *choose;
 @property (nonatomic, retain) NSString *color;

@@ -37,7 +37,7 @@
         self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
         self.cycleScrollView.pageDotColor = BFColor(0xffffff);
         self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
-        self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleAspectFill;
+        self.cycleScrollView.bannerImageViewContentMode = UIViewContentModeScaleToFill;
         self.cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentRight;
         NSArray *array = [BFProductDetailCarouselList parse:model.imgs];
         NSMutableArray *mutableArray = [NSMutableArray array];
@@ -66,7 +66,16 @@
         self.size.textAlignment = NSTextAlignmentRight;
         self.size.textColor = BFColor(0x8E8E8E);
         self.size.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
-        self.size.text = [NSString stringWithFormat:@"%@/%@",model.first_size, model.first_color];
+        if (model.first_size.length != 0 && model.first_color.length != 0) {
+            self.size.text = [NSString stringWithFormat:@"%@/%@",model.first_size, model.first_color];
+        }else if (model.first_size.length == 0) {
+            self.size.text = [NSString stringWithFormat:@"%@",model.first_color];
+        }else if (model.first_color.length == 0) {
+            self.size.text = [NSString stringWithFormat:@"%@", model.first_size];
+        }else {
+            self.size.text = @"";
+        }
+        
         [sizeView addSubview:self.size];
         
         UIView *firstLine = [UIView drawLineWithFrame:CGRectMake(0, BF_ScaleWidth(40)-0.5, ScreenWidth, 0.5)];
