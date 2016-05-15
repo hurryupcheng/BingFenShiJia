@@ -510,7 +510,7 @@
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     ItemModel *itemModel = [ItemModel parse:self.model.item];
     if (shareType == ShareTypeSinaWeibo) {
-        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
+        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
                                            defaultContent:itemModel.intro
                                                     image:[ShareSDK imageWithUrl:itemModel.img]
                                                     title:itemModel.title

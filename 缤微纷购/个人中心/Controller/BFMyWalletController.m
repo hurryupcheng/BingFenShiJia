@@ -21,7 +21,7 @@
 /**自定义我的钱包页面下半部分*/
 @property (nonatomic, strong) BFMyWalletBottomView *bottomView;
 /**用户信息*/
-@property (nonatomic, strong) BFUserInfo *userInfo;
+//@property (nonatomic, strong) BFUserInfo *userInfo;
 /**我的钱包模型*/
 @property (nonatomic, strong) BFMyWalletModel *model;
 /**scrollview*/
@@ -41,12 +41,12 @@
 }
 
 
-- (BFUserInfo *)userInfo {
-    if (!_userInfo) {
-        _userInfo = [BFUserDefaluts getUserInfo];
-    }
-    return _userInfo;
-}
+//- (BFUserInfo *)userInfo {
+//    if (!_userInfo) {
+//        _userInfo = [BFUserDefaluts getUserInfo];
+//    }
+//    return _userInfo;
+//}
 
 /**定义*/
 - (BFMyWalletBottomView *)bottomView {
@@ -123,18 +123,17 @@
 
 
 
-
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
     [self.navigationController pushViewController:viewController animated:animated];
 }
 
 - (void)getData {
-   
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    parameter[@"uid"] = self.userInfo.ID;
-    parameter[@"token"] = self.userInfo.token;
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
     
     [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
@@ -182,35 +181,69 @@
             [self.navigationController pushViewController:modifyBankCardVC animated:YES];
         }];
     }else {
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit_do"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"uid"] = self.userInfo.ID;
-        parameter[@"token"] = self.userInfo.token;
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
         parameter[@"money"] = view.getCashTX.text;
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"responseObject%@,,%@",responseObject,parameter);
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"提现成功，请等待工作人员处理"]) {
-
+                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在处理提交申请,请稍后" dispatch_get_main_queue:^{
+                        double delayInSeconds = 1;
+                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                            [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"提现成功,请等待工作人员处理!"];
+                            view.getCashTX.text = @"";
+                            view.paidCashLabel.text = @"实付金额：";
+                            [self regetData];
+                        });
+                    }];
                 }else if ([responseObject[@"msg"] isEqualToString:@"每月只能申请提现一次！请等下个月再提现。"]) {
-                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"每月只能申请提现一次！"];
+                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"亲,每月只能申请提现一次哦!"];
                 }else {
-                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"提现失败,请稍后再试"];
+                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"提现失败,请稍后再试"];
                 }
             }
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];
 
     }
 }
 
+- (void)regetData {
+
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+       [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"responseObject%@",responseObject);
+        if (responseObject) {
+            self.model = [BFMyWalletModel parse:responseObject];
+            self.topView.model = self.model;
+        }
+
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        BFLog(@"error%@",error);
+    }];
+}
+
+
+
+
 #pragma mark -- BFMyWalletBottomViewDelegate 
 - (void)goToModifyBankCardInformation {
     BFModifyBankCardController *modifyBankCardVC = [BFModifyBankCardController new];
     modifyBankCardVC.block = ^(BFUserInfo *userInfo) {
         self.bottomView.recieverLabel.text = [NSString stringWithFormat:@"收款人：%@", userInfo.true_name];
-        self.userInfo = userInfo;
+        //self.userInfo = userInfo;
     };
     [self.navigationController pushViewController:modifyBankCardVC animated:YES];
 }
