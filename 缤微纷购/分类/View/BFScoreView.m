@@ -45,7 +45,7 @@
         self.price.textAlignment = NSTextAlignmentCenter;
         self.price.delegate = self;
         self.price.returnKeyType = UIReturnKeyDone;
-        [self.price addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
+        //[self.price addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
         self.price.clearsOnBeginEditing = YES;
         
         UILabel *useScore = [[UILabel alloc]init];
@@ -100,23 +100,19 @@
 //        }
 //    }
     
-    
-    [textField resignFirstResponder];
-    return YES;
-}
-
-- (void)editing:(UITextField *)textFiled {
     NSInteger number = [self.num integerValue];
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     
     if (![HZQRegexTestter validateIntegerNumber:self.price.text]) {
         [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入抵扣金额"];
         self.price.text = @"";
+        _scoreBlock(self.price.text);
     }else {
         if ([userInfo.score integerValue]/100 > number) {
             if ([self.price.text integerValue] == 0) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
                 self.price.text = @"";
+                _scoreBlock(self.price.text);
             }else {
                 if ([self.price.text integerValue] > number) {
                     [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出限制"];
@@ -131,6 +127,7 @@
             if ([self.price.text integerValue] == 0) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
                 self.price.text = @"";
+                _scoreBlock(self.price.text);
             }else {
                 if ([self.price.text integerValue] > [userInfo.score integerValue]/100) {
                     [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出可用积分"];
@@ -141,9 +138,20 @@
                 }
             }
         }
-
+        
     }
+
+    [textField resignFirstResponder];
+    return YES;
 }
+
+//- (void)editing:(UITextField *)textFiled {
+////    if (![HZQRegexTestter validateIntegerNumber:self.price.text]) {
+////        [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入抵扣金额"];
+////        self.price.text = @"";
+////        _scoreBlock(self.price.text);
+////    }
+//}
 
 
 

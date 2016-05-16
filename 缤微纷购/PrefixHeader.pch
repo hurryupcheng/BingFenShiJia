@@ -12,6 +12,7 @@
 #pragma mark -- 头文件
 #import <AudioToolbox/AudioToolbox.h>  
 #import <ShareSDK/ShareSDK.h>
+#import <AVFoundation/AVFoundation.h>
 
 #pragma mark -- 第三方
 #import "SDCycleScrollView.h"

@@ -12,15 +12,17 @@
 /**生成订单模型*/
 @property (nonatomic, strong) BFGenerateOrderModel *orderModel;
 
-@property (nonatomic,retain) NSString *pay;//支付方式
+@property (nonatomic, retain) NSString *pay;//支付方式
 
 /**订单编号*/
-@property (nonatomic,retain)NSString *orderid;
+@property (nonatomic, retain) NSString *orderid;
 
-@property (nonatomic,retain)NSMutableArray *img;
+@property (nonatomic, retain) NSMutableArray *img;
 /**商品总价*/
-@property (nonatomic,retain) NSString *totalPrice;
+@property (nonatomic, retain) NSString *totalPrice;
 /**添加订单时间*/
-@property (nonatomic,retain)NSString *addTime;
+@property (nonatomic, retain) NSString *addTime;
+
+@property (nonatomic, assign)BOOL isPT;
 
 @end

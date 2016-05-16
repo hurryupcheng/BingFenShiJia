@@ -157,6 +157,8 @@
 		5915E35F1C967C7A0097D43F /* BFMyOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E35E1C967C7A0097D43F /* BFMyOrderModel.m */; };
 		5915E3651C9690910097D43F /* BFMyOrderDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E3641C9690910097D43F /* BFMyOrderDetailController.m */; };
 		5915E36E1C96A46A0097D43F /* BFMyGroupPurchaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */; };
+		591663931CE9F5B300944D46 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591663921CE9F5B300944D46 /* AVFoundation.framework */; };
+		591663951CE9F92F00944D46 /* paopao.wav in Resources */ = {isa = PBXBuildFile; fileRef = 591663941CE9F92F00944D46 /* paopao.wav */; };
 		592525E61C86B781000F609F /* BFPTDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525E51C86B781000F609F /* BFPTDetailHeaderView.m */; };
 		592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525EE1C86CA5B000F609F /* BFPTDetailViewController.m */; };
 		592F86D31C8FB474006E0CEE /* BFMyWalletBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 592F86D21C8FB474006E0CEE /* BFMyWalletBottomView.m */; };
@@ -793,6 +795,8 @@
 		5915E3641C9690910097D43F /* BFMyOrderDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyOrderDetailController.m; sourceTree = "<group>"; };
 		5915E36C1C96A46A0097D43F /* BFMyGroupPurchaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyGroupPurchaseModel.h; sourceTree = "<group>"; };
 		5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseModel.m; sourceTree = "<group>"; };
+		591663921CE9F5B300944D46 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		591663941CE9F92F00944D46 /* paopao.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paopao.wav; sourceTree = "<group>"; };
 		592523B71C8676E5000F609F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		592525E41C86B781000F609F /* BFPTDetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailHeaderView.h; sourceTree = "<group>"; };
 		592525E51C86B781000F609F /* BFPTDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailHeaderView.m; sourceTree = "<group>"; };
@@ -1594,6 +1598,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				591663931CE9F5B300944D46 /* AVFoundation.framework in Frameworks */,
 				59F7E1ED1CC861810007F9B5 /* libsqlite3.0.tbd in Frameworks */,
 				59382F481CBF9B6F00442A6F /* libz.tbd in Frameworks */,
 				59F6BD261CC5F7680046479E /* SystemConfiguration.framework in Frameworks */,
@@ -1716,6 +1721,7 @@
 		51D121A21C3A6DA700640A44 = {
 			isa = PBXGroup;
 			children = (
+				591663921CE9F5B300944D46 /* AVFoundation.framework */,
 				59F7E1EC1CC861810007F9B5 /* libsqlite3.0.tbd */,
 				59F6BD331CC5F7D70046479E /* CoreMotion.framework */,
 				59F6BD311CC5F7CE0046479E /* CFNetwork.framework */,
@@ -1772,6 +1778,7 @@
 				59FDDD071CC13A1000BF8C97 /* composer_close.wav */,
 				59FDDD081CC13A1000BF8C97 /* composer_open.wav */,
 				59FDDD091CC13A1000BF8C97 /* composer_select.wav */,
+				591663941CE9F92F00944D46 /* paopao.wav */,
 				513409F71CCB1E9D00BCB2AC /* 464.png */,
 				51D121BA1C3A6DA700640A44 /* Assets.xcassets */,
 				592523B71C8676E5000F609F /* PrefixHeader.pch */,
@@ -3498,6 +3505,7 @@
 				51D4F1D51C48A9AD00FC68FA /* iconfont-sousuo-3.png in Resources */,
 				59FF74B41CAE1A860063F770 /* btn-close.png in Resources */,
 				51D6365D1C8408B100D08A2D /* f_1.png in Resources */,
+				591663951CE9F92F00944D46 /* paopao.wav in Resources */,
 				51D24D831C9961C900F2D90E /* b1.png in Resources */,
 				51D5416B1C8E9BEE005CB936 /* gx02.png in Resources */,
 				51D24D821C9961C900F2D90E /* a2.png in Resources */,

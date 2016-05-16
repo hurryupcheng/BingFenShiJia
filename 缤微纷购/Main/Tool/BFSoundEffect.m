@@ -20,6 +20,7 @@
      * outSystemSoundID:声音id（此函数会将音效文件加入到系统音频服务中并返回一个长整形ID）
      */
     AudioServicesCreateSystemSoundID((__bridge CFURLRef)(fileUrl), &soundID);
+     AudioServicesPlaySystemSound(soundID);
     //如果需要在播放完之后执行某些操作，可以调用如下方法注册一个播放完成回调函数
     //    AudioServicesAddSystemSoundCompletion(soundID, NULL, NULL, NULL, NULL)
     //    AudioServicesAddSystemSoundCompletion(soundID, NULL, NULL, soundCompleteCallback, NULL);

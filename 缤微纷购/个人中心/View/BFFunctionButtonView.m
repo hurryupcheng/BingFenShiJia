@@ -74,6 +74,8 @@
 }
 
 - (void)chooseFunction:(BFFuctionButton *)sender {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     [sender setEnabled:NO];
     [UIView animateWithDuration:0.2 animations:^{
         sender.functionImageView.centerX = ScreenWidth/6;

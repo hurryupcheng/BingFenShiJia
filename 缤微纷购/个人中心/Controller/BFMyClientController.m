@@ -118,8 +118,8 @@
 - (void)loadMoreData {
     self.page++;
     if (self.page > self.model.page_count) {
-        [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+        [self.tableView.mj_footer endRefreshing];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多的客户了哦!"];
         return;
     }else {
         [self getData];
@@ -142,16 +142,16 @@
             
                 if (responseObject) {
                     self.model = [BFMyCustomerModel parse:responseObject];
-                    if ([self.model.sub_list isKindOfClass:[NSArray class]]) {
+                    [self.customerArray removeAllObjects];
+                    if ([responseObject[@"sub_list"] isKindOfClass:[NSArray class]]) {
                         NSArray *array = [BFCustomerList parse:self.model.sub_list];
                         if (array.count != 0) {
                             [self.customerArray addObjectsFromArray:array];
-                            [self showPage];
                         } else {
-                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有客户哦!"];
                         }
                     }else {
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有客户哦!"];
                     }
                 }
                 [self.tableView reloadData];
@@ -173,7 +173,6 @@
                 self.model = [BFMyCustomerModel parse:responseObject];
                 NSArray *array = [BFCustomerList parse:self.model.sub_list];
                 [self.customerArray addObjectsFromArray:array];
-                [self showPage];
             }
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
@@ -193,17 +192,6 @@
     }];
 }
 
-- (void)showPage {
-    _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(110), BF_ScaleHeight(450), BF_ScaleWidth(100), BF_ScaleHeight(20))];
-    _pageLabel.text = [NSString stringWithFormat:@"%lu / %ld",(unsigned long)self.page, (long)self.model.page_count];
-    _pageLabel.textAlignment = NSTextAlignmentCenter;
-    _pageLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-    _pageLabel.textColor = BFColor(0xffffff);
-    //_pageLabel.hidden = YES;
-    _pageLabel.backgroundColor = BFColor(0x000000);
-    _pageLabel.alpha = 0;
-    [self.view addSubview:_pageLabel];
-}
 
 #pragma mark --BFSegmentView代理方法
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
@@ -215,7 +203,6 @@
     switch (segmentedControl.selectedSegmentIndex) {
         case 0:{
             self.parameter[@"status"] = @"1";
-             [self.customerArray removeAllObjects];
             [self getData];
             
             BFLog(@"点击已关注");
@@ -223,22 +210,19 @@
         }
         case 1:{
             self.parameter[@"status"] = nil;
-             [self.customerArray removeAllObjects];
             [self getData];
             
             BFLog(@"点击未关注");
             break;
         }
         case 2:{
-            
             self.parameter[@"status"] = @"2";
-             [self.customerArray removeAllObjects];
             [self getData];
             BFLog(@"点击直推人数");
             break;
         }
         case 3:
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:[NSString stringWithFormat:@"团队人数%@",self.model.team_num]];
+            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:[NSString stringWithFormat:@"亲,团队有%@人哦!",self.model.team_num]];
             BFLog(@"点击团队人数");
             break;
     }

@@ -106,6 +106,7 @@
     self.shopCartButton = [[UIButton alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), ScreenHeight-108-BF_ScaleHeight(80), BF_ScaleWidth(60), BF_ScaleHeight(60))];
     //self.shopCartButton.backgroundColor = [UIColor redColor];
     self.shopCartButton.alpha = 0.3;
+    self.shopCartButton.hidden = NO;
     [self.shopCartButton setImage:[UIImage imageNamed:@"cart_shopping"] forState:UIControlStateNormal];
     [self.shopCartButton addTarget:self action:@selector(gotoShoppingCart) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.shopCartButton];
@@ -337,6 +338,7 @@
             [self initWithTableView];
             [self.tableView reloadData];
         }else{
+            self.shopCartButton.hidden = YES;
             if (self.result) {
                 [self hotView];
                 [self scrollV];
