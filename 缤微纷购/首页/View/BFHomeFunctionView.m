@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/4/11.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "Header.h"
 #import "BFHomeFunctionView.h"
 #import "BFHomeFunctionButton.h"
 
@@ -29,6 +29,7 @@
 /**按钮类型*/
 @property (nonatomic, strong) NSArray *buttonArray;
 
+
 @end
 
 @implementation BFHomeFunctionView
@@ -49,20 +50,21 @@
     return self;
 }
 
+
 - (void)setModel:(BFHomeModel *)model {
     _model = model;
     if (model) {
         if ([model.abs_b isKindOfClass:[NSArray class]]) {
             NSArray *array = [BFHomeFunctionButtonList parse:model.abs_b];
             NSUInteger btnCount = array.count;
-            CGFloat btnW =  BF_ScaleWidth(75);
-            CGFloat btnH = self.height / 2;
+//            CGFloat btnW =  BF_ScaleWidth(75);
+//            CGFloat btnH = self.height / 2;
             for (NSInteger i = 0; i < btnCount; i++) {
-                BFHomeFunctionButton *btn = [[BFHomeFunctionButton alloc] init];
-                btn.y = i / 4 * btnH;
-                btn.width = btnW;
-                btn.x = i % 4 * btnW + BF_ScaleWidth(10);
-                btn.height = btnH;
+                BFHomeFunctionButton *btn = [[BFHomeFunctionButton alloc]initWithFrame:CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x)];
+//                btn.y = i / 4 * btnH;
+//                btn.width = btnW;
+//                btn.x = i % 4 * btnW + BF_ScaleWidth(10);
+//                btn.height = btnH;
                 btn.tag = i;
                 BFHomeFunctionButtonList *list = [BFHomeFunctionButtonList parse:array[i]];
                 btn.functionTitleLabel.text = list.title;
@@ -94,7 +96,7 @@
     self.tastingExperience = [self setUpButtonWithImage:@"iicon08" type:BFHomeFunctionViewButtonTypeTastingExperience title:@"试吃体验"];
 }
 
-- (BFHomeFunctionButton *)setUpButtonWithImage:(NSString *)image type:(BFHomeFunctionViewButtonType)type title:(NSString *)title {
+- (BFHomeFunctionButton *)setUpButtonWithImage:(NSString *)image type:(BFHomeFunctionViewButtonType)type title:(NSString *)title{
     BFHomeFunctionButton *button = [[BFHomeFunctionButton alloc] init];
     
     button.tag = type;
@@ -104,22 +106,22 @@
     [self addSubview:button];
     return button;
 }
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    // 设置按钮的frame
-    NSUInteger btnCount = self.subviews.count;
-    CGFloat btnW =  BF_ScaleWidth(75);
-    CGFloat btnH = self.height / 2;
-    for (int i = 0; i<btnCount; i++) {
-        BFHomeFunctionButton *btn = self.subviews[i];
-        btn.y = i / 4 * btnH;
-        btn.width = btnW;
-        btn.x = i % 4 * btnW + BF_ScaleWidth(10);
-        btn.height = btnH;
-
-    }
-}
+//
+//- (void)layoutSubviews{
+//    [super layoutSubviews];
+//    // 设置按钮的frame
+//    NSUInteger btnCount = self.subviews.count;
+//    CGFloat btnW =  BF_ScaleWidth(75);
+//    CGFloat btnH = self.height / 2;
+//    for (int i = 0; i<btnCount; i++) {
+//        BFHomeFunctionButton *btn = self.subviews[i];
+//        btn.y = i / 4 * btnH;
+//        btn.width = btnW;
+//        btn.x = i % 4 * btnW + BF_ScaleWidth(10);
+//        btn.height = btnH;
+//
+//    }
+//}
 
 - (void)click:(BFHomeFunctionButton *)sender {
     if (self.delegate && [self.delegate respondsToSelector:@selector(clickToGotoDifferentViewWithType:list:)]) {

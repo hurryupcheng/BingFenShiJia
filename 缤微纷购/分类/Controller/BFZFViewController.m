@@ -322,8 +322,12 @@
 
 
 - (void)addsView{
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"icon_01.png"] style:UIBarButtonItemStylePlain target:self action:@selector(gotoHomeController)];
+    
+    UIButton *home = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 30, 30)];
+    [home setImage:[UIImage imageNamed:@"home.png"] forState:UIControlStateNormal];
+    [home addTarget:self action:@selector(gotoHomeController) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc]initWithCustomView:home];
+    self.navigationItem.rightBarButtonItem = barItem;
     
     self.groubeImg = [[UIImageView alloc]init];
     self.groubeImg.image = [UIImage imageNamed:@"adds.png"];

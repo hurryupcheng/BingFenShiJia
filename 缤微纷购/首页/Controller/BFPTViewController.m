@@ -169,7 +169,7 @@
             }
             
         }else{
-        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+//        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
         }
         [self.tableV reloadData];
         [self.tableV.mj_header endRefreshing];

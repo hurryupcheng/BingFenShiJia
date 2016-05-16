@@ -65,8 +65,7 @@
 
 - (BFHomeFunctionView *)functionView {
     if (!_functionView) {
-        _functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(160))];
-        _functionView.delegate = self;
+        _functionView = [[BFHomeFunctionView alloc]init];
         
     }
     return _functionView;
@@ -75,7 +74,6 @@
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
     [self getDownDate];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -108,20 +106,26 @@
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
     
+    _functionView.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(170));
+     _functionView.delegate = self;
+//    _functionView.backgroundColor = [UIColor redColor];
+    
     [self.headerView addSubview:self.lbView];
+    [self.headerView addSubview:self.functionView];
+
+    
 }
 #pragma mark 分类列表初始化
-- (void)initWithBut{
-    
+//- (void)initWithBut{
+
 //    self.functionView = [[BFHomeFunctionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160))];
 //    self.functionView.backgroundColor = [UIColor blueColor];
 //    [self.headerView addSubview:self.functionView];
     
-    self.viewBut.backgroundColor = [UIColor whiteColor];
-    self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
-    [self.headerView addSubview:self.viewBut];
-   
-    [self.viewBut addSubview:self.functionView];
+//    self.viewBut.backgroundColor = [UIColor whiteColor];
+//    self.viewBut.frame = CGRectMake(0,  CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(160));
+//    [self.headerView addSubview:self.viewBut];
+
     
     
     
@@ -154,8 +158,7 @@
 //        [self.viewBut addSubview:backView];
 //    }
     
-
-}
+//}
 #pragma  mark --BFHomeFunctionViewDelegate
 - (void)clickToGotoDifferentViewWithType:(BFHomeFunctionViewButtonType)type list:(BFHomeFunctionButtonList *)list{
     BFLog(@"%d",type);
@@ -286,13 +289,14 @@
     }
 }
 
+
 #pragma  mark 上方广告图
 - (void)initWithUpView{
-    
+   
     NSInteger count = self.homeModel.oneDataArray.count;
     
-    self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.viewBut.frame), kScreenWidth, kScreenWidth/2*count);
-    
+    self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.functionView.frame), kScreenWidth, kScreenWidth/2*count);
+        
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
         self.upImageView = [[UIButton alloc]initWithFrame:CGRectMake(0,((kScreenWidth/2)*i), kScreenWidth, kScreenWidth/2)];
@@ -307,7 +311,6 @@
         [self.headerView addSubview:self.upBackView];
         [self.upBackView addSubview:self.upImageView];
     }
-    
 }
 - (void)footImageView:(UIButton *)but{
 //    if (but.tag == self.homeModel.footDataArray.count-1) {
@@ -412,7 +415,7 @@
 //        }else{
 //            return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+(but_x)*2+10);
 //        }
-    return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+BF_ScaleHeight(160));
+    return CGSizeMake(kScreenWidth, kScreenWidth+(kScreenWidth/2*(self.homeModel.oneDataArray.count))+BF_ScaleHeight(170));
     }else{
         return CGSizeMake(kScreenWidth, kScreenWidth/2);
     }
@@ -430,10 +433,12 @@
     }
 }
 
+
+
 #pragma  mark 分区头视图
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    
+
     if (kind == UICollectionElementKindSectionHeader) {
         
         self.headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"header" forIndexPath:indexPath];
@@ -446,12 +451,13 @@
         self.headerSection = indexPath.row;
         
         if (indexPath.section == 0) {
-            [self initWithScrollView];
-            [self initWithBut];
-            [self initWithUpView];
+            
+                [self initWithScrollView];
+                [self initWithUpView];
+
             self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
         }else{
-            [self.viewBut removeFromSuperview];
+            [self.functionView removeFromSuperview];
             [self.lbView removeFromSuperview];
             [self.upBackView removeFromSuperview];
             self.headerView.sectionImage.frame = CGRectMake(0, 0, kScreenWidth, kScreenWidth/2);
@@ -487,16 +493,16 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
     
     [BFHttpTool GET:url params:nil success:^(id responseObject) {
-        BFLog(@"%@", responseObject);
+//        BFLog(@"%@", responseObject);
         if (responseObject) {
             [self.dataArray removeAllObjects];
-            BFLog(@"%@",responseObject);
+//            BFLog(@"%@",responseObject);
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
             self.model = [BFHomeModel parse:responseObject];
             self.functionView.model = self.model;
             self.homeModel = homeModel;
-            [self.collentionView reloadData];
             [self.collentionView.mj_header endRefreshing];
+            [self.collentionView reloadData];
         }
     } failure:^(NSError *error) {
         [self.collentionView.mj_header endRefreshing];
@@ -533,6 +539,10 @@
 - (void)getDownDate{
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self.functionView removeFromSuperview];
+        [self.upImageView removeFromSuperview];
+        self.functionView = nil;
+        self.upImageView = nil;
         [self CollectionViewgetDate];
     }];
     [self.collentionView.mj_header beginRefreshing];
@@ -552,13 +562,6 @@
         
     }
     return _lbView;
-}
-
-- (UIView *)viewBut{
-    if (!_viewBut) {
-        _viewBut = [[UIView alloc]init];
-    }
-    return _viewBut;
 }
 
 - (UIView *)upBackView{
