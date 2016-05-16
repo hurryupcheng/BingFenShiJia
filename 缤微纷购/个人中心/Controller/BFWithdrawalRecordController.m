@@ -72,7 +72,7 @@
     self.page++;
     if (self.page > self.model.page_num) {
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多提现记录了哦!"];
         return;
     }
     [self getData];
@@ -99,10 +99,10 @@
                         if (array.count != 0) {
                             [self.recordArray addObjectsFromArray:array];
                         }else {
-                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有提现记录哦!"];
                         }
                     } else {
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有提现记录哦!"];
                     }
                 }
                 [self.tableView reloadData];

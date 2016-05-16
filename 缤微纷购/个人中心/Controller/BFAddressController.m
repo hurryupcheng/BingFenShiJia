@@ -127,19 +127,20 @@
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {
-                [self.addressArray removeAllObjects];
-               
+                if ([responseObject[@"address"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
-                    [self.addressArray addObjectsFromArray:array];
-                    if (self.addressArray.count == 0) {
+                    if (array.count == 0) {
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,暂时还没有可用地址哦!"];
                         self.bgImageView.hidden = NO;
                     }else {
+                        [self.addressArray removeAllObjects];
                         self.bgImageView.hidden = YES;
+                        [self.addressArray addObjectsFromArray:array];
                     }
-
-                
-            }else {
-                self.bgImageView.hidden = NO;
+                }else {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,暂时还没有可用地址哦!"];
+                    self.bgImageView.hidden = NO;
+                }
             }
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{

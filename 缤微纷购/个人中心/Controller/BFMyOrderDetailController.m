@@ -291,7 +291,7 @@
 - (void)confirmOrder {
     [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^{
         if (![self.model.status isEqualToString:@"3"]) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货,请耐心等候..."];
         }else {
             BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
             NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];

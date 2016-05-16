@@ -151,7 +151,7 @@
         if (self.page > self.model.page_num) {
             //self.page--;
             [self.bottomTableView.mj_footer endRefreshing];
-            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多订单了哦!"];
             return;
         }else {
             [self getUpRefreshData:self.headerView.timeLabel.text];
@@ -160,7 +160,7 @@
         if (self.page > 5) {
             //self.page--;
             [self.bottomTableView.mj_footer endRefreshing];
-            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多订单了哦!"];
             return;
         }else {
             [self getUpRefreshData:self.headerView.timeLabel.text];
@@ -184,9 +184,15 @@
             if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
                 //BFLog(@"-----%@", array);
-                [self.customerArray addObjectsFromArray:array];
+                if (array.count == 0) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
+                }else {
+                    //BFLog(@"-----%@", array);
+                    [self.customerArray addObjectsFromArray:array];
+                }
+
             }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
             }
             //self.myTabbar.custmorOrderModel = self.model;
         }
@@ -224,10 +230,14 @@
                 self.model =  [BFCustmorOrderModel parse:responseObject];
                 if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
-                    //BFLog(@"-----%@", array);
-                    [self.customerArray addObjectsFromArray:array];
+                    if (array.count == 0) {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
+                    }else {
+                        //BFLog(@"-----%@", array);
+                        [self.customerArray addObjectsFromArray:array];
+                    }
                 }else {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
                 }
                 self.myTabbar.custmorOrderModel = self.model;
             }
@@ -348,10 +358,14 @@
             self.model =  [BFCustmorOrderModel parse:responseObject];
             if ([responseObject[@"proxy_order"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFCustomerOrderList parse:self.model.proxy_order];
-                //BFLog(@"-----%@", array);
-                [self.customerArray addObjectsFromArray:array];
+                if (array.count == 0) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
+                }else {
+                    //BFLog(@"-----%@", array);
+                    [self.customerArray addObjectsFromArray:array];
+                }
             }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
             }
             self.myTabbar.custmorOrderModel = self.model;
         }

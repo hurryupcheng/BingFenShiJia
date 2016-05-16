@@ -151,10 +151,14 @@
                 self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
                 if ([responseObject[@"recom_data"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
-                    //BFLog(@"-----%@", array);
-                    [self.recommendArray addObjectsFromArray:array];
+                    if (array.count == 0) {
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
+                    }else {
+                        //BFLog(@"-----%@", array);
+                        [self.recommendArray addObjectsFromArray:array];
+                    }
                 }else {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
                 }
                 self.myTabbar.recommendDividedModel = self.recommendDividedmodel;
             }
@@ -272,10 +276,14 @@
             self.recommendDividedmodel =  [BFRecommendDividedModel parse:responseObject];
             if ([responseObject[@"recom_data"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [RecommendDividedList parse:self.recommendDividedmodel.recom_data];
-                //BFLog(@"-----%@", array);
-                [self.recommendArray addObjectsFromArray:array];
+                if (array.count == 0) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
+                }else {
+                    //BFLog(@"-----%@", array);
+                    [self.recommendArray addObjectsFromArray:array];
+                }
             }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有订单"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有订单哦!"];
             }
             self.myTabbar.recommendDividedModel = self.recommendDividedmodel;
         }

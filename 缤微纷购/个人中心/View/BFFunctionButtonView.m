@@ -74,9 +74,23 @@
 }
 
 - (void)chooseFunction:(BFFuctionButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(chooseFunction:)]) {
-        [self.delegate chooseFunction:sender.tag];
-    }
+    [sender setEnabled:NO];
+    [UIView animateWithDuration:0.2 animations:^{
+        sender.functionImageView.centerX = ScreenWidth/6;
+        sender.functionImageView.centerY = (self.height/2-BF_ScaleHeight(80))/2;
+        sender.functionImageView.width =  ScreenWidth/3;
+        sender.functionImageView.height = self.height/2-BF_ScaleHeight(40);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            sender.functionImageView.frame = CGRectMake(0, BF_ScaleHeight(25), ScreenWidth/3, self.height/2-BF_ScaleHeight(80));
+        }completion:^(BOOL finished) {
+            [sender setEnabled:YES];
+                if (self.delegate && [self.delegate respondsToSelector:@selector(chooseFunction:)]) {
+                    [self.delegate chooseFunction:sender.tag];
+                }
+        }] ;
+    }];
+
 }
 
 //- (void)layoutSubviews {

@@ -32,7 +32,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-64) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.backgroundColor = BFColor(0xF4F4F4);
@@ -73,10 +73,10 @@
                         [self.groupArray addObjectsFromArray:array];
                         BFLog(@"我的订单%@,",responseObject);
                     }else {
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
                     }
                 }else {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"数据为空"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
                 }
                 [self.tableView reloadData];
                 [UIView animateWithDuration:0.5 animations:^{

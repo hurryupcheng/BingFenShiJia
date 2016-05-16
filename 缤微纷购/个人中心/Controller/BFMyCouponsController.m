@@ -158,10 +158,10 @@
                     
                 }else {
                     self.tableView.hidden = YES;
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有优惠券哦!"];
                 }
             }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有优惠券哦!"];
             }
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{

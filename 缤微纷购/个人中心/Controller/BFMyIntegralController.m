@@ -102,10 +102,10 @@
                     if (array.count != 0) {
                         [self.scoreArray addObjectsFromArray:array];
                     }else {
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时没有可用积分哦!"];
                     }
                 }else {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有更多数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时没有可用积分哦!"];
                 }
                 BFLog(@"%@,,%@,,%lu", responseObject,parameter,(unsigned long)self.scoreArray.count);
             }

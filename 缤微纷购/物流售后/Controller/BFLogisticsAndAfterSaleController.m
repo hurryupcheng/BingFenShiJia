@@ -170,12 +170,12 @@
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂无数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
                 }else {
                     
                     NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
                     if (array.count <= self.logisticsArray.count) {
-                        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多商品"];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,没有可以查看的订单哦!"];
                     }else {
                         [self.logisticsArray removeAllObjects];
                         [self.logisticsArray addObjectsFromArray:array];
@@ -215,14 +215,21 @@
                     self.bgImageView.hidden = NO;
                     self.tableView.hidden = YES;
                 }else {
+                    if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
+                        NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                        if (array.count == 0) {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
+                            self.bgImageView.hidden = NO;
+                            self.tableView.hidden = YES;
+                        }else {
+                            self.bgImageView.hidden = YES;
+                            self.tableView.hidden = NO;
+                            [self.logisticsArray removeAllObjects];
+                            [self.logisticsArray addObjectsFromArray:array];
+                        }
+                    }
                     
-                    self.bgImageView.hidden = YES;
-                    self.tableView.hidden = NO;
-                    [self.logisticsArray removeAllObjects];
-                    NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-                    [self.logisticsArray addObjectsFromArray:array];
                 }
-               
             }else {
                 self.bgImageView.hidden = NO;
                 self.tableView.hidden = YES;
