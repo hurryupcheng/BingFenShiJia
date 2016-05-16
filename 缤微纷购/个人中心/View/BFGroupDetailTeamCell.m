@@ -87,7 +87,7 @@
     self.bottomImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(48))];
     [self addSubview:self.bottomImageView];
     
-    UIView *line = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(25), CGRectGetMaxY(self.bottomView.frame), 2, BF_ScaleHeight(20))];
+    UIView *line = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(25), CGRectGetMaxY(self.bottomView.frame), 1, BF_ScaleHeight(20))];
     line.backgroundColor = BFColor(0xD5D5D6);
     [self addSubview:line];
     

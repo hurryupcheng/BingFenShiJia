@@ -86,14 +86,24 @@
     
     NSString *betweenTime;
     //BFLog(@"------%f----%ld", [[NSDate date]timeIntervalSince1970],(long)betweenDate.second);
-    if (betweenDate.second <= 0){
+    if ([self.model.status isEqualToString:@"1"]) {
         self.hour.text = @"0时";
         self.minute.text = @"0分";
         self.second.text = @"0秒";
         [timer invalidate];
         timer = nil;
+
     }else {
-        betweenTime = [self hourMinuteSecond:betweenDate.second];
+        if (betweenDate.second <= 0){
+            self.hour.text = @"0时";
+            self.minute.text = @"0分";
+            self.second.text = @"0秒";
+            [timer invalidate];
+            timer = nil;
+        }else {
+            betweenTime = [self hourMinuteSecond:betweenDate.second];
+        }
+
     }
 }
 

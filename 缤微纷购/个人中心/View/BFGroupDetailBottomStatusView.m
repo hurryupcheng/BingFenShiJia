@@ -12,6 +12,7 @@
 /**状态label*/
 @property (nonatomic, strong) UILabel *status;
 
+@property (nonatomic, strong) UIImageView *headIcon;
 @end
 
 @implementation BFGroupDetailBottomStatusView
@@ -32,8 +33,16 @@
         }else if([model.status isEqualToString:@"2"]){
             self.backgroundColor = BFColor(0xCACACA);
             self.status.text = @"团购失败";
+            self.headIcon.layer.cornerRadius = BF_ScaleWidth(17.5);
+            self.headIcon.layer.borderColor = BFColor(0xffffff).CGColor;
+            self.headIcon.layer.borderWidth = BF_ScaleWidth(1);
+            self.headIcon.layer.masksToBounds = YES;
         }else if([model.status isEqualToString:@"0"]){
             self.backgroundColor = BFColor(0xCACACA);
+            self.headIcon.layer.cornerRadius = BF_ScaleWidth(17.5);
+            self.headIcon.layer.borderColor = BFColor(0xffffff).CGColor;
+            self.headIcon.layer.borderWidth = BF_ScaleWidth(1);
+            self.headIcon.layer.masksToBounds = YES;
             self.status.text = [NSString stringWithFormat:@"还差 %ld 人，让小伙伴们都来组团吧!", (long)model.havenum];
         }
     }
@@ -44,17 +53,13 @@
     firstLine.backgroundColor = BFColor(0xCACACA);
     [self addSubview:firstLine];
     
-    UIView *line = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(25), 0, 2, BF_ScaleHeight(20))];
+    UIView *line = [UIView drawLineWithFrame:CGRectMake(BF_ScaleWidth(25), 0, 1, BF_ScaleHeight(20))];
     line.backgroundColor = BFColor(0xD5D5D6);
     [self addSubview:line];
     
     
     UIImageView *headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(7.5), BF_ScaleHeight(20), BF_ScaleHeight(35), BF_ScaleHeight(35))];
-    headIcon.image = [UIImage imageNamed:@"group_detail_head_image"];
-    headIcon.layer.cornerRadius = BF_ScaleWidth(17.5);
-    headIcon.layer.borderColor = BFColor(0xffffff).CGColor;
-    headIcon.layer.borderWidth = BF_ScaleWidth(2.5);
-    headIcon.layer.masksToBounds = YES;
+    self.headIcon = headIcon;
     headIcon.image = [UIImage imageNamed:@"group_detail_head_image"];
     [self addSubview:headIcon];
     
