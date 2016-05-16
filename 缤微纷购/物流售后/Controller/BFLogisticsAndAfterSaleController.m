@@ -31,6 +31,8 @@
 @property (nonatomic, strong) NSMutableArray *logisticsArray;
 /**产品数组数组*/
 @property (nonatomic, strong) NSMutableArray *productArray;
+/**是不是第一次进入*/
+@property (nonatomic, assign) BOOL isYirstTime;
 
 @end
 
@@ -93,26 +95,40 @@
     return _bgImageView;
 }
 
+//初始化让bool属性为真
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.isYirstTime = YES;
+    }
+    return self;
+}
+
 #pragma mark --viewDidLoad
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
     if (![BFUserDefaluts getUserInfo]) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"未登录,请先登录"];
+        self.bgImageView.hidden = NO;
+        self.tableView.hidden = YES;
+        self.isYirstTime = YES;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+        } completion:nil];
+        
     }else {
-        //获取数据
-        [self getData];
+        if (self.isYirstTime) {
+            // 集成下拉刷新控件
+            [self setupDownRefresh];
+            //获取数据
+            [self getData];
+        }else {
+            
+        }
     }
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    //获取数据
-    self.bgImageView.hidden = NO;
-    [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-    } completion:nil];
-}
 
 #pragma mark --viewDidLoad
 - (void)viewDidLoad {
@@ -129,11 +145,56 @@
     //[self setNavigationBar];
     //客服电话按钮
     [self setUpCustomerService];
+    
     //获取数据
     //[self getData];
     
 }
 
+#pragma mark --获取数据
+- (void)setupDownRefresh {
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    // 马上进入刷新状态
+    //[self.tableView.mj_header beginRefreshing];
+}
+
+
+- (void)loadNewData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=logistics"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    BFLog(@"%@",parameter);
+    
+        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            if (responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂无数据"];
+                }else {
+                    
+                    NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                    if (array.count <= self.logisticsArray.count) {
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多商品"];
+                    }else {
+                        [self.logisticsArray removeAllObjects];
+                        [self.logisticsArray addObjectsFromArray:array];
+                    }
+                    
+                }
+                
+            }
+            // BFLog(@"---%@,,",responseObject);
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+        } failure:^(NSError *error) {
+            [self.tableView.mj_header endRefreshing];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+            BFLog(@"%@",error);
+        }];
+        
+    
+}
 
 #pragma mark --获取数据
 - (void)getData {
@@ -150,7 +211,7 @@
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂无数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
                     self.bgImageView.hidden = NO;
                     self.tableView.hidden = YES;
                 }else {
@@ -168,6 +229,7 @@
             }
            // BFLog(@"---%@,,",responseObject);
             [self.tableView reloadData];
+            self.isYirstTime = NO;
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = BF_ScaleHeight(30);
             } completion:nil];
@@ -282,6 +344,7 @@
         BFBottomCell *cell = [BFBottomCell cellWithTableView:tableView];
         cell.delegate = self;
         cell.model = self.logisticsArray[indexPath.section];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else {
         BFLogisticsCell *cell = [BFLogisticsCell cellWithTableView:tableView];
@@ -294,15 +357,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     BFLogisticsModel *model = self.logisticsArray[indexPath.section];
     NSArray *array = [BFProductModel parse:model.item];
-    BFProductModel *producrtmodel = array[indexPath.row-1];
-    BFLog(@"-----------------%@", producrtmodel.itemId);
-    FXQViewController *fxVC =[[FXQViewController alloc] init];
-    fxVC.ID = producrtmodel.itemId;
-    [self.navigationController pushViewController:fxVC animated:YES];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row != 0 && indexPath.row != self.productArray.count+1) {
+        BFProductModel *producrtmodel = array[indexPath.row-1];
+        BFLog(@"-----------------%@", producrtmodel.itemId);
+        FXQViewController *fxVC =[[FXQViewController alloc] init];
+        fxVC.ID = producrtmodel.itemId;
+        [self.navigationController pushViewController:fxVC animated:YES];
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    }
 }
 
 
@@ -321,7 +385,11 @@
             break;
         }
         case BFLogisticsCellButtonTypeConfirmReceipt:{
-            [self confirmOrderWithModel:model AndCell:cell];
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"确定收货吗" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"确定" style:UIAlertActionStyleDefault handler:^{
+                //确认收货
+                [self confirmOrderWithModel:model AndCell:cell];
+            }];
+            [self presentViewController:alertC animated:YES completion:nil];
             BFLog(@"确认收货");
             break;
         }
@@ -333,13 +401,10 @@
 
 #pragma mark -- 确认收货
 - (void)confirmOrderWithModel:(BFLogisticsModel *)model AndCell:(BFBottomCell *)cell{
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+   [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^{
         if (![model.status isEqualToString:@"3"]) {
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货"];
         }else {
-
             BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
             NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=confirmOrder"];
             NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -350,11 +415,15 @@
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"--%@----%@", responseObject, parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
-                    //收货成功改变状态
-                    model.status = @"4";
-                    cell.model = model;
-                    [self.tableView reloadData];
+                    double delayInSeconds = 1;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                        //收货成功改变状态
+                        model.status = @"4";
+                        cell.model = model;
+                        [self.tableView reloadData];
+                    });
                 }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
                 }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
@@ -368,7 +437,6 @@
             }];
         }
     }];
-    
 }
 
 
@@ -437,7 +505,7 @@
 
 
 
-//分区头视图代理
+#pragma mark -- 48小时售后点击
 - (void)clickToSeeConmmonProblem {
     
 }
