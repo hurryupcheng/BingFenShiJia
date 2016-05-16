@@ -9,7 +9,7 @@
 #import "Header.h"
 #import "ViewController.h"
 #import "BFScoreView.h"
-
+#import "HZQRegexTestter.h"
 @interface BFScoreView ()
 
 @property (nonatomic,retain)NSString *str;
@@ -22,7 +22,7 @@
 - (instancetype)initWithFrame:(CGRect)frame num:(NSInteger)num{
     if ([super initWithFrame:frame]) {
         
-        self.num = [NSString stringWithFormat:@"%d",num];
+        self.num = [NSString stringWithFormat:@"%ld",(long)num];
         
         UIView *black = [[UIView alloc]initWithFrame:CGRectMake(10, 0, kScreenWidth, 1)];
         black.backgroundColor = rgb(220, 220, 220, 1.0);
@@ -45,6 +45,7 @@
         self.price.textAlignment = NSTextAlignmentCenter;
         self.price.delegate = self;
         self.price.returnKeyType = UIReturnKeyDone;
+        [self.price addTarget:self action:@selector(editing:) forControlEvents:UIControlEventEditingChanged];
         self.price.clearsOnBeginEditing = YES;
         
         UILabel *useScore = [[UILabel alloc]init];
@@ -67,34 +68,102 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    NSInteger number = [self.num integerValue];
-    if ([self.price.text integerValue] >= number) {
-        self.price.text = self.num;
-        _scoreBlock(self.price.text);
-    }else{
-        _scoreBlock(self.price.text);
-    }
+//    NSInteger number = [self.num integerValue];
+//    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+//    
+//    if ([userInfo.score integerValue]/100 > number) {
+//        if ([self.price.text integerValue] == 0) {
+//            [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
+//            self.price.text = @"";
+//        }else {
+//            if ([self.price.text integerValue] >= number) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出限制"];
+//                self.price.text = self.num;
+//                _scoreBlock(self.price.text);
+//            }else{
+//                _scoreBlock(self.price.text);
+//            }
+//
+//        }
+//    }else {
+//        if ([self.price.text integerValue] == 0) {
+//            [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
+//            self.price.text = @"";
+//        }else {
+//            if ([self.price.text integerValue] >= [userInfo.score integerValue]/100) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出可用积分"];
+//                self.price.text = [NSString stringWithFormat:@"%ld", [userInfo.score integerValue]/100];
+//                _scoreBlock(self.price.text);
+//            }else{
+//                _scoreBlock(self.price.text);
+//            }
+//        }
+//    }
+    
     
     [textField resignFirstResponder];
     return YES;
 }
-// 判断输入的是否是数字
-- (BOOL)validateNumberByRegExp:(NSString *)string {
-    BOOL isValid = YES;
-    NSUInteger len = string.length;
 
-       if (len > 0) {
-    NSString *numberRegex = @"^[0-9]*$";
-    NSPredicate *numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
-        isValid = [numberPredicate evaluateWithObject:string];
-       }
-    return isValid;
+- (void)editing:(UITextField *)textFiled {
+    NSInteger number = [self.num integerValue];
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    
+    if (![HZQRegexTestter validateIntegerNumber:self.price.text]) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入抵扣金额"];
+        self.price.text = @"";
+    }else {
+        if ([userInfo.score integerValue]/100 > number) {
+            if ([self.price.text integerValue] == 0) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
+                self.price.text = @"";
+            }else {
+                if ([self.price.text integerValue] > number) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出限制"];
+                    self.price.text = self.num;
+                    _scoreBlock(self.price.text);
+                }else{
+                    _scoreBlock(self.price.text);
+                }
+                
+            }
+        }else {
+            if ([self.price.text integerValue] == 0) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"请正确输入积分"];
+                self.price.text = @"";
+            }else {
+                if ([self.price.text integerValue] > [userInfo.score integerValue]/100) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"使用积分超出可用积分"];
+                    self.price.text = [NSString stringWithFormat:@"%ld", [userInfo.score integerValue]/100];
+                    _scoreBlock(self.price.text);
+                }else{
+                    _scoreBlock(self.price.text);
+                }
+            }
+        }
+
+    }
 }
+
+
+
+// 判断输入的是否是数字
+//- (BOOL)validateNumberByRegExp:(NSString *)string {
+//    BOOL isValid = YES;
+//    NSUInteger len = string.length;
+//
+//       if (len > 0) {
+//    NSString *numberRegex = @"^[0-9]*$";
+//    NSPredicate *numberPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", numberRegex];
+//        isValid = [numberPredicate evaluateWithObject:string];
+//       }
+//    return isValid;
+//}
 
  #pragma mark - UITextFieldDelegate
- - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-     
-    return [self validateNumberByRegExp:string];
-}
+// - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+//     
+//    return [self validateNumberByRegExp:string];
+//}
 
 @end

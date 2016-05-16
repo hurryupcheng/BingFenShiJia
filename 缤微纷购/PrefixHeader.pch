@@ -52,8 +52,8 @@
 
 /**接口宏定义*/
 #define BF_URL  @"http://bingo.luexue.com"
-//#define NET_URL  @"http://192.168.1.201/binfen"
-#define NET_URL  @"http://bingo.luexue.com"
+#define NET_URL  @"http://192.168.1.201/binfen"
+//#define NET_URL  @"http://bingo.luexue.com"
 
 
 /**通知中心*/
@@ -65,6 +65,10 @@
 #else // 处于发布阶段
 #define BFLog(...)
 #endif
+
+
+/**点击支付按钮倒计时*/
+#define Countdown   10
 
 /**颜色*/
 #define BFColor(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]

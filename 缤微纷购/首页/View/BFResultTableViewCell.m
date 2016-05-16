@@ -12,7 +12,6 @@
 
 @interface BFResultTableViewCell ()
 
-@property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)UILabel *title;
 @property (nonatomic,retain)UILabel *stock;
 @property (nonatomic,retain)UILabel *price;
@@ -72,8 +71,8 @@
     but.selected = YES;
     self.selectedBut = but;
     
-    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(resultDelegate:)]) {
-        [self.delegate resultDelegate:but.tag];
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(delegateWithCell:index:)]) {
+        [self.delegate delegateWithCell:self index:but.tag];
     }
 }
 

@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UILabel *recieverLabel;
 /**提现金额输入框*/
 @property (nonatomic, strong) UITextField *getCashTX;
+/**实付金额*/
+@property (nonatomic, strong) UILabel *paidCashLabel;
 /**代理*/
 @property (nonatomic, weak) id<BFMyWalletBottomViewDelegate>delegate;
 /**我的钱包模型*/

@@ -89,14 +89,14 @@
     //获取数据
     [self getData];
     //从本页面进入支付页面，支付成功接受通知
-    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
+//    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
   
 }
 
 #pragma mark --销毁通知
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
+//- (void)dealloc {
+//    [BFNotificationCenter removeObserver:self];
+//}
 
 
 #pragma mark --获取数据
@@ -203,7 +203,10 @@
                     payVC.pay = @"微信支付";
                 }
                 payVC.orderModel = orderModel;
-                payVC.totalPrice = self.model.order_sumPrice;
+                float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
+                
+                payVC.totalPrice = [NSString stringWithFormat:@"%.2f", payMoney];
+                
                 payVC.orderid = self.model.orderId;
                 payVC.addTime = self.model.add_time;
                 NSMutableArray *mutableArray = [NSMutableArray array];
@@ -221,7 +224,7 @@
         }];
 //    }];
     //点击按钮倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.footerView.pay setEnabled:NO];
     [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
@@ -340,7 +343,13 @@
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"--%@", responseObject);
             if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
+//                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
+
+                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"订单取消成功,正在跳转..." dispatch_get_main_queue:^{
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                    
+
                 self.headerView.statusLabel.text = @"已关闭";
                 //self.footerView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{

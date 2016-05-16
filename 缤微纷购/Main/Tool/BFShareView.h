@@ -19,7 +19,7 @@ typedef enum {
 @class BFShareView;
 @protocol BFShareViewDelegate <NSObject>
 
-- (void)bfShareView:(BFShareView *)shareView type:(BFShareButtonType)type;
+- (void)shareView:(BFShareView *)shareView type:(BFShareButtonType)type;
 
 @end
 
@@ -30,6 +30,8 @@ typedef enum {
 /**代理*/
 @property (nonatomic, weak) id<BFShareViewDelegate>delegate;
 
-+ (instancetype)shareView:(id)publishContent;
++ (instancetype)shareView;
+
+//+ (instancetype)shareView:(NSString *)title image:(NSString *)image content:(NSString *)content url:(NSString *)url;
 
 @end

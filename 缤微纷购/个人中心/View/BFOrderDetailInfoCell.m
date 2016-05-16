@@ -62,11 +62,12 @@
     
     self.freight.text = [NSString stringWithFormat:@"¥ %@", model.freeprice];
     
-    self.integralOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.user_score floatValue]/100];
+    self.integralOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.score floatValue]];
     
     self.couponsOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.coupon_money floatValue]];
+    float payMoney = [model.order_sumPrice floatValue] - [model.score floatValue] - [model.coupon_money floatValue];
     
-    self.actualPayment.text = [NSString stringWithFormat:@"¥ %@", model.order_sumPrice];
+    self.actualPayment.text = [NSString stringWithFormat:@"¥ %.2f", payMoney];
 }
 
 - (void)setCell {

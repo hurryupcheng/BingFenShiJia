@@ -23,7 +23,7 @@
 #import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
 
-@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource>{
+@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>{
     __block int         leftTime;
     __block NSTimer     *timer;
 }
@@ -147,6 +147,13 @@
             if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [TeamList parse:self.model.thisteam];
                 [self.teamArray addObjectsFromArray:array];
+                if (self.teamArray.count > 1) {
+                    for (TeamList *list in self.teamArray) {
+                        if ([list.status isEqualToString:@"1"]) {
+                            [self.teamArray removeObject:list];
+                        }
+                    }
+                }
             }
             //给头部视图模型赋值
             self.headerView.model = self.model;
@@ -217,6 +224,13 @@
                 if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [TeamList parse:self.model.thisteam];
                     [self.teamArray addObjectsFromArray:array];
+                    if (self.teamArray.count > 1) {
+                        for (TeamList *list in self.teamArray) {
+                            if ([list.status isEqualToString:@"1"]) {
+                                [self.teamArray removeObject:list];
+                            }
+                        }
+                    }
                 }
                 //给头部视图模型赋值
                 self.headerView.model = self.model;
@@ -224,8 +238,6 @@
                 self.footerView.model = self.model;
                 //返回的高度赋值
                 [self animation];
-                
-                
                 //给状态栏赋值
                 self.tabbar.model = self.model;
                 BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
@@ -256,7 +268,7 @@
 
 #pragma mark --tableView代理
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
+    
     return self.teamArray.count;
 }
 
@@ -418,7 +430,7 @@
         }];
 //    }];
     //倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.tabbar.payButton setEnabled:NO];
     [self.tabbar.payToJoinButton setEnabled:NO];
     [self.tabbar.payButton setBackgroundColor:BFColor(0xD5D8D1)];
@@ -455,20 +467,97 @@
 
 #pragma mark -- 去分享
 - (void)gotoShare {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    ItemModel *itemModel = [ItemModel parse:self.model.item];
-    id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
-                                       defaultContent:itemModel.intro
-                                                image:[ShareSDK imageWithUrl:itemModel.img]
-                                                title:itemModel.title
-                                                  url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
-                                          description:itemModel.intro
-                                            mediaType:SSPublishContentMediaTypeNews];
+
     //调用自定义分享
-    BFShareView *share = [BFShareView shareView:publishContent];
+    BFShareView *share = [BFShareView shareView];
+    share.delegate = self;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:share];
 
+}
+
+
+#pragma mark -- 分享页面代理方法
+
+- (void)shareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    
+    switch (type) {
+        case BFShareButtonTypeQQZone:{
+            [self shareWithType:ShareTypeQQSpace];
+            break;
+        }
+        case BFShareButtonTypeQQFriends:{
+            [self shareWithType:ShareTypeQQ];
+            break;
+        }
+        case BFShareButtonTypeWechatFriends:{
+            [self shareWithType:ShareTypeWeixiSession];
+            break;
+        }
+        case BFShareButtonTypeMoments:{
+            [self shareWithType:ShareTypeWeixiTimeline];
+            break;
+        }
+        case BFShareButtonTypeSinaBlog:{
+            [self shareWithType:ShareTypeSinaWeibo];
+            break;
+        }
+    }
+}
+
+
+- (void)shareWithType:(ShareType)shareType {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    ItemModel *itemModel = [ItemModel parse:self.model.item];
+    if (shareType == ShareTypeSinaWeibo) {
+        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
+                                           defaultContent:itemModel.intro
+                                                    image:[ShareSDK imageWithUrl:itemModel.img]
+                                                    title:itemModel.title
+                                                      url:nil
+                                              description:itemModel.title
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+                if ([error errorCode] == 20012) {
+                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享内容过长,请少于140个字节"];
+                }
+            }else if (state == SSResponseStateCancel) {
+                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+            }
+            BFLog(@"---%d",state);
+        }];
+        
+    }else {
+        id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
+                                           defaultContent:itemModel.intro
+                                                    image:[ShareSDK imageWithUrl:itemModel.img]
+                                                    title:itemModel.title
+                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
+                                              description:itemModel.intro
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                //[self hideShareView];
+                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+        
+    }
 }
 
 

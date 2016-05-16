@@ -136,7 +136,7 @@
         [self singleProductOrder];
     }
     //点击按钮倒计时
-    leftTime = 5;
+    leftTime = Countdown;
     [self.footView.buyButton setEnabled:NO];
     [self.footView.buyButton setBackgroundColor:BFColor(0xD5D8D1)];
     
@@ -171,7 +171,9 @@
     parameter[@"uid"] = _userInfo.ID;
     parameter[@"token"] = _userInfo.token;
     parameter[@"itemid"] = self.ID;
-    parameter[@"teamid"] = @"";
+    parameter[@"coupon_id"] = self.coupon_id;
+    parameter[@"pay_score"] = @(self.useScorePrice);
+    parameter[@"postscript"] = _textView.text;
     parameter[@"address_id"] = self.addressID;
     
     if ([self.payTitle.text isEqualToString:@"支付宝"]) {
@@ -190,16 +192,7 @@
             paramerer[@"orderId"] = responseObject[@"orderid"];
             [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
                 BFLog(@"++++++++++%@", responseObject);
-//                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-//                BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-//                pay.pay = self.payTitle.text;
-//                pay.orderModel = orderModel;
-//                pay.orderid = orderModel.orderid;
-//                pay.addTime = orderModel.addtime;
-//                pay.img = _itemImg;
-//                NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
-//                pay.totalPrice = [self.footView.money.text substringWithRange:range];
-//                [self.navigationController pushViewController:pay animated:YES];
+
                 
                 BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
                 BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
@@ -214,7 +207,7 @@
                     [self.navigationController pushViewController:pay animated:YES];
                 }];
                 //订单生成修改积分数量
-                [BFAvailablePoints updateAvailablePoints];
+                //[BFAvailablePoints updateAvailablePoints];
                 
                 
             } failure:^(NSError *error) {
@@ -243,7 +236,7 @@
     data[@"uid"] = _userInfo.ID;
     data[@"token"] = _userInfo.token;
     data[@"coupon_id"] = self.coupon_id;
-    data[@"pay_score"] = @(self.scores);
+    data[@"pay_score"] = @(self.useScorePrice);
     data[@"postscript"] = _textView.text;
     data[@"address_id"] = self.addressID;
     data[@"data"] = self.itemDate;
@@ -295,7 +288,7 @@
             }
             self.removeBlock();
             //订单生成修改积分数量
-            [BFAvailablePoints updateAvailablePoints];
+            //[BFAvailablePoints updateAvailablePoints];
             
             
         }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
@@ -397,7 +390,7 @@
     self.swit = [[UISwitch alloc]init];
     
     _scoreTitle = [[UILabel alloc]init];
-    NSInteger useScore = self.score/100;
+    NSInteger useScore = self.score;
 //    NSInteger useScore = 100000/100;
     if (useScore > _sum_price/2) {
         self.scores = _sum_price/2;
@@ -793,6 +786,7 @@
             _textView.returnKeyType = UIReturnKeyDefault;
             [_wordesBack addSubview:_textView];
             _textView.delegate = self;
+            _textView.returnKeyType = UIReturnKeyDone;
             self.tableV.tableFooterView = _wordesBack;
         }else{
 //            [self.tableV.tableFooterView removeFromSuperview];
@@ -860,8 +854,7 @@
         self.itemDate = [self.itemDate stringByAppendingString:[NSString stringWithFormat:@"%@",string]];
         NSLog(@"========%ld=========%@",(long)model.numbers,model.price);
     }
-//    NSLog(@"\\\\\\%@",self.itemDate);
-//    self.itemDate = [NSString stringWithFormat:@"id=627,num=1,price=10.00;id=626,num=2,price=60.00;id=625,num=3,price=18.90;"];
+
     self.userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=app_free"];
     NSMutableDictionary *boty = [NSMutableDictionary dictionary];
@@ -870,14 +863,16 @@
     boty[@"data"] = self.itemDate;
     boty[@"sheng"] = self.model.sheng;
     self.addressID = self.model.ID;
-//    NSLog(@"======%@",self.model.ID);
+
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
         NSLog(@"...%@  %@",responseObject,boty);
 
        self.freeprice = [responseObject[@"freeprice"] floatValue];
         
-       double score = [responseObject[@"score"] integerValue];
-        self.score = score;
+        if (responseObject[@"score"]) {
+            double score = [responseObject[@"score"] integerValue];
+            self.score = score;
+        }
     
         double price = [responseObject[@"sum_item_price"] doubleValue];
         self.sum_price = price;
@@ -918,7 +913,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
-    self.tabBarController.tabBar.hidden = YES;
+    //self.tabBarController.tabBar.hidden = YES;
 }
 
 
@@ -970,10 +965,9 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     
-    self.navigationController.navigationBar.translucent = NO;
+
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    self.tabBarController.tabBar.hidden = YES;
     
 }
 
@@ -988,6 +982,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 
 @end

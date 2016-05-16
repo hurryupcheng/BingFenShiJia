@@ -20,8 +20,7 @@
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
 @property (nonatomic, strong) UIView *getCashView;
-/**实付金额*/
-@property (nonatomic, strong) UILabel *paidCashLabel;
+
 /**确认提现*/
 @property (nonatomic, strong) UIButton *getCashButton;
 
@@ -148,6 +147,7 @@
                 }
             }else {
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+                self.getCashTX.text = @"";
             }
         }
     }
@@ -186,6 +186,7 @@
             BFLog(@"我要修改银行信息");
         }else {
             [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+            self.getCashTX.text = @"";
         }
         
     }
@@ -232,6 +233,7 @@
         self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];
     }else if (![HZQRegexTestter validateFloatingPoint:textField.text]) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的金额..."];
+        self.getCashTX.text = @"";
     }else {
         if ([textField.text floatValue] <= 3500) {
             self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",textField.text];

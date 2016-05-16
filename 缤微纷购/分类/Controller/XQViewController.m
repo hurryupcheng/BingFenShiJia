@@ -91,7 +91,7 @@
     [rightBut addTarget:self action:@selector(rightButton) forControlEvents:UIControlEventTouchUpInside];
     [self.navigationView addSubview:rightBut];
     
-    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(288), 23, 18, 18)];
+    _numLabel = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(260)+22, 23, 18, 18)];
     _numLabel.backgroundColor = [UIColor redColor];
     _numLabel.layer.cornerRadius = 9;
     _numLabel.layer.masksToBounds = YES;
@@ -166,7 +166,7 @@
     flowLayout.itemSize = CGSizeMake(x, x+75);
     flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-100) collectionViewLayout:flowLayout];
+    self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.segmented.frame), kScreenWidth, kScreenHeight-64-CGFloatX(30)) collectionViewLayout:flowLayout];
     
     self.collectionView.delegate = self;
     self.collectionView.dataSource = self;
@@ -233,7 +233,8 @@
                 [[self.tabBarController.tabBar.items objectAtIndex:1] setBadgeValue:[NSString stringWithFormat:@"%lu",(unsigned long)self.sumNumber]];
             }
 
-            BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.price number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
+            BFStorage *storage = [[BFStorage alloc]initWithTitle:_xqOtherModel.title img:_xqOtherModel.img money:_xqOtherModel.thisprice
+                                                          number:1 shopId:_xqOtherModel.ID stock:_xqOtherModel.stock choose:_xqOtherModel.size color:_xqOtherModel.color];
     
             [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:storage];
             [[CXArchiveShopManager sharedInstance]startArchiveShop];
@@ -296,7 +297,7 @@
         BFLog(@"---%lu", (unsigned long)array.count);
         UITabBarController *tabBar = [self.tabBarController viewControllers][1];
         tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
-        if (array.count == 0) {
+        if (array.count == 0 || userInfo == nil) {
             self.numLabel.hidden = YES;
         }else {
             self.numLabel.hidden = NO;

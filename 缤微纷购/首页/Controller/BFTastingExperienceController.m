@@ -13,7 +13,7 @@
 #import "BFTastingExperienceFooterView.h"
 #import "BFTastingExperienceCell.h"
 
-@interface BFTastingExperienceController ()<UITableViewDelegate, UITableViewDataSource, BFTastingExperienceFooterViewDelegate>
+@interface BFTastingExperienceController ()<UITableViewDelegate, UITableViewDataSource, BFTastingExperienceFooterViewDelegate, BFShareViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**数组*/
@@ -122,18 +122,99 @@
 
 #pragma mark -- 分享事件
 - (void)share {
-    id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
-                                       defaultContent:@"ddsf"
-                                                image:nil
-                                                title:@"这是一个分享测试"
-                                                  url:@"www.baidu.com"
-                                          description:@"哈哈哈"
-                                            mediaType:SSPublishContentMediaTypeNews];
+   
     //调用自定义分享
-    BFShareView *share = [BFShareView shareView:publishContent];
+    BFShareView *share = [BFShareView shareView];
+    share.delegate = self;
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     [window addSubview:share];
 }
+
+#pragma mark -- 分享页面代理方法
+
+- (void)shareView:(BFShareView *)shareView type:(BFShareButtonType)type {
+    
+    switch (type) {
+        case BFShareButtonTypeQQZone:{
+            [self shareWithType:ShareTypeQQSpace];
+            break;
+        }
+        case BFShareButtonTypeQQFriends:{
+            [self shareWithType:ShareTypeQQ];
+            break;
+        }
+        case BFShareButtonTypeWechatFriends:{
+            [self shareWithType:ShareTypeWeixiSession];
+            break;
+        }
+        case BFShareButtonTypeMoments:{
+            [self shareWithType:ShareTypeWeixiTimeline];
+            break;
+        }
+        case BFShareButtonTypeSinaBlog:{
+            [self shareWithType:ShareTypeSinaWeibo];
+            break;
+        }
+    }
+}
+
+
+- (void)shareWithType:(ShareType)shareType {
+
+    if (shareType == ShareTypeSinaWeibo) {
+        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+                                           defaultContent:@"ddsf"
+                                                    image:nil
+                                                    title:@"这是一个分享测试"
+                                                      url:@"www.baidu.com"
+                                              description:@"哈哈哈"
+                                                mediaType:SSPublishContentMediaTypeNews];;
+        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            if (state == SSResponseStateSuccess) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+                if ([error errorCode] == 20012) {
+                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+                }
+            }else if (state == SSResponseStateCancel) {
+                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+            }
+            BFLog(@"---%d",state);
+        }];
+        
+    }else {
+        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+                                           defaultContent:@"ddsf"
+                                                    image:nil
+                                                    title:@"这是一个分享测试"
+                                                      url:@"www.baidu.com"
+                                              description:@"哈哈哈"
+                                                mediaType:SSPublishContentMediaTypeNews];
+        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+            BFLog(@"---%d",type);
+            if (state == SSResponseStateSuccess) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+                
+            }else if (state == SSResponseStateFail) {
+                //[self hideShareView];
+                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+            }else if (state == SSResponseStateCancel) {
+                //[self hideShareView];
+                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+            }
+        }];
+        
+    }
+}
+
+
+
+
 
 #pragma mark -- 申请按钮
 - (void)gotoApply {

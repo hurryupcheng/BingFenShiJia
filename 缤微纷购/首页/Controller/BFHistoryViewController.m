@@ -32,7 +32,7 @@
         
         _clearBut = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, CGFloatX(80))];
         [_clearBut setTitle:@"清除历史纪录" forState:UIControlStateNormal];
-        [_clearBut setTitleColor:rgb(190, 190, 190, 1.0) forState:UIControlStateNormal];
+        [_clearBut setTitleColor:BFColor(0x000000) forState:UIControlStateNormal];
         [_clearBut addTarget:self action:@selector(clearData) forControlEvents:UIControlEventTouchUpInside];
         
         _line = [[UIView alloc]initWithFrame:CGRectMake(15, CGRectGetMinY(_clearBut.frame), kScreenWidth, 1.0)];
