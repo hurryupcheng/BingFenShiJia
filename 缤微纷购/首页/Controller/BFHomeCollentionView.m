@@ -540,9 +540,9 @@
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self.functionView removeFromSuperview];
-        [self.upImageView removeFromSuperview];
+        [self.upBackView removeFromSuperview];
         self.functionView = nil;
-        self.upImageView = nil;
+        self.upBackView = nil;
         [self CollectionViewgetDate];
     }];
     [self.collentionView.mj_header beginRefreshing];
