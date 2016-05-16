@@ -172,7 +172,7 @@
         }
         case BFOrderDetailBottomViewButtonTypeConfirmReceipt:{
             UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"确定收货吗" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"确定" style:UIAlertActionStyleDefault handler:^{
-                //取消订单请求
+                //确认收货
                 [self confirmOrder];
             }];
             [self presentViewController:alertC animated:YES completion:nil];
@@ -289,9 +289,7 @@
 
 #pragma mark -- 确认收货
 - (void)confirmOrder {
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^{
         if (![self.model.status isEqualToString:@"3"]) {
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货"];
         }else {
@@ -305,12 +303,16 @@
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"--%@----%@", responseObject, parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
-                    self.headerView.statusLabel.text = @"已完成";
-                    self.model.status = @"4";
-                    self.footerView.model = self.model;
-                    //self.footerView.hidden = YES;
-                    _block(YES);
+                    double delayInSeconds = 1;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                        self.headerView.statusLabel.text = @"已完成";
+                        self.model.status = @"4";
+                        self.footerView.model = self.model;
+                        //self.footerView.hidden = YES;
+                        _block(YES);
+                    });
                 }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
                 }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
@@ -331,10 +333,7 @@
 
 #pragma mark -- 取消订单请求
 - (void)cancleOrder{
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
-        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在取消订单,请稍等片刻..." dispatch_get_main_queue:^{        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cancelOrder"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"uid"] = userInfo.ID;
@@ -343,13 +342,14 @@
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"--%@", responseObject);
             if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
-//                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消成功"];
-
+                double delayInSeconds = 1;
+                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                     [BFProgressHUD MBProgressFromWindowWithLabelText:@"订单取消成功,正在跳转..." dispatch_get_main_queue:^{
                         [self.navigationController popViewControllerAnimated:YES];
                     }];
-                    
 
+                });
                 self.headerView.statusLabel.text = @"已关闭";
                 //self.footerView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{

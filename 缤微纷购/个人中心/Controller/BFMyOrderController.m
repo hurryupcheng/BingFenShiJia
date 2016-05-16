@@ -158,11 +158,11 @@
                     [self.oderArray addObjectsFromArray:array];
                 }else {
                     self.tableView.hidden = YES;
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可查看的订单哦!"];
                 }
             }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
                 self.tableView.hidden = YES;
-                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"没有数据"];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可查看的订单哦!"];
             }
             //BFLog(@"我的订单%@",responseObject);
             [self.tableView reloadData];
