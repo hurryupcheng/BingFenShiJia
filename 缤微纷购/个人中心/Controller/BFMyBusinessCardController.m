@@ -99,7 +99,7 @@
 
 #pragma mark -- 添加用户头像和昵称
 - (void)setUpHeadIconAndNickname {
-    _headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(105), BF_ScaleHeight(25), BF_ScaleWidth(75), BF_ScaleWidth(75))];
+    _headIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(25), BF_ScaleWidth(75), BF_ScaleWidth(75))];
     _headIcon.backgroundColor = BFColor(0xffffff);
     _headIcon.layer.borderWidth = 1;
     _headIcon.layer.borderColor = BFColor(0xffffff).CGColor;

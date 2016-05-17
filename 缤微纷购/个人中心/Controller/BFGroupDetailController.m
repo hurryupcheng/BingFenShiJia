@@ -101,6 +101,7 @@
     [self tabbar];
     //获取数据
     [self getData];
+    
     //接收footerView的拼团玩法的点击事件
     [BFNotificationCenter addObserver:self selector:@selector(clickToLookDetail) name:@"lookDetail" object:nil];
     //接收footerView的缤纷世家按钮的点击事件
@@ -109,13 +110,13 @@
     [BFNotificationCenter addObserver:self selector:@selector(goToGroupDetail) name:@"myGroupClick" object:nil];
     //点击商品跳转
     [BFNotificationCenter addObserver:self selector:@selector(clickToDetail) name:@"clickToDetail" object:nil];
-    //从本页面进入支付页面，支付成功接受通知
-    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = BFColor(0xffffff);
+    
 }
 
 
@@ -130,49 +131,6 @@
     [BFNotificationCenter removeObserver:self];
 }
 
-#pragma mark -- 支付成功改变状态
-- (void)changeOrderStatus {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=team"];
-    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    parameter[@"uid"] = userInfo.ID;
-    parameter[@"token"] = userInfo.token;
-    parameter[@"itemid"] = self.itemid;
-    parameter[@"teamid"] = self.teamid;
-    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-        
-        if (responseObject) {
-            [self.teamArray removeAllObjects];
-            self.model = [BFGroupDetailModel parse:responseObject];
-            if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
-                NSArray *array = [TeamList parse:self.model.thisteam];
-                [self.teamArray addObjectsFromArray:array];
-                if (self.teamArray.count > 1) {
-                    for (TeamList *list in self.teamArray) {
-                        if ([list.status isEqualToString:@"1"]) {
-                            [self.teamArray removeObject:list];
-                        }
-                    }
-                }
-            }
-            //给头部视图模型赋值
-            self.headerView.model = self.model;
-            //给底部视图模型赋值
-            self.footerView.model = self.model;
-            //返回的高度赋值
-            [self animation];
-            
-            
-            //给状态栏赋值
-            self.tabbar.model = self.model;
-            BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
-            [self.tableView reloadData];
-            
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
-    }];
-}
 
 #pragma mark -- 拼团玩法的通知事件
 - (void)clickToLookDetail {
@@ -245,6 +203,7 @@
                 
             }
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@",error);
         }];
     }];
@@ -420,6 +379,7 @@
                 payVC.orderid = self.model.user_self.orderid;
                 payVC.addTime = self.model.user_self.addtime;
                 payVC.img = [@[self.model.item.img] mutableCopy];
+                payVC.isPT = YES;
                 [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
                     [self.navigationController pushViewController:payVC animated:YES];
                 }];
@@ -538,7 +498,7 @@
                                            defaultContent:itemModel.intro
                                                     image:[ShareSDK imageWithUrl:itemModel.img]
                                                     title:itemModel.title
-                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&u_id=%@", self.itemid, self.teamid, userInfo.ID]
+                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@", self.itemid, self.teamid, userInfo.ID]
                                               description:itemModel.intro
                                                 mediaType:SSPublishContentMediaTypeNews];
         [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {

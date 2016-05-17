@@ -46,7 +46,7 @@
         [self.lackLabel removeFromSuperview];
         self.lackLabel = [[UILabel alloc] init];
         //self.lackLabel.text = @"还差3人，盼你如南方人盼暖气~";
-        self.lackLabel.backgroundColor = BFColor(0xCACACA);
+        //self.lackLabel.backgroundColor = BFColor(0xCACACA);
         self.lackLabel.textAlignment = NSTextAlignmentCenter;
         self.lackLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
         self.lackLabel.textColor = BFColor(0x5D5D5D);

@@ -224,15 +224,15 @@
     
     if (userInfo) {
         if ([nowTimes doubleValue] < [self.model.team_timeend doubleValue]) {
-//            if ([self.model.team_stock integerValue] <= 0) {
-//                [BFProgressHUD MBProgressOnlyWithLabelText:@"团购商品已售罄,敬请期待"];
-//            }else {
+            if ([self.model.team_stock integerValue] <= 0) {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"团购商品已售罄,敬请期待"];
+            }else {
                 BFZFViewController *zf = [[BFZFViewController alloc]init];
                 zf.isPT = _isPT;
                 zf.ID = self.ID;
                 zf.modelArr = _dataArray;
                 [self.navigationController pushViewController:zf animated:YES];
-//            }
+            }
         }else{
             [BFProgressHUD MBProgressOnlyWithLabelText:@"团购已结束"];
         }

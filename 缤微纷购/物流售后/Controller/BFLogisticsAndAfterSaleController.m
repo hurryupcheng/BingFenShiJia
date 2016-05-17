@@ -151,7 +151,7 @@
     
 }
 
-#pragma mark --获取数据
+#pragma mark --集成下拉刷新
 - (void)setupDownRefresh {
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     // 马上进入刷新状态
@@ -160,6 +160,8 @@
 
 
 - (void)loadNewData {
+    //音效
+    [BFSoundEffect playSoundEffect:@"paopao.wav"];
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=logistics"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -167,34 +169,77 @@
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
     
-        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            if (responseObject) {
-                if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
-                    [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"暂无数据"];
-                }else {
-                    
-                    NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-                    if (array.count <= self.logisticsArray.count) {
-                        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多商品"];
-                    }else {
-                        [self.logisticsArray removeAllObjects];
-                        [self.logisticsArray addObjectsFromArray:array];
-                    }
-                    
-                }
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        if (responseObject) {
+            if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多可以查看的订单哦!"];
+            }else {
                 
+                NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                [self.logisticsArray removeAllObjects];
+                [self.logisticsArray addObjectsFromArray:array];
+                [self showNewStatusCount:array.count-self.logisticsArray.count];
+//                if (array.count <= self.logisticsArray.count) {
+//                    [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,没有更多可以查看的订单哦!"];
+//                }else {
+//                    
+//                }
             }
-            // BFLog(@"---%@,,",responseObject);
-            [self.tableView reloadData];
-            [self.tableView.mj_header endRefreshing];
-        } failure:^(NSError *error) {
-            [self.tableView.mj_header endRefreshing];
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-            BFLog(@"%@",error);
-        }];
-        
-    
+        }
+        // BFLog(@"---%@,,",responseObject);
+        [self.tableView reloadData];
+        [self.tableView.mj_header endRefreshing];
+    } failure:^(NSError *error) {
+        [self.tableView.mj_header endRefreshing];
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+        BFLog(@"%@",error);
+    }];
 }
+
+- (void)showNewStatusCount:(NSUInteger)count
+{
+    // 刷新成功(清空图标数字)
+    
+    
+    // 1.创建label
+    UILabel *label = [[UILabel alloc] init];
+    label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"timeline_new_status_background"]];;
+    label.width = [UIScreen mainScreen].bounds.size.width;
+    label.height = 35;
+    
+    // 2.设置其他属性
+    if (count == 0) {
+        label.text = @"亲,没有更多可以查看的订单哦!";
+    } else {
+        label.text = [NSString stringWithFormat:@"共有%zd条新的订单", count];
+    }
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:16];
+    
+    // 3.添加
+    label.y = self.headerView.height - label.height;
+    // 将label添加到导航控制器的view中，并且是盖在导航栏下边
+    [self.view insertSubview:label belowSubview:self.headerView];
+    
+    // 4.动画
+    // 先利用1s的时间，让label往下移动一段距离
+    CGFloat duration = 1.0; // 动画的时间
+    [UIView animateWithDuration:duration animations:^{
+        label.transform = CGAffineTransformMakeTranslation(0, label.height);
+    } completion:^(BOOL finished) {
+        // 延迟1s后，再利用1s的时间，让label往上移动一段距离（回到一开始的状态）
+        CGFloat delay = 1.0; // 延迟1s
+        // UIViewAnimationOptionCurveLinear:匀速
+        [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+            label.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [label removeFromSuperview];
+        }];
+    }];
+    // 如果某个动画执行完毕后，又要回到动画执行前的状态，建议使用transform来做动画
+}
+
 
 #pragma mark --获取数据
 - (void)getData {
@@ -215,14 +260,21 @@
                     self.bgImageView.hidden = NO;
                     self.tableView.hidden = YES;
                 }else {
+                    if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
+                        NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                        if (array.count == 0) {
+                            [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
+                            self.bgImageView.hidden = NO;
+                            self.tableView.hidden = YES;
+                        }else {
+                            self.bgImageView.hidden = YES;
+                            self.tableView.hidden = NO;
+                            [self.logisticsArray removeAllObjects];
+                            [self.logisticsArray addObjectsFromArray:array];
+                        }
+                    }
                     
-                    self.bgImageView.hidden = YES;
-                    self.tableView.hidden = NO;
-                    [self.logisticsArray removeAllObjects];
-                    NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-                    [self.logisticsArray addObjectsFromArray:array];
                 }
-               
             }else {
                 self.bgImageView.hidden = NO;
                 self.tableView.hidden = YES;

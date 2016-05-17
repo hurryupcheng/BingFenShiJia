@@ -94,8 +94,8 @@
     //添加分段控制器
     [self segment];
     //进入页面点击分段控制器第一个
-    self.segment.segmented.selectedSegmentIndex = 0;
-    [self.segment click];
+//    self.segment.segmented.selectedSegmentIndex = 0;
+//    [self.segment click];
     //从本页面进入支付页面，支付成功接受通知
     [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
     

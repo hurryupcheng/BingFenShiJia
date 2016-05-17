@@ -34,6 +34,7 @@
 #import "WxProduct.h"
 #import "BFURLEncodeAndDecode.h"
 #import "PersonalViewController.h"
+#import "BFMyGroupPurchaseController.h"
 
 
 @interface BFPayoffViewController ()<UITableViewDataSource,UITableViewDelegate>
@@ -72,9 +73,8 @@
     [BFNotificationCenter addObserver:self selector:@selector(payFail) name:@"payFail" object:nil];
     //从订单页面进入支付页面，支付成功接受通知
     [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
-    //从本页面支付支付，支付成功发送通知
-    [BFNotificationCenter addObserver:self selector:@selector(gotoMyOrder) name:@"gotoMyOrder" object:nil];
-    
+    //从拼团页面进入支付页面，支付成功接受通知拼团页面
+    [BFNotificationCenter addObserver:self selector:@selector(changeGroupStatus) name:@"changeGroupStatus" object:nil];
     
 }
 
@@ -99,12 +99,18 @@
         }
     }
 }
-
-#pragma mark --从本页面支付支付，支付成功发送通知
-- (void)gotoMyOrder {
-    BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
-    [self.navigationController pushViewController:myOrder animated:YES];
+#pragma mark --从拼团页面进入支付页面，支付成功接受通知
+- (void)changeGroupStatus {
+    NSArray *vcsArray = [self.navigationController viewControllers];
+    for (UIViewController *vc in vcsArray) {
+        if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
+
+
+
 
 #pragma mark -- 设置导航栏
 - (void)setUpNavigationView {
@@ -155,14 +161,25 @@
     BFLog(@"=======%@",vcsArray);
     UIViewController *lastVC = vcsArray[vcsArray.count-2];
     
-    if (![lastVC isKindOfClass:[BFZFViewController class]]) {
-        //发通知
-        [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+    if (self.isPT) {
+        BFLog(@"-----");
+        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+            //发通知
+            [BFNotificationCenter postNotificationName:@"changeGroupStatus" object:nil];
+            
+        }else {
+            BFMyGroupPurchaseController *myGroupPurchaseVC = [[BFMyGroupPurchaseController alloc] init];
+            [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
+        }
     }else {
-        BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
-        [self.navigationController pushViewController:myOrder animated:YES];
+        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+            //发通知
+            [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+        }else {
+            BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
+            [self.navigationController pushViewController:myOrder animated:YES];
+        }
     }
-
 }
 
 #pragma mark --微信支付失败通知
@@ -263,13 +280,29 @@
                 BFLog(@"=======%@",vcsArray);
                 UIViewController *lastVC = vcsArray[vcsArray.count-2];
                 
-                if (![lastVC isKindOfClass:[BFZFViewController class]]) {
-                    //发通知
-                    [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
-                    
+                if (self.isPT) {
+                    BFLog(@"-----");
+                    if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+                        //发通知
+                        [BFNotificationCenter postNotificationName:@"changeGroupStatus" object:nil];
+                        
+                    }else {
+                        BFMyGroupPurchaseController *myGroupPurchaseVC = [[BFMyGroupPurchaseController alloc] init];
+                        [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
+                    }
                 }else {
-                    [BFNotificationCenter postNotificationName:@"gotoMyOrder" object:nil];
+                    BFLog(@"+++++");
+                    if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+                        //发通知
+                        [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+                        
+                    }else {
+                        BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
+                        [self.navigationController pushViewController:myOrder animated:YES];
+                    }
                 }
+                
+                
             } else if ([resultDic[@"resultStatus"] isEqualToString:@"6001"]) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
                 self.foot.buyButton.hidden = NO;

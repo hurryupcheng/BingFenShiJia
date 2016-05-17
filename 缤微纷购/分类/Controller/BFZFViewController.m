@@ -200,6 +200,8 @@
                 pay.orderid = orderModel.orderid;
                 pay.orderModel = orderModel;
                 pay.img = _itemImg;
+                pay.isPT = self.isPT;
+                BFLog(@"++++++++%d,,,%d", pay.isPT, self.isPT);
                 NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
                 pay.totalPrice = [self.footView.money.text substringWithRange:range];
                 

@@ -58,12 +58,13 @@
         self.productView.model = model;
         
         //self.headPortrait = [[BFHeadPortraitView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5))];
-        self.headPortrait.frame = CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * ((model.havenum+4)/5));
+        self.headPortrait.frame = CGRectMake(0, CGRectGetMaxY(self.productView.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(60) * (([model.item.team_num integerValue]+4)/5));
         self.headPortrait.model = model;
         //[self addSubview:self.headPortrait];
         
         self.countdownView.frame = CGRectMake(0, CGRectGetMaxY(self.headPortrait.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(75));
         self.countdownView.model = model;
+        self.countdownView.backgroundColor = BFColor(0xCACACA);
         self.countdownView.height = self.countdownView.countdownViewH;
         [self addSubview:self.countdownView];
         
