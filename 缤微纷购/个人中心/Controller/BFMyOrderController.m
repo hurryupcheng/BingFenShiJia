@@ -93,6 +93,8 @@
     [self tableView];
     //添加分段控制器
     [self segment];
+    // 集成下拉刷新控件
+    [self setupDownRefresh];
     //进入页面点击分段控制器第一个
 //    self.segment.segmented.selectedSegmentIndex = 0;
 //    [self.segment click];
@@ -124,17 +126,101 @@
 }
 
 
-
+#pragma mark -- 发送通知改变状态
 - (void)changeOrderStatus {
     self.segment.segmented.selectedSegmentIndex = 1;
     [self.segment click];
 }
 
 
-
+#pragma mark -- 销毁通知
 - (void)dealloc {
     [BFNotificationCenter removeObserver:self];
 }
+
+#pragma mark --集成下拉刷新
+- (void)setupDownRefresh {
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    // 马上进入刷新状态
+    //[self.tableView.mj_header beginRefreshing];
+}
+
+- (void)loadNewData {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
+    self.parameter[@"uid"] = userInfo.ID;
+    self.parameter[@"token"] = userInfo.token;
+
+        
+        [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
+            BFLog(@"----%@", responseObject);
+            if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFMyOrderModel parse:responseObject[@"order"]];
+                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                [self showNewStatusCount:array.count - self.oderArray.count];
+                [self.oderArray removeAllObjects];
+                [self.oderArray addObjectsFromArray:array];
+                self.bgImageView.hidden = YES;
+            }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
+                //self.tableView.hidden = YES;
+                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                [self showNewStatusCount:0];
+
+            }
+            //BFLog(@"我的订单%@",responseObject);
+            [self.tableView reloadData];
+            [self.tableView.mj_header endRefreshing];
+        } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
+            [self.tableView.mj_header endRefreshing];
+            BFLog(@"error%@",error);
+        }];
+
+
+}
+
+
+#pragma mark -- 刷新看是否有数据更新
+- (void)showNewStatusCount:(NSUInteger)count
+{
+    // 1.创建label
+    UILabel *label = [[UILabel alloc] init];
+    label.backgroundColor = label.backgroundColor = BFColor(0xFD8B2F);
+    label.width = ScreenWidth;
+    label.height = 35;
+    // 2.设置其他属性
+    if (count == 0) {
+        label.text = @"亲,没有更多的订单哦!";
+    } else {
+        label.text = [NSString stringWithFormat:@"共有%zd条新的订单", count];
+    }
+    label.textColor = BFColor(0xffffff);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+    
+    // 3.添加
+    label.y = 50-label.height;
+    // 将label添加到导航控制器的view中，并且是盖在导航栏下边
+    [self.view insertSubview:label aboveSubview:self.tableView];
+    
+    // 4.动画
+    // 先利用1s的时间，让label往下移动一段距离
+    CGFloat duration = 1.0; // 动画的时间
+    [UIView animateWithDuration:duration animations:^{
+        label.transform = CGAffineTransformMakeTranslation(0, label.height);
+    } completion:^(BOOL finished) {
+        // 延迟1s后，再利用1s的时间，让label往上移动一段距离（回到一开始的状态）
+        CGFloat delay = 1.0; // 延迟1s
+        // UIViewAnimationOptionCurveLinear:匀速
+        [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+            label.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [label removeFromSuperview];
+        }];
+    }];
+    // 如果某个动画执行完毕后，又要回到动画执行前的状态，建议使用transform来做动画
+}
+
 
 #pragma mark -- 获取数据
 - (void)getData {
@@ -153,15 +239,15 @@
                 
                 NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
                 if (array.count != 0 ) {
-                    self.tableView.hidden = NO;
+//                    self.tableView.hidden = NO;
                     self.bgImageView.hidden = YES;
                     [self.oderArray addObjectsFromArray:array];
                 }else {
-                    self.tableView.hidden = YES;
+                    //self.tableView.hidden = YES;
                     [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可查看的订单哦!"];
                 }
             }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
-                self.tableView.hidden = YES;
+                //self.tableView.hidden = YES;
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可查看的订单哦!"];
             }
             //BFLog(@"我的订单%@",responseObject);
