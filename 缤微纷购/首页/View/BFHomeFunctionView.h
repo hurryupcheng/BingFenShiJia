@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/4/11.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#import "BFHomeFunctionButton.h"
 #import <UIKit/UIKit.h>
 #import "BFHomeModel.h"
 
@@ -41,4 +41,8 @@ typedef enum {
 @property (nonatomic, weak) id<BFHomeFunctionViewDelegate>delegate;
 /**首页模型类*/
 @property (nonatomic, strong) BFHomeModel *model;
+
+@property (nonatomic, strong) BFHomeFunctionButton *btn;
+
+- (instancetype)initWithFrame:(CGRect)frame model:(BFHomeModel *)model;
 @end
