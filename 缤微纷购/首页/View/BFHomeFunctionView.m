@@ -7,7 +7,7 @@
 //
 #import "Header.h"
 #import "BFHomeFunctionView.h"
-#import "BFHomeFunctionButton.h"
+//#import "BFHomeFunctionButton.h"
 
 @interface BFHomeFunctionView()
 /**果食*/
@@ -42,10 +42,11 @@
 //}
 
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame model:(BFHomeModel *)model{
     if (self = [super initWithFrame:frame]) {
         //添加控件
         //[self setView];
+        [self setModel:model];
     }
     return self;
 }
@@ -60,18 +61,18 @@
 //            CGFloat btnW =  BF_ScaleWidth(75);
 //            CGFloat btnH = self.height / 2;
             for (NSInteger i = 0; i < btnCount; i++) {
-                BFHomeFunctionButton *btn = [[BFHomeFunctionButton alloc]initWithFrame:CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x)];
+                _btn = [[BFHomeFunctionButton alloc]initWithFrame:CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x)];
 //                btn.y = i / 4 * btnH;
 //                btn.width = btnW;
 //                btn.x = i % 4 * btnW + BF_ScaleWidth(10);
 //                btn.height = btnH;
-                btn.tag = i;
+                _btn.tag = i;
                 BFHomeFunctionButtonList *list = [BFHomeFunctionButtonList parse:array[i]];
-                btn.functionTitleLabel.text = list.title;
+                _btn.functionTitleLabel.text = list.title;
                 //btn.backgroundColor = [UIColor redColor];
-                [btn.functionImageView sd_setImageWithURL:[NSURL URLWithString:list.img] placeholderImage:[UIImage imageNamed:@"100"]];
-                [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
-                [self addSubview:btn];
+                [_btn.functionImageView sd_setImageWithURL:[NSURL URLWithString:list.img] placeholderImage:[UIImage imageNamed:@"100"]];
+                [_btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+                [self addSubview:_btn];
             }
         }
     }

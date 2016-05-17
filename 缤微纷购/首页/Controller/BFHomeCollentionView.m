@@ -63,17 +63,10 @@
 
 @implementation BFHomeCollentionView
 
-- (BFHomeFunctionView *)functionView {
-    if (!_functionView) {
-        _functionView = [[BFHomeFunctionView alloc]init];
-        
-    }
-    return _functionView;
-}
-
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
     [self getDownDate];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -105,14 +98,12 @@
     self.lbView.isServiceLoadingImage = YES;
     self.lbView.dataArray = [arr copy];
     self.lbView.delegateLB = self;
-    
-    _functionView.frame = CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(170));
-     _functionView.delegate = self;
-//    _functionView.backgroundColor = [UIColor redColor];
-    
-    [self.headerView addSubview:self.lbView];
-    [self.headerView addSubview:self.functionView];
 
+    if (!_functionView) {
+    
+    _functionView = [[BFHomeFunctionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(170)) model:self.model];
+    _functionView.delegate = self;
+    }
     
 }
 #pragma mark 分类列表初始化
@@ -267,6 +258,7 @@
         self.collentionView.allowsMultipleSelection = YES;
         
         [self.view addSubview:self.collentionView];
+        
     }
     return _collentionView;
 }
@@ -296,9 +288,12 @@
     NSInteger count = self.homeModel.oneDataArray.count;
     
     self.upBackView.frame = CGRectMake(0, CGRectGetMaxY(self.functionView.frame), kScreenWidth, kScreenWidth/2*count);
-        
+    
+//    [self.headerView addSubview:self.upBackView];
+    
     NSMutableArray *arr = [NSMutableArray arrayWithCapacity:0];
     for (int i = 0; i < count; i++) {
+        
         self.upImageView = [[UIButton alloc]initWithFrame:CGRectMake(0,((kScreenWidth/2)*i), kScreenWidth, kScreenWidth/2)];
         self.upImageView.tag = i;
         for (HomeOtherModel *home in self.homeModel.oneDataArray) {
@@ -307,8 +302,7 @@
         
         [self.upImageView setBackgroundImageForState:UIControlStateNormal withURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",arr[i]]] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         [self.upImageView addTarget:self action:@selector(upImageView:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [self.headerView addSubview:self.upBackView];
+
         [self.upBackView addSubview:self.upImageView];
     }
 }
@@ -452,9 +446,10 @@
         
         if (indexPath.section == 0) {
             
-                [self initWithScrollView];
-                [self initWithUpView];
-
+            [self.headerView addSubview:_lbView];
+            [self.headerView addSubview:_functionView];
+            [self.headerView addSubview:self.upBackView];
+        
             self.headerView.sectionImage.frame = CGRectMake(0, CGRectGetMaxY(self.upBackView.frame), kScreenWidth, kScreenWidth/2);
         }else{
             [self.functionView removeFromSuperview];
@@ -499,8 +494,17 @@
             //BFLog(@"%@",responseObject);
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
             self.model = [BFHomeModel parse:responseObject];
-            self.functionView.model = self.model;
+//            self.functionView.model = self.model;
             self.homeModel = homeModel;
+            
+            [self initWithScrollView];
+            if (!_upImageView) {
+                [self initWithUpView];
+            }
+            if (!_functionView.btn) {
+                [self initWithScrollView];
+            }
+            
             [self.collentionView.mj_header endRefreshing];
             [self.collentionView reloadData];
         }
@@ -539,10 +543,7 @@
 - (void)getDownDate{
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self.functionView removeFromSuperview];
-        [self.upBackView removeFromSuperview];
-        self.functionView = nil;
-        self.upBackView = nil;
+
         [self CollectionViewgetDate];
     }];
     [self.collentionView.mj_header beginRefreshing];

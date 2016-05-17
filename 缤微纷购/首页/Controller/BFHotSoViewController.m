@@ -342,8 +342,10 @@
             if (self.result) {
                 [self hotView];
                 [self scrollV];
+                
                 self.result = NO;
             }else{
+            
             [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"没有相关搜索结果"];
             }
         }
