@@ -161,7 +161,7 @@
 
 - (void)loadNewData {
     //音效
-    [BFSoundEffect playSoundEffect:@"paopao.wav"];
+    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=logistics"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -176,9 +176,11 @@
             }else {
                 
                 NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
+                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                [self showNewStatusCount:array.count-self.logisticsArray.count];
                 [self.logisticsArray removeAllObjects];
                 [self.logisticsArray addObjectsFromArray:array];
-                [self showNewStatusCount:array.count-self.logisticsArray.count];
+                
 //                if (array.count <= self.logisticsArray.count) {
 //                    [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,没有更多可以查看的订单哦!"];
 //                }else {
@@ -203,20 +205,19 @@
     
     // 1.创建label
     UILabel *label = [[UILabel alloc] init];
-    label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"timeline_new_status_background"]];;
-    label.width = [UIScreen mainScreen].bounds.size.width;
+    label.backgroundColor = BFColor(0xFD8B2F);
+    label.width = ScreenWidth;
     label.height = 35;
     
     // 2.设置其他属性
     if (count == 0) {
-        label.text = @"亲,没有更多可以查看的订单哦!";
+        label.text = @"亲,没有更多新的订单哦!";
     } else {
         label.text = [NSString stringWithFormat:@"共有%zd条新的订单", count];
     }
-    label.textColor = [UIColor whiteColor];
+    label.textColor = BFColor(0xffffff);
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont systemFontOfSize:16];
-    
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
     // 3.添加
     label.y = self.headerView.height - label.height;
     // 将label添加到导航控制器的view中，并且是盖在导航栏下边
@@ -254,6 +255,7 @@
         [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
     } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+            BFLog(@"---%@", responseObject);
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
                     [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
@@ -411,7 +413,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     BFLogisticsModel *model = self.logisticsArray[indexPath.section];
     NSArray *array = [BFProductModel parse:model.item];
-    if (indexPath.row != 0 && indexPath.row != self.productArray.count+1) {
+    if (indexPath.row == 0) {
+        return;
+    }else if (indexPath.row == array.count+1) {
+        return;
+    }else {
         BFProductModel *producrtmodel = array[indexPath.row-1];
         BFLog(@"-----------------%@", producrtmodel.itemId);
         FXQViewController *fxVC =[[FXQViewController alloc] init];

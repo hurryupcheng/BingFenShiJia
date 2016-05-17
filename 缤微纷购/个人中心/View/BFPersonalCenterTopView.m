@@ -99,7 +99,7 @@
     self.headButton.layer.borderWidth = 1;
     self.headButton.layer.cornerRadius = BF_ScaleHeight(75)/2;
     self.headButton.layer.masksToBounds = YES;
-    [self.headButton addTarget:self action:@selector(clickHead) forControlEvents:UIControlEventTouchUpInside];
+    [self.headButton addTarget:self action:@selector(clickHead:) forControlEvents:UIControlEventTouchUpInside];
     
     [self addSubview:self.headButton];
     
@@ -231,24 +231,43 @@
 
 /**设置按钮点击事件*/
 - (void)setting {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToSettingInterface)]) {
         [self.delegate goToSettingInterface];
     }
 }
 /**头像按钮点击事件*/
-- (void)clickHead {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(goToUserHeadInterface)]) {
-        [self.delegate goToUserHeadInterface];
-    }
+- (void)clickHead:(UIButton *)sender {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    [UIView animateWithDuration:0.2 animations:^{
+        sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2-BF_ScaleHeight(10), ScreenHeight*0.1-BF_ScaleHeight(10), BF_ScaleHeight(95), BF_ScaleHeight(95));
+        sender.layer.cornerRadius = BF_ScaleHeight(95)/2;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75));
+            sender.layer.cornerRadius = BF_ScaleHeight(75)/2;
+        } completion:^(BOOL finished) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(goToUserHeadInterface)]) {
+                [self.delegate goToUserHeadInterface];
+            }
+        }];
+    }];
+    
 }
 /**登录按钮点击事件*/
 - (void)login {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToLoginInterface)]) {
         [self.delegate goToLoginInterface];
     }
 }
 /**注册按钮点击事件*/
 - (void)regist {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToRegisterInterface)]) {
         [self.delegate goToRegisterInterface];
     }
@@ -256,6 +275,8 @@
 
 /**三个按钮点击事件*/
 - (void)personalCenterTopButtonClick:(UIButton *)sender {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToPersonalCenterTopButtoInterfaceWithType:)]) {
         [self.delegate goToPersonalCenterTopButtoInterfaceWithType:sender.tag];
     }

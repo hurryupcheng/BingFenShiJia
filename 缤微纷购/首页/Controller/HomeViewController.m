@@ -171,7 +171,7 @@
     _button.tag = 100;
     [_button setTitle:@"缤纷商城" forState:UIControlStateNormal];
     _button.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
-    [_button setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [_button setTitleColor:BFColor(0x0977ca) forState:UIControlStateSelected];
     [_button addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     
     self.but = [[UIButton alloc]initWithFrame:CGRectMake(CGRectGetMaxX(_button.frame)-15, 0, BF_ScaleFont(80), CGFloatX(25))];
@@ -181,7 +181,7 @@
     [_but setTitle:@"缤纷拼团" forState:UIControlStateNormal];
     _but.titleLabel.font = [UIFont systemFontOfSize:CGFloatX(14)];
     _but.tag = 200;
-    [_but setTitleColor:[UIColor blueColor] forState:UIControlStateSelected];
+    [_but setTitleColor:BFColor(0x0977ca) forState:UIControlStateSelected];
     [_but addTarget:self action:@selector(setControll:) forControlEvents:UIControlEventTouchUpInside];
     [self.butView addSubview:_but];
     [self.butView addSubview:_button];

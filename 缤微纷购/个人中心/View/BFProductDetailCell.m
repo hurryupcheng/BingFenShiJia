@@ -92,7 +92,7 @@
     [self addSubview:self.productSize];
 
     
-    self.productCount = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(260), 0, BF_ScaleWidth(40), BF_ScaleHeight(100))];
+    self.productCount = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(240), 0, BF_ScaleWidth(60), BF_ScaleHeight(100))];
     self.productCount.text = @"x 1";
     self.productCount.textAlignment = NSTextAlignmentRight;
     self.productCount.font = [UIFont systemFontOfSize:BF_ScaleFont(14)];

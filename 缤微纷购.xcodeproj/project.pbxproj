@@ -245,6 +245,8 @@
 		59F46C521CDD99F000F35151 /* BFAvailablePoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F46C511CDD99F000F35151 /* BFAvailablePoints.m */; };
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
+		59F59FEB1CEACD5000F8C314 /* BFPTHomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F59FEA1CEACD5000F8C314 /* BFPTHomeModel.m */; };
+		59F59FEE1CEAFA4400F8C314 /* BFPTHomeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F59FED1CEAFA4400F8C314 /* BFPTHomeHeaderView.m */; };
 		59F5A0291CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */; };
 		59F63A8E1CCF58AA006A7C86 /* location.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59F63A8D1CCF58AA006A7C86 /* location.plist */; };
 		59F63A941CCF5C3B006A7C86 /* BFCityTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F63A931CCF5C3B006A7C86 /* BFCityTableViewController.m */; };
@@ -1026,6 +1028,10 @@
 		59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedCell.m; sourceTree = "<group>"; };
 		59F55B411CA517AC007351A9 /* BFRecommendDividedModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedModel.h; sourceTree = "<group>"; };
 		59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFRecommendDividedModel.m; sourceTree = "<group>"; };
+		59F59FE91CEACD5000F8C314 /* BFPTHomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTHomeModel.h; sourceTree = "<group>"; };
+		59F59FEA1CEACD5000F8C314 /* BFPTHomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTHomeModel.m; sourceTree = "<group>"; };
+		59F59FEC1CEAFA4400F8C314 /* BFPTHomeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTHomeHeaderView.h; sourceTree = "<group>"; };
+		59F59FED1CEAFA4400F8C314 /* BFPTHomeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTHomeHeaderView.m; sourceTree = "<group>"; };
 		59F5A0271CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupOrderDetailModel.h; sourceTree = "<group>"; };
 		59F5A0281CAAC6B3009DCBF8 /* BFGroupOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupOrderDetailModel.m; sourceTree = "<group>"; };
 		59F63A8D1CCF58AA006A7C86 /* location.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = location.plist; sourceTree = "<group>"; };
@@ -2278,6 +2284,8 @@
 				59F6FAF51CCDBC1E00A44484 /* BFCityInfo.m */,
 				5157B07D1CDD5B8B000BCE6D /* BFSosoModel.h */,
 				5157B07E1CDD5B8B000BCE6D /* BFSosoModel.m */,
+				59F59FE91CEACD5000F8C314 /* BFPTHomeModel.h */,
+				59F59FEA1CEACD5000F8C314 /* BFPTHomeModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2327,6 +2335,8 @@
 				5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */,
 				5906E5D61CC9BFCE002F5E53 /* BFTastingExperienceFooterView.h */,
 				5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */,
+				59F59FEC1CEAFA4400F8C314 /* BFPTHomeHeaderView.h */,
+				59F59FED1CEAFA4400F8C314 /* BFPTHomeHeaderView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3730,6 +3740,7 @@
 				51811AF51C7451AC004E29A8 /* LogViewController.m in Sources */,
 				599AFB8A1CC62BE2003CD828 /* DataVerifier.m in Sources */,
 				59FF74D91CAE1A860063F770 /* MJRefreshAutoGifFooter.m in Sources */,
+				59F59FEB1CEACD5000F8C314 /* BFPTHomeModel.m in Sources */,
 				597CE69E1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m in Sources */,
 				59F7BC771CBE8D5600DB8136 /* BFDailySpecialProductView.m in Sources */,
 				59FF74971CAE1A860063F770 /* BFProgressHUD.m in Sources */,
@@ -3941,6 +3952,7 @@
 				59F777FC1CBBEA5700585B7A /* BFHomeFunctionButton.m in Sources */,
 				51A996921C9ABB1600B4783C /* BFAddressController.m in Sources */,
 				59513B7D1C9FFCE20028B008 /* Reachability.m in Sources */,
+				59F59FEE1CEAFA4400F8C314 /* BFPTHomeHeaderView.m in Sources */,
 				59FE13BA1CBD4FED00ACAF54 /* BFProductDetailWebViewController.m in Sources */,
 				59FF74F21CAE1A860063F770 /* MKAnnotationView+WebCache.m in Sources */,
 				593788B01CBE3327009240C7 /* BFPanicCountView.m in Sources */,

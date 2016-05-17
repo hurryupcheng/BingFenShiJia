@@ -70,8 +70,6 @@
 
 - (void)loadNewData {
 
-    [BFSoundEffect playSoundEffect:@"paopao.wav"];
-    
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=team_order"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -82,7 +80,7 @@
         if (responseObject) {
             if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
-                
+                    [BFSoundEffect playSoundEffect:@"paopao.wav"];
                     [self showNewStatusCount:array.count - self.groupArray.count];
                     [self.groupArray removeAllObjects];
                     [self.groupArray addObjectsFromArray:array];
@@ -107,29 +105,25 @@
 #pragma mark -- 刷新看是否有数据更新
 - (void)showNewStatusCount:(NSUInteger)count
 {
-    // 刷新成功(清空图标数字)
-
-    
     // 1.创建label
     UILabel *label = [[UILabel alloc] init];
-    label.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"timeline_new_status_background"]];;
-    label.width = [UIScreen mainScreen].bounds.size.width;
+    label.backgroundColor = label.backgroundColor = BFColor(0xFD8B2F);
+    label.width = ScreenWidth;
     label.height = 35;
-    
     // 2.设置其他属性
     if (count == 0) {
         label.text = @"亲,没有更多的参团订单哦!";
     } else {
         label.text = [NSString stringWithFormat:@"共有%zd条新的团购订单", count];
     }
-    label.textColor = [UIColor whiteColor];
+    label.textColor = BFColor(0xffffff);
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont systemFontOfSize:16];
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
     
     // 3.添加
-    label.y = 64 - label.height;
+    label.y = - label.height;
     // 将label添加到导航控制器的view中，并且是盖在导航栏下边
-    [self.navigationController.view insertSubview:label belowSubview:self.navigationController.navigationBar];
+    [self.view insertSubview:label aboveSubview:self.tableView];
     
     // 4.动画
     // 先利用1s的时间，让label往下移动一段距离

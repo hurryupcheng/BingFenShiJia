@@ -22,11 +22,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="750.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
-                                <rect key="frame" x="0.0" y="133" width="528" height="302"/>
-                                <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
-                                <color key="tintColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
-                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="shoppingCart" translatesAutoresizingMaskIntoConstraints="NO" id="3WQ-G1-j9T">
                                 <rect key="frame" x="39" y="486" width="415" height="39"/>
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -36,6 +31,11 @@
                                 <color key="backgroundColor" red="0.79215686269999996" green="0.79215686269999996" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" backgroundImage="shoppingCart"/>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="have_been_sold_out" translatesAutoresizingMaskIntoConstraints="NO" id="m3B-2q-AWg">
+                                <rect key="frame" x="97" y="143" width="98" height="98"/>
+                                <color key="backgroundColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" red="0.95294117647058818" green="0.95686274509803926" blue="0.96078431372549022" alpha="1" colorSpace="calibratedRGB"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.92941176470588238" green="0.92941176470588238" blue="0.92941176470588238" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
@@ -89,7 +89,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="750.jpg" width="750" height="375"/>
+        <image name="have_been_sold_out" width="107" height="107"/>
         <image name="shoppingCart" width="201" height="200"/>
     </resources>
 </document>

@@ -79,7 +79,6 @@
     self.unShelve = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(180), BF_ScaleHeight(9), BF_ScaleWidth(105), BF_ScaleHeight(32))];
     //self.unShelve.hidden = YES;
     self.unShelve.alpha = 0;
-    self.unShelve.text = @"商品已下架";
     self.unShelve.backgroundColor = BFColor(0x1F1F1F);
     self.unShelve.layer.cornerRadius = BF_ScaleHeight(9);
     self.unShelve.layer.masksToBounds = YES;
@@ -92,16 +91,21 @@
 - (void)setModel:(BFProductDetialModel *)model {
     _model = model;
     if (model) {
-        if (model.nowtime < [model.endtime integerValue] && [model.first_stock integerValue] > 0) {
-            //leftTime = [model.endtime integerValue] - model.nowtime;
-//            [self refreshTime];
-           unShelveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+        if (model.nowtime < [model.endtime integerValue]) {
+            if ([model.first_stock integerValue] > 0) {
+                unShelveTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(refreshTime) userInfo:nil repeats:YES];
+            }else {
+                self.addToCart.hidden = YES;
+                self.unShelve.hidden = NO;
+                self.unShelve.text = @"商品已售罄";
+                self.unShelve.alpha = 1;
+            }
         }else {
             self.addToCart.hidden = YES;
             self.unShelve.hidden = NO;
+            self.unShelve.text = @"商品已下架";
             self.unShelve.alpha = 1;
         }
-        
     }
 }
 
@@ -113,6 +117,7 @@
     if (betweenDate.second <= 0) {
         [UIView animateWithDuration:0.5 animations:^{
             self.addToCart.alpha = 0;
+            self.unShelve.text = @"商品已下架";
             self.unShelve.alpha = 1;
         }];
         //取消定时器

@@ -174,6 +174,8 @@
 }
 #pragma mark -- 第三方登录点击
 - (void)thirdLogin:(UIButton *)sender {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
@@ -260,6 +262,8 @@
 
 #pragma mark --忘记密码
 - (void)forgetPassWord:(UIButton *)sender {
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     BFForgetPasswordController *forgetPasswordVC = [[BFForgetPasswordController alloc] init];
     [self.navigationController pushViewController:forgetPasswordVC animated:YES];
     BFLog(@"忘记密码");
@@ -267,6 +271,8 @@
 
 #pragma mark --登录按钮点击事件
 - (void)login{
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     [self.view endEditing:YES];
     leftTime = 5;
     [self.loginButton setEnabled:NO];
@@ -332,7 +338,8 @@
 
 #pragma mark --注册按钮点击事件
 - (void)registerUser{
-
+    //音效
+    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     ZCViewController *zc = [[ZCViewController alloc]init];
     [self.navigationController pushViewController:zc animated:YES];
 }

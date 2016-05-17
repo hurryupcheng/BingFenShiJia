@@ -52,10 +52,21 @@
     self.productTitle.text = model.title;
     [self.productTitle sizeToFit];
    // BFLog(@"self.productTitle%f",self.productTitle.height);
-    self.productSize.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(8), BF_ScaleWidth(60), BF_ScaleHeight(12));
-    self.productSize.text = model.size;
-    self.productColor.frame = CGRectMake(CGRectGetMaxX(self.productSize.frame), self.productSize.y, BF_ScaleWidth(160), self.productSize.height);
-    self.productColor.text = model.color;
+    self.productSize.frame = CGRectMake(self.productTitle.x, CGRectGetMaxY(self.productTitle.frame)+BF_ScaleHeight(8), BF_ScaleWidth(200), BF_ScaleHeight(12));
+    
+    if (model.size.length != 0 && model.color.length != 0) {
+        self.productSize.text = [NSString stringWithFormat:@"%@/%@", model.size, model.color];
+    }else if (model.size.length == 0 && model.color.length != 0){
+        self.productSize.text = [NSString stringWithFormat:@"%@", model.color];
+    }else if (model.size.length != 0 && model.color.length == 0){
+        self.productSize.text = [NSString stringWithFormat:@"%@", model.size];
+    }else {
+        self.productSize.text = @"";
+    }
+    
+    
+//    self.productColor.frame = CGRectMake(CGRectGetMaxX(self.productSize.frame), self.productSize.y, BF_ScaleWidth(160), self.productSize.height);
+//    self.productColor.text = model.color;
     
 }
 
@@ -88,11 +99,11 @@
     self.productSize.text = @"5斤装";
     [self addSubview:self.productSize];
     
-    self.productColor = [[UILabel alloc] init];
-    self.productColor.textColor = BFColor(0x9A9B9C);
-    self.productColor.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
-    self.productColor.text = @"红色";
-    [self addSubview:self.productColor];
+//    self.productColor = [[UILabel alloc] init];
+//    self.productColor.textColor = BFColor(0x9A9B9C);
+//    self.productColor.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
+//    self.productColor.text = @"红色";
+//    [self addSubview:self.productColor];
     
     
     UIImageView *arrowImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(300), 0, BF_ScaleWidth(10), BF_ScaleHeight(95))];

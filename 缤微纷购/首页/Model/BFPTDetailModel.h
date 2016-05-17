@@ -33,6 +33,8 @@
 @property (nonatomic, strong) NSString *team_timestart;
 /**拼团结束时间*/
 @property (nonatomic, strong) NSString *team_timeend;
+/**后台的当前时间*/
+@property (nonatomic, assign) NSInteger nowtime;
 /**team_cycle*/
 @property (nonatomic, strong) NSString *team_cycle;
 /**剩余库存*/

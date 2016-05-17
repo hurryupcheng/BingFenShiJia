@@ -496,7 +496,7 @@
 //        BFLog(@"%@", responseObject);
         if (responseObject) {
             [self.dataArray removeAllObjects];
-//            BFLog(@"%@",responseObject);
+            //BFLog(@"%@",responseObject);
             HomeModel * homeModel = [[HomeModel alloc]initWithDictionary:responseObject];
             self.model = [BFHomeModel parse:responseObject];
             self.functionView.model = self.model;
