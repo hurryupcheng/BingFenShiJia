@@ -77,7 +77,7 @@
         self.dataArray = [shoppModel.dateArr copy];
         [self initWithView];
     } fail:^{
-        
+//        [BFProgressHUD MBProgressFromView:self andLabelText:@"网络问题"];
     }];
     
 }

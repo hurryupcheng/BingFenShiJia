@@ -837,7 +837,7 @@
              }
             [self getNewData];
             } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@", error);
         }];
         
@@ -879,6 +879,8 @@
         
         if (responseObject[@"score"]) {
             double score = [responseObject[@"score"] integerValue];
+//            NSDictionary *dic = responseObject[@"score"];
+//            double score = [dic[@"score"] integerValue];
             self.score = score;
         }
     
@@ -910,7 +912,7 @@
         self.lastPrice = self.sum_price+self.freeprice;
         self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
     } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"请检查网络"];
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
     }];
 
 }

@@ -27,13 +27,13 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(15), self.contentView.frame.size.height/2+CGFloatY(15), CGFloatY(30), CGFloatY(30))];
-        self.needV.layer.cornerRadius = CGFloatY(15);
-        self.needV.layer.masksToBounds = YES;
+        self.needV = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(7), self.contentView.frame.size.height/2-10, CGFloatY(40), CGFloatY(80))];
+//        self.needV.layer.cornerRadius = CGFloatY(15);
+//        self.needV.layer.masksToBounds = YES;
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
         [self.needV addTarget:self action:@selector(selectButClick:) forControlEvents:UIControlEventTouchUpInside];
-        self.needV.selected = self.isSelected;
+//        self.needV.selected = self.isSelected;
         
         self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, CGFloatX(80), CGFloatX(80))];
 //        self.imageV.backgroundColor = [UIColor greenColor];
@@ -80,8 +80,10 @@
 // 选中点击事件
 - (void)selectButClick:(UIButton *)button{
     button.selected = !button.selected;
+    NSLog(@"=============");
     if (self.selBlock) {
         self.selBlock(button.selected);
+        NSLog(@"<<<<<<<<<<<<<<<<<");
     }
 }
 // 添加
@@ -117,12 +119,12 @@
     self.stock = model.stock;
     [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     self.titleLabel.text = model.title;
-    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-70, [Height heightString:model.title font:CGFloatY(17)]);
+    self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, 5, kScreenWidth-self.needV.width-self.imageV.width-60, [Height heightString:model.title font:CGFloatY(17)]);
     [self.titleLabel sizeToFit];
     
-    self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-70, CGFloatY(30));
+    self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-50, CGFloatY(30));
    
-    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
+    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-130, CGFloatY(30));
 
     self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
     

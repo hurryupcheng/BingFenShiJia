@@ -183,7 +183,7 @@
                 cell.textLabel.text = @"关于我们";
                 break;
             case 1:
-                cell.textLabel.text = @"48小时退换货";
+                cell.textLabel.text = @"退换货准则";
                 break;
             case 2:
                 cell.textLabel.text = @"常见问题";
