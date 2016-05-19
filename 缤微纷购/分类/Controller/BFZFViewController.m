@@ -223,6 +223,7 @@
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
             }
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"%@", error);
             
@@ -277,6 +278,7 @@
 
     //                }];
                 } failure:^(NSError *error) {
+                    
                     BFLog(@"%@",error);
                 }];
 
@@ -305,6 +307,7 @@
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
             }
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             BFLog(@"%@", error);
             
         }];

@@ -97,6 +97,32 @@
     return hud;
 }
 
+
++ (id)MBProgressWithDispatch_get_global_queue:(void(^)())globalBlock dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))mainBlock {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    
+    // Set the annular determinate mode to show task progress.
+    hud.mode = MBProgressHUDModeAnnularDeterminate;
+    hud.label.text = @"Loading...";
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        
+        // Do something useful in the background and update the HUD periodically.
+        if (globalBlock) {
+            globalBlock();
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (mainBlock) {
+                mainBlock(hud);
+            }
+        });
+    });
+    
+    return hud;
+
+}
+
+
 /**从最上层窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromWindowWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BFProgressHUD : NSObject
+/**从最view窗口弹出带图文的提示框以及有主线程block的进度条加载的（请求完成才消失）*/
++ (id)MBProgressWithDispatch_get_global_queue:(void(^)())globalBlock dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))mainBlock;
 /**从最上层窗口弹出只带文字的提示框（请求完成才消失）*/
 + (id)MBProgressWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))block;
 /**从最上层窗口弹出只带文字的提示框*/

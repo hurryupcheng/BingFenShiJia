@@ -113,7 +113,7 @@
     _segmented.layer.cornerRadius = CGFloatX(6);
     _segmented.layer.masksToBounds = YES;
     _segmented.layer.borderWidth = 1;
-    _segmented.layer.borderColor = rgb(0, 0, 205, 1.0).CGColor;
+    _segmented.layer.borderColor = BFColor(0x0977ca).CGColor;
     
     [self.view addSubview:_segmented];
     for (int i = 0; i < 3; i++) {
@@ -121,7 +121,7 @@
         
         self.segmentBut.tag = i;
         [self.segmentBut setTitle:arr[i] forState:UIControlStateNormal];
-        [self.segmentBut setTitleColor:rgb(0, 0, 205, 1.0) forState:UIControlStateNormal];
+        [self.segmentBut setTitleColor:BFColor(0x0977ca) forState:UIControlStateNormal];
         [self.segmentBut setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
         [self.segmentBut addTarget:self action:@selector(segmented:) forControlEvents:UIControlEventTouchUpInside];
         [self.segmentBut setBackgroundImage:[UIImage imageNamed:@"blues.png"] forState:UIControlStateSelected];
@@ -147,7 +147,7 @@
 
     for (int j = 1; j <= 2; j++) {
         UIView *color = [[UIView alloc]initWithFrame:CGRectMake((_segmented.width)/3*j, 0, 1, 30)];
-        color.backgroundColor = rgb(0, 0, 205, 1.0);
+        color.backgroundColor = BFColor(0x0977ca);
         [_segmented addSubview:color];
     }
 

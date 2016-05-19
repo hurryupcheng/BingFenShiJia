@@ -135,9 +135,11 @@
     self.parameter[@"page"] = @(self.page);
     //判断是不是第一次加载，第一次加载就有弹窗
     if (self.isFirstTime) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-            [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-        } dispatch_get_main_queue:^{
+//        [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+//            [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//        } dispatch_get_main_queue:^{
+        [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            
             [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
             
                 if (responseObject) {
@@ -154,6 +156,7 @@
                         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有客户哦!"];
                     }
                 }
+                [hud hideAnimated:YES];
                 [self.tableView reloadData];
                 self.isFirstTime = NO;
                 BFLog(@"%@,%@",responseObject,self.parameter);
@@ -161,6 +164,7 @@
                 [self.tableView.mj_footer endRefreshing];
             } failure:^(NSError *error) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络异常"];
+                [hud hideAnimated:YES];
                 [self.tableView.mj_footer endRefreshing];
                 self.page--;
                 BFLog(@"%@", error);

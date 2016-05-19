@@ -138,6 +138,7 @@
                     
                 }
             } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
                 BFLog(@"%@", error);
             }];

@@ -220,10 +220,10 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     parameter[@"page"] = @(self.page);
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
-        
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
+//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"++++%@,,%@", responseObject, parameter);
             if (responseObject) {
@@ -245,6 +245,7 @@
             double delayInSeconds = 0;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
             dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [hud hideAnimated:YES];
                 [self.bottomTableView reloadData];
                 if (!self.headerView.clickButton.selected) {
                     [self.headerView click];
@@ -259,6 +260,7 @@
             
         } failure:^(NSError *error) {
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+            [hud hideAnimated:YES];
             BFLog(@"--%@", error);
         }];
     }];
