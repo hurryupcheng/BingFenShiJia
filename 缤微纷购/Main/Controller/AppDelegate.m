@@ -23,6 +23,7 @@
 #import "DWTableViewController.h"
 #import "BFNavigationController.h"
 #import "DWTableViewController.h"
+#import "BFNewfeatureController.h"
 #define AppKey   @"11ae973b82132"
 
 #define  kWXKey         @"wxfdfc235382c84b7d"
@@ -106,21 +107,22 @@
     
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
+    // 2.设置根控制器
+        NSString *key = @"CFBundleVersion";
+        // 上一次的使用版本（存储在沙盒中的版本号）
+        NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        // 当前软件的版本号（从Info.plist中获得）
+        NSString *currentVersion = [NSBundle mainBundle].infoDictionary[key];
     
-//    //获取当前的版本号
-//    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[@"CFBundleVersion"];
-//    //获取上一次的版本号
-//    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"LastVersion"];
-//    if ([currentVersion isEqualToString:lastVersion]) {
-        //没有更新版本
-        RootViewController *root = [[RootViewController alloc]init];
-        self.window.rootViewController = root;
-//    }else {
-//
-//        RootViewController *root = [[RootViewController alloc]init];
-//        self.window.rootViewController = root;
-//        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"LastVersion"];
-//    }
+        if ([currentVersion isEqualToString:lastVersion]) { // 版本号相同：这次打开和上次打开的是同一个版本
+            self.window.rootViewController = [[RootViewController alloc] init];
+        } else { // 这次打开的版本和上一次不一样，显示新特性
+            self.window.rootViewController = [[BFNewfeatureController alloc] init];
+    
+            // 将当前的版本号存进沙盒
+            [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
     
     [self.window makeKeyAndVisible];
     
@@ -237,18 +239,19 @@
 // 获取焦点之后才可以跟用户进行交互
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    NSLog(@"applicationDidBecomeActive-获取焦点");
     //获取定位
     [self getAddress];
     NSLog(@"applicationDidBecomeActive-获取焦点");
-
+    
     
     CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
     //CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
-//    if (status == kCLAuthorizationStatusDenied) {
-//        DWTableViewController *dwVC = [[DWTableViewController alloc]init];
-//        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
-//        [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
-//    }
+    //    if (status == kCLAuthorizationStatusDenied) {
+    //        DWTableViewController *dwVC = [[DWTableViewController alloc]init];
+    //        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:dwVC];
+    //        [self.window.rootViewController presentViewController:navigationController animated:YES completion:nil];
+    //    }
     //如果定位状态改变，发送通知
     if (self.city == nil) {
         return;
@@ -261,7 +264,7 @@
     
     self.lastStatus = status;
     
-      // NSLog(@"用户进行交互:::%@",@(status));
+    // NSLog(@"用户进行交互:::%@",@(status));
 }
 
 #pragma mark 程序在某些情况下被终结时会调用这个方法
@@ -293,7 +296,7 @@
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     
     if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-
+        
         //开启定位
         [self.manager startUpdatingLocation];
         [self.manager requestAlwaysAuthorization];
@@ -331,5 +334,7 @@
     
     
 }
+
+
 
 @end

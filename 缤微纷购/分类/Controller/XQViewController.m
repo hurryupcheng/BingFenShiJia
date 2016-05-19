@@ -349,8 +349,16 @@
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
-            NSArray *array = [XQSubOtherModel parse:xqsubModel.item];
-            [self.dataArray addObjectsFromArray:array];
+            if ([xqsubModel.item isKindOfClass:[NSArray class]]) {
+                NSArray *array = [XQSubOtherModel parse:xqsubModel.item];
+                if (array.count != 0) {
+                    [self.dataArray addObjectsFromArray:array];
+                }else {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"很遗憾,没有该类产品!"];
+                }
+            }else {
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"很遗憾,没有该类产品!"];
+            }
         }
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];

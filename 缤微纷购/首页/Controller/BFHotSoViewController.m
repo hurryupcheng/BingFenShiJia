@@ -312,7 +312,7 @@
     NSString *url = [NET_URL stringByAppendingString:[NSString stringWithFormat:@"/index.php?m=Json&a=search&name=%@",data]];
 
     [BFHttpTool GET:url params:nil success:^(id responseObject) {
-//                NSLog(@"responseObject=====%@",responseObject);
+                NSLog(@"responseObject=====%@",responseObject);
         _model = [[BFSosoModel alloc]init];
         _subModel = [[BFSosoSubModel alloc]init];
         

@@ -144,14 +144,14 @@
     //quickLoginLabel.backgroundColor = [UIColor redColor];
     
     
-    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_qq" type:BFThirdLoginTypeQQ];
+    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_qq_gray" type:BFThirdLoginTypeQQ];
     [self.bgImageView addSubview:qqLogin];
     
     
 //    UIButton *alipayLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_alipay" type:BFThirdLoginTypeAlipay];
 //    [self.bgImageView addSubview:alipayLogin];
     
-    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_sina" type:BFThirdLoginTypeSina];
+    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_sina_gray" type:BFThirdLoginTypeSina];
     [self.bgImageView addSubview:sinaLogin];
     
     UIButton *wechatLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(sinaLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_wechat" type:BFThirdLoginTypeWechat];
@@ -179,10 +179,12 @@
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
-            [self thirdPartyLogin:ShareTypeQQSpace];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
+            //[self thirdPartyLogin:ShareTypeQQSpace];
             break;
         }case BFThirdLoginTypeSina:{
-            [self thirdPartyLogin:ShareTypeSinaWeibo];
+            //[self thirdPartyLogin:ShareTypeSinaWeibo];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
             BFLog(@"BFThirdLoginTypeSina");
             break;
         } case BFThirdLoginTypeWechat:{

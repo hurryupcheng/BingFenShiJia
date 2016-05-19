@@ -326,9 +326,12 @@
 #pragma mark --返回按钮点击事件
 - (void)back {
     self.tabBarController.selectedIndex = 2;
+ 
     [self.navigationController popToRootViewControllerAnimated:YES];
     
 }
+
+
 
 #pragma mark --客服图标点击事件
 - (void)telephone {
