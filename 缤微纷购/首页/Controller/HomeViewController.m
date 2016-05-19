@@ -29,14 +29,7 @@
 #import "BFPTDetailViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>
-
-/**定位管理*/
-@property (nonatomic, strong) CLLocationManager * manager;
-/**记录上一次的定位状态*/
-@property (nonatomic, assign) NSInteger lastStatus;
-
-@property (nonatomic, strong) NSString *city;
+@interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate>
 
 @property (nonatomic,retain)BFHomeCollentionView *homeVC;
 @property (nonatomic,retain)BFPTViewController *ptVC;
@@ -67,25 +60,18 @@
 @property (nonatomic,retain)UIButton *footImageView;
 @property (nonatomic,retain)UIButton *upImageView;
 @property (nonatomic,retain)UIView *upBackView;
-/**拼团cell的高度*/
-@property (nonatomic,assign)CGFloat cellHeight;
+
 
 /**城市*/
 @property (nonatomic, strong) NSString * currentCity;
-/**城市沙盒路径*/
-@property (nonatomic, strong) NSString * cityPath;
+
 /***/
 @property (nonatomic, strong) UIButton *locationButton;
 @end
 
 @implementation HomeViewController
 
-- (NSString *)cityPath {
-    if (!_cityPath) {
-        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"city.plist"];
-    }
-    return _cityPath;
-}
+
 
 
 - (void)viewDidLoad {
@@ -346,66 +332,5 @@
 }
 
 
-//- (void)getAddress{
-//    self.manager = [[CLLocationManager alloc]init];
-//    self.manager.delegate = self;
-//    //用于判断当前是ios7.0还是ios8.0
-//    if ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0) {
-//        //NSLocationAlwaysUsageDescription   允许在前后台都可以授权
-//        //        NSLocationWhenInUseUsageDescription   允许在前台授权
-//        //手动授权
-//        
-//        //        主动请求前后台授权
-//        [self.manager requestAlwaysAuthorization];
-//        
-//        //主动请求前台授权
-//        //[self.mgr requestWhenInUseAuthorization];
-//    }else {
-//        [self.manager startUpdatingLocation];
-//    }
-//    
-//}
-////判断授权状态
-//- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
-//    
-//    if (status == kCLAuthorizationStatusAuthorizedAlways || status == kCLAuthorizationStatusAuthorizedWhenInUse) {
-//        
-//        //开启定位
-//        [self.manager startUpdatingLocation];
-//        [self.manager requestAlwaysAuthorization];
-//        // 定位的精确度
-//        self.manager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-//        //        //每隔一点距离定位一次 （单位：米）
-//        //        self.mgr.distanceFilter = 10;
-//    }
-//    
-//}
-////获取定位的位置信息
-//- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-//    NSLog(@"%@",locations);
-//    //获取我当前的位置
-//    CLLocation *location = [locations lastObject];
-//    
-//    //停止定位
-//    [self.manager stopUpdatingLocation];
-//    //地理反编码
-//    //创建反编码对象
-//    CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-//    BFLog(@"%@,,%@",location,geocoder);
-//    //调用方法，使用位置反编码对象获取位置信息
-//    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
-//        CLPlacemark *place = [placemarks lastObject];
-//        NSString *city = [place.locality stringByReplacingOccurrencesOfString:@"市" withString:@""];
-//        self.city = city;
-//        BFLog(@"chengshi%@",city);
-//        
-//        if (city != nil) {
-//            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:city];
-//            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"changeCurrentCity"];
-//        }
-//    }];
-//    
-//    
-//}
 
 @end

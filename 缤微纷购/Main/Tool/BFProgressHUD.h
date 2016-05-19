@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BFProgressHUD : NSObject
+/**从最上层窗口弹出只带文字的提示框（请求完成才消失）*/
++ (id)MBProgressWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))block;
 /**从最上层窗口弹出只带文字的提示框*/
 + (id)MBProgressOnlyWithLabelText:(NSString *)labelText;
 /**从view层窗口弹出只带文字的提示框*/

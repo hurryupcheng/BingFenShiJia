@@ -106,39 +106,42 @@
 
 #pragma mark --跳转到支付页面
 - (void)gotoPay {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
-    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
-    paramerer[@"uid"] = userInfo.ID;
-    paramerer[@"token"] = userInfo.token;
-    paramerer[@"orderId"] = self.model.orderid;
-//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
-        [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
-            if (responseObject) {
-                BFLog(@"---%@,,%@",responseObject, paramerer);
-                BFLog(@"支付");
-                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-                BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-                if ([self.model.pay_type isEqualToString:@"2"]) {
-                    payVC.pay = @"支付宝";
-                }else {
-                    payVC.pay = @"微信支付";
-                }
-                payVC.orderModel = orderModel;
-                payVC.totalPrice = self.model.order_sumPrice;
-                payVC.orderid = self.model.orderid;
-                payVC.addTime = self.model.add_time;
-                payVC.img = [@[self.model.img] mutableCopy];
-                payVC.isPT = YES;
-                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+        NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+        paramerer[@"uid"] = userInfo.ID;
+        paramerer[@"token"] = userInfo.token;
+        paramerer[@"orderId"] = self.model.orderid;
+    //    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+            [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+                if (responseObject) {
+                    BFLog(@"---%@,,%@",responseObject, paramerer);
+                    BFLog(@"支付");
+                    BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                    BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+                    if ([self.model.pay_type isEqualToString:@"2"]) {
+                        payVC.pay = @"支付宝";
+                    }else {
+                        payVC.pay = @"微信支付";
+                    }
+                    payVC.orderModel = orderModel;
+                    payVC.totalPrice = self.model.order_sumPrice;
+                    payVC.orderid = self.model.orderid;
+                    payVC.addTime = self.model.add_time;
+                    payVC.img = [@[self.model.img] mutableCopy];
+                    payVC.isPT = YES;
+
+                    [hud hideAnimated:YES];
                     [self.navigationController pushViewController:payVC animated:YES];
-                }];
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-            BFLog(@"%@", error);
-        }];
-//    }];
+                    
+                }
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+                BFLog(@"%@", error);
+            }];
+    }];
     //倒计时
     leftTime = Countdown;
     [self.detailView.payButton setEnabled:NO];

@@ -183,46 +183,46 @@
 }
 #pragma mark -- 去支付
 - (void)gotoPay {
-    
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
-    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
-    paramerer[@"uid"] = userInfo.ID;
-    paramerer[@"token"] = userInfo.token;
-    paramerer[@"orderId"] = self.model.orderId;
-//    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
-        [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
-            if (responseObject) {
-                BFLog(@"---%@,,%@",responseObject, paramerer);
-                BFLog(@"支付");
-                BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-                BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
-                if ([self.model.pay_type isEqualToString:@"2"]) {
-                    payVC.pay = @"支付宝";
-                }else {
-                    payVC.pay = @"微信支付";
-                }
-                payVC.orderModel = orderModel;
-                float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
-                
-                payVC.totalPrice = [NSString stringWithFormat:@"%.2f", payMoney];
-                
-                payVC.orderid = self.model.orderId;
-                payVC.addTime = self.model.add_time;
-                NSMutableArray *mutableArray = [NSMutableArray array];
-                for (BFOrderProductModel *model in self.productArray) {
-                    [mutableArray addObject:model.img];
-                }
-                payVC.img = mutableArray;
-                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+        NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+        paramerer[@"uid"] = userInfo.ID;
+        paramerer[@"token"] = userInfo.token;
+        paramerer[@"orderId"] = self.model.orderId;
+    //    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^{
+            [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+                if (responseObject) {
+                    BFLog(@"---%@,,%@",responseObject, paramerer);
+                    BFLog(@"支付");
+                    BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                    BFPayoffViewController *payVC = [[BFPayoffViewController alloc] init];
+                    if ([self.model.pay_type isEqualToString:@"2"]) {
+                        payVC.pay = @"支付宝";
+                    }else {
+                        payVC.pay = @"微信支付";
+                    }
+                    payVC.orderModel = orderModel;
+                    float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
+                    
+                    payVC.totalPrice = [NSString stringWithFormat:@"%.2f", payMoney];
+                    
+                    payVC.orderid = self.model.orderId;
+                    payVC.addTime = self.model.add_time;
+                    NSMutableArray *mutableArray = [NSMutableArray array];
+                    for (BFOrderProductModel *model in self.productArray) {
+                        [mutableArray addObject:model.img];
+                    }
+                    payVC.img = mutableArray;
+                    [hud hideAnimated:YES];
                     [self.navigationController pushViewController:payVC animated:YES];
-                }];
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-            BFLog(@"%@", error);
-        }];
-//    }];
+                    
+                }
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+                BFLog(@"%@", error);
+            }];
+    }];
     //点击按钮倒计时
     leftTime = Countdown;
     [self.footerView.pay setEnabled:NO];

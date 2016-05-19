@@ -58,8 +58,8 @@
         [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
         
         self.add = [[AddShopping alloc]init];
-        self.add.textF.returnKeyType = UIReturnKeyDone;
-        self.add.textF.delegate = self;
+//        self.add.textF.returnKeyType = UIReturnKeyDone;
+//        self.add.textF.delegate = self;
 //        self.add.textF.userInteractionEnabled = NO;
 //        self.add.backgroundColor = [UIColor yellowColor];
         

@@ -70,7 +70,7 @@
     }else {
         _stock.text = @"";
     }
-    _price.text = [NSString stringWithFormat:@"%@",model.price];
+    _price.text = [NSString stringWithFormat:@"¥ %@",model.price];
     
 }
 

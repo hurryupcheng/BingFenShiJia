@@ -63,4 +63,8 @@
 @property (nonatomic, strong) NSString *is_vip;
 /**广告主等级*/
 @property (nonatomic, strong) NSString *vip_name;
+/**银行所在城市*/
+@property (nonatomic, strong) NSString *bank_city;
+/**银行id*/
+@property (nonatomic, strong) NSString *bank_id;
 @end

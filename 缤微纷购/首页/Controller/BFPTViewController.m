@@ -82,38 +82,24 @@
 - (void)viewDidLoad{
     self.title = @"缤纷拼团";
     self.view.backgroundColor = [UIColor whiteColor];
+    //获取数据
+    [self getData];
     //下拉刷新
     [self setDownDate];
     
 }
 
+- (void)getData{
 
-
-
-#pragma mark -- 下拉刷新
-- (void)setDownDate{
-    
-    self.tableV.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        [self tableViewgetDate];
-    }];
-    [self.tableV.mj_header beginRefreshing];
-}
-
-#pragma  mark 拼团解析
-- (void)tableViewgetDate{
-    
-    
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_buy"];
-    [BFHttpTool GET:url params:nil success:^(id responseObject) {
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         if (responseObject) {
             BFLog(@"--%@", responseObject);
-            [self.dataArray removeAllObjects];
             self.model = [BFPTHomeModel parse:responseObject];
             self.headerView.model = self.model;
             self.headerView.height = self.headerView.headViewH;
             self.tableV.tableHeaderView = self.headerView;
-            
-            BFLog(@"===========%f,,,,%f", self.headerView.headViewH, self.headerView.height);
             
             if ([responseObject[@"item"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFPTItemList parse:self.model.item];
@@ -123,7 +109,6 @@
                 [self.dataArray addObjectsFromArray:array];
             }
             [self.tableV reloadData];
-            [self.tableV.mj_header endRefreshing];
         }
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressOnlyWithLabelText:@"网络问题"];
@@ -133,6 +118,93 @@
     
 }
 
+
+
+#pragma mark -- 下拉刷新
+- (void)setDownDate{
+    
+    self.tableV.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self tableViewgetDate];
+    }];
+  //[self.tableV.mj_header beginRefreshing];
+}
+
+#pragma  mark 拼团解析
+- (void)tableViewgetDate{
+    
+    
+    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_buy"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        if (responseObject) {
+            BFLog(@"--%@", responseObject);
+            self.model = [BFPTHomeModel parse:responseObject];
+            self.headerView.model = self.model;
+            self.headerView.height = self.headerView.headViewH;
+            self.tableV.tableHeaderView = self.headerView;
+            
+            if ([responseObject[@"item"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFPTItemList parse:self.model.item];
+                for (BFPTItemList *itemList in array) {
+                    itemList.nowtime = self.model.nowtime;
+                }
+                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                [self showNewStatusCount:array.count - self.dataArray.count];
+                [self.dataArray removeAllObjects];
+                [self.dataArray addObjectsFromArray:array];
+            }
+            [self.tableV reloadData];
+            [self.tableV.mj_header endRefreshing];
+        }
+    } failure:^(NSError *error) {
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"网络问题"];
+        [self.tableV.mj_header endRefreshing];
+        BFLog(@"%@", error);
+    }];
+    
+    
+}
+
+#pragma mark -- 刷新看是否有数据更新
+- (void)showNewStatusCount:(NSUInteger)count
+{
+    // 1.创建label
+    UILabel *label = [[UILabel alloc] init];
+    label.backgroundColor = label.backgroundColor = BFColor(0xFD8B2F);
+    label.width = ScreenWidth;
+    label.height = 35;
+    // 2.设置其他属性
+    if (count == 0) {
+        label.text = @"亲,没有更多新的商品哦!";
+    } else {
+        label.text = [NSString stringWithFormat:@"共有%zd件新的团购商品", count];
+    }
+    label.textColor = BFColor(0xffffff);
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
+    
+    // 3.添加
+    label.y = -label.height;
+    // 将label添加到导航控制器的view中，并且是盖在导航栏下边
+    [self.view insertSubview:label aboveSubview:self.tableV];
+    
+    // 4.动画
+    // 先利用1s的时间，让label往下移动一段距离
+    CGFloat duration = 1.0; // 动画的时间
+    [UIView animateWithDuration:duration animations:^{
+        label.transform = CGAffineTransformMakeTranslation(0, label.height);
+    } completion:^(BOOL finished) {
+        // 延迟1s后，再利用1s的时间，让label往上移动一段距离（回到一开始的状态）
+        CGFloat delay = 1.0; // 延迟1s
+        // UIViewAnimationOptionCurveLinear:匀速
+        [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+            label.transform = CGAffineTransformIdentity;
+        } completion:^(BOOL finished) {
+            [label removeFromSuperview];
+        }];
+    }];
+    // 如果某个动画执行完毕后，又要回到动画执行前的状态，建议使用transform来做动画
+}
 
 
 

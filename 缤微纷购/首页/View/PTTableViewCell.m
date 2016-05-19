@@ -126,10 +126,14 @@
             }
         }
         [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        
         self.titleLabel.text = model.title;
+        
         self.infoLabel.text = model.intro;
         [self.infoLabel sizeToFit];
+        
         self.logLabel.text = [NSString stringWithFormat:@"%@折", model.team_discount];
+        
         self.moneyLabel.text = [NSString stringWithFormat:@"  %@人团  %@",model.team_num,model.team_price];
         
         self.titleLabel.frame = CGRectMake(5, CGRectGetMaxY(_imageV.frame), _backV.frame.size.width-10, [Height heightString:self.titleLabel.text font:16]);

@@ -12,6 +12,6 @@
 
 @property (nonatomic,retain)UIButton *minBut;
 @property (nonatomic,retain)UIButton *maxBut;
-@property (nonatomic,retain)UITextField *textF;
-
+//@property (nonatomic,retain)UITextField *textF;
+@property (nonatomic,retain)UILabel *textF;
 @end

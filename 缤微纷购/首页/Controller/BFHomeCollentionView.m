@@ -541,6 +541,9 @@
     
 }
 
+
+
+
 - (void)getDownDate{
     
     self.collentionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{

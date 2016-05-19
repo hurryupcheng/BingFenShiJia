@@ -71,26 +71,7 @@
 
 @implementation BFModifyBankCardView
 
-//- (NSString *)cityPath {
-//    if (!_cityPath) {
-//        _cityPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"cityPath.plist"];
-//    }
-//    return _cityPath;
-//}
-//
-//- (NSString *)branchPath {
-//    if (!_branchPath) {
-//        _branchPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)firstObject] stringByAppendingPathComponent:@"branchPath.plist"];
-//    }
-//    return _branchPath;
-//}
 
-//- (BFBankModel *)bankInfo {
-//    if (!_bankInfo) {
-//        _bankInfo = [BFUserDefaluts getBankInfo];
-//    }
-//    return _bankInfo;
-//}
 
 - (BFUserInfo *)userInfo {
     if (!_userInfo) {
@@ -481,9 +462,9 @@
     }else {
         parameter[@"card_address"] = self.branchButton.buttonTitle.text;
     }
-    parameter[@"bank_id"] = bankInfo.bank_id;
-    parameter[@"bank_city"] = bankInfo.shi_id;
-    parameter[@"bank_branch"] = bankInfo.bank_branch;
+    parameter[@"bank_id"] = bankInfo.bank_id ? bankInfo.bank_id : self.userInfo.bank_id;
+    parameter[@"bank_city"] = bankInfo.shi_id ? bankInfo.shi_id : self.userInfo.bank_city;
+    parameter[@"bank_branch"] = bankInfo.bank_branch ? bankInfo.bank_branch : self.userInfo.bank_branch;
     
     BFLog(@"======%@,,,,,%@,,,,,%@", bankInfo.bank_id, bankInfo.shi_id, bankInfo.bank_branch);
     if ([self.branchButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.bankButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.provinceButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.cityButton.buttonTitle.text isEqualToString:@"--请选择--"] || self.detailInfo.cardNumberTX.text.length == 0 || self.detailInfo.nameTX.text.length == 0) {

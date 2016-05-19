@@ -159,6 +159,27 @@
 }
 
 
++ (id)MBProgressWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))block {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+
+    hud.label.text = labelText;
+    
+    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+        sleep(1.);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (block) {
+                block(hud);
+            }
+        });
+    });
+
+    return hud;
+
+}
+
+
+
+
 + (id)MBProgressFromView:(UIView *)view rightLabelText:(NSString *)labelText{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];

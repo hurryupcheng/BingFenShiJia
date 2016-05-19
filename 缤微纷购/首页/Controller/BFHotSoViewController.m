@@ -247,13 +247,14 @@
     //获取动画终点
     
     CGPoint end = [self.view convertPoint:self.shopCartButton.center toView:self.view];
-    
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
     chLayer.contents = (UIImage *)cell.img.image.CGImage;
     [self.redLayers addObject:chLayer];
-    chLayer.frame = CGRectMake(cell.img.centerX, cell.img.centerY, BF_ScaleHeight(50), BF_ScaleHeight(50));
+    chLayer.frame = CGRectMake(cell.img.centerX, cell.img.centerY, BF_ScaleHeight(60), BF_ScaleHeight(60));
     //chLayer.cornerRadius = BF_ScaleHeight(20);
+    chLayer.borderWidth = 2;
+    chLayer.borderColor = BFColor(0x000000).CGColor;
     chLayer.masksToBounds = YES;
     chLayer.backgroundColor = [UIColor blueColor].CGColor;
     [self.view.layer addSublayer:chLayer];
