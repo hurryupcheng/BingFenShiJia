@@ -77,7 +77,7 @@
 
 
 #pragma mark --注册按钮代理
-- (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView {
+- (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView hud:(MBProgressHUD *)hud{
    [self.view endEditing:YES];
     
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=login"];
@@ -92,8 +92,10 @@
         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
         BFLog(@"responseObject%@",userInfo);
         [BFPassWordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
+        [hud hideAnimated:YES];
         [self.navigationController popToRootViewControllerAnimated:YES];
     } failure:^(NSError *error) {
+        [hud hideAnimated:YES];
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
         BFLog(@"error%@",error);
     }];

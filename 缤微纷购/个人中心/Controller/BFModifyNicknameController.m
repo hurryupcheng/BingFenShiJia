@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UITextField *nickNameTF;
 /**保存按钮*/
 @property (nonatomic, strong) UIButton *saveButton;
+/**背景图片*/
+@property (nonatomic, strong) UIImageView *bgImageView;
 @end
 
 @implementation BFModifyNicknameController
@@ -25,13 +27,21 @@
     [super viewDidLoad];
     self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"修改昵称";
+    UIImage *image = [UIImage imageNamed:@"101"];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:image];
+    
+    self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
+    self.bgImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bgImageView];
     //添加控件
     [self setUpView];
 }
 #pragma mark --创建控件
 - (void)setUpView {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    self.nickNameTF = [UITextField textFieldWithFrame:CGRectMake(0, BF_ScaleHeight(10), BF_ScaleWidth(320), BF_ScaleHeight(30)) image:nil placeholder:@"请输入昵称"];
+    self.nickNameTF = [UITextField textFieldWithFrame:CGRectMake(0, BF_ScaleHeight(80), BF_ScaleWidth(320), BF_ScaleHeight(30)) image:nil placeholder:@"请输入昵称"];
     self.nickNameTF.text = userInfo.nickname;
     self.nickNameTF.clearButtonMode = UITextFieldViewModeWhileEditing;
     self.nickNameTF.delegate = self;
@@ -123,4 +133,20 @@
     [self.nickNameTF resignFirstResponder];
     return YES;
 }
+
+#pragma mark --viewWillAppear
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+#pragma mark --viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = NO;
+}
+
+
 @end

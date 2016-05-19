@@ -126,26 +126,35 @@
         parameter[@"news_pass"] = firstPW;
         parameter[@"code"] = self.verificationCodeTX.text;
         // 1.创建请求管理者
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@,,,%@",responseObject, parameter);
+        [BFProgressHUD MBProgressWithLabelText:@"正在修改密码" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"responseObject%@,,,%@",responseObject, parameter);
+                
+                if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
+                } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
+                }else if ([responseObject[@"msg"] isEqualToString:@"修改密码失败"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码修改失败"];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressWithLabelText:@"密码修改成功，正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                        if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLoginVCWithHud:)]) {
+                            [self.delegate gotoLoginVCWithHud:hud];
+                        }
+                    }];
+                }
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络问题"];
+                BFLog(@"error%@",error);
+            }];
 
-            if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
-            } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
-            }else if ([responseObject[@"msg"] isEqualToString:@"修改密码失败"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码修改失败"];
-            }else {
-                [BFProgressHUD MBProgressFromWindowWithLabelText:@"密码修改成功，正在跳转..." dispatch_get_main_queue:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLoginVC)]) {
-                        [self.delegate gotoLoginVC];
-                    }
-                }];
-            }
-        } failure:^(NSError *error) {
-            BFLog(@"error%@",error);
         }];
-
+        
     }
 }
 

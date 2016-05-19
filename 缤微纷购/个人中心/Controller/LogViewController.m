@@ -179,8 +179,8 @@
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
-            //[self thirdPartyLogin:ShareTypeQQSpace];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
+            [self thirdPartyLogin:ShareTypeQQSpace];
             break;
         }case BFThirdLoginTypeSina:{
             //[self thirdPartyLogin:ShareTypeSinaWeibo];
@@ -199,9 +199,8 @@
 #pragma mark --第三方登录
 - (void)thirdPartyLogin:(ShareType)shareType {
     
+    //登录之前取消上次
     [ShareSDK cancelAuthWithType:shareType];
-    
-    
     [ShareSDK getUserInfoWithType:shareType authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
                                
        if (result)
@@ -222,43 +221,40 @@
            //parameter[@"openid"] = [userInfo uid];
            parameter[@"ico"] = [userInfo profileImage];
            //parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
-           
-           [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-               BFLog(@"%@,,%@", responseObject, parameter);
-               if ([responseObject[@"status"] isEqualToString:@"0"]) {
-                   [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"登录失败"];
-               }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                   [BFProgressHUD MBProgressFromView:self.navigationController.view  LabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^{
-                       BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-                       
-                       [self tabBarBadge:userInfo.ID];
+           [BFProgressHUD MBProgressWithLabelText:@"正在登陆..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                   
+               [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                   BFLog(@"%@,,%@", responseObject, parameter);
+                   if ([responseObject[@"status"] isEqualToString:@"0"]) {
+                       [hud hideAnimated:YES];
+                       [BFProgressHUD MBProgressFromView:self.navigationController.view  wrongLabelText:@"登录失败"];
+                   }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                       [hud hideAnimated:YES];
+                       [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                           BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                           
+                           [self tabBarBadge:userInfo.ID];
 
-                       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                       [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-
-                       [self.navigationController popViewControllerAnimated:YES];
-                   }];
-
-               }
-               
-           } failure:^(NSError *error) {
-               BFLog(@"%@", error);
-           }];
-           BFLog(@"%@", [userInfo sourceData][@"unionid"]);
-           
-           BFLog(@" ---- %@",[userInfo nickname]);
-           //打印输出用户uid：
-           NSLog(@"uid = %@",[userInfo uid]);
-           //打印输出用户昵称：
-           NSLog(@"name = %@",[userInfo nickname]);
-           //打印输出用户头像地址：
-           NSLog(@"icon = %@",[userInfo profileImage]);
-           
-       }else{
-           [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"登录失败"];
-           NSLog(@"授权失败!error code == %ld, error code == %@", (long)[error errorCode], [error errorDescription]);
-       }
-   }];
+                           NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                           [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                           [hud hideAnimated:YES];
+                           [self.navigationController popViewControllerAnimated:YES];
+                       }];
+                   }
+                   
+               } failure:^(NSError *error) {
+                   [hud hideAnimated:YES];
+                   [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
+                   BFLog(@"%@", error);
+               }];
+               BFLog(@" ---- %@,%@,%@,%@,%@",[userInfo nickname],[userInfo uid],[userInfo nickname],[userInfo profileImage],[userInfo sourceData][@"unionid"]);
+            }];
+           }else{
+               [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"登录失败"];
+               NSLog(@"授权失败!error code == %ld, error code == %@", (long)[error errorCode], [error errorDescription]);
+           }
+       }];
+    
 
 }
 
@@ -301,27 +297,36 @@
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         parameter[@"pass"] = [MyMD5 md5:self.passwordTX.text];
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@",responseObject);
-            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-            if ([userInfo.msg isEqualToString:@"登录失败"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"账号或者密码错误"];
-                return ;
-            }
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"登录成功，正在跳转..." dispatch_get_main_queue:^{
-                
-                [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
-                
-                [self tabBarBadge:userInfo.ID];
-                NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-                BFLog(@"responseObject%@",userInfo.user_icon);
-                [self.navigationController popViewControllerAnimated:YES];
+        
+        [BFProgressHUD MBProgressWithLabelText:@"正在登陆..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"responseObject%@",responseObject);
+                BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                if ([userInfo.msg isEqualToString:@"登录失败"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"账号或者密码错误"];
+                    return ;
+                }
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            
+                    [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
+                    
+                    [self tabBarBadge:userInfo.ID];
+                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                    BFLog(@"responseObject%@",userInfo.user_icon);
+                    [hud hideAnimated:YES];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"网络问题"];
+                [hud hideAnimated:YES];
+                BFLog(@"error%@",error);
             }];
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"网络问题"];
-            BFLog(@"error%@",error);
+
         }];
+        
     }
 }
 

@@ -16,13 +16,15 @@
 }
 /**自定义的view*/
 @property (nonatomic, strong) BFModifyPasswordView *modifyPasswordView;
+/**背景图片*/
+@property (nonatomic, strong) UIImageView *bgImageView;
 @end
 
 @implementation BFModifyPasswordController
 #pragma mark --懒加载
 - (BFModifyPasswordView *)modifyPasswordView {
     if (!_modifyPasswordView) {
-        _modifyPasswordView = [[BFModifyPasswordView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        _modifyPasswordView = [[BFModifyPasswordView alloc] initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight)];
         _modifyPasswordView.delegate = self;
         [self.view addSubview:_modifyPasswordView];
     }
@@ -34,6 +36,15 @@
     [super viewDidLoad];
     self.title = @"修改密码";
     self.view.backgroundColor = BFColor(0xffffff);
+    
+    UIImage *image = [UIImage imageNamed:@"101"];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:image];
+    
+    self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
+    self.bgImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bgImageView];
     //添加自定义的view
     [self modifyPasswordView];
 }
@@ -88,8 +99,19 @@
     }
     
 }
-
-
+#pragma mark --viewWillAppear
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+#pragma mark --viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = NO;
+}
 
 
 @end

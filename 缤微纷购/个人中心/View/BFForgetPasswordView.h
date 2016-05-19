@@ -10,7 +10,7 @@
 
 @protocol BFForgetPasswordViewDelegate <NSObject>
 
-- (void)gotoLoginVC;
+- (void)gotoLoginVCWithHud:(MBProgressHUD *)hud;
 
 @end
 
