@@ -45,6 +45,14 @@
 @property (nonatomic,retain)NSString *color;
 /**产品库存*/
 @property (nonatomic,retain)NSString *stock;
+/**产品库存*/
+@property (nonatomic,retain)NSString *first_stock;
+/**展示的价格*/
+@property (nonatomic,retain)NSString *first_price;
+/**展示的颜色*/
+@property (nonatomic,retain)NSString *first_color;
+/**展示的尺寸*/
+@property (nonatomic,retain)NSString *first_size;
 
 @property (nonatomic,retain)NSMutableArray *shopIDarray;
 

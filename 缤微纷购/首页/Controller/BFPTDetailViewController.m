@@ -75,11 +75,13 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            [self shareWithType:ShareTypeQQSpace];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            //[self shareWithType:ShareTypeQQSpace];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            [self shareWithType:ShareTypeQQ];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            //[self shareWithType:ShareTypeQQ];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
@@ -91,7 +93,8 @@
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            [self shareWithType:ShareTypeSinaWeibo];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            //[self shareWithType:ShareTypeSinaWeibo];
             break;
         }
     }

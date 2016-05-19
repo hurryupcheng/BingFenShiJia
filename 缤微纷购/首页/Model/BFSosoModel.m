@@ -52,6 +52,9 @@
     if ([propertyName isEqualToString:@"choose"]) {
         propertyName = @"size";
     }
+    if ([propertyName isEqualToString:@"price"]) {
+        propertyName = @"thisprice";
+    }
     return propertyName;
 }
 /*

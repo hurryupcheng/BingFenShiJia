@@ -66,6 +66,7 @@
 - (void)viewDidLoad{
     self.view.backgroundColor = [UIColor whiteColor];
     [self getDownDate];
+    [self CollectionViewgetDate];
     
 }
 
@@ -546,7 +547,7 @@
 
         [self CollectionViewgetDate];
     }];
-    [self.collentionView.mj_header beginRefreshing];
+    //[self.collentionView.mj_header beginRefreshing];
 }
 
 - (NSMutableArray *)dataArray{

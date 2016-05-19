@@ -61,8 +61,16 @@
     
     [_img sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
     _title.text = model.title;
-    _stock.text = [NSString stringWithFormat:@"%@   %@",model.choose,model.color];
-    _price.text = [NSString stringWithFormat:@"¥%@",model.price];
+    if (model.choose.length != 0 && model.color.length != 0 ) {
+        _stock.text = [NSString stringWithFormat:@"%@/%@",model.choose,model.color];
+    }else if (model.choose.length != 0 && model.color.length == 0) {
+        _stock.text = [NSString stringWithFormat:@"%@",model.choose];
+    }else if (model.choose.length == 0 && model.color.length != 0) {
+        _stock.text = [NSString stringWithFormat:@"%@",model.color];
+    }else {
+        _stock.text = @"";
+    }
+    _price.text = [NSString stringWithFormat:@"%@",model.price];
     
 }
 
