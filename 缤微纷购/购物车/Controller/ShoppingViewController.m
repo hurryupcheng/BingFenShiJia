@@ -55,6 +55,7 @@
     
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 - (void)data{
@@ -123,22 +124,30 @@
     }
     
     self.foot.money.text = [NSString stringWithFormat:@"合计:¥ %.2f",price];
+    if (price == 0) {
+        self.foot.buyButton.enabled = NO;
+    }else{
+        self.foot.buyButton.enabled = YES;
+    }
+    NSLog(@"==========%@",self.foot.money.text);
 }
 
 #pragma  mark 全选按钮方法
 - (void)selectAllBtnClick:(UIButton*)button{
 //  点击全选时，把之前已选择的全部删除
+    NSLog(@">>>>>>>>>>>>>>>>>>>>");
     [self.selectGoods removeAllObjects];
     button.selected = !button.selected;
     self.isEdits = button.selected;
+    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
     if (self.isEdits) {
         for (BFStorage *model in self.dateArr) {
             [self.selectGoods addObject:model];
         }
-        self.foot.buyButton.enabled = YES;
+//        [[CXArchiveShopManager sharedInstance]isAllSelec:YES];
     }else{
         [self.selectGoods removeAllObjects];
-        self.foot.buyButton.enabled = NO;
+//        [[CXArchiveShopManager sharedInstance]isAllSelec:NO];
     }
 
     [self.tabView reloadData];
@@ -237,27 +246,25 @@
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.isSelected = self.isEdits;
+
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
-        
     }
-
+    
     cell.selBlock = ^(BOOL isSelected){
        
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
-            self.foot.buyButton.enabled = YES;
         }else{
             [self.selectGoods removeObject:[self.dateArr objectAtIndex:indexPath.row]];
-            self.foot.buyButton.enabled = NO;
         }
         
         if (self.selectGoods.count == self.dateArr.count) {
             self.header.allSeled.selected = YES;
         }else{
+            NSLog(@"333333333");
             self.header.allSeled.selected = NO;
         }
-
         [self countPrice];
     };
     
@@ -384,7 +391,13 @@
 }
 
 - (void)jiesuan{
-
+    
+//    if (self.isEdits) {
+//        if (![self.selectGoods containsObject:self.dateArr]) {
+//        [self.selectGoods addObjectsFromArray:self.dateArr];
+//        }
+//    }
+    
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     bfzf.modelArr = _selectGoods;
     bfzf.removeBlock = ^(){
@@ -423,14 +436,16 @@
         [self initWithTableView];
         [self.tabView reloadData];
         [self other];
+        [self selectAllBtnClick:self.header.allSeled];
     }
     }
     
     
-    [self.selectGoods removeAllObjects];
-    self.isEdits = NO;
-    self.header.allSeled.selected = NO;
-    self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
+//    [self.selectGoods removeAllObjects];
+   
+    self.isEdits = YES;
+    self.header.allSeled.selected = YES;
+//    self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
  
 }
 

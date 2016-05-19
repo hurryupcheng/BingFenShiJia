@@ -510,7 +510,7 @@
         }
     } failure:^(NSError *error) {
         [self.collentionView.mj_header endRefreshing];
-        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+//        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
         BFLog(@"%@", error);
     }];
     

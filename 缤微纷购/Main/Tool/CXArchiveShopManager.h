@@ -45,4 +45,6 @@ SYNTHESIZE_SINGLETON_FOR_HEADER(CXArchiveShopManager)
 //删除所有数据
 -(void)removeAllKeysWithDataSource;
 
+- (void)isAllSelec:(BOOL)yes;
+
 @end

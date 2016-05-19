@@ -126,7 +126,8 @@
             [self.tableV.mj_header endRefreshing];
         }
     } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressOnlyWithLabelText:@"网络问题"];
+        [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+        [self.tableV.mj_header endRefreshing];
         BFLog(@"%@", error);
     }];
     
