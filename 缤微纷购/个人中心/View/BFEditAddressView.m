@@ -290,24 +290,28 @@
     }else if (![HZQRegexTestter validatePhone:self.phone.text]) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的手机号"];
     }else {
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"更新成功"]) {
-                [BFProgressHUD MBProgressFromView:self LabelText:@"修改地址成功,正在跳转" dispatch_get_main_queue:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(clickToSaveAddress)]) {
-                        [self.delegate clickToSaveAddress];
-                    }
-                }];
-            }else {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"修改失败"];
-            }
-            BFLog(@"%@",responseObject);
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self andLabelText:@"网络问题"];
-            BFLog(@"%@",error);
+        [BFProgressHUD MBProgressWithLabelText:@"正在修改地址..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"更新成功"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self LabelText:@"修改地址成功,正在跳转" dispatch_get_main_queue:^{
+                        if (self.delegate && [self.delegate respondsToSelector:@selector(clickToSaveAddress)]) {
+                            [self.delegate clickToSaveAddress];
+                        }
+                    }];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"修改失败"];
+                }
+                BFLog(@"%@",responseObject);
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self andLabelText:@"网络问题"];
+                BFLog(@"%@",error);
+            }];
+
         }];
     }
-    
-    
 }
 
 - (void)switchAction:(UISwitch *)sender {

@@ -19,10 +19,7 @@
 #import "MyMD5.h"
 #import "BFForgetPasswordController.h"
 
-@interface LogViewController ()<UITextFieldDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface LogViewController ()<UITextFieldDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**背景图片*/
@@ -272,11 +269,6 @@
     //音效
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     [self.view endEditing:YES];
-    leftTime = 5;
-    [self.loginButton setEnabled:NO];
-    [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
     
     
     if ([self.phoneTX.text isEqualToString:@"" ] || [self.passwordTX.text isEqualToString:@""]) {
@@ -351,22 +343,6 @@
     [self.navigationController pushViewController:zc animated:YES];
 }
 
-- (void)timerAction {
-    //BFLog(@"-------------");
-    leftTime--;
-    if(leftTime <= 0)
-    {
-        [self.loginButton setEnabled:YES];
-        self.loginButton.backgroundColor = BFColor(0xFD8727);
-        //倒计时完取消倒计时
-        [timer invalidate];
-        timer = nil;
-    } else {
-        [self.loginButton setEnabled:NO];
-        [self.loginButton setBackgroundColor:BFColor(0xD5D8D1)];
-    }
-
-}
 
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

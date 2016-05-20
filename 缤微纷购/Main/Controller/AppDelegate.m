@@ -239,7 +239,6 @@
 // 获取焦点之后才可以跟用户进行交互
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    NSLog(@"applicationDidBecomeActive-获取焦点");
     //获取定位
     [self getAddress];
     NSLog(@"applicationDidBecomeActive-获取焦点");

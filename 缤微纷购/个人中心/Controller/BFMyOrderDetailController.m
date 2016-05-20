@@ -17,10 +17,7 @@
 #import "BFOrderDetailInfoCell.h"
 #import "FXQViewController.h"
 
-@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFMyOrderDetailController ()< UITableViewDelegate, UITableViewDataSource, BFOrderDetailBottomViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
 /**自定义头部视图*/
@@ -183,6 +180,10 @@
 }
 #pragma mark -- 去支付
 - (void)gotoPay {
+    float payMoney = [self.model.order_sumPrice floatValue] - [self.model.coupon_money floatValue] - [self.model.use_score floatValue]/100;
+    if (payMoney < 1.0) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
+    }else {
     [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
@@ -203,7 +204,6 @@
                         payVC.pay = @"微信支付";
                     }
                     payVC.orderModel = orderModel;
-                    float payMoney = [self.model.order_sumPrice floatValue] - [self.model.score floatValue] - [self.model.coupon_money floatValue];
                     
                     payVC.totalPrice = [NSString stringWithFormat:@"%.2f", payMoney];
                     
@@ -224,31 +224,10 @@
                 BFLog(@"%@", error);
             }];
     }];
-    //点击按钮倒计时
-    leftTime = Countdown;
-    [self.footerView.pay setEnabled:NO];
-    [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-}
 
-#pragma mark -- 倒计时方法
-- (void)timerAction {
-   
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.footerView.pay setEnabled:YES];
-        self.footerView.pay.backgroundColor = BFColor(0xFD8627);
-        //倒计时完取消倒计时
-        [timer invalidate];
-        timer = nil;
-    } else
-    {
-        
-        [self.footerView.pay setEnabled:NO];
-        [self.footerView.pay setBackgroundColor:BFColor(0xD5D8D1)];
     }
 }
+
 
 
 
@@ -290,8 +269,9 @@
 
 #pragma mark -- 确认收货
 - (void)confirmOrder {
-    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         if (![self.model.status isEqualToString:@"3"]) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货,请耐心等候..."];
         }else {
             BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
@@ -304,24 +284,26 @@
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"--%@----%@", responseObject, parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
-                    double delayInSeconds = 1;
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        [hud hideAnimated:YES];
                         [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                        [self.tableView reloadData];
                         self.headerView.statusLabel.text = @"已完成";
                         self.model.status = @"4";
                         self.footerView.model = self.model;
                         //self.footerView.hidden = YES;
                         _block(YES);
-                    });
+                    
                 }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
+                    [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
                 }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
+                    [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
                 }else {
                     
                 }
             } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
                 BFLog(@"--%@", error);
             }];
@@ -334,7 +316,8 @@
 
 #pragma mark -- 取消订单请求
 - (void)cancleOrder{
-    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在取消订单,请稍等片刻..." dispatch_get_main_queue:^{        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    [BFProgressHUD MBProgressWithLabelText:@"正在取消订单,请稍等片刻..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=cancelOrder"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"uid"] = userInfo.ID;
@@ -343,14 +326,13 @@
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"--%@", responseObject);
             if ([responseObject[@"msg"] isEqualToString:@"取消成功"]) {
-                double delayInSeconds = 1;
-                dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"订单取消成功,正在跳转..." dispatch_get_main_queue:^{
+                [hud hideAnimated:YES];
+                
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"订单取消成功,正在跳转..." dispatch_get_main_queue:^{
                         [self.navigationController popViewControllerAnimated:YES];
-                    }];
+                    
 
-                });
+                }];
                 self.headerView.statusLabel.text = @"已关闭";
                 //self.footerView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{
@@ -358,9 +340,11 @@
                 }];
                 _block(YES);
             }else {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单取消失败"];
             }
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"--%@", error);
         }];

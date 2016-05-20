@@ -11,10 +11,7 @@
 #import "BFGroupOrderDetailModel.h"
 #import "BFPayoffViewController.h"
 
-@interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>
 /**团订单详情自定义view*/
 @property (nonatomic, strong) BFGroupOrderDetailView *detailView;
 /**model*/
@@ -143,33 +140,10 @@
                 BFLog(@"%@", error);
             }];
     }];
-    //倒计时
-    leftTime = Countdown;
-    [self.detailView.payButton setEnabled:NO];
-    [self.detailView.payButton setBackgroundColor:BFColor(0xD5D8D1)];
 
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
 
-#pragma mark -- 倒计时方法
-- (void)timerAction {
-    BFLog(@"----------");
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.detailView.payButton setEnabled:YES];
-        self.detailView.payButton.backgroundColor = BFColor(0xD4001B);
-        //倒计时完取消倒计时
-        [timer invalidate];
-        timer = nil;
-    } else
-    {
-        [self.detailView.payButton setEnabled:NO];
-        self.detailView.payButton.backgroundColor = BFColor(0xD5D8D1);
-        
-    }
-}
 
 
 @end

@@ -14,8 +14,6 @@
 @interface BFPassWordView(){
     __block int         leftTime;
     __block NSTimer     *timer;
-    __block int         registTime;
-    __block NSTimer     *registTimer;
 }
 
 /**注册按钮*/
@@ -105,13 +103,7 @@
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码不一致，请核对"];
     }else {
 
-        registTime = 5;
-        [self.registerButton setEnabled:NO];
-        self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-    
-        registTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(registerAction) userInfo:nil repeats:YES];
+
         
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?a=reg&m=Json"];
@@ -187,27 +179,6 @@
 }
 
 
-- (void)registerAction {
-//    BFLog(@"zhuce");
-    registTime--;
-    if(registTime<=0)
-    {
-        [self.registerButton setEnabled:YES];
-        self.registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
-        [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
-        //倒计时完取消倒计时
-        [registTimer invalidate];
-        registTimer = nil;
-    } else
-    {
-        [self.registerButton setEnabled:NO];
-        self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-         [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-    }
-
-}
 
 - (void)timerAction
 {
@@ -215,7 +186,7 @@
     leftTime--;
     if(leftTime<=0)
     {
-        [self.sendVerificationCodeButton setEnabled:YES];
+
         [self.sendVerificationCodeButton setEnabled:YES];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateDisabled];

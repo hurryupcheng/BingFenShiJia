@@ -85,15 +85,15 @@
         
         if ([model.status isEqualToString:@"0"]) {
             self.statusLabel.frame = CGRectMake(0, CGRectGetMaxY(self.countdown.frame)+BF_ScaleHeight(7), ScreenWidth, 0);
-            self.countdownViewH = CGRectGetMaxY(self.statusLabel.frame)+BF_ScaleHeight(12);
+            self.countdownViewH = CGRectGetMaxY(self.countdown.frame);
         }else if([model.status isEqualToString:@"1"]) {
             self.statusLabel.text = @"团购成功，卖家将尽快发货";
             self.statusLabel.frame = CGRectMake(0, CGRectGetMaxY(self.countdown.frame)+BF_ScaleHeight(7), ScreenWidth, BF_ScaleHeight(14));
-            self.countdownViewH = CGRectGetMaxY(self.statusLabel.frame)+BF_ScaleHeight(10);
+            self.countdownViewH = CGRectGetMaxY(self.statusLabel.frame)+BF_ScaleHeight(5);
         }else if([model.status isEqualToString:@"2"]) {
             self.statusLabel.text = @"团购失败";
             self.statusLabel.frame = CGRectMake(0, CGRectGetMaxY(self.countdown.frame)+BF_ScaleHeight(7), ScreenWidth, BF_ScaleHeight(14));
-            self.countdownViewH = CGRectGetMaxY(self.statusLabel.frame)+BF_ScaleHeight(10);
+            self.countdownViewH = CGRectGetMaxY(self.statusLabel.frame)+BF_ScaleHeight(0);
         }
     }
 }

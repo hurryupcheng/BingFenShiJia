@@ -23,10 +23,7 @@
 #import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
 
-@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
 /**自定义tabbar*/
 @property (nonatomic, strong) BFGroupDetailTabbar *tabbar;
 /**tableView*/
@@ -181,14 +178,17 @@
                 self.model = [BFGroupDetailModel parse:responseObject];
                 if ([responseObject[@"thisteam"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [TeamList parse:self.model.thisteam];
-                    [self.teamArray addObjectsFromArray:array];
-                    if (self.teamArray.count > 1) {
-                        for (TeamList *list in self.teamArray) {
-                            if ([list.status isEqualToString:@"1"]) {
-                                [self.teamArray removeObject:list];
+                    if (array.count > 1) {
+                        for (TeamList *list in array) {
+                            if (![list.status isEqualToString:@"1"] || ![list.status isEqualToString:@"5"]) {
+                                [self.teamArray addObject:list];
                             }
                         }
+                    }else {
+                        [self.teamArray addObjectsFromArray:array];
                     }
+                    //[self.teamArray addObjectsFromArray:array];
+                    
                 }
                 //给头部视图模型赋值
                 self.headerView.model = self.model;
@@ -393,37 +393,9 @@
                 BFLog(@"%@", error);
             }];
     }];
-    //倒计时
-    leftTime = Countdown;
-    [self.tabbar.payButton setEnabled:NO];
-    [self.tabbar.payToJoinButton setEnabled:NO];
-    [self.tabbar.payButton setBackgroundColor:BFColor(0xD5D8D1)];
-    [self.tabbar.payToJoinButton setBackgroundColor:BFColor(0xD5D8D1)];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    
 }
 
-#pragma mark -- 倒计时方法
-- (void)timerAction {
-    BFLog(@"--------");
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.tabbar.payButton setEnabled:YES];
-        [self.tabbar.payToJoinButton setEnabled:YES];
-        self.tabbar.payButton.backgroundColor = BFColor(0xD4041E);
-        self.tabbar.payToJoinButton.backgroundColor = BFColor(0xD4041E);
-        //倒计时完取消倒计时
-        [timer invalidate];
-        timer = nil;
-    } else
-    {
-        [self.tabbar.payButton setEnabled:NO];
-        [self.tabbar.payToJoinButton setEnabled:NO];
-        self.tabbar.payButton.backgroundColor = BFColor(0xD5D8D1);
-        self.tabbar.payToJoinButton.backgroundColor = BFColor(0xD5D8D1);
-
-    }
-}
 
 
 

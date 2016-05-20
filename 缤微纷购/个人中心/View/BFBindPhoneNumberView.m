@@ -10,8 +10,6 @@
 #import "BFBindPhoneNumberView.h"
 #import "HZQRegexTestter.h"
 @interface BFBindPhoneNumberView(){
-    __block int         leftTime;
-    __block NSTimer     *timer;
     __block int         sendLeftTime;
     __block NSTimer     *sendTimer;
 }
@@ -169,14 +167,6 @@
 
 - (void)sure:(UIButton *)sender {
     [self endEditing:YES];
-    //点击按钮，2秒内不能点击
-    leftTime = 5;
-    [self.sureButton setEnabled:NO];
-    [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-    self.sureButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    
     
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=w_tel"];
@@ -190,47 +180,36 @@
     }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入正确的手机号"];
     }else {
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"%@,,%@",responseObject,parameter);
-            if ([responseObject[@"msg"] isEqualToString:@"已绑定手机号"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"手机号已经被绑定"];
-            }else if ([responseObject[@"msg"] isEqualToString:@"绑定成功"]) {
-                [BFProgressHUD MBProgressFromView:self LabelText:@"手机绑定成功,正在跳转" dispatch_get_main_queue:^{
-                    userInfo.tel = self.phoneTX.text;
-                    [BFUserDefaluts modifyUserInfo:userInfo];
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLoginController:)]) {
-                        [self.delegate gotoLoginController:userInfo];
-                    }
-                }];
-            }else {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"手机绑定失败,请重新绑定"];
-            }
-        } failure:^(NSError *error) {
-            BFLog(@"%@",error);
+        [BFProgressHUD MBProgressWithLabelText:@"正在绑定手机号" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"%@,,%@",responseObject,parameter);
+                if ([responseObject[@"msg"] isEqualToString:@"已绑定手机号"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"手机号已经被绑定"];
+                }else if ([responseObject[@"msg"] isEqualToString:@"绑定成功"]) {
+                    [BFProgressHUD MBProgressFromView:self LabelText:@"手机绑定成功,正在跳转" dispatch_get_main_queue:^{
+                        userInfo.tel = self.phoneTX.text;
+                        [BFUserDefaluts modifyUserInfo:userInfo];
+                        if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLoginController:)]) {
+                            [self.delegate gotoLoginController:userInfo];
+                        }
+                    }];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"手机绑定失败,请重新绑定"];
+                }
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                BFLog(@"%@",error);
+            }];
+
         }];
-        
     }
 }
 
-#pragma mark --计时器方法
-- (void)timerAction {
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.sureButton setEnabled:YES];
-        [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
-        self.sureButton.layer.borderColor = BFColor(0xFD8727).CGColor;
-        [timer invalidate];
-        timer = nil;
-    } else {
-        
-        [self.sureButton setEnabled:NO];
-        [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-        self.sureButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        
-    }
-    
-}
+
+
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.phoneTX) {

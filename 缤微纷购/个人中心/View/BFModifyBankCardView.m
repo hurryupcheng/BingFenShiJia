@@ -18,11 +18,7 @@
 #import "BFBankModel.h"
 #import "HZQRegexTestter.h"
 
-@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>{
-    __block NSInteger leftTime;
-    __block NSTimer *timer;
-}
-@property (nonatomic, strong) BFPickerView *pickerView;
+@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>@property (nonatomic, strong) BFPickerView *pickerView;
 /**银行button*/
 @property (nonatomic, strong) BFBankButton *bankButton;
 /**省份button*/
@@ -443,11 +439,7 @@
 //确定按钮
 - (void)click:(UIButton *)sender {
     [self endEditing:YES];
-    leftTime = 5;
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction) userInfo:nil repeats:YES];
-    [self.sureButton setEnabled:NO];
-    [self.sureButton setBackgroundColor:BFColor(0xD5D8D1)];
-   
+    
     BFBankModel *bankInfo = [BFUserDefaluts getBankInfo];
     
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=up_username"];
@@ -490,48 +482,39 @@
 }
 
 - (void)modifyInfo:(NSString *)url parameter:(NSMutableDictionary *)parameter {
-    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@,%@",responseObject,parameter);
-        if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
-            [BFProgressHUD MBProgressFromView:self wrongLabelText:@"银行信息修改失败"];
-        }else {
-            [BFProgressHUD MBProgressFromView:self LabelText:@"银行信息修改成功,正在跳转..." dispatch_get_main_queue:^{
-                if (self.delegate && [self.delegate respondsToSelector:@selector(modifyBankInfomation)]) {
-                    
-                    
-                    self.userInfo.bank_name = self.bankButton.buttonTitle.text;
-                    self.userInfo.sheng = self.provinceButton.buttonTitle.text;
-                    self.userInfo.shi = self.cityButton.buttonTitle.text;
-                    self.userInfo.card_address = [self.branchButton.buttonTitle.text isEqualToString:@"其他"] ? self.branchTF.text : self.branchButton.buttonTitle.text;
-                    self.userInfo.card_id = self.detailInfo.cardNumberTX.text;
-                    self.userInfo.true_name = self.detailInfo.nameTX.text;
-                    self.userInfo.bank_branch = parameter[@"bank_branch"];
-                    [BFUserDefaluts modifyUserInfo:self.userInfo];
-                    [self.delegate modifyBankInfomation];
-                }
-            }];
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
+    [BFProgressHUD MBProgressWithLabelText:@"正在修改银行信息" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@,%@",responseObject,parameter);
+            if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self wrongLabelText:@"银行信息修改失败"];
+            }else {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self LabelText:@"银行信息修改成功,正在跳转..." dispatch_get_main_queue:^{
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(modifyBankInfomation)]) {
+                        
+                        
+                        self.userInfo.bank_name = self.bankButton.buttonTitle.text;
+                        self.userInfo.sheng = self.provinceButton.buttonTitle.text;
+                        self.userInfo.shi = self.cityButton.buttonTitle.text;
+                        self.userInfo.card_address = [self.branchButton.buttonTitle.text isEqualToString:@"其他"] ? self.branchTF.text : self.branchButton.buttonTitle.text;
+                        self.userInfo.card_id = self.detailInfo.cardNumberTX.text;
+                        self.userInfo.true_name = self.detailInfo.nameTX.text;
+                        self.userInfo.bank_branch = parameter[@"bank_branch"];
+                        [BFUserDefaluts modifyUserInfo:self.userInfo];
+                        [self.delegate modifyBankInfomation];
+                    }
+                }];
+            }
+        } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+            BFLog(@"%@",error);
+        }];
     }];
-
 }
 
 
-- (void)timeAction {
-    BFLog(@"-----------");
-    leftTime--;
-    if (leftTime <= 0) {
-        [self.sureButton setEnabled:YES];
-        [self.sureButton setBackgroundColor:BFColor(0xFC940A)];
-        //取消倒计时
-        [timer invalidate];
-        timer = nil;
-    }else {
-        [self.sureButton setEnabled:NO];
-        [self.sureButton setBackgroundColor:BFColor(0xD5D8D1)];
-    }
-}
 
 
 

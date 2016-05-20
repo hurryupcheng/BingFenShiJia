@@ -337,11 +337,16 @@
 
     //创建layer
     CALayer *chLayer = [[CALayer alloc] init];
-    NSURL *url = [NSURL URLWithString:self.model.img];
-    NSData *data = [NSData dataWithContentsOfURL:url];
-    UIImage *image = [[UIImage alloc] initWithData:data];
-    chLayer.contents = (UIImage *)image.CGImage;
-    [self.redLayers addObject:chLayer];
+    NSArray *urlArray = [BFProductDetailCarouselList parse:self.model.imgs];
+    if (urlArray != 0) {
+        BFProductDetailCarouselList *list = [urlArray firstObject];
+        NSURL *url = [NSURL URLWithString:list.url];
+        NSData *data = [NSData dataWithContentsOfURL:url];
+        UIImage *image = [[UIImage alloc] initWithData:data];
+        chLayer.contents = (UIImage *)image.CGImage;
+        [self.redLayers addObject:chLayer];
+    }
+    
     chLayer.frame = CGRectMake(self.headerView.cycleScrollView.centerX, self.headerView.cycleScrollView.centerY, BF_ScaleHeight(100), BF_ScaleHeight(100));
     //chLayer.cornerRadius = BF_ScaleHeight(20);
     //chLayer.masksToBounds = YES;

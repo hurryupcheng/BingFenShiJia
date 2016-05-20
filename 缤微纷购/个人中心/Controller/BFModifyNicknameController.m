@@ -8,10 +8,7 @@
 
 #import "BFModifyNicknameController.h"
 
-@interface BFModifyNicknameController ()<UITextFieldDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFModifyNicknameController ()<UITextFieldDelegate>
 /**昵称输入框*/
 @property (nonatomic, strong) UITextField *nickNameTF;
 /**保存按钮*/
@@ -65,15 +62,7 @@
 #pragma mark --保存按钮点击事件
 - (void)click:(UIButton *)sender {
     [self.view endEditing:YES];
-    //点击后2秒内，按钮不可用
-    leftTime = 5;
-    [self.saveButton setEnabled:NO];
-    [self.saveButton setBackgroundColor:BFColor(0xD5D8D1)];
-    
-    if(timer)
-        [timer invalidate];
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-    
+
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=up_nickname"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -87,43 +76,32 @@
     }else if ([userInfo.nickname isEqualToString:self.nickNameTF.text]) {
         [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"没有改动，不需修改"];
     }else {
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"%@,,%@,,%@",responseObject, parameter, url);
-            if ([responseObject[@"msg"] isEqualToString:@"修改成功"]) {
-                [BFProgressHUD MBProgressFromView:self.view LabelText:@"昵称修改成功,正在跳转" dispatch_get_main_queue:^{
-                    userInfo.nickname = self.nickNameTF.text;
-                    [BFUserDefaluts modifyUserInfo:userInfo];
-                    _block(userInfo);
-                    [BFNotificationCenter postNotificationName:@"modifyNickName" object:nil];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-            }else {
-                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"修改失败"];
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
-            BFLog(@"%@",error);
+        [BFProgressHUD MBProgressWithLabelText:@"正在修改昵称..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"%@,,%@,,%@",responseObject, parameter, url);
+                if ([responseObject[@"msg"] isEqualToString:@"修改成功"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.view LabelText:@"昵称修改成功,正在跳转..." dispatch_get_main_queue:^{
+                        userInfo.nickname = self.nickNameTF.text;
+                        [BFUserDefaluts modifyUserInfo:userInfo];
+                        _block(userInfo);
+                        [BFNotificationCenter postNotificationName:@"modifyNickName" object:nil];
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"修改失败"];
+                }
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
+                BFLog(@"%@",error);
+            }];
         }];
-
     }
 }
 
-#pragma mark --计时器方法
-- (void)timerAction {
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.saveButton setEnabled:YES];
-        self.saveButton.backgroundColor = BFColor(0xFC940A);
-        [timer invalidate];
-        timer = nil;
-    } else {
-        
-        [self.saveButton setEnabled:NO];
-        [self.saveButton setBackgroundColor:BFColor(0xD5D8D1)];
-    }
-    
-}
 #pragma mark --点击屏幕收起键盘
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self.view endEditing:YES];

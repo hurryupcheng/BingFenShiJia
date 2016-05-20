@@ -15,8 +15,6 @@
 @interface BFForgetPasswordView(){
     __block int         verificationTime;
     __block NSTimer     *verificationTimer;
-    __block int         sureTime;
-    __block NSTimer     *sureTimer;
 }
 /**注册按钮*/
 @property (nonatomic, strong) UIButton *sureButton;
@@ -108,17 +106,7 @@
     }else if ((self.firstPasswordTX.text.length < 6 || self.firstPasswordTX.text.length > 20) || (self.secondPasswordTX.text.length < 6 || self.secondPasswordTX.text.length > 20)) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入6~20位长度密码"];
     } else {
-        
-        sureTime = 5;
-        [self.sureButton setEnabled:NO];
-        self.sureButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-        [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-        if(sureTimer)
-            [sureTimer invalidate];
-        sureTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(sureAction) userInfo:nil repeats:YES];
-        
-        
+    
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=reup_pass"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -159,25 +147,6 @@
 }
 
 
-- (void)sureAction {
-    sureTime--;
-    if(sureTime <= 0)
-    {
-        [self.sureButton setEnabled:YES];
-        self.sureButton.layer.borderColor = BFColor(0xFD8727).CGColor;
-        [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
-        [self.sureButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
-        [sureTimer invalidate];
-        sureTimer = nil;
-    } else
-    {
-        [self.sureButton setEnabled:NO];
-        self.sureButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-        [self.sureButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-    }
-
-}
 
 
 #pragma mark -- 验证码按钮点击事件

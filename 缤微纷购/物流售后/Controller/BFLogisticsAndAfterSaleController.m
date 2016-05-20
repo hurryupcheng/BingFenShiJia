@@ -459,8 +459,9 @@
 
 #pragma mark -- 确认收货
 - (void)confirmOrderWithModel:(BFLogisticsModel *)model AndCell:(BFBottomCell *)cell{
-   [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^{
+   [BFProgressHUD MBProgressWithLabelText:@"正在收货,请稍等片刻..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         if (![model.status isEqualToString:@"3"]) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单还未发货"];
         }else {
             BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
@@ -473,23 +474,24 @@
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"--%@----%@", responseObject, parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"确认收货成功"]) {
-                    double delayInSeconds = 1;
-                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                        [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"确认收货成功"];
                         //收货成功改变状态
-                        model.status = @"4";
-                        cell.model = model;
-                        [self.tableView reloadData];
-                    });
+                    model.status = @"4";
+                    cell.model = model;
+                    [self.tableView reloadData];
+                    
                 }else if([responseObject[@"msg"] isEqualToString:@"确认收货失败"]){
+                    [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"确认收货失败"];
                 }else if([responseObject[@"msg"] isEqualToString:@"该订单不存在"]){
+                    [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"该订单不存在"];
                 }else {
                     
                 }
             } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
                 BFLog(@"--%@", error);
             }];

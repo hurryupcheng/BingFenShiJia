@@ -9,13 +9,7 @@
 #import "BFBindPhoneNumberController.h"
 #import "HZQRegexTestter.h"
 #import "BFBindPhoneNumberView.h"
-@interface BFBindPhoneNumberController ()<UITextFieldDelegate, BFBindPhoneNumberViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-    __block int         sendLeftTime;
-    __block NSTimer     *sendTimer;
-}
-/**背景图片*/
+@interface BFBindPhoneNumberController ()<UITextFieldDelegate, BFBindPhoneNumberViewDelegate>/**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**手机号输入框*/
 @property (nonatomic, strong) UITextField *phoneNumberTX;

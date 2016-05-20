@@ -151,6 +151,8 @@
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
         [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+        //订单生成修改积分数量
+        [BFAvailablePoints updateAvailablePoints];
     });
     
     self.header.name.text = @"我们以后到你的付款";
@@ -270,6 +272,8 @@
                 dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
                 dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                     [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+                    //订单生成修改积分数量
+                    [BFAvailablePoints updateAvailablePoints];
                 });
                 self.foot.buyButton.hidden = YES;
                 self.header.now.text = @"待发货";
