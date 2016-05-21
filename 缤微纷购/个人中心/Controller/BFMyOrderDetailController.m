@@ -329,9 +329,9 @@
                 [hud hideAnimated:YES];
                 
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"订单取消成功,正在跳转..." dispatch_get_main_queue:^{
-                        [self.navigationController popViewControllerAnimated:YES];
-                    
-
+                    //取消订单，改变积分
+                    [BFAvailablePoints updateAvailablePoints];
+                    [self.navigationController popViewControllerAnimated:YES];
                 }];
                 self.headerView.statusLabel.text = @"已关闭";
                 //self.footerView.hidden = YES;

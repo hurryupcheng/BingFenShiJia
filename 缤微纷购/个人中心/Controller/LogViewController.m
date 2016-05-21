@@ -18,6 +18,7 @@
 #import "BFMobileNumber.h"
 #import "MyMD5.h"
 #import "BFForgetPasswordController.h"
+#import "BFAccountBindingController.h"
 
 @interface LogViewController ()<UITextFieldDelegate>
 /**背景图片*/
@@ -66,17 +67,8 @@
     [self.view addSubview:self.bgImageView];
     //创建view
     [self initWithView];
-    
-    //忘记密码重新设置密码清空缓存
-    [BFNotificationCenter addObserver:self selector:@selector(clean) name:@"clean" object:nil];
-    
-
 }
 
-//移除通知
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
 
 - (void)clean {
     self.phoneTX.text = [[NSString alloc] initWithContentsOfFile:self.phonePath];
@@ -141,14 +133,14 @@
     //quickLoginLabel.backgroundColor = [UIColor redColor];
     
     
-    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_qq_gray" type:BFThirdLoginTypeQQ];
+    UIButton *qqLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(quickLoginLabel.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_qq" type:BFThirdLoginTypeQQ];
     [self.bgImageView addSubview:qqLogin];
     
     
 //    UIButton *alipayLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_alipay" type:BFThirdLoginTypeAlipay];
 //    [self.bgImageView addSubview:alipayLogin];
     
-    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_sina_gray" type:BFThirdLoginTypeSina];
+    UIButton *sinaLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(qqLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_sina" type:BFThirdLoginTypeSina];
     [self.bgImageView addSubview:sinaLogin];
     
     UIButton *wechatLogin = [self setupBtnWithFrame:CGRectMake(CGRectGetMaxX(sinaLogin.frame)+Magin, quickLoginLabel.y, ThirdLoginWH, ThirdLoginWH) image:@"third_login_wechat" type:BFThirdLoginTypeWechat];
@@ -176,18 +168,16 @@
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
-            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
             [self thirdPartyLogin:ShareTypeQQSpace];
             break;
         }case BFThirdLoginTypeSina:{
-            //[self thirdPartyLogin:ShareTypeSinaWeibo];
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能暂不支持,敬请期待!"];
+            [self thirdPartyLogin:ShareTypeSinaWeibo];
             BFLog(@"BFThirdLoginTypeSina");
             break;
         } case BFThirdLoginTypeWechat:{
             BFLog(@"BFThirdLoginTypeWechat");
             [self thirdPartyLogin:ShareTypeWeixiSession];
-                        break;
+            break;
         }
     }
 }
@@ -224,14 +214,29 @@
                    BFLog(@"%@,,%@", responseObject, parameter);
                    if ([responseObject[@"status"] isEqualToString:@"0"]) {
                        [hud hideAnimated:YES];
-                       [BFProgressHUD MBProgressFromView:self.navigationController.view  wrongLabelText:@"登录失败"];
+                       //如果没有绑定手机号，跳转到绑定手机号页面
+                       BFAccountBindingController *accountVC = [[BFAccountBindingController alloc] init];
+                       accountVC.parameter = parameter;
+                       accountVC.block = ^(BFUserInfo *userInfo) {
+                           if (userInfo == nil) {
+                               [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"登录失败"];
+                           }else {
+                               [BFProgressHUD MBProgressWithLabelText:@"手机号绑定成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                                   [self tabBarBadge:userInfo.ID];
+                                   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                                   [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                                   [hud hideAnimated:YES];
+                                   [self.navigationController popViewControllerAnimated:YES];
+                               }];
+                           }
+                       };
+                       UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:accountVC];
+                       [self presentViewController:navigationController animated:YES completion:nil];
                    }else if ([responseObject[@"status"] isEqualToString:@"1"]) {
                        [hud hideAnimated:YES];
                        [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-                           
                            [self tabBarBadge:userInfo.ID];
-
                            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                            [hud hideAnimated:YES];

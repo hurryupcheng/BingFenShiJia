@@ -41,7 +41,7 @@
     [self addSubview:lineOne];
     
     self.verificationCodeTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(lineOne.frame)+BF_ScaleHeight(10), TXWidth, BF_ScaleHeight(36)) image:@"yanzhengma" placeholder:@"短信验证码"];
-    //self.verificationCodeTX.secureTextEntry = YES;
+    //self.verificationCodeTX.secureTextEntry = YES; 
     self.verificationCodeTX.delegate = self;
     self.verificationCodeTX.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.verificationCodeTX];
