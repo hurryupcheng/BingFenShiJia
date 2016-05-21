@@ -141,7 +141,7 @@
      
     }
     
-    self.priceimg = [[UIImageView alloc]initWithFrame:CGRectMake((_segmented.width)/3-35, 0, 30, 30)];
+    self.priceimg = [[UIImageView alloc]initWithFrame:CGRectMake((_segmented.width)/3-35, 0, 20, CGFloatX(30))];
     [self.segmentBut addSubview:self.priceimg];
     self.priceimg.image = [UIImage imageNamed:@"dm04.png"];
 

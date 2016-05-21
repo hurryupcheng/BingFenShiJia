@@ -22,6 +22,7 @@
 #import "BFGroupDetailTeamCell.h"
 #import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
+#import "BFPTDetailViewController.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
 /**自定义tabbar*/
