@@ -86,7 +86,7 @@
         self.groupPurchaseButton.bottomLabel.text = [NSString stringWithFormat:@"%@人团购 >",detailModel.team_num];
         
         self.alonePurchaseButton.frame = CGRectMake(CGRectGetMaxX(self.groupPurchaseButton.frame)+BF_ScaleHeight(5), CGRectGetMaxY(self.playLabel.frame)+BF_ScaleHeight(5), (ScreenWidth-BF_ScaleWidth(25))/2, BF_ScaleHeight(60));
-        self.alonePurchaseButton.topLabel.text = [NSString stringWithFormat:@"%@ / 件",detailModel.price];
+        self.alonePurchaseButton.topLabel.text = [NSString stringWithFormat:@"%.2f / 件",[detailModel.price doubleValue]];
         NSMutableAttributedString *aloneTopLabel = [[NSMutableAttributedString alloc] initWithString:self.alonePurchaseButton.topLabel.text];
         [aloneTopLabel addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(16)] range:NSMakeRange(0, [detailModel.price length])];
         [aloneTopLabel addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(10)] range:NSMakeRange([detailModel.price length],4)];
@@ -128,7 +128,7 @@
     
 
     CGRect detailFrame = CGRectMake(BF_ScaleWidth(10), CGRectGetMaxY(self.titleLabel.frame)+BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(20), 0);
-    self.detailLabel = [UILabel labelWithFrame:detailFrame font:BF_ScaleFont(11) textColor:BFColor(0xD4D4D4) text:@"[限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购]"];
+    self.detailLabel = [UILabel labelWithFrame:detailFrame font:BF_ScaleFont(11) textColor:BFColor(0x939393) text:@"[限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购限量抢购]"];
     self.detailLabel.numberOfLines = 0;
     [view addSubview:self.detailLabel];
     

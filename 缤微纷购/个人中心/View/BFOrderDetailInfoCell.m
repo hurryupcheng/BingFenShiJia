@@ -65,7 +65,8 @@
     self.integralOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.use_score floatValue]/100];
     
     self.couponsOffset.text = [NSString stringWithFormat:@"- ¥ %.2f", [model.coupon_money floatValue]];
-    float payMoney = [model.order_sumPrice floatValue] - [model.coupon_money floatValue] - [model.use_score floatValue]/100;
+    
+    float payMoney = [model.order_sumPrice floatValue];
     
     self.actualPayment.text = [NSString stringWithFormat:@"¥ %.2f", payMoney];
 }

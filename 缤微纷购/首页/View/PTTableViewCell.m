@@ -119,10 +119,14 @@
     if (model) {
         BFLog(@"%ld，，%@", (long)model.nowtime, model.team_timeend);
         if (model.nowtime >= [model.team_timeend integerValue]) {
+            self.productStatus.hidden = NO;
             self.productStatus.image = [UIImage imageNamed:@"have_been_unshelve"];
         }else {
             if ([model.team_stock integerValue] <= 0) {
+                self.productStatus.hidden = NO;
                 self.productStatus.image = [UIImage imageNamed:@"have_been_sold_out"];
+            }else {
+                self.productStatus.hidden = YES;
             }
         }
         

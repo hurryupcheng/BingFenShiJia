@@ -130,6 +130,8 @@
     
     //开始监听网络状态
     [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    
+    [NSThread sleepForTimeInterval:2.0];
     return YES;
 
     

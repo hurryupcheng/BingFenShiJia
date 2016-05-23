@@ -180,7 +180,7 @@
 }
 #pragma mark -- 去支付
 - (void)gotoPay {
-    float payMoney = [self.model.order_sumPrice floatValue] - [self.model.coupon_money floatValue] - [self.model.use_score floatValue]/100;
+    float payMoney = [self.model.order_sumPrice floatValue];
     if (payMoney < 1.0) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
     }else {
