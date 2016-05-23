@@ -86,7 +86,7 @@
         self.groupPurchaseButton.bottomLabel.text = [NSString stringWithFormat:@"%@人团购 >",detailModel.team_num];
         
         self.alonePurchaseButton.frame = CGRectMake(CGRectGetMaxX(self.groupPurchaseButton.frame)+BF_ScaleHeight(5), CGRectGetMaxY(self.playLabel.frame)+BF_ScaleHeight(5), (ScreenWidth-BF_ScaleWidth(25))/2, BF_ScaleHeight(60));
-        self.alonePurchaseButton.topLabel.text = [NSString stringWithFormat:@"%.2f / 件",[detailModel.price doubleValue]];
+        self.alonePurchaseButton.topLabel.text = [NSString stringWithFormat:@"%.1f / 件",[detailModel.price doubleValue]];
         NSMutableAttributedString *aloneTopLabel = [[NSMutableAttributedString alloc] initWithString:self.alonePurchaseButton.topLabel.text];
         [aloneTopLabel addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(16)] range:NSMakeRange(0, [detailModel.price length])];
         [aloneTopLabel addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(10)] range:NSMakeRange([detailModel.price length],4)];
