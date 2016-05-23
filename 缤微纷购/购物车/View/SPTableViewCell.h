@@ -15,8 +15,6 @@ typedef void (^selectBlock)(BOOL select);
 typedef void(^numChange)();
 
 
-
-
 @interface SPTableViewCell : UITableViewCell<UITextFieldDelegate>
 
 @property (nonatomic,retain)UILabel *numberLabel;

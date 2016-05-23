@@ -422,7 +422,7 @@
     if (section == 0) {
         return self.height;
     }else if(section == 2){
-        return 70;
+        return 80;
     }else{
         return 10;
     }

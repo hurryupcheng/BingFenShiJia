@@ -326,7 +326,7 @@
             [_model.imgArr addObject:dic[@"img"]];
         }
  
-        if (![dataArr isKindOfClass:[NSNull class]]) {
+        if (![dataArr isKindOfClass:[NSNull class]] && responseObject) {
             [self.dataArray removeAllObjects];
             _otherModel = [[BFSosoSubOtherModel alloc]init];
             NSArray *other = [BFSosoSubOtherModel parse:dataArr];
