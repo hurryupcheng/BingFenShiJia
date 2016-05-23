@@ -30,10 +30,12 @@
         self.needV = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(7), self.contentView.frame.size.height/2-10, CGFloatY(40), CGFloatY(80))];
 //        self.needV.layer.cornerRadius = CGFloatY(15);
 //        self.needV.layer.masksToBounds = YES;
+//        self.needV.selected = self.isSelected;
+       
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
         [self.needV addTarget:self action:@selector(selectButClick:) forControlEvents:UIControlEventTouchUpInside];
-//        self.needV.selected = self.isSelected;
+        
         
         self.imageV = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.needV.frame)+10, 5, CGFloatX(80), CGFloatX(80))];
 //        self.imageV.backgroundColor = [UIColor greenColor];
@@ -52,7 +54,7 @@
         self.moneyLabel = [[UILabel alloc]init];
 //        self.moneyLabel.backgroundColor = [UIColor orangeColor];
         self.moneyLabel.textColor = [UIColor orangeColor];
-        self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatX(16)];
+        self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
         
         self.close = [[UIButton alloc]init];
         [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
@@ -77,13 +79,12 @@
     }
     return self;
 }
+
 // 选中点击事件
 - (void)selectButClick:(UIButton *)button{
     button.selected = !button.selected;
-    NSLog(@"=============");
     if (self.selBlock) {
         self.selBlock(button.selected);
-        NSLog(@"<<<<<<<<<<<<<<<<<");
     }
 }
 // 添加
@@ -124,7 +125,7 @@
     
     self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-50, CGFloatY(30));
    
-    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-130, CGFloatY(30));
+    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
 
     self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
     

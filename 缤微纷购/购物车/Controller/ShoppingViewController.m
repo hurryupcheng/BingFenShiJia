@@ -135,19 +135,18 @@
 #pragma  mark 全选按钮方法
 - (void)selectAllBtnClick:(UIButton*)button{
 //  点击全选时，把之前已选择的全部删除
-    NSLog(@">>>>>>>>>>>>>>>>>>>>");
+
     [self.selectGoods removeAllObjects];
     button.selected = !button.selected;
     self.isEdits = button.selected;
-    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+    
     if (self.isEdits) {
         for (BFStorage *model in self.dateArr) {
             [self.selectGoods addObject:model];
         }
-//        [[CXArchiveShopManager sharedInstance]isAllSelec:YES];
     }else{
         [self.selectGoods removeAllObjects];
-//        [[CXArchiveShopManager sharedInstance]isAllSelec:NO];
+
     }
 
     [self.tabView reloadData];
@@ -246,25 +245,26 @@
     SPTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.isSelected = self.isEdits;
-
+   
     if ([self.selectGoods containsObject:[self.dateArr objectAtIndex:indexPath.row]]) {
         cell.isSelected = YES;
     }
-    
+   
     cell.selBlock = ^(BOOL isSelected){
-       
+        
         if (isSelected) {
             [self.selectGoods addObject:[self.dateArr objectAtIndex:indexPath.row]];
         }else{
             [self.selectGoods removeObject:[self.dateArr objectAtIndex:indexPath.row]];
+
         }
         
         if (self.selectGoods.count == self.dateArr.count) {
             self.header.allSeled.selected = YES;
         }else{
-            NSLog(@"333333333");
             self.header.allSeled.selected = NO;
         }
+        
         [self countPrice];
     };
     
@@ -355,6 +355,7 @@
     return cell;
 }
 
+
 #pragma  mark 点击cell
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -374,6 +375,12 @@
             [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:storage.shopID];
             
             [self.dateArr removeObjectAtIndex:cell.tag];
+            if ([self.selectGoods containsObject:storage]) {
+              [self.selectGoods removeObjectAtIndex:cell.tag];  
+            }
+            
+            [self countPrice];
+            
             UITabBarController *tabBar = [self.tabBarController viewControllers][1];
             tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)self.dateArr.count];
 
@@ -392,12 +399,6 @@
 
 - (void)jiesuan{
     
-//    if (self.isEdits) {
-//        if (![self.selectGoods containsObject:self.dateArr]) {
-//        [self.selectGoods addObjectsFromArray:self.dateArr];
-//        }
-//    }
-    
     BFZFViewController *bfzf = [[BFZFViewController alloc]init];
     bfzf.modelArr = _selectGoods;
     bfzf.removeBlock = ^(){
@@ -415,6 +416,9 @@
 
 - (void)viewWillAppear:(BOOL)animated{
 
+    self.isEdits = YES;
+    self.header.allSeled.selected = YES;
+    
     [self.backV removeFromSuperview];
     self.userInfo = [BFUserDefaluts getUserInfo];
     if (self.userInfo == nil) {
@@ -439,13 +443,6 @@
         [self selectAllBtnClick:self.header.allSeled];
     }
     }
-    
-    
-//    [self.selectGoods removeAllObjects];
-   
-    self.isEdits = YES;
-    self.header.allSeled.selected = YES;
-//    self.foot.money.text = [NSString stringWithFormat:@"合计:¥ 0.00"];
  
 }
 
