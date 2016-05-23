@@ -19,6 +19,7 @@
 @property (nonatomic,retain)UILabel *hetLabel;
 @property (nonatomic,retain)UILabel *moneyLabel;
 @property (nonatomic,retain)NSString *stock;
+@property (nonatomic,retain)UIImageView *closeImg;
 
 @end
 
@@ -57,7 +58,10 @@
         self.moneyLabel.font = [UIFont systemFontOfSize:CGFloatX(18)];
         
         self.close = [[UIButton alloc]init];
-        [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
+        self.closeImg = [[UIImageView alloc]init];
+        self.closeImg.image = [UIImage imageNamed:@"guanbis.png"];
+        [self.close addSubview:self.closeImg];
+//        [self.close setBackgroundImage:[UIImage imageNamed:@"guanbis.png"] forState:UIControlStateNormal];
         
         self.add = [[AddShopping alloc]init];
 //        self.add.textF.returnKeyType = UIReturnKeyDone;
@@ -127,7 +131,9 @@
    
     self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
 
-    self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-25, 5, CGFloatX(20), CGFloatX(20));
+    self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-CGFloatX(45), 5, CGFloatX(50), CGFloatX(50));
+    self.closeImg.frame = CGRectMake(CGFloatX(21), 5, CGFloatX(20), CGFloatX(20));
+//    self.close.backgroundColor = [UIColor greenColor];
     
     self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)-10, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
 //    self.add.backgroundColor = [UIColor redColor];
