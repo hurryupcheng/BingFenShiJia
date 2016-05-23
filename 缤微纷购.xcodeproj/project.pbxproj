@@ -156,6 +156,7 @@
 		5915E36E1C96A46A0097D43F /* BFMyGroupPurchaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */; };
 		591663931CE9F5B300944D46 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 591663921CE9F5B300944D46 /* AVFoundation.framework */; };
 		591663951CE9F92F00944D46 /* paopao.wav in Resources */ = {isa = PBXBuildFile; fileRef = 591663941CE9F92F00944D46 /* paopao.wav */; };
+		591706021CF005EE00D8F6F2 /* BFAccountBindingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 591706011CF005EE00D8F6F2 /* BFAccountBindingController.m */; };
 		592525E61C86B781000F609F /* BFPTDetailHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525E51C86B781000F609F /* BFPTDetailHeaderView.m */; };
 		592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 592525EE1C86CA5B000F609F /* BFPTDetailViewController.m */; };
 		592F86D31C8FB474006E0CEE /* BFMyWalletBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 592F86D21C8FB474006E0CEE /* BFMyWalletBottomView.m */; };
@@ -795,6 +796,8 @@
 		5915E36D1C96A46A0097D43F /* BFMyGroupPurchaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyGroupPurchaseModel.m; sourceTree = "<group>"; };
 		591663921CE9F5B300944D46 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		591663941CE9F92F00944D46 /* paopao.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = paopao.wav; sourceTree = "<group>"; };
+		591706001CF005EE00D8F6F2 /* BFAccountBindingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAccountBindingController.h; sourceTree = "<group>"; };
+		591706011CF005EE00D8F6F2 /* BFAccountBindingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAccountBindingController.m; sourceTree = "<group>"; };
 		592523B71C8676E5000F609F /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		592525E41C86B781000F609F /* BFPTDetailHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPTDetailHeaderView.h; sourceTree = "<group>"; };
 		592525E51C86B781000F609F /* BFPTDetailHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPTDetailHeaderView.m; sourceTree = "<group>"; };
@@ -1955,6 +1958,8 @@
 				597CE6A31CA92547005B6C28 /* BFModifyPasswordController.m */,
 				51811AF31C7451AC004E29A8 /* LogViewController.h */,
 				51811AF41C7451AC004E29A8 /* LogViewController.m */,
+				591706001CF005EE00D8F6F2 /* BFAccountBindingController.h */,
+				591706011CF005EE00D8F6F2 /* BFAccountBindingController.m */,
 				51811AF61C745205004E29A8 /* ZCViewController.h */,
 				51811AF71C745205004E29A8 /* ZCViewController.m */,
 				5900BF7A1CBB5A1200DDA0B8 /* BFForgetPasswordController.h */,
@@ -3988,6 +3993,7 @@
 				59FF74EC1CAE1A860063F770 /* SDCollectionViewCell.m in Sources */,
 				59FF74861CAE1A860063F770 /* UIView+Extension.m in Sources */,
 				59FF5F2F1C91475A00DA6E5B /* BFCityModel.m in Sources */,
+				591706021CF005EE00D8F6F2 /* BFAccountBindingController.m in Sources */,
 				593788981CBDF117009240C7 /* BFPanicBuyingController.m in Sources */,
 				59F9F8DC1CC13C7C0010A9B5 /* BFSoundEffect.m in Sources */,
 				51D122041C3A751400640A44 /* HomeViewController.m in Sources */,

@@ -9,22 +9,10 @@
 #import "BFBindPhoneNumberController.h"
 #import "HZQRegexTestter.h"
 #import "BFBindPhoneNumberView.h"
-@interface BFBindPhoneNumberController ()<UITextFieldDelegate, BFBindPhoneNumberViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-    __block int         sendLeftTime;
-    __block NSTimer     *sendTimer;
-}
+@interface BFBindPhoneNumberController ()<BFBindPhoneNumberViewDelegate>
 /**背景图片*/
 @property (nonatomic, strong) UIImageView *bgImageView;
-/**手机号输入框*/
-@property (nonatomic, strong) UITextField *phoneNumberTX;
-/**验证码*/
-@property (nonatomic, strong) UITextField *verificationCodeTX;
-/**保存按钮*/
-@property (nonatomic, strong) UIButton *saveButton;
-/**发送验证码*/
-@property (nonatomic, strong) UIButton *sendVerificationCodeButton;
+
 
 @property (nonatomic, strong) BFBindPhoneNumberView *bindView;
 
@@ -87,10 +75,6 @@
     [self.view endEditing:YES];
 }
 
-#pragma mark -- textField代理
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [self.phoneNumberTX resignFirstResponder];
-    return YES;
-}
+
 
 @end

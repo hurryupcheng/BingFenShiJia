@@ -10,19 +10,18 @@
 #import "BFModifyPasswordView.h"
 #import "MyMD5.h"
 
-@interface BFModifyPasswordController ()<BFModifyPasswordViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFModifyPasswordController ()<BFModifyPasswordViewDelegate>
 /**自定义的view*/
 @property (nonatomic, strong) BFModifyPasswordView *modifyPasswordView;
+/**背景图片*/
+@property (nonatomic, strong) UIImageView *bgImageView;
 @end
 
 @implementation BFModifyPasswordController
 #pragma mark --懒加载
 - (BFModifyPasswordView *)modifyPasswordView {
     if (!_modifyPasswordView) {
-        _modifyPasswordView = [[BFModifyPasswordView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+        _modifyPasswordView = [[BFModifyPasswordView alloc] initWithFrame:CGRectMake(0, 64, ScreenWidth, ScreenHeight)];
         _modifyPasswordView.delegate = self;
         [self.view addSubview:_modifyPasswordView];
     }
@@ -34,62 +33,67 @@
     [super viewDidLoad];
     self.title = @"修改密码";
     self.view.backgroundColor = BFColor(0xffffff);
+    
+    UIImage *image = [UIImage imageNamed:@"101"];
+    [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:image];
+    
+    self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];
+    self.bgImageView.userInteractionEnabled = YES;
+    [self.view addSubview:self.bgImageView];
     //添加自定义的view
     [self modifyPasswordView];
 }
 
 #pragma mark --BFModifyPasswordViewDelegate
 - (void)clickToModifyPasswordWithView:(BFModifyPasswordView *)modifyPasswordView {
-    leftTime = 2;
-    [self.modifyPasswordView.modifyPasswordButton setEnabled:NO];
-    [self.modifyPasswordView.modifyPasswordButton setBackgroundColor:BFColor(0xD5D8D1)];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+    [BFProgressHUD MBProgressWithLabelText:@"正在修改密码" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=up_pass"];
+        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+        parameter[@"uid"] = userInfo.ID;
+        parameter[@"token"] = userInfo.token;
+        parameter[@"old_pass"] = [MyMD5 md5:modifyPasswordView.original.text];
+        parameter[@"news_pass"] = [MyMD5 md5:modifyPasswordView.setting.text];
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@",responseObject);
+            
+            if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"密码修改失败"];
+            }else {
+                userInfo.password = [MyMD5 md5:modifyPasswordView.setting.text];
+                [BFUserDefaluts modifyUserInfo:userInfo];
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self.view LabelText:@"密码修改成功,正在跳转..." dispatch_get_main_queue:^{
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                }];
+            }
+        } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+            BFLog(@"%@",error);
+        }];
 
-    
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=up_pass"];
-    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-    parameter[@"uid"] = userInfo.ID;
-    parameter[@"token"] = userInfo.token;
-    parameter[@"old_pass"] = [MyMD5 md5:modifyPasswordView.original.text];
-    parameter[@"news_pass"] = [MyMD5 md5:modifyPasswordView.setting.text];
-    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@",responseObject);
-        
-        if (![responseObject[@"msg"] isEqualToString:@"修改成功"]) {
-            [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"密码修改失败"];
-        }else {
-            userInfo.password = [MyMD5 md5:modifyPasswordView.setting.text];
-            [BFUserDefaluts modifyUserInfo:userInfo];
-            [BFProgressHUD MBProgressFromView:self.view LabelText:@"密码修改成功,正在跳转..." dispatch_get_main_queue:^{
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            }];
-        }
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
     }];
-}
-
-
-- (void)timerAction {
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.modifyPasswordView.modifyPasswordButton setEnabled:YES];
-        self.modifyPasswordView.modifyPasswordButton.backgroundColor = BFColor(0xFD8727);
-        [timer invalidate];
-        timer = nil;
-    } else
-    {
-        
-        [self.modifyPasswordView.modifyPasswordButton setEnabled:NO];
-        [self.modifyPasswordView.modifyPasswordButton setBackgroundColor:BFColor(0xD5D8D1)];
-    }
     
 }
 
 
+#pragma mark --viewWillAppear
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.translucent = YES;
+    self.tabBarController.tabBar.hidden = YES;
+    
+}
+#pragma mark --viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    self.navigationController.navigationBarHidden = NO;
+    self.navigationController.navigationBar.translucent = NO;
+}
 
 
 @end

@@ -62,12 +62,12 @@ static id _publishContent;
 - (void)setUpView {
     self.moments = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(135), ScreenHeight, ButtonWH, ButtonWH) image:@"Momments" type:BFShareButtonTypeMoments];
     
-    self.QQZone = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(75), ScreenHeight+BF_ScaleHeight(40), ButtonWH, ButtonWH) image:@"QQZone_gray" type:BFShareButtonTypeQQZone];
+    self.QQZone = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(75), ScreenHeight+BF_ScaleHeight(40), ButtonWH, ButtonWH) image:@"QQZone" type:BFShareButtonTypeQQZone];
 
     
-    self.QQFriends = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(100), ScreenHeight+BF_ScaleHeight(110), ButtonWH, ButtonWH) image:@"QQFriends_gray" type:BFShareButtonTypeQQFriends];
+    self.QQFriends = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(100), ScreenHeight+BF_ScaleHeight(110), ButtonWH, ButtonWH) image:@"QQFriends" type:BFShareButtonTypeQQFriends];
     
-    self.sinaBlog = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(170), ScreenHeight+BF_ScaleHeight(110), ButtonWH, ButtonWH) image:@"SinaBlog_gray" type:BFShareButtonTypeSinaBlog];
+    self.sinaBlog = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(170), ScreenHeight+BF_ScaleHeight(110), ButtonWH, ButtonWH) image:@"SinaBlog" type:BFShareButtonTypeSinaBlog];
     
     self.wechatFriends = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(195), ScreenHeight+BF_ScaleHeight(40), ButtonWH, ButtonWH) image:@"WechatFriends" type:BFShareButtonTypeWechatFriends];
     

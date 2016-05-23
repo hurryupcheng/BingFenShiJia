@@ -181,37 +181,39 @@
             [self.navigationController pushViewController:modifyBankCardVC animated:YES];
         }];
     }else {
-        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit_do"];
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"uid"] = userInfo.ID;
-        parameter[@"token"] = userInfo.token;
-        parameter[@"money"] = view.getCashTX.text;
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@,,%@",responseObject,parameter);
-            if (responseObject) {
-                if ([responseObject[@"msg"] isEqualToString:@"提现成功，请等待工作人员处理"]) {
-                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"正在处理提交申请,请稍后" dispatch_get_main_queue:^{
-                        double delayInSeconds = 1;
-                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-                        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                            [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"提现成功,请等待工作人员处理!"];
-                            view.getCashTX.text = @"";
-                            view.paidCashLabel.text = @"实付金额：";
-                            [self regetData];
-                        });
-                    }];
-                }else if ([responseObject[@"msg"] isEqualToString:@"每月只能申请提现一次！请等下个月再提现。"]) {
-                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"亲,每月只能申请提现一次哦!"];
-                }else {
-                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"提现失败,请稍后再试"];
+        [BFProgressHUD MBProgressWithLabelText:@"正在处理提现申请,请稍后" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+            NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=withdraw_deposit_do"];
+            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+            parameter[@"uid"] = userInfo.ID;
+            parameter[@"token"] = userInfo.token;
+            parameter[@"money"] = view.getCashTX.text;
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                BFLog(@"responseObject%@,,%@",responseObject,parameter);
+                if (responseObject) {
+                    if ([responseObject[@"msg"] isEqualToString:@"提现成功，请等待工作人员处理"]) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"提现成功,请等待工作人员处理!"];
+                        view.getCashTX.text = @"";
+                        view.paidCashLabel.text = @"实付金额：";
+                        [self regetData];
+                        
+                        
+                    }else if ([responseObject[@"msg"] isEqualToString:@"每月只能申请提现一次！请等下个月再提现。"]) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"亲,每月只能申请提现一次哦!"];
+                    }else {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"提现失败,请稍后再试"];
+                    }
                 }
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络问题"];
-            BFLog(@"error%@",error);
-        }];
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络问题"];
+                BFLog(@"error%@",error);
+            }];
 
+        }];
     }
 }
 

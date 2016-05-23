@@ -14,8 +14,6 @@
 @interface BFPassWordView(){
     __block int         leftTime;
     __block NSTimer     *timer;
-    __block int         registTime;
-    __block NSTimer     *registTimer;
 }
 
 /**注册按钮*/
@@ -105,13 +103,7 @@
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码不一致，请核对"];
     }else {
 
-        registTime = 5;
-        [self.registerButton setEnabled:NO];
-        self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-    
-        registTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(registerAction) userInfo:nil repeats:YES];
+
         
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?a=reg&m=Json"];
@@ -120,26 +112,32 @@
         parameter[@"pass"] = firstPW;
         parameter[@"code"] = self.verificationCodeTX.text;
         // 1.创建请求管理者
+        [BFProgressHUD MBProgressWithLabelText:@"正在注册..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             BFLog(@"responseObject%@,,,",responseObject);
             //BFRegistModel *model = [BFRegistModel parse:responseObject];
             if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
             } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
             }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
             }else {
-                [BFProgressHUD MBProgressFromWindowWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^{
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
-                        [self.delegate userRigisterWithBFPassWordView:self];
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                    if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView: hud:)]) {
+                        [self.delegate userRigisterWithBFPassWordView:self hud:hud];
                     }
                     
                 }];
             }
         } failure:^(NSError *error) {
             BFLog(@"error%@",error);
-        }]; 
+        }];
+            }];
     }
 }
 
@@ -181,27 +179,6 @@
 }
 
 
-- (void)registerAction {
-//    BFLog(@"zhuce");
-    registTime--;
-    if(registTime<=0)
-    {
-        [self.registerButton setEnabled:YES];
-        self.registerButton.layer.borderColor = BFColor(0xFD8727).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateNormal];
-        [self.registerButton setTitleColor:BFColor(0xFD8727) forState:UIControlStateDisabled];
-        //倒计时完取消倒计时
-        [registTimer invalidate];
-        registTimer = nil;
-    } else
-    {
-        [self.registerButton setEnabled:NO];
-        self.registerButton.layer.borderColor = BFColor(0xD5D8D1).CGColor;
-        [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateNormal];
-         [self.registerButton setTitleColor:BFColor(0xD5D8D1) forState:UIControlStateDisabled];
-    }
-
-}
 
 - (void)timerAction
 {
@@ -209,7 +186,7 @@
     leftTime--;
     if(leftTime<=0)
     {
-        [self.sendVerificationCodeButton setEnabled:YES];
+
         [self.sendVerificationCodeButton setEnabled:YES];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateNormal];
         [self.sendVerificationCodeButton setTitle:@"重新发送" forState:UIControlStateDisabled];

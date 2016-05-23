@@ -48,21 +48,21 @@
     if (model) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         self.titleLabel.text = model.title;
-        self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@",model.team_num, model.team_price];
+        self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@/件",model.team_num, model.team_price];
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.goView.infoLabel.text];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]-1)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]+1)];
         self.goView.infoLabel.attributedText = attributedString;
         
         if ([model.status isEqualToString:@"2"]) {
-            self.sucessLabel.text = @"拼团失败";
+            self.sucessLabel.text = @"团购失败";
             self.sucessLabel.textColor = BFColor(0x4da800);
         }else if ([model.status isEqualToString:@"1"]) {
             self.sucessLabel.textColor = BFColor(0xe02a2f);
-            self.sucessLabel.text = @"拼团成功";
+            self.sucessLabel.text = @"团购成功";
         }else {
-            self.sucessLabel.textColor = BFColor(0xe02a2f);
-            self.sucessLabel.text = @"拼团中";
+            self.sucessLabel.textColor = BFColor(0x0977ca);
+            self.sucessLabel.text = @"团购中";
         }
     }
     
@@ -84,6 +84,7 @@
         [self.backgroudView addSubview:self.line];
         
         self.productImageView = [[UIImageView alloc] init];
+        self.productImageView.contentMode = UIViewContentModeScaleToFill;
         self.productImageView.image = [UIImage imageNamed:@"100.jpg"];
         self.productImageView.layer.borderWidth = 1;
         self.productImageView.layer.backgroundColor = BFColor(0x858585).CGColor;
@@ -128,7 +129,7 @@
     
     self.titleLabel.frame = CGRectMake(CGRectGetMaxX(self.productImageView.frame)+BF_ScaleWidth(13), self.productImageView.y, BF_ScaleWidth(244), BF_ScaleHeight(20));
     
-    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(30), BF_ScaleWidth(170), BF_ScaleHeight(30));
+    self.goView.frame = CGRectMake(self.titleLabel.x, CGRectGetMaxY(self.productImageView.frame)-BF_ScaleHeight(30), BF_ScaleWidth(180), BF_ScaleHeight(30));
     
     
     self.sucessLabel.frame = CGRectMake(BF_ScaleWidth(8), CGRectGetMaxY(self.line.frame)+BF_ScaleHeight(15), BF_ScaleWidth(100), BF_ScaleHeight(12));

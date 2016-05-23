@@ -34,9 +34,6 @@
 }
 #pragma mark --BFAddAddressView代理
 - (void)goBackToAddressView {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.addView.y = -ScreenHeight;
-    }];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

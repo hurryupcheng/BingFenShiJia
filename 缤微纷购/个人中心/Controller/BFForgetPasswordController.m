@@ -63,10 +63,11 @@
 }
 
 #pragma mark --自定义view代理
-- (void)gotoLoginVC {
+- (void)gotoLoginVCWithHud:(MBProgressHUD *)hud {
     [self.forgetPasswordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
 //    NSFileManager * fileManager = [[NSFileManager alloc]init];
 //    [fileManager removeItemAtPath:self.passwordPath error:nil];
+    [hud hideAnimated:YES];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

@@ -328,7 +328,7 @@
         case MyGroupPurchaseCellCheckButtonTypeGroup:{
             BFGroupDetailController *groupDetailVC = [[BFGroupDetailController alloc] init];
             groupDetailVC.itemid = model.ID;
-            groupDetailVC.teamid = model.tid;
+            groupDetailVC.teamid = [model.parent_id isEqualToString:@"0"] ? model.tid : model.parent_id;
             [self.navigationController pushViewController:groupDetailVC animated:YES];
             BFLog(@"团详情");
             break;

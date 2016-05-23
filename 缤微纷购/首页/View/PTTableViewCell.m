@@ -117,7 +117,7 @@
 - (void)setModel:(BFPTItemList *)model {
     _model = model;
     if (model) {
-        
+        BFLog(@"%ld，，%@", (long)model.nowtime, model.team_timeend);
         if (model.nowtime >= [model.team_timeend integerValue]) {
             self.productStatus.image = [UIImage imageNamed:@"have_been_unshelve"];
         }else {
@@ -125,6 +125,7 @@
                 self.productStatus.image = [UIImage imageNamed:@"have_been_sold_out"];
             }
         }
+        
         [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
         
         self.titleLabel.text = model.title;

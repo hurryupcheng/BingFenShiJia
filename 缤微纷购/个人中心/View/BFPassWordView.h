@@ -10,7 +10,7 @@
 @class BFPassWordView;
 @protocol RegisterDelegate <NSObject>
 
-- (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView;
+- (void)userRigisterWithBFPassWordView:(BFPassWordView *)BFPassWordView hud:(MBProgressHUD *)hud;
 
 @end
 

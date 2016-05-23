@@ -13,6 +13,8 @@
 @property (nonatomic, strong) UILabel *status;
 
 @property (nonatomic, strong) UIImageView *headIcon;
+/***/
+@property (nonatomic, strong) UIView *firstLine;
 @end
 
 @implementation BFGroupDetailBottomStatusView
@@ -45,11 +47,30 @@
             self.headIcon.layer.masksToBounds = YES;
             self.status.text = [NSString stringWithFormat:@"还差 %ld 人，让小伙伴们都来组团吧!", (long)model.havenum];
         }
+        if ([model.item.team_num integerValue] > 2) {
+            self.firstLine.hidden = NO;
+        }else {
+            self.firstLine.hidden = YES;
+        }
+        NSArray *teamArray = [TeamList parse:model.thisteam];
+        NSMutableArray *array = [NSMutableArray array];
+        for (TeamList *list in teamArray) {
+            if (![list.status isEqualToString:@"1"] && ![list.status isEqualToString:@"5"]) {
+                [array addObject:list];
+            }
+        }
+        NSArray *new = [array copy];
+        if (new.count > 2) {
+            self.firstLine.hidden = NO;
+        }else {
+            self.firstLine.hidden = YES;
+        }
     }
 }
 
 - (void)setView {
     UIView *firstLine = [UIView drawLineWithFrame:CGRectMake(0, 0, ScreenWidth, 1)];
+    self.firstLine = firstLine;
     firstLine.backgroundColor = BFColor(0xCACACA);
     [self addSubview:firstLine];
     

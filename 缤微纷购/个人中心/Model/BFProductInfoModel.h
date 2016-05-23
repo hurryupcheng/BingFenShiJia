@@ -19,8 +19,10 @@
 @property (nonatomic, strong) NSString *add_time;
 /**优惠券抵扣*/
 @property (nonatomic, strong) NSString *coupon_money;
-/**积分抵扣*/
+/**付款返回的积分*/
 @property (nonatomic, strong) NSString *score;
+/**使用的积分*/
+@property (nonatomic, strong) NSString *use_score;
 /**单价*/
 @property (nonatomic, strong) NSString *goods_sumPrice;
 /**总价*/

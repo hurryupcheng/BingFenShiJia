@@ -50,6 +50,7 @@
         }
         
         
+        BFLog(@"%ld，，%@", (long)detailModel.nowtime, detailModel.team_timeend);
         if (detailModel.nowtime >= [detailModel.team_timeend integerValue]) {
             self.productStatus.image = [UIImage imageNamed:@"have_been_unshelve"];
         }else {
@@ -82,7 +83,7 @@
         
         self.groupPurchaseButton.topLabel.attributedText = topLabel;
         
-        self.groupPurchaseButton.bottomLabel.text = [NSString stringWithFormat:@"%@人团购>",detailModel.team_num];
+        self.groupPurchaseButton.bottomLabel.text = [NSString stringWithFormat:@"%@人团购 >",detailModel.team_num];
         
         self.alonePurchaseButton.frame = CGRectMake(CGRectGetMaxX(self.groupPurchaseButton.frame)+BF_ScaleHeight(5), CGRectGetMaxY(self.playLabel.frame)+BF_ScaleHeight(5), (ScreenWidth-BF_ScaleWidth(25))/2, BF_ScaleHeight(60));
         self.alonePurchaseButton.topLabel.text = [NSString stringWithFormat:@"%@ / 件",detailModel.price];
@@ -143,7 +144,7 @@
     self.groupPurchaseButton = [[BFPurchaseButton alloc]initWithFrame:groupButton];
     self.groupPurchaseButton.topLabel.backgroundColor = BFColor(0xFF0000);
     self.groupPurchaseButton.topLabel.text = @"19.90/件";
-    self.groupPurchaseButton.bottomLabel.text = @"5人团购>";
+    self.groupPurchaseButton.bottomLabel.text = @"5人团购 >";
     [self.groupPurchaseButton addTarget:self action:@selector(groupPurchase:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.groupPurchaseButton];
     
@@ -151,7 +152,7 @@
     self.alonePurchaseButton = [[BFPurchaseButton alloc]initWithFrame:aloneButton];
     self.alonePurchaseButton.topLabel.backgroundColor = BFColor(0xFA6900);
     self.alonePurchaseButton.topLabel.text = @"29.00/件";
-    self.alonePurchaseButton.bottomLabel.text = @"单独购买>";
+    self.alonePurchaseButton.bottomLabel.text = @"单独购买 >";
     [self.alonePurchaseButton addTarget:self action:@selector(alonePurchase:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:self.alonePurchaseButton];
     

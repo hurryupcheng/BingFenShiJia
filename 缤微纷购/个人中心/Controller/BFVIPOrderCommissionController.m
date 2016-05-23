@@ -361,6 +361,8 @@
     parameter[@"year"] = [date substringWithRange:NSMakeRange(0, 4)];
     parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
     parameter[@"page"] = @(self.page);
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"++++%@,,%@", responseObject, parameter);
         if (responseObject) {
@@ -386,6 +388,7 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
             [self.headerView click];
+            [hud hideAnimated:YES];
             [self.bottomTableView reloadData];
             
             [UIView animateWithDuration:0.5 animations:^{
@@ -394,8 +397,10 @@
         });
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+        [hud hideAnimated:YES];
         BFLog(@"--%@", error);
     }];
+        }];
 
 }
 

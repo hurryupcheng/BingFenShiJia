@@ -30,10 +30,7 @@
 #import "BFZFViewController.h"
 #import "BFAddressModel.h"
 
-@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>{
-    __block int         leftTime;
-    __block NSTimer     *timer;
-}
+@interface BFZFViewController ()<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate,BFCouponViewDelegate,UITextViewDelegate>
 @property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UIImageView *imageV;
 @property (nonatomic,retain)UIImageView *groubeImg;
@@ -135,194 +132,179 @@
     }else {
         [self singleProductOrder];
     }
-    //点击按钮倒计时
-    leftTime = Countdown;
-    [self.footView.buyButton setEnabled:NO];
-    [self.footView.buyButton setBackgroundColor:BFColor(0xD5D8D1)];
-    
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
 }
 
-#pragma mark -- 倒计时
-- (void)timerAction {
-    leftTime--;
-    if(leftTime<=0)
-    {
-        [self.footView.buyButton setEnabled:YES];
-        self.footView.buyButton.backgroundColor = BFColor(0xFD8627);
-        //倒计时完取消倒计时
-        [timer invalidate];
-        timer = nil;
-    } else
-    {
-        
-        [self.footView.buyButton setEnabled:NO];
-        [self.footView.buyButton setBackgroundColor:BFColor(0xD5D8D1)];
-    }
-
-}
 
 
 #pragma mark -- 拼团订单
 - (void)groupOrder {
-    [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-        _userInfo = [BFUserDefaluts getUserInfo];
-        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=do_team_order"];
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"uid"] = _userInfo.ID;
-        parameter[@"token"] = _userInfo.token;
-        parameter[@"itemid"] = self.ID;
-        parameter[@"coupon_id"] = self.coupon_id;
-        parameter[@"pay_score"] = @(self.useScorePrice);
-        parameter[@"postscript"] = _textView.text;
-        parameter[@"address_id"] = self.addressID;
-        
-        if ([self.payTitle.text isEqualToString:@"支付宝"]) {
-            parameter[@"pay_type"] = @"2";
-        }else {
-            parameter[@"pay_type"] = @"1";
-        }
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            NSLog(@"////%@==%@",parameter,responseObject);
-            if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                
-                NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
-                NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
-                paramerer[@"uid"] = self.userInfo.ID;
-                paramerer[@"token"] = self.userInfo.token;
-                paramerer[@"orderId"] = responseObject[@"orderid"];
-                [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
-                    BFLog(@"++++++++++%@", responseObject);
-                    
-                    
-                    BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-                    BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-                    pay.pay = self.payTitle.text;
-                    pay.orderid = orderModel.orderid;
-                    pay.orderModel = orderModel;
-                    pay.img = _itemImg;
-                    pay.isPT = self.isPT;
-                    BFLog(@"++++++++%d,,,%d", pay.isPT, self.isPT);
-                    NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
-                    pay.totalPrice = [self.footView.money.text substringWithRange:range];
-                    
-//                    [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
-                    [hud hideAnimated:YES];
-                        [self.navigationController pushViewController:pay animated:YES];
-//                    }];
-                    //订单生成修改积分数量
-                    //[BFAvailablePoints updateAvailablePoints];
-                    
-                    
-                } failure:^(NSError *error) {
-                    BFLog(@"%@",error);
-                }];
-            }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
-            }else{
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
-            }
-        } failure:^(NSError *error) {
-            [hud hideAnimated:YES];
-            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-            BFLog(@"%@", error);
-            
-        }];
-
-    }];
+    NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
+    NSString *totalPrice = [self.footView.money.text substringWithRange:range];
+    if ([totalPrice doubleValue] < 1.0) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
+    }else {
     
+        [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            _userInfo = [BFUserDefaluts getUserInfo];
+            NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=do_team_order"];
+            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+            parameter[@"uid"] = _userInfo.ID;
+            parameter[@"token"] = _userInfo.token;
+            parameter[@"itemid"] = self.ID;
+            parameter[@"coupon_id"] = self.coupon_id;
+            parameter[@"pay_score"] = @(self.useScorePrice);
+            parameter[@"postscript"] = _textView.text;
+            parameter[@"address_id"] = self.addressID;
+            
+            if ([self.payTitle.text isEqualToString:@"支付宝"]) {
+                parameter[@"pay_type"] = @"2";
+            }else {
+                parameter[@"pay_type"] = @"1";
+            }
+            [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+                NSLog(@"////%@==%@",parameter,responseObject);
+                if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                    
+                    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+                    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+                    paramerer[@"uid"] = self.userInfo.ID;
+                    paramerer[@"token"] = self.userInfo.token;
+                    paramerer[@"orderId"] = responseObject[@"orderid"];
+                    [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+                        BFLog(@"++++++++++%@", responseObject);
+                        
+                        
+                        
+                        BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                        BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+                        pay.pay = self.payTitle.text;
+                        pay.orderid = orderModel.orderid;
+                        pay.orderModel = orderModel;
+                        pay.img = _itemImg;
+                        pay.isPT = self.isPT;
+                        BFLog(@"++++++++%d,,,%d", pay.isPT, self.isPT);
+                        
+                        pay.totalPrice = totalPrice;
+                                                   [hud hideAnimated:YES];
+                        [self.navigationController pushViewController:pay animated:YES];
+                        
+                        //订单生成修改积分数量
+                        [BFAvailablePoints updateAvailablePoints];
+                        
+                        
+                    } failure:^(NSError *error) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                        BFLog(@"%@",error);
+                    }];
+                }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
+                }else{
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
+                }
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
+                BFLog(@"%@", error);
+                
+            }];
+
+        }];
+    }
 }
 
 #pragma mark -- 单品订单
 - (void)singleProductOrder {
+    NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
+    NSString *totalPrice = [self.footView.money.text substringWithRange:range];
+    if ([totalPrice doubleValue] < 1.0) {
+        [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
+    }else {
 
-    [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-        _userInfo = [BFUserDefaluts getUserInfo];
-        NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
-        NSMutableDictionary *data = [NSMutableDictionary dictionary];
-        data[@"uid"] = _userInfo.ID;
-        data[@"token"] = _userInfo.token;
-        data[@"coupon_id"] = self.coupon_id;
-        data[@"pay_score"] = @(self.useScorePrice);
-        data[@"postscript"] = _textView.text;
-        data[@"address_id"] = self.addressID;
-        data[@"data"] = self.itemDate;
-        if ([self.payTitle.text isEqualToString:@"支付宝"]) {
-            data[@"pay_type"] = @"2";
-        }else {
-            data[@"pay_type"] = @"1";
-        }
-        
-        [BFHttpTool POST:url params:data success:^(id responseObject) {
-            NSLog(@"////%@==%@",data,responseObject);
-            if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
-                NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
-                paramerer[@"uid"] = self.userInfo.ID;
-                paramerer[@"token"] = self.userInfo.token;
-                paramerer[@"orderId"] = responseObject[@"orderid"];
-                [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
-                    BFLog(@"++++++++++%@", responseObject);
-                    BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
-                    BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
-                    pay.pay = self.payTitle.text;
-                    pay.orderModel = orderModel;
-                    pay.orderid = orderModel.orderid;
-                    pay.addTime = orderModel.addtime;
-                    pay.img = _itemImg;
-                    NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
-                    pay.totalPrice = [self.footView.money.text substringWithRange:range];
-    //                [BFProgressHUD MBProgressFromView:self.navigationController.view LabelText:@"正在跳转到支付页面..." dispatch_get_main_queue:^{
-                    [hud hideAnimated:YES];
+        [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            _userInfo = [BFUserDefaluts getUserInfo];
+            NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=order_pay"];
+            NSMutableDictionary *data = [NSMutableDictionary dictionary];
+            data[@"uid"] = _userInfo.ID;
+            data[@"token"] = _userInfo.token;
+            data[@"coupon_id"] = self.coupon_id;
+            data[@"pay_score"] = @(self.useScorePrice);
+            data[@"postscript"] = _textView.text;
+            data[@"address_id"] = self.addressID;
+            data[@"data"] = self.itemDate;
+            if ([self.payTitle.text isEqualToString:@"支付宝"]) {
+                data[@"pay_type"] = @"2";
+            }else {
+                data[@"pay_type"] = @"1";
+            }
+            
+            [BFHttpTool POST:url params:data success:^(id responseObject) {
+                NSLog(@"////%@==%@",data,responseObject);
+                if ([responseObject[@"status"] isEqualToString:@"1"]) {
+                    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=re_order_pay"];
+                    NSMutableDictionary *paramerer = [NSMutableDictionary dictionary];
+                    paramerer[@"uid"] = self.userInfo.ID;
+                    paramerer[@"token"] = self.userInfo.token;
+                    paramerer[@"orderId"] = responseObject[@"orderid"];
+                    [BFHttpTool POST:url params:paramerer success:^(id responseObject) {
+                        BFLog(@"++++++++++%@", responseObject);
+                        BFGenerateOrderModel *orderModel = [BFGenerateOrderModel parse:responseObject];
+                        BFPayoffViewController *pay = [[BFPayoffViewController alloc]init];
+                        pay.pay = self.payTitle.text;
+                        pay.orderModel = orderModel;
+                        pay.orderid = orderModel.orderid;
+                        pay.addTime = orderModel.addtime;
+                        pay.img = _itemImg;
+                        pay.totalPrice = totalPrice;
+                        
+                        [hud hideAnimated:YES];
                         [self.navigationController pushViewController:pay animated:YES];
 
-    //                }];
-                } failure:^(NSError *error) {
-                    
-                    BFLog(@"%@",error);
-                }];
+                    } failure:^(NSError *error) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                        BFLog(@"%@",error);
+                    }];
 
-                for (BFPTDetailModel *model in self.modelArr){
-                    [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
-                    [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
-                    
-                    NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
-                    UITabBarController *tabBar = [self.tabBarController viewControllers][1];
-                    if (array.count == 0) {
-                        tabBar.tabBarItem.badgeValue = nil;
-                    }else {
-                        tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+                    for (BFPTDetailModel *model in self.modelArr){
+                        [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
+                        [[CXArchiveShopManager sharedInstance]removeItemKeyWithOneItem:model.shopID];
+                        
+                        NSArray *array = [[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop];
+                        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+                        if (array.count == 0) {
+                            tabBar.tabBarItem.badgeValue = nil;
+                        }else {
+                            tabBar.tabBarItem.badgeValue = [NSString stringWithFormat:@"%lu", (unsigned long)array.count];
+                        }
+                        
                     }
+                    self.removeBlock();
+                    //订单生成修改积分数量
+                    [BFAvailablePoints updateAvailablePoints];
                     
+                    
+                }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
                 }
-                self.removeBlock();
-                //订单生成修改积分数量
-                //[BFAvailablePoints updateAvailablePoints];
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                BFLog(@"%@", error);
                 
-                
-            }else if ([responseObject[@"msg"] isEqualToString:@"库存不足"]){
-                
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"库存不足,订单提交失败"];
-            }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络异常,订单提交失败"];
-            }
-        } failure:^(NSError *error) {
-            [hud hideAnimated:YES];
-            BFLog(@"%@", error);
-            
-        }];
-     }];
+            }];
+         }];
+    }
 }
 
 
 
-#pragma mark -- 倒计时1800，到时间取消订单
-//- (void)timerAction {
-//    leftTime--;
-//    if (leftTime == 0) {
-//        [BFNotificationCenter postNotificationName:@"cancleOrder" object:nil];
-//    }
-//}
 
 
 - (void)addsView{
@@ -880,16 +862,13 @@
 
        self.freeprice = [responseObject[@"freeprice"] floatValue];
         
-        if (responseObject[@"score"]) {
-            
-            if ([responseObject[@"score"] isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *dic = responseObject[@"score"];
-                double score = [dic[@"score"] integerValue];
-                self.score = score;
-            }else{
+        if (![responseObject[@"score"] isKindOfClass:[NSNull class]]) {
             double score = [responseObject[@"score"] integerValue];
-                self.score = score;
-            }
+//            NSDictionary *dic = responseObject[@"score"];
+//            double score = [dic[@"score"] integerValue];
+            self.score = score;
+        }else {
+            self.score = 0;
         }
     
         double price = [responseObject[@"sum_item_price"] doubleValue];

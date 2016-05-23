@@ -12,10 +12,7 @@
 #import "BFMyWalletBottomView.h"
 #import "BFAgreeButton.h"
 
-@interface BFMyWalletBottomView()<UITextFieldDelegate>{
-    __block NSInteger leftTime;
-    __block NSTimer *timer;
-}
+@interface BFMyWalletBottomView()<UITextFieldDelegate>
 
 @property (nonatomic, strong) BFAgreeButton *agreeButton;
 
@@ -136,10 +133,6 @@
                 }else {
                     self.paidCashLabel.text = [NSString stringWithFormat:@"实付金额：%@",self.getCashTX.text];
                     [self endEditing:YES];
-                    leftTime = 5;
-                    [self.getCashButton setEnabled:NO];
-                    [self.getCashButton setBackgroundColor:BFColor(0xD5D8D1)];
-                    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction) userInfo:nil repeats:YES];
                     if (self.delegate && [self.delegate respondsToSelector:@selector(gotoGetCashWithView:)]) {
                         [self.delegate gotoGetCashWithView:self];
                     }
@@ -150,20 +143,6 @@
                 self.getCashTX.text = @"";
             }
         }
-    }
-}
-
-- (void)timeAction {
-    BFLog(@"----------");
-    leftTime--;
-    if (leftTime <= 0) {
-        [self.getCashButton setEnabled:YES];
-        [self.getCashButton setBackgroundColor:BFColor(0xFD8727)];
-        [timer invalidate];
-        timer = nil;
-    }else {
-        [self.getCashButton setEnabled:NO];
-        [self.getCashButton setBackgroundColor:BFColor(0xD5D8D1)];
     }
 }
 

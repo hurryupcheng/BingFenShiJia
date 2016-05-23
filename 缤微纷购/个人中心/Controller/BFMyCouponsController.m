@@ -221,30 +221,34 @@
         parameter[@"token"] = userInfo.token;
         parameter[@"id"] = model.ID;
         BFLog(@"%@",parameter);
-        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            
-            if ([responseObject[@"msg"] isEqualToString:@"恭喜领取成功，请去购物吧！"]) {
-                
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"恭喜领取成功，请去购物吧！"];
+        [BFProgressHUD MBProgressWithLabelText:@"正在领取优惠券" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"恭喜领取成功，请去购物吧！"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"恭喜领取成功，请去购物吧！"];
                     [self.couponsArray removeObjectAtIndex:indexPath.row];
                     //[self.couponsArray removeObject:model];
-
                     [self.tableView reloadData];
-
-            }else if ([responseObject[@"msg"] isEqualToString:@"对不起！已经领取光了"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"对不起！已经领取光了"];
-            }else if ([responseObject[@"msg"] isEqualToString:@"您已经领取过该券，请去购物吧"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"您已经领取过该券，请去购物吧"];
-            }else if ([responseObject[@"msg"] isEqualToString:@"回馈老客户，广告主专用的哦！"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"回馈老客户，广告主专用的哦！"];
-            }else {
+                    
+                }else if ([responseObject[@"msg"] isEqualToString:@"对不起！已经领取光了"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"对不起！已经领取光了"];
+                }else if ([responseObject[@"msg"] isEqualToString:@"您已经领取过该券，请去购物吧"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"您已经领取过该券，请去购物吧"];
+                }else if ([responseObject[@"msg"] isEqualToString:@"回馈老客户，广告主专用的哦！"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"回馈老客户，广告主专用的哦！"];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
+                }
+                BFLog(@"%@",responseObject);
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
-            }
-            
-            BFLog(@"%@",responseObject);
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"领取失败，请稍后再试！"];
-            BFLog(@"%@",error);
+                BFLog(@"%@",error);
+            }];
         }];
     }else {
 

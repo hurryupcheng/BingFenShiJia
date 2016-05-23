@@ -29,7 +29,7 @@
 #import "BFPTDetailViewController.h"
 #import <CoreLocation/CoreLocation.h>
 
-@interface HomeViewController ()<LBViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,UITableViewDataSource,UITableViewDelegate>
+@interface HomeViewController ()
 
 @property (nonatomic,retain)BFHomeCollentionView *homeVC;
 @property (nonatomic,retain)BFPTViewController *ptVC;

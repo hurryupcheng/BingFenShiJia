@@ -141,7 +141,7 @@
      
     }
     
-    self.priceimg = [[UIImageView alloc]initWithFrame:CGRectMake((_segmented.width)/3-35, 0, 30, 30)];
+    self.priceimg = [[UIImageView alloc]initWithFrame:CGRectMake((_segmented.width)/3-35, 0, 20, CGFloatX(30))];
     [self.segmentBut addSubview:self.priceimg];
     self.priceimg.image = [UIImage imageNamed:@"dm04.png"];
 
@@ -345,7 +345,7 @@
     }
     
     [BFHttpTool POST:url params:date success:^(id responseObject) {
-        NSLog(@"%@===%@",date,responseObject);
+        NSLog(@"%@===%@",responseObject,date);
         self.xqModel = [XQModel parse:responseObject];
         NSArray *array = [XQSubModel parse:self.xqModel.items];
         for (XQSubModel *xqsubModel in array) {
@@ -362,16 +362,13 @@
         }
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];
-        [self.collectionView.mj_footer endRefreshing];
+
         self.isEnding = NO;
-        NSLog(@".>>>>>>>>%lu,,%@",(unsigned long)self.dataArray.count, responseObject);
-        
     } failure:^(NSError *error) {
         self.page--;
         [self.collectionView.mj_header endRefreshing];
-        [self.collectionView.mj_footer endRefreshing];
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-        [self.collectionView.mj_footer endRefreshingWithNoNoHTTP];
+        
         
     }];
 }
@@ -493,9 +490,13 @@
 - (void)downRefresh{
     self.page++;
     if (self.page > [self.xqModel.page_num integerValue]) {
-        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+        //self.page--;
+        [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多该类商品!"];
+        [self.collectionView.mj_footer endRefreshing];
+    }else {
+        [self getNewDate];
     }
-    [self getNewDate];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated{
