@@ -38,6 +38,14 @@
     
     
     NSArray *array = [TeamList parse:model.thisteam];
+    NSMutableArray *mutableArray = [NSMutableArray array];
+    if (array.count >= 1) {
+        for (TeamList *list in array) {
+            if (![list.status isEqualToString:@"1"] && ![list.status isEqualToString:@"5"]) {
+                [mutableArray addObject:list];
+            }
+        }
+    }
     NSInteger number = [model.item.team_num integerValue];
     //行数
     NSInteger hang = number%5 != 0 ? number/5 + 1 : number/5;
@@ -118,28 +126,71 @@
             }
         }
         
-        for (NSInteger i = 1; i <= array.count; i++) {
-            TeamList *list = array[i-1];
+        for (NSInteger i = 1; i <= mutableArray.count; i++) {
+            TeamList *list = mutableArray[i-1];
             
             //判断付款后才有头像又头衔
-            if ([list.status isEqualToString:@"2"] || [list.status isEqualToString:@"3"] || [list.status isEqualToString:@"4"]) {
+//            if ([list.status isEqualToString:@"2"] || [list.status isEqualToString:@"3"] || [list.status isEqualToString:@"4"]) {
                 [(UIImageView *)[view viewWithTag:i] sd_setImageWithURL:[NSURL URLWithString:list.user_icon] placeholderImage:[UIImage imageNamed:@"head_image"]];
-                if ([list.join isEqualToString:@"1"]) {
+                if (i == 1) {
                     UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
                     icon.hidden = NO;
                     icon.image = [UIImage imageNamed:@"group_detail_captain"];
-                }else if ([list.join isEqualToString:@"2"]) {
+                }else if(i == 2){
                     UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
                     icon.hidden = NO;
                     icon.image = [UIImage imageNamed:@"group_detail_sofa"];
                 }else {
                     
                 }
+
+//                if (mutableArray.count > 0) {
+//                    if (mutableArray.count == 1 ) {
+//                        UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                        icon.hidden = NO;
+//                        icon.image = [UIImage imageNamed:@"group_detail_captain"];
+//                    }else if (mutableArray.count == 2) {
+//                        if (i == 1) {
+//                            UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                            icon.hidden = NO;
+//                            icon.image = [UIImage imageNamed:@"group_detail_captain"];
+//                        }else {
+//                            UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                            icon.hidden = NO;
+//                            icon.image = [UIImage imageNamed:@"group_detail_sofa"];
+//                        }
+//                    }else {
+//                        if (i == 1) {
+//                            UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                            icon.hidden = NO;
+//                            icon.image = [UIImage imageNamed:@"group_detail_captain"];
+//                        }else if(i == 2){
+//                            UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                            icon.hidden = NO;
+//                            icon.image = [UIImage imageNamed:@"group_detail_sofa"];
+//                        }else {
+//                    
+//                        }
+//
+//                    }
+//                }
+                
+//                if ([list.join isEqualToString:@"1"]) {
+//                    UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                    icon.hidden = NO;
+//                    icon.image = [UIImage imageNamed:@"group_detail_captain"];
+//                }else if ([list.join isEqualToString:@"2"]) {
+//                    UIImageView *icon =  (UIImageView *)[view viewWithTag:100+i];
+//                    icon.hidden = NO;
+//                    icon.image = [UIImage imageNamed:@"group_detail_sofa"];
+//                }else {
+//                    
+//                }
             }
 
             
                    
-        }
+//        }
         view.frame = CGRectMake(0,H*BF_ScaleWidth(60), viewW, BF_ScaleWidth(60));
         //将view居中在父视图上
         view.center = CGPointMake(ScreenWidth/2, view.center.y);
