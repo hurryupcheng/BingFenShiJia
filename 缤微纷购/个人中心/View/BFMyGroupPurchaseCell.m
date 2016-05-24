@@ -48,10 +48,10 @@
     if (model) {
         [self.productImageView sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
         self.titleLabel.text = model.title;
-        self.goView.infoLabel.text = [NSString stringWithFormat:@"%@人团 ¥%@/件",model.team_num, model.team_price];
+        self.goView.infoLabel.text = [NSString stringWithFormat:@"   %@人团 ¥%@/件",model.team_num, model.team_price];
         
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.goView.infoLabel.text];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+3,[model.team_price length]+1)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:BF_ScaleFont(15)] range:NSMakeRange([model.team_num length]+6,[model.team_price length]+1)];
         self.goView.infoLabel.attributedText = attributedString;
         
         if ([model.status isEqualToString:@"2"]) {

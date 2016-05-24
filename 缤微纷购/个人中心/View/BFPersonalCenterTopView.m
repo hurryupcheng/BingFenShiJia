@@ -241,19 +241,20 @@
 - (void)clickHead:(UIButton *)sender {
     //音效
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
-    [UIView animateWithDuration:0.2 animations:^{
-        sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2-BF_ScaleHeight(10), ScreenHeight*0.1-BF_ScaleHeight(10), BF_ScaleHeight(95), BF_ScaleHeight(95));
-        sender.layer.cornerRadius = BF_ScaleHeight(95)/2;
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^{
-            sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75));
-            sender.layer.cornerRadius = BF_ScaleHeight(75)/2;
-        } completion:^(BOOL finished) {
-            if (self.delegate && [self.delegate respondsToSelector:@selector(goToUserHeadInterface)]) {
-                [self.delegate goToUserHeadInterface];
-            }
-        }];
-    }];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(goToUserHeadInterface)]) {
+        [self.delegate goToUserHeadInterface];
+    }
+
+//    [UIView animateWithDuration:0.2 animations:^{
+//        sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2-BF_ScaleHeight(10), ScreenHeight*0.1-BF_ScaleHeight(10), BF_ScaleHeight(95), BF_ScaleHeight(95));
+//        sender.layer.cornerRadius = BF_ScaleHeight(95)/2;
+//    } completion:^(BOOL finished) {
+//        [UIView animateWithDuration:0.2 animations:^{
+//            sender.frame = CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75));
+//            sender.layer.cornerRadius = BF_ScaleHeight(75)/2;
+//        } completion:^(BOOL finished) {
+//        }];
+//    }];
     
 }
 /**登录按钮点击事件*/

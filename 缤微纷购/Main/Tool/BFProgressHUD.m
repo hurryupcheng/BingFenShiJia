@@ -13,7 +13,7 @@
 + (id)MBProgressOnlyWithLabelText:(NSString *)labelText {
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the annular determinate mode to show task progress.
     hud.mode = MBProgressHUDModeText;
     hud.label.text = labelText;
@@ -27,7 +27,7 @@
 + (id)MBProgressFromView:(UIView *)view onlyWithLabelText:(NSString *)labelText{
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the annular determinate mode to show task progress.
     hud.mode = MBProgressHUDModeText;
     hud.label.text = labelText;
@@ -41,7 +41,7 @@
 /**从最上层窗口弹出带图文的提示框*/
 + (id)MBProgressFromWindowWithLabelText:(NSString *)labelText {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     hud.label.text = labelText;
     // You can also adjust other label properties if needed.
     // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
@@ -57,7 +57,7 @@
 /**从view层窗口弹出带图文的提示框*/
 + (id)MBProgressFromView:(UIView *)view andLabelText:(NSString *)labelText {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the label text.
     hud.label.text = labelText;
     // You can also adjust other label properties if needed.
@@ -75,7 +75,7 @@
 
 + (id)MBProgressFromView:(UIView *)view WithLabelText:(NSString *)labelText  dispatch_get_global_queue:(void(^)())globalBlock dispatch_get_main_queue:(void(^)())mainBlock {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the annular determinate mode to show task progress.
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.label.text = @"Loading...";
@@ -100,7 +100,7 @@
 
 + (id)MBProgressWithDispatch_get_global_queue:(void(^)())globalBlock dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))mainBlock {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the annular determinate mode to show task progress.
     hud.mode = MBProgressHUDModeAnnularDeterminate;
     hud.label.text = @"Loading...";
@@ -126,7 +126,7 @@
 /**从最上层窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromWindowWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the label text.
     hud.label.text = labelText;
     // You can also adjust other label properties if needed.
@@ -147,13 +147,9 @@
 /**从最view窗口弹出带图文的提示框以及有主线程block*/
 + (id)MBProgressFromView:(UIView *)view LabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)())mainBlock{
     
-    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
-    // Set the label text.
+    hud.removeFromSuperViewOnHide = YES;
     hud.label.text = labelText;
-    // You can also adjust other label properties if needed.
-    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
         sleep(1.);
@@ -164,30 +160,13 @@
             [hud hideAnimated:YES];
         });
     });
-
-    
-    
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:view animated:YES];
-//    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-//        hud.label.text = labelText;
-//        //hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"as_03"]];
-//        sleep(1);
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            
-//            [MBProgressHUD hideHUDForView:view animated:YES];
-//            
-//            if (mainBlock) {
-//                mainBlock();
-//            }
-//        });
-//    });
     return hud;
 }
 
 
 + (id)MBProgressWithLabelText:(NSString *)labelText dispatch_get_main_queue:(void(^)(MBProgressHUD *hud))block {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-
+    hud.removeFromSuperViewOnHide = YES;
     hud.label.text = labelText;
     
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
@@ -209,7 +188,7 @@
 + (id)MBProgressFromView:(UIView *)view rightLabelText:(NSString *)labelText{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the custom view mode to show any view.
     hud.mode = MBProgressHUDModeCustomView;
     // Set an image view with a checkmark.
@@ -229,7 +208,7 @@
 + (id)MBProgressFromView:(UIView *)view wrongLabelText:(NSString *)labelText{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    
+    hud.removeFromSuperViewOnHide = YES;
     // Set the custom view mode to show any view.
     hud.mode = MBProgressHUDModeCustomView;
     // Set an image view with a checkmark.
@@ -255,6 +234,7 @@
             // Instead we could have also passed a reference to the HUD
             // to the HUD to myProgressTask as a method parameter.
             [MBProgressHUD HUDForView:[UIApplication sharedApplication].keyWindow].progress = progress;
+            
         });
         usleep(50000);
     }

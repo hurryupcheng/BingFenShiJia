@@ -138,6 +138,7 @@
 		5906E5D51CC9BF3E002F5E53 /* BFTastingExperienceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */; };
 		5906E5D81CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */; };
 		5906E5DB1CC9FE38002F5E53 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5DA1CC9FE38002F5E53 /* MBProgressHUD.m */; };
+		5909079D1CF3FAC200D9880E /* BFGroupDetailSofaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5909079C1CF3FAC200D9880E /* BFGroupDetailSofaCell.m */; };
 		590D3B421C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */; };
 		590D3B451C93B4540042D42E /* BFMyClientController.m in Sources */ = {isa = PBXBuildFile; fileRef = 590D3B441C93B4540042D42E /* BFMyClientController.m */; };
 		5912A0661CCCA6AA0054C46C /* payRequsestHandler.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5912A0651CCCA6AA0054C46C /* payRequsestHandler.mm */; };
@@ -766,6 +767,8 @@
 		5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceFooterView.m; sourceTree = "<group>"; };
 		5906E5D91CC9FE38002F5E53 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		5906E5DA1CC9FE38002F5E53 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		5909079B1CF3FAC200D9880E /* BFGroupDetailSofaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGroupDetailSofaCell.h; sourceTree = "<group>"; };
+		5909079C1CF3FAC200D9880E /* BFGroupDetailSofaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGroupDetailSofaCell.m; sourceTree = "<group>"; };
 		590D3B401C939A610042D42E /* BFMyAdvertisingExpenseTabbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyAdvertisingExpenseTabbar.h; sourceTree = "<group>"; };
 		590D3B411C939A610042D42E /* BFMyAdvertisingExpenseTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyAdvertisingExpenseTabbar.m; sourceTree = "<group>"; };
 		590D3B431C93B4540042D42E /* BFMyClientController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyClientController.h; sourceTree = "<group>"; };
@@ -2156,6 +2159,8 @@
 				59FF752B1CAE3C720063F770 /* BFCountdownView.m */,
 				59132F861CB359EF00F711C6 /* BFGroupDetailCaptainCell.h */,
 				59132F871CB359EF00F711C6 /* BFGroupDetailCaptainCell.m */,
+				5909079B1CF3FAC200D9880E /* BFGroupDetailSofaCell.h */,
+				5909079C1CF3FAC200D9880E /* BFGroupDetailSofaCell.m */,
 				59FF752D1CAE78550063F770 /* BFGroupDetailTeamCell.h */,
 				59FF752E1CAE78550063F770 /* BFGroupDetailTeamCell.m */,
 				59132F891CB3899900F711C6 /* BFGroupDetailFooterView.h */,
@@ -3447,6 +3452,7 @@
 				TargetAttributes = {
 					51D121AA1C3A6DA700640A44 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = AQYD5LV6KX;
 					};
 					51D121C31C3A6DA800640A44 = {
 						CreatedOnToolsVersion = 7.1;
@@ -3734,6 +3740,7 @@
 				59FF74C31CAE1A860063F770 /* NSArray+MASAdditions.m in Sources */,
 				59FF46C41C8A8B990040689A /* BFMyOrderCell.m in Sources */,
 				5157B0821CE01B5D000BCE6D /* BFHotSoViewController.m in Sources */,
+				5909079D1CF3FAC200D9880E /* BFGroupDetailSofaCell.m in Sources */,
 				59506F9A1CA23757008E773A /* BFScoreModel.m in Sources */,
 				59FF748F1CAE1A860063F770 /* BFDataTool.m in Sources */,
 				59FF74C01CAE1A860063F770 /* MASLayoutConstraint.m in Sources */,
@@ -4138,7 +4145,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -4185,7 +4192,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Library/SDKExport",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = xinxin.com;
+				PRODUCT_BUNDLE_IDENTIFIER = xinxing.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4196,7 +4203,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
@@ -4243,7 +4250,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Library/SDKExport",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = xinxin.com;
+				PRODUCT_BUNDLE_IDENTIFIER = xinxing.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

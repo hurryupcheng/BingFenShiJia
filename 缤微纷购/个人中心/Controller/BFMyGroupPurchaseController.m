@@ -18,6 +18,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 /**拼团数组*/
 @property (nonatomic, strong) NSMutableArray *groupArray;
+/**背景图片*/
+@property (nonatomic, strong) UIImageView *bgImageView;
 
 @end
 
@@ -35,18 +37,30 @@
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-64) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.backgroundColor = BFColor(0xF4F4F4);
+        _tableView.backgroundColor = [UIColor clearColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [self.view addSubview:_tableView];
     }
     return _tableView;
 }
 
+- (UIImageView *)bgImageView {
+    if (!_bgImageView) {
+        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(105), BF_ScaleHeight(100), BF_ScaleHeight(110), BF_ScaleHeight(135))];
+        _bgImageView.image = [UIImage imageNamed:@"order_bg"];
+        _bgImageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.view addSubview:_bgImageView];
+    }
+    return _bgImageView;
+}
+
 #pragma mark -- viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = BFColor(0xF4F4F4);
+    self.view.backgroundColor = BFColor(0xffffff);
     self.title = @"我的拼团";
+    //添加背景图
+    [self bgImageView];
     //添加tableView;
     [self tableView];
     //请求数据
@@ -84,9 +98,8 @@
                     [self showNewStatusCount:array.count - self.groupArray.count];
                     [self.groupArray removeAllObjects];
                     [self.groupArray addObjectsFromArray:array];
-                    
-                
-                
+                    self.bgImageView.hidden = YES;
+    
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
             }
@@ -170,10 +183,11 @@
     parameter[@"token"] = userInfo.token;
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         if (responseObject) {
-            [self.groupArray removeAllObjects];
+            
             if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
                 if (array.count != 0) {
+                    [self.groupArray removeAllObjects];
                     [self.groupArray addObjectsFromArray:array];
                     BFLog(@"我的订单%@,",responseObject);
                 }else {
@@ -210,11 +224,14 @@
                     NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
                     if (array.count != 0) {
                         [self.groupArray addObjectsFromArray:array];
+                        self.bgImageView.hidden = YES;
                         BFLog(@"我的订单%@,",responseObject);
                     }else {
+                        self.bgImageView.hidden = NO;
                         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
                     }
                 }else {
+                    self.bgImageView.hidden = NO;
                     [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
                 }
                 [self.tableView reloadData];

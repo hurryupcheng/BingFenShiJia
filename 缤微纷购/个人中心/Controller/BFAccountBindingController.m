@@ -107,11 +107,11 @@
 
 - (void)sure:(UIButton *)sender {
     [self.view endEditing:YES];
-    if (self.phoneTX.text.length == 0 || self.verificationCodeTX.text.length == 0) {
-        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请完善信息"];
-    }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
-        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入正确的手机号"];
-    }else {
+//    if (self.phoneTX.text.length == 0 || self.verificationCodeTX.text.length == 0) {
+//        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请完善信息"];
+//    }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
+//        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入正确的手机号"];
+//    }else {
         [BFProgressHUD MBProgressWithLabelText:@"正在绑定手机号" dispatch_get_main_queue:^(MBProgressHUD *hud) {
             NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=add_user"];
             self.parameter[@"tel"] = self.phoneTX.text;
@@ -133,7 +133,7 @@
                 BFLog(@"%@", error);
             }];
         }];
-    }
+//    }
 }
 
 #pragma mark -- 发送验证码按钮点击

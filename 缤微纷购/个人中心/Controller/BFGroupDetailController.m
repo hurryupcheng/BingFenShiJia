@@ -23,6 +23,7 @@
 #import "BFGroupDetailCaptainCell.h"
 #import "BFSettingController.h"
 #import "BFPTDetailViewController.h"
+#import "BFGroupDetailSofaCell.h"
 
 @interface BFGroupDetailController ()<BFGroupDetailTabbarDelegate, UITableViewDelegate, UITableViewDataSource, BFShareViewDelegate>
 /**自定义tabbar*/
@@ -181,7 +182,7 @@
                     NSArray *array = [TeamList parse:self.model.thisteam];
                     if (array.count > 1) {
                         for (TeamList *list in array) {
-                            if (![list.status isEqualToString:@"1"] || ![list.status isEqualToString:@"5"]) {
+                            if (![list.status isEqualToString:@"1"] && ![list.status isEqualToString:@"5"]) {
                                 [self.teamArray addObject:list];
                             }
                         }
@@ -239,11 +240,26 @@
         cell.model = self.teamArray[indexPath.row];
         cell.detailModel = self.model;
         return cell;
+    }else if (self.teamArray.count == 2) {
+        if (indexPath.row == 0) {
+            BFGroupDetailCaptainCell *cell = [BFGroupDetailCaptainCell cellWithTableView:tableView];
+            cell.model = self.teamArray[indexPath.row];
+            cell.detailModel = self.model;
+            return cell;
+        }else {
+            BFGroupDetailSofaCell *cell = [BFGroupDetailSofaCell cellWithTableView:tableView];
+            cell.model = self.teamArray[indexPath.row];
+            return cell;
+        }
     }else {
         if (indexPath.row == 0) {
             BFGroupDetailCaptainCell *cell = [BFGroupDetailCaptainCell cellWithTableView:tableView];
             cell.model = self.teamArray[indexPath.row];
             cell.detailModel = self.model;
+            return cell;
+        }else if (indexPath.row == 1) {
+            BFGroupDetailSofaCell *cell = [BFGroupDetailSofaCell cellWithTableView:tableView];
+            cell.model = self.teamArray[indexPath.row];
             return cell;
         }else {
             BFGroupDetailTeamCell *cell = [BFGroupDetailTeamCell cellWithTableView:tableView];
@@ -420,13 +436,13 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQSpace];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQSpace];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQ];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQ];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
@@ -438,8 +454,8 @@
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeSinaWeibo];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeSinaWeibo];
             break;
         }
     }

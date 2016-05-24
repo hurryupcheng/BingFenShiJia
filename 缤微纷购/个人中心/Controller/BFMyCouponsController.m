@@ -228,6 +228,9 @@
                     [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"恭喜领取成功，请去购物吧！"];
                     [self.couponsArray removeObjectAtIndex:indexPath.row];
                     //[self.couponsArray removeObject:model];
+                    if (self.couponsArray.count == 0) {
+                        self.bgImageView.hidden = NO;
+                    }
                     [self.tableView reloadData];
                     
                 }else if ([responseObject[@"msg"] isEqualToString:@"对不起！已经领取光了"]) {
