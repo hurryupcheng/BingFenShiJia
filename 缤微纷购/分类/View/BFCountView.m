@@ -101,15 +101,15 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
     NSInteger new = [self.countTX.text integerValue];
-    
+    BFStorage *stor = [[CXArchiveShopManager sharedInstance]screachDataSourceWithItem:self.model.ID];
     if (![HZQRegexTestter validateIntegerNumber:self.countTX.text]) {
         [BFProgressHUD MBProgressOnlyWithLabelText:@"请输入正确的数量"];
         self.countTX.text = @"1";
     }else {
         if ([self.model.first_stock integerValue] > 0) {
-            if (new > [self.model.first_stock integerValue]) {
+            if (new > [self.model.first_stock integerValue] - stor.numbers) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
-                self.countTX.text = self.model.first_stock;
+                self.countTX.text = [NSString stringWithFormat:@"%ld", [self.model.first_stock integerValue] - stor.numbers];
             }else if (new < 1) {
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"数量超出库存"];
                 self.countTX.text = @"1";

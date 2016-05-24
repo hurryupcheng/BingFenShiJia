@@ -251,9 +251,7 @@
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
     
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {
@@ -282,12 +280,14 @@
                 self.tableView.hidden = YES;
             }
            // BFLog(@"---%@,,",responseObject);
+            [hud hideAnimated:YES];
             [self.tableView reloadData];
             self.isYirstTime = NO;
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = BF_ScaleHeight(30);
             } completion:nil];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@",error);
         }];

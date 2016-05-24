@@ -227,6 +227,11 @@
 #pragma mark 当应用程序进入后台的时候调用（点击HOME键）
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    
+//    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+//    [MBProgressHUD HUDForView:keyWindow];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    [hud removeFromSuperview];
     NSLog(@"applicationDidEnterBackground-进入后台");
     
 }
@@ -234,6 +239,7 @@
 #pragma mark 当应用程序进入前台的时候调用
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    
     NSLog(@"applicationWillEnterForeground-进入前台");
 }
 
@@ -241,6 +247,8 @@
 // 获取焦点之后才可以跟用户进行交互
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
+    
     //获取定位
     [self getAddress];
     NSLog(@"applicationDidBecomeActive-获取焦点");

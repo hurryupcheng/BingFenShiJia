@@ -135,12 +135,11 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading..." dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"responseObject%@",responseObject);
             if (responseObject) {
+                [hud hideAnimated:YES];
                 self.model = [BFMyWalletModel parse:responseObject];
                 self.topView.model = self.model;
                 self.bottomView.model = self.model;
@@ -150,6 +149,7 @@
                 self.scrollView.y = 0;
             }];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"error%@",error);
         }];

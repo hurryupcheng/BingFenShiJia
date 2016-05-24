@@ -805,26 +805,30 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
 
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            
+            if (responseObject) {
+                [hud hideAnimated:YES];
                 NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
-            for (BFAddressModel *model in array) {
-                if ([model.def isEqualToString:@"1"]) {
+                for (BFAddressModel *model in array) {
+                    if ([model.def isEqualToString:@"1"]) {
+                        
+                        self.model = model;
+                        [self.addressArray addObject:model];
+                    }
                     
-                    self.model = model;
-                [self.addressArray addObject:model];
                 }
-                
-             }
-            [self getNewData];
-            } failure:^(NSError *error) {
+                [self getNewData];
+
+            }
+           
+        } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@", error);
         }];
+
         
     }];
 }
@@ -859,45 +863,48 @@
 
     [BFHttpTool POST:url params:boty success:^(id responseObject) {
         NSLog(@"...%@  %@",responseObject,boty);
-
-       self.freeprice = [responseObject[@"freeprice"] floatValue];
         
-        if (![responseObject[@"score"] isKindOfClass:[NSNull class]]) {
-            double score = [responseObject[@"score"] integerValue];
-//            NSDictionary *dic = responseObject[@"score"];
-//            double score = [dic[@"score"] integerValue];
-            self.score = score;
-        }else {
-            self.score = 0;
-        }
-    
-        double price = [responseObject[@"sum_item_price"] doubleValue];
-        self.sum_price = price;
-        
-        if ([responseObject[@"coupon_data"] isKindOfClass:[NSArray class]]) {
-            NSArray *data = [BFPayoffModel parse:responseObject[@"coupon_data"]];
-            self.favourableArr = [NSMutableArray array];
-            self.favourablePrice = [NSMutableArray array];
-            self.favourableTime = [NSMutableArray array];
-            self.favourableID = [NSMutableArray array];
+        if (responseObject) {
+            self.freeprice = [responseObject[@"freeprice"] floatValue];
             
-            for (BFPayoffModel *model in data) {
-                
-                [_favourableArr addObject:model.name];
-                [_favourablePrice addObject:model.money];
-                [_favourableTime addObject:model.end_time];
-                [_favourableID addObject:model.ID];
+            if (![responseObject[@"score"] isKindOfClass:[NSNull class]]) {
+                //double score = [responseObject[@"score"] integerValue];
+                NSDictionary *dic = responseObject[@"score"];
+                double score = [dic[@"score"] integerValue];
+                self.score = score;
+            }else {
+                self.score = 0;
             }
+            
+            double price = [responseObject[@"sum_item_price"] doubleValue];
+            self.sum_price = price;
+            
+            if ([responseObject[@"coupon_data"] isKindOfClass:[NSArray class]]) {
+                NSArray *data = [BFPayoffModel parse:responseObject[@"coupon_data"]];
+                self.favourableArr = [NSMutableArray array];
+                self.favourablePrice = [NSMutableArray array];
+                self.favourableTime = [NSMutableArray array];
+                self.favourableID = [NSMutableArray array];
+                
+                for (BFPayoffModel *model in data) {
+                    
+                    [_favourableArr addObject:model.name];
+                    [_favourablePrice addObject:model.money];
+                    [_favourableTime addObject:model.end_time];
+                    [_favourableID addObject:model.ID];
+                }
+            }
+            
+            
+            
+            //        NSLog(@"////%@",_favourablePrice);
+            //        NSLog(@"====%@",_favourableID);
+            [self initWithTableView];
+            
+            self.lastPrice = self.sum_price+self.freeprice;
+            self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
         }
-        
-        
-        
-//        NSLog(@"////%@",_favourablePrice);
-//        NSLog(@"====%@",_favourableID);
-        [self initWithTableView];
-
-        self.lastPrice = self.sum_price+self.freeprice;
-        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice];
+       
     } failure:^(NSError *error) {
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
     }];

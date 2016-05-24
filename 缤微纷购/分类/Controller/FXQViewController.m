@@ -154,13 +154,11 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=item"];
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"id"] = self.ID;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-        NSLog(@"%@&id=%@",url,self.ID);
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {
+                [hud hideAnimated:YES];
                 self.model = [BFProductDetialModel parse:responseObject];
                 self.headerView.model = self.model;
                 self.tabBar.model = self.model;
@@ -169,16 +167,21 @@
                     self.tableView.tableHeaderView = self.headerView;
                     self.tabBar.y = ScreenHeight - 64 - BF_ScaleHeight(50);
                     self.tableView.y = 0;
-        
+                    
                 }];
-
-                    BFLog(@"%@", responseObject);
-                }
-            } failure:^(NSError *error) {
-               [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-                BFLog(@"%@", error);
-            }];
+                BFLog(@"%@", responseObject);
+            }
+        } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+            BFLog(@"%@", error);
         }];
+
+    }];
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//    } dispatch_get_main_queue:^{
+//                }];
 }
 
 
@@ -205,13 +208,13 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQSpace];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQSpace];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQ];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQ];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
@@ -223,8 +226,8 @@
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeSinaWeibo];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeSinaWeibo];
             break;
         }
     }
@@ -314,6 +317,11 @@
                 }else{
                     if ([self.headerView.stockView.countView.countTX.text integerValue] + stor.numbers > [self.model.first_stock integerValue]) {
                         [BFProgressHUD MBProgressOnlyWithLabelText:@"超出库存数量"];
+                        if ([self.model.first_stock integerValue] - stor.numbers <= 0) {
+                            self.headerView.stockView.countView.countTX.text  = @"1";
+                        }else {
+                            self.headerView.stockView.countView.countTX.text = [NSString stringWithFormat:@"%ld", [self.model.first_stock integerValue] - stor.numbers];
+                        }
                     }else {
                         BFStorage *storage = [[BFStorage alloc]initWithTitle:self.model.title img:self.model.img money:self.model.first_price number:[self.headerView.stockView.countView.countTX.text integerValue] shopId:self.model.ID stock:self.model.first_stock choose:self.model.first_size color:self.model.first_color];
                         

@@ -21,6 +21,7 @@
     //hud.offset = CGPointMake(0.f, MBProgressMaxOffset);
     
     [hud hideAnimated:YES afterDelay:1.5f];
+    //[hud removeFromSuperview];
     return hud;
 }
 /**从view层窗口弹出只带文字的提示框*/
@@ -35,6 +36,7 @@
     //hud.offset = CGPointMake(0.f, ScreenHeight/2);
     
     [hud hideAnimated:YES afterDelay:1.5f];
+    //[hud removeFromSuperview];
     return hud;
 }
 
@@ -50,6 +52,7 @@
         sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hideAnimated:YES];
+            //[hud removeFromSuperview];
         });
     });
     return hud;
@@ -67,6 +70,7 @@
         sleep(1.);
         dispatch_async(dispatch_get_main_queue(), ^{
             [hud hideAnimated:YES];
+            //[hud removeFromSuperview];
         });
     });
     return hud;
@@ -91,6 +95,7 @@
                 mainBlock();
             }
             [hud hideAnimated:YES];
+            //[hud removeFromSuperview];
         });
     });
 
@@ -139,6 +144,7 @@
                 mainBlock();
             }
             [hud hideAnimated:YES];
+            //[hud removeFromSuperview];
         });
     });
 
@@ -158,6 +164,7 @@
                 mainBlock();
             }
             [hud hideAnimated:YES];
+            //[hud removeFromSuperview];
         });
     });
     return hud;

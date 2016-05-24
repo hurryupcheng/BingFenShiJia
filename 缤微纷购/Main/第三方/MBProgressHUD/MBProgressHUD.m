@@ -167,9 +167,11 @@ static const CGFloat MBDefaultDetailsLabelFontSize = 12.f;
             NSTimer *timer = [NSTimer timerWithTimeInterval:(self.minShowTime - interv) target:self selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
             [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
             self.minShowTimer = timer;
+            
             return;
         } 
     }
+    [self removeFromSuperview];
     // ... otherwise hide the HUD immediately
     [self hideUsingAnimation:self.useAnimation];
 }
