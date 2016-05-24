@@ -53,8 +53,8 @@
 
      self.title = @"购物车";
     
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showKeyboard:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(hideKeyboard:) name:UIKeyboardWillHideNotification object:nil];
     
 }
 
@@ -367,6 +367,7 @@
 
 #pragma mark  移除商品
 - (void)close:(UIButton *)button{
+    
     NSArray *arr = [self.tabView visibleCells];
     for (UITableViewCell *cell in arr) {
         if (cell.tag == button.tag) {

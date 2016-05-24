@@ -492,11 +492,11 @@
     if (self.page > [self.xqModel.page_num integerValue]) {
         //self.page--;
         [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多该类商品!"];
-        [self.collectionView.mj_footer endRefreshing];
+//        [self.collectionView.mj_footer endRefreshing];
     }else {
         [self getNewDate];
     }
-    
+    [self.collectionView.mj_footer endRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{

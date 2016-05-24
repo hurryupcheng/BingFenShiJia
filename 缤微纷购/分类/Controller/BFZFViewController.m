@@ -863,10 +863,15 @@
        self.freeprice = [responseObject[@"freeprice"] floatValue];
         
         if (![responseObject[@"score"] isKindOfClass:[NSNull class]]) {
+            if ([responseObject[@"score"] isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *dic = responseObject[@"score"];
+                double score = [dic[@"score"] integerValue];
+                self.score = score;
+            }else{
             double score = [responseObject[@"score"] integerValue];
-//            NSDictionary *dic = responseObject[@"score"];
-//            double score = [dic[@"score"] integerValue];
-            self.score = score;
+                self.score = score;
+            }
+            
         }else {
             self.score = 0;
         }
