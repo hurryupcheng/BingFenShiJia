@@ -129,17 +129,26 @@
                 [self setupDownRefresh];
                 //获取数据
                 [self getData];
+            }else {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = BF_ScaleHeight(30);
+                } completion:nil];
             }
         } else {
             
 
             self.isYirstTime = YES;
+            self.bgImageView.hidden = NO;
             // 不是同一个用户
             if (self.isYirstTime) {
                 // 集成下拉刷新控件
                 [self setupDownRefresh];
                 //获取数据
                 [self getData];
+            }else {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = BF_ScaleHeight(30);
+                } completion:nil];
             }
             BFLog(@"不同的一个用户");
             // 将当前用户id存入沙盒
@@ -184,7 +193,7 @@
 
 #pragma mark -- 退出登录通知的用法
 - (void)logout {
-    [self.logisticsArray removeAllObjects];
+    //[self.logisticsArray removeAllObjects];
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
     } completion:nil];
