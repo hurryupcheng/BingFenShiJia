@@ -461,8 +461,9 @@
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    UIView *back = [[UIView alloc]init];
+    
     if (section == 0) {
+        UIView *back = [[UIView alloc]init];
         if (self.isCoupon == YES) {
             
             _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
@@ -471,13 +472,16 @@
             
             [back addSubview:_couponView];
         }
-
+       return back;
+    }else{
+        return nil;
     }
-    return back;
+    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     self.imageV = [[UIImageView alloc]init];
+    self.imageV.backgroundColor = [UIColor greenColor];
     self.imageV.userInteractionEnabled = YES;
     if (section == 0) {
         [_imageV addSubview:self.groubeImg];

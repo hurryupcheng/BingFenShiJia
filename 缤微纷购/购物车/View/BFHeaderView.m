@@ -14,7 +14,7 @@
 - (instancetype)initWithFrame:(CGRect)frame{
     if ([super initWithFrame:frame]) {
 //        CGFloat x = frame.size.height-30;
-        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(13), 10, 25, 25)];
+        self.allSeled = [[UIButton alloc]initWithFrame:CGRectMake(CGFloatX(14), 8, 25, 25)];
 //        self.allSeled.layer.cornerRadius = CGFloatY(15);
 //        self.allSeled.layer.masksToBounds = YES;
 //        self.allSeled.backgroundColor = [UIColor greenColor];

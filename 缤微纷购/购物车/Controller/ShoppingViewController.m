@@ -65,7 +65,7 @@
     [self.view addSubview:_empty];
     
     if (self.footItem == NO) {
-        _other.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-115, kScreenWidth, kScreenWidth/4+50);
+        _other.frame = CGRectMake(0, CGRectGetMinY(self.tabBarController.tabBar.frame)-kScreenWidth/4-125, kScreenWidth, kScreenWidth/4+60);
     }
     [self.view addSubview:_other];
 }
@@ -173,7 +173,7 @@
     _foot.buyButton.enabled = NO;
     [_foot.buyButton addTarget:self action:@selector(jiesuan) forControlEvents:UIControlEventTouchUpInside];
     
-    self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-115);
+    self.tabView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight-(self.foot.height)-114);
     
     self.header = [[BFHeaderView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 40)];
     self.header.backgroundColor = BFColor(0xF3F4F5);
@@ -367,6 +367,7 @@
 
 #pragma mark  移除商品
 - (void)close:(UIButton *)button{
+    
     NSArray *arr = [self.tabView visibleCells];
     for (UITableViewCell *cell in arr) {
         if (cell.tag == button.tag) {
