@@ -73,9 +73,9 @@
     //微信支付失败
     [BFNotificationCenter addObserver:self selector:@selector(payFail) name:@"payFail" object:nil];
     //从订单页面进入支付页面，支付成功接受通知
-    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
-    //从拼团页面进入支付页面，支付成功接受通知拼团页面
-    [BFNotificationCenter addObserver:self selector:@selector(changeGroupStatus) name:@"changeGroupStatus" object:nil];
+//    [BFNotificationCenter addObserver:self selector:@selector(changeOrderStatus) name:@"changeOrderStatus" object:nil];
+//    //从拼团页面进入支付页面，支付成功接受通知拼团页面
+//    [BFNotificationCenter addObserver:self selector:@selector(changeGroupStatus) name:@"changeGroupStatus" object:nil];
     //
     [BFNotificationCenter addObserver:self selector:@selector(WXPayStatus) name:@"WXPayStatus" object:nil];
 }
@@ -117,6 +117,11 @@
                     if (![lastVC isKindOfClass:[BFZFViewController class]]) {
                         //发通知
                         [BFNotificationCenter postNotificationName:@"changeGroupStatus" object:nil];
+                        for (UIViewController *vc in vcsArray) {
+                            if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
+                                [self.navigationController popToViewController:vc animated:YES];
+                            }
+                        }
                         
                     }else {
                         BFMyGroupPurchaseController *myGroupPurchaseVC = [[BFMyGroupPurchaseController alloc] init];
@@ -126,6 +131,13 @@
                     if (![lastVC isKindOfClass:[BFZFViewController class]]) {
                         //发通知
                         [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+                        NSArray *vcsArray = [self.navigationController viewControllers];
+                        for (UIViewController *vc in vcsArray) {
+                            if ([vc isKindOfClass:[BFMyOrderController class]]) {
+                                [self.navigationController popToViewController:vc animated:YES];
+                            }
+                        }
+
                     }else {
                         BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
                         [self.navigationController pushViewController:myOrder animated:YES];
@@ -153,30 +165,30 @@
     self.navigationController.navigationBarHidden = NO;
 }
 
-#pragma mark --销毁通知
-- (void)dealloc {
-    [BFNotificationCenter removeObserver:self];
-}
-
-
-#pragma mark --从订单页面进入支付页面，支付成功接受通知
-- (void)changeOrderStatus {
-    NSArray *vcsArray = [self.navigationController viewControllers];
-    for (UIViewController *vc in vcsArray) {
-        if ([vc isKindOfClass:[BFMyOrderController class]]) {
-            [self.navigationController popToViewController:vc animated:YES];
-        }
-    }
-}
-#pragma mark --从拼团页面进入支付页面，支付成功接受通知
-- (void)changeGroupStatus {
-    NSArray *vcsArray = [self.navigationController viewControllers];
-    for (UIViewController *vc in vcsArray) {
-        if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
-            [self.navigationController popToViewController:vc animated:YES];
-        }
-    }
-}
+//#pragma mark --销毁通知
+//- (void)dealloc {
+//    [BFNotificationCenter removeObserver:self];
+//}
+//
+//
+//#pragma mark --从订单页面进入支付页面，支付成功接受通知
+//- (void)changeOrderStatus {
+//    NSArray *vcsArray = [self.navigationController viewControllers];
+//    for (UIViewController *vc in vcsArray) {
+//        if ([vc isKindOfClass:[BFMyOrderController class]]) {
+//            [self.navigationController popToViewController:vc animated:YES];
+//        }
+//    }
+//}
+//#pragma mark --从拼团页面进入支付页面，支付成功接受通知
+//- (void)changeGroupStatus {
+//    NSArray *vcsArray = [self.navigationController viewControllers];
+//    for (UIViewController *vc in vcsArray) {
+//        if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
+//            [self.navigationController popToViewController:vc animated:YES];
+//        }
+//    }
+//}
 
 
 
@@ -237,6 +249,11 @@
         if (![lastVC isKindOfClass:[BFZFViewController class]]) {
             //发通知
             [BFNotificationCenter postNotificationName:@"changeGroupStatus" object:nil];
+            for (UIViewController *vc in vcsArray) {
+                if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
+                    [self.navigationController popToViewController:vc animated:YES];
+                }
+            }
             
         }else {
             BFMyGroupPurchaseController *myGroupPurchaseVC = [[BFMyGroupPurchaseController alloc] init];
@@ -246,6 +263,13 @@
         if (![lastVC isKindOfClass:[BFZFViewController class]]) {
             //发通知
             [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+            NSArray *vcsArray = [self.navigationController viewControllers];
+            for (UIViewController *vc in vcsArray) {
+                if ([vc isKindOfClass:[BFMyOrderController class]]) {
+                    [self.navigationController popToViewController:vc animated:YES];
+                }
+            }
+
         }else {
             BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
             [self.navigationController pushViewController:myOrder animated:YES];
