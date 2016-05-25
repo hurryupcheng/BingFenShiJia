@@ -49,11 +49,12 @@
             self.checkLogistics.hidden = YES;
             self.confirmReceipt.hidden = YES;
         }else if ([model.status isEqualToString:@"2"]){
-            self.hidden = NO;
-            self.pay.hidden = YES;
-            self.cancleOrder.hidden = YES;
-            self.checkLogistics.hidden = YES;
-            self.confirmReceipt.hidden = NO;
+            self.hidden = YES;
+//            self.hidden = NO;
+//            self.pay.hidden = YES;
+//            self.cancleOrder.hidden = YES;
+//            self.checkLogistics.hidden = YES;
+//            self.confirmReceipt.hidden = NO;
         }else if ([model.status isEqualToString:@"3"]) {
             self.hidden = NO;
             self.pay.hidden = YES;

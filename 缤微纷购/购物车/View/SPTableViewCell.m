@@ -95,7 +95,7 @@
 - (void)maxButton{
     self.add.minBut.enabled = YES;
     
-    if ([self.add.textF.text integerValue] > [self.stock integerValue]) {
+    if ([self.add.textF.text integerValue] >= [self.stock integerValue]) {
         [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.maxBut.enabled = NO;
     }else{

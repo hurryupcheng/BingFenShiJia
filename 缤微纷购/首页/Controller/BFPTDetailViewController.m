@@ -160,7 +160,7 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_item"];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"id"] = self.ID;
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameters success:^(id responseObject) {
             BFLog(@"BFPTDetailViewController%@,,,,%@",responseObject, parameters);
             if (responseObject) {

@@ -201,6 +201,7 @@
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
     self.page = 1;
     self.isFirstTime = YES;
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = 50-ScreenHeight;
     }];

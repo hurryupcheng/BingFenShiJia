@@ -36,6 +36,7 @@
 }
 #pragma mark --BFEditAddressViewDelegate
 - (void)clickToSaveAddress{
+    [BFNotificationCenter postNotificationName:@"refreshAddress" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -62,6 +63,8 @@
                 if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
                     [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.view LabelText:@"删除成功,正在跳转..." dispatch_get_main_queue:^{
+                        [BFNotificationCenter postNotificationName:@"refreshAddress" object:nil];
+
                         [self.navigationController popViewControllerAnimated:YES];
                     }];
                 }else {
