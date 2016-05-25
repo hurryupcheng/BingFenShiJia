@@ -81,16 +81,16 @@
     if (!_bgImageView) {
         _bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _bgImageView.image = [UIImage imageNamed:@"logistics_bg"];
-        _bgImageView.userInteractionEnabled = YES;
+//        _bgImageView.userInteractionEnabled = YES;
         //_bgImageView.hidden = YES;
         [self.view addSubview:_bgImageView];
-        UIButton *button = [UIButton buttonWithType:0];
-        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(350), BF_ScaleWidth(160), BF_ScaleHeight(50));
-        [button setTitle:@"返回首页" forState:UIControlStateNormal];
-        [button setTitleColor:BFColor(0x0F62BE) forState:UIControlStateNormal];
-        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(20)];
-        [button addTarget:self action:@selector(clickToHome) forControlEvents:UIControlEventTouchUpInside];
-        [_bgImageView addSubview:button];
+//        UIButton *button = [UIButton buttonWithType:0];
+//        button.frame = CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(350), BF_ScaleWidth(160), BF_ScaleHeight(50));
+//        [button setTitle:@"返回首页" forState:UIControlStateNormal];
+//        [button setTitleColor:BFColor(0x0F62BE) forState:UIControlStateNormal];
+//        button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(20)];
+//        [button addTarget:self action:@selector(clickToHome) forControlEvents:UIControlEventTouchUpInside];
+//        [_bgImageView addSubview:button];
     }
     return _bgImageView;
 }
@@ -108,24 +108,63 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.tabBarController.tabBar.hidden = NO;
-    if (![BFUserDefaluts getUserInfo]) {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (!userInfo) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"未登录,请先登录"];
         self.bgImageView.hidden = NO;
-        self.tableView.hidden = YES;
         self.isYirstTime = YES;
-        [UIView animateWithDuration:0.5 animations:^{
-            self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
-        } completion:nil];
-        
+
     }else {
-        if (self.isYirstTime) {
-            // 集成下拉刷新控件
-            [self setupDownRefresh];
-            //获取数据
-            [self getData];
-        }else {
+        NSString *key = @"lastUser";
+        // 上一个用户的id
+        NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+        // 当前用户的id
+        NSString *currentVersion = userInfo.ID;
+        BFLog(@"lastVersion=%@,,,currentVersion=%@",lastVersion,currentVersion);
+        if ([currentVersion isEqualToString:lastVersion]) {
+            // 判断是同一个用户
+            BFLog(@"同一个用户");
+            if (self.isYirstTime) {
+                // 集成下拉刷新控件
+                [self setupDownRefresh];
+                //获取数据
+                [self getData];
+            }else {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = BF_ScaleHeight(30);
+                } completion:nil];
+            }
+        } else {
             
+
+            self.isYirstTime = YES;
+            self.bgImageView.hidden = NO;
+            // 不是同一个用户
+            if (self.isYirstTime) {
+                // 集成下拉刷新控件
+                [self setupDownRefresh];
+                //获取数据
+                [self getData];
+            }else {
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.tableView.y = BF_ScaleHeight(30);
+                } completion:nil];
+            }
+            BFLog(@"不同的一个用户");
+            // 将当前用户id存入沙盒
+            [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
+
+//        if (self.isYirstTime) {
+//            // 集成下拉刷新控件
+//            [self setupDownRefresh];
+//            //获取数据
+//            [self getData];
+//        }else {
+//            // 集成下拉刷新控件
+//            [self setupDownRefresh];
+//        }
     }
 }
 
@@ -145,10 +184,19 @@
     //[self setNavigationBar];
     //客服电话按钮
     [self setUpCustomerService];
-    
+    //退出登录发送通知
+    [BFNotificationCenter addObserver:self selector:@selector(logout) name:@"logout" object:nil];
     //获取数据
     //[self getData];
     
+}
+
+#pragma mark -- 退出登录通知的用法
+- (void)logout {
+    //[self.logisticsArray removeAllObjects];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+    } completion:nil];
 }
 
 #pragma mark --集成下拉刷新
@@ -172,9 +220,11 @@
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         if (responseObject) {
             if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                [self.logisticsArray removeAllObjects];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有更多可以查看的订单哦!"];
+                self.bgImageView.hidden = NO;
             }else {
-                
+                self.bgImageView.hidden = YES;
                 NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
                 [BFSoundEffect playSoundEffect:@"paopao.wav"];
                 [self showNewStatusCount:array.count-self.logisticsArray.count];
@@ -188,7 +238,7 @@
 //                }
             }
         }
-        // BFLog(@"---%@,,",responseObject);
+         BFLog(@"---%@,,",responseObject);
         [self.tableView reloadData];
         [self.tableView.mj_header endRefreshing];
     } failure:^(NSError *error) {
@@ -251,26 +301,25 @@
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
     
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {
                 if ([responseObject[@"msg"] isEqualToString:@"数据为空"] ) {
+                    [self.logisticsArray removeAllObjects];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
                     self.bgImageView.hidden = NO;
-                    self.tableView.hidden = YES;
+                    //self.tableView.hidden = YES;
                 }else {
                     if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
                         NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
                         if (array.count == 0) {
                             [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,没有可以查看的订单哦!"];
                             self.bgImageView.hidden = NO;
-                            self.tableView.hidden = YES;
+                            //self.tableView.hidden = YES;
                         }else {
                             self.bgImageView.hidden = YES;
-                            self.tableView.hidden = NO;
+                            //self.tableView.hidden = NO;
                             [self.logisticsArray removeAllObjects];
                             [self.logisticsArray addObjectsFromArray:array];
                         }
@@ -282,12 +331,14 @@
                 self.tableView.hidden = YES;
             }
            // BFLog(@"---%@,,",responseObject);
+            [hud hideAnimated:YES];
             [self.tableView reloadData];
             self.isYirstTime = NO;
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = BF_ScaleHeight(30);
             } completion:nil];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
             BFLog(@"%@",error);
         }];

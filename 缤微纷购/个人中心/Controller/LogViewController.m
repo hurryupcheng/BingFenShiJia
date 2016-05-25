@@ -226,6 +226,7 @@
                                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                                    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                                    [hud hideAnimated:YES];
+                                   [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎光临!"];
                                    [self.navigationController popViewControllerAnimated:YES];
                                }];
                            }
@@ -240,6 +241,7 @@
                            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                            [hud hideAnimated:YES];
+                           [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎再次光临!"];
                            [self.navigationController popViewControllerAnimated:YES];
                        }];
                    }

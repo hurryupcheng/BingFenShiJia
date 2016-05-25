@@ -108,21 +108,21 @@
     self.window = [[UIWindow alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     // 2.设置根控制器
-        NSString *key = @"CFBundleVersion";
-        // 上一次的使用版本（存储在沙盒中的版本号）
-        NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
-        // 当前软件的版本号（从Info.plist中获得）
-        NSString *currentVersion = [NSBundle mainBundle].infoDictionary[key];
-    
-        if ([currentVersion isEqualToString:lastVersion]) { // 版本号相同：这次打开和上次打开的是同一个版本
-            self.window.rootViewController = [[RootViewController alloc] init];
-        } else { // 这次打开的版本和上一次不一样，显示新特性
-            self.window.rootViewController = [[BFNewfeatureController alloc] init];
-    
-            // 将当前的版本号存进沙盒
-            [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-        }
+    NSString *key = @"CFBundleVersion";
+    // 上一次的使用版本（存储在沙盒中的版本号）
+    NSString *lastVersion = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    // 当前软件的版本号（从Info.plist中获得）
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[key];
+
+    if ([currentVersion isEqualToString:lastVersion]) { // 版本号相同：这次打开和上次打开的是同一个版本
+        self.window.rootViewController = [[RootViewController alloc] init];
+    } else { // 这次打开的版本和上一次不一样，显示新特性
+        self.window.rootViewController = [[BFNewfeatureController alloc] init];
+
+        // 将当前的版本号存进沙盒
+        [[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:key];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     
     [self.window makeKeyAndVisible];
     
@@ -227,6 +227,11 @@
 #pragma mark 当应用程序进入后台的时候调用（点击HOME键）
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    
+//    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+//    [MBProgressHUD HUDForView:keyWindow];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+    [hud removeFromSuperview];
     NSLog(@"applicationDidEnterBackground-进入后台");
     
 }
@@ -234,6 +239,7 @@
 #pragma mark 当应用程序进入前台的时候调用
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
+    
     NSLog(@"applicationWillEnterForeground-进入前台");
 }
 
@@ -241,6 +247,8 @@
 // 获取焦点之后才可以跟用户进行交互
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
+    
     //获取定位
     [self getAddress];
     NSLog(@"applicationDidBecomeActive-获取焦点");

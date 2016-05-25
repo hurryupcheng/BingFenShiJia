@@ -274,7 +274,12 @@
     parameter[@"adress"] = self.detailAddress.text;
     parameter[@"tel"] = self.phone.text;
     parameter[@"nice_name"] = self.consignee.text;
-    parameter[@"default"] = self.defaultNumber;
+    if (self.switchButton.on) {
+        parameter[@"default"] = @"1";
+    }else {
+        parameter[@"default"] = @"0";
+    }
+    
     if ([self.category.text isEqualToString:@"公司"]) {
         parameter[@"type"] = @"1";
     }else if ([self.category.text isEqualToString:@"家"]) {

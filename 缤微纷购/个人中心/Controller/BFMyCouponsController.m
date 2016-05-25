@@ -143,9 +143,7 @@
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
     BFLog(@"%@",self.parameter);
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
             BFLog(@"%@",responseObject);
             [self.couponsArray removeAllObjects];
@@ -163,11 +161,13 @@
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有优惠券哦!"];
             }
+            [hud hideAnimated:YES];
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 50;
             } completion:nil];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
             BFLog(@"%@",error);
         }];

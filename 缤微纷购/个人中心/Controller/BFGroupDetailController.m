@@ -171,9 +171,7 @@
     parameter[@"itemid"] = self.itemid;
     parameter[@"teamid"] = self.teamid;
     
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {
@@ -201,11 +199,13 @@
                 //给状态栏赋值
                 self.tabbar.model = self.model;
                 BFLog(@"---%@,%@,,%f",responseObject,parameter,self.headerView.height);
+                [hud hideAnimated:YES];
                 [self.tableView reloadData];
                 
             }
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
             BFLog(@"%@",error);
         }];
     }];

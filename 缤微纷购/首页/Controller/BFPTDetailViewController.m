@@ -75,13 +75,13 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQSpace];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQSpace];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeQQ];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeQQ];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
@@ -93,8 +93,8 @@
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            [BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            //[self shareWithType:ShareTypeSinaWeibo];
+            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
+            [self shareWithType:ShareTypeSinaWeibo];
             break;
         }
     }
@@ -160,23 +160,26 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=team_item"];
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     parameters[@"id"] = self.ID;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameters success:^(id responseObject) {
             BFLog(@"BFPTDetailViewController%@,,,,%@",responseObject, parameters);
-            _dataArray = [NSMutableArray array];
-            BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
-            self.model = model;
-            model.numbers = 1;
-            model.shopID = self.ID;
-            [_dataArray addObject:model];
-            //显示图形
-            [self initView:model];
-            [UIView animateWithDuration:0.5 animations:^{
-                self.webView.y = 0;
-            }];
+            if (responseObject) {
+                [hud hideAnimated:YES];
+                _dataArray = [NSMutableArray array];
+                BFPTDetailModel *model = [BFPTDetailModel mj_objectWithKeyValues:responseObject];
+                self.model = model;
+                model.numbers = 1;
+                model.shopID = self.ID;
+                [_dataArray addObject:model];
+                //显示图形
+                [self initView:model];
+                [UIView animateWithDuration:0.5 animations:^{
+                    self.webView.y = 0;
+                }];
+            }
+            
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题"];
             BFLog(@"BFPTDetailViewController%@",error);
         }];

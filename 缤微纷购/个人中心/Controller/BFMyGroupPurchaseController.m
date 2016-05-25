@@ -215,9 +215,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {
@@ -234,13 +232,15 @@
                     self.bgImageView.hidden = NO;
                     [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];
                 }
+                [hud hideAnimated:YES];
                 [self.tableView reloadData];
                 [UIView animateWithDuration:0.5 animations:^{
                     self.tableView.y = 0;
                 } completion:nil];
             }
         } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"网络问题"];
             BFLog(@"error:%@",error);
         }];
     }];

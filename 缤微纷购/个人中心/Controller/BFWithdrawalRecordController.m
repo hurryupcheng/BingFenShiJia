@@ -87,12 +87,11 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"page"] = @(self.page);
     if (self.isFirstTime) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-            [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-        } dispatch_get_main_queue:^{
+        [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"----%@,,%@", responseObject,parameter);
                 if (responseObject) {
+                    [hud hideAnimated:YES];
                     if ([responseObject[@"withdraw_detail"] isKindOfClass:[NSArray class]]) {
                         self.model = [BFWithdrawalRecordModel parse:responseObject];
                         NSArray *array = [BFWithdrawalRecordList parse:self.model.withdraw_detail];
@@ -114,7 +113,8 @@
                 self.isFirstTime = NO;
             } failure:^(NSError *error) {
                 self.page--;
-                [self.tableView.mj_footer endRefreshingWithNoNoHTTP];
+                [hud hideAnimated:YES];
+                [self.tableView.mj_footer endRefreshing];
                 [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"网络问题,请求失败"];
                 BFLog(@"%@", error);
             }];

@@ -106,9 +106,7 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"orderId"] = self.orderId;
     
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {
@@ -124,10 +122,12 @@
                 BFLog(@"%@,,%@",responseObject, parameter);
                 
             }
-            
+            [hud hideAnimated:YES];
             [self.tableView reloadData];
             [self animation];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
             BFLog(@"%@",error);
         }];
     }];

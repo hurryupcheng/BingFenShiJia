@@ -228,9 +228,7 @@
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
 
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
             [self.oderArray removeAllObjects];
@@ -252,10 +250,12 @@
             }
             //BFLog(@"我的订单%@",responseObject);
             [self.tableView reloadData];
+            [hud hideAnimated:YES];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 50;
             } completion:nil];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题..."];
             BFLog(@"error%@",error);
         }];

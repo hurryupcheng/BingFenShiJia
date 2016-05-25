@@ -87,12 +87,11 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"%@",responseObject);
             if (responseObject) {
+                [hud hideAnimated:YES];
                 self.headerView.totalScore = responseObject[@"score"];
                 userInfo.score = responseObject[@"score"];
                 [BFUserDefaluts modifyUserInfo:userInfo];
@@ -112,6 +111,7 @@
             [self.tableView reloadData];
             [self animation];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络异常"];
             BFLog(@"%@", error);
         }];
@@ -150,13 +150,6 @@
 
 
 
-
-
-
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-//    return SectionHeaderH;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return MyIntegralCellH;
