@@ -87,7 +87,7 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"page"] = @(self.page);
     if (self.isFirstTime) {
-        [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"----%@,,%@", responseObject,parameter);
                 if (responseObject) {

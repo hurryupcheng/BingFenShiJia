@@ -200,6 +200,18 @@
                 [BFNotificationCenter postNotificationName:@"paySuccess" object:nil];
                 NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
                 break;
+//            case WXErrCodeCommon:
+//                BFLog(@"-----WXErrCodeCommon");
+//                break;
+//            case WXErrCodeUserCancel:
+//                BFLog(@"-----WXErrCodeUserCancel");
+//                break;
+//            case WXErrCodeSentFail:
+//                BFLog(@"-----WXErrCodeSentFail");
+//                break;
+//            case WXErrCodeAuthDeny:
+//                BFLog(@"-----WXErrCodeAuthDeny");
+//                break;
                 
             default:
                 [BFNotificationCenter postNotificationName:@"payFail" object:nil];
@@ -230,8 +242,8 @@
     
 //    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
 //    [MBProgressHUD HUDForView:keyWindow];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
-    [hud removeFromSuperview];
+//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[UIApplication sharedApplication].keyWindow animated:YES];
+//    [hud removeFromSuperview];
     NSLog(@"applicationDidEnterBackground-进入后台");
     
 }
@@ -272,7 +284,7 @@
     
     
     self.lastStatus = status;
-    
+    [BFNotificationCenter postNotificationName:@"WXPayStatus" object:nil];
     // NSLog(@"用户进行交互:::%@",@(status));
 }
 
@@ -318,7 +330,7 @@
 }
 //获取定位的位置信息
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations{
-    NSLog(@"%@",locations);
+    //NSLog(@"%@",locations);
     //获取我当前的位置
     CLLocation *location = [locations lastObject];
     
@@ -327,7 +339,7 @@
     //地理反编码
     //创建反编码对象
     CLGeocoder *geocoder = [[CLGeocoder alloc]init];
-    BFLog(@"%@,,%@",location,geocoder);
+    //BFLog(@"%@,,%@",location,geocoder);
     //调用方法，使用位置反编码对象获取位置信息
     [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray<CLPlacemark *> * _Nullable placemarks, NSError * _Nullable error) {
         CLPlacemark *place = [placemarks lastObject];

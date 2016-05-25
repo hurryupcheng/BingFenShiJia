@@ -487,48 +487,48 @@
     return _selectGoods;
 }
 
--(void)hideKeyboard:(NSNotification *)noti{
-    
-    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-    //键盘弹起的时间
-    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-    CGRect bottomViewFrame = _tabView.frame;
-    bottomViewFrame.origin.y = 0;
-    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-        _tabView.frame = bottomViewFrame;
-    } completion:nil];
-    //为了显示动画
-    [self.view layoutIfNeeded];
-    
-}
+//-(void)hideKeyboard:(NSNotification *)noti{
+//    
+//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+//    //键盘弹起的时间
+//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+//    CGRect bottomViewFrame = _tabView.frame;
+//    bottomViewFrame.origin.y = 0;
+//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+//        _tabView.frame = bottomViewFrame;
+//    } completion:nil];
+//    //为了显示动画
+//    [self.view layoutIfNeeded];
+//    
+//}
+//
+//
+//
+//-(void)showKeyboard:(NSNotification *)noti{
+//    //NSLog(@"userInfo %@",noti.userInfo);
+//    //键盘出现后的位置
+//    //CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
+//    //键盘弹起时的动画效果
+//    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
+//    //键盘弹起的时间
+//    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
+//    CGRect bottomViewFrame = self.tabView.frame;
+//    bottomViewFrame.origin.y = -40;
+//    
+//    [UIView animateWithDuration:duration delay:0 options:option animations:^{
+//        _tabView.frame = bottomViewFrame;
+//
+//    } completion:nil];
+//    [self.view layoutIfNeeded];
+//}
+//
 
 
 
--(void)showKeyboard:(NSNotification *)noti{
-    //NSLog(@"userInfo %@",noti.userInfo);
-    //键盘出现后的位置
-    CGRect endframe = [noti.userInfo[UIKeyboardFrameEndUserInfoKey]CGRectValue];
-    //键盘弹起时的动画效果
-    UIViewAnimationOptions option = [noti.userInfo[UIKeyboardAnimationCurveUserInfoKey]intValue];
-    //键盘弹起的时间
-    NSTimeInterval duration = [noti.userInfo[UIKeyboardAnimationDurationUserInfoKey]doubleValue];
-    CGRect bottomViewFrame = self.tabView.frame;
-    bottomViewFrame.origin.y = -40;
-    
-    [UIView animateWithDuration:duration delay:0 options:option animations:^{
-        _tabView.frame = bottomViewFrame;
-
-    } completion:nil];
-    [self.view layoutIfNeeded];
-}
-
-
-
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-}
+//- (void)dealloc {
+//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

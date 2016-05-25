@@ -117,7 +117,7 @@
 - (void)setModel:(BFPTItemList *)model {
     _model = model;
     if (model) {
-        BFLog(@"%ld，，%@", (long)model.nowtime, model.team_timeend);
+        //BFLog(@"%ld，，%@", (long)model.nowtime, model.team_timeend);
         if (model.nowtime >= [model.team_timeend integerValue]) {
             self.productStatus.hidden = NO;
             self.productStatus.image = [UIImage imageNamed:@"have_been_unshelve"];

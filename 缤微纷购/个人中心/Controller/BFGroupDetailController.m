@@ -171,7 +171,7 @@
     parameter[@"itemid"] = self.itemid;
     parameter[@"teamid"] = self.teamid;
     
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
             
             if (responseObject) {

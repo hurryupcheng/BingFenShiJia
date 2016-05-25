@@ -112,7 +112,7 @@
     if (!userInfo) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"未登录,请先登录"];
         self.bgImageView.hidden = NO;
-        self.isYirstTime = YES;
+        //self.isYirstTime = YES;
 
     }else {
         NSString *key = @"lastUser";
@@ -130,6 +130,7 @@
                 //获取数据
                 [self getData];
             }else {
+                self.bgImageView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{
                     self.tableView.y = BF_ScaleHeight(30);
                 } completion:nil];
@@ -146,6 +147,7 @@
                 //获取数据
                 [self getData];
             }else {
+                self.bgImageView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{
                     self.tableView.y = BF_ScaleHeight(30);
                 } completion:nil];
@@ -197,6 +199,10 @@
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
     } completion:nil];
+}
+
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
 }
 
 #pragma mark --集成下拉刷新
@@ -301,7 +307,7 @@
     parameter[@"token"] = userInfo.token;
     BFLog(@"%@",parameter);
     
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {

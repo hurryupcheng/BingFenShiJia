@@ -92,20 +92,66 @@
     [self setNavigationBar];
     //添加tableView
     [self tableView];
+    //获取地址数据
+    [self getData];
+    //修改地址添加地址，删除地址后的通知
+    [BFNotificationCenter addObserver:self selector:@selector(refreshAddress) name:@"refreshAddress" object:nil];
     
 }
 #pragma mark -- viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    //获取地址数据
-    [self getData];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = -ScreenHeight;
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.tableView.y = -ScreenHeight;
+//    }];
+}
+
+#pragma mark -- 通知刷新
+- (void)refreshAddress {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=check_address"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    
+    [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+        BFLog(@"---%@", responseObject);
+        if (responseObject) {
+            if ([responseObject[@"address"] isKindOfClass:[NSArray class]]) {
+                NSArray *array = [BFAddressModel parse:responseObject[@"address"]];
+                if (array.count == 0) {
+                    [self.addressArray removeAllObjects];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,暂时还没有可用地址哦!"];
+                    self.bgImageView.hidden = NO;
+                }else {
+                    [self.addressArray removeAllObjects];
+                    self.bgImageView.hidden = YES;
+                    [self.addressArray addObjectsFromArray:array];
+                }
+            }else {
+                [self.addressArray removeAllObjects];
+                [BFProgressHUD MBProgressOnlyWithLabelText:@"亲,暂时还没有可用地址哦!"];
+                self.bgImageView.hidden = NO;
+            }
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+        BFLog(@"%@", error);
     }];
+
+}
+
+
+- (void)dealloc {
+    [BFNotificationCenter removeObserver:self];
 }
 
 #pragma mark -- 添加导航栏
@@ -121,13 +167,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
-//        <#code#>
-//    }]
-//    
-//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-//    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {

@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"物流信息";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://m.kuaidi100.com/result.jsp?com=&nu=%@", self.freecode]]];
     BFLog(@"%@",[NSString stringWithFormat:@"http://m.kuaidi100.com/result.jsp?com=&nu=%@", self.freecode]);
     [self.webView loadRequest:request];

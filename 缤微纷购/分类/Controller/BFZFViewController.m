@@ -809,7 +809,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
 
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {

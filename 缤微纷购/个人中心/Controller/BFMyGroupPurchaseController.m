@@ -172,9 +172,9 @@
 
 
 - (void)changeGroupStatus {
-    [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = -ScreenHeight;
-    } completion:nil];
+//    [UIView animateWithDuration:0.5 animations:^{
+//        self.tableView.y = -ScreenHeight;
+//    } completion:nil];
 
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=team_order"];
@@ -215,7 +215,7 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             if (responseObject) {
                 if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {

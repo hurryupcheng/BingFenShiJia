@@ -143,7 +143,7 @@
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
     BFLog(@"%@",self.parameter);
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
             BFLog(@"%@",responseObject);
             [self.couponsArray removeAllObjects];
@@ -175,6 +175,7 @@
 }
 #pragma mark -- 分段控制器View的代理
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = 50 - ScreenHeight;
         self.bgImageView.hidden = NO;

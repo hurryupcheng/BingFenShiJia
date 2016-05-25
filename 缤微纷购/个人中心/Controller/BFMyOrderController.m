@@ -104,7 +104,7 @@
     //判断
     NSArray *vcsArray = [self.navigationController viewControllers];
     UIViewController *lastVC = vcsArray[vcsArray.count-2];
-    BFLog(@"----%@", vcsArray);
+    BFLog(@"----========%@", vcsArray);
     if ([lastVC isKindOfClass:[BFPayoffViewController class]]) {
         
         //[lastVC removeFromParentViewController];
@@ -228,7 +228,7 @@
     NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=goods_info"];
     self.parameter[@"uid"] = userInfo.ID;
     self.parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+    [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
 
         [BFHttpTool GET:url params:self.parameter success:^(id responseObject) {
             [self.oderArray removeAllObjects];
@@ -266,6 +266,7 @@
 
 #pragma mark -- 分段控制器View的代理
 - (void)segmentView:(BFSegmentView *)segmentView segmentedControl:(UISegmentedControl *)segmentedControl {
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:NO];
     [UIView animateWithDuration:0.5 animations:^{
         self.tableView.y = 50-ScreenHeight;
         self.bgImageView.hidden = NO;

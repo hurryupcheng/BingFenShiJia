@@ -34,6 +34,7 @@
 }
 #pragma mark --BFAddAddressView代理
 - (void)goBackToAddressView {
+    [BFNotificationCenter postNotificationName:@"refreshAddress" object:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
