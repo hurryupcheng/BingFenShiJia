@@ -121,9 +121,13 @@
     NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
-    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
-        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
-    } dispatch_get_main_queue:^{
+    [BFProgressHUD MBProgressWithLabelText:@"Loading" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+//        <#code#>
+//    }]
+//    
+//    [BFProgressHUD MBProgressFromView:self.navigationController.view WithLabelText:@"Loading" dispatch_get_global_queue:^{
+//        [BFProgressHUD doSomeWorkWithProgress:self.navigationController.view];
+//    } dispatch_get_main_queue:^{
         [BFHttpTool GET:url params:parameter success:^(id responseObject) {
             BFLog(@"---%@", responseObject);
             if (responseObject) {
@@ -142,12 +146,14 @@
                     self.bgImageView.hidden = NO;
                 }
             }
+            [hud hideAnimated:YES];
             [self.tableView reloadData];
             [UIView animateWithDuration:0.5 animations:^{
                 self.tableView.y = 0;
                 self.bgImageView.y = 0;
             }];
         } failure:^(NSError *error) {
+            [hud hideAnimated:YES];
             [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
             BFLog(@"%@", error);
         }];
