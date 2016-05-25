@@ -31,6 +31,7 @@
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.tableFooterView = [UIView new];
     
     [self.view addSubview:self.tableView];
 }
@@ -69,6 +70,7 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.font = [UIFont systemFontOfSize:CGFloatX(17)];
+   
 //    if (indexPath.section == 0) {
 //        NSArray *name = @[@"浦发银行信用卡",@"交通银行信用卡",@"中国建设银行"];
 //        NSArray *img = @[@"pufa.png",@"jiaotong.png",@"jianshe.png"];
@@ -79,6 +81,10 @@
         NSArray *img = @[@"zhifubao.png",@"weixin.png",@"yinlian.png"];
         cell.imageView.image = [UIImage imageNamed:img[indexPath.row]];
         cell.textLabel.text = name[indexPath.row];
+//    UIView *vle = [[UIView alloc]initWithFrame:CGRectMake(200, 0, 100, 100)];
+//    vle.backgroundColor = [UIColor greenColor];
+//    [cell.contentView addSubview:vle];
+    
 //    }else{
 //        self.lastPrice = 200.00;
 //        cell.imageView.image = [UIImage imageNamed:@"geren.png"];

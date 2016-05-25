@@ -32,7 +32,7 @@
 //        self.needV.layer.cornerRadius = CGFloatY(15);
 //        self.needV.layer.masksToBounds = YES;
 //        self.needV.selected = self.isSelected;
-       
+//        self.needV.backgroundColor = [UIColor greenColor];
         [self.needV setImage:[UIImage imageNamed:@"gx02.png"] forState:UIControlStateNormal];
         [self.needV setImage:[UIImage imageNamed:@"gx01.png"] forState:UIControlStateSelected];
         [self.needV addTarget:self action:@selector(selectButClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -95,7 +95,7 @@
 - (void)maxButton{
     self.add.minBut.enabled = YES;
     
-    if ([self.add.textF.text integerValue] > [self.stock integerValue]) {
+    if ([self.add.textF.text integerValue] >= [self.stock integerValue]) {
         [BFProgressHUD MBProgressOnlyWithLabelText:@"商品数量超出库存"];
         self.add.maxBut.enabled = NO;
     }else{
@@ -132,7 +132,7 @@
     self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-150, CGFloatY(30));
 
     self.close.frame = CGRectMake(CGRectGetMaxX(self.frame)-CGFloatX(45), 5, CGFloatX(50), CGFloatX(50));
-    self.closeImg.frame = CGRectMake(CGFloatX(21), 5, CGFloatX(20), CGFloatX(20));
+    self.closeImg.frame = CGRectMake(CGFloatX(20), 5, CGFloatX(20), CGFloatX(20));
 //    self.close.backgroundColor = [UIColor greenColor];
     
     self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame)-10, CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
