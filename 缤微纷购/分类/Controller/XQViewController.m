@@ -365,16 +365,16 @@
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"很遗憾,没有该类产品!"];
             }
         }
+        
         [self.collectionView reloadData];
         [self.collectionView.mj_header endRefreshing];
-
+        [self.collectionView.mj_footer endRefreshing];
         self.isEnding = NO;
     } failure:^(NSError *error) {
         self.page--;
         [self.collectionView.mj_header endRefreshing];
+        [self.collectionView.mj_footer endRefreshing];
         [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常 请检测网络"];
-        
-        
     }];
 }
 
@@ -497,11 +497,12 @@
     if (self.page > [self.xqModel.page_num integerValue]) {
         //self.page--;
         [BFProgressHUD MBProgressOnlyWithLabelText:@"没有更多该类商品!"];
-//        [self.collectionView.mj_footer endRefreshing];
+        [self.collectionView.mj_footer endRefreshing];
+        return;
     }else {
         [self getNewDate];
     }
-    [self.collectionView.mj_footer endRefreshing];
+    //[self.collectionView.mj_footer endRefreshing];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
