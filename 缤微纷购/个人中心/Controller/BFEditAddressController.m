@@ -62,8 +62,9 @@
                 BFLog(@"%@",responseObject);
                 if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
                     [hud hideAnimated:YES];
+                    [BFNotificationCenter postNotificationName:@"refreshAddress" object:nil];
                     [BFProgressHUD MBProgressFromView:self.view LabelText:@"删除成功,正在跳转..." dispatch_get_main_queue:^{
-                        [BFNotificationCenter postNotificationName:@"refreshAddress" object:nil];
+
 
                         [self.navigationController popViewControllerAnimated:YES];
                     }];
