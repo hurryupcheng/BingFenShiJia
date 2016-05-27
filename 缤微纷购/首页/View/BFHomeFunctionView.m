@@ -58,14 +58,14 @@
         if ([model.abs_b isKindOfClass:[NSArray class]]) {
             NSArray *array = [BFHomeFunctionButtonList parse:model.abs_b];
             NSUInteger btnCount = array.count;
-//            CGFloat btnW =  BF_ScaleWidth(75);
-//            CGFloat btnH = self.height / 2;
+            CGFloat btnW =  BF_ScaleWidth(75);
+            CGFloat btnH = self.height / 2;
             for (NSInteger i = 0; i < btnCount; i++) {
-                _btn = [[BFHomeFunctionButton alloc]initWithFrame:CGRectMake((i%4+1)*5+(i%4)* (but_x),(i/4+1)*5+(i/4)*(but_x), but_x, but_x)];
-//                btn.y = i / 4 * btnH;
-//                btn.width = btnW;
-//                btn.x = i % 4 * btnW + BF_ScaleWidth(10);
-//                btn.height = btnH;
+                _btn = [[BFHomeFunctionButton alloc]init];
+                _btn.y = i / 4 * btnH;
+                _btn.width = btnW;
+                _btn.x = i % 4 * btnW + BF_ScaleWidth(10);
+                _btn.height = btnH;
                 _btn.tag = i;
                 BFHomeFunctionButtonList *list = [BFHomeFunctionButtonList parse:array[i]];
                 _btn.functionTitleLabel.text = list.title;
