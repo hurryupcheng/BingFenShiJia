@@ -27,7 +27,7 @@
 #define AppKey   @"11ae973b82132"
 
 #define  kWXKey         @"wxfdfc235382c84b7d"
-#define  kWXSecret      @"d911c360a8a5ad90a9b5ca1250e35e97"
+#define  kWXSecret      @"1c36e9567b1e72c0966ac91aadd6565a"
 
 //#define  kQQKey         @"1104539912"
 //#define  kQQSecret      @"eFVgRits2fqf36Jf"

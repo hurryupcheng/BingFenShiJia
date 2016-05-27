@@ -23,22 +23,15 @@
 @property (nonatomic, strong) UIButton *remindButton;
 /**cell*/
 @property (nonatomic, strong) BFAddressCell *cell;
+//返回顶部按钮
+@property (nonatomic, strong) UIButton *TopButton;
+//偏移量
+@property (nonatomic, assign) CGFloat contentOffSetY;
 @end
 
 @implementation BFAddressController
 
-//- (UIButton *)remindButton {
-//    if (!_remindButton) {
-//        _remindButton = [UIButton buttonWithType:0];
-//        _remindButton.frame = CGRectMake(BF_ScaleWidth(60), BF_ScaleHeight(200), BF_ScaleWidth(200), BF_ScaleHeight(40));
-//        _remindButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
-//        [_remindButton setTitle:@"还未添加地址，点击添加" forState:UIControlStateNormal];
-//        [_remindButton setTitleColor:BFColor(0x4582f2) forState:UIControlStateNormal];
-//        [_remindButton addTarget:self action:@selector(clickToAddAddress) forControlEvents:UIControlEventTouchUpInside];
-//        [self.view addSubview:_remindButton];
-//    }
-//    return _remindButton;
-//}
+
 
 
 - (NSMutableArray *)addressArray {
@@ -257,8 +250,8 @@
     [self.navigationController pushViewController:editVC animated:YES];
 }
 
+#pragma mark --滑动删除地址
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     // 获取编辑模式
     UITableViewCellEditingStyle style = editingStyle;
     // 如果是删除模式,才往下进行
@@ -298,5 +291,41 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleHeight(105);
 }
+
+#pragma mark -- 添加返回顶部的按钮
+- (UIButton *)TopButton{
+    if (!_TopButton) {
+        _TopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _TopButton.frame = CGRectMake(ScreenWidth - BF_ScaleWidth(60),ScreenHeight-BF_ScaleHeight(190), BF_ScaleWidth(50), BF_ScaleWidth(50));
+        _TopButton.layer.cornerRadius = BF_ScaleWidth(25);
+        _TopButton.layer.masksToBounds = YES;
+        _TopButton.backgroundColor = BFColor(0x1dc3ff);
+        [_TopButton setTitle:@"TOP" forState:UIControlStateNormal];
+        [self.TopButton addTarget:self action:@selector(TopButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _TopButton;
+}
+- (void)TopButtonAction:(UIButton *)sender{
+    
+    self.tableView.contentOffset = CGPointMake(0, 0);
+    
+    [self.TopButton removeFromSuperview];
+}
+//开始拖动scrollV
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    _contentOffSetY = scrollView.contentOffset.y;
+}
+
+//只要偏移量发生改变就会触发
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat currcontentOffSetY = scrollView.contentOffset.y;
+    if (_contentOffSetY > currcontentOffSetY && currcontentOffSetY > 0) {
+        [self.view addSubview:self.TopButton];
+        //        [self.view bringSubviewToFront:self.TopButton];
+    }else{
+        [self.TopButton removeFromSuperview];
+    }
+}
+
 
 @end
