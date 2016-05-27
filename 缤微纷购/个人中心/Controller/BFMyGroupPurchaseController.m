@@ -222,7 +222,12 @@
                     NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
                     if (array.count != 0) {
                         [self.groupArray addObjectsFromArray:array];
-                        self.bgImageView.hidden = YES;
+                        //延迟0.2秒隐藏
+                        double delayTime = 0.2;
+                        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayTime * NSEC_PER_SEC);
+                        dispatch_after(popTime, dispatch_get_main_queue(), ^{
+                            self.bgImageView.hidden = YES;
+                        });
                         BFLog(@"我的订单%@,",responseObject);
                     }else {
                         self.bgImageView.hidden = NO;

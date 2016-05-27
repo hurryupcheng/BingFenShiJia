@@ -493,14 +493,14 @@
             BFLog(@"申请售后");
             break;
         case BFLogisticsCellButtonTypeCheckLogistics:{
-            BFLog(@"查看物流");
+            BFLog(@"查看物流%@",@"2");
             BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
             vc.freecode = model.freecode;
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }
         case BFLogisticsCellButtonTypeConfirmReceipt:{
-            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"确定收货吗" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"确定" style:UIAlertActionStyleDefault handler:^{
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"客官,请确认收到货物后再收货哦!" preferredStyle:UIAlertControllerStyleAlert cancleTitle:@"那就再等等吧!" actionTitle:@"货物已收到,非常满意" style:UIAlertActionStyleDefault handler:^{
                 //确认收货
                 [self confirmOrderWithModel:model AndCell:cell];
             }];

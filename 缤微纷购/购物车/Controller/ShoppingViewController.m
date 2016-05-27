@@ -357,6 +357,9 @@
 
 
 #pragma  mark 点击cell
+
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     BFStorage *model = [self.dateArr objectAtIndex:indexPath.row];
@@ -364,6 +367,31 @@
     fx.ID = model.shopID;
     [self.navigationController pushViewController:fx animated:YES];
 }
+
+#pragma mark -- 分割线左边到头
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPat{
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]){
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
+
+-(void)viewDidLayoutSubviews {
+    
+    if ([self.tabView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tabView setSeparatorInset:UIEdgeInsetsZero];
+        
+    }
+    if ([self.tabView respondsToSelector:@selector(setLayoutMargins:)])  {
+        [self.tabView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    
+}
+
+
 
 #pragma mark  移除商品
 - (void)close:(UIButton *)button{

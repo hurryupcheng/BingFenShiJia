@@ -26,4 +26,24 @@
     
     return alertC;
 }
+
+
++ (UIAlertController *)alertWithControllerTitle:(NSString *)controllerTitle controllerMessage:(NSString *)controllerMessage preferredStyle:(UIAlertControllerStyle)preferredStyle cancleTitle:(NSString *)cancleTitle  actionTitle:(NSString *)actionTitle style:(UIAlertActionStyle)style handler:(void (^)())handler{
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:controllerTitle message:controllerMessage preferredStyle:preferredStyle];
+    //添加取消按钮
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:cancleTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+        NSLog(@"点击");
+    }];
+    //添加电话按钮
+    UIAlertAction *phoneAction = [UIAlertAction actionWithTitle:actionTitle style:style handler:^(UIAlertAction *action) {
+        if (handler) {
+            handler();
+        }
+    }];
+    
+    [alertC addAction:phoneAction];
+    [alertC addAction:cancleAction];
+    
+    return alertC;
+}
 @end

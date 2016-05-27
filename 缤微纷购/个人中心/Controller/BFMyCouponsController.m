@@ -151,7 +151,12 @@
                 NSArray *array = [BFMyCouponsModel parse:responseObject[@"coupon_data"]];
                 if (array.count != 0) {
                     self.tableView.hidden = NO;
-                    self.bgImageView.hidden = YES;
+                    double delayInSeconds = 0.2;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        self.bgImageView.hidden = YES;
+                    });
+
                     [self.couponsArray addObjectsFromArray:array];
                     
                 }else {
