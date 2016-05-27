@@ -785,6 +785,7 @@
             [_wordesBack addSubview:_textView];
             _textView.delegate = self;
             _textView.returnKeyType = UIReturnKeyDone;
+            _textView.font = [UIFont systemFontOfSize:CGFloatX(16)];
             self.tableV.tableFooterView = _wordesBack;
         }else{
 //            [self.tableV.tableFooterView removeFromSuperview];
