@@ -54,7 +54,7 @@
     [super layoutSubviews];
     self.iconImageView.frame = CGRectMake(0, 0, BF_ScaleWidth(30), BF_ScaleHeight(30));
     
-    self.infoLabel.frame = CGRectMake(CGRectGetMidX(self.iconImageView.frame), BF_ScaleHeight(2.5), BF_ScaleWidth(117.5), BF_ScaleHeight(25));
+    self.infoLabel.frame = CGRectMake(CGRectGetMidX(self.iconImageView.frame), BF_ScaleHeight(2.5), BF_ScaleWidth(127.5), BF_ScaleHeight(25));
     
     self.goGroupLabel.frame = CGRectMake(self.width-BF_ScaleWidth(60), self.infoLabel.y, BF_ScaleWidth(60), self.infoLabel.height);
 }

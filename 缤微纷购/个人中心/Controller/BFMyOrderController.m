@@ -238,7 +238,11 @@
                 NSArray *array = [BFMyOrderModel mj_objectArrayWithKeyValuesArray:responseObject[@"order"]];
                 if (array.count != 0 ) {
 //                    self.tableView.hidden = NO;
-                    self.bgImageView.hidden = YES;
+                    double delayInSeconds = 0.2;
+                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                        self.bgImageView.hidden = YES;
+                    });
                     [self.oderArray addObjectsFromArray:array];
                 }else {
                     //self.tableView.hidden = YES;

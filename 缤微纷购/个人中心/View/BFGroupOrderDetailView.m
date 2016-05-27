@@ -282,6 +282,7 @@
     
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(8), BF_ScaleHeight(15), BF_ScaleHeight(60), BF_ScaleHeight(60))];
+    self.productIcon.contentMode = UIViewContentModeScaleAspectFit;
     self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     [productView addSubview:self.productIcon];
     

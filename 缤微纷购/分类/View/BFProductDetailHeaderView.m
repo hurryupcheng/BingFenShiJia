@@ -89,7 +89,8 @@
         instructionsLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
         [self addSubview:instructionsLabel];
         
-        self.specialInstruction = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), CGRectGetMaxY(instructionsLabel.frame) + BF_ScaleHeight(6), BF_ScaleWidth(260), 0)];
+        self.specialInstruction = [[UILabel alloc] initWithFrame:CGRectMake(BF_ScaleWidth(20), CGRectGetMaxY(instructionsLabel.frame) + BF_ScaleHeight(6), BF_ScaleWidth(280), 0)];
+        //self.specialInstruction.backgroundColor = BFColor(0x0000ff);
         self.specialInstruction.numberOfLines = 0;
         self.specialInstruction.text = model.intro;
         self.specialInstruction.textColor = BFColor(0x8E8E8E);

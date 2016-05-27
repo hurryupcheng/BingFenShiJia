@@ -481,7 +481,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     self.imageV = [[UIImageView alloc]init];
-    self.imageV.backgroundColor = [UIColor greenColor];
+    //self.imageV.backgroundColor = [UIColor greenColor];
     self.imageV.userInteractionEnabled = YES;
     if (section == 0) {
         [_imageV addSubview:self.groubeImg];

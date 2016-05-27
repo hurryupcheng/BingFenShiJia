@@ -70,6 +70,7 @@
     [self addSubview:self.cover];
     
     self.productIcon = [[UIImageView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(10), BF_ScaleHeight(10), BF_ScaleWidth(90), BF_ScaleHeight(90))];
+    self.productIcon.contentMode = UIViewContentModeScaleAspectFit;
     self.productIcon.image = [UIImage imageNamed:@"100.jpg"];
     [self addSubview:self.productIcon];
     
