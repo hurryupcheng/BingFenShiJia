@@ -37,6 +37,7 @@
 @property (nonatomic,retain)UILabel *name;
 @property (nonatomic,retain)UILabel *photo;
 @property (nonatomic,retain)UILabel *adds;
+@property (nonatomic,retain)UILabel *sheng;
 @property (nonatomic,retain)UILabel *type;
 @property (nonatomic,retain)UIImageView *img;
 @property (nonatomic,retain)BFFootViews *footView;
@@ -337,9 +338,12 @@
     
 //    _photo.backgroundColor = [UIColor greenColor];
     
-    self.adds = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_photo.frame)+5, kScreenWidth-50, CGFloatY(50))];
+    _sheng = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_photo.frame), kScreenWidth-50, CGFloatY(25))];
+    _sheng.font = [UIFont systemFontOfSize:CGFloatX(17)];
+    _sheng.textColor = [UIColor grayColor];
     
-    _adds.numberOfLines = 2;
+    self.adds = [[UILabel alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(_sheng.frame), kScreenWidth-50, CGFloatY(25))];
+ 
     _adds.font = [UIFont systemFontOfSize:CGFloatX(17)];
     _adds.textColor = [UIColor grayColor];
 //    _adds.backgroundColor = [UIColor redColor];
@@ -488,6 +492,7 @@
         [_imageV addSubview:self.groubeImg];
         [_imageV addSubview:_name];
         [_imageV addSubview:_photo];
+        [_imageV addSubview:_sheng];
         [_imageV addSubview:_adds];
         [_imageV addSubview:_img];
         [_imageV addSubview:_type];
@@ -502,6 +507,7 @@
  
             _name.text = self.model.consignee;
             _photo.text = self.model.mobile;
+            _sheng.text = [NSString stringWithFormat:@"%@%@%@",self.model.sheng,self.model.shi,self.model.qu];
             _adds.text = self.model.address;
             if ([self.model.type isEqualToString:@"0"]) {
                 _type.text = @"家";
@@ -569,6 +575,7 @@
         [self.addressArray addObject:model];
         _name.text = model.consignee;
          _photo.text = model.mobile;
+        _sheng.text = [NSString stringWithFormat:@"%@%@%@",model.sheng,model.shi,model.qu];
         _adds.text = model.address;
         if ([model.type isEqualToString:@"0"]) {
             _type.text = @"家";
@@ -578,7 +585,7 @@
         _type.text = @"其他";
         }
         [self getNewData];
-        BFLog(@".....%@",model.consignee);
+        BFLog(@".....%@",model.qu);
     };
    
     [self.tableV reloadData];
@@ -785,6 +792,7 @@
             [_wordesBack addSubview:_textView];
             _textView.delegate = self;
             _textView.returnKeyType = UIReturnKeyDone;
+            _textView.font = [UIFont systemFontOfSize:CGFloatX(16)];
             self.tableV.tableFooterView = _wordesBack;
         }else{
 //            [self.tableV.tableFooterView removeFromSuperview];
