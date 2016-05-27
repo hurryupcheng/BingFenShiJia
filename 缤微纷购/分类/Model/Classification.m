@@ -13,7 +13,7 @@
 - (void)setValue:(id)value forUndefinedKey:(NSString *)key{};
 
 - (instancetype)initWithDictionary:(NSDictionary *)dic{
- 
+    
      self = [super init];
     if (self) {
       

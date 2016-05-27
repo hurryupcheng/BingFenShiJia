@@ -464,6 +464,7 @@
     
     if (section == 0) {
         UIView *back = [[UIView alloc]init];
+//        back.backgroundColor = [UIColor redColor];
         if (self.isCoupon == YES) {
             
             _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
@@ -481,7 +482,7 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     self.imageV = [[UIImageView alloc]init];
-    //self.imageV.backgroundColor = [UIColor greenColor];
+//    self.imageV.backgroundColor = [UIColor greenColor];
     self.imageV.userInteractionEnabled = YES;
     if (section == 0) {
         [_imageV addSubview:self.groubeImg];

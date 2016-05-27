@@ -108,6 +108,7 @@
     
     _functionView = [[BFHomeFunctionView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.lbView.frame), ScreenWidth, BF_ScaleHeight(170)) model:self.model];
     _functionView.delegate = self;
+//        _functionView.backgroundColor = [UIColor greenColor];
     }
     
 }
