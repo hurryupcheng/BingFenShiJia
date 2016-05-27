@@ -257,6 +257,43 @@
     [self.navigationController pushViewController:editVC animated:YES];
 }
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    // 获取编辑模式
+    UITableViewCellEditingStyle style = editingStyle;
+    // 如果是删除模式,才往下进行
+    if (style != UITableViewCellEditingStyleDelete) {
+        return ;
+    }
+    // 先修改数据 模型,再更新(如果对象数组中删除了一些对象,则只能调用tableView的deleteRowsAtIndexPaths方法,否则报错)
+    BFAddressModel *model = self.addressArray[indexPath.row];
+    [self.addressArray removeObjectAtIndex:indexPath.row];
+    [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self deleteAddress:model.ID];
+}
+
+- (void)deleteAddress:(NSString *)addressID {
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=del_address"];
+    NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
+    parameter[@"uid"] = userInfo.ID;
+    parameter[@"token"] = userInfo.token;
+    parameter[@"id"] = addressID;
+    BFLog(@"%@,",parameter);
+    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+        BFLog(@"%@",responseObject);
+        if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
+            [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"删除成功"];
+        }else {
+            [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"删除失败,请重新操作"];
+        }
+        
+    } failure:^(NSError *error) {
+        BFLog(@"%@",error);
+        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+    }];
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleHeight(105);

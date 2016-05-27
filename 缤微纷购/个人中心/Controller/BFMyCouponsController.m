@@ -22,6 +22,10 @@
 @property (nonatomic, strong) NSMutableArray *couponsArray;
 /**请求参数可变字典*/
 @property (nonatomic, strong) NSMutableDictionary *parameter;
+//返回顶部按钮
+@property (nonatomic, strong) UIButton *TopButton;
+//偏移量
+@property (nonatomic, assign) CGFloat contentOffSetY;
 
 @end
 
@@ -278,5 +282,41 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return BF_ScaleWidth(100);
 }
+
+#pragma mark -- 添加返回顶部的按钮
+- (UIButton *)TopButton{
+    if (!_TopButton) {
+        _TopButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _TopButton.frame = CGRectMake(ScreenWidth - BF_ScaleWidth(60),ScreenHeight-BF_ScaleHeight(190), BF_ScaleWidth(50), BF_ScaleWidth(50));
+        _TopButton.layer.cornerRadius = BF_ScaleWidth(25);
+        _TopButton.layer.masksToBounds = YES;
+        _TopButton.backgroundColor = BFColor(0x1dc3ff);
+        [_TopButton setTitle:@"TOP" forState:UIControlStateNormal];
+        [self.TopButton addTarget:self action:@selector(TopButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _TopButton;
+}
+- (void)TopButtonAction:(UIButton *)sender{
+    
+    self.tableView.contentOffset = CGPointMake(0, 0);
+    
+    [self.TopButton removeFromSuperview];
+}
+//开始拖动scrollV
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    _contentOffSetY = scrollView.contentOffset.y;
+}
+
+//只要偏移量发生改变就会触发
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat currcontentOffSetY = scrollView.contentOffset.y;
+    if (_contentOffSetY > currcontentOffSetY && currcontentOffSetY > 0) {
+        [self.view addSubview:self.TopButton];
+        //        [self.view bringSubviewToFront:self.TopButton];
+    }else{
+        [self.TopButton removeFromSuperview];
+    }
+}
+
 
 @end
