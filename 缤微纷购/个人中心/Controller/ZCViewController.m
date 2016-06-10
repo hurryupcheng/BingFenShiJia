@@ -86,14 +86,20 @@
     parameter[@"pass"] = [MyMD5 md5:BFPassWordView.firstPasswordTX.text];
     
     [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-
-        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-        BFLog(@"responseObject%@",userInfo);
-        [BFPassWordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
-        [hud hideAnimated:YES];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+        BFLog(@"responseObject%@,,%@",responseObject,parameter);
+        if ([responseObject[@"status"] isEqualToString:@"1"]) {
+            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+            [BFPassWordView.phoneTX.text writeToFile:self.phonePath atomically:YES];
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎光临!"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }else {
+            [hud hideAnimated:YES];
+            [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"登录失败"];
+        }
+        
     } failure:^(NSError *error) {
         [hud hideAnimated:YES];
         [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];

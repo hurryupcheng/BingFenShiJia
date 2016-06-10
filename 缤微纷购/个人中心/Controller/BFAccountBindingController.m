@@ -107,33 +107,48 @@
 
 - (void)sure:(UIButton *)sender {
     [self.view endEditing:YES];
-//    if (self.phoneTX.text.length == 0 || self.verificationCodeTX.text.length == 0) {
-//        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请完善信息"];
-//    }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
-//        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入正确的手机号"];
-//    }else {
+    if (self.phoneTX.text.length == 0 || self.verificationCodeTX.text.length == 0) {
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请完善信息"];
+    }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
+        [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入正确的手机号"];
+    }else {
         [BFProgressHUD MBProgressWithLabelText:@"正在绑定手机号" dispatch_get_main_queue:^(MBProgressHUD *hud) {
             NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=add_user"];
             self.parameter[@"tel"] = self.phoneTX.text;
+            self.parameter[@"code"] = self.verificationCodeTX.text;
+            self.parameter[@"pass"] = @"";
             [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
-                BFLog(@"%@", responseObject);
+                BFLog(@"%@,,,%@", responseObject,self.parameter);
                 if ([responseObject[@"msg"] isEqualToString:@"绑定登录成功"]) {
                     [hud hideAnimated:YES];
                     BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                     _block(userInfo);
                     [self dismissViewControllerAnimated:YES completion:nil];
+                }else if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码不正确,请重新输入"];
+                    self.verificationCodeTX.text = @"";
+                }else if ([responseObject[@"msg"] isEqualToString:@"验证码超时"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码超时,请重新发送"];
+                    self.verificationCodeTX.text = @"";
+                }else if ([responseObject[@"msg"] isEqualToString:@"该帐号已注册"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"该手机号已注册,请更换"];
+                    self.verificationCodeTX.text = @"";
                 }else {
                     [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressOnlyWithLabelText:@"手机号绑定失败"];
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
+
             } failure:^(NSError *error) {
                 [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
                 BFLog(@"%@", error);
             }];
         }];
-//    }
+    }
 }
 
 #pragma mark -- 发送验证码按钮点击

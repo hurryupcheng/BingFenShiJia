@@ -1981,12 +1981,12 @@
 				590D3B441C93B4540042D42E /* BFMyClientController.m */,
 				51D5DC921C59CE4B00453E02 /* BFMyWalletController.h */,
 				51D5DC931C59CE4B00453E02 /* BFMyWalletController.m */,
+				597CE69C1CA8F3A5005B6C28 /* BFWithdrawalRecordController.h */,
+				597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */,
 				592F86D71C901B75006E0CEE /* BFModifyBankCardController.h */,
 				592F86D81C901B75006E0CEE /* BFModifyBankCardController.m */,
 				59FF46BF1C8A86800040689A /* BFMyOrderController.h */,
 				59FC88CC1CCB866900D0262D /* BFMyOrderController.m */,
-				597CE69C1CA8F3A5005B6C28 /* BFWithdrawalRecordController.h */,
-				597CE69D1CA8F3A5005B6C28 /* BFWithdrawalRecordController.m */,
 				5915E3631C9690910097D43F /* BFMyOrderDetailController.h */,
 				5915E3641C9690910097D43F /* BFMyOrderDetailController.m */,
 				59F6B2481C9A5D280054F317 /* BFCheckLogisticsController.h */,
@@ -3452,7 +3452,7 @@
 				TargetAttributes = {
 					51D121AA1C3A6DA700640A44 = {
 						CreatedOnToolsVersion = 7.1;
-						DevelopmentTeam = AJPND4BG6W;
+						DevelopmentTeam = AQYD5LV6KX;
 					};
 					51D121C31C3A6DA800640A44 = {
 						CreatedOnToolsVersion = 7.1;
@@ -4192,7 +4192,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Library/SDKExport",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = xinxin.com;
+				PRODUCT_BUNDLE_IDENTIFIER = binfenshijia.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4250,7 +4250,7 @@
 					"$(PROJECT_DIR)/缤微纷购/Main/第三方/Library/SDKExport",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = xinxin.com;
+				PRODUCT_BUNDLE_IDENTIFIER = binfenshijia.com;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;

@@ -380,7 +380,7 @@
 
 - (void)times:(UIButton *)seg{
     
-    [self performSelector:@selector(segs:) withObject:seg afterDelay:0.5];
+    [self performSelector:@selector(segs:) withObject:seg afterDelay:1];
 }
 
 - (void)segs:(UIButton *)but{
@@ -545,8 +545,8 @@
 }
 - (void)TopButtonAction:(UIButton *)sender{
     
-    self.collectionView.contentOffset = CGPointMake(0, 0);
-    
+    //self.collectionView.contentOffset = CGPointMake(0, 0);
+    [self.collectionView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.TopButton removeFromSuperview];
 }
 //开始拖动scrollV

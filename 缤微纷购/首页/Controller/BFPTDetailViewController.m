@@ -250,6 +250,7 @@
 #pragma mark -- 拼团玩法查看详情
 - (void)goToCheckDetail {
     PTStepViewController *pt = [[PTStepViewController alloc]init];
+    pt.url = @"http://bingo.luexue.com/index.php?m=Teambuy&a=help";
     [self.navigationController pushViewController:pt animated:YES];
 }
 

@@ -263,7 +263,8 @@
 }
 - (void)TopButtonAction:(UIButton *)sender{
     
-    self.tableV.contentOffset = CGPointMake(0, 0);
+    [self.tableV setContentOffset:CGPointMake(0,0) animated:YES];
+    //self.tableV.contentOffset = CGPointMake(0, 0);
     
     [self.TopButton removeFromSuperview];
 }

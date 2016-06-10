@@ -39,7 +39,6 @@
 @property (nonatomic,retain)HeaderCollectionReusableView *headerView;
 @property (nonatomic,retain)FooterCollectionReusableView *footerView;
 @property (nonatomic,retain)LBView *lbView;
-@property (nonatomic,retain)UITableView *tableV;
 @property (nonatomic,retain)UIScrollView *scrollV;
 @property (nonatomic,retain)UIView *viewBut;
 
@@ -596,8 +595,8 @@
 }
 - (void)TopButtonAction:(UIButton *)sender{
     
-    self.collentionView.contentOffset = CGPointMake(0, 0);
-    
+    //self.collentionView.contentOffset = CGPointMake(0, 0);
+    [self.collentionView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.TopButton removeFromSuperview];
 }
 //开始拖动scrollV

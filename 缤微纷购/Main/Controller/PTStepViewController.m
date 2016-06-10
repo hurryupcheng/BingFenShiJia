@@ -6,7 +6,7 @@
 //  Created by 郑洋 on 16/3/1.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-#import "Header.h"
+
 #import "PTStepViewController.h"
 
 @interface PTStepViewController ()
@@ -34,7 +34,7 @@
 - (void)setUpWebView {
     UIWebView *web = [[UIWebView alloc]initWithFrame:self.view.frame];
     
-    NSURL *url = [NSURL URLWithString:@"http://bingo.luexue.com/index.php?m=Teambuy&a=help"];
+    NSURL *url = [NSURL URLWithString:self.url];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     web.scrollView.showsVerticalScrollIndicator = NO;
     web.scrollView.showsHorizontalScrollIndicator = NO;

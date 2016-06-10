@@ -646,8 +646,8 @@
 }
 - (void)TopButtonAction:(UIButton *)sender{
     
-    self.tableView.contentOffset = CGPointMake(0, 0);
-    
+    //self.tableView.contentOffset = CGPointMake(0, 0);
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.TopButton removeFromSuperview];
 }
 //开始拖动scrollV

@@ -299,26 +299,27 @@
         
         [BFProgressHUD MBProgressWithLabelText:@"正在登陆..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-                BFLog(@"responseObject%@",responseObject);
+                BFLog(@"responseObject:%@",responseObject);
                 BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-                if ([userInfo.msg isEqualToString:@"登录失败"]) {
+                if ([userInfo.msg isEqualToString:@"登录成功"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                        
+                        [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
+                        
+                        [self tabBarBadge:userInfo.ID];
+                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                        //BFLog(@"responseObject%@",userInfo.user_icon);
+                        [hud hideAnimated:YES];
+                        [self.navigationController popViewControllerAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎再次光临!"];
+                    }];
+                }else {
                     [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"账号或者密码错误"];
-                    return ;
                 }
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-            
-                    [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
-                    
-                    [self tabBarBadge:userInfo.ID];
-                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
-                    BFLog(@"responseObject%@",userInfo.user_icon);
-                    [hud hideAnimated:YES];
-                    [self.navigationController popViewControllerAnimated:YES];
-                }];
-            } failure:^(NSError *error) {
+                            } failure:^(NSError *error) {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view  andLabelText:@"网络问题"];
                 [hud hideAnimated:YES];
                 BFLog(@"error%@",error);

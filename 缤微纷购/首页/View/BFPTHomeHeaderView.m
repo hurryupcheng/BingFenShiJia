@@ -24,7 +24,7 @@
 }
 
 - (void)setView {
-    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(200)) delegate:nil placeholderImage:nil];
+    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(150)) delegate:nil placeholderImage:nil];
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
@@ -42,7 +42,7 @@
             NSArray *array = [BFPTBannerList parse:model.ads];
             if (array.count == 0) {
                 self.cycleScrollView.hidden = YES;
-                self.headViewH = 10;
+                self.headViewH = BF_ScaleHeight(10);
             }else {
                 NSMutableArray *mutableArray = [NSMutableArray array];
                 for (BFPTBannerList *bannerList in array) {
@@ -50,12 +50,12 @@
                 }
                 self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
                 self.cycleScrollView.hidden = NO;
-                self.headViewH = BF_ScaleHeight(200)+20;
+                self.headViewH = BF_ScaleHeight(150)+BF_ScaleHeight(10);
             }
             
         }else {
             self.cycleScrollView.hidden = YES;
-            self.headViewH = 10;
+            self.headViewH = BF_ScaleHeight(10);
         }
         
     }

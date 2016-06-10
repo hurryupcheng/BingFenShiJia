@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PTStepViewController : UIViewController
-
+/**网址*/
+@property (nonatomic, strong) NSString *url;
 @end

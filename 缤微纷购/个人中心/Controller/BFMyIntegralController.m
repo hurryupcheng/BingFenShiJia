@@ -12,6 +12,7 @@
 #import "BFMyIntegralCell.h"
 #import "BFMyIntegralHeaderView.h"
 #import "BFScoreModel.h"
+#import "PTStepViewController.h"
 
 
 @interface BFMyIntegralController ()<UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate>
@@ -23,6 +24,8 @@
 @property (nonatomic, strong) NSMutableArray *scoreArray;
 /**头部视图*/
 @property (nonatomic, strong) BFMyIntegralHeaderView *headerView;
+/**积分规则网址*/
+@property (nonatomic, strong) NSString *ruleUrl;
 //返回顶部按钮
 @property (nonatomic, strong) UIButton *TopButton;
 //偏移量
@@ -99,7 +102,9 @@
                 self.headerView.totalScore = responseObject[@"score"];
                 userInfo.score = responseObject[@"score"];
                 [BFUserDefaluts modifyUserInfo:userInfo];
-                
+                if (![responseObject[@"score_url"] isKindOfClass:[NSNull class]]) {
+                    self.ruleUrl = responseObject[@"score_url"];
+                }
                 if ([responseObject[@"score_list"] isKindOfClass:[NSArray class]]) {
                     NSArray *array = [BFScoreModel parse:responseObject[@"score_list"]];
                     if (array.count != 0) {
@@ -137,6 +142,9 @@
 }
 
 - (void)integralRule {
+    PTStepViewController *ptVC= [[PTStepViewController alloc] init];
+    ptVC.url = self.ruleUrl;
+    [self.navigationController pushViewController:ptVC animated:YES];
     BFLog(@"积分规则");
 }
 
@@ -174,8 +182,8 @@
 }
 - (void)TopButtonAction:(UIButton *)sender{
     
-    self.tableView.contentOffset = CGPointMake(0, 0);
-    
+    //self.tableView.contentOffset = CGPointMake(0, 0);
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.TopButton removeFromSuperview];
 }
 //开始拖动scrollV

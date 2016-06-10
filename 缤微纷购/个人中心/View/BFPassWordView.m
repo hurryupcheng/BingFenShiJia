@@ -106,26 +106,21 @@
 
         
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
-        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?a=reg&m=Json"];
+        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=add_user"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"phone"] = self.phoneTX.text;
+        parameter[@"type"] = @"3";
+        parameter[@"openid"] = self.phoneTX.text;
+        parameter[@"nickname"] = @"";
+        parameter[@"ico"] = @"";
+        parameter[@"tel"] = self.phoneTX.text;
         parameter[@"pass"] = firstPW;
         parameter[@"code"] = self.verificationCodeTX.text;
         // 1.创建请求管理者
         [BFProgressHUD MBProgressWithLabelText:@"正在注册..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
         [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@,,,",responseObject);
+            BFLog(@"responseObject%@,,,%@",responseObject,parameter);
             //BFRegistModel *model = [BFRegistModel parse:responseObject];
-            if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
-            } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
-            }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
-            }else {
+            if ([responseObject[@"status"] isEqualToString:@"1"]) {
                 [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                     if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView: hud:)]) {
@@ -133,8 +128,28 @@
                     }
                     
                 }];
+            }else if([responseObject[@"status"] isEqualToString:@"0"]){
+                if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
+                } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
+                }else if ([responseObject[@"msg"] isEqualToString:@"该帐号已注册"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"该手机号已注册,请更换"];
+                    self.verificationCodeTX.text = @"";
+                }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
+                }
+
             }
         } failure:^(NSError *error) {
+            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"网络异常"];
             BFLog(@"error%@",error);
         }];
             }];
