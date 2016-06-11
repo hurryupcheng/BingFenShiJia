@@ -147,7 +147,7 @@
     switch (type) {
         case BFOrderDetailBottomViewButtonTypeCancleOrder:{
             
-            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"取消订单" controllerMessage:@"客官,真的要取消吗?请三思啊!" preferredStyle:UIAlertControllerStyleAlert cancleTitle:@"还是算了吧!" actionTitle:@"下定决心要取消" style:UIAlertActionStyleDefault handler:^{
+            UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"取消订单" controllerMessage:@"客官,真的要取消吗?请三思啊!" preferredStyle:UIAlertControllerStyleAlert cancleTitle:@"还是算了吧!" actionTitle:@"下定决心不买了" style:UIAlertActionStyleDefault handler:^{
                 //取消订单请求
                 [self cancleOrder];
             }];
@@ -170,8 +170,8 @@
         }
         case BFOrderDetailBottomViewButtonTypeConfirmReceipt:{
             UIAlertController *alertC = [UIAlertController alertWithControllerTitle:@"确认收货" controllerMessage:@"客官,请确认收到货物后再收货哦!" preferredStyle:UIAlertControllerStyleAlert cancleTitle:@"那就再等等吧!" actionTitle:@"货物已收到,非常满意" style:UIAlertActionStyleDefault handler:^{
-                //取消订单请求
-                [self cancleOrder];
+                //确认收货
+                [self confirmOrder];
             }];
             [self presentViewController:alertC animated:YES completion:nil];
             BFLog(@"确认收货");

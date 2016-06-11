@@ -21,6 +21,6 @@
 @property (nonatomic,retain)UIButton *couponBt;
 @property (nonatomic,assign)id<BFCouponViewDelegate>couponDelegate;
 
-- (instancetype)initWithFrame:(CGRect)frame name:(NSMutableArray *)name price:(NSMutableArray *)price end:(NSMutableArray *)end;
+- (instancetype)initWithFrame:(CGRect)frame type:(NSMutableArray *)type name:(NSMutableArray *)name price:(NSMutableArray *)price end:(NSMutableArray *)end;
 
 @end

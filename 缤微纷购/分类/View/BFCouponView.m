@@ -11,7 +11,7 @@
 
 @implementation BFCouponView
 
-- (instancetype)initWithFrame:(CGRect)frame name:(NSMutableArray *)name price:(NSMutableArray *)price end:(NSMutableArray *)end{
+- (instancetype)initWithFrame:(CGRect)frame type:(NSMutableArray *)type name:(NSMutableArray *)name price:(NSMutableArray *)price end:(NSMutableArray *)end{
     if ([super initWithFrame:frame]) {
         for (int i = 0; i < name.count; i++) {
             self.couponBt = [[UIButton alloc]initWithFrame:CGRectMake(0, CGFloatY(90)*i+(i*10), kScreenWidth, CGFloatY(90))];
@@ -19,12 +19,32 @@
             self.couponBt.tag = i;
             [_couponBt addTarget:self action:@selector(bt:) forControlEvents:UIControlEventTouchUpInside];
             
-            UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(20, 0, CGFloatX(100), CGFloatX(60))];
+            
+            UILabel *money = [[UILabel alloc]initWithFrame:CGRectMake(15, 0, CGFloatX(100)+10, CGFloatX(60))];
+            if ([type[i] isEqualToString:@"1"]) {
+                NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%@",price[i]]];
+                [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:CGFloatX(42)] range:NSMakeRange(1, [price[i] length])];
+                money.attributedText = str;
+            }else {
+                if ([price[i] hasSuffix:@"0"]) {
+                    //self.priceLabel.text = [NSString stringWithFormat:@"%.0f折",[model.discount floatValue]];
+                    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.0f折",[price[i] floatValue]]];
+                    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:CGFloatX(42)] range:NSMakeRange(0, [price[i] length]-2)];
+                    money.attributedText = str;
+                }else {
+                    //self.priceLabel.text = [NSString stringWithFormat:@"%.1f折",[model.discount floatValue]];
+                    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"%.1f折",[price[i] floatValue]]];
+                    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:CGFloatX(42)] range:NSMakeRange(0, [price[i] length])];
+                    money.attributedText = str;
+                }
+
+                
+            }
+            
  
-            NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥%@",price[i]]];
-            [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:CGFloatX(45)] range:NSMakeRange(1, [price[i] length])];
+            
 //            money.backgroundColor = [UIColor redColor];
-            money.attributedText = str;
+            
             money.textColor = [UIColor orangeColor];
             money.textAlignment = NSTextAlignmentRight;
             
@@ -34,7 +54,7 @@
             [date setDateFormat:@"yyyy-MM-dd"];
             NSDate *times = [NSDate dateWithTimeIntervalSince1970:[end[i] doubleValue]];
             
-            NSLog(@"%@",times);
+            //NSLog(@"%@",times);
             NSString *strs = [date stringFromDate:times];
             time.text = [NSString stringWithFormat:@"有效期至: %@",strs];
             time.font = [UIFont systemFontOfSize:CGFloatX(16)];

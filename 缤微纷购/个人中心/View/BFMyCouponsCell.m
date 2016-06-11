@@ -68,10 +68,10 @@
 - (void)setModel:(BFMyCouponsModel *)model {
     _model = model;
     self.instructionLabel.text = model.name;
-    if (model.money.length != 0 && [model.money integerValue] != 0) {
-        self.priceLabel.text = [NSString stringWithFormat:@"¥ %ld",(long)[model.money integerValue]];
+    if ([model.cr_type isEqualToString:@"1"]) {
+        self.priceLabel.text = [NSString stringWithFormat:@"¥%ld",(long)[model.money integerValue]];
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(45)] range:NSMakeRange(2,self.priceLabel.text.length-2)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(35)] range:NSMakeRange(1,self.priceLabel.text.length-1)];
         self.priceLabel.attributedText = attributedString;
 
     }else {
@@ -81,7 +81,7 @@
             self.priceLabel.text = [NSString stringWithFormat:@"%.1f折",[model.discount floatValue]];
         }
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.priceLabel.text];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(45)] range:NSMakeRange(0,self.priceLabel.text.length-1)];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(35)] range:NSMakeRange(0,self.priceLabel.text.length-1)];
         self.priceLabel.attributedText = attributedString;
 
     }
@@ -134,6 +134,7 @@
     
     self.priceLabel = [[UILabel alloc] init];
     self.priceLabel.text = @"¥10";
+    //self.priceLabel.backgroundColor = [UIColor redColor];
     self.priceLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(16)];
     self.priceLabel.textAlignment = NSTextAlignmentRight;
     self.priceLabel.textColor = BFColor(0xFD8627);

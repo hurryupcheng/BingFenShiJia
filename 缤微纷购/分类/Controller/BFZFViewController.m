@@ -69,6 +69,8 @@
 @property (nonatomic,retain)NSMutableArray *favourablePrice;//优惠卷金额
 @property (nonatomic,retain)NSMutableArray *favourableTime;//使用期限
 @property (nonatomic,retain)NSMutableArray *favourableID;//id
+@property (nonatomic,retain)NSMutableArray *favourableType;//优惠券类型
+@property (nonatomic,retain)NSMutableArray *favourableDiscount;//优惠券折扣
 @property (nonatomic,retain)UILabel *payTitle;//回调支付方式
 
 @property (nonatomic,retain)BFCouponView *couponView;//弹出优惠卷视图
@@ -79,6 +81,7 @@
 @property (nonatomic,retain)NSMutableArray *addressArray;
 
 @property (nonatomic)BOOL hidden;
+@property (nonatomic,retain)NSString *couponType;//优惠卷id
 @property (nonatomic,retain)NSString *coupon_id;//优惠卷id
 @property (nonatomic,retain)NSString *addressID;//地址ID
 @property (nonatomic,retain)NSString *itemDate;//产品数据拼接
@@ -471,11 +474,31 @@
 //        back.backgroundColor = [UIColor redColor];
         if (self.isCoupon == YES) {
             
-            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
+            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) type:_favourableType name:_favourableArr price:_favourablePrice end:_favourableTime];
             _couponHeight = _couponView.height;
             _couponView.couponDelegate = self;
             
             [back addSubview:_couponView];
+
+//            
+//            for (NSString *type in self.favourableType) {
+//                if ([type isEqualToString:@"1"]) {
+//                    _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) type:type name:_favourableArr price:_favourablePrice end:_favourableTime];
+//                    _couponHeight = _couponView.height;
+//                    _couponView.couponDelegate = self;
+//                    
+//                    [back addSubview:_couponView];
+//                }else {
+//                    _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) type:type name:_favourableArr price:_favourableDiscount end:_favourableTime];
+//                    _couponHeight = _couponView.height;
+//                    _couponView.couponDelegate = self;
+//                    
+//                    [back addSubview:_couponView];
+//                }
+//            }
+            
+//            _couponView = [[BFCouponView alloc]initWithFrame:CGRectMake(0, 10, kScreenWidth, (CGFloatX(90)*_favourableArr.count)+(10*_favourableArr.count)) name:_favourableArr price:_favourablePrice end:_favourableTime];
+            
         }
        return back;
     }else{
@@ -657,20 +680,20 @@
         
         switch (indexPath.row) {
             case 0:{
-                [self getPrice:self.sum_price height:cell.height];
+                [self getPrice:self.sum_price height:cell.height type:@"1"];
                 _everMoney.textColor = [UIColor orangeColor];
                 break;
             }case 1:{
-                [self getPrice:self.freeprice height:cell.height];
+                [self getPrice:self.freeprice height:cell.height type:@"1"];
             _everMoney.textColor = [UIColor orangeColor];
                 break;
             }case 2:{
         
-                [self getPrice:self.useScorePrice height:cell.height];
+                [self getPrice:self.useScorePrice height:cell.height type:@"1"];
                 _everMoney.textColor = [UIColor grayColor];
                 break;
             }case 3:{
-                [self getPrice:self.couponPrice height:cell.height];
+                [self getPrice:self.couponPrice height:cell.height type:self.couponType];
 //                NSMutableAttributedString *attr = [[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
 //                [attr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 1)];
 //                cell.textLabel.attributedText = attr;
@@ -690,14 +713,26 @@
     return cell;
 }
 
-- (void)getPrice:(double)price height:(NSInteger)height{
+- (void)getPrice:(double)price height:(NSInteger)height type:(NSString *)type{
     _everMoney = [[UILabel alloc]init];
     _everMoney.font = [UIFont systemFontOfSize:15];
     _everMoney.textAlignment = NSTextAlignmentCenter;
     if (price == 0.00) {
         _everMoney.text = @"¥ 0.00";
     }else{
-    _everMoney.text = [NSString stringWithFormat:@"¥ %.2f",price];
+        if ([type isEqualToString:@"2"]) {
+            NSString *coupon = [NSString stringWithFormat:@"%.1f",price];
+            BFLog(@"---%@",coupon);
+            if ([coupon hasSuffix:@".0"]) {
+                _everMoney.text = [NSString stringWithFormat:@"%.0f折",price];
+            }else {
+                _everMoney.text = [NSString stringWithFormat:@"%.1f折",price];
+            }
+            
+        }else {
+            _everMoney.text = [NSString stringWithFormat:@"¥ %.2f",price];
+        }
+    
     }
     CGFloat width = [Height widthString:_everMoney.text font:[UIFont systemFontOfSize:15]];
     _everMoney.frame = CGRectMake(CGRectGetMaxX(self.view.frame)-width-10, 0, width, height);
@@ -715,17 +750,25 @@
             __block typeof(self) weak = self;
             _scoreView.scoreBlock = ^(NSString *str){
                 weak.useScorePrice = [str doubleValue];
-
-                    weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice-weak.useScorePrice-weak.couponPrice];
-
+                if ([weak.couponType isEqualToString:@"2"]) {
+                    weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice*weak.couponPrice/10-weak.useScorePrice];
+                }else {
+                  weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice-weak.useScorePrice-weak.couponPrice];
+                }
                 [weak.tableV reloadData];
              
+                
             };
         }
         
     }else{
         _useScorePrice = 0.00;
-        _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+        if ([self.couponType isEqualToString:@"2"]) {
+            _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*self.couponPrice/10-self.useScorePrice];
+        }else {
+            _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+        }
+        
     }
     
     [self.tableV reloadData];
@@ -772,7 +815,12 @@
                     self.isCoupon = NO;
                     self.couponPrice = 0.00;
                     self.coupon_id = @"0";
-                    self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+                    if ([self.couponType isEqualToString:@"2"]) {
+                        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*self.couponPrice/10-self.useScorePrice];
+                    }else {
+                        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
+                    }
+                    
                 }
                 [self.tableV reloadData];
         }
@@ -807,7 +855,16 @@
     self.isCoupon = NO;
     self.couponPrice = [_favourablePrice[index] doubleValue];
     self.coupon_id = [NSString stringWithFormat:@"%@",_favourableID[index]];
-    self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.couponPrice-self.useScorePrice];
+    self.couponType = self.favourableType[index];
+    if ([self.favourableType[index] isEqualToString:@"1"]) {
+        
+        
+        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.couponPrice-self.useScorePrice];
+    }else {
+        //self.couponPrice = self.lastPrice - self.lastPrice*[_favourablePrice[index] doubleValue]/10;
+        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*[_favourablePrice[index] doubleValue]/10-self.useScorePrice];
+    }
+    
     [self.tableV reloadData];
 }
 
@@ -903,13 +960,21 @@
                 self.favourablePrice = [NSMutableArray array];
                 self.favourableTime = [NSMutableArray array];
                 self.favourableID = [NSMutableArray array];
+                self.favourableType = [NSMutableArray array];
+                self.favourableDiscount = [NSMutableArray array];
                 
                 for (BFPayoffModel *model in data) {
-                    
+                    if ([model.cr_type isEqualToString:@"1"]) {
+                        [_favourablePrice addObject:model.money];
+                    }else {
+                        [_favourablePrice addObject:model.discount];
+                    }
                     [_favourableArr addObject:model.name];
-                    [_favourablePrice addObject:model.money];
+                    //[_favourablePrice addObject:model.money];
                     [_favourableTime addObject:model.end_time];
                     [_favourableID addObject:model.ID];
+                    [_favourableType addObject:model.cr_type];
+                    
                 }
             }
             
