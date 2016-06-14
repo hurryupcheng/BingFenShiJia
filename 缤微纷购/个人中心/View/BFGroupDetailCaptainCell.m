@@ -67,6 +67,7 @@
 
     self.bottomImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(15), ScreenWidth, BF_ScaleHeight(55))];
     //self.bottomImageView.backgroundColor = BFColor(0x4da800);
+    //self.bottomImageView.alpha = 0.5;
     self.bottomImageView.image = [UIImage imageNamed:@"group_detail_captain_border"];
     [self addSubview:self.bottomImageView];
     

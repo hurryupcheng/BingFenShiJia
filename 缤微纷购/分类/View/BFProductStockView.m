@@ -46,10 +46,11 @@
         self.productNewPrice.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(16)];
         self.productNewPrice.numberOfLines = 0;
         self.productNewPrice.textColor = BFColor(0xFD872A);
-        self.productNewPrice.text = [NSString stringWithFormat:@"¥ %@", model.first_price];
+        NSString *newPrice = [NSString stringWithFormat:@"%.2f", [model.first_price doubleValue]];
+        self.productNewPrice.text = [NSString stringWithFormat:@"¥ %@", newPrice];
         if (model.first_price) {
             NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productNewPrice.text];
-            [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(25)] range:NSMakeRange(2,model.first_price.length)];
+            [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(25)] range:NSMakeRange(2,newPrice.length)];
             self.productNewPrice.attributedText = attributedString;
         }
         [self addSubview:self.productNewPrice];

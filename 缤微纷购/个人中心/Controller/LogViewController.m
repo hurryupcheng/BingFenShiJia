@@ -223,6 +223,7 @@
                            }else {
                                [BFProgressHUD MBProgressWithLabelText:@"手机号绑定成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                                    [self tabBarBadge:userInfo.ID];
+                                   userInfo.loginType = parameter[@"type"];
                                    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                                    [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                                    [hud hideAnimated:YES];
@@ -238,6 +239,7 @@
                        [BFProgressHUD MBProgressWithLabelText:@"登录成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                            [self tabBarBadge:userInfo.ID];
+                           userInfo.loginType = parameter[@"type"];
                            NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                            [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                            [hud hideAnimated:YES];
@@ -308,6 +310,7 @@
                         [self.phoneTX.text writeToFile:self.phonePath atomically:YES];
                         
                         [self tabBarBadge:userInfo.ID];
+                        userInfo.loginType = @"3";
                         NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
                         [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                         //BFLog(@"responseObject%@",userInfo.user_icon);

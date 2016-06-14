@@ -32,7 +32,7 @@
 }
 
 - (void)setView {
-    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(Margin, BF_ScaleHeight(150), TXWidth, BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
+    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(Margin, BF_ScaleHeight(120), TXWidth, BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
     self.phoneTX.delegate = self;
     self.phoneTX.returnKeyType = UIReturnKeyNext;
     [self addSubview:self.phoneTX];
@@ -86,6 +86,21 @@
     //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
     [self.registerButton addTarget:self action:@selector(regist:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.registerButton];
+    
+    UILabel *warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.registerButton.frame)+BF_ScaleHeight(30), TXWidth, BF_ScaleHeight(200))];
+    warningLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
+    warningLabel.numberOfLines = 0;
+    warningLabel.text = WarningText;
+    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:warningLabel.text];
+    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [detailParagraphStyle setLineSpacing:BF_ScaleHeight(6)];//调整行间距
+    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [warningLabel.text length])];
+    warningLabel.attributedText = detailAttributedString;
+    
+    //warningLabel.backgroundColor = [UIColor redColor];
+    [self addSubview:warningLabel];
+    [warningLabel sizeToFit];
+
 }
 
 - (void)regist:(UIButton *)sender {
@@ -102,57 +117,9 @@
 
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"密码不一致，请核对"];
     }else {
-
-
-        
-        NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
-        NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=add_user"];
-        NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-        parameter[@"type"] = @"3";
-        parameter[@"openid"] = self.phoneTX.text;
-        parameter[@"nickname"] = @"";
-        parameter[@"ico"] = @"";
-        parameter[@"tel"] = self.phoneTX.text;
-        parameter[@"pass"] = firstPW;
-        parameter[@"code"] = self.verificationCodeTX.text;
-        // 1.创建请求管理者
-        [BFProgressHUD MBProgressWithLabelText:@"正在注册..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-            BFLog(@"responseObject%@,,,%@",responseObject,parameter);
-            //BFRegistModel *model = [BFRegistModel parse:responseObject];
-            if ([responseObject[@"status"] isEqualToString:@"1"]) {
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressWithLabelText:@"注册成功，正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-                    if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView: hud:)]) {
-                        [self.delegate userRigisterWithBFPassWordView:self hud:hud];
-                    }
-                    
-                }];
-            }else if([responseObject[@"status"] isEqualToString:@"0"]){
-                if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码不正确"];
-                } else if ([responseObject[@"msg"] isEqualToString:@"验证码过期"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码过期"];
-                }else if ([responseObject[@"msg"] isEqualToString:@"该帐号已注册"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressOnlyWithLabelText:@"该手机号已注册,请更换"];
-                    self.verificationCodeTX.text = @"";
-                }else if ([responseObject[@"msg"] isEqualToString:@"注册失败"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
-                }else {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"注册失败"];
-                }
-
-            }
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"网络异常"];
-            BFLog(@"error%@",error);
-        }];
-            }];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(userRigisterWithBFPassWordView:)]) {
+            [self.delegate userRigisterWithBFPassWordView:self];
+        }
     }
 }
 

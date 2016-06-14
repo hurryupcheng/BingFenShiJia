@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface BFUserInfo : NSObject
+/**登录类型 1.qq 2.新浪 3.手机 wx.微信*/
+@property (nonatomic, strong) NSString *loginType;
 /**id*/
 @property (nonatomic, strong) NSString *ID;
 /**手机号*/

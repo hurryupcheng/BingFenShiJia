@@ -59,7 +59,7 @@
     
     self.productPrice.text = [NSString stringWithFormat:@"¥ %@", model.price];
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.productPrice.text];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)] range:NSMakeRange(2,model.price.length-3)];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(20)] range:NSMakeRange(2,model.price.length)];
     self.productPrice.attributedText = attributedString;
     
     self.productCount.text = [NSString stringWithFormat:@"x %@", model.quantity];

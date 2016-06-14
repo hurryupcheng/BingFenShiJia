@@ -25,7 +25,7 @@
 
 
 /**
- *  UIAlertController扩展方法
+ *  UIAlertController扩展方法升级
  *
  *  @param controllerTitle   弹出框标题
  *  @param controllerMessage 弹出框信息提示

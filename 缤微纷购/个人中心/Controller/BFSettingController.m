@@ -102,7 +102,12 @@
     if (section == 0) {
         return 1;
     }else if (section == 1) {
-        return 3;
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        if ([userInfo.loginType isEqualToString:@"3"]) {
+            return 3;
+        }else {
+            return 2;
+        }
     }else if (section == 2) {
         return 3;
     }else {
@@ -132,28 +137,47 @@
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     } else if (indexPath.section == 1) {
-        
-        
-        switch (indexPath.row) {
-            case 0:
-                cell.textLabel.text = @"修改密码";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                break;
-            case 1:{
-                cell.textLabel.text = @"清空图片缓存";
-                CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
-               //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
-                if (size >= 1) {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
-                }else {
-                    cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f KB", size * 1024];
-                }
-                
-                break;
-            }case 2:
-                cell.textLabel.text = @"个人信息";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                break;
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        if ([userInfo.loginType isEqualToString:@"3"]) {
+            switch (indexPath.row) {
+                case 0:
+                    cell.textLabel.text = @"修改密码";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    break;
+                case 1:{
+                    cell.textLabel.text = @"清空图片缓存";
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                    if (size >= 1) {
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
+                    }else {
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f KB", size * 1024];
+                    }
+                    
+                    break;
+                }case 2:
+                    cell.textLabel.text = @"个人信息";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    break;
+            }
+        }else {
+            switch (indexPath.row) {
+                case 0:{
+                    cell.textLabel.text = @"清空图片缓存";
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                    if (size >= 1) {
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
+                    }else {
+                        cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f KB", size * 1024];
+                    }
+                    
+                    break;
+                }case 1:
+                    cell.textLabel.text = @"个人信息";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    break;
+            }
         }
     } else if (indexPath.section == 2) {
         
@@ -215,49 +239,83 @@
         [window addSubview:customerServiceView];
         
     }else if (indexPath.section == 1) {
-        switch (indexPath.row) {
-            case 0:{
-                if (userInfo == nil) {
-                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-                        self.navigationController.navigationBarHidden = NO;
-                        LogViewController *logVC= [LogViewController new];
-                        [self.navigationController pushViewController:logVC animated:YES];
+        BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+        if ([userInfo.loginType isEqualToString:@"3"]) {
+            switch (indexPath.row) {
+                case 0:{
+                    if (userInfo == nil) {
+                        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                            self.navigationController.navigationBarHidden = NO;
+                            LogViewController *logVC= [LogViewController new];
+                            [self.navigationController pushViewController:logVC animated:YES];
+                            
+                        }];
+                    }else {
+                        BFModifyPasswordController *modifyPasswordVC = [BFModifyPasswordController new];
+                        [self.navigationController pushViewController:modifyPasswordVC animated:YES];
+                        BFLog(@"修改密码");
                         
-                    }];
-                }else {
-                    BFModifyPasswordController *modifyPasswordVC = [BFModifyPasswordController new];
-                    [self.navigationController pushViewController:modifyPasswordVC animated:YES];
-                    BFLog(@"修改密码");
-                   
+                    }
+                    break;
                 }
-                break;
-            }
-            case 1:{
-                BFLog(@"清空图片缓存");
-                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-                BFCleanView *cleanView = [BFCleanView cleanView];
-                [window addSubview:cleanView];
-                
-                CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
-                NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
-                [[SDImageCache sharedImageCache] clearDisk];
-                [self.tableView reloadData];
-                BFLog(@"缓存--%@", clearCacheName);
-                break;
-            }case 2:{
-                if (userInfo == nil) {
-                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
-                        self.navigationController.navigationBarHidden = NO;
-                        LogViewController *logVC= [LogViewController new];
-                        [self.navigationController pushViewController:logVC animated:YES];
-                    }];
-                }else {
-                    BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
-                    [self.navigationController pushViewController:personInformationVC animated:YES];
-                    BFLog(@"个人信息");
+                case 1:{
+                    BFLog(@"清空图片缓存");
+                    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                    BFCleanView *cleanView = [BFCleanView cleanView];
+                    [window addSubview:cleanView];
+                    
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                    [[SDImageCache sharedImageCache] clearDisk];
+                    [self.tableView reloadData];
+                    BFLog(@"缓存--%@", clearCacheName);
+                    break;
+                }case 2:{
+                    if (userInfo == nil) {
+                        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                            self.navigationController.navigationBarHidden = NO;
+                            LogViewController *logVC= [LogViewController new];
+                            [self.navigationController pushViewController:logVC animated:YES];
+                        }];
+                    }else {
+                        BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
+                        [self.navigationController pushViewController:personInformationVC animated:YES];
+                        BFLog(@"个人信息");
+                    }
+                    break;
                 }
-                break;
             }
+
+        }else {
+            switch (indexPath.row) {
+                case 0:{
+                    BFLog(@"清空图片缓存");
+                    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                    BFCleanView *cleanView = [BFCleanView cleanView];
+                    [window addSubview:cleanView];
+                    
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                    [[SDImageCache sharedImageCache] clearDisk];
+                    [self.tableView reloadData];
+                    BFLog(@"缓存--%@", clearCacheName);
+                    break;
+                }case 1:{
+                    if (userInfo == nil) {
+                        [BFProgressHUD MBProgressFromWindowWithLabelText:@"未登录，正在跳转..." dispatch_get_main_queue:^{
+                            self.navigationController.navigationBarHidden = NO;
+                            LogViewController *logVC= [LogViewController new];
+                            [self.navigationController pushViewController:logVC animated:YES];
+                        }];
+                    }else {
+                        BFPersonInformationController *personInformationVC = [[BFPersonInformationController alloc] init];
+                        [self.navigationController pushViewController:personInformationVC animated:YES];
+                        BFLog(@"个人信息");
+                    }
+                    break;
+                }
+            }
+
         }
     }else if (indexPath.section == 2) {
         if (indexPath.row == 2) {

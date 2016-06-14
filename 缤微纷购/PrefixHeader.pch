@@ -53,9 +53,12 @@
 
 /**接口宏定义*/
 #define BF_URL  @"http://bingo.luexue.com"
-#define NET_URL  @"http://192.168.1.201/binfen"
-//#define NET_URL  @"http://bingo.luexue.com"
+//#define NET_URL  @"http://192.168.1.201/binfen"
+#define NET_URL  @"http://bingo.luexue.com"
 
+
+/**绑定手机和注册的时候的提醒文字*/
+#define WarningText   @"友情提醒:微信商城的老用户在绑定手机号之前,请确认微信商城已经绑定相同手机号,否则不会同步获取到微信商城的用户信息,将会被当成新用户."
 
 /**通知中心*/
 #define  BFNotificationCenter    [NSNotificationCenter defaultCenter]

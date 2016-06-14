@@ -144,7 +144,7 @@
 - (void)groupOrder {
     NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
     NSString *totalPrice = [self.footView.money.text substringWithRange:range];
-    if ([totalPrice doubleValue] < 1.0) {
+    if ([totalPrice doubleValue] < 0.01) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
     }else {
     
@@ -223,7 +223,7 @@
 - (void)singleProductOrder {
     NSRange range = NSMakeRange(5, self.footView.money.text.length-5);
     NSString *totalPrice = [self.footView.money.text substringWithRange:range];
-    if ([totalPrice doubleValue] < 1.0) {
+    if ([totalPrice doubleValue] < 0.01) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
     }else {
 

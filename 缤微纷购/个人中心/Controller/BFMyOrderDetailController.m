@@ -182,7 +182,7 @@
 #pragma mark -- 去支付
 - (void)gotoPay {
     float payMoney = [self.model.order_sumPrice floatValue];
-    if (payMoney < 1.0) {
+    if (payMoney < 0.01) {
         [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单提交失败"];
     }else {
     [BFProgressHUD MBProgressWithLabelText:@"正在跳转支付页面..." dispatch_get_main_queue:^(MBProgressHUD *hud) {

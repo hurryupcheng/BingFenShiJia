@@ -65,7 +65,7 @@
     remind.text = @"为了您的账户安全,请关联您的手机号";
     [self.view addSubview:remind];
     
-    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.headIcon.frame)+BF_ScaleHeight(40), TXWidth, BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
+    self.phoneTX = [UITextField textFieldWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.headIcon.frame)+BF_ScaleHeight(30), TXWidth, BF_ScaleHeight(35)) image:@"phone" placeholder:@"手机号"];
     self.phoneTX.delegate = self;
     self.phoneTX.returnKeyType = UIReturnKeyDone;
     [self.view addSubview:self.phoneTX];
@@ -93,7 +93,7 @@
     [self.view addSubview:lineSecond];
     
     
-    self.sureButton = [UIButton buttonWithFrame:CGRectMake(Margin, CGRectGetMaxY(lineSecond.frame)+BF_ScaleHeight(40), TXWidth, BF_ScaleHeight(29)) title:@"立即绑定登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
+    self.sureButton = [UIButton buttonWithFrame:CGRectMake(Margin, CGRectGetMaxY(lineSecond.frame)+BF_ScaleHeight(20), TXWidth, BF_ScaleHeight(29)) title:@"立即绑定登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xFD8727)];
     //sendVerificationCodeButton.backgroundColor = [UIColor orangeColor];
     self.sureButton.layer.cornerRadius = BF_ScaleHeight(10);
     self.sureButton.layer.masksToBounds = YES;
@@ -102,6 +102,21 @@
     //sendVerificationCodeButton.backgroundColor = BFColor(0xffffff);
     [self.sureButton addTarget:self action:@selector(sure:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.sureButton];
+    
+    
+    UILabel *warningLabel = [[UILabel alloc] initWithFrame:CGRectMake(Margin, CGRectGetMaxY(self.sureButton.frame)+BF_ScaleHeight(30), TXWidth, BF_ScaleHeight(200))];
+    warningLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:BF_ScaleFont(15)];
+    warningLabel.numberOfLines = 0;
+    warningLabel.text = WarningText;
+    NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:warningLabel.text];
+    NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [detailParagraphStyle setLineSpacing:BF_ScaleHeight(6)];//调整行间距
+    [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [warningLabel.text length])];
+    warningLabel.attributedText = detailAttributedString;
+
+    //warningLabel.backgroundColor = [UIColor redColor];
+    [self.view addSubview:warningLabel];
+    [warningLabel sizeToFit];
 }
 
 
@@ -112,42 +127,48 @@
     }else if (![HZQRegexTestter validatePhone:self.phoneTX.text]) {
         [BFProgressHUD MBProgressFromView:self.view onlyWithLabelText:@"请输入正确的手机号"];
     }else {
-        [BFProgressHUD MBProgressWithLabelText:@"正在绑定手机号" dispatch_get_main_queue:^(MBProgressHUD *hud) {
-            NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=add_user"];
-            self.parameter[@"tel"] = self.phoneTX.text;
-            self.parameter[@"code"] = self.verificationCodeTX.text;
-            self.parameter[@"pass"] = @"";
-            [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
-                BFLog(@"%@,,,%@", responseObject,self.parameter);
-                if ([responseObject[@"msg"] isEqualToString:@"绑定登录成功"]) {
+        UIAlertController *warningAC = [UIAlertController alertWithControllerTitle:@"友情提醒" controllerMessage:WarningText preferredStyle:UIAlertControllerStyleAlert cancleTitle:@"先去微信商城看看绑定没有" actionTitle:@"微信商城已经绑定手机号" style:UIAlertActionStyleDefault handler:^{
+            [BFProgressHUD MBProgressWithLabelText:@"正在绑定手机号" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=add_user"];
+                self.parameter[@"tel"] = self.phoneTX.text;
+                self.parameter[@"code"] = self.verificationCodeTX.text;
+                self.parameter[@"pass"] = @"";
+                [BFHttpTool POST:url params:self.parameter success:^(id responseObject) {
+                    BFLog(@"%@,,,%@", responseObject,self.parameter);
+                    if ([responseObject[@"msg"] isEqualToString:@"绑定登录成功"]) {
+                        [hud hideAnimated:YES];
+                        BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
+                        //userInfo.loginType = self.parameter[@"type"];
+                        _block(userInfo);
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                        
+                    }else if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码不正确,请重新输入"];
+                        self.verificationCodeTX.text = @"";
+                    }else if ([responseObject[@"msg"] isEqualToString:@"验证码超时"]) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码超时,请重新发送"];
+                        self.verificationCodeTX.text = @"";
+                    }else if ([responseObject[@"msg"] isEqualToString:@"该帐号已注册"]) {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"该手机号已注册,请更换"];
+                        self.verificationCodeTX.text = @"";
+                    }else {
+                        [hud hideAnimated:YES];
+                        [BFProgressHUD MBProgressOnlyWithLabelText:@"手机号绑定失败"];
+                        [self dismissViewControllerAnimated:YES completion:nil];
+                    }
+                    
+                } failure:^(NSError *error) {
                     [hud hideAnimated:YES];
-                    BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
-                    _block(userInfo);
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }else if ([responseObject[@"msg"] isEqualToString:@"验证码不对"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码不正确,请重新输入"];
-                    self.verificationCodeTX.text = @"";
-                }else if ([responseObject[@"msg"] isEqualToString:@"验证码超时"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressOnlyWithLabelText:@"验证码超时,请重新发送"];
-                    self.verificationCodeTX.text = @"";
-                }else if ([responseObject[@"msg"] isEqualToString:@"该帐号已注册"]) {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressOnlyWithLabelText:@"该手机号已注册,请更换"];
-                    self.verificationCodeTX.text = @"";
-                }else {
-                    [hud hideAnimated:YES];
-                    [BFProgressHUD MBProgressOnlyWithLabelText:@"手机号绑定失败"];
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }
-
-            } failure:^(NSError *error) {
-                [hud hideAnimated:YES];
-                [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
-                BFLog(@"%@", error);
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                    BFLog(@"%@", error);
+                }];
             }];
         }];
+        [self presentViewController:warningAC animated:YES completion:nil];
+        
     }
 }
 
