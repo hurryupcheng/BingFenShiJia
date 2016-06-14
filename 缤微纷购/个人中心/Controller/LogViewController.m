@@ -87,7 +87,7 @@
     self.phoneTX.returnKeyType = UIReturnKeyNext;
     [self.bgImageView addSubview:self.phoneTX];
     
-    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 1)];
+    UIView *line1 = [[UIView alloc] initWithFrame:CGRectMake(BF_ScaleWidth(60), CGRectGetMaxY(self.phoneTX.frame), ScreenWidth-BF_ScaleWidth(120), 0.5)];
     line1.backgroundColor = BFColor(0xd0d0d0);
     [self.bgImageView addSubview:line1];
     

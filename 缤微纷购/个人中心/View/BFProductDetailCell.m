@@ -81,7 +81,7 @@
     self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(10)];
     //self.productTitle.backgroundColor = [UIColor redColor];
     self.productTitle.textColor = BFColor(0x5B5B5B);
-    self.productTitle.numberOfLines = 0;
+    self.productTitle.numberOfLines = 2;
     [self addSubview:self.productTitle];
     
     

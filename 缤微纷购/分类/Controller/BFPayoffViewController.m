@@ -86,6 +86,7 @@
 
 - (void)WXPayStatus {
     
+    BFLog(@"------%@",self.orderid);
     
     if (self.isCurrentVC) {
         if ([self.pay isEqualToString:@"微信支付"]) {
@@ -94,11 +95,12 @@
             NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
             parameter[@"uid"] = userInfo.ID;
             parameter[@"token"] = userInfo.token;
+            //NSString *newOrderID = [NSString stringWithFormat:@"%@_0",self.orderid];
             parameter[@"orderId"] = self.orderid;
             
             
             [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-                
+                BFLog(@"=======%@,,%@",responseObject, parameter);
                 if (responseObject) {
                     BFGroupOrderDetailModel *model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
                     if ([model.status isEqualToString:@"2"]) {
@@ -150,10 +152,76 @@
                             }
                         }
                         
-                        BFLog(@"%@,,%@",responseObject, parameter);
                     }else if ([model.status isEqualToString:@"1"]){
                         //                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
                         self.foot.buyButton.hidden = NO;
+                        
+                    }else if ([responseObject[@"msg"] isEqualToString:@"订单不存在"]){
+                        //NSString *newOrderID =
+                        parameter[@"orderId"] = [NSString stringWithFormat:@"%@_0",self.orderid];
+                        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+                            BFLog(@"--------%@，，，%@",responseObject,parameter);
+                            if (responseObject) {
+                                BFGroupOrderDetailModel *model = [BFGroupOrderDetailModel parse:responseObject[@"order"]];
+                                if ([model.status isEqualToString:@"2"]) {
+                                    self.isCurrentVC = NO;
+                                    self.foot.buyButton.hidden = YES;
+                                    double delayInSeconds = 1;
+                                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+                                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                                        [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"订单支付成功"];
+                                        //订单生成修改积分数量
+                                        [BFAvailablePoints updateAvailablePoints];
+                                    });
+                                    
+                                    self.header.name.text = @"我们以后到你的付款";
+                                    self.header.title.text = @"将尽快发货";
+                                    self.header.now.text = @"待发货";
+                                    NSArray *vcsArray = [self.navigationController viewControllers];
+                                    BFLog(@"=======%@",vcsArray);
+                                    UIViewController *lastVC = vcsArray[vcsArray.count-2];
+                                    if (self.isPT) {
+                                        BFLog(@"-----");
+                                        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+                                            //发通知
+                                            [BFNotificationCenter postNotificationName:@"changeGroupStatus" object:nil];
+                                            for (UIViewController *vc in vcsArray) {
+                                                if ([vc isKindOfClass:[BFMyGroupPurchaseController class]]) {
+                                                    [self.navigationController popToViewController:vc animated:YES];
+                                                }
+                                            }
+                                            
+                                        }else {
+                                            BFMyGroupPurchaseController *myGroupPurchaseVC = [[BFMyGroupPurchaseController alloc] init];
+                                            [self.navigationController pushViewController:myGroupPurchaseVC animated:YES];
+                                        }
+                                    }else {
+                                        if (![lastVC isKindOfClass:[BFZFViewController class]]) {
+                                            //发通知
+                                            [BFNotificationCenter postNotificationName:@"changeOrderStatus" object:nil];
+                                            //                        NSArray *vcsArray = [self.navigationController viewControllers];
+                                            for (UIViewController *vc in vcsArray) {
+                                                if ([vc isKindOfClass:[BFMyOrderController class]]) {
+                                                    [self.navigationController popToViewController:vc animated:YES];
+                                                }
+                                            }
+                                            
+                                        }else {
+                                            BFMyOrderController *myOrder = [[BFMyOrderController alloc] init];
+                                            [self.navigationController pushViewController:myOrder animated:YES];
+                                        }
+                                    }
+                                    
+                                }
+                            }else if ([model.status isEqualToString:@"1"]){
+                                //                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"订单支付失败"];
+                                self.foot.buyButton.hidden = NO;
+                                
+                            }
+                        } failure:^(NSError *error) {
+                            [BFProgressHUD MBProgressOnlyWithLabelText:@"网络异常"];
+                            BFLog(@"%@",error);
+                        }];
                         
                     }
                 }

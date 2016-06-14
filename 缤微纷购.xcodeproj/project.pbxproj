@@ -241,6 +241,7 @@
 		599AFB8F1CC62BE2003CD828 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 599AFB801CC62BE2003CD828 /* RSADataVerifier.m */; };
 		599F19C21C8D73EB00319FA4 /* BFPassWordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 599F19C11C8D73EB00319FA4 /* BFPassWordView.m */; };
 		59C135831CA3AE6400830C43 /* BFMyCustomerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */; };
+		59D986E21D0FDC7900A1D89B /* BFIntegralRuleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59D986E11D0FDC7900A1D89B /* BFIntegralRuleController.m */; };
 		59F46C521CDD99F000F35151 /* BFAvailablePoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F46C511CDD99F000F35151 /* BFAvailablePoints.m */; };
 		59F55B401CA513FB007351A9 /* BFRecommendDividedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B3F1CA513FB007351A9 /* BFRecommendDividedCell.m */; };
 		59F55B431CA517AC007351A9 /* BFRecommendDividedModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 59F55B421CA517AC007351A9 /* BFRecommendDividedModel.m */; };
@@ -1024,6 +1025,8 @@
 		599F19C11C8D73EB00319FA4 /* BFPassWordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPassWordView.m; sourceTree = "<group>"; };
 		59C135811CA3AE6400830C43 /* BFMyCustomerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFMyCustomerModel.h; sourceTree = "<group>"; };
 		59C135821CA3AE6400830C43 /* BFMyCustomerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFMyCustomerModel.m; sourceTree = "<group>"; };
+		59D986E01D0FDC7900A1D89B /* BFIntegralRuleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFIntegralRuleController.h; sourceTree = "<group>"; };
+		59D986E11D0FDC7900A1D89B /* BFIntegralRuleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFIntegralRuleController.m; sourceTree = "<group>"; };
 		59F46C501CDD99F000F35151 /* BFAvailablePoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFAvailablePoints.h; sourceTree = "<group>"; };
 		59F46C511CDD99F000F35151 /* BFAvailablePoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFAvailablePoints.m; sourceTree = "<group>"; };
 		59F55B3E1CA513FB007351A9 /* BFRecommendDividedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFRecommendDividedCell.h; sourceTree = "<group>"; };
@@ -1969,6 +1972,8 @@
 				5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */,
 				59FF46C51C8AAEA00040689A /* BFMyIntegralController.h */,
 				59FF46C61C8AAEA00040689A /* BFMyIntegralController.m */,
+				59D986E01D0FDC7900A1D89B /* BFIntegralRuleController.h */,
+				59D986E11D0FDC7900A1D89B /* BFIntegralRuleController.m */,
 				59FE68ED1CDEE69500931DE7 /* BFCurrentMonthCommissionController.h */,
 				59FE68EE1CDEE69500931DE7 /* BFCurrentMonthCommissionController.m */,
 				59FE68F01CDEE91F00931DE7 /* BFVIPOrderCommissionController.h */,
@@ -3732,6 +3737,7 @@
 				59FF74831CAE1A860063F770 /* UIButton+Extension.m in Sources */,
 				59FA7AA51C9CF663008E3813 /* BFCustomerServiceView.m in Sources */,
 				5157B0701CDC87F8000BCE6D /* BFSosoViewController.m in Sources */,
+				59D986E21D0FDC7900A1D89B /* BFIntegralRuleController.m in Sources */,
 				592F86D31C8FB474006E0CEE /* BFMyWalletBottomView.m in Sources */,
 				59F7E2031CC8DB3F0007F9B5 /* BFTastingExperienceHeaderView.m in Sources */,
 				59FF75101CAE1A860063F770 /* STIndicatorView.m in Sources */,
