@@ -16,6 +16,7 @@
 #import "BFHomeModel.h"
 #import "BFAboutController.h"
 #import "LogViewController.h"
+#import "PTStepViewController.h"
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate, BFShareViewDelegate>
 /**tableView*/
@@ -314,10 +315,13 @@
         }
     }else {
         //BFSettingList *list = self.mutableArray[indexPath.row];
-        BFAboutController *aboutVC = [[BFAboutController alloc] init];
-        aboutVC.ID = @"关于我们";
-        aboutVC.url = [NET_URL stringByAppendingPathComponent:@"apphtml/jifen/about.html"];
-        [self.navigationController pushViewController:aboutVC animated:YES];
+        PTStepViewController *ptVC= [[PTStepViewController alloc] init];
+        ptVC.url = [NET_URL stringByAppendingPathComponent:@"/apphtml/jifen/about.html"];
+        [self.navigationController pushViewController:ptVC animated:YES];
+//        BFAboutController *aboutVC = [[BFAboutController alloc] init];
+//        aboutVC.ID = @"关于我们";
+//        aboutVC.url = [NET_URL stringByAppendingPathComponent:@"apphtml/jifen/about.html"];
+//        [self.navigationController pushViewController:aboutVC animated:YES];
         
     }
 }

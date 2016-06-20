@@ -23,7 +23,6 @@
     }];
     [alertC addAction:cancleAction];
     [alertC addAction:phoneAction];
-    
     return alertC;
 }
 
@@ -40,9 +39,8 @@
             handler();
         }
     }];
-    
-    [alertC addAction:phoneAction];
     [alertC addAction:cancleAction];
+    [alertC addAction:phoneAction];
     
     return alertC;
 }

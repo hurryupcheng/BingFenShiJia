@@ -158,7 +158,7 @@
                     [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送失败,请稍后再试"];
                     [hud hideAnimated:YES];
                 }
-                BFLog(@"responseObject%@，，，%@",responseObject,url);
+                NSLog(@"responseObject%@，，，%@",responseObject,url);
             } failure:^(NSError *error) {
                 [hud hideAnimated:YES];
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常，请检查"];

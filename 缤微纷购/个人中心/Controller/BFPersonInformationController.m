@@ -93,7 +93,7 @@
     if (section == 0) {
         return 4;
     }else if (section == 2) {
-        return 3;
+        return 2;
     }else {
         return 1;
     }
@@ -191,16 +191,16 @@
                 
                 break;
             }
-            case 1:{
-                cell.textLabel.text = @"  我的名片";
-                UIImageView *qrCode = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"QRcode"]];
-                //qrCode.backgroundColor = [UIColor redColor];
-                qrCode.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(18), BF_ScaleHeight(24));
-                qrCode.contentMode = UIViewContentModeScaleAspectFit;
-                [cell addSubview:qrCode];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;                break;
-            }
-            case 2:
+//            case 1:{
+//                cell.textLabel.text = @"  我的名片";
+//                UIImageView *qrCode = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"QRcode"]];
+//                //qrCode.backgroundColor = [UIColor redColor];
+//                qrCode.frame = CGRectMake(ScreenWidth-BF_ScaleHeight(45), BF_ScaleHeight(10), BF_ScaleHeight(18), BF_ScaleHeight(24));
+//                qrCode.contentMode = UIViewContentModeScaleAspectFit;
+//                [cell addSubview:qrCode];
+//                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;                break;
+//            }
+            case 1:
                 cell.textLabel.text = @"  绑定手机";
                 if (self.userInfo.tel.length != 0) {
                     cell.detailTextLabel.text = self.userInfo.tel;
@@ -246,11 +246,8 @@
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             BFLog(@"点击头像");
-
             [self changeHeadIcon];
-            
         }else if (indexPath.row == 2) {
-            
             if (self.userInfo.parent_proxy == nil || [self.userInfo.parent_proxy isEqualToString:@"0"])  {
                 _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
                 _addView.delegate = self;
@@ -268,7 +265,6 @@
                 [self.tableView reloadData];
             };
             [self.navigationController pushViewController:modifyNicknameVC animated:YES];
-            
         }
     }
     if (indexPath.section == 2) {
@@ -276,10 +272,12 @@
             BFAddressController *addressVC = [BFAddressController new];
             [self.navigationController pushViewController:addressVC animated:YES];
             BFLog(@"地址管理");
-        }else if (indexPath.row == 1) {
-            BFMyBusinessCardController *myBusinessCardVC = [[BFMyBusinessCardController alloc] init];
-            [self.navigationController pushViewController:myBusinessCardVC animated:YES];
-        }else {
+        }
+//        else if (indexPath.row == 1) {
+//            BFMyBusinessCardController *myBusinessCardVC = [[BFMyBusinessCardController alloc] init];
+//            [self.navigationController pushViewController:myBusinessCardVC animated:YES];
+//        }
+        else {
             if (self.userInfo.tel.length != 0) {
                 return;
             }else {

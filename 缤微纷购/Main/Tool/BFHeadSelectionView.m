@@ -5,7 +5,7 @@
 //  Created by 程召华 on 16/3/26.
 //  Copyright © 2016年 xinxincao. All rights reserved.
 //
-
+#define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 #import "BFHeadSelectionView.h"
 #import "UIImageView+LBBlurredImage.h"
 
@@ -41,14 +41,14 @@
 
 
 - (void)setUpView {
-    self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    //self.bgImageView.image = [UIImage imageNamed:@"customerservicebg"];
-    [self.bgImageView setImageToBlur:[UIImage imageNamed:@"customerservicebg"] blurRadius:20  completionBlock:nil];
+//    self.bgImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    //self.bgImageView.image = [UIImage imageNamed:@"customerservicebg"];
+//    [self.bgImageView setImageToBlur:[UIImage imageNamed:@"customerservicebg"] blurRadius:20  completionBlock:nil];
     //self.backgroundColor= [UIColor redColor];
-    self.bgImageView.userInteractionEnabled = YES;
+//    self.bgImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
     [self.bgImageView  addGestureRecognizer:tap];
-    [self addSubview:self.bgImageView];
+//    [self addSubview:self.bgImageView];
     
     self.camera = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(65), -BF_ScaleWidth(55), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"camera" type:BFHeadSelectionViewButtonTypeCamera];
     
@@ -61,7 +61,7 @@
     //self.cancle.backgroundColor = [UIColor redColor];
     [self.cancle addTarget:self action:@selector(cancle:) forControlEvents:UIControlEventTouchUpInside];
     [self.cancle setImage:[UIImage imageNamed:@"cancle"] forState:UIControlStateNormal];
-    [self.bgImageView addSubview:self.cancle];
+    [self addSubview:self.cancle];
     
 }
 
@@ -69,9 +69,9 @@
 
 - (void)showHeadSelectionView {
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
-    self.bgImageView.alpha = 0;
+    self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.bgImageView.alpha = 1;
+        self.backgroundColor = windowColor;
         self.camera.y = BF_ScaleHeight(450);
     } completion:nil];
     
@@ -89,7 +89,7 @@
     
     
     [UIView animateWithDuration:1 delay:0.12f usingSpringWithDamping:0.6f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.bgImageView.alpha = 0;
+        self.backgroundColor = [UIColor clearColor];
         self.camera.y = BF_ScaleHeight(450) - ScreenHeight;
     } completion:^(BOOL finished) {
         [self removeFromSuperview];
@@ -125,7 +125,7 @@
     button.tag = type;
     [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [button addTarget:self action:@selector(chooseHeadImage:) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgImageView addSubview:button];
+    [self addSubview:button];
     return button;
 }
 
