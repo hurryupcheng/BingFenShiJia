@@ -39,7 +39,7 @@
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(50)) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -111,7 +111,7 @@
     }else if (section == 2) {
         return 3;
     }else {
-        return 6;
+        return 1;
     }
 }
 
@@ -206,21 +206,7 @@
             case 0:
                 cell.textLabel.text = @"关于我们";
                 break;
-            case 1:
-                cell.textLabel.text = @"退换货准则";
-                break;
-            case 2:
-                cell.textLabel.text = @"常见问题";
-                break;
-            case 3:
-                cell.textLabel.text = @"企业合作";
-                break;
-            case 4:
-                cell.textLabel.text = @"配送说明";
-                break;
-            case 5:
-                cell.textLabel.text = @"线下门店";
-                break;
+
         }
 
 
@@ -230,7 +216,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    //BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     if (indexPath.section == 0) {
         //打电话
         UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -327,10 +313,10 @@
 
         }
     }else {
-        BFSettingList *list = self.mutableArray[indexPath.row];
+        //BFSettingList *list = self.mutableArray[indexPath.row];
         BFAboutController *aboutVC = [[BFAboutController alloc] init];
-        aboutVC.ID = list.ID;
-        aboutVC.url = list.url;
+        aboutVC.ID = @"关于我们";
+        aboutVC.url = [NET_URL stringByAppendingPathComponent:@"apphtml/jifen/about.html"];
         [self.navigationController pushViewController:aboutVC animated:YES];
         
     }
@@ -450,13 +436,13 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0) {
-        return @"售后服务";
+        return @"    售后服务";
     }else if (section == 1) {
-        return @"个人设置";
+        return @"    个人设置";
     }else if (section == 2) {
-        return @"关于APP";
+        return @"    关于APP";
     }else {
-        return @"关于缤纷";
+        return @"    关于缤纷";
     }
 }
 
@@ -470,9 +456,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 3) {
-        return 220;
-    }
+
     return 0;
 }
 
@@ -496,4 +480,24 @@
 - (void)viewWillAppear:(BOOL)animated{
     self.tabBarController.tabBar.hidden = YES;
 }
+
+#pragma mark --分割线到头
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
+
+- (void)viewDidLayoutSubviews {
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
+
 @end

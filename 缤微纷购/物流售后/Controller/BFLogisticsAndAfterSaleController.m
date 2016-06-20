@@ -24,7 +24,7 @@
 /**无信息时的背景*/
 @property (nonatomic, strong) UIImageView *bgImageView;
 /**分区头视图*/
-@property (nonatomic, strong) BFLogisticsHeaderView *headerView;
+//@property (nonatomic, strong) BFLogisticsHeaderView *headerView;
 /**客服按钮*/
 @property (nonatomic, strong) UIButton *customerServiceButton;
 /**订单数组*/
@@ -58,20 +58,20 @@
     return _logisticsArray;
 }
 
-- (BFLogisticsHeaderView *)headerView {
-    if (!_headerView) {
-        _headerView = [BFLogisticsHeaderView createHeaderView];
-        //_headerView.backgroundColor = [UIColor redColor];
-        _headerView.delegate = self;
-        [self.view addSubview:_headerView];
-    }
-    return _headerView;
-}
+//- (BFLogisticsHeaderView *)headerView {
+//    if (!_headerView) {
+//        _headerView = [BFLogisticsHeaderView createHeaderView];
+//        //_headerView.backgroundColor = [UIColor redColor];
+//        _headerView.delegate = self;
+//        [self.view addSubview:_headerView];
+//    }
+//    return _headerView;
+//}
 
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, BF_ScaleHeight(30)-ScreenHeight, ScreenWidth, ScreenHeight-113-BF_ScaleHeight(30)) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, -ScreenHeight, ScreenWidth, ScreenHeight-113) style:UITableViewStyleGrouped];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _tableView.backgroundColor = [UIColor clearColor];
         _tableView.delegate = self;
@@ -136,7 +136,7 @@
             }else {
                 self.bgImageView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{
-                    self.tableView.y = BF_ScaleHeight(30);
+                    self.tableView.y = 0;
                 } completion:nil];
             }
         } else {
@@ -153,7 +153,7 @@
             }else {
                 self.bgImageView.hidden = YES;
                 [UIView animateWithDuration:0.5 animations:^{
-                    self.tableView.y = BF_ScaleHeight(30);
+                    self.tableView.y = 0;
                 } completion:nil];
             }
             BFLog(@"不同的一个用户");
@@ -185,7 +185,7 @@
     //添加tableView
     [self tableView];
     //添加顶部视图
-    [self headerView];
+    //[self headerView];
     //添加导航按钮
     //[self setNavigationBar];
     //客服电话按钮
@@ -201,7 +201,7 @@
 - (void)logout {
     //[self.logisticsArray removeAllObjects];
     [UIView animateWithDuration:0.5 animations:^{
-        self.tableView.y = BF_ScaleHeight(30)-ScreenHeight;
+        self.tableView.y = -ScreenHeight;
     } completion:nil];
 }
 
@@ -279,9 +279,9 @@
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont systemFontOfSize:BF_ScaleFont(15)];
     // 3.添加
-    label.y = self.headerView.height - label.height;
+    label.y = - label.height;
     // 将label添加到导航控制器的view中，并且是盖在导航栏下边
-    [self.view insertSubview:label belowSubview:self.headerView];
+    [self.view insertSubview:label aboveSubview:self.tableView];
     
     // 4.动画
     // 先利用1s的时间，让label往下移动一段距离
@@ -345,7 +345,7 @@
             [self.tableView reloadData];
             self.isYirstTime = NO;
             [UIView animateWithDuration:0.5 animations:^{
-                self.tableView.y = BF_ScaleHeight(30);
+                self.tableView.y = 0;
             } completion:nil];
         } failure:^(NSError *error) {
             [hud hideAnimated:YES];
@@ -627,9 +627,9 @@
 
 
 #pragma mark -- 48小时售后点击
-- (void)clickToSeeConmmonProblem {
-    
-}
+//- (void)clickToSeeConmmonProblem {
+//    
+//}
 
 #pragma mark -- 添加返回顶部的按钮
 - (UIButton *)TopButton{

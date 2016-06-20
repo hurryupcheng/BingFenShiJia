@@ -86,7 +86,7 @@
     
     self.productTitle = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.productIcon.frame)+BF_ScaleWidth(12.5), self.productIcon.y+BF_ScaleHeight(8), BF_ScaleWidth(170), 0)];
     self.productTitle.text = @"云南冰糖橙-明星为你甜蜜助跑响起扑鼻 细嫩多汁";
-    self.productTitle.numberOfLines = 0;
+    self.productTitle.numberOfLines = 2;
     //self.productTitle.backgroundColor = [UIColor redColor];
     self.productTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(11)];
     [self addSubview:self.productTitle];

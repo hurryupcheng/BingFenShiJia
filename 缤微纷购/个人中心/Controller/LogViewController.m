@@ -201,7 +201,7 @@
                parameter[@"type"] = @"2";
                parameter[@"openid"] = [userInfo uid];
            }else if (shareType == ShareTypeWeixiSession) {
-               parameter[@"type"] = @"wx";
+               parameter[@"type"] = @"9";
                parameter[@"openid"] = [userInfo sourceData][@"unionid"];
            }
            parameter[@"nickname"] = [userInfo nickname];

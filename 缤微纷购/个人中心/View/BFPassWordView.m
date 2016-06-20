@@ -134,29 +134,39 @@
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         //BFLog(@"responseObject%@，，，%@",parameter,url);
-        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"已注册"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号已注册"];
-            }else {
-                leftTime = 120;
-                [self.sendVerificationCodeButton setEnabled:NO];
-                [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
-                [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
-    
-                timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送中..."];
-                
-                
-//                if (self.delegate && [self.delegate respondsToSelector:@selector(sendVerificationCodeBFPassWordView:button:)]) {
-//                    //[self.delegate sendVerificationCodeBFPassWordView:self button:sender];
-//                }
+        [BFProgressHUD MBProgressWithLabelText:@"正在发送验证码..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"已注册"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号已注册"];
+                }else if([responseObject[@"msg"] isEqualToString:@"信息发送中"]){
+                    [hud hideAnimated:YES];
+                    leftTime = 120;
+                    [self.sendVerificationCodeButton setEnabled:NO];
+                    [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateNormal];
+                    [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",leftTime] forState:UIControlStateDisabled];
+                    
+                    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码已发送,请查收"];
+                    [self.sendVerificationCodeButton becomeFirstResponder];
+                    
+                    //                if (self.delegate && [self.delegate respondsToSelector:@selector(sendVerificationCodeBFPassWordView:button:)]) {
+                    //                    //[self.delegate sendVerificationCodeBFPassWordView:self button:sender];
+                    //                }
+                    
+                }else {
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送失败,请稍后再试"];
+                    [hud hideAnimated:YES];
+                }
+                BFLog(@"responseObject%@，，，%@",responseObject,url);
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常，请检查"];
+                BFLog(@"error%@",error);
+            }];
 
-            }
-            BFLog(@"responseObject%@，，，%@",responseObject,url);
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常，请检查"];
-            BFLog(@"error%@",error);
         }];
+        
     }
 }
 

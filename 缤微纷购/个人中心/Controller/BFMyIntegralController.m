@@ -143,7 +143,7 @@
 
 - (void)integralRule {
     PTStepViewController *ptVC= [[PTStepViewController alloc] init];
-    ptVC.url = self.ruleUrl;
+    ptVC.url = [NET_URL stringByAppendingPathComponent:@"/apphtml/jifen/jifen.html"];
     [self.navigationController pushViewController:ptVC animated:YES];
     BFLog(@"积分规则");
 }

@@ -12,8 +12,9 @@
 #import "BFMyBusinessCardController.h"
 #import "BFModifyNicknameController.h"
 #import "BFBindPhoneNumberController.h"
+#import "BFAddRecommenderView.h"
 
-@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, BFHeadSelectionViewDelegate>
+@interface BFPersonInformationController ()<UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIActionSheetDelegate, BFHeadSelectionViewDelegate, AddRecommenderViewDelegate>
 /**图片data*/
 @property (nonatomic, strong)  NSData *imgData;
 /**头像图片*/
@@ -22,21 +23,23 @@
 @property (nonatomic, strong) UITableView *tableView;
 /**手机注册用户的信息*/
 @property (nonatomic, strong) BFUserInfo *userInfo;
+/**添加推荐人*/
+@property (nonatomic, strong) BFAddRecommenderView *addView;
 @end
 
 @implementation BFPersonInformationController
 
-- (BFUserInfo *)userInfo {
-    if (!_userInfo) {
-        _userInfo = [BFUserDefaluts getUserInfo];
-    }
-    return _userInfo;
-}
+//- (BFUserInfo *)userInfo {
+//    if (!_userInfo) {
+//        _userInfo = [BFUserDefaluts getUserInfo];
+//    }
+//    return _userInfo;
+//}
 
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-66) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(50)) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         
@@ -47,8 +50,38 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"个人信息";
+    _userInfo = [BFUserDefaluts getUserInfo];
     [self.view addSubview:self.tableView];
     self.navigationController.navigationBar.translucent = NO;
+    //设置底部按钮视图
+    [self setBottomView];
+}
+
+
+
+#pragma mark -- 退出按钮视图
+- (void)setBottomView {
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight-BF_ScaleHeight(50)-64, ScreenWidth, BF_ScaleHeight(50))];
+    bottomView.backgroundColor = BFColor(0xffffff);
+    [self.view addSubview:bottomView];
+    
+    UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(80), BF_ScaleHeight(10), ScreenWidth-BF_ScaleWidth(160), BF_ScaleHeight(30)) title:@"退出登录" image:nil font:BF_ScaleFont(14) titleColor:BFColor(0xffffff)];
+    exitButton.layer.cornerRadius = BF_ScaleHeight(15);
+    exitButton.backgroundColor = BFColor(0xFD8727);
+    [exitButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:exitButton];
+}
+
+//推出登录
+- (void)exit {
+    
+    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
+        [BFUserDefaluts removeUserInfo];
+        [BFNotificationCenter postNotificationName:@"logout" object:nil];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
+        tabBar.tabBarItem.badgeValue = nil;
+    }];
 }
 
 #pragma mark -- datasource
@@ -57,7 +90,9 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0 || section == 2) {
+    if (section == 0) {
+        return 4;
+    }else if (section == 2) {
         return 3;
     }else {
         return 1;
@@ -102,13 +137,22 @@
                 break;
             }
             case 1:
-                cell.textLabel.text = @"  推荐人";
-                if (self.userInfo.parent_proxy != nil && ![self.userInfo.parent_proxy isEqualToString:@"0"]) {
-                    cell.detailTextLabel.text = self.userInfo.p_username.length != 0 ? self.userInfo.p_username : [NSString stringWithFormat:@"bingo_%@", self.userInfo.parent_proxy];
-                }
+                cell.textLabel.text = @"  我的ID";
+                cell.detailTextLabel.text = self.userInfo.ID;
                 
                 break;
             case 2:
+                cell.textLabel.text = @"  推荐人";
+                if (self.userInfo.parent_proxy != nil && ![self.userInfo.parent_proxy isEqualToString:@"0"]) {
+                    cell.detailTextLabel.text = self.userInfo.p_username.length != 0 ? self.userInfo.p_username : [NSString stringWithFormat:@"bingo_%@", self.userInfo.parent_proxy];
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                }else {
+                    cell.detailTextLabel.text = @"请添加您的推荐人";
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                }
+                
+                break;
+            case 3:
                 cell.textLabel.text = @"  昵称";
                 if (self.userInfo.nickname != nil) {
                     cell.detailTextLabel.text = self.userInfo.nickname;
@@ -206,7 +250,17 @@
             [self changeHeadIcon];
             
         }else if (indexPath.row == 2) {
+            
+            if (self.userInfo.parent_proxy == nil || [self.userInfo.parent_proxy isEqualToString:@"0"])  {
+                _addView = [[BFAddRecommenderView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+                _addView.delegate = self;
+                [self.addView showView];
+                UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+                [window addSubview:_addView];
 
+            }
+        }else if (indexPath.row == 3) {
+            
             BFModifyNicknameController *modifyNicknameVC = [[BFModifyNicknameController alloc] init];
             modifyNicknameVC.block = ^(BFUserInfo *userInfo) {
                 self.userInfo = userInfo;
@@ -242,6 +296,12 @@
     }
 }
 
+#pragma mark -- 点击确定添加推荐人
+- (void)hideView {
+    _userInfo = [BFUserDefaluts getUserInfo];
+    [self.tableView reloadData];
+}
+
 #pragma mark -- 点击更换头像
 - (void)changeHeadIcon{
     UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
@@ -264,38 +324,26 @@
     }
 }
 
-#pragma mark -- 退出按钮
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    if (section == 3) {
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(60))];
-        //footerView.backgroundColor = [UIColor redColor];
-        UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(15), BF_ScaleWidth(140), BF_ScaleHeight(40)) title:@"退出登录" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
-        exitButton.layer.cornerRadius = BF_ScaleHeight(20);
-        exitButton.backgroundColor = BFColor(0xFD8727);
-        [exitButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:exitButton];
-        return footerView;
-    }
-    return nil;
-}
+//#pragma mark -- 退出按钮
+//- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+//    if (section == 3) {
+//        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(60))];
+//        //footerView.backgroundColor = [UIColor redColor];
+//        UIButton *exitButton = [UIButton buttonWithFrame:CGRectMake(BF_ScaleWidth(90), BF_ScaleHeight(15), BF_ScaleWidth(140), BF_ScaleHeight(40)) title:@"退出登录" image:nil font:BF_ScaleFont(15) titleColor:BFColor(0xffffff)];
+//        exitButton.layer.cornerRadius = BF_ScaleHeight(20);
+//        exitButton.backgroundColor = BFColor(0xFD8727);
+//        [exitButton addTarget:self action:@selector(exit) forControlEvents:UIControlEventTouchUpInside];
+//        [footerView addSubview:exitButton];
+//        return footerView;
+//    }
+//    return nil;
+//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 3) {
-        return BF_ScaleHeight(90);
-    }
+
     return 0;
 }
-//推出登录
-- (void)exit {
-    
-    [BFProgressHUD MBProgressFromWindowWithLabelText:@"退出登录" dispatch_get_main_queue:^{
-        [BFUserDefaluts removeUserInfo];
-        [BFNotificationCenter postNotificationName:@"logout" object:nil];
-        [self.navigationController popToRootViewControllerAnimated:YES];
-        UITabBarController *tabBar = [self.tabBarController viewControllers][1];
-        tabBar.tabBarItem.badgeValue = nil;
-    }];
-}
+
 
 
 #pragma mark -- 打开相机
@@ -462,5 +510,25 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
+
+
+#pragma mark --分割线到头
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
+
+- (void)viewDidLayoutSubviews {
+    if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [self.tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+    if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [self.tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+}
 
 @end

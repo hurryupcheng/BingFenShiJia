@@ -44,8 +44,13 @@
         self.instructionLabel.textColor = BFColor(0x00188F);
         
     }else {
-        self.integralLabel.textColor = BFColor(0xFA830E);
-        self.instructionLabel.textColor = BFColor(0x5A5B5B);
+        if ([model.score integerValue] == 0) {
+            self.integralLabel.textColor = BFColor(0x00188F);
+            self.instructionLabel.textColor = BFColor(0x00188F);
+        }else {
+            self.integralLabel.textColor = BFColor(0xFA830E);
+            self.instructionLabel.textColor = BFColor(0x5A5B5B);
+        }
     }
     self.integralLabel.text = model.score;
     self.timeLabel.text = [NSString stringWithFormat:@"%@", [BFTranslateTime translateTimeIntoCurrurentDate:model.add_time]];

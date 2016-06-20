@@ -114,7 +114,7 @@
         parameter[@"news_pass"] = firstPW;
         parameter[@"code"] = self.verificationCodeTX.text;
         // 1.创建请求管理者
-        [BFProgressHUD MBProgressWithLabelText:@"正在修改密码" dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        [BFProgressHUD MBProgressWithLabelText:@"正在修改密码..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
             [BFHttpTool POST:url params:parameter success:^(id responseObject) {
                 BFLog(@"responseObject%@,,,%@",responseObject, parameter);
                 
@@ -160,24 +160,37 @@
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
         parameter[@"phone"] = self.phoneTX.text;
         //BFLog(@"responseObject%@，，，%@",parameter,url);
-        [BFHttpTool GET:url params:parameter success:^(id responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"用户不存在"]) {
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号不是注册用户"];
-            }else {
-                verificationTime = 120;
-                [self.sendVerificationCodeButton setEnabled:NO];
-                [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateNormal];
-                [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateDisabled];
-                if(verificationTimer)
-                [verificationTimer invalidate];
-                verificationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(verificationTimerAction) userInfo:nil repeats:YES];
-                [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送中..."];
-                
-            }
-            BFLog(@"responseObject%@，，，%@",responseObject,url);
-        } failure:^(NSError *error) {
-            [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常，请检查"];
-            BFLog(@"error%@",error);
+        [BFProgressHUD MBProgressWithLabelText:@"正在发送验证码..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+            [BFHttpTool GET:url params:parameter success:^(id responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"用户不存在"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"该手机号不是注册用户"];
+                }else if([responseObject[@"msg"] isEqualToString:@"信息发送中"]){
+                    [hud hideAnimated:YES];
+                    verificationTime = 120;
+                    [self.sendVerificationCodeButton setEnabled:NO];
+                    [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateNormal];
+                    [self.sendVerificationCodeButton setTitle:[NSString stringWithFormat:@"%d秒",verificationTime] forState:UIControlStateDisabled];
+                    if(verificationTimer)
+                        [verificationTimer invalidate];
+                    verificationTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(verificationTimerAction) userInfo:nil repeats:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码已发送,请查收"];
+                    [self.sendVerificationCodeButton becomeFirstResponder];
+                    
+                    //                if (self.delegate && [self.delegate respondsToSelector:@selector(sendVerificationCodeBFPassWordView:button:)]) {
+                    //                    //[self.delegate sendVerificationCodeBFPassWordView:self button:sender];
+                    //                }
+                    
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"信息发送失败,请稍后再试"];
+                }
+                BFLog(@"responseObject%@，，，%@",responseObject,url);
+            } failure:^(NSError *error) {
+                [hud hideAnimated:YES];
+                [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常，请检查"];
+                BFLog(@"error%@",error);
+            }];
         }];
     }
 }
