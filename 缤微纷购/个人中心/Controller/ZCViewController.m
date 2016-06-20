@@ -81,15 +81,15 @@
    [self.view endEditing:YES];
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:@"友情提醒" message:WarningText preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"先去微信商城看看" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+    UIAlertAction *cancleAction = [UIAlertAction actionWithTitle:@"先去微信商城确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
         NSLog(@"点击");
     }];
     
-    UIAlertAction *newAction = [UIAlertAction actionWithTitle:@"立即注册新用户" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *newAction = [UIAlertAction actionWithTitle:@"新用户注册" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self registAndBunding:BFPassWordView];
     }];
     
-    UIAlertAction *oldAction = [UIAlertAction actionWithTitle:@"微信商城已经绑定手机号" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+    UIAlertAction *oldAction = [UIAlertAction actionWithTitle:@"微信商城老客户绑定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         [self registAndBunding:BFPassWordView];
     }];
     

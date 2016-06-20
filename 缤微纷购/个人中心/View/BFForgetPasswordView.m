@@ -95,8 +95,6 @@
 - (void)sure:(UIButton *)sender {
     [self endEditing:YES];
     
-    
-    
     if (self.phoneTX.text.length == 0 || self.verificationCodeTX.text.length == 0 || self.firstPasswordTX.text.length == 0 || self.secondPasswordTX.text.length == 0) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善信息"];
     } else if (![BFMobileNumber isMobileNumber:self.phoneTX.text]) {
@@ -106,7 +104,6 @@
     }else if ((self.firstPasswordTX.text.length < 6 || self.firstPasswordTX.text.length > 20) || (self.secondPasswordTX.text.length < 6 || self.secondPasswordTX.text.length > 20)) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请输入6~20位长度密码"];
     } else {
-    
         NSString *firstPW = [MyMD5 md5:self.firstPasswordTX.text];
         NSString *url = [NET_URL stringByAppendingPathComponent:@"/index.php?m=Json&a=reup_pass"];
         NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
@@ -130,6 +127,7 @@
                 }else {
                     [hud hideAnimated:YES];
                     [BFProgressHUD MBProgressWithLabelText:@"密码修改成功，正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+                        [self.verificationCodeTX becomeFirstResponder];
                         if (self.delegate && [self.delegate respondsToSelector:@selector(gotoLoginVCWithHud:)]) {
                             [self.delegate gotoLoginVCWithHud:hud];
                         }
@@ -140,9 +138,7 @@
                 [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络问题"];
                 BFLog(@"error%@",error);
             }];
-
         }];
-        
     }
 }
 

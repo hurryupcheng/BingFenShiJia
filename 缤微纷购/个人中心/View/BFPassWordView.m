@@ -148,7 +148,7 @@
                     
                     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerAction) userInfo:nil repeats:YES];
                     [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"验证码已发送,请查收"];
-                    [self.sendVerificationCodeButton becomeFirstResponder];
+                    [self.verificationCodeTX becomeFirstResponder];
                     
                     //                if (self.delegate && [self.delegate respondsToSelector:@selector(sendVerificationCodeBFPassWordView:button:)]) {
                     //                    //[self.delegate sendVerificationCodeBFPassWordView:self button:sender];
