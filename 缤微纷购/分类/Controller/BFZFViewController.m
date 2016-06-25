@@ -751,7 +751,7 @@
             _scoreView.scoreBlock = ^(NSString *str){
                 weak.useScorePrice = [str doubleValue];
                 if ([weak.couponType isEqualToString:@"2"]) {
-                    weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice*weak.couponPrice/10-weak.useScorePrice];
+                    weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.sum_price*weak.couponPrice/10-weak.useScorePrice+weak.freeprice];
                 }else {
                   weak.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",weak.lastPrice-weak.useScorePrice-weak.couponPrice];
                 }
@@ -764,7 +764,7 @@
     }else{
         _useScorePrice = 0.00;
         if ([self.couponType isEqualToString:@"2"]) {
-            _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*self.couponPrice/10-self.useScorePrice];
+            _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.sum_price*self.couponPrice/10-self.useScorePrice+self.freeprice];
         }else {
             _footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
         }
@@ -816,7 +816,7 @@
                     self.couponPrice = 0.00;
                     self.coupon_id = @"0";
                     if ([self.couponType isEqualToString:@"2"]) {
-                        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*self.couponPrice/10-self.useScorePrice];
+                        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.sum_price*self.couponPrice/10-self.useScorePrice+self.freeprice];
                     }else {
                         self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.useScorePrice-self.couponPrice];
                     }
@@ -862,7 +862,7 @@
         self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice-self.couponPrice-self.useScorePrice];
     }else {
         //self.couponPrice = self.lastPrice - self.lastPrice*[_favourablePrice[index] doubleValue]/10;
-        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.lastPrice*[_favourablePrice[index] doubleValue]/10-self.useScorePrice];
+        self.footView.money.text = [NSString stringWithFormat:@"合计: ¥%.2f",self.sum_price*[_favourablePrice[index] doubleValue]/10-self.useScorePrice+self.freeprice];
     }
     
     [self.tableV reloadData];

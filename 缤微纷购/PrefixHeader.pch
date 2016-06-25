@@ -53,8 +53,8 @@
 
 /**接口宏定义*/
 #define BF_URL  @"http://bingo.luexue.com"
-//#define NET_URL  @"http://192.168.0.102/binfen"
-#define NET_URL  @"http://bingo.luexue.com"
+#define NET_URL  @"http://192.168.0.102/binfen"
+//#define NET_URL  @"http://bingo.luexue.com"
 
 
 /**绑定手机和注册的时候的提醒文字*/
