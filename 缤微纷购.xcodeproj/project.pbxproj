@@ -214,6 +214,7 @@
 		59513B8D1C9FFD8D0028B008 /* iconfont-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B851C9FFD8D0028B008 /* iconfont-search.png */; };
 		59513B8E1C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B861C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png */; };
 		59513B8F1C9FFD8D0028B008 /* kong.png in Resources */ = {isa = PBXBuildFile; fileRef = 59513B871C9FFD8D0028B008 /* kong.png */; };
+		5961E1081D1E47FF00FB7476 /* BFPersonViewButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 5961E1071D1E47FF00FB7476 /* BFPersonViewButton.m */; };
 		596442B91CDC36430066A125 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 596442B81CDC36430066A125 /* Info.plist */; };
 		596442BC1CDC67CA0066A125 /* BFGenerateOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 596442BB1CDC67CA0066A125 /* BFGenerateOrderModel.m */; };
 		596442BF1CDC92910066A125 /* BFURLEncodeAndDecode.m in Sources */ = {isa = PBXBuildFile; fileRef = 596442BE1CDC92910066A125 /* BFURLEncodeAndDecode.m */; };
@@ -899,6 +900,8 @@
 		59513B851C9FFD8D0028B008 /* iconfont-search.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-search.png"; sourceTree = "<group>"; };
 		59513B861C9FFD8D0028B008 /* iconfont-xuanzegequyoujianjiao.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iconfont-xuanzegequyoujianjiao.png"; sourceTree = "<group>"; };
 		59513B871C9FFD8D0028B008 /* kong.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kong.png; sourceTree = "<group>"; };
+		5961E1061D1E47FF00FB7476 /* BFPersonViewButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFPersonViewButton.h; sourceTree = "<group>"; };
+		5961E1071D1E47FF00FB7476 /* BFPersonViewButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFPersonViewButton.m; sourceTree = "<group>"; };
 		596442B81CDC36430066A125 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		596442BA1CDC67CA0066A125 /* BFGenerateOrderModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFGenerateOrderModel.h; sourceTree = "<group>"; };
 		596442BB1CDC67CA0066A125 /* BFGenerateOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFGenerateOrderModel.m; sourceTree = "<group>"; };
@@ -2829,6 +2832,8 @@
 			children = (
 				59FF73191CAE1A860063F770 /* BFAgreeButton.h */,
 				59FF731A1CAE1A860063F770 /* BFAgreeButton.m */,
+				5961E1061D1E47FF00FB7476 /* BFPersonViewButton.h */,
+				5961E1071D1E47FF00FB7476 /* BFPersonViewButton.m */,
 				59FF731B1CAE1A860063F770 /* BFBankButton.h */,
 				59FF731C1CAE1A860063F770 /* BFBankButton.m */,
 				59F6466B1CC4B2F60077E488 /* BFNavigaitonShopCartIButton.h */,
@@ -3642,6 +3647,7 @@
 				59FF752C1CAE3C720063F770 /* BFCountdownView.m in Sources */,
 				59F6B24A1C9A5D280054F317 /* BFCheckLogisticsController.m in Sources */,
 				59132F8B1CB3899900F711C6 /* BFGroupDetailFooterView.m in Sources */,
+				5961E1081D1E47FF00FB7476 /* BFPersonViewButton.m in Sources */,
 				59513B1D1C9F89D30028B008 /* BFOrderIDCell.m in Sources */,
 				59FF74DE1CAE1A860063F770 /* MJRefreshBackStateFooter.m in Sources */,
 				59FF74CB1CAE1A860063F770 /* MJFoundation.m in Sources */,

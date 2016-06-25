@@ -59,7 +59,7 @@
 
 - (BFPersonalCenterTopView *)topView {
     if (!_topView) {
-        _topView = [[BFPersonalCenterTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight*0.42)];
+        _topView = [[BFPersonalCenterTopView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, BF_ScaleHeight(240))];
         _topView.delegate = self;
     }
     return _topView;
@@ -67,7 +67,7 @@
 
 - (BFFunctionButtonView *)functionView {
     if (!_functionView) {
-        _functionView = [[BFFunctionButtonView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topView.frame), ScreenWidth, ScreenHeight-self.topView.height-49)];
+        _functionView = [[BFFunctionButtonView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.topView.frame), ScreenWidth, ScreenHeight-BF_ScaleHeight(240)-49)];
         _functionView.delegate = self;
     }
     return _functionView;

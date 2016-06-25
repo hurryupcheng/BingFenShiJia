@@ -100,7 +100,7 @@
     //warningLabel.backgroundColor = [UIColor redColor];
     [self addSubview:warningLabel];
     [warningLabel sizeToFit];
-
+  
 }
 
 - (void)regist:(UIButton *)sender {

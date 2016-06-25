@@ -8,19 +8,20 @@
 
 #define ThreeButtonWidth (ScreenWidth/3)
 #define ThreeButtonHeight ButtonViewHeight
-#define ButtonViewHeight   (ScreenHeight*0.035)
+#define ButtonViewHeight   (BF_ScaleHeight(20))
 #define LabelHeight  (self.nickNameView.height - CGRectGetMaxY(self.threeButtonView.frame))
 #import "BFPersonalCenterTopView.h"
 #import "BFUserDefaluts.h"
+#import "BFPersonViewButton.h"
 @interface BFPersonalCenterTopView()
 /** 用户头像*/
 @property (nonatomic, strong) UIButton *headButton;
-/** 积分*/
-@property (nonatomic, strong) UILabel *integralLabel;
-/** 本月广告费*/
-@property (nonatomic, strong) UILabel *advertisingExpenseLabel;
-/** 我的客户*/
-@property (nonatomic, strong) UILabel *myClientLabel;
+///** 积分*/
+//@property (nonatomic, strong) UILabel *integralLabel;
+///** 本月广告费*/
+//@property (nonatomic, strong) UILabel *advertisingExpenseLabel;
+///** 我的客户*/
+//@property (nonatomic, strong) UILabel *myClientLabel;
 
 @property (nonatomic, strong) UIView *threeButtonView;
 /**未登录状态*/
@@ -33,8 +34,12 @@
 @property (nonatomic, strong) UIButton *referenceButton;
 /**推荐人*/
 @property (nonatomic, strong) UILabel *referenceLabel;
-
-
+/**积分按钮*/
+@property (nonatomic, strong) BFPersonViewButton *integralButton;
+/**本月广告费*/
+@property (nonatomic, strong) BFPersonViewButton *advertisingExpenseButton;
+/**我的客户*/
+@property (nonatomic, strong) BFPersonViewButton *myClientButton;
 @end
 
 
@@ -53,9 +58,9 @@
     }else {
         self.buttonView.hidden = YES;
         self.nickNameView.hidden = NO;
-        self.integralLabel.text = userInfo.score;
-        self.advertisingExpenseLabel.text = [NSString stringWithFormat:@"¥%@",userInfo.proxy_order_money];
-        self.myClientLabel.text = userInfo.proxy_num;
+        self.integralButton.bottomLabel.text = userInfo.score;
+        self.advertisingExpenseButton.bottomLabel.text = [NSString stringWithFormat:@"¥%@",userInfo.proxy_order_money];
+        self.myClientButton.bottomLabel.text = userInfo.proxy_num;
         
         
         if (userInfo.app_icon.length != 0) {
@@ -93,7 +98,7 @@
     [self addSubview:bgView];
     
     
-    self.headButton = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, ScreenHeight*0.1, BF_ScaleHeight(75), BF_ScaleHeight(75))];
+    self.headButton = [[UIButton alloc] initWithFrame:CGRectMake((ScreenWidth - BF_ScaleHeight(75))/2, BF_ScaleHeight(55), BF_ScaleHeight(75), BF_ScaleHeight(75))];
     self.headButton.backgroundColor = BFColor(0xffffff);
     self.headButton.layer.borderColor = BFColor(0xffffff).CGColor;
     self.headButton.layer.borderWidth = 1;
@@ -127,7 +132,7 @@
     self.buttonView.layer.borderWidth = 1;
     self.buttonView.layer.cornerRadius = ButtonViewHeight/2;
     self.buttonView.layer.borderColor = BFColor(0x5C5C5B).CGColor;
-    //buttonView.backgroundColor = [UIColor redColor];
+    //self.buttonView.backgroundColor = [UIColor redColor];
     [self addSubview:self.buttonView];
     
     
@@ -145,7 +150,7 @@
     
     
     //登录后的页面
-    self.nickNameView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headButton.frame), ScreenWidth, 0.31*ScreenHeight-self.headButton.height)];
+    self.nickNameView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.headButton.frame), ScreenWidth, BF_ScaleHeight(110))];
     //self.nickNameView.backgroundColor = [UIColor redColor];
     [self addSubview:self.nickNameView];
     
@@ -166,38 +171,50 @@
     
     
 
-    self.threeButtonView = [[UIView alloc] initWithFrame:CGRectMake(0,0.09*ScreenHeight, ScreenWidth, ButtonViewHeight)];
-    //self.threeButtonView.backgroundColor = [UIColor blueColor];
-    [self.nickNameView addSubview:self.threeButtonView];
+//    self.threeButtonView = [[UIView alloc] initWithFrame:CGRectMake(0,BF_ScaleHeight(50), ScreenWidth, BF_ScaleHeight(60))];
+//    //self.threeButtonView.backgroundColor = [UIColor blueColor];
+//    [self.nickNameView addSubview:self.threeButtonView];
     
-    UIButton *integralButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeIntegral titleText:@"积分"];
-    [self.threeButtonView addSubview:integralButton];
-    UIButton *advertisingExpenseButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeAdvertisingExpense titleText:@"当月广告费"];
-    [self.threeButtonView addSubview:advertisingExpenseButton];
-    UIButton *myClientButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeMyClient titleText:@"我的客户"];
-    [self.threeButtonView addSubview:myClientButton];
+    
+    self.integralButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeIntegral titleText:@"积分"];
+    self.integralButton.frame = CGRectMake(0, BF_ScaleHeight(50), ScreenWidth/3, BF_ScaleHeight(60));
+    
+    
+    self.advertisingExpenseButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeAdvertisingExpense titleText:@"当月广告费"];
+    self.advertisingExpenseButton.frame = CGRectMake(ScreenWidth/3, BF_ScaleHeight(50), ScreenWidth/3, BF_ScaleHeight(60));
+    
+    self.myClientButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeMyClient titleText:@"我的客户"];
+    self.myClientButton.frame = CGRectMake(ScreenWidth*2/3, BF_ScaleHeight(50), ScreenWidth/3, BF_ScaleHeight(60));
+    
+    
+//    UIButton *integralButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeIntegral titleText:@"积分"];
+//    [self.threeButtonView addSubview:integralButton];
+//    UIButton *advertisingExpenseButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeAdvertisingExpense titleText:@"当月广告费"];
+//    [self.threeButtonView addSubview:advertisingExpenseButton];
+//    UIButton *myClientButton = [self setUpButtonWithType:BFPersonalCenterTopButtonTypeMyClient titleText:@"我的客户"];
+//    [self.threeButtonView addSubview:myClientButton];
     
 
-    UIView *seperateLineOne = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/3-0.5, CGRectGetMidY(self.threeButtonView.frame), 1, BF_ScaleHeight(30))];
+    UIView *seperateLineOne = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth/3-0.5, BF_ScaleHeight(60), 1, BF_ScaleHeight(40))];
     seperateLineOne.backgroundColor = BFColor(0xB4B4B1);
     [self.nickNameView addSubview:seperateLineOne];
     
-    UIView *seperateLineTwo = [[UIView alloc] initWithFrame:CGRectMake((2*ScreenWidth/3)-0.5, CGRectGetMidY(self.threeButtonView.frame), 1, BF_ScaleHeight(30))];
+    UIView *seperateLineTwo = [[UIView alloc] initWithFrame:CGRectMake((2*ScreenWidth/3)-0.5, BF_ScaleHeight(60), 1, BF_ScaleHeight(40))];
     seperateLineTwo.backgroundColor = BFColor(0xB4B4B1);
     [self.nickNameView addSubview:seperateLineTwo];
     
     
-    self.integralLabel = [UILabel labelWithFrame:CGRectMake(0, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"123"];
-    self.integralLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nickNameView addSubview:self.integralLabel];
-    
-    self.advertisingExpenseLabel = [UILabel labelWithFrame:CGRectMake(ScreenWidth/3, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"123"];
-    self.advertisingExpenseLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nickNameView addSubview:self.advertisingExpenseLabel];
-    
-    self.myClientLabel = [UILabel labelWithFrame:CGRectMake(ScreenWidth*2/3, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"132"];
-    self.myClientLabel.textAlignment = NSTextAlignmentCenter;
-    [self.nickNameView addSubview:self.myClientLabel];
+//    self.integralLabel = [UILabel labelWithFrame:CGRectMake(0, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"123"];
+//    self.integralLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.nickNameView addSubview:self.integralLabel];
+//    
+//    self.advertisingExpenseLabel = [UILabel labelWithFrame:CGRectMake(ScreenWidth/3, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"123"];
+//    self.advertisingExpenseLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.nickNameView addSubview:self.advertisingExpenseLabel];
+//    
+//    self.myClientLabel = [UILabel labelWithFrame:CGRectMake(ScreenWidth*2/3, CGRectGetMaxY(self.threeButtonView.frame), ScreenWidth/3, LabelHeight) font:BF_ScaleFont(14) textColor:BFColor(0xEE3E00) text:@"132"];
+//    self.myClientLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.nickNameView addSubview:self.myClientLabel];
     
     
     
@@ -216,18 +233,29 @@
 //     BFLog(@"调用");
 //}
 
-
-//创建button
-- (UIButton *)setUpButtonWithType:(BFPersonalCenterTopButtonType)type titleText:(NSString *)titleText {
-    UIButton *button = [UIButton buttonWithType:0];
+//创建buttton
+- (BFPersonViewButton *)setUpButtonWithType:(BFPersonalCenterTopButtonType)type titleText:(NSString *)titleText {
+    BFPersonViewButton *button = [BFPersonViewButton buttonWithType:0];
     button.tag = type;
-    //button.backgroundColor = [UIColor blueColor];
-    [button setTitleColor:BFColor(0x303134) forState:UIControlStateNormal];
-    [button setTitle:titleText forState:UIControlStateNormal];
-    button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+    button.topLabel.text = titleText;
     [button addTarget:self action:@selector(personalCenterTopButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.nickNameView addSubview:button];
     return button;
 }
+
+
+
+////创建button
+//- (UIButton *)setUpButtonWithType:(BFPersonalCenterTopButtonType)type titleText:(NSString *)titleText {
+//    UIButton *button = [UIButton buttonWithType:0];
+//    button.tag = type;
+//    //button.backgroundColor = [UIColor blueColor];
+//    [button setTitleColor:BFColor(0x303134) forState:UIControlStateNormal];
+//    [button setTitle:titleText forState:UIControlStateNormal];
+//    button.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+//    [button addTarget:self action:@selector(personalCenterTopButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//    return button;
+//}
 
 /**设置按钮点击事件*/
 - (void)setting {
@@ -275,7 +303,7 @@
 }
 
 /**三个按钮点击事件*/
-- (void)personalCenterTopButtonClick:(UIButton *)sender {
+- (void)personalCenterTopButtonClick:(BFPersonViewButton *)sender {
     //音效
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToPersonalCenterTopButtoInterfaceWithType:)]) {

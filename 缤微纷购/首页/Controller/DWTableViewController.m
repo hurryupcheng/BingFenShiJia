@@ -144,21 +144,22 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    BFCityTableViewController *cityVC = [[BFCityTableViewController alloc] init];
-    NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
-    NSArray *array = provinceDictionary[@"city"];
-    cityVC.cityArray = array;
-    if (array.count != 0) {
-        cityVC.provinceDictionary = provinceDictionary;
-        [self.navigationController pushViewController:cityVC animated:YES];
-    }else {
+    if (indexPath.section == 2) {
+        BFCityTableViewController *cityVC = [[BFCityTableViewController alloc] init];
         NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
-        BFLog(@"=-=-=-%@", provinceDictionary[@"province"]);
-        _cityBlock(provinceDictionary[@"province"]);
-        [self dismissViewControllerAnimated:YES completion:nil];
+        NSArray *array = provinceDictionary[@"city"];
+        cityVC.cityArray = array;
+        if (array.count != 0) {
+            cityVC.provinceDictionary = provinceDictionary;
+            [self.navigationController pushViewController:cityVC animated:YES];
+        }else {
+            NSDictionary *provinceDictionary = self.provinceArray[indexPath.row];
+            BFLog(@"=-=-=-%@", provinceDictionary[@"province"]);
+            _cityBlock(provinceDictionary[@"province"]);
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 

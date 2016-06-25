@@ -367,7 +367,7 @@
     parameter[@"month"] = [date substringWithRange:NSMakeRange(5, 2)];
     parameter[@"page"] = @(self.page);
     [BFProgressHUD MBProgressWithLabelText:@"Loading..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
-
+        
     [BFHttpTool GET:url params:parameter success:^(id responseObject) {
         BFLog(@"++++%@,,%@", responseObject, parameter);
         if (responseObject) {

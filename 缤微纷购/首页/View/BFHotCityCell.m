@@ -41,7 +41,7 @@
 
 - (void)setCell {
     UIView *view = [[UIView alloc]init];
-    NSArray *hotCity = @[@"上海", @"广州", @"北京", @"深圳", @"杭州", @"武汉"];
+    NSArray *hotCity = @[@"北京",@"天津", @"广州", @"上海", @"深圳", @"杭州", @"武汉"];
     // 行数
     NSUInteger rows = (hotCity.count + 4 - 1) / 4;
     for (int i = 0; i < hotCity.count; i++) {

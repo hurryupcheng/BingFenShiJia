@@ -24,7 +24,7 @@
 }
 
 - (void)setView {
-    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(150)) delegate:nil placeholderImage:nil];
+    self.cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0,BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(100)) delegate:nil placeholderImage:nil];
     self.cycleScrollView.currentPageDotColor = BFColor(0xFF0000);
     self.cycleScrollView.pageDotColor = BFColor(0xffffff);
     self.cycleScrollView.pageControlDotSize = CGSizeMake(BF_ScaleHeight(8), BF_ScaleHeight(8));
@@ -50,7 +50,7 @@
                 }
                 self.cycleScrollView.imageURLStringsGroup = [mutableArray copy];
                 self.cycleScrollView.hidden = NO;
-                self.headViewH = BF_ScaleHeight(150)+BF_ScaleHeight(10);
+                self.headViewH = BF_ScaleHeight(100)+BF_ScaleHeight(10);
             }
             
         }else {

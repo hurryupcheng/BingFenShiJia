@@ -60,7 +60,7 @@
 - (UITableView *)tableView {
     if (!_tableView) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50-ScreenHeight, ScreenWidth, ScreenHeight-116) style:UITableViewStylePlain];
-        _tableView.backgroundColor = BFColor(0xEBEBEB);
+        _tableView.backgroundColor = BFColor(0xffffff);
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -82,6 +82,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationController.navigationBarHidden = NO;
     
 }
 
@@ -89,7 +90,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"我的客户";
-    self.view.backgroundColor = BFColor(0xEBEBEB);
+    self.view.backgroundColor = BFColor(0xffffff);
     self.page = 1;
     self.isFirstTime = YES;
     //添加navigationbar

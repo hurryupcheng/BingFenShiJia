@@ -160,8 +160,12 @@
                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
                         self.bgImageView.hidden = YES;
                     });
-
-                    [self.couponsArray addObjectsFromArray:array];
+                    for (BFMyCouponsModel *model in array) {
+                        if (model.cr_type.length != 0) {
+                            [self.couponsArray addObject:model];
+                        }
+                    }
+                    //[self.couponsArray addObjectsFromArray:array];
                     
                 }else {
                     self.tableView.hidden = YES;
