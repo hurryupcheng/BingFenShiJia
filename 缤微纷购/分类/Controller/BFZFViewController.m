@@ -1065,24 +1065,24 @@
     return _addressArray;
 }
 
-#pragma mark --分割线到头
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-}
-
-- (void)viewDidLayoutSubviews {
-    if ([self.tableV respondsToSelector:@selector(setLayoutMargins:)]) {
-        [self.tableV setLayoutMargins:UIEdgeInsetsZero];
-    }
-    if ([self.tableV respondsToSelector:@selector(setSeparatorInset:)]) {
-        [self.tableV setSeparatorInset:UIEdgeInsetsZero];
-    }
-}
+//#pragma mark --分割线到头
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+//    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+//        [cell setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+//        [cell setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//}
+//
+//- (void)viewDidLayoutSubviews {
+//    if ([self.tableV respondsToSelector:@selector(setLayoutMargins:)]) {
+//        [self.tableV setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//    if ([self.tableV respondsToSelector:@selector(setSeparatorInset:)]) {
+//        [self.tableV setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//}
 
 
 
