@@ -10,6 +10,7 @@
 #import "BFGroupOrderDetailView.h"
 #import "BFGroupOrderDetailModel.h"
 #import "BFPayoffViewController.h"
+#import "BFCheckLogisticsController.h"
 
 @interface BFGroupOrderDetailController ()<BFGroupOrderDetailViewDelegate>
 /**团订单详情自定义view*/
@@ -98,6 +99,14 @@
             [self.navigationController pushViewController:groupDetailVC animated:YES];
             BFLog(@"点击查看团详情");
             break;
+        }
+        case BFGroupOrderDetailViewButtonTypeLogistics:{
+            BFLog(@"点击查看物流");
+            BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
+            vc.freecode = self.model.freecode;
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+
         }
     }
 }

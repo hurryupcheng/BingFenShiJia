@@ -189,7 +189,7 @@
                         BFLog(@"++++++++%d,,,%d", pay.isPT, self.isPT);
                         
                         pay.totalPrice = totalPrice;
-                                                   [hud hideAnimated:YES];
+                        [hud hideAnimated:YES];
                         [self.navigationController pushViewController:pay animated:YES];
                         
                         //订单生成修改积分数量

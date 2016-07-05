@@ -227,7 +227,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
   
-        return self.cellHeight;
+        return CGFloatX(80)+30;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -339,7 +339,7 @@
     };
     [cell reloadDataWith:[self.dateArr objectAtIndex:indexPath.row]];
     
-    self.cellHeight = cell.cellHeight;
+    //self.cellHeight = cell.cellHeight;
     
     [cell.close addTarget:self action:@selector(close:) forControlEvents:UIControlEventTouchUpInside];
     cell.tag = indexPath.row;

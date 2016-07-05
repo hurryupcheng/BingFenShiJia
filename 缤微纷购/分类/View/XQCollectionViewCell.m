@@ -17,6 +17,7 @@
 @property (nonatomic,retain)UILabel *number;
 @property (nonatomic,retain)UILabel *money;
 @property (nonatomic,retain)UIButton *select;
+@property (nonatomic,strong) UIImageView *soldOutImageView;
 
 @end
 
@@ -36,6 +37,11 @@
 //        self.imageView.backgroundColor = [UIColor greenColor];
         self.imageView.layer.borderColor = rgb(245, 245, 245, 1.0).CGColor;
         self.imageView.layer.borderWidth = 1;
+        
+        self.soldOutImageView = [[UIImageView alloc]initWithFrame:CGRectMake((x-32)*0.5, (x-32)*0.5, (x-16)*0.5, (x-16)*0.5)];
+        self.soldOutImageView.image = [UIImage imageNamed:@"have_been_sold_out"];
+        //self.soldOutImageView.layer.borderColor = rgb(245, 245, 245, 1.0).CGColor;
+        //self.soldOutImageView.layer.borderWidth = 1;
         
         self.title = [[UILabel alloc]initWithFrame:CGRectMake(5, CGRectGetMaxY(self.imageView.frame), x-10, 30)];
         self.title.text = @"产品名称";
@@ -59,6 +65,7 @@
         
         [self.contentView addSubview:imageView];
         [imageView addSubview:self.imageView];
+        [self.imageView addSubview:self.soldOutImageView];
         [imageView addSubview:self.title];
         [imageView addSubview:self.number];
         [imageView addSubview:self.money];
@@ -71,6 +78,11 @@
 - (void)setXQModel:(XQSubOtherModel *)xqModel{
     
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:xqModel.img] placeholderImage:[UIImage imageNamed:@"100.jpg"]];
+    if ([xqModel.stock integerValue] <= 0) {
+        self.soldOutImageView.hidden = NO;
+    }else {
+        self.soldOutImageView.hidden = YES;
+    }
     self.title.text = xqModel.title;
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"¥ %@",xqModel.thisprice]];

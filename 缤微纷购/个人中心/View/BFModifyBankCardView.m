@@ -363,6 +363,7 @@
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
             }else {
+                //[BFUserDefaluts modifyBankInfo:bankInfo];
                 weakSelf.branchTF.height = BF_ScaleHeight(0);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
                 BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
@@ -377,20 +378,23 @@
             NSArray *array = [BFBranchList parse:weakSelf.model.bank];
             for (BFBranchList *list in array) {
                 if ([list.name isEqualToString:string]) {
-                    bankInfo.bank_branch = list.ID;
-                    BFLog(@"####%@,,,,,%@",list.ID, bankInfo.bank_branch);
-                    [BFUserDefaluts modifyBankInfo:bankInfo];
+                    weakSelf.branchID = list.ID;
+                    BFLog(@"####%@,,,,,%@",list.ID, weakSelf.branchID);
+                    //[BFUserDefaluts modifyBankInfo:bankInfo];
                 }
             }
             if ([string isEqualToString:@"其他"]) {
+                bankInfo.bank_branch = @"999999";
+                [BFUserDefaluts modifyBankInfo:bankInfo];
                 weakSelf.branchTF.height = BF_ScaleHeight(30);
                 weakSelf.branchTF.text = nil;
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchTF.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
-                BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
+                //BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
             }else {
+                [BFUserDefaluts modifyBankInfo:bankInfo];
                 weakSelf.branchTF.height = BF_ScaleHeight(0);
                 weakSelf.detailInfo.frame = CGRectMake(0, CGRectGetMaxY(self.branchButton.frame)+BF_ScaleHeight(10), ScreenWidth, BF_ScaleHeight(260));
-                BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
+                //BFLog(@"----%f",CGRectGetMaxY(weakSelf.branchTF.frame));
             }
         };
 
@@ -456,9 +460,9 @@
     }
     parameter[@"bank_id"] = bankInfo.bank_id ? bankInfo.bank_id : self.userInfo.bank_id;
     parameter[@"bank_city"] = bankInfo.shi_id ? bankInfo.shi_id : self.userInfo.bank_city;
-    parameter[@"bank_branch"] = bankInfo.bank_branch ? bankInfo.bank_branch : self.userInfo.bank_branch;
+    parameter[@"bank_branch"] = self.branchID;
     
-    BFLog(@"======%@,,,,,%@,,,,,%@", bankInfo.bank_id, bankInfo.shi_id, bankInfo.bank_branch);
+    BFLog(@"======%@,,,,,%@,,,,,", bankInfo.bank_branch, self.userInfo.bank_branch);
     if ([self.branchButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.bankButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.provinceButton.buttonTitle.text isEqualToString:@"--请选择--"] || [self.cityButton.buttonTitle.text isEqualToString:@"--请选择--"] || self.detailInfo.cardNumberTX.text.length == 0 || self.detailInfo.nameTX.text.length == 0) {
         [BFProgressHUD MBProgressFromView:self onlyWithLabelText:@"请完善信息"];
     }else if(![HZQRegexTestter validateBankCardNumber:self.detailInfo.cardNumberTX.text]) {

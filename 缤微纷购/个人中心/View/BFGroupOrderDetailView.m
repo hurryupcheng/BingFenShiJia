@@ -74,22 +74,27 @@
                     self.orderStatus.text = @"未付款";
                     self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
                     self.payButton.hidden = NO;
+                    self.logisticsButton.hidden = YES;
                 }else if ([model.status isEqualToString:@"2"]) {
                     self.orderStatus.text = @"待发货";
                     self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_pay"];
                     self.payButton.hidden = YES;
+                    self.logisticsButton.hidden = YES;
                 }else if ([model.status isEqualToString:@"3"]) {
                     self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_distribution"];
                     self.orderStatus.text = @"已发货";
                     self.payButton.hidden = YES;
+                    self.logisticsButton.hidden = NO;
                 }else if ([model.status isEqualToString:@"4"]) {
                     self.statusImageView.image = [UIImage imageNamed:@"group_order_detail_signed"];
                     self.orderStatus.text = @"已完成";
                     self.payButton.hidden = YES;
+                    self.logisticsButton.hidden = NO;
                 }else {
                     self.statusImageView.image = [UIImage imageNamed:@"group_order_detail"];
                     self.payButton.hidden = YES;
                     self.orderStatus.text = @"已关闭";
+                    self.logisticsButton.hidden = YES;
                 }
 
                 break;
@@ -329,6 +334,19 @@
     payButton.tag = BFGroupOrderDetailViewButtonTypePay;
     [payButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:payButton];
+    
+    UIButton *logisticsButton = [UIButton buttonWithType:0];
+    self.logisticsButton = logisticsButton;
+    logisticsButton.frame = CGRectMake(BF_ScaleWidth(20), CGRectGetMaxY(productView.frame)+BF_ScaleHeight(10), BF_ScaleWidth(120), BF_ScaleHeight(30));
+    [logisticsButton setTitle:@"查看物流" forState:UIControlStateNormal];
+    [logisticsButton setTitleColor:BFColor(0xffffff) forState:UIControlStateNormal];
+    logisticsButton.backgroundColor = BFColor(0xD4001B);
+    logisticsButton.titleLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
+    logisticsButton.layer.cornerRadius = 4;
+    logisticsButton.hidden = YES;
+    logisticsButton.tag = BFGroupOrderDetailViewButtonTypeLogistics;
+    [logisticsButton addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    [self addSubview:logisticsButton];
 
     
 }

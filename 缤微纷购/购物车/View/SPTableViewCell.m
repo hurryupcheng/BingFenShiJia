@@ -130,7 +130,7 @@
     
     self.hetLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.titleLabel.frame), kScreenWidth-self.needV.width-self.imageV.width-50, CGFloatY(25));
    
-    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.hetLabel.frame)+5, kScreenWidth-self.needV.width-self.imageV.width-100, CGFloatY(30));
+    self.moneyLabel.frame = CGRectMake(CGRectGetMaxX(self.imageV.frame)+5, CGRectGetMaxY(self.imageV.frame)-BF_ScaleHeight(20), kScreenWidth-self.needV.width-self.imageV.width-100, CGFloatY(30));
     
     //self.moneyLabel.backgroundColor = BFColor(0x0000ff);
 
@@ -138,7 +138,7 @@
     self.closeImg.frame = CGRectMake(CGFloatX(20), 5, CGFloatX(20), CGFloatX(20));
     //self.close.backgroundColor = [UIColor greenColor];
     
-    self.add.frame = CGRectMake(CGRectGetMaxX(self.moneyLabel.frame), CGRectGetMaxY(self.hetLabel.frame), kScreenWidth, CGFloatY(35));
+    self.add.frame = CGRectMake(BF_ScaleWidth(220), CGRectGetMaxY(self.imageV.frame)-BF_ScaleHeight(25), BF_ScaleWidth(90), BF_ScaleHeight(30));
     //self.add.backgroundColor = [UIColor redColor];
     self.moneyLabel.text = [NSString stringWithFormat:@"¥ %.2f",[model.price doubleValue]];
     if (model.price) {
@@ -154,7 +154,7 @@
     
     
     self.cellHeight = CGRectGetMaxY(self.add.frame)+10;
-    self.imageV.height = self.cellHeight - 30;
+    //self.imageV.height = self.cellHeight - 30;
     BFLog(@"--------%ld,,,,,%f", self.cellHeight,self.add.y);
    
 }

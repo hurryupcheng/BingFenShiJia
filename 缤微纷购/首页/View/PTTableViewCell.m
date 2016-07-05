@@ -131,8 +131,10 @@
         }
         
         [self.imageV sd_setImageWithURL:[NSURL URLWithString:model.img] placeholderImage:[UIImage imageNamed:@"750.jpg"]];
+        self.imageV.backgroundColor = [UIColor redColor];
         
         self.titleLabel.text = model.title;
+        
         
         self.infoLabel.text = model.intro;
         [self.infoLabel sizeToFit];
@@ -141,7 +143,7 @@
         
         self.moneyLabel.text = [NSString stringWithFormat:@"  %@人团  %@",model.team_num,model.team_price];
         
-        self.titleLabel.frame = CGRectMake(5, CGRectGetMaxY(_imageV.frame), _backV.frame.size.width-10, [Height heightString:self.titleLabel.text font:16]);
+        self.titleLabel.frame = CGRectMake(5, CGRectGetMaxY(_imageV.frame)+BF_ScaleHeight(5), _backV.frame.size.width-10, [Height heightString:self.titleLabel.text font:16]);
         self.infoLabel.frame = CGRectMake(5, CGRectGetMaxY(_titleLabel.frame)+5, kScreenWidth-30, [Height heightString:self.infoLabel.text font:13]);
         _goLabel.frame = CGRectMake(CGRectGetMaxX(_backV.frame)-kScreenWidth/4-20, CGRectGetMaxY(_infoLabel.frame)+10, kScreenWidth/4, 30);
         _moneyLabel.frame = CGRectMake(CGRectGetMinX(_goLabel.frame)-kScreenWidth/3+15, CGRectGetMaxY(_infoLabel.frame)+10, kScreenWidth/3, 30);

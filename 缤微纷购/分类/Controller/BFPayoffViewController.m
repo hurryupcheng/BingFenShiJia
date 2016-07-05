@@ -401,10 +401,10 @@
     //商户的账号
     order.seller = SellerID;
     order.tradeNO = self.orderModel.orderid;       //订单ID（由商家自行制定）
-    order.productName = @"测试";          //商品标题
-    order.productDescription = @"测试";//商品描述
+    order.productName = @"缤纷世家";          //商品标题
+    order.productDescription = @"缤纷世家";//商品描述
 
-    order.amount = @"0.01"; //商品价格
+    order.amount = self.totalPrice; //商品价格
     
     order.notifyURL =  @"http://bingo.luexue.com/alipay_notify.php";     //我们服务器的回调地址,支付宝服务器会通过post请求，给我们服务器发送支付信息
     

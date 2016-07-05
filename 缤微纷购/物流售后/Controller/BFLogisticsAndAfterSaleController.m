@@ -499,7 +499,7 @@
         case BFLogisticsCellButtonTypeCheckLogistics:{
             BFLog(@"查看物流%@",@"2");
             BFCheckLogisticsController *vc = [BFCheckLogisticsController new];
-            vc.freecode = model.freecode;
+            vc.freecode = model.freecode;   
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

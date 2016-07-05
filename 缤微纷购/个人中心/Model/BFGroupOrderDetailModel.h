@@ -35,6 +35,8 @@
 @property (nonatomic, strong) NSString *title;
 /**产品数量*/
 @property (nonatomic, strong) NSString *quantity;
+/**快递单号*/
+@property (nonatomic, strong) NSString *freecode;
 /**支付类型1.微信支付 2.支付宝*/
 @property (nonatomic, strong) NSString *pay_type;
 @end

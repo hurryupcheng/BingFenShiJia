@@ -27,11 +27,11 @@
 - (void)initWithSubView{
 
     self.minBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.minBut.frame = CGRectMake(0, 0, CGFloatX(35), CGFloatX(35));
+    self.minBut.frame = CGRectMake(0, 0, BF_ScaleWidth(30), BF_ScaleHeight(30));
     
     [self.minBut setBackgroundImage:[[UIImage imageNamed:@"jian.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] forState:UIControlStateNormal];
     
-    self.textF = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.minBut.frame), 0, CGFloatX(40), CGFloatX(35))];
+    self.textF = [[UILabel alloc]initWithFrame:CGRectMake(BF_ScaleWidth(30), 0, BF_ScaleWidth(30), BF_ScaleHeight(30))];
     
     self.textF.textAlignment = NSTextAlignmentCenter;
     self.textF.textColor = [UIColor blackColor];
@@ -39,7 +39,7 @@
 //    self.textF.userInteractionEnabled = NO;
     
     self.maxBut = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.maxBut.frame = CGRectMake(CGRectGetMaxX(self.textF.frame), 0, CGFloatX(35), CGFloatX(35));
+    self.maxBut.frame = CGRectMake(BF_ScaleWidth(60), 0, BF_ScaleWidth(30), BF_ScaleHeight(30));
     [self.maxBut setBackgroundImage:[UIImage imageNamed:@"jia1.png"] forState:UIControlStateNormal];
     
     [self addSubview:self.minBut];

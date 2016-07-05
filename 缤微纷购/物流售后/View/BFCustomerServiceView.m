@@ -75,7 +75,7 @@
     [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.alpha = 1;
+        //self.alpha = 1;
         self.backgroundColor = windowColor;
         self.telephoneService.y = BF_ScaleHeight(450);
     } completion:nil];

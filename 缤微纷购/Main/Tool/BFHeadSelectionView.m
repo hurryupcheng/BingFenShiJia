@@ -47,13 +47,13 @@
     //self.backgroundColor= [UIColor redColor];
 //    self.bgImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hide)];
-    [self.bgImageView  addGestureRecognizer:tap];
+    [self  addGestureRecognizer:tap];
 //    [self addSubview:self.bgImageView];
     
-    self.camera = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(65), -BF_ScaleWidth(55), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"camera" type:BFHeadSelectionViewButtonTypeCamera];
+    self.camera = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(65), -BF_ScaleWidth(65), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"camera" type:BFHeadSelectionViewButtonTypeCamera];
     
     
-    self.album = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), -BF_ScaleWidth(55), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"album" type:BFHeadSelectionViewButtonTypeAlbum];
+    self.album = [self setUpButtonWithFrame:CGRectMake(BF_ScaleWidth(190), -BF_ScaleWidth(65), BF_ScaleWidth(65), BF_ScaleWidth(65)) image:@"album" type:BFHeadSelectionViewButtonTypeAlbum];
     
     
     self.cancle = [UIButton buttonWithType:0];

@@ -11,7 +11,8 @@
 
 typedef enum {
     BFGroupOrderDetailViewButtonTypePay,//立即支付按钮-status=1显示
-    BFGroupOrderDetailViewButtonTypeGroup //查看团详情
+    BFGroupOrderDetailViewButtonTypeGroup, //查看团详情
+    BFGroupOrderDetailViewButtonTypeLogistics//查看物流  已发货状态和已完成状态显示
 }BFGroupOrderDetailViewButtonType;
 
 
@@ -29,4 +30,6 @@ typedef enum {
 @property (nonatomic, weak) id<BFGroupOrderDetailViewDelegate>delegate;
 /**支付按钮  status=1是显示*/
 @property (nonatomic, strong) UIButton *payButton;
+/**查看物流  已发货状态和已完成状态显示*/
+@property (nonatomic, strong) UIButton *logisticsButton;
 @end
