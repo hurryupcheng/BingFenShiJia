@@ -493,7 +493,7 @@
     NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
     
     [BFHttpTool GET:url params:nil success:^(id responseObject) {
-//        BFLog(@"%@", responseObject);
+        BFLog(@"%@", responseObject);
         if (responseObject) {
             [self.dataArray removeAllObjects];
             //BFLog(@"%@",responseObject);

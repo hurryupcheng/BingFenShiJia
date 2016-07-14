@@ -160,8 +160,10 @@
     
         for (NSDictionary * dic in responseObject) {
             Classification *class = [[Classification alloc]initWithDictionary:dic];
-             [array addObject:class];
+            if (class.sub_catesArr.count != 0) {
+                [array addObject:class];
             }
+        }
 
         self.dataSourceArray = [array copy];
         

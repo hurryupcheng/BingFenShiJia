@@ -397,30 +397,37 @@
     parameter[@"uid"] = userInfo.ID;
     parameter[@"token"] = userInfo.token;
     
-    // 3.发送请求
-    [mgr POST:url parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        // 拼接文件数据
-        NSData *data = UIImageJPEGRepresentation(image, 1.0);
-        [formData appendPartWithFileData:data name:@"header_ico" fileName:@"test.jpg" mimeType:@"image/jpeg"];
-    } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
-        BFLog(@"%@", responseObject);
-        if (responseObject) {
-            if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"头像更换成功"];
-                BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
-                userInfo.app_icon = responseObject[@"img"];
-                BFLog(@"%@,,%@",userInfo.app_icon, responseObject[@"img"]);
-                [BFUserDefaluts modifyUserInfo:userInfo];
-            }else {
-                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"头像更换失败"];
+    [BFProgressHUD MBProgressWithLabelText:@"正在更换头像,请稍后..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        // 3.发送请求
+        [mgr POST:url parameters:parameter constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+            // 拼接文件数据
+            NSData *data = UIImageJPEGRepresentation(image, 1.0);
+            [formData appendPartWithFileData:data name:@"header_ico" fileName:@"test.jpg" mimeType:@"image/jpeg"];
+        } success:^(AFHTTPRequestOperation *operation, NSDictionary *responseObject) {
+            BFLog(@"%@", responseObject);
+            if (responseObject) {
+                if ([responseObject[@"msg"] isEqualToString:@"上传成功"]) {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view rightLabelText:@"头像更换成功"];
+                    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+                    userInfo.app_icon = responseObject[@"img"];
+                    BFLog(@"%@,,%@",userInfo.app_icon, responseObject[@"img"]);
+                    [BFUserDefaluts modifyUserInfo:userInfo];
+                }else {
+                    [hud hideAnimated:YES];
+                    [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"头像更换失败"];
+                    
+                }
                 
             }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            [hud hideAnimated:YES];
+            BFLog(@"%@", error);
             
-        }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        BFLog(@"%@", error);
+        }];
 
     }];
+    
 }
 
 

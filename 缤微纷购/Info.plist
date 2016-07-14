@@ -116,7 +116,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<true/>
+	<string>缤纷世家授权定位</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

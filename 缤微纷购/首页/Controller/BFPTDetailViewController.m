@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UIWebView *webView;
 /**自定义头部视图*/
 @property (nonatomic, strong) BFPTDetailHeaderView *header;
-/**自定义头部视图*/
+
 @property (nonatomic, strong) UIView* webBrowserView;
 
 @property (nonatomic, retain) NSMutableArray *dataArray;
