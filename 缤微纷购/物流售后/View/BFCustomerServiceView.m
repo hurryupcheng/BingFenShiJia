@@ -8,7 +8,6 @@
 #define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 
 #import "BFCustomerServiceView.h"
-#import "UIImageView+LBBlurredImage.h"
 
 @interface BFCustomerServiceView()
 /**背景图*/

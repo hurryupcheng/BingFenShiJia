@@ -7,7 +7,6 @@
 //
 #define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.3]
 #import "BFHeadSelectionView.h"
-#import "UIImageView+LBBlurredImage.h"
 
 @interface BFHeadSelectionView()
 /**背景图*/

@@ -173,6 +173,9 @@
 
 }
 
+- (BOOL)prefersStatusBarHidden{
+    return YES;
+}
 
 
 
