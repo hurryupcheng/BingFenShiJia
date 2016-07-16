@@ -100,6 +100,8 @@
     [self tabbar];
     //获取数据
     [self getData];
+    //设置导航栏
+    [self setUpNavigationBar];
     
     //接收footerView的拼团玩法的点击事件
     [BFNotificationCenter addObserver:self selector:@selector(clickToLookDetail) name:@"lookDetail" object:nil];
@@ -128,6 +130,13 @@
 //移除通知
 - (void)dealloc {
     [BFNotificationCenter removeObserver:self];
+}
+
+
+#pragma mark --添加导航栏
+- (void)setUpNavigationBar{
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"iconfont-fenxiang-6.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]style:UIBarButtonItemStylePlain target:self action:@selector(gotoShare)];
 }
 
 
@@ -436,84 +445,128 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            [self shareWithType:ShareTypeQQSpace];
+            [self shareWithType:SSDKPlatformSubTypeQZone];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            [self shareWithType:ShareTypeQQ];
+            [self shareWithType:SSDKPlatformSubTypeQQFriend];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
-            [self shareWithType:ShareTypeWeixiSession];
+            [self shareWithType:SSDKPlatformSubTypeWechatSession];
             break;
         }
         case BFShareButtonTypeMoments:{
-            [self shareWithType:ShareTypeWeixiTimeline];
+            [self shareWithType:SSDKPlatformSubTypeWechatTimeline];
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            //[BFProgressHUD MBProgressOnlyWithLabelText:@"该功能还未实现,敬请期待!"];
-            [self shareWithType:ShareTypeSinaWeibo];
+            [self shareWithType:SSDKPlatformTypeSinaWeibo];
             break;
         }
     }
 }
 
 
-- (void)shareWithType:(ShareType)shareType {
+- (void)shareWithType:(SSDKPlatformType)shareType {
     BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
     ItemModel *itemModel = [ItemModel parse:self.model.item];
-    if (shareType == ShareTypeSinaWeibo) {
-        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
-                                           defaultContent:itemModel.intro
-                                                    image:[ShareSDK imageWithUrl:itemModel.img]
-                                                    title:itemModel.title
-                                                      url:nil
-                                              description:itemModel.title
-                                                mediaType:SSPublishContentMediaTypeNews];
-        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-                if ([error errorCode] == 20012) {
-                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享内容过长,请少于140个字节"];
-                }
-            }else if (state == SSResponseStateCancel) {
-                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
-            }
-            BFLog(@"---%d",state);
-        }];
+    if (shareType == SSDKPlatformTypeSinaWeibo) {
+        //创建分享参数
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
+                                         images:@[itemModel.img] //传入要分享的图片
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]]
+                                          title:itemModel.title
+                                           type:SSDKContentTypeAuto];
         
+        //进行分享
+        [ShareSDK share:shareType //传入分享的平台类型
+             parameters:shareParams
+         onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
+             if (state == SSDKResponseStateSuccess) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+             }else if (state ==  SSDKResponseStateFail) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                 BFLog(@"分享失败%@",error);
+             }else if (state ==  SSDKResponseStateCancel) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+             }
+         }];
+
     }else {
-        id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
-                                           defaultContent:itemModel.intro
-                                                    image:[ShareSDK imageWithUrl:itemModel.img]
-                                                    title:itemModel.title
-                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@", self.itemid, self.teamid, userInfo.ID]
-                                              description:itemModel.intro
-                                                mediaType:SSPublishContentMediaTypeNews];
-        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            BFLog(@"---%d",type);
-            if (state == SSResponseStateSuccess) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-            }else if (state == SSResponseStateCancel) {
-                //[self hideShareView];
-                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
-            }
-        }];
+        //创建分享参数
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:itemModel.intro
+                                         images:@[itemModel.img] //传入要分享的图片
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]]
+                                          title:itemModel.title
+                                           type:SSDKContentTypeAuto];
         
+        //进行分享
+        [ShareSDK share:shareType //传入分享的平台类型
+             parameters:shareParams
+         onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
+             if (state == SSDKResponseStateSuccess) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+             }else if (state ==  SSDKResponseStateFail) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                 BFLog(@"分享失败%@",error);
+             }else if (state ==  SSDKResponseStateCancel) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+             }
+         }];
+
     }
+//    if (shareType == ShareTypeSinaWeibo) {
+//        id<ISSContent> publishContent = [ShareSDK content:[NSString stringWithFormat:@"%@http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@",itemModel.title, self.itemid, self.teamid, userInfo.ID]
+//                                           defaultContent:itemModel.intro
+//                                                    image:[ShareSDK imageWithUrl:itemModel.img]
+//                                                    title:itemModel.title
+//                                                      url:nil
+//                                              description:itemModel.title
+//                                                mediaType:SSPublishContentMediaTypeNews];
+//        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            if (state == SSResponseStateSuccess) {
+//                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//                if ([error errorCode] == 20012) {
+//                    [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享内容过长,请少于140个字节"];
+//                }
+//            }else if (state == SSResponseStateCancel) {
+//                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+//            }
+//            BFLog(@"---%d",state);
+//        }];
+//        
+//    }else {
+//        id<ISSContent> publishContent = [ShareSDK content:itemModel.intro
+//                                           defaultContent:itemModel.intro
+//                                                    image:[ShareSDK imageWithUrl:itemModel.img]
+//                                                    title:itemModel.title
+//                                                      url:[NSString stringWithFormat:@"http://bingo.luexue.com/index.php?m=Teambuy&a=openteam&itemid=%@&teamid=%@&proxy_id=%@", self.itemid, self.teamid, userInfo.ID]
+//                                              description:itemModel.intro
+//                                                mediaType:SSPublishContentMediaTypeNews];
+//        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            BFLog(@"---%d",type);
+//            if (state == SSResponseStateSuccess) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressFromView:self.view rightLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressFromView:self.view wrongLabelText: @"分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//            }else if (state == SSResponseStateCancel) {
+//                //[self hideShareView];
+//                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+//            }
+//        }];
+//        
+//    }
 }
 
 

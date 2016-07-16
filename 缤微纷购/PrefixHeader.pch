@@ -10,7 +10,7 @@
 #define PrefixHeader_pch
 
 #pragma mark -- 头文件
-#import <AudioToolbox/AudioToolbox.h>  
+#import <AudioToolbox/AudioToolbox.h>
 #import <ShareSDK/ShareSDK.h>
 #import <AVFoundation/AVFoundation.h>
 

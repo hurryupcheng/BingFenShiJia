@@ -168,15 +168,15 @@
     switch (sender.tag) {
         case BFThirdLoginTypeQQ:{
             BFLog(@"BFThirdLoginTypeQQ");
-            [self thirdPartyLogin:ShareTypeQQSpace];
+            [self thirdPartyLogin:SSDKPlatformSubTypeQQFriend];
             break;
         }case BFThirdLoginTypeSina:{
-            [self thirdPartyLogin:ShareTypeSinaWeibo];
+            [self thirdPartyLogin:SSDKPlatformTypeSinaWeibo];
             BFLog(@"BFThirdLoginTypeSina");
             break;
         } case BFThirdLoginTypeWechat:{
             BFLog(@"BFThirdLoginTypeWechat");
-            [self thirdPartyLogin:ShareTypeWeixiSession];
+            [self thirdPartyLogin:SSDKPlatformSubTypeWechatSession];
             break;
         }
     }
@@ -184,29 +184,28 @@
 
 
 #pragma mark --第三方登录
-- (void)thirdPartyLogin:(ShareType)shareType {
+- (void)thirdPartyLogin:(SSDKPlatformType)shareType {
     
     //登录之前取消上次
-    [ShareSDK cancelAuthWithType:shareType];
-    [ShareSDK getUserInfoWithType:shareType authOptions:nil result:^(BOOL result, id<ISSPlatformUser> userInfo, id<ICMErrorInfo> error) {
-                               
-       if (result)
-       {
+    [ShareSDK cancelAuthorize:shareType];
+    [ShareSDK getUserInfo:shareType onStateChanged:^(SSDKResponseState state, SSDKUser *user, NSError *error) {
+        if (state == SSDKResponseStateSuccess) {
+            
            NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=oauth"];
            NSMutableDictionary *parameter = [NSMutableDictionary dictionary];
-           if (shareType == ShareTypeQQSpace) {
+           if (shareType == SSDKPlatformSubTypeQQFriend) {
                parameter[@"type"] = @"1";
-               parameter[@"openid"] = [userInfo uid];
-           }else if (shareType == ShareTypeSinaWeibo) {
+               parameter[@"openid"] = user.uid;
+           }else if (shareType == SSDKPlatformTypeSinaWeibo) {
                parameter[@"type"] = @"2";
-               parameter[@"openid"] = [userInfo uid];
-           }else if (shareType == ShareTypeWeixiSession) {
+               parameter[@"openid"] = user.uid;
+           }else if (shareType == SSDKPlatformSubTypeWechatSession) {
                parameter[@"type"] = @"9";
-               parameter[@"openid"] = [userInfo sourceData][@"unionid"];
+               parameter[@"openid"] = user.rawData[@"unionid"];
            }
-           parameter[@"nickname"] = [userInfo nickname];
+           parameter[@"nickname"] = user.nickname;
            //parameter[@"openid"] = [userInfo uid];
-           parameter[@"ico"] = [userInfo profileImage];
+           parameter[@"ico"] = user.icon;
            //parameter[@"unionid"] = [userInfo sourceData][@"unionid"];
            [BFProgressHUD MBProgressWithLabelText:@"正在登陆..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                    
@@ -253,11 +252,11 @@
                    [BFProgressHUD MBProgressFromWindowWithLabelText:@"网络异常"];
                    BFLog(@"%@", error);
                }];
-               BFLog(@" ---- %@,%@,%@,%@,%@",[userInfo nickname],[userInfo uid],[userInfo nickname],[userInfo profileImage],[userInfo sourceData][@"unionid"]);
+               BFLog(@" ---- %@,%@,%@,%@",user.uid, user.nickname, user.icon, user.rawData[@"unionid"]);
             }];
            }else{
                [BFProgressHUD MBProgressFromView:self.navigationController.view wrongLabelText:@"登录失败"];
-               NSLog(@"授权失败!error code == %ld, error code == %@", (long)[error errorCode], [error errorDescription]);
+               NSLog(@"授权失败!error code", error);
            }
        }];
     

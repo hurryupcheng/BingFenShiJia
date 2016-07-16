@@ -136,81 +136,105 @@
     
     switch (type) {
         case BFShareButtonTypeQQZone:{
-            [self shareWithType:ShareTypeQQSpace];
+            [self shareWithType:SSDKPlatformSubTypeQZone];
             break;
         }
         case BFShareButtonTypeQQFriends:{
-            [self shareWithType:ShareTypeQQ];
+            [self shareWithType:SSDKPlatformSubTypeQQFriend];
             break;
         }
         case BFShareButtonTypeWechatFriends:{
-            [self shareWithType:ShareTypeWeixiSession];
+            [self shareWithType:SSDKPlatformSubTypeWechatSession];
             break;
         }
         case BFShareButtonTypeMoments:{
-            [self shareWithType:ShareTypeWeixiTimeline];
+            [self shareWithType:SSDKPlatformSubTypeWechatTimeline];
             break;
         }
         case BFShareButtonTypeSinaBlog:{
-            [self shareWithType:ShareTypeSinaWeibo];
+            [self shareWithType:SSDKPlatformTypeSinaWeibo];
             break;
         }
     }
 }
 
 
-- (void)shareWithType:(ShareType)shareType {
-
-    if (shareType == ShareTypeSinaWeibo) {
-        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
-                                           defaultContent:@"ddsf"
-                                                    image:nil
-                                                    title:@"这是一个分享测试"
-                                                      url:@"www.baidu.com"
-                                              description:@"哈哈哈"
-                                                mediaType:SSPublishContentMediaTypeNews];;
-        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            if (state == SSResponseStateSuccess) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-                if ([error errorCode] == 20012) {
-                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
-                }
-            }else if (state == SSResponseStateCancel) {
-                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
-            }
-            BFLog(@"---%d",state);
-        }];
-        
-    }else {
-        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
-                                           defaultContent:@"ddsf"
-                                                    image:nil
-                                                    title:@"这是一个分享测试"
-                                                      url:@"www.baidu.com"
-                                              description:@"哈哈哈"
-                                                mediaType:SSPublishContentMediaTypeNews];
-        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
-            BFLog(@"---%d",type);
-            if (state == SSResponseStateSuccess) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-                
-            }else if (state == SSResponseStateFail) {
-                //[self hideShareView];
-                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
-                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
-            }else if (state == SSResponseStateCancel) {
-                //[self hideShareView];
-                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
-            }
-        }];
-        
-    }
+- (void)shareWithType:(SSDKPlatformType)shareType {
+    
+    
+    //创建分享参数
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    [shareParams SSDKSetupShareParamsByText:@"分享内容"
+                                     images:@[@"https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1468469620&di=02144b426c8625fc1877e097952c1a1f&src=http://c.hiphotos.baidu.com/image/pic/item/83025aafa40f4bfbc9c817b9074f78f0f63618c6.jpg"] //传入要分享的图片
+                                        url:[NSURL URLWithString:@"http://mob.com"]
+                                      title:@"分享标题"
+                                       type:SSDKContentTypeAuto];
+    
+    //进行分享
+    [ShareSDK share:shareType //传入分享的平台类型
+         parameters:shareParams
+     onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
+         if (state == SSDKResponseStateSuccess) {
+             [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+         }else if (state ==  SSDKResponseStateFail) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+             BFLog(@"分享失败%@",error);
+         }else if (state ==  SSDKResponseStateCancel) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+         }
+     }];
 }
+
+//    if (shareType == ShareTypeSinaWeibo) {
+//        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+//                                           defaultContent:@"ddsf"
+//                                                    image:nil
+//                                                    title:@"这是一个分享测试"
+//                                                      url:@"www.baidu.com"
+//                                              description:@"哈哈哈"
+//                                                mediaType:SSPublishContentMediaTypeNews];;
+//        [ShareSDK shareContent:publishContent type:shareType authOptions:nil shareOptions:nil statusBarTips:YES result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            if (state == SSResponseStateSuccess) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//                if ([error errorCode] == 20012) {
+//                    [BFProgressHUD MBProgressOnlyWithLabelText: @"分享内容过长,请少于140个字节"];
+//                }
+//            }else if (state == SSResponseStateCancel) {
+//                //[BFProgressHUD MBProgressFromView:self wrongLabelText: @"分享失败"];
+//            }
+//            BFLog(@"---%d",state);
+//        }];
+//        
+//    }else {
+//        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
+//                                           defaultContent:@"ddsf"
+//                                                    image:nil
+//                                                    title:@"这是一个分享测试"
+//                                                      url:@"www.baidu.com"
+//                                              description:@"哈哈哈"
+//                                                mediaType:SSPublishContentMediaTypeNews];
+//        [ShareSDK showShareViewWithType:shareType container:nil content:publishContent statusBarTips:YES authOptions:nil shareOptions:nil result:^(ShareType type, SSResponseState state, id<ISSPlatformShareInfo> statusInfo, id<ICMErrorInfo> error, BOOL end) {
+//            BFLog(@"---%d",type);
+//            if (state == SSResponseStateSuccess) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+//                
+//            }else if (state == SSResponseStateFail) {
+//                //[self hideShareView];
+//                [BFProgressHUD MBProgressOnlyWithLabelText: @"未检测到客户端 分享失败"];
+//                NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+//            }else if (state == SSResponseStateCancel) {
+//                //[self hideShareView];
+//                //[BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+//            }
+//        }];
+//        
+//    }
+
 
 
 

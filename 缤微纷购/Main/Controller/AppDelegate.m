@@ -8,6 +8,19 @@
 
 
 #import <ShareSDK/ShareSDK.h>
+#import <ShareSDKConnector/ShareSDKConnector.h>
+
+//腾讯开放平台（对应QQ和QQ空间）SDK头文件
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+
+//微信SDK头文件
+#import "WXApi.h"
+
+//新浪微博SDK头文件
+#import "WeiboSDK.h"
+//新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加"-ObjC"
+
 #import <TencentOpenAPI/QQApiInterface.h>
 #import <TencentOpenAPI/TencentOAuth.h>
 #import "WXApi.h"
@@ -63,39 +76,93 @@
      *  在此事件中写入连接代码。第四个参数则为配置本地社交平台时触发，根据返回的平台类型来配置平台信息。
      *  如果您使用的时服务端托管平台信息时，第二、四项参数可以传入nil，第三项参数则根据服务端托管平台来决定要连接的社交SDK。
      */
-    
-    [WXApi registerApp:kWXKey withDescription:@"缤纷"];
-    
-    [ShareSDK registerApp:AppKey];//字符串api20为您的ShareSDK的AppKey
-    
+//    
+//    [WXApi registerApp:kWXKey withDescription:@"缤纷"];
+//    
+//    [ShareSDK registerApp:AppKey];//字符串api20为您的ShareSDK的AppKey
+//    
+//
+//    [ShareSDK connectQQWithQZoneAppKey:kQQKey
+//                     qqApiInterfaceCls:[QQApiInterface class]
+//                       tencentOAuthCls:[TencentOAuth class]];
+//
+//    //微信登陆的时候需要初始化
+//
+//    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
+//    [ShareSDK  connectSinaWeiboWithAppKey:kSinaKey
+//                                appSecret:kSinaSecret
+//                              redirectUri:@"http://www.baidu.com"
+//                              weiboSDKCls:[WeiboSDK class]];
+//    
+////    //添加新浪微博应用 注册网址 http://open.weibo.com
+//    [ShareSDK connectSinaWeiboWithAppKey:kSinaKey
+//                               appSecret:kSinaSecret
+//                             redirectUri:@"http://www.baidu.com"];
+//    
+//    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
+//    [ShareSDK connectQZoneWithAppKey:kQQKey
+//                           appSecret:kQQSecret
+//                   qqApiInterfaceCls:[QQApiInterface class]
+//                     tencentOAuthCls:[TencentOAuth class]];
+//    
+//    [ShareSDK connectWeChatWithAppId:kWXKey   //微信APPID
+//                           appSecret:kWXSecret  //微信APPSecret
+//                           wechatCls:[WXApi class]];
 
-    [ShareSDK connectQQWithQZoneAppKey:kQQKey
-                     qqApiInterfaceCls:[QQApiInterface class]
-                       tencentOAuthCls:[TencentOAuth class]];
-
-    //微信登陆的时候需要初始化
-
-    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台
-    [ShareSDK  connectSinaWeiboWithAppKey:kSinaKey
-                                appSecret:kSinaSecret
-                              redirectUri:@"http://www.baidu.com"
-                              weiboSDKCls:[WeiboSDK class]];
     
-//    //添加新浪微博应用 注册网址 http://open.weibo.com
-    [ShareSDK connectSinaWeiboWithAppKey:kSinaKey
-                               appSecret:kSinaSecret
-                             redirectUri:@"http://www.baidu.com"];
-    
-    //添加QQ空间应用  注册网址  http://connect.qq.com/intro/login/
-    [ShareSDK connectQZoneWithAppKey:kQQKey
-                           appSecret:kQQSecret
-                   qqApiInterfaceCls:[QQApiInterface class]
-                     tencentOAuthCls:[TencentOAuth class]];
-    
-    [ShareSDK connectWeChatWithAppId:kWXKey   //微信APPID
-                           appSecret:kWXSecret  //微信APPSecret
-                           wechatCls:[WXApi class]];
-
+    [ShareSDK registerApp:kWXKey
+     
+          activePlatforms:@[
+                            @(SSDKPlatformTypeSinaWeibo),
+                            @(SSDKPlatformTypeMail),
+                            @(SSDKPlatformTypeSMS),
+                            @(SSDKPlatformTypeCopy),
+                            @(SSDKPlatformTypeWechat),
+                            @(SSDKPlatformTypeQQ),
+                            @(SSDKPlatformTypeRenren),
+                            @(SSDKPlatformTypeGooglePlus)]
+                 onImport:^(SSDKPlatformType platformType)
+     {
+         switch (platformType)
+         {
+             case SSDKPlatformTypeWechat:
+                 [ShareSDKConnector connectWeChat:[WXApi class]];
+                 break;
+             case SSDKPlatformTypeQQ:
+                 [ShareSDKConnector connectQQ:[QQApiInterface class] tencentOAuthClass:[TencentOAuth class]];
+                 break;
+             case SSDKPlatformTypeSinaWeibo:
+                 [ShareSDKConnector connectWeibo:[WeiboSDK class]];
+                 break;
+             default:
+                 break;
+         }
+     }
+          onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo)
+     {
+         
+         switch (platformType)
+         {
+             case SSDKPlatformTypeSinaWeibo:
+                 //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+                 [appInfo SSDKSetupSinaWeiboByAppKey:kSinaKey
+                                           appSecret:kSinaSecret
+                                         redirectUri:@"http://www.baidu.com"
+                                            authType:SSDKAuthTypeBoth];
+                 break;
+             case SSDKPlatformTypeWechat:
+                 [appInfo SSDKSetupWeChatByAppId:kWXKey
+                                       appSecret:kWXSecret];
+                 break;
+             case SSDKPlatformTypeQQ:
+                 [appInfo SSDKSetupQQByAppId:kQQKey
+                                      appKey:kQQSecret
+                                    authType:SSDKAuthTypeBoth];
+                 break;
+                default:
+                 break;
+         }
+     }];
     
     self.proportionX = kScreenWidth/375;
     self.proportionY = kScreenHeight/667;
@@ -169,10 +236,7 @@
 //              sourceApplication:sourceApplication
 //                     annotation:annotation
 //                     wxDelegate:self]) {
-        return [ShareSDK handleOpenURL:url
-                     sourceApplication:sourceApplication
-                            annotation:annotation
-                            wxDelegate:self];
+        return YES;
 //    }else {
 //       return  [WXApi handleOpenURL:url delegate:self];
 //    }

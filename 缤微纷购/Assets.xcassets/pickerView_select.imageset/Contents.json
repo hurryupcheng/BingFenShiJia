@@ -1,35 +1,12 @@
 {
   "images" : [
     {
-      "resizing" : {
-        "mode" : "3-part-horizontal",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1
-        },
-        "cap-insets" : {
-          "right" : 20,
-          "left" : 6
-        }
-      },
       "idiom" : "universal",
-      "filename" : "pickerView_select.png",
+      "filename" : "pickerView_select-1.png",
       "scale" : "1x"
     },
     {
-      "resizing" : {
-        "mode" : "3-part-horizontal",
-        "center" : {
-          "mode" : "stretch",
-          "width" : 1
-        },
-        "cap-insets" : {
-          "right" : 40,
-          "left" : 10
-        }
-      },
       "idiom" : "universal",
-      "filename" : "pickerView_select-1.png",
       "scale" : "2x"
     },
     {

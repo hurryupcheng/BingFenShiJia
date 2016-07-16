@@ -263,10 +263,10 @@
     // 指定为拉伸模式，伸缩后重新赋值
     UIImage *image = [UIImage imageNamed:@"pickerView"];
     UIImage *selectImage = [UIImage imageNamed:@"pickerView_select"];
-//    image = [image resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-//    selectImage = [selectImage resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
-    [button setBackgroundImage:image forState:UIControlStateNormal];
-    [button setBackgroundImage:selectImage forState:UIControlStateSelected];
+    UIImage *newImage = [image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height*0.5,image.size.width*0.5,image.size.height*0.5,image.size.width*0.5) resizingMode:UIImageResizingModeStretch];
+    UIImage *newselectImage = [selectImage resizableImageWithCapInsets:UIEdgeInsetsMake(selectImage.size.height*0.5,selectImage.size.width*0.5,selectImage.size.height*0.5,selectImage.size.width*0.5) resizingMode:UIImageResizingModeStretch];
+    [button setBackgroundImage:newImage forState:UIControlStateNormal];
+    [button setBackgroundImage:newselectImage forState:UIControlStateSelected];
     button.buttonTitle.font = [UIFont systemFontOfSize:BF_ScaleFont(10)];
     button.buttonTitle.textColor = BFColor(0x020202);
     [self addSubview:button];
