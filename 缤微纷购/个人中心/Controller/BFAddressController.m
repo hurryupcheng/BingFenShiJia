@@ -273,17 +273,20 @@
     parameter[@"token"] = userInfo.token;
     parameter[@"id"] = addressID;
     BFLog(@"%@,",parameter);
-    [BFHttpTool POST:url params:parameter success:^(id responseObject) {
-        BFLog(@"%@",responseObject);
-        if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
-            [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"删除成功"];
-        }else {
-            [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"删除失败,请重新操作"];
-        }
-        
-    } failure:^(NSError *error) {
-        BFLog(@"%@",error);
-        [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+    [BFProgressHUD MBProgressWithLabelText:@"正在删除地址..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
+        [BFHttpTool POST:url params:parameter success:^(id responseObject) {
+            BFLog(@"%@",responseObject);
+            if ([responseObject[@"msg"] isEqualToString:@"删除成功"]) {
+                [BFProgressHUD MBProgressFromView:self.view rightLabelText:@"删除成功"];
+            }else {
+                [BFProgressHUD MBProgressFromView:self.view wrongLabelText:@"删除失败,请重新操作"];
+            }
+            
+        } failure:^(NSError *error) {
+            BFLog(@"%@",error);
+            [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+        }];
+
     }];
 }
 

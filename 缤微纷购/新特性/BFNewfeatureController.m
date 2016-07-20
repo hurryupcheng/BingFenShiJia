@@ -169,12 +169,6 @@
 
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
     window.rootViewController = [[RootViewController alloc] init];
-    
-
-}
-
-- (BOOL)prefersStatusBarHidden{
-    return YES;
 }
 
 
