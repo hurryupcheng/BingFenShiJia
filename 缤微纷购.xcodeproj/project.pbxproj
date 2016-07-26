@@ -135,6 +135,10 @@
 		5900A0401C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900A03F1C91BEC400B6AE5A /* BFMyGroupPurchaseCell.m */; };
 		5900BF7C1CBB5A1200DDA0B8 /* BFForgetPasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */; };
 		5900BF7F1CBB5C1400DDA0B8 /* BFForgetPasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */; };
+		590331D51D4701C700C02B98 /* BFSettingItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331D41D4701C700C02B98 /* BFSettingItem.m */; };
+		590331D81D47048100C02B98 /* BFSettingHeadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331D71D47048100C02B98 /* BFSettingHeadItem.m */; };
+		590331DB1D47049800C02B98 /* BFSettingSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */; };
+		590331DE1D4704C100C02B98 /* BFSettingArrowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */; };
 		5906E5D51CC9BF3E002F5E53 /* BFTastingExperienceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */; };
 		5906E5D81CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */; };
 		5906E5DB1CC9FE38002F5E53 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5DA1CC9FE38002F5E53 /* MBProgressHUD.m */; };
@@ -715,6 +719,14 @@
 		5900BF7B1CBB5A1200DDA0B8 /* BFForgetPasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordController.m; sourceTree = "<group>"; };
 		5900BF7D1CBB5C1400DDA0B8 /* BFForgetPasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFForgetPasswordView.h; sourceTree = "<group>"; };
 		5900BF7E1CBB5C1400DDA0B8 /* BFForgetPasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFForgetPasswordView.m; sourceTree = "<group>"; };
+		590331D31D4701C700C02B98 /* BFSettingItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingItem.h; sourceTree = "<group>"; };
+		590331D41D4701C700C02B98 /* BFSettingItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingItem.m; sourceTree = "<group>"; };
+		590331D61D47048100C02B98 /* BFSettingHeadItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingHeadItem.h; sourceTree = "<group>"; };
+		590331D71D47048100C02B98 /* BFSettingHeadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingHeadItem.m; sourceTree = "<group>"; };
+		590331D91D47049800C02B98 /* BFSettingSwitchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingSwitchItem.h; sourceTree = "<group>"; };
+		590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingSwitchItem.m; sourceTree = "<group>"; };
+		590331DC1D4704C100C02B98 /* BFSettingArrowItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingArrowItem.h; sourceTree = "<group>"; };
+		590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingArrowItem.m; sourceTree = "<group>"; };
 		5906E5D31CC9BF3E002F5E53 /* BFTastingExperienceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceCell.h; sourceTree = "<group>"; };
 		5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceCell.m; sourceTree = "<group>"; };
 		5906E5D61CC9BFCE002F5E53 /* BFTastingExperienceFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceFooterView.h; sourceTree = "<group>"; };
@@ -1796,6 +1808,7 @@
 		51D121E81C3A746A00640A44 /* 个人中心 */ = {
 			isa = PBXGroup;
 			children = (
+				590331CF1D47008600C02B98 /* SettingItem */,
 				51D121E91C3A746A00640A44 /* Controller */,
 				51D121EA1C3A746A00640A44 /* Model */,
 				51D121EB1C3A746A00640A44 /* View */,
@@ -2320,6 +2333,21 @@
 				51D4D9501C44A8F200453CD1 /* iicon08.png */,
 			);
 			path = index_icon;
+			sourceTree = "<group>";
+		};
+		590331CF1D47008600C02B98 /* SettingItem */ = {
+			isa = PBXGroup;
+			children = (
+				590331D31D4701C700C02B98 /* BFSettingItem.h */,
+				590331D41D4701C700C02B98 /* BFSettingItem.m */,
+				590331D61D47048100C02B98 /* BFSettingHeadItem.h */,
+				590331D71D47048100C02B98 /* BFSettingHeadItem.m */,
+				590331D91D47049800C02B98 /* BFSettingSwitchItem.h */,
+				590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */,
+				590331DC1D4704C100C02B98 /* BFSettingArrowItem.h */,
+				590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */,
+			);
+			path = SettingItem;
 			sourceTree = "<group>";
 		};
 		593535DE1D39DD8E008C1CE0 /* ShareSDK */ = {
@@ -3357,6 +3385,7 @@
 				59FF75181CAE1A860063F770 /* UIRefreshControl+AFNetworking.m in Sources */,
 				5157B06A1CDC6ED3000BCE6D /* BFResultTableViewCell.m in Sources */,
 				59FF749F1CAE1A860063F770 /* CXArchiveShopManager.m in Sources */,
+				590331DB1D47049800C02B98 /* BFSettingSwitchItem.m in Sources */,
 				59FCE2061CBC901C00CCBDEA /* BFBestSellingModel.m in Sources */,
 				593788B61CBE3E18009240C7 /* BFDailySpecialCell.m in Sources */,
 				59513B7C1C9FFCE20028B008 /* AFNTool.m in Sources */,
@@ -3419,6 +3448,7 @@
 				599AFB871CC62BE2003CD828 /* Order.m in Sources */,
 				517EA25F1CD9E9E300626FD2 /* BFEmptyView.m in Sources */,
 				59FF74E91CAE1A860063F770 /* TAAnimatedDotView.m in Sources */,
+				590331DE1D4704C100C02B98 /* BFSettingArrowItem.m in Sources */,
 				59513B7F1C9FFCE20028B008 /* OMGToast.m in Sources */,
 				594E3AA21CA627BF004C3635 /* BFBottomHeaderView.m in Sources */,
 				59FC88CD1CCB866900D0262D /* BFMyOrderController.m in Sources */,
@@ -3478,6 +3508,7 @@
 				59FF74931CAE1A860063F770 /* BFHeadSelectionView.m in Sources */,
 				51D1A9501C4A3CC000D9002C /* JFView.m in Sources */,
 				51E933DC1CAA4E8A004E9EA4 /* BFCouponView.m in Sources */,
+				590331D81D47048100C02B98 /* BFSettingHeadItem.m in Sources */,
 				5938ACC71CABB07E004D076A /* BFGroupDetailModel.m in Sources */,
 				59FBB41D1C9B9EE40081F65A /* BFEditAddressView.m in Sources */,
 				59FF467A1C8A74AF0040689A /* BFPersonInformationController.m in Sources */,
@@ -3551,6 +3582,7 @@
 				59FF74F91CAE1A860063F770 /* SDWebImageManager.m in Sources */,
 				59FF551A1CA2EFF600EF191F /* BFMyCustomerCell.m in Sources */,
 				51E968AD1C46207400AA00F1 /* FXQViewController.m in Sources */,
+				590331D51D4701C700C02B98 /* BFSettingItem.m in Sources */,
 				59FBB4291C9BF9EF0081F65A /* BFLogisticsHeaderView.m in Sources */,
 				599AFB8E1CC62BE2003CD828 /* RSADataSigner.m in Sources */,
 				59FF68DC1CED550E00711BD1 /* BFNewfeatureController.m in Sources */,
@@ -3817,7 +3849,7 @@
 					"\"$(SRCROOT)/缤微纷购/Main/第三方/Alipay/openssl\"",
 				);
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3871,7 +3903,7 @@
 					"\"$(SRCROOT)/缤微纷购/Main/第三方/Alipay/openssl\"",
 				);
 				INFOPLIST_FILE = "缤微纷购/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

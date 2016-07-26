@@ -62,7 +62,7 @@
     
     UIImage *image = [UIImage imageNamed:@"101"];
     [self.navigationController.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:image];
+    [self.navigationController.navigationBar setShadowImage:[UIImage new]];
     
     self.bgImageView = [[UIImageView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     self.bgImageView.image = [UIImage imageNamed:@"beijin1.jpg"];

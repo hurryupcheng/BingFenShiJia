@@ -10,6 +10,7 @@
 
 @protocol BFLogisticsHeaderViewDelegate <NSObject>
 
+@optional
 - (void)clickToSeeConmmonProblem;
 
 @end
