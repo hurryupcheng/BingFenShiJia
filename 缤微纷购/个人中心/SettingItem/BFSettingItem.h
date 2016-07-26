@@ -21,11 +21,14 @@ typedef void (^BFSettingItemOption)();
  *  标题
  */
 @property (nonatomic, copy) NSString *title;
-
 /**
  *  子标题
  */
 @property (nonatomic, copy) NSString *subtitle;
+/**
+ *  子标题
+ */
+@property (nonatomic, strong) UIColor *subtitleColor;
 
 
 /**

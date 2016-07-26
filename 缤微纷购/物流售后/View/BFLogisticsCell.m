@@ -26,6 +26,7 @@
 
 @implementation BFLogisticsCell
 
+
 + (instancetype)cellWithTableView:(UITableView *)tableView {
     static NSString *ID = @"BFLogisticsCell";
     BFLogisticsCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];

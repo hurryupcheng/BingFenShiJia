@@ -139,6 +139,7 @@
 		590331D81D47048100C02B98 /* BFSettingHeadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331D71D47048100C02B98 /* BFSettingHeadItem.m */; };
 		590331DB1D47049800C02B98 /* BFSettingSwitchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */; };
 		590331DE1D4704C100C02B98 /* BFSettingArrowItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */; };
+		590331E11D470C6D00C02B98 /* BFSettingGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 590331E01D470C6D00C02B98 /* BFSettingGroup.m */; };
 		5906E5D51CC9BF3E002F5E53 /* BFTastingExperienceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */; };
 		5906E5D81CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5D71CC9BFCE002F5E53 /* BFTastingExperienceFooterView.m */; };
 		5906E5DB1CC9FE38002F5E53 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 5906E5DA1CC9FE38002F5E53 /* MBProgressHUD.m */; };
@@ -727,6 +728,8 @@
 		590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingSwitchItem.m; sourceTree = "<group>"; };
 		590331DC1D4704C100C02B98 /* BFSettingArrowItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingArrowItem.h; sourceTree = "<group>"; };
 		590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingArrowItem.m; sourceTree = "<group>"; };
+		590331DF1D470C6D00C02B98 /* BFSettingGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFSettingGroup.h; sourceTree = "<group>"; };
+		590331E01D470C6D00C02B98 /* BFSettingGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFSettingGroup.m; sourceTree = "<group>"; };
 		5906E5D31CC9BF3E002F5E53 /* BFTastingExperienceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceCell.h; sourceTree = "<group>"; };
 		5906E5D41CC9BF3E002F5E53 /* BFTastingExperienceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BFTastingExperienceCell.m; sourceTree = "<group>"; };
 		5906E5D61CC9BFCE002F5E53 /* BFTastingExperienceFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BFTastingExperienceFooterView.h; sourceTree = "<group>"; };
@@ -2346,6 +2349,8 @@
 				590331DA1D47049800C02B98 /* BFSettingSwitchItem.m */,
 				590331DC1D4704C100C02B98 /* BFSettingArrowItem.h */,
 				590331DD1D4704C100C02B98 /* BFSettingArrowItem.m */,
+				590331DF1D470C6D00C02B98 /* BFSettingGroup.h */,
+				590331E01D470C6D00C02B98 /* BFSettingGroup.m */,
 			);
 			path = SettingItem;
 			sourceTree = "<group>";
@@ -3423,6 +3428,7 @@
 				592525EF1C86CA5B000F609F /* BFPTDetailViewController.m in Sources */,
 				59FCE20F1CBCCFE000CCBDEA /* BFProductDetailTabBar.m in Sources */,
 				59FF75001CAE1A860063F770 /* UIImageView+WebCache.m in Sources */,
+				590331E11D470C6D00C02B98 /* BFSettingGroup.m in Sources */,
 				59FF752F1CAE78550063F770 /* BFGroupDetailTeamCell.m in Sources */,
 				59FF74FD1CAE1A860063F770 /* UIImage+MultiFormat.m in Sources */,
 				59FF74E11CAE1A860063F770 /* MJRefreshStateHeader.m in Sources */,

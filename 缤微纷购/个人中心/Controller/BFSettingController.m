@@ -17,6 +17,10 @@
 #import "BFAboutController.h"
 #import "LogViewController.h"
 #import "PTStepViewController.h"
+#import "BFSettingHeadItem.h"
+#import "BFSettingArrowItem.h"
+#import "BFSettingSwitchItem.h"
+#import "BFSettingGroup.h"
 
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate, BFShareViewDelegate>
 /**tableView*/
@@ -25,11 +29,20 @@
 @property (nonatomic, strong) BFHomeModel *model;
 
 @property (nonatomic, strong) NSMutableArray *mutableArray;
+
+@property (nonatomic, strong) NSMutableArray *data;
 @end
 
 @implementation BFSettingController
 
 #pragma mark --懒加载
+
+//- (NSMutableArray *)data {
+//    if (!_data) {
+//        _data = [NSMutableArray array];
+//    }
+//    return _data;
+//}
 
 - (NSMutableArray *)mutableArray {
     if (!_mutableArray) {
@@ -59,6 +72,24 @@
     [self setBottomView];
     
 }
+
+//#pragma mark --第一组数据
+//- (void)addGroupOne {
+//    BFSettingItem *telephone = [BFSettingArrowItem itemWithTitle:@"联系客服"];
+//    telephone.subtitle = @"020-38875719";
+//    telephone.subtitleColor = BFColor(0x000073);
+//    __weak typeof(self) weakSelf = self;
+//    telephone.option = ^{
+//        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+//        BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
+//        customerServiceView.delegate = weakSelf;
+//        [window addSubview:customerServiceView];
+//    };
+//    BFSettingGroup *groupOne = [[BFSettingGroup alloc] init];
+//    groupOne.header = @"售后服务";
+//    groupOne.items = @[telephone];
+//    [self.data addObject:telephone];
+//}
 
 #pragma mark --请求数据
 - (void)getData {
@@ -305,13 +336,18 @@
 
         }
     }else if (indexPath.section == 2) {
-        if (indexPath.row == 2) {
+        if (indexPath.row == 1) {
+            NSString *appid = @"1131613819";
+            NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
+            NSURL *url = [NSURL URLWithString:str];
+            [[UIApplication sharedApplication] openURL:url];
+
+        }else if (indexPath.row == 2) {
             //调用自定义分享
             BFShareView *share = [BFShareView shareView];
             share.delegate = self;
             UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
             [window addSubview:share];
-
         }
     }else {
         //BFSettingList *list = self.mutableArray[indexPath.row];
@@ -358,27 +394,54 @@
 
 - (void)shareWithType:(SSDKPlatformType)shareType {
     //创建分享参数
-    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    [shareParams SSDKSetupShareParamsByText:@"测试"
-                                     images:nil //传入要分享的图片
-                                        url:nil
-                                      title:@"测试"
-                                       type:SSDKContentTypeAuto];
     
-    //进行分享
-    [ShareSDK share:shareType //传入分享的平台类型
-         parameters:shareParams
-     onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
-         if (state == SSDKResponseStateSuccess) {
-             [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
-         }else if (state ==  SSDKResponseStateFail) {
-             [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
-             BFLog(@"分享失败%@",error);
-         }else if (state ==  SSDKResponseStateCancel) {
-             [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
-         }
-     }];
+    if (shareType == SSDKPlatformTypeSinaWeibo) {
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:@"缤纷世家,让每一次购物都能带来惊喜,让每次分享都能带来喜悦https://itunes.apple.com/cn/app/bin-fen-shi-jia/id1131613819?mt=8"
+                                         images:@[[UIImage imageNamed:@"icon"]] //传入要分享的图片
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/bin-fen-shi-jia/id1131613819?mt=8"]]
+                                          title:@"缤纷世家,让每一次购物都能带来惊喜,让每次分享都能带来喜悦"
+                                           type:SSDKContentTypeAuto];
+        
+        //进行分享
+        [ShareSDK share:shareType //传入分享的平台类型
+             parameters:shareParams
+         onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
+             if (state == SSDKResponseStateSuccess) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+             }else if (state ==  SSDKResponseStateFail) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                 BFLog(@"分享失败%@",error);
+             }else if (state ==  SSDKResponseStateCancel) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+             }
+         }];
 
+    }else {
+        NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+        [shareParams SSDKSetupShareParamsByText:@"缤纷世家,让每一次购物都能带来惊喜,让每次分享都能带来喜悦"
+                                         images:@[[UIImage imageNamed:@"icon"]] //传入要分享的图片
+                                            url:[NSURL URLWithString:[NSString stringWithFormat:@"https://itunes.apple.com/cn/app/bin-fen-shi-jia/id1131613819?mt=8"]]
+                                          title:@"缤纷世家,让每一次购物都能带来惊喜,让每次分享都能带来喜悦"
+                                           type:SSDKContentTypeAuto];
+        
+        //进行分享
+        [ShareSDK share:shareType //传入分享的平台类型
+             parameters:shareParams
+         onStateChanged:^(SSDKResponseState state, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error) { // 回调处理....
+             if (state == SSDKResponseStateSuccess) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享成功"];
+             }else if (state ==  SSDKResponseStateFail) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+                 BFLog(@"分享失败%@",error);
+             }else if (state ==  SSDKResponseStateCancel) {
+                 [BFProgressHUD MBProgressOnlyWithLabelText: @"分享失败"];
+             }
+         }];
+
+    }
+   
+    
 //    if (shareType == ShareTypeSinaWeibo) {
 //        id<ISSContent> publishContent = [ShareSDK content:@"测试测试"
 //                                           defaultContent:@"ddsf"
