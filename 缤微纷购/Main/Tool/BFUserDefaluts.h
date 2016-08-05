@@ -26,11 +26,8 @@
 + (BFCityInfo *)getCityInfo;
 /**修改城市信息*/
 + (void)modifyCityInfo:(BFCityInfo *)CityInfo;
-
-/**获取第三方登录信息*/
-//+ (BFThirdPartyLoginUserInfo *)getThirdPartyLoginUserInfo;
-///**修改第三方登录信息*/
-//+ (void)modifyThirdPartyLoginUserInfo:(BFThirdPartyLoginUserInfo *)thirdPartyLoginUserInfo;
-///**移除第三方登录信息*/
-//+ (void)removeThirdPartyLoginUserInfo;
+/**获取音效开关信息*/
++ (NSNumber *)getSwitchInfo;
+/**修改音效开关信息*/
++ (void)modifySwitchInfo:(NSNumber *)info;
 @end

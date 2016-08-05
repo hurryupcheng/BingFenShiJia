@@ -11,8 +11,9 @@
 
 @implementation MyMD5
 
-+(NSString *) md5: (NSString *) inPutText 
-{
+static NSString *token = @"fashfkdashfjkldashfjkdashfjkdahsfjdasjkvcxnm%^&%^$&^uireqwyi1237281643";
+
++(NSString *)MD5:(NSString *)inPutText{
     const char *cStr = [inPutText UTF8String];
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(cStr, strlen(cStr), result);
@@ -22,6 +23,13 @@
              result[8], result[9], result[10], result[11],
              result[12], result[13], result[14], result[15]
              ] lowercaseString];
+}
+
+
+
++(NSString *) md5: (NSString *) inPutText 
+{
+    return [self MD5:[NSString stringWithFormat:@"%@%@",inPutText,token]];
 }
 
 @end

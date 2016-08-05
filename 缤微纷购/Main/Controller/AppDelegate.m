@@ -196,7 +196,13 @@
 
     
     //开始监听网络状态
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    //[[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    //NSData *data = [NSKeyedArchiver archivedDataWithRootObject:@1];
+    //首次给音效按钮信息赋值
+    if (![BFUserDefaluts getSwitchInfo]) {
+        [BFUserDefaluts modifySwitchInfo:@1];
+    }
+   
     
     [NSThread sleepForTimeInterval:2.0];
     return YES;

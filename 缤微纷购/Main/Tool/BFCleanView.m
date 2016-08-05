@@ -46,7 +46,9 @@
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:1 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.clean.transform = CGAffineTransformRotate(self.clean.transform, M_PI);
-        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+        if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+            [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+        }
         self.clean.width = BF_ScaleWidth(100);
         self.clean.height = BF_ScaleWidth(100);
         self.clean.centerX = self.centerX;
@@ -60,7 +62,9 @@
             self.clean.centerX = self.centerX;
             self.clean.centerY = self.centerY;
         } completion:^(BOOL finished) {
-            [BFSoundEffect playSoundEffect:@"composer_close.wav"];
+            if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+                [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+            }
             [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1.f initialSpringVelocity:1.f options:UIViewAnimationOptionCurveEaseIn animations:^{
                 self.clean.width = 0;
                 self.clean.height = 0;

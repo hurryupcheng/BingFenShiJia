@@ -169,16 +169,10 @@
         [self.navigationController pushViewController:pt animated:YES];
     }else if ([list.typeId isEqualToString:@"3"]){
         XQViewController *xq = [[XQViewController alloc]init];
+        xq.titles = list.title;
         xq.ID = list.cid;
-        [self.navigationController pushViewController:xq animated:YES];
-    }else if ([list.typeId isEqualToString:@"4"]){
-        BFHomeWebViewController *homeWebVC = [[BFHomeWebViewController alloc]init];
-        homeWebVC.titleString = list.title;
-        homeWebVC.url = list.url;
-        [self.navigationController pushViewController:homeWebVC animated:YES];
-    }else if ([list.typeId isEqualToString:@"5"]){
-        BFPanicBuyingController *xq = [[BFPanicBuyingController alloc]init];
-        xq.ID = list.cid;
+        xq.allItem = YES;
+        BFLog(@"BFHomeCollentionView---%@",xq.ID);
         [self.navigationController pushViewController:xq animated:YES];
     }
 

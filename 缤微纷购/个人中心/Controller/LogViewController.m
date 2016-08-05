@@ -225,8 +225,9 @@
                                [BFProgressHUD MBProgressWithLabelText:@"手机号绑定成功,正在跳转..." dispatch_get_main_queue:^(MBProgressHUD *hud) {
                                    [self tabBarBadge:userInfo.ID];
                                    userInfo.loginType = parameter[@"type"];
-                                   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                                   [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                                   [BFUserDefaluts modifyUserInfo:userInfo];
+//                                   NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+//                                   [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                                    [hud hideAnimated:YES];
                                    [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎光临!"];
                                    [self.navigationController popViewControllerAnimated:YES];
@@ -241,8 +242,9 @@
                            BFUserInfo *userInfo = [BFUserInfo parse:responseObject];
                            [self tabBarBadge:userInfo.ID];
                            userInfo.loginType = parameter[@"type"];
-                           NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                           [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                           [BFUserDefaluts modifyUserInfo:userInfo];
+//                           NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+//                           [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                            [hud hideAnimated:YES];
                            [BFProgressHUD MBProgressOnlyWithLabelText:@"客官,欢迎再次光临!"];
                            [self.navigationController popViewControllerAnimated:YES];
@@ -268,7 +270,9 @@
 #pragma mark --忘记密码
 - (void)forgetPassWord:(UIButton *)sender {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     BFForgetPasswordController *forgetPasswordVC = [[BFForgetPasswordController alloc] init];
     [self.navigationController pushViewController:forgetPasswordVC animated:YES];
     BFLog(@"忘记密码");
@@ -277,7 +281,9 @@
 #pragma mark --登录按钮点击事件
 - (void)login{
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     [self.view endEditing:YES];
     
     
@@ -312,8 +318,9 @@
                         
                         [self tabBarBadge:userInfo.ID];
                         userInfo.loginType = @"3";
-                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
-                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
+                        [BFUserDefaluts modifyUserInfo:userInfo];
+//                        NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+//                        [[NSUserDefaults standardUserDefaults] setObject:data forKey:@"UserInfo"];
                         //BFLog(@"responseObject%@",userInfo.user_icon);
                         [hud hideAnimated:YES];
                         [self.navigationController popViewControllerAnimated:YES];
@@ -350,7 +357,9 @@
 #pragma mark --注册按钮点击事件
 - (void)registerUser{
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     ZCViewController *zc = [[ZCViewController alloc]init];
     [self.navigationController pushViewController:zc animated:YES];
 }

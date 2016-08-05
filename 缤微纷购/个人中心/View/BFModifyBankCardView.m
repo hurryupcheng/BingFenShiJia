@@ -261,8 +261,9 @@
     button.tag = type;
     
     // 指定为拉伸模式，伸缩后重新赋值
-    UIImage *image = [UIImage imageNamed:@"pickerView"];
+    
     UIImage *selectImage = [UIImage imageNamed:@"pickerView_select"];
+    UIImage *image = [UIImage imageNamed:@"pickerView"];
     UIImage *newImage = [image resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height*0.5,image.size.width*0.5,image.size.height*0.5,image.size.width*0.5) resizingMode:UIImageResizingModeStretch];
     UIImage *newselectImage = [selectImage resizableImageWithCapInsets:UIEdgeInsetsMake(selectImage.size.height*0.5,selectImage.size.width*0.5,selectImage.size.height*0.5,selectImage.size.width*0.5) resizingMode:UIImageResizingModeStretch];
     [button setBackgroundImage:newImage forState:UIControlStateNormal];

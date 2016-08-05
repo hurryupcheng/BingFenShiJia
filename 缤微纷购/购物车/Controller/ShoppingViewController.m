@@ -451,11 +451,13 @@
     [self.backV removeFromSuperview];
     self.userInfo = [BFUserDefaluts getUserInfo];
     if (self.userInfo == nil) {
+        [self.other removeFromSuperview];
         self.footItem = NO;
         [self data];
         [self other];
 
     }else{
+    [self.other removeFromSuperview];
     [[CXArchiveShopManager sharedInstance]initWithUserID:self.userInfo.ID ShopItem:nil];
     self.dateArr = [[[CXArchiveShopManager sharedInstance]screachDataSourceWithMyShop] mutableCopy];
     

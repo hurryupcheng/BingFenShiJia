@@ -75,7 +75,9 @@ static id _publishContent;
 
 
 - (void)showShareView {
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     self.backgroundColor = [UIColor clearColor];
     [UIView animateWithDuration:0.8 delay:0.1f usingSpringWithDamping:0.5f initialSpringVelocity:.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self.moments.y = BF_ScaleHeight(120);
@@ -126,7 +128,9 @@ static id _publishContent;
 }
 
 - (void)hide {
-    [BFSoundEffect playSoundEffect:@"composer_close.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_close.wav"];
+    }
     [self hideShareView];
 }
 
@@ -149,8 +153,10 @@ static id _publishContent;
         [self hideShareView];
         [self.delegate shareView:self type:sender.tag];
     }
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
     
 //    int shareType = 0;
 //    id publishContent = _publishContent;

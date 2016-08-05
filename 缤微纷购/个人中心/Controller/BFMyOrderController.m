@@ -160,14 +160,20 @@
             BFLog(@"----%@", responseObject);
             if ([responseObject[@"order"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyOrderModel parse:responseObject[@"order"]];
-                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                if ([[BFUserDefaluts getSwitchInfo] intValue] == 1) {
+                    [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                }
+                
                 [self showNewStatusCount:array.count - self.oderArray.count];
                 [self.oderArray removeAllObjects];
                 [self.oderArray addObjectsFromArray:array];
                 self.bgImageView.hidden = YES;
             }else if([responseObject[@"msg"] isEqualToString:@"数据为空"]) {
                 //self.tableView.hidden = YES;
-                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                if ([[BFUserDefaluts getSwitchInfo] intValue] == 1) {
+                    [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                }
+                
                 [self showNewStatusCount:0];
 
             }
@@ -423,7 +429,7 @@
     return _TopButton;
 }
 - (void)TopButtonAction:(UIButton *)sender{
-    
+
     //self.tableView.contentOffset = CGPointMake(0, 0);
     [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
     [self.TopButton removeFromSuperview];

@@ -98,11 +98,13 @@
         if (responseObject) {
             if ([responseObject[@"team"] isKindOfClass:[NSArray class]]) {
                 NSArray *array = [BFMyGroupPurchaseModel parse:responseObject[@"team"]];
+                if ([[BFUserDefaluts getSwitchInfo] intValue] == 1) {
                     [BFSoundEffect playSoundEffect:@"paopao.wav"];
-                    [self showNewStatusCount:array.count - self.groupArray.count];
-                    [self.groupArray removeAllObjects];
-                    [self.groupArray addObjectsFromArray:array];
-                    self.bgImageView.hidden = YES;
+                }
+                [self showNewStatusCount:array.count - self.groupArray.count];
+                [self.groupArray removeAllObjects];
+                [self.groupArray addObjectsFromArray:array];
+                self.bgImageView.hidden = YES;
     
             }else {
                 [BFProgressHUD MBProgressFromView:self.navigationController.view onlyWithLabelText:@"亲,暂时还没有参团哦!快去参团吧!"];

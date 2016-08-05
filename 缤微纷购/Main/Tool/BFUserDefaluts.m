@@ -10,20 +10,14 @@
 
 @implementation BFUserDefaluts
 
-///**获取第三方登录信息*/
-//+ (BFThirdPartyLoginUserInfo *)getThirdPartyLoginUserInfo {
-//    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"ThirdPartyLoginUserInfo"];
-//    BFThirdPartyLoginUserInfo *userInfo = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-//    return userInfo;
-//}
-///**修改第三方登录信息*/
-//+ (void)modifyThirdPartyLoginUserInfo:(BFThirdPartyLoginUserInfo *)thirdPartyLoginUserInfo {
-//    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:thirdPartyLoginUserInfo];
-//    [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"ThirdPartyLoginUserInfo"];
-//}
 
-+ (void)removeThirdPartyLoginUserInfo {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"ThirdPartyLoginUserInfo"];
+
++ (NSNumber *)getSwitchInfo {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:@"switch"];
+}
++ (void)modifySwitchInfo:(NSNumber *)info {
+    [[NSUserDefaults standardUserDefaults]setObject:info forKey:@"switch"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (BFUserInfo *)getUserInfo {
@@ -36,6 +30,7 @@
 + (void)modifyUserInfo:(BFUserInfo *)userInfo{
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:userInfo];
     [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"UserInfo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (void)removeUserInfo {
@@ -54,6 +49,7 @@
 + (void)modifyCityInfo:(BFCityInfo *)CityInfo {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:CityInfo];
     [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"currentCity"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 
@@ -67,5 +63,6 @@
 + (void)modifyBankInfo:(BFBankModel *)bankInfo {
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:bankInfo];
     [[NSUserDefaults standardUserDefaults]setObject:data forKey:@"bankInfo"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 @end

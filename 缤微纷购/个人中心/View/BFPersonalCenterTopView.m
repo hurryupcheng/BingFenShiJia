@@ -260,7 +260,10 @@
 /**设置按钮点击事件*/
 - (void)setting {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToSettingInterface)]) {
         [self.delegate goToSettingInterface];
     }
@@ -268,7 +271,9 @@
 /**头像按钮点击事件*/
 - (void)clickHead:(UIButton *)sender {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToUserHeadInterface)]) {
         [self.delegate goToUserHeadInterface];
     }
@@ -288,7 +293,9 @@
 /**登录按钮点击事件*/
 - (void)login {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToLoginInterface)]) {
         [self.delegate goToLoginInterface];
     }
@@ -296,7 +303,9 @@
 /**注册按钮点击事件*/
 - (void)regist {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToRegisterInterface)]) {
         [self.delegate goToRegisterInterface];
     }
@@ -305,13 +314,18 @@
 /**三个按钮点击事件*/
 - (void)personalCenterTopButtonClick:(BFPersonViewButton *)sender {
     //音效
-    [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(goToPersonalCenterTopButtoInterfaceWithType:)]) {
         [self.delegate goToPersonalCenterTopButtoInterfaceWithType:sender.tag];
     }
 }
 
 - (void)identityRecommender {
+    if ([[BFUserDefaluts getSwitchInfo] intValue] == 1 ) {
+        [BFSoundEffect playSoundEffect:@"composer_open.wav"];
+    }
     if (self.delegate && [self.delegate respondsToSelector:@selector(gotoAddRecommender)]) {
         [self.delegate gotoAddRecommender];
     }

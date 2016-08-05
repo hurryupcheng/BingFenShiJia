@@ -25,35 +25,20 @@
 @interface BFSettingController ()<UITableViewDelegate, UITableViewDataSource,  BFCustomerServiceViewDelegate, BFShareViewDelegate>
 /**tableView*/
 @property (nonatomic, strong) UITableView *tableView;
-/**首页模型*/
-@property (nonatomic, strong) BFHomeModel *model;
-
-@property (nonatomic, strong) NSMutableArray *mutableArray;
-
-@property (nonatomic, strong) NSMutableArray *data;
+/**音效开关*/
+@property (nonatomic, strong) UISwitch *switchButton;
 @end
 
 @implementation BFSettingController
 
 #pragma mark --懒加载
 
-//- (NSMutableArray *)data {
-//    if (!_data) {
-//        _data = [NSMutableArray array];
-//    }
-//    return _data;
-//}
 
-- (NSMutableArray *)mutableArray {
-    if (!_mutableArray) {
-        _mutableArray = [NSMutableArray array];
-    }
-    return _mutableArray;
-}
 
 - (UITableView *)tableView {
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64-BF_ScaleHeight(50)) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight-64) style:UITableViewStyleGrouped];
+        _tableView.contentInset = UIEdgeInsetsMake(0, 0, 50, 0);
         _tableView.delegate = self;
         _tableView.dataSource = self;
     }
@@ -66,49 +51,31 @@
     self.navigationController.navigationBar.translucent = NO;
     self.title = @"设置";
     [self.view addSubview:self.tableView];
-    //请求数据
-    [self getData];
-    //设置底部按钮视图
-    [self setBottomView];
+    //
+    [self createSoundSwitch];
     
 }
 
-//#pragma mark --第一组数据
-//- (void)addGroupOne {
-//    BFSettingItem *telephone = [BFSettingArrowItem itemWithTitle:@"联系客服"];
-//    telephone.subtitle = @"020-38875719";
-//    telephone.subtitleColor = BFColor(0x000073);
-//    __weak typeof(self) weakSelf = self;
-//    telephone.option = ^{
-//        UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-//        BFCustomerServiceView *customerServiceView = [BFCustomerServiceView createCustomerServiceView];
-//        customerServiceView.delegate = weakSelf;
-//        [window addSubview:customerServiceView];
-//    };
-//    BFSettingGroup *groupOne = [[BFSettingGroup alloc] init];
-//    groupOne.header = @"售后服务";
-//    groupOne.items = @[telephone];
-//    [self.data addObject:telephone];
-//}
-
-#pragma mark --请求数据
-- (void)getData {
-    NSString *url = [NET_URL stringByAppendingString:@"/index.php?m=Json&a=index"];
-    [BFHttpTool GET:url params:nil success:^(id responseObject) {
-        if (responseObject) {
-            BFLog(@"%@",responseObject);
-            self.model = [BFHomeModel parse:responseObject];
-            if ([responseObject[@"about_link"] isKindOfClass:[NSArray class]]) {
-                NSArray *array = [BFSettingList parse:self.model.about_link];
-                [self.mutableArray addObjectsFromArray:array];
-            }
-        }
-    } failure:^(NSError *error) {
-        [BFProgressHUD MBProgressFromView:self.navigationController.view andLabelText:@"网络问题"];
-        BFLog(@"%@", error);
-    }];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tabBarController.tabBar.hidden = YES;
+    //设置底部按钮视图
+    BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
+    if (userInfo.ID) {
+        [self setBottomView];
+    }
 
 }
+
+- (void)createSoundSwitch {
+    self.switchButton = [[UISwitch alloc] init];
+    self.switchButton.on = [[BFUserDefaluts getSwitchInfo] intValue    ];
+    [self.switchButton addTarget:self action:@selector(soundSwitch:) forControlEvents:UIControlEventValueChanged];
+    self.switchButton.onTintColor = BFColor(0x0977ca);
+    self.switchButton.tintColor = BFColor(0xBABABA);
+}
+
+
 
 
 #pragma mark -- 退出按钮视图
@@ -136,9 +103,9 @@
     }else if (section == 1) {
         BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         if ([userInfo.loginType isEqualToString:@"3"]) {
-            return 3;
+            return 4;
         }else {
-            return 2;
+            return 3;
         }
     }else if (section == 2) {
         return 3;
@@ -159,22 +126,18 @@
     cell.detailTextLabel.font = [UIFont systemFontOfSize:BF_ScaleFont(13)];
     cell.detailTextLabel.textColor = BFColor(0x000073);
     cell.detailTextLabel.text = nil;
+     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     if (indexPath.section == 0) {
  
         cell.textLabel.text = @"联系客服";
         cell.detailTextLabel.text = @"020-38875719";
-        if (cell.detailTextLabel.text) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }else {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
     } else if (indexPath.section == 1) {
         BFUserInfo *userInfo = [BFUserDefaluts getUserInfo];
         if ([userInfo.loginType isEqualToString:@"3"]) {
             switch (indexPath.row) {
                 case 0:
                     cell.textLabel.text = @"修改密码";
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    
                     break;
                 case 1:{
                     cell.textLabel.text = @"清空图片缓存";
@@ -189,14 +152,20 @@
                     break;
                 }case 2:
                     cell.textLabel.text = @"个人信息";
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                   
+                    break;
+                case 3:
+                    cell.textLabel.text = @"音效开关";
+                  
+                    cell.accessoryView = self.switchButton;
+
                     break;
             }
         }else {
             switch (indexPath.row) {
                 case 0:{
                     cell.textLabel.text = @"清空图片缓存";
-                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1024.0 / 1024.0;
                     //NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
                     if (size >= 1) {
                         cell.detailTextLabel.text = [NSString stringWithFormat:@"%.2f MB", size];
@@ -207,8 +176,15 @@
                     break;
                 }case 1:
                     cell.textLabel.text = @"个人信息";
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    
                     break;
+                case 2:
+                    cell.textLabel.text = @"音效开关";
+                    
+                    cell.accessoryView = self.switchButton;
+                    
+                    break;
+
             }
         }
     } else if (indexPath.section == 2) {
@@ -225,14 +201,8 @@
                 cell.textLabel.text = @"分享App";
                 break;
         }
-        if (cell.detailTextLabel.text) {
-            cell.accessoryType = UITableViewCellAccessoryNone;
-        }else {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        }
-
     }else {
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
         
         switch (indexPath.row) {
             case 0:
@@ -245,6 +215,7 @@
     }
     return cell;
 }
+
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -282,11 +253,12 @@
                     BFCleanView *cleanView = [BFCleanView cleanView];
                     [window addSubview:cleanView];
                     
-                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
-                    NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+                   // CGFloat size =[SDImageCache sharedImageCache].getSize / 1024.0 / 1024.0;
                     [[SDImageCache sharedImageCache] clearDisk];
                     [self.tableView reloadData];
-                    BFLog(@"缓存--%@", clearCacheName);
+//                    NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
+//
+//                    BFLog(@"缓存--%@", clearCacheName);
                     break;
                 }case 2:{
                     if (userInfo == nil) {
@@ -312,7 +284,7 @@
                     BFCleanView *cleanView = [BFCleanView cleanView];
                     [window addSubview:cleanView];
                     
-                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1000.0 / 1000;
+                    CGFloat size =[SDImageCache sharedImageCache].getSize / 1024.0 / 1024.0;
                     NSString *clearCacheName = size >= 1 ? [NSString stringWithFormat:@"清理缓存(%.2fM)",size] : [NSString stringWithFormat:@"清理缓存(%.2fK)",size * 1024];
                     [[SDImageCache sharedImageCache] clearDisk];
                     [self.tableView reloadData];
@@ -336,7 +308,30 @@
 
         }
     }else if (indexPath.section == 2) {
-        if (indexPath.row == 1) {
+        if (indexPath.row == 0) {
+            //点击看看是否有版本更新
+            NSString *url = @"http://itunes.apple.com/lookup?id=1131613819";
+            [BFHttpTool POST:url params:nil success:^(id responseObject) {
+                NSArray *array = responseObject[@"results"];
+                NSDictionary *dict = [array lastObject];
+                NSString *storeVersion = [dict[@"version"] substringFromIndex:2];
+                NSString *currentVersion = [[NSBundle mainBundle].infoDictionary[@"CFBundleVersion"] substringFromIndex:2];
+                if ([storeVersion floatValue] > [currentVersion floatValue]) {
+                    UIAlertController *alertController = [UIAlertController alertWithControllerTitle:@"版本更新提醒" controllerMessage:@"检测到AppStore有新的版本,请问是否需要更新" preferredStyle:UIAlertControllerStyleAlert actionTitle:@"立即前往AppStore更新"style:UIAlertActionStyleDefault handler:^{
+                        NSString *appid = @"1131613819";
+                        NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
+                        NSURL *url = [NSURL URLWithString:str];
+                        [[UIApplication sharedApplication] openURL:url];
+                    }];
+                [self presentViewController:alertController animated:YES completion:nil];
+                }else {
+                    [BFProgressHUD MBProgressOnlyWithLabelText:@"当前版本已经是最新版本"];
+                }
+            } failure:^(NSError *error) {
+                [BFProgressHUD MBProgressFromView:self.view andLabelText:@"网络问题"];
+            }];
+        }else if (indexPath.row == 1) {
+            
             NSString *appid = @"1131613819";
             NSString *str = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/cn/app/id%@?mt=8", appid];
             NSURL *url = [NSURL URLWithString:str];
@@ -362,6 +357,14 @@
     }
 }
 
+#pragma mark -- 音效按钮开关
+- (void)soundSwitch:(UISwitch *)sender {
+    if (sender.on) {
+        [BFUserDefaluts modifySwitchInfo:@1];
+    }else {
+        [BFUserDefaluts modifySwitchInfo:@0];
+    }
+}
 
 #pragma mark -- 分享页面代理方法
 
@@ -563,9 +566,7 @@
 
 
 
-- (void)viewWillAppear:(BOOL)animated{
-    self.tabBarController.tabBar.hidden = YES;
-}
+
 
 #pragma mark --分割线到头
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {

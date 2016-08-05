@@ -70,6 +70,7 @@
         self.tableV.showsHorizontalScrollIndicator = NO;
         self.tableV.showsVerticalScrollIndicator = NO;
         self.tableV.backgroundColor = BFColor(0xD4D4D4);
+        self.tableV.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
         self.tableV.delegate = self;
         self.tableV.dataSource = self;
         //        self.tableV.backgroundColor = [UIColor greenColor];
@@ -152,7 +153,9 @@
                 for (BFPTItemList *itemList in array) {
                     itemList.nowtime = self.model.nowtime;
                 }
-                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                if ([[BFUserDefaluts getSwitchInfo] intValue] == 1) {
+                    [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                }
                 [self showNewStatusCount:array.count - self.dataArray.count];
                 [self.dataArray removeAllObjects];
                 [self.dataArray addObjectsFromArray:array];

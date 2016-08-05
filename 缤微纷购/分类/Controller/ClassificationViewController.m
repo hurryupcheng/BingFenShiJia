@@ -148,6 +148,7 @@
     xq.ID = _currentModel.idArr[indexPath.row];
     xq.titles = _currentModel.nameArr[indexPath.row];
     }
+    BFLog(@"----%@",xq.ID);
     [self.navigationController pushViewController:xq animated:YES];
 }
 

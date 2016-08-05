@@ -183,7 +183,7 @@
         NSMutableAttributedString *detailAttributedString = [[NSMutableAttributedString alloc] initWithString:text];
         NSMutableParagraphStyle *detailParagraphStyle = [[NSMutableParagraphStyle alloc] init];
         [detailParagraphStyle setLineSpacing:lineSpace];//调整行间距
-        [detailParagraphStyle setFirstLineHeadIndent:headIndent];
+        [detailParagraphStyle setFirstLineHeadIndent:headIndent];//调整行开头距离
         [detailAttributedString addAttribute:NSParagraphStyleAttributeName value:detailParagraphStyle range:NSMakeRange(0, [text length])];
         lable.attributedText = detailAttributedString;
     }
