@@ -236,7 +236,9 @@
             }else {
                 self.bgImageView.hidden = YES;
                 NSArray *array = [BFLogisticsModel parse:responseObject[@"order"]];
-                [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                if ([[BFUserDefaluts getSwitchInfo] intValue] == 1) {
+                    [BFSoundEffect playSoundEffect:@"paopao.wav"];
+                }
                 [self showNewStatusCount:array.count-self.logisticsArray.count];
                 [self.logisticsArray removeAllObjects];
                 [self.logisticsArray addObjectsFromArray:array];

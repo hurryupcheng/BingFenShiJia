@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BFBankButton.h"
+//#import "BFBankButton.h"
 
 @protocol BFPickerViewDelegate <NSObject>
 

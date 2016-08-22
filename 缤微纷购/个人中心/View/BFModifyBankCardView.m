@@ -18,7 +18,8 @@
 #import "BFBankModel.h"
 #import "HZQRegexTestter.h"
 
-@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>@property (nonatomic, strong) BFPickerView *pickerView;
+@interface BFModifyBankCardView()<BFPickerViewDelegate, UITextFieldDelegate>
+@property (nonatomic, strong) BFPickerView *pickerView;
 /**银行button*/
 @property (nonatomic, strong) BFBankButton *bankButton;
 /**省份button*/

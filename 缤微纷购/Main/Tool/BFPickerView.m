@@ -11,8 +11,8 @@
 #define windowColor  [UIColor colorWithRed:0 green:0 blue:0 alpha:0.2]
 
 #import "BFPickerView.h"
-#import "BFModifyBankCardView.h"
-#import "BFBankModel.h"
+//#import "BFModifyBankCardView.h"
+//#import "BFBankModel.h"
 @interface BFPickerView()
 /**包括导航视图和地址选择视图*/
 @property (nonatomic, strong) UIView *bottomView;

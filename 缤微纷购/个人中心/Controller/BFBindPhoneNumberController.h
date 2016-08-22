@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface BFBindPhoneNumberController : UIViewController
-@property (nonatomic, strong) void (^block)(BFUserInfo *userInfo);
+@property (nonatomic, copy) void (^block)(BFUserInfo *userInfo);
 @end
